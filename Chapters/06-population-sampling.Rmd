@@ -1,0 +1,206 @@
+# Population and sampling
+Consider a case, when you want to understand what is the average height of teenagers living in your town. It is very expensive and time consuming to go from one house to another and ask every single teenager (if you find one), what their hight is. If we could do that, we would get the true mean, true average height of teenagers living in the town. But in reality, it is more practical to ask a sample of teenagers and make conclusions about the "population" (all teenagers in the town) based on this sample. Indeed, you will spend much less time collecting the information about the height of 100 people rather than 100,000. However, when we take a sample of something, the statistics we work with will always differ from the truth: sample mean will never be equal to the true mean, but it can be shown mathematically that it will converge to the truth, when some specific conditions are met and when the sample size increases. If we set up the experiment correctly, then we can expect our statistics to follow some laws. In this chapter, we discuss these laws, how they work and what they imply.
+
+## Law of Large Numbers {#LLN}
+The first law is called the **Law of Large Numbers** (LLN). It is the theorem saying that (under wide conditions) the average of a variable obtained over the large number of trials will be close to its expected value and will get closer to it with the increase of the sample size. This can be demonstrated with the following example:
+
+```{r histY30Y1000, fig.cap="Histograms of samples of data from variable y.", }
+obs <- 10000
+# Generate data from normal distribution
+y <- rnorm(obs,100,100)
+# Create sub-samples of 50 and 100 observations
+y30 <- sample(y, 30)
+y1000 <- sample(y, 1000)
+par(mfcol=c(1,2))
+hist(y30, xlab="y")
+abline(v=mean(y30), col="red")
+hist(y1000, xlab="y")
+abline(v=mean(y1000), col="red")
+```
+
+What we will typically see on the plots above is that the mean (red line) on the left plot will be further away from the true mean of 100 than in the case of the right plot. Given that this is randomly generated, the situation might differ, but the idea would be that with the increase of the sample size the estimated sample mean will converge to the true one. We can even produce a plot showing how this happens:
+
+```{r eval=FALSE}
+yMean <- vector("numeric",obs)
+for(i in 1:obs){
+    yMean[i] <- mean(sample(y,i))
+}
+plot(yMean, type="l", xlab="Sample size", ylab="Sample mean")
+```
+
+```{r statsSampleMean, fig.cap="Demonstration of Law of Large Numbers.", echo=FALSE}
+knitr::include_graphics("images/02-statistics-LLN.png")
+```
+
+We can see from the plot above that with the increase of the sample size the sample mean reaches the true value of 100. This is a graphical demonstration of the Law of Large Numbers: it only tells us about what will happen when the sample size increases. But it is still useful, because it used for many statistical inferences and if it does not work, then the estimate of mean would be incorrect, meaning that we cannot make conclusions about the behaviour in population.
+
+In order for LLN to work, the distribution of variable needs to have finite mean and variance. This is discussed in some detail in the next subsection. 
+
+In summary, what LLN tells us is that if we average things out over a large number of observations, then that average starts looking very similar to the population value. However, this does not say anything about the performance of estimators on small samples.
+
+
+## Central Limit Theorem {#CLT}
+As we have already seen on Figure \@ref(fig:statsSampleMean), the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:
+
+```{r histyMean, fig.cap="Histogram of the mean of the variable y."}
+nIterations <- 1000
+yMean <- vector("numeric",nIterations)
+for(i in 1:nIterations){
+    yMean[i] <- mean(sample(y,1000))
+}
+hist(yMean, xlab="Sample mean", main="")
+```
+
+There is a theorem that says that the distribution of mean in the experiment above will follow normal distribution under several conditions (discussed later in this section). It is called **Central Limit Theorem** (CLT) and very roughly it says that when independent random variables are added, their normalised sum will asymptotically follow normal distribution, even if the original variables do not follow it. Note that this is the theorem about *what happens with the estimate* (sum in this case), *not with individual observations*. This means that the error term might follow, for example, [Inverse Gaussian distribution](#IGDistribution), but the estimate of its mean (under some conditions) will follow normal distribution. There are different versions of this theorem, built with different assumptions with respect to the random variable and the estimation procedure, but we do not dicuss these details in this textbook.
+
+In order for CLT to hold, the following important assumptions need to be satisfied:
+
+1. **The true value of parameter is not near the bound**. e.g. if the variable follows uniform distribution on (0, $a$) and we want to estimate $a$, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in our context, because ETS and ARIMA typically have restrictions on their parameters.
+2. **The random variables are identically independent distributed** (i.i.d.). If they are not, then their average might not follow normal distribution (in some conditions it still might).
+3. **The mean and variance of the distribution are finite**. This might seem as a weird issue, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the "true" value. Cauchy distribution is one of such examples.
+
+If these assumptions hold, then CLT will work for the estimate of a parameter, no matter what the distribution of the random variable is. This becomes especially useful, when we want to test a hypothesis or construct a confidence interval for an estimate of a parameter.
+
+
+## Properties of estimators {#estimatesProperties}
+Before we move further, we need to agree what the term "estimator" means, which will be used several times further in this textbook:
+
+- **Estimate** of a parameter is an in sample result of application of a statistical procedure to the data for obtaining some coefficients of a model. The value calculated using the arithmetic mean would be an estimate of the population mean;
+- **Estimator** is the rule for calculating estimates of parameters based on a sample of data. For example, arithmetic mean is an estimator of the population mean. Another example would be method of Ordinary Least Squares, which is a rule for producing estimates of parameters of a regression model and thus an estimator.
+
+In this section, we discuss such terms as **bias**, **efficiency** and **consistency** of estimates of parameters, which are directly related to [LLN](#LLN) and [CLT](#CLT). Although there are strict statistical definitions of the aforementioned terms (you can easily find them in Wikipedia or anywhere else), I do not want to copy-paste them here, because there are only a couple of important points worth mentioning in our context.
+
+Note that all the discussions in this chapter relate to **the estimates of parameters**, not to the distribution of a random variable itself. A common mistake that students make when studying statistics, is that they think that the properties apply to the variable $y_t$ instead of the estimate of its parameters (e.g. mean of $y_t$).
+
+
+### Bias {#estimatesPropertiesBias}
+**Bias** refers to the expected difference between the estimated value of parameter (on a specific sample) and the "[true](#intro)" one (in the true model). Having unbiased estimates of parameters is important because they should lead to more accurate forecasts (at least in theory). For example, if the estimated parameter is equal to zero, while in fact it should be 0.5, then the model would not take the provided information into account correctly and as a result will produce less accurate point forecasts and incorrect prediction intervals. In inventory context this may mean that we constantly order 100 units less than needed only because the parameter is lower than it should be.
+
+The classical example of bias in statistics is the estimation of variance in sample. The following formula gives biased estimate of variance in sample:
+\begin{equation}
+    \mathrm{V}(y) = \frac{1}{T} \sum_{j=1}^T \left( y_t - \bar{y} \right)^2,
+    (\#eq:varianceBiased)
+\end{equation}
+where $T$ is the sample size and $\bar{y} = \frac{1}{T} \sum_{j=1}^T y_t$ is the mean of the data. There is a lot of proofs in the literature of this issue (even @WikipediaVarianceBias2020 has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:
+```{r}
+mu <- 100
+sigma <- 10
+nIterations <- 1000
+# Generate data from normal distribution, 10,000 observations
+y <- rnorm(10000,mu,sigma)
+# This is the function, which will calculate the two variances
+varFunction <- function(y){
+   return(c(var(y), mean((y-mean(y))^2)))
+}
+# Calculate biased and unbiased variances for the sample of 30 observations,
+# repeat nIterations times
+varValues <- replicate(nIterations, varFunction(sample(y,30)))
+```
+This way we have generated 1000 samples with 30 observations and calculated variances using the formulae \@ref(eq:varianceBiased) and the corrected one for each step. Now we can plot it in order to see how it worked out:
+
+```{r fig.cap="Histograms for biased and unbiased estimates of variance."}
+par(mfcol=c(1,2))
+# Histogram of the biased estimate
+hist(varValues[2,], xlab="V(y)", ylab="y", main="Biased estimate of V(y)")
+abline(v=mean(varValues[2,]), col="red")
+legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[2,]),2))),lwd=1,col="red")
+
+# Histogram of unbiased estimate
+hist(varValues[1,], xlab="V(y)", ylab="y", main="Unbiased estimate of V(y)")
+abline(v=mean(varValues[1,]), col="red")
+legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[1,]),2))),lwd=1,col="red")
+
+```
+
+Every run of this experiment will produce different plots, but typically what we will see is that, the biased estimate of variance (the histogram on the right hand side of the plot) will have lower mean than the unbiased one. This is the graphical example of the effect of not taking the number of estimated parameters into account. The correct formula for the unbiased estimate of variance is:
+\begin{equation}
+    s^2 = \frac{1}{T-k} \sum_{j=1}^T \left( y_t - \bar{y} \right)^2,
+    (\#eq:varianceUnBiased)
+\end{equation}
+where $k$ is the number of all independent estimated parameters. In this simple example $k=1$, because we only estimate mean (the variance is based on it). Analysing the formulae \@ref(eq:varianceBiased) and \@ref(eq:varianceUnBiased), we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size $T$ becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.
+
+
+### Efficiency {#estimatesPropertiesEfficiency}
+**Efficiency** means, if the sample size increases, then the estimated parameters will not change substantially, they will vary in a narrow range (variance of estimates will be small). In the case with inefficient estimates the increase of sample size from 50 to 51 observations may lead to the change of a parameter from 0.1 to, let’s say, 10. This is bad because the values of parameters usually influence both point forecasts and prediction intervals. As a result the inventory decision may differ radically from day to day. For example, we may decide that we urgently need 1000 units of product on Monday, and order it just to realise on Tuesday that we only need 100. Obviously this is an exaggeration, but no one wants to deal with such an erratically behaving model, so we need to have efficient estimates of parameters.
+
+Another classical example of not efficient estimator is the median, when used on the data that follows Normal distribution. Here is a simple experiment demonstrating the idea:
+```{r eval=FALSE}
+mu <- 100
+sigma <- 10
+nIterations <- 500
+obs <- 100
+varMeanValues <- vector("numeric",obs)
+varMedianValues <- vector("numeric",obs)
+y <- rnorm(100000,mu,sigma)
+for(i in 1:obs){
+    ySample <- replicate(nIterations,sample(y,i*100))
+    varMeanValues[i] <- var(apply(ySample,2,mean))
+    varMedianValues[i] <- var(apply(ySample,2,median))
+}
+```
+
+In order to establish the efficiency of the estimators, we will take their variances and look at the ratio of mean over median. If both are equally efficient, then this ratio will be equal to one. If the mean is more efficient than the median, then the ratio will be less than one:
+
+```{r eval=FALSE}
+options(scipen=6)
+plot(1:100*100,varMeanValues/varMedianValues, type="l", xlab="Sample size",ylab="Relative efficiency")
+abline(h=1, col="red")
+```
+
+```{r statsEfficiecny, fig.cap="An example of a relatively inefficient estimator.", echo=FALSE}
+knitr::include_graphics("images/02-statistics-efficiency.png")
+```
+
+What we should typically see on this graph, is that the black line should be below the red one, indicating that the variance of mean is lower than the variance of the median. This means that mean is more efficient estimator of the true location of the distribution $\mu$ than the median. In fact, it is easy to proove that asymptotically the mean will be 1.57 times more efficient than median [@WikipediaMedianEfficiency2020] (so, the line should converge approximately to the value of 0.64).
+
+
+### Consistency {#estimatesPropertiesConsistency}
+**Consistency** means that our estimates of parameters will get closer to the stable values (true value in the population) with the increase of the sample size. This follows directly from [LLN](#LLNandCLT) and is important because in the opposite case estimates of parameters will diverge and become less and less realistic. This once again influences both point forecasts and prediction intervals, which will be less meaningful than they should have been. In a way consistency means that with the increase of the sample size the parameters will become more efficient and less biased. This in turn means that the more observations we have, the better.
+
+An example of inconsistent estimator is Chebyshev (or max norm) metric. It is formulated the following way:
+\begin{equation}
+    \mathrm{LMax} = \max \left(|y_1-\hat{y}|, |y_2-\hat{y}|, \dots, |y_T-\hat{y}| \right).
+    (\#eq:chebyshevNorm)
+\end{equation}
+Minimising this norm, we can get an estimate $\hat{y}$ of the location parameter $\mu$. The simulation experiment becomes a bit more tricky in this situation, but here is the code to generate the estimates of the location parameter:
+```{r eval=FALSE}
+LMax <- function(y){
+    estimator <- function(par){
+        return(max(abs(y-par)));
+    }
+    
+    return(optim(mean(y), fn=estimator, method="Brent", lower=min(y), upper=max(y)));
+}
+
+mu <- 100
+sigma <- 10
+nIterations <- 1000
+y <- rnorm(10000, mu, sigma)
+LMaxEstimates <- vector("numeric", nIterations)
+for(i in 1:nIterations){
+    LMaxEstimates[i] <- LMax(y[1:(i*10)])$par;
+}
+```
+
+And here how the estimate looks with the increase of sample size:
+```{r eval=FALSE}
+plot(1:nIterations*10, LMaxEstimates, type="l", xlab="Sample size",ylab=TeX("Estimate of $\\mu$"))
+abline(h=mu, col="red")
+```
+
+```{r statsConsistency, fig.cap="An example of inconsistent estimator.", echo=FALSE}
+knitr::include_graphics("images/02-statistics-consistency.png")
+```
+
+While in the example with bias we could see that the lines converge to the red line (the true value) with the increase of the sample size, the Chebyshev metric example shows that the line does not approach the true one, even when the sample size is 10000 observations. The conclusion is that when Chebyshev metric is used, it produces inconsistent estimates of parameters.
+
+
+::: remark
+There is a prejudice in the world of practitioners that the situation in the market changes so fast that the old observations become useless very fast. As a result many companies just through away the old data. Although, in general the statement about the market changes is true, the forecasters tend to work with the models that take this into account (e.g. Exponential smoothing, ARIMA, discussed in this book). These models adapt to the potential changes. So, we may benefit from the old data because it allows us getting more consistent estimates of parameters. Just keep in mind, that you can always remove the annoying bits of data but you can never un-throw away the data.
+:::
+
+
+### Asymptotic normality {#asymptoticNormality}
+Finally, **asymptotic normality** is not critical, but in many cases is a desired, useful property of estimates. What it tells us is that the distribution of the estimate of parameter will be well behaved with a specific mean (typically equal to $\mu$) and a fixed variance. This follows directly from [CLT](#LLNandCLT). Some of the statistical tests and mathematical derivations rely on this assumption. For example, when one conducts a significance test for parameters of model, this assumption is implied in the process. If the distribution is not Normal, then the confidence intervals constructed for the parameters will be wrong together with the respective t- and p- values.
+
+Another important aspect to cover is what the term **asymptotic**, which we have already used, means in our context. Here and after in this book, when this word is used, we refer to an unrealistic hypothetical situation of having all the data in the multiverse, where the time index $t \rightarrow \infty$. While this is impossible in practice, the idea is useful, because asymptotic behaviour of estimators and models is helpful on large samples of data. Besides, even if we deal with small samples, it is good to know what to expect to happen if the sample size increases.
