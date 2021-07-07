@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.1 Numerical analysis | Statistics for Business Analytics</title>
+  <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.1 Numerical analysis | Statistics for Business Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="github-repo" content="config-i1/sba" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.1 Numerical analysis | Statistics for Business Analytics" />
+  
+  <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  
+
+<meta name="author" content="Ivan Svetunkov" />
+
+
+<meta name="date" content="2021-07-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dataAnalysis.html"/>
+<link rel="next" href="dataAnalysisGraphical.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script async defer src="https://hypothes.is/embed.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XH37Z8VYP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XH37Z8VYP8');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics for Business Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.1</b> Models, methods et al. </a></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>3.1</b> Normal distribution</a></li>
+<li class="chapter" data-level="3.2" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>3.2</b> Laplace distribution</a></li>
+<li class="chapter" data-level="3.3" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>3.3</b> S distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>3.4</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>3.5</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="3.6" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>3.6</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="3.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>3.7</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="3.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>3.8</b> Gamma distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="population-and-sampling.html"><a href="population-and-sampling.html"><i class="fa fa-check"></i><b>4</b> Population and sampling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>4.1</b> Law of Large Numbers</a></li>
+<li class="chapter" data-level="4.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>4.2</b> Central Limit Theorem</a></li>
+<li class="chapter" data-level="4.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>4.3</b> Properties of estimators</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>4.3.1</b> Bias</a></li>
+<li class="chapter" data-level="4.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>4.3.2</b> Efficiency</a></li>
+<li class="chapter" data-level="4.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>4.3.3</b> Consistency</a></li>
+<li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="intervals.html"><a href="intervals.html"><i class="fa fa-check"></i><b>5</b> Dealing with uncertainty in the data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>5.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="5.2" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>5.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="5.3" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>5.3</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>6.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="6.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>6.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="6.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>6.3</b> Numerical scale</a></li>
+<li class="chapter" data-level="6.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>6.4</b> Mixed scales</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="handling-uncertainty-in-regression-model.html"><a href="handling-uncertainty-in-regression-model.html"><i class="fa fa-check"></i><b>9</b> Handling uncertainty in regression model</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-model-uncertainty.html"><a href="regression-model-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression model uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>10.1</b> Dummy variables for the intercept</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>11</b> Categorical variables for the slope</a></li>
+<li class="chapter" data-level="12" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>12</b> Variables transformations</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>12.1</b> Types of variables transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>13</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>13.1</b> Model is correctly specified</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#omitted-variables"><i class="fa fa-check"></i><b>13.1.1</b> Omitted variables</a></li>
+<li class="chapter" data-level="13.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#redundant-variables"><i class="fa fa-check"></i><b>13.1.2</b> Redundant variables</a></li>
+<li class="chapter" data-level="13.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#transformations"><i class="fa fa-check"></i><b>13.1.3</b> Transformations</a></li>
+<li class="chapter" data-level="13.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#outliers"><i class="fa fa-check"></i><b>13.1.4</b> Outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>13.2</b> Residuals are i.i.d.</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#no-autocorrelations"><i class="fa fa-check"></i><b>13.2.1</b> No autocorrelations</a></li>
+<li class="chapter" data-level="13.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#homoscedastic-residuals"><i class="fa fa-check"></i><b>13.2.2</b> Homoscedastic residuals</a></li>
+<li class="chapter" data-level="13.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#mean-of-residuals"><i class="fa fa-check"></i><b>13.2.3</b> Mean of residuals</a></li>
+<li class="chapter" data-level="13.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>13.2.4</b> Distributional assumptions</a></li>
+<li class="chapter" data-level="13.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#distribution-does-not-change"><i class="fa fa-check"></i><b>13.2.5</b> Distribution does not change</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>13.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#multicollinearity"><i class="fa fa-check"></i><b>13.3.1</b> Multicollinearity</a></li>
+<li class="chapter" data-level="13.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#engogeneity"><i class="fa fa-check"></i><b>13.3.2</b> Engogeneity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>14</b> Likelihood Approach</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>14.1</b> An example in R</a></li>
+<li class="chapter" data-level="14.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>14.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="14.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>14.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="14.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>14.4</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>14.4.1</b> The idea</a></li>
+<li class="chapter" data-level="14.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>14.4.2</b> Common confusions related to information criteria</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="regressionModelBuilding.html"><a href="regressionModelBuilding.html"><i class="fa fa-check"></i><b>15</b> Regression specification uncertainty</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics for Business Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
+</div>
+<div id="numerical-analysis" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Numerical analysis</h2>
+<p>In this section we will use the classical <code>mtcars</code> dataset from <code>datasets</code> package for R. It contains 32 observations with 11 variables. While all the variables are numerical, some of them are in fact categorical variables encoded as binary ones. We can check the description of the dataset in R:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="numerical-analysis.html#cb3-1" aria-hidden="true" tabindex="-1"></a>?mtcars</span></code></pre></div>
+<p>Judging by the explanation in the R documentation, the following variables are categorical:</p>
+<ol style="list-style-type: decimal">
+<li>vs - Engine (0 = V-shaped, 1 = straight),</li>
+<li>am - Transmission (0 = automatic, 1 = manual).</li>
+</ol>
+<p>In addition, the following variables are integer numeric ones:</p>
+<ol style="list-style-type: decimal">
+<li>cyl - Number of cylinders,</li>
+<li>hp - Gross horsepower,</li>
+<li>gear - Number of forward gears,</li>
+<li>carb - Number of carburetors.</li>
+</ol>
+<p>All the other variables are continuous numeric.</p>
+<p>Takign this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="numerical-analysis.html#cb4-1" aria-hidden="true" tabindex="-1"></a>mtcarsData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(mtcars)</span>
+<span id="cb4-2"><a href="numerical-analysis.html#cb4-2" aria-hidden="true" tabindex="-1"></a>mtcarsData<span class="sc">$</span>vs <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>vs,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;V-shaped&quot;</span>,<span class="st">&quot;Straight&quot;</span>))</span>
+<span id="cb4-3"><a href="numerical-analysis.html#cb4-3" aria-hidden="true" tabindex="-1"></a>mtcarsData<span class="sc">$</span>am <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>am,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;automatic&quot;</span>,<span class="st">&quot;manual&quot;</span>))</span></code></pre></div>
+<p>Given that we only have two options in those variables, it is not compulsory to do this encoding, but it will help us in the further analysis.</p>
+<p>We can start with the basic summary statistics. We remember from the scales of information (Section <a href="scales.html#scales">1.2</a>) that the nominal variables can be analysed only via frequencies, so this is what we can produce for them:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="numerical-analysis.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs)</span></code></pre></div>
+<pre><code>## 
+## V-shaped Straight 
+##       18       14</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="numerical-analysis.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
+<pre><code>## 
+## automatic    manual 
+##        19        13</code></pre>
+<p>These tables are called <strong>contingency tables</strong>, they show the frequency of appearance of values of variables. Based on this, we can conclude that the cars with V-shaped engine are met more often in the dataset than the cars with the Straight one. In addition, the automatic transmission prevails in the data. The related statistics which is useful for analysis of categorical variables is called <strong>mode</strong>. It shows which of the values happens most often in the data. Judging by the frequencies above, we can conclude that the mode for the first variable is the value “V-shaped.”</p>
+<p>All of this is purely descriptive information, which does not provide us much. We could probably get more information if we analysed the contingency table based on these two variables:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="numerical-analysis.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
+<pre><code>##           
+##            automatic manual
+##   V-shaped        12      6
+##   Straight         7      7</code></pre>
+<p>For now, we can only conclude that the cars with V-shaped engine and automatic transmission are met more often than the other cars in the dataset.</p>
+<p>Next, we can look at the numerical variables. As we recall from Section <a href="scales.html#scales">1.2</a>, this scale supports all operations, so we can use quantiles, mean, standard deviation etc. Here how we can analyse, for example, the variable mpg:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="numerical-analysis.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">mean</span>(mtcarsData<span class="sc">$</span>mpg),<span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
+<pre><code>##     mean 
+## 20.09062</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="numerical-analysis.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<pre><code>##     0%    25%    50%    75%   100% 
+## 10.400 15.425 19.200 22.800 33.900</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="numerical-analysis.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">median</span>(mtcarsData<span class="sc">$</span>mpg),<span class="st">&quot;median&quot;</span>)</span></code></pre></div>
+<pre><code>## median 
+##   19.2</code></pre>
+<p>The output above produces:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Mean</strong> - the average value of mpg in the dataset, <span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\)</span>.</li>
+<li><strong>Quantiles</strong> - the values that show, below which values the respective proportions of the dataset lie. For example, 25% of observations have mpg less than 15.425. The 25%, 50% and 75% quantiles are also called 1st, 2nd and 3rd <strong>quartiles</strong> respectively.</li>
+<li><strong>Median</strong>, which splits the sample in two halves. It corresponds to the 50% quantile.</li>
+</ol>
+<p>If median is greater than mean, then this typically means that the distribution of the variable is skewed (it has some rare observations that have large values). This is the case in our case, we can investigate it further using skewness and kurtosis from <code>timeDate</code> package:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="numerical-analysis.html#cb17-1" aria-hidden="true" tabindex="-1"></a>timeDate<span class="sc">::</span><span class="fu">skewness</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<pre><code>## [1] 0.610655
+## attr(,&quot;method&quot;)
+## [1] &quot;moment&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="numerical-analysis.html#cb19-1" aria-hidden="true" tabindex="-1"></a>timeDate<span class="sc">::</span><span class="fu">kurtosis</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<pre><code>## [1] -0.372766
+## attr(,&quot;method&quot;)
+## [1] &quot;excess&quot;</code></pre>
+<p><strong>Skewness</strong> shows the asymmetry of distribution. If it is greater than zero, then the distribution has the long right tail. If it is equal to zero, then it is symmetric.</p>
+<p><strong>Kurtosis</strong> shows the excess of distribution (fatness of tails) in comparison with the normal distribution. If it is equal to zero, then it is the same as for normal distribution.</p>
+<!-- Another potentially useful measure is the half moment (`hm` from `greybox`), which returns the complex number: -->
+<!-- ```{r} -->
+<!-- hm(mtcarsData$mpg) -->
+<!-- ``` -->
+<!-- It is calculated as: $\mathrm{hm}=\frac{1}{n}\sum_{j=1}^n \sqrt{y_j}$. The real part of this number corresponds to the positive values in comparison with the centre of distribution, while the imaginary shows the negative ones. Given that the imaginary part is greater than the real, we can conclude that the values are more density to the left of the mean of distribution rather than to the right. This corresponds to the positive skewness. The related coefficient based on that is coefficient of asymmetry (`asymmetry` from `greybox`, starting from v1.0.0): -->
+<!-- ```{r} -->
+<!-- asymmetry(mtcarsData$mpg) -->
+<!-- ``` -->
+<!-- It lies between -1 and 1 and is equal to zero only if the distribution is symmetric. It shows, where the higher density of values is (the negative number means that it is to the left from the centre, while the positive means that it is to the right). The main advantage of hm and complex asymmetry coefficients is that they are robust to outliers and are not as sensitive as the classical skewness coefficient is. -->
+<p>Based on all of this, we can conclude that the distribution of <code>mpg</code> is skewed and has the longer right tail. This is expected for such variable, because the cars that have higher mileage are not common in this dataset.</p>
+<p>All the conventional statistics discussed above can be produced using the following summary for all variables in the dataset:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="numerical-analysis.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mtcarsData)</span></code></pre></div>
+<pre><code>##       mpg             cyl             disp             hp       
+##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
+##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
+##  Median :19.20   Median :6.000   Median :196.3   Median :123.0  
+##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
+##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
+##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0  
+##       drat             wt             qsec              vs             am    
+##  Min.   :2.760   Min.   :1.513   Min.   :14.50   V-shaped:18   automatic:19  
+##  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89   Straight:14   manual   :13  
+##  Median :3.695   Median :3.325   Median :17.71                               
+##  Mean   :3.597   Mean   :3.217   Mean   :17.85                               
+##  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90                               
+##  Max.   :4.930   Max.   :5.424   Max.   :22.90                               
+##       gear            carb      
+##  Min.   :3.000   Min.   :1.000  
+##  1st Qu.:3.000   1st Qu.:2.000  
+##  Median :4.000   Median :2.000  
+##  Mean   :3.688   Mean   :2.812  
+##  3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :8.000</code></pre>
+</div>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dataAnalysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dataAnalysisGraphical.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//02-preliminary-analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["adam.pdf", "adam.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

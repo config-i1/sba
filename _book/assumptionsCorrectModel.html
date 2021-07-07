@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>13.1 Model is correctly specified | Statistics for Business Analytics</title>
+  <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="13.1 Model is correctly specified | Statistics for Business Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="github-repo" content="config-i1/sba" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13.1 Model is correctly specified | Statistics for Business Analytics" />
+  
+  <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  
+
+<meta name="author" content="Ivan Svetunkov" />
+
+
+<meta name="date" content="2021-07-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="assumptions.html"/>
+<link rel="next" href="assumptionsResidualsAreIID.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script async defer src="https://hypothes.is/embed.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XH37Z8VYP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XH37Z8VYP8');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics for Business Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.1</b> Models, methods et al. </a></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>3.1</b> Normal distribution</a></li>
+<li class="chapter" data-level="3.2" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>3.2</b> Laplace distribution</a></li>
+<li class="chapter" data-level="3.3" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>3.3</b> S distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>3.4</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>3.5</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="3.6" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>3.6</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="3.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>3.7</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="3.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>3.8</b> Gamma distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="population-and-sampling.html"><a href="population-and-sampling.html"><i class="fa fa-check"></i><b>4</b> Population and sampling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>4.1</b> Law of Large Numbers</a></li>
+<li class="chapter" data-level="4.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>4.2</b> Central Limit Theorem</a></li>
+<li class="chapter" data-level="4.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>4.3</b> Properties of estimators</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>4.3.1</b> Bias</a></li>
+<li class="chapter" data-level="4.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>4.3.2</b> Efficiency</a></li>
+<li class="chapter" data-level="4.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>4.3.3</b> Consistency</a></li>
+<li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="intervals.html"><a href="intervals.html"><i class="fa fa-check"></i><b>5</b> Dealing with uncertainty in the data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>5.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="5.2" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>5.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="5.3" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>5.3</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>6.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="6.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>6.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="6.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>6.3</b> Numerical scale</a></li>
+<li class="chapter" data-level="6.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>6.4</b> Mixed scales</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="handling-uncertainty-in-regression-model.html"><a href="handling-uncertainty-in-regression-model.html"><i class="fa fa-check"></i><b>9</b> Handling uncertainty in regression model</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-model-uncertainty.html"><a href="regression-model-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression model uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>10.1</b> Dummy variables for the intercept</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>11</b> Categorical variables for the slope</a></li>
+<li class="chapter" data-level="12" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>12</b> Variables transformations</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>12.1</b> Types of variables transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>13</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>13.1</b> Model is correctly specified</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#omitted-variables"><i class="fa fa-check"></i><b>13.1.1</b> Omitted variables</a></li>
+<li class="chapter" data-level="13.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#redundant-variables"><i class="fa fa-check"></i><b>13.1.2</b> Redundant variables</a></li>
+<li class="chapter" data-level="13.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#transformations"><i class="fa fa-check"></i><b>13.1.3</b> Transformations</a></li>
+<li class="chapter" data-level="13.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#outliers"><i class="fa fa-check"></i><b>13.1.4</b> Outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>13.2</b> Residuals are i.i.d.</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#no-autocorrelations"><i class="fa fa-check"></i><b>13.2.1</b> No autocorrelations</a></li>
+<li class="chapter" data-level="13.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#homoscedastic-residuals"><i class="fa fa-check"></i><b>13.2.2</b> Homoscedastic residuals</a></li>
+<li class="chapter" data-level="13.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#mean-of-residuals"><i class="fa fa-check"></i><b>13.2.3</b> Mean of residuals</a></li>
+<li class="chapter" data-level="13.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>13.2.4</b> Distributional assumptions</a></li>
+<li class="chapter" data-level="13.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#distribution-does-not-change"><i class="fa fa-check"></i><b>13.2.5</b> Distribution does not change</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>13.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#multicollinearity"><i class="fa fa-check"></i><b>13.3.1</b> Multicollinearity</a></li>
+<li class="chapter" data-level="13.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#engogeneity"><i class="fa fa-check"></i><b>13.3.2</b> Engogeneity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>14</b> Likelihood Approach</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>14.1</b> An example in R</a></li>
+<li class="chapter" data-level="14.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>14.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="14.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>14.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="14.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>14.4</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>14.4.1</b> The idea</a></li>
+<li class="chapter" data-level="14.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>14.4.2</b> Common confusions related to information criteria</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="regressionModelBuilding.html"><a href="regressionModelBuilding.html"><i class="fa fa-check"></i><b>15</b> Regression specification uncertainty</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics for Business Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
+</div>
+<div id="assumptionsCorrectModel" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Model is correctly specified</h2>
+<p>This is one of the fundamental group of assumptions, which can be summarised as “we have included everything necessary in the model in the correct form.” It implies that:</p>
+<ol style="list-style-type: decimal">
+<li>We have not omitted important variables in the model (underfitting the data);</li>
+<li>We do not have redundant variables in the model (overfitting the data);</li>
+<li>The necessary transformations of the variables are applied;</li>
+<li>We do not have outliers in the model.</li>
+</ol>
+<div id="omitted-variables" class="section level3" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Omitted variables</h3>
+<p>If there are some important variables that we did not include in the model, then the estimates of the parameters might be <em>biased</em> and in some cases quite seriously (e.g. positive sign instead of the negative one). A classical example of model with omitted important variables is <a href="simpleLinearRegression.html#simpleLinearRegression">simple linear regression</a>, which by definition includes only one explanatory variable. Making decisions based on such model might not be wise, as it might mislead about the significance and sign of effects. Yes, we use simple linear regression for educational purposes, to understand how the model works and what it implies, but it is not sufficient on its own. Finally, when it comes to forecasting, omitting important variables is equivalent to underfitting the data, ignoring significant aspects of the model. This means that the point forecasts from the model might be <em>biased</em> (systematic under or over forecasting), the variance of the error term will be higher than needed, which will result in wider than necessary <a href="confidenceIntervalsPrediction.html#confidenceIntervalsPrediction">prediction interval</a>.</p>
+<p>In some cases, it is possible to diagnose the violation of this assumption. In order to do that an analyst needs to analyse a variety of plots of residuals vs fitted, vs time (if we deal with time series), and vs omitted variables. Consider an example with <code>mtcars</code> data and a simple linear regression:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="assumptionsCorrectModel.html#cb153-1" aria-hidden="true" tabindex="-1"></a>mtcarsSLR <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>wt, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<p>Based on the preliminary analysis that we have conducted in Sections <a href="dataAnalysis.html#dataAnalysis">2</a> and <a href="correlations.html#correlations">6</a>, this model omits important variables. And there are several basic plots that might allow us diagnosing the violation of this assumption.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="assumptionsCorrectModel.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb154-2"><a href="assumptionsCorrectModel.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsSLR,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics01"></span>
+<img src="adam_files/figure-html/diagnostics01-1.png" alt="Diagnostics of omitted variables." width="672" />
+<p class="caption">
+Figure 13.1: Diagnostics of omitted variables.
+</p>
+</div>
+<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">13.1</a> demonstrates actuals vs fitted and fitted vs standardised residuals. The standardised residuals are the residuals from the model that are divided by their standard deviation, thus removing the scale. What we want to see on the first plot in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">13.1</a>, is for all the point lie around the grey line and for the LOWESS line to coincide with the grey line. That would mean that the relations are captured correctly and all the observations are explained by the model. As for the second plot, we want to see the same, but it just presents that information in a different format, which is sometimes easier to analyse. In both plot of Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">13.1</a>, we can see that there are still some patterns left: the LOWESS line has a u-shaped form, which in general means that something is wrong with model specification. In order to investigate if there are any omitted variables, we construct a spread plot of residuals vs all the variables not included in the model (Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">13.2</a>).</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="assumptionsCorrectModel.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spread</span>(<span class="fu">data.frame</span>(<span class="at">residuals=</span><span class="fu">resid</span>(mtcarsSLR), mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)]))</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics02"></span>
+<img src="adam_files/figure-html/diagnostics02-1.png" alt="Diagnostics of omitted variables." width="672" />
+<p class="caption">
+Figure 13.2: Diagnostics of omitted variables.
+</p>
+</div>
+<p>What we want to see in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">13.2</a> is the absence of any patterns in plots of residuals vs variables. However, we can see that there are still many relations. For example, with the increase of the number of cylinders, the mean of residuals decreases. This might indicate that the variable is needed in the model. And indeed, we can imagine a situation, where mileage of a car (the response variable in our model) would depend on the number of cylinders because the bigger engines will have more cylinders and consume more fuel, so it makes sense to include this variable in the model as well.</p>
+<p><strong>Note that we do not suggest to start modelling from simple linear relation!</strong> You should construct a model that you think is suitable for the problem, and the example above is provided only for illustrative purposes.</p>
+</div>
+<div id="redundant-variables" class="section level3" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> Redundant variables</h3>
+<p>If there are redundant variables that are not needed in the model, then the estimates of parameters and point forecasts might be <em>unbiased</em>, but <em>inefficient</em>. This implies that the variance of parameters can be lower than needed and thus the prediction intervals will be narrower than needed. There are no good instruments for diagnosing this issue, so judgment is needed, when deciding what to include in the model.</p>
+</div>
+<div id="transformations" class="section level3" number="13.1.3">
+<h3><span class="header-section-number">13.1.3</span> Transformations</h3>
+<p>This assumption implies that we have taken all possible non-linearities into account. If, for example, instead of using a multiplicative model, we apply an additive one, the estimates of parameters and the point forecasts might be <em>biased</em>. This is because the model will produce linear trajectory of the forecast, when a non-linear one is needed. This was discussed in detail in Section <a href="variablesTransformations.html#variablesTransformations">12</a>. The diagnostics of this assumption is similar to the diagnostics shown above for the omitted variables: construct actuals vs fitted and residuals vs fitted in order to see if there are any patterns in the plots. Take the multiple regression model for mtcars, which includes several variables, but is additive in its form:</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="assumptionsCorrectModel.html#cb156-1" aria-hidden="true" tabindex="-1"></a>mtcarsALM01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>am, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<p>Arguably, the model includes important variables (although there might be some others that could improve it), but the residuals will show some patterns, because the model should be multiplicative (see Figure <a href="assumptionsCorrectModel.html#fig:diagnostics03">13.3</a>), because mileage should not reduce linearly with increase of those variables. In order to understand that, ask yourself, whether the mileage can be negative and whether weight and other variables can be non-positive (a car with <span class="math inline">\(wt=0\)</span> just does not exist).</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="assumptionsCorrectModel.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb157-2"><a href="assumptionsCorrectModel.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics03"></span>
+<img src="adam_files/figure-html/diagnostics03-1.png" alt="Diagnostics of necessary transformations in linear model." width="672" />
+<p class="caption">
+Figure 13.3: Diagnostics of necessary transformations in linear model.
+</p>
+</div>
+<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics03">13.3</a> demonstrates the u-shaped pattern in the residuals, which is one of the indicators of a wrong model specification, calling for a non-linear transformation. We can try a model in logarithms:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="assumptionsCorrectModel.html#cb158-1" aria-hidden="true" tabindex="-1"></a>mtcarsALM02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">log</span>(mpg)<span class="sc">~</span><span class="fu">log</span>(wt)<span class="sc">+</span><span class="fu">log</span>(qsec)<span class="sc">+</span>am, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<p>And see what would happen with the diagnostics of the model in logarithms:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="assumptionsCorrectModel.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb159-2"><a href="assumptionsCorrectModel.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics04"></span>
+<img src="adam_files/figure-html/diagnostics04-1.png" alt="Diagnostics of necessary transformations in log-log model." width="672" />
+<p class="caption">
+Figure 13.4: Diagnostics of necessary transformations in log-log model.
+</p>
+</div>
+<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics04">13.4</a> demonstrates that while the LOWESS lines do not coincide with the grey lines, the residuals do not have obvious patterns. The fact that the LOWESS line starts from below, when fitted values are low in our case only shows that we do not have enough observations with low actual values. As a result, LOWESS is impacted by 2 observations that lie below the grey line. This demonstrates that LOWESS lines should be taken with a pinch of salt and we should abstain from finding patterns in randomness, when possible. Overall, the log-log model is more appropriate to this data than the linear one.</p>
+</div>
+<div id="outliers" class="section level3" number="13.1.4">
+<h3><span class="header-section-number">13.1.4</span> Outliers</h3>
+<p>In a way, this assumption is similar to the first one with omitted variables. The presence of outliers might mean that we have missed some important information, implying that the estimates of parameters and forecasts would be <em>biased</em>. There can be other reasons for outliers as well. For example, we might be using a wrong distributional assumption. If so, this would imply that the prediction interval from the model is narrower than necessary. The diagnostics of outliers comes to producing standardised residuals vs fitted, to studentised vs fitted and to Cook’s distance plot. While we are already familiar with the first one, the other two need to be explained in more detail.</p>
+<p>Studentised residuals are the residuals that are calculated in the same way as the standardised ones, but removing the value of each residual. For example, the studentised residual on observation 25 would be calculated as the raw residual divided by standard deviation of residuals, calculated without this 25th observation. This way we diminish the impact of potential serious outliers on the standard deviation, making it easier to spot the outliers.</p>
+<p>As for the Cook’s distance, its idea is to calculate measures for each observation showing how influential they are in terms of impact on the estimates of parameters of the model. If there is an influential outlier, then it would distort the values of parameters, causing bias.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="assumptionsCorrectModel.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb160-2"><a href="assumptionsCorrectModel.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics05"></span>
+<img src="adam_files/figure-html/diagnostics05-1.png" alt="Diagnostics of outliers." width="672" />
+<p class="caption">
+Figure 13.5: Diagnostics of outliers.
+</p>
+</div>
+<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics05">13.5</a> demonstrates standardised and studentised residuals vs fitted values for the log-log model on mtcars data. We can see that the plots are very similar, which already indicates that there are no strong outliers in the residuals. The bounds produced on the plots correspond to the 95% prediction interval, so by definition it should contain <span class="math inline">\(0.95\times 32 \approx 30\)</span> observations. Indeed, there are only two observations: 15 and 25 - that lie outside the bounds. Technically, we would suspect that they are outliers, but they do not lie far away from the bounds and their number meets our expectations, so we can conclude that there are no outliers in the data.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="assumptionsCorrectModel.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">12</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics06"></span>
+<img src="adam_files/figure-html/diagnostics06-1.png" alt="Cook's distance plot." width="672" />
+<p class="caption">
+Figure 13.6: Cook’s distance plot.
+</p>
+</div>
+<p>Finally, we produce Cook’s distance over observations in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics06">13.6</a>. The x-axis says “Time,” because <code>alm()</code> function is tailored for time series data, but this can be renamed into “observations.” The plot shows how influential the outliers are. If there were some significantly influential outliers in the data, then the plot would draw red lines, corresponding to 0.5, 0.75 and 0.95 quantiles of Fisher’s distribution, and the line of those outliers would be above the red lines. Consider the following example for demonstration purposes:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="assumptionsCorrectModel.html#cb162-1" aria-hidden="true" tabindex="-1"></a>mtcarsData[<span class="dv">28</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb162-2"><a href="assumptionsCorrectModel.html#cb162-2" aria-hidden="true" tabindex="-1"></a>mtcarsALM03 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">log</span>(mpg)<span class="sc">~</span><span class="fu">log</span>(wt)<span class="sc">+</span><span class="fu">log</span>(qsec)<span class="sc">+</span>am, mtcarsData, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<p>This way, we intentionally create an influential outlier (the car should have the minimum weight in the dataset, and now it has a very high one).</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="assumptionsCorrectModel.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM03, <span class="dv">12</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>), <span class="at">xlab=</span><span class="st">&quot;Observations&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:diagnostics07"></span>
+<img src="adam_files/figure-html/diagnostics07-1.png" alt="Cook's distance plot for the data with influential outlier." width="672" />
+<p class="caption">
+Figure 13.7: Cook’s distance plot for the data with influential outlier.
+</p>
+</div>
+<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics07">13.7</a> shows how Cook’s distance will look in this case - it detects that there is an influential outlier, which is above the norm. We can compare the parameters of the new and the old models to see how the introduction of one outlier leads to bias in the estimates of parameters:</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="assumptionsCorrectModel.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">coef</span>(mtcarsALM02),</span>
+<span id="cb164-2"><a href="assumptionsCorrectModel.html#cb164-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coef</span>(mtcarsALM03))</span></code></pre></div>
+<pre><code>##      (Intercept)    log(wt) log(qsec)         am
+## [1,]   1.2095788 -0.7325269 0.8857779 0.05205307
+## [2,]   0.1382442 -0.4852647 1.1439862 0.21406331</code></pre>
+</div>
+</div>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="assumptionsResidualsAreIID.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//14-assumptions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["adam.pdf", "adam.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
