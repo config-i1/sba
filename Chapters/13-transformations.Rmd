@@ -1,5 +1,9 @@
 # Variables transformations {#variablesTransformations}
-So far we have discussed linear regression models, where the response variable linearly depends on a set of explanatory variables. These models work well in many contexts, especially when the response variable is measured in high volumes (e.g. sales in thousands of units). However, in reality the relations between variables can be non-linear. Consider, for example, the stopping distance vs speed of the car, the case we have discussed in the previous sections. This sort of relation in reality is non-linear. We know from physics that the distance travelled by car is proportional to the mass of car, the squared speed and inversely proportional to the breaking force:
+So far we have discussed linear regression models, where the response variable linearly depends on a set of explanatory variables. These models work well in many contexts, especially when the response variable is measured in high volumes (e.g. sales in thousands of units). However, in reality the relations between variables can be non-linear. In this chapter we consider an example of application to see how transformations can be motivated by a real life example and then discuss different types of transformations and what they imply for analytics and forecasting
+
+
+## Example of application
+Consider, for example, the stopping distance vs speed of the car, the case we have discussed in the previous sections. This sort of relation in reality is non-linear. We know from physics that the distance travelled by car is proportional to the mass of car, the squared speed and inversely proportional to the breaking force:
 \begin{equation}
     distance \propto \frac{mass}{2 breaking} \times speed^2.
     (\#eq:speedDistanceFormula)

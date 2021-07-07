@@ -95,7 +95,7 @@ summary(tShirtsDataFrameALM)
 Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include `colourRed` and only have the model with `colourGreen`, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.
 
 
-# Categorical variables for the slope
+## Categorical variables for the slope
 In reality, we can have more complicated situations, when the change of price would lead to different changes in sales for different types of t-shirts. In this case, we are talking about an **interaction effect** between price and colour. The following artificial example demonstrates the situation:
 ```{r}
 tShirtsInteraction <- cbind(rnorm(150,20,2),0,0,0)
