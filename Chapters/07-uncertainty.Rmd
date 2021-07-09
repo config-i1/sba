@@ -143,7 +143,7 @@ If the blue line on Figure \@ref(fig:hypothesisTesting01) would lie inside the r
 \end{equation*}
 In our case it does not, so we conclude that we reject H$_0$ on 5% significance level. This can be roughly represented by the graph on  Figure \@ref(fig:hypothesisTesting02):
 
-```{r hypothesisTesting02, echo=FALSE, fig.cap="The process of hypothesis testing with t value."}
+```{r hypothesisTesting02, echo=FALSE, fig.cap="Confidence interval for for the population mean example."}
 plot(seq(-1.5,0.5,0.01), dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1), xlab="Sample mean", ylab="Density", type="l",
      lwd=0, lty=0, col="darkblue")
 polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
