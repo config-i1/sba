@@ -10,12 +10,12 @@ We do not aim to explain why the violation of assumptions would lead to the disc
 ## Model is correctly specified {#assumptionsCorrectModel}
 This is one of the fundamental group of assumptions, which can be summarised as "we have included everything necessary in the model in the correct form". It implies that:
 
-1. We have not omitted important variables in the model (underfitting the data);
-2. We do not have redundant variables in the model (overfitting the data);
-3. The necessary transformations of the variables are applied;
-4. We do not have outliers in the model.
+1. [We have not omitted important variables in the model (underfitting the data)](#assumptionsCorrectModelOmitted);
+2. [We do not have redundant variables in the model (overfitting the data)](#assumptionsCorrectModelRedundant);
+3. [The necessary transformations of the variables are applied](#assumptionsCorrectModelTransformations);
+4. [We do not have outliers in the model](#assumptionsCorrectModelOutliers).
 
-### Omitted variables
+### Omitted variables {#assumptionsCorrectModelOmitted}
 If there are some important variables that we did not include in the model, then the estimates of the parameters might be *biased* and in some cases quite seriously (e.g. positive sign instead of the negative one). A classical example of model with omitted important variables is [simple linear regression](#simpleLinearRegression), which by definition includes only one explanatory variable. Making decisions based on such model might not be wise, as it might mislead about the significance and sign of effects. Yes, we use simple linear regression for educational purposes, to understand how the model works and what it implies, but it is not sufficient on its own. Finally, when it comes to forecasting, omitting important variables is equivalent to underfitting the data, ignoring significant aspects of the model. This means that the point forecasts from the model might be *biased* (systematic under or over forecasting), the variance of the error term will be higher than needed, which will result in wider than necessary [prediction interval](#confidenceIntervalsPrediction).
 
 In some cases, it is possible to diagnose the violation of this assumption. In order to do that an analyst needs to analyse a variety of plots of residuals vs fitted, vs time (if we deal with time series), and vs omitted variables. Consider an example with `mtcars` data and a simple linear regression:
@@ -41,10 +41,10 @@ What we want to see in Figure \@ref(fig:diagnostics02) is the absence of any pat
 **Note that we do not suggest to start modelling from simple linear relation!** You should construct a model that you think is suitable for the problem, and the example above is provided only for illustrative purposes.
 
 
-### Redundant variables
+### Redundant variables {#assumptionsCorrectModelRedundant}
 If there are redundant variables that are not needed in the model, then the estimates of parameters and point forecasts might be *unbiased*, but *inefficient*. This implies that the variance of parameters can be lower than needed and thus the prediction intervals will be narrower than needed. There are no good instruments for diagnosing this issue, so judgment is needed, when deciding what to include in the model.
 
-### Transformations
+### Transformations {#assumptionsCorrectModelTransformations}
 This assumption implies that we have taken all possible non-linearities into account. If, for example, instead of using a multiplicative model, we apply an additive one, the estimates of parameters and the point forecasts might be *biased*. This is because the model will produce linear trajectory of the forecast, when a non-linear one is needed. This was discussed in detail in Section \@ref(variablesTransformations). The diagnostics of this assumption is similar to the diagnostics shown above for the omitted variables: construct actuals vs fitted and residuals vs fitted in order to see if there are any patterns in the plots. Take the multiple regression model for mtcars, which includes several variables, but is additive in its form:
 ```{r}
 mtcarsALM01 <- alm(mpg~wt+qsec+am, mtcars, loss="MSE")
@@ -70,7 +70,7 @@ plot(mtcarsALM02,c(1,2))
 Figure \@ref(fig:diagnostics04) demonstrates that while the LOWESS lines do not coincide with the grey lines, the residuals do not have obvious patterns. The fact that the LOWESS line starts from below, when fitted values are low in our case only shows that we do not have enough observations with low actual values. As a result, LOWESS is impacted by 2 observations that lie below the grey line. This demonstrates that LOWESS lines should be taken with a pinch of salt and we should abstain from finding patterns in randomness, when possible. Overall, the log-log model is more appropriate to this data than the linear one.
 
 
-### Outliers
+### Outliers {#assumptionsCorrectModelOutliers}
 In a way, this assumption is similar to the first one with omitted variables. The presence of outliers might mean that we have missed some important information, implying that the estimates of parameters and forecasts would be *biased*. There can be other reasons for outliers as well. For example, we might be using a wrong distributional assumption. If so, this would imply that the prediction interval from the model is narrower than necessary. The diagnostics of outliers comes to producing standardised residuals vs fitted, to studentised vs fitted and to Cook's distance plot. While we are already familiar with the first one, the other two need to be explained in more detail.
 
 Studentised residuals are the residuals that are calculated in the same way as the standardised ones, but removing the value of each residual. For example, the studentised residual on observation 25 would be calculated as the raw residual divided by standard deviation of residuals, calculated without this 25th observation. This way we diminish the impact of potential serious outliers on the standard deviation, making it easier to spot the outliers.
@@ -109,15 +109,15 @@ rbind(coef(mtcarsALM02),
 ## Residuals are i.i.d. {#assumptionsResidualsAreIID}
 There are five assumptions in this group:
 
-1. There is no autocorrelation in the residuals;
-2. The residuals are homoscedastic;
-3. The expectation of residuals is zero, no matter what;
-4. The variable follows the assumed distribution;
-5. More generally speaking, distribution of residuals does not change over time.
+1. [There is no autocorrelation in the residuals](#assumptionsResidualsAreIIDAutocorrelations);
+2. [The residuals are homoscedastic](#assumptionsResidualsAreIIDHomoscedasticity);
+3. [The expectation of residuals is zero, no matter what](#assumptionsResidualsAreIIDMean);
+4. [The variable follows the assumed distribution](#assumptionsDistribution);
+5. [More generally speaking, distribution of residuals does not change over time](#assumptionsDistributionFixed).
 
 
-### No autocorrelations
-This assumption only applied to time series data, and in a way comes to capturing correctly the dynamic relations between variables. The term "autocorrelation" refers to the situation, when variable is correlated with itself from the past. If the residuals are autocorrelated, then something is neglected by the applied model. Typically, this leads to *inefficient* estimates of parameters, which in some cases might also become *biased*. The model with autocorrelated residuals might produce inaccurate point forecasts and prediction intervals of a wrong width (wider or narrower than needed).
+### No autocorrelations {#assumptionsResidualsAreIIDAutocorrelations}
+This assumption **only applies to time series data**, and in a way comes to capturing correctly the dynamic relations between variables. The term "autocorrelation" refers to the situation, when variable is correlated with itself from the past. If the residuals are autocorrelated, then something is neglected by the applied model. Typically, this leads to *inefficient* estimates of parameters, which in some cases might also become *biased*. The model with autocorrelated residuals might produce inaccurate point forecasts and prediction intervals of a wrong width (wider or narrower than needed).
 
 There are several ways of diagnosing the problem, including visual analysis and statistical tests. In order to show some of them, we consider the `Seatbelts` data from `datasets` package for R. We fit a basic model, predicting monthly totals of car drivers in the Great Britain killed or seriously injured in car accidents:
 ```{r}
@@ -141,7 +141,7 @@ plot(SeatbeltsALM01,c(10,11),main="")
 These are discussed in more detail in Sections \@ref(ACF) and \@ref(PACF).
 
 
-### Homoscedastic residuals
+### Homoscedastic residuals {#assumptionsResidualsAreIIDHomoscedasticity}
 In general, we assume that the variance of residuals is constant. If this is violated, then we say that there is a **heteroscedasticity** in the model. This means that with a change of a variable, the variance of the residuals will change as well. If the model neglects this, then typically the estimates of parameters become *inefficient* and prediction intervals are wrong: they are wider than needed in some cases (e.g.m when the volume of data is low) and narrower than needed in the other ones (e.g. on high volume data).
 
 Typically, this assumption will be violated if the model is not specified correctly. The classical example is the income versus expenditure on meals for different families. If the income is low, then there is not many options what to buy and the variability of expenditures would be low. However, with the increase of the income, the mean expenditures and their variability would increase as well, because there are more options of what to buy, including both cheap and expensive products. If we constructed a basic linear model on such data, then it would violate the assumption of homoscedasticity and as a result will have the issues discussed above. But arguably this would typically appear because of the misspecification of the model. For example, taking logarithms might resolve the issue in many cases, implying that the effect of one variable on the other should be multiplicative rather than the additive. Alternatively, dividing variables by some other variable (e.g. working with expenses per family member, not per family) might resolve the problem as well. Unfortunately, the transformations are not the panacea, so in some cases analyst would need to construct a model, taking the changing variance into account (e.g. GARCH or GAMLSS models). This is discussed in Section \@ref(almScaleModel).
@@ -165,7 +165,7 @@ plot(mtcarsALM02,4:5)
 While the LOWESS lines on plots in Figure \@ref(fig:diagnostics11) demonstrate some dynamics, the variability of residuals does not change significantly with the increase of fitted value, so non-linear transformation seems to fix the issue in our example. If it would not, then we would need to consider either some other transformations or finding out, which of the variables causes heteroscedasticity and then modelling it explicitly via the scale model (Section \@ref(almScaleModel)).
 
 
-### Mean of residuals
+### Mean of residuals {#assumptionsResidualsAreIIDMean}
 While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be *biased*, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model.
 
 Note that some models assume that the expectation of residuals is equal to one instead of zero (e.g. multiplicative error models). The idea of the assumption stays the same, it is only the value that changes.
@@ -188,17 +188,17 @@ Figure \@ref(fig:diagnostics12) shows that all the points lie close to the line 
 plot(mtcarsALM01,6)
 ```
 
-### Distribution does not change
+### Distribution does not change {#assumptionsDistributionFixed}
 This assumption aligns with the Subsection \@ref(assumptionsDistribution), but in this specific context implies that all the parameters of distribution stay the same and the shape of distribution does not change. If the former is violated then we might have one of the issues discussed above. If the latter is violated then we might produce *biased* forecasts and underestimate / overestimate the uncertainty about the future. The diagnosis of this comes to analysing QQ-plots, similar to Subsection \@ref(assumptionsDistribution).
 
 
 ## The explanatory variables are not correlated with anything but the response variable {#assumptionsXreg}
 There are two assumptions in this group:
 
-1. No multicollinearity;
-2. No endogeneity;
+1. [No multicollinearity](#assumptionsXregMulti);
+2. [No endogeneity](#assumptionsXregEndogeneity);
 
-### Multicollinearity
+### Multicollinearity {#assumptionsXregMulti}
 One of the classical issues in econometrics and in statistics in regression context is the issue of multicollinearity, the effect when several explanatory variables are correlated. In a way, this has nothing to do with classical assumptions of linear regression, because it is unreasonable to assume that the explanatory variables have some specific relation between them - they are what they are, and multicollinearity mainly causes issues with estimation of the parameters of model, not with its structure. But it is an issue nonetheless, so it is worth exploring.
 
 Multicollinearity appears, when either some of explanatory variables are correlated with each other (see Section \@ref(correlationCoefficient)), or their linear combination explains another explanatory variable included in the model. Depending on the strength of this relation and the estimation method used for model construction, the multicollinearity might cause issues of varying severity. For example, in the case, when two variables are perfectly correlated (correlation coefficient is equal to 1 or -1), the model will have perfect multicollinearity and it would not be possible to estimate its parameters. Another example is a case, when an explanatory variable can be perfectly explained by a set of other explanatory variables (resulting in $R^2$ being close to one), which will cause exactly the same issue. The classical example of this situation is the dummy variables trap (see Section \@ref(dummyVariables)), when all values of categorical variable are included in regression together with the constant resulting in the linear relation $\sum_{j=1}^k d_j = 1$. Given that the square root of $R^2$ of linear regression is equal to multiple correlation coefficient, these two situations are equivalent and just come to "absolute value of correlation coefficient is equal to 1". Finally, if correlation coefficient is high, but not equal to one, the effect of multicollinearity will lead to [less efficient estimates](#estimatesPropertiesEfficiency) of parameters. The loss of efficiency is in this case proportional to the absolute value of correlation coefficient. In case of forecasting, the effect is not as straight forward, and in some cases might not damage the point forecasts, but can lead to prediction intervals of an incorrect width. The main issue of multicollinearity comes to the difficulties in the model estimation in a sample. If we had all the data in the world, then the issue would not exist. All of this tells us how this problem can be diagnosed and that this diagnosis should be carried out before constructing regression model.
@@ -242,7 +242,7 @@ This is useful when you want to see the specific impact on the variance of param
 Finally, in some cases nothing can be done with multicollinearity, it just exists, and we need to include those correlated variables. This might not be a big problem, as long as we acknowledge the issues it will cause to the estimates of parameters.
 
 
-### Engogeneity
+### Engogeneity {#assumptionsXregEndogeneity}
 **Endogeneity** applies to the situation, when the dependent variable $y_t$ influences the explanatory variable $x_t$ in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be *biased*, and a different estimation method would be needed or maybe a different model would need to be constructed in order to fix this.
 
 Endogeneity cannot be properly diagnosed and comes to the judgment: do we expect the relation between variable to be one directional or bi-directional? Note that if we work with time series, then endogeneity would only appear, when the bi-directional relation happens at the same time $t$, not over time.
