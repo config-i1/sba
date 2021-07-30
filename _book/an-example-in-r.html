@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-26" />
+<meta name="date" content="2021-07-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="likelihoodApproach.html"/>
 <link rel="next" href="likelihoodApproachMaths.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -175,13 +175,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.1</b> Models, methods et al. </a></li>
-<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<li class="chapter" data-level="1.1" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.1</b> Sources of uncertainty</a></li>
+<li class="chapter" data-level="1.2" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.2</b> Models, methods et al. </a></li>
+<li class="chapter" data-level="1.3" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.3</b> Scales of information</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
-<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
-<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
-<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+<li class="chapter" data-level="1.3.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.3.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.3.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.3.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.3.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.3.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.3.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.3.4</b> Ratio scale</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
@@ -212,7 +213,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="intervals.html"><a href="intervals.html"><i class="fa fa-check"></i><b>5</b> Dealing with uncertainty in the data</a>
+<li class="chapter" data-level="5" data-path="uncertaintyData.html"><a href="uncertaintyData.html"><i class="fa fa-check"></i><b>5</b> Dealing with uncertainty in the data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>5.1</b> Confidence interval</a></li>
 <li class="chapter" data-level="5.2" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>5.2</b> Prediction interval</a></li>
@@ -238,11 +239,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="handling-uncertainty-in-regression-model.html"><a href="handling-uncertainty-in-regression-model.html"><i class="fa fa-check"></i><b>9</b> Handling uncertainty in regression model</a>
+<li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-model-uncertainty.html"><a href="regression-model-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression model uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -288,7 +289,8 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="regressionModelBuilding.html"><a href="regressionModelBuilding.html"><i class="fa fa-check"></i><b>14</b> Regression specification uncertainty</a></li>
+<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -331,7 +333,7 @@ Figure 13.1: ML example with Normal curve and <span class="math inline">\(\hat{\
 </div>
 <p>and we get the following log-likelihood value (we will discuss how this formula can be obtained later):</p>
 <div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="an-example-in-r.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dnorm</span>(y,<span class="dv">80</span>,<span class="dv">10</span>,<span class="at">log=</span>T))</span></code></pre></div>
-<pre><code>## [1] -5655.071</code></pre>
+<pre><code>## [1] -5727.268</code></pre>
 <p>In order for the normal distribution on <a href="an-example-in-r.html#fig:MLENormalExample01">13.1</a> to fit the data well, we need to shift the estimate of <span class="math inline">\(\mu_y\)</span> to the right, thus increasing the value to, let’s say, <span class="math inline">\(\hat{\mu}_y=90\)</span>:</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="an-example-in-r.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
 <span id="cb186-2"><a href="an-example-in-r.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">dnorm</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="dv">90</span>,<span class="dv">10</span>),<span class="at">col=</span><span class="st">&quot;orange&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
@@ -342,7 +344,7 @@ Figure 13.1: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.2: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=90\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
 </div>
-<p>Now, in Figure <a href="an-example-in-r.html#fig:MLENormalExample02">13.2</a>, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4188.704, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting <span class="math inline">\(\hat{\mu}_y=100\)</span>, we get:</p>
+<p>Now, in Figure <a href="an-example-in-r.html#fig:MLENormalExample02">13.2</a>, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4234.004, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting <span class="math inline">\(\hat{\mu}_y=100\)</span>, we get:</p>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="an-example-in-r.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
 <span id="cb187-2"><a href="an-example-in-r.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">dnorm</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="dv">100</span>,<span class="dv">10</span>),<span class="at">col=</span><span class="st">&quot;green3&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb187-3"><a href="an-example-in-r.html#cb187-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">&quot;green3&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
@@ -352,7 +354,7 @@ Figure 13.2: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.3: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=100\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
 </div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample02">13.2</a> demonstrates a much better fit than in the previous cases with the log-likelihood of -3722.336, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:</p>
+<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample02">13.2</a> demonstrates a much better fit than in the previous cases with the log-likelihood of -3740.739, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="an-example-in-r.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
 <span id="cb188-2"><a href="an-example-in-r.html#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">dnorm</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">mean</span>(y),<span class="dv">10</span>),<span class="at">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb188-3"><a href="an-example-in-r.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y),<span class="at">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
@@ -362,8 +364,8 @@ Figure 13.3: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.4: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
 </div>
-<p>So the value of <span class="math inline">\(\hat{\mu}_y=\bar{y}=\)</span> 99.664 (where <span class="math inline">\(\bar{y}\)</span> is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3721.771.</p>
-<p>In a similar fashion we can get the MLE of the scale parameter <span class="math inline">\(\sigma^2\)</span> of the model. In this case, we will be changing the height of the distribution. Here is an example with <span class="math inline">\(\hat{\mu}_y=\)</span> 99.664 and <span class="math inline">\(\hat{\sigma}=15\)</span>:</p>
+<p>So the value of <span class="math inline">\(\hat{\mu}_y=\bar{y}=\)</span> 99.933 (where <span class="math inline">\(\bar{y}\)</span> is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3740.716.</p>
+<p>In a similar fashion we can get the MLE of the scale parameter <span class="math inline">\(\sigma^2\)</span> of the model. In this case, we will be changing the height of the distribution. Here is an example with <span class="math inline">\(\hat{\mu}_y=\)</span> 99.933 and <span class="math inline">\(\hat{\sigma}=15\)</span>:</p>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="an-example-in-r.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
 <span id="cb189-2"><a href="an-example-in-r.html#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">dnorm</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">mean</span>(y),<span class="dv">15</span>),<span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb189-3"><a href="an-example-in-r.html#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y),<span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
@@ -373,7 +375,7 @@ Figure 13.4: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.5: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=15\)</span>
 </p>
 </div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample05">13.5</a> demonstrates that the curve is located lower than needed, which implies that the scale parameter <span class="math inline">\(\hat{\sigma}\)</span> is too high. The log-likelihood value in this case is -3849.321. In order to get a better fit of the curve to the data, we need to reduce the <span class="math inline">\(\hat{\sigma}\)</span>. Here how the situation would look for the case of <span class="math inline">\(\hat{\sigma}=10\)</span>:</p>
+<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample05">13.5</a> demonstrates that the curve is located lower than needed, which implies that the scale parameter <span class="math inline">\(\hat{\sigma}\)</span> is too high. The log-likelihood value in this case is -3857.741. In order to get a better fit of the curve to the data, we need to reduce the <span class="math inline">\(\hat{\sigma}\)</span>. Here how the situation would look for the case of <span class="math inline">\(\hat{\sigma}=10\)</span>:</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="an-example-in-r.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
 <span id="cb190-2"><a href="an-example-in-r.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">dnorm</span>(<span class="fu">c</span>(<span class="dv">50</span><span class="sc">:</span><span class="dv">150</span>),<span class="fu">mean</span>(y),<span class="dv">10</span>),<span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb190-3"><a href="an-example-in-r.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y),<span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
@@ -383,7 +385,7 @@ Figure 13.5: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.6: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
 </div>
-<p>The fit on Figure <a href="an-example-in-r.html#fig:MLENormalExample06">13.6</a> is better than on Figure <a href="an-example-in-r.html#fig:MLENormalExample05">13.5</a>, which is also reflected in the log-likelihood value being equal to -3721.771 instead of -3849.321. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula <span class="math inline">\(\hat{\sigma}^2 = \frac{1}{T}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2\)</span>, resulting in log-likelihood of -3721.771. Note that if we use the unbiased estimate of the variance <span class="math inline">\(\hat{s}^2 = \frac{1}{T-1}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2\)</span>, the log-likelihood will not reach the maximum and will be equal to -3721.771. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are diffrent, which can be checked in R via the following commands:</p>
+<p>The fit on Figure <a href="an-example-in-r.html#fig:MLENormalExample06">13.6</a> is better than on Figure <a href="an-example-in-r.html#fig:MLENormalExample05">13.5</a>, which is also reflected in the log-likelihood value being equal to -3740.716 instead of -3857.741. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula <span class="math inline">\(\hat{\sigma}^2 = \frac{1}{T}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2\)</span>, resulting in log-likelihood of -3740.357. Note that if we use the unbiased estimate of the variance <span class="math inline">\(\hat{s}^2 = \frac{1}{T-1}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2\)</span>, the log-likelihood will not reach the maximum and will be equal to -3740.357. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are diffrent, which can be checked in R via the following commands:</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="an-example-in-r.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The maximum log-likelihood with the biased variance</span></span>
 <span id="cb191-2"><a href="an-example-in-r.html#cb191-2" aria-hidden="true" tabindex="-1"></a>logLik01 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y,<span class="fu">mean</span>(y),<span class="fu">sqrt</span>(<span class="fu">mean</span>((y<span class="sc">-</span><span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)),<span class="at">log=</span><span class="cn">TRUE</span>))</span>
 <span id="cb191-3"><a href="an-example-in-r.html#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The log-likelihood value with the unbiased variance</span></span>
@@ -400,7 +402,7 @@ Figure 13.6: ML example with Normal curve and <span class="math inline">\(\hat{\
 Figure 13.7: ML example with Normal curve on Log Normal data
 </p>
 </div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample07">13.7</a> shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -5077.503. The much better model would be the Log Normal one:</p>
+<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample07">13.7</a> shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -5033.493. The much better model would be the Log Normal one:</p>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="an-example-in-r.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span>T, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</span>
 <span id="cb193-2"><a href="an-example-in-r.html#cb193-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">300</span>),<span class="fu">dlnorm</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">300</span>),<span class="fu">mean</span>(<span class="fu">log</span>(y)),<span class="fu">sd</span>(<span class="fu">log</span>(y))),<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:MLENormalExample08"></span>
@@ -409,7 +411,7 @@ Figure 13.7: ML example with Normal curve on Log Normal data
 Figure 13.8: ML example with Log Normal curve on Log Normal data
 </p>
 </div>
-<p>The model in Figure <a href="an-example-in-r.html#fig:MLENormalExample08">13.8</a> has the log likelihood of -4920.481. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the <a href="#modelSelection">next section</a>.</p>
+<p>The model in Figure <a href="an-example-in-r.html#fig:MLENormalExample08">13.8</a> has the log likelihood of -4918.759. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the <a href="#modelSelection">next section</a>.</p>
 <p>As a final word, when it comes to more complicated models with more parameters and dynamic structure, the specific curves and data become more complicated, but the logic of the likelihood approach stays the same.</p>
 </div>
 

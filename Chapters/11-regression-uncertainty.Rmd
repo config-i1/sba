@@ -1,4 +1,4 @@
-# Uncertainty aout the estimates of parameters {#uncertaintyParameters}
+# Uncertainty about the estimates of pariameters {#uncertaintyParameters}
 Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was `r paste0(c("mpg=",round(coef(slmMPGWt),2),"wt+et"),collapse="")`. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?
 
 ```{r scatterWeightMPG4, fig.cap="Weight vs mileage and two regression lines.", echo=FALSE}
@@ -50,7 +50,7 @@ Figure \@ref(fig:slmSpeedDistanceBoot) shows the uncertainty around the estimate
 
 
 ## Confidence intervals
-In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section \@ref(confidenceIntervals). This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that [CLT](#CLT) holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section \@ref(likelihoodApproach)). In these conditions the covariance matrix of parameters can be calculated using the following formula:
+In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section \@ref(confidenceInterval). This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that [CLT](#CLT) holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section \@ref(likelihoodApproach)). In these conditions the covariance matrix of parameters can be calculated using the following formula:
 \begin{equation}
     \mathrm{V}(\hat{\mathbf{a}}) = \frac{1}{T-k} \sum_{t=1}^T e_t^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
@@ -156,7 +156,7 @@ abline(h=mean(actuals(slmSpeedDistance)),col="red")
 What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.
 
 
-## Regression model uncertainty
+## Regression line uncertainty
 Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_t$, but also the uncertainty around them.
 
 The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:

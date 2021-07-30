@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.1 Nominal scale | Statistics for Business Analytics</title>
+  <title>9.3 Regression line uncertainty | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.1 Nominal scale | Statistics for Business Analytics" />
+  <meta property="og:title" content="9.3 Regression line uncertainty | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.1 Nominal scale | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="9.3 Regression line uncertainty | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="correlations.html"/>
-<link rel="next" href="ordinal-scale-1.html"/>
+<link rel="prev" href="hypothesis-testing.html"/>
+<link rel="next" href="dummyVariables.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -315,65 +315,94 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="nominal-scale-1" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Nominal scale</h2>
-<p>As discussed in Section <a href="scales.html#scales">1.3</a>, not all scales support the more advanced operations (such as taking mean in ordinal scale). This means that if we want to analyse relations between variables, we need to use appropriate instrument. The coefficients that show relations between variables are called “<strong>measures of association</strong>.” We start their discussions with the simplest scale - nominal.</p>
-<p>There are several measures of association for the variables in nominal scale. They are all based on calculating the number of specific values of variables, but use different formulae. The first one is called <strong>contingency coefficient <span class="math inline">\(\phi\)</span></strong> and can only be calculated between variables that have only two values. As the name says, this measure is based on the contingency table. Here is an example:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="nominal-scale-1.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
-<pre><code>##           
-##            automatic manual
-##   V-shaped        12      6
-##   Straight         7      7</code></pre>
-<p>The <span class="math inline">\(\phi\)</span> coefficient is calculated as:
-<span class="math display" id="eq:measuresAssociationPhi">\[\begin{equation}
-    \phi = \frac{n_{1,1} n_{2,2} - n_{1,2} n_{2,1}}{\sqrt{n_{1,\cdot}\times n_{2,\cdot}\times n_{\cdot,1}\times n_{\cdot,2}}} ,
-    \tag{6.1}
+<div id="regression-line-uncertainty" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Regression line uncertainty</h2>
+<p>Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression <span class="math inline">\(\hat{y}_t\)</span>, but also the uncertainty around them.</p>
+<p>The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
+<span class="math display" id="eq:regressionLineUncertaintyVariance01">\[\begin{equation}
+    \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \mathrm{V}(\hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t}) ,
+    \tag{9.5}
 \end{equation}\]</span>
-where <span class="math inline">\(n_{i,j}\)</span> is the element of the table on row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, <span class="math inline">\(n_{i,\cdot}=\sum_{j}n_{i,j}\)</span> - is the sum in row <span class="math inline">\(i\)</span> and <span class="math inline">\(n_{\cdot,j}=\sum_{i} n_{i,j}\)</span> - is the sum in column <span class="math inline">\(j\)</span>. This coefficient lies between -1 and 1 and has a simple interpretation: if will be close to 1, when the elements on diagonal are greater than the off-diagonal ones, implying that there is a relation between variables. The value of -1 can only be obtained, when off-diagonal elements are non-zero, while the diagonal ones are zero. Finally, if the values in the contingency table are distributed evenly, the coefficient will be equal to zero. In our case the value of <span class="math inline">\(\phi\)</span> is:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="nominal-scale-1.html#cb53-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">12</span><span class="sc">*</span><span class="dv">7</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="dv">7</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">19</span><span class="sc">*</span><span class="dv">13</span><span class="sc">*</span><span class="dv">14</span><span class="sc">*</span><span class="dv">18</span>)</span></code></pre></div>
-<pre><code>## [1] 0.1683451</code></pre>
-<p>This is a very low value, so even if the two variables are related, the relation is not well pronounced. In order to see, whether this value is statistically significantly different from zero, we could test a statistical hypothesis (hypothesis testing was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>):</p>
-<p><span class="math inline">\(H_0\)</span>: there is no relation between variables</p>
-<p><span class="math inline">\(H_1\)</span>: there is some relation between variables</p>
-<p>This can be done using <strong><span class="math inline">\(\chi^2\)</span> test</strong>, the statistics for which is calculated via:
-<span class="math display" id="eq:measuresAssociationChi">\[\begin{equation}
-    \chi^2 = \sum_{i,j} \frac{n \times n_{i,j} - n_{i,\cdot} \times n_{\cdot,j}}{n \times n_{i,\cdot} \times n_{\cdot,j}} ,
-    \tag{6.2}
+which after some simplifications leads to:
+<span class="math display" id="eq:regressionLineUncertaintyVariance02">\[\begin{equation}
+    \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \sum_{j=0}^{k-1} \mathrm{V}(\hat{a}_j) x^2_{j,t} + 2 \sum_{j=1}^{k-1} \sum_{i=0}^{j-1}  \mathrm{cov}(\hat{a}_i,\hat{a}_j) x_{i,t} x_{j,t} ,
+    \tag{9.6}
 \end{equation}\]</span>
-where <span class="math inline">\(n\)</span> is the sum of elements in the contingency table. The value calculated based on <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a> will follow <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom, where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns in contingency table. This is a proper statistical test, so it should be treated as one. We select my favourite significance level, 1% and can now conduct the test:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="nominal-scale-1.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am))</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  table(mtcarsData$vs, mtcarsData$am)
-## X-squared = 0.34754, df = 1, p-value = 0.5555</code></pre>
-<p>Given that p-value is greater than 1%, we fail to reject the null hypothesis and can conclude that the relation does not seem to be different from zero - we do not find a relation between the variables in our data.</p>
-<p>The main limitation of the coefficient <span class="math inline">\(\phi\)</span> is that it only works for the <span class="math inline">\(2\times 2\)</span> tables. In reality we can have variables in nominal scale that take several values and it might be useful to know relations between them. For example, we can have a variable <code>colour</code>, which takes values <code>red</code>, <code>green</code> and <code>blue</code> and we would want to know if it is related to the transmission type. We do not have this variable in the data, so just for this example, we will create one (using multinomial distribution):</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="nominal-scale-1.html#cb57-1" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb57-2"><a href="nominal-scale-1.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
-<span id="cb57-3"><a href="nominal-scale-1.html#cb57-3" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(colour, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
-<span id="cb57-4"><a href="nominal-scale-1.html#cb57-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
-<span id="cb57-5"><a href="nominal-scale-1.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(colour), <span class="at">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
-<p>In order to measure relation between the new variable and the <code>am</code>, we can use Cramer’s V coefficient, which relies on the formula of <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>:
-<span class="math display" id="eq:measuresAssociationCramer">\[\begin{equation}
-    V = \sqrt{\frac{\chi^2}{n\times \min(r-1, c-1)}} .
-    \tag{6.3}
-\end{equation}\]</span></p>
-<p>Cramer’s V always lies between 0 and 1, becoming close to one only if there is some relation between the two categorical variables. <code>greybox</code> package implements this coefficient in <code>cramer()</code> function:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="nominal-scale-1.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(mtcarsData<span class="sc">$</span>am,colour)</span></code></pre></div>
-<pre><code>## Cramer&#39;s V: 0.1003
-## Chi^2 statistics = 0.3222, df: 2, p-value: 0.8512</code></pre>
-<p>The output above shows that the value of the coefficient is approximately 0.1, which is low, implying that the relation between the two variables is very weak. In addition, the p-value tells us that we fail to reject the null hypothesis on 1% level in the <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>, and the relation does not look statistically significant. So we can conclude that according to our data, the two variables are not related (no wonder, we have generated one of them).</p>
-<p>The main limitation of Cramer’s V is that it is difficult to interpret beyond “there is a relation.” Imagine a situation, where the colour would be related to the variable “class” of a car, that can take 5 values. What could we say more than to state the fact that the two are related? After all, in that case you end up with a contingency table of <span class="math inline">\(3\times 5\)</span>, and it might not be possible to say how specifically one variable changes with the change of another one. Still, Cramer’s V at least provides some information about the relation of two categorical variables.</p>
+where <span class="math inline">\(x_{0,t}=1\)</span>. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(\hat{a}_j\)</span> will follow normal distribution with a fixed mean and variance due to <a href="CLT.html#CLT">CLT</a>, the predicted value <span class="math inline">\(\hat{y}_t\)</span> will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section <a href="#confidenceIntervals"><strong>??</strong></a>:
+<span class="math display" id="eq:confidenceIntervalRegression">\[\begin{equation}
+    \mu \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
+    \tag{9.7}
+\end{equation}\]</span>
+where <span class="math inline">\(s_{\hat{y}_t}=\sqrt{\mathrm{V}(\hat{y}_t| \mathbf{x}_t)}\)</span>.</p>
+<p>In R, this interval can be constructed via the function <code>predict()</code> with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="regression-line-uncertainty.html#cb123-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb123-2"><a href="regression-line-uncertainty.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slmSpeedDistanceCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:speedDistanceConfidenceInterval"></span>
+<img src="adam_files/figure-html/speedDistanceConfidenceInterval-1.png" alt="Fitted values and confidence interval for the stopping distance model." width="672" />
+<p class="caption">
+Figure 9.6: Fitted values and confidence interval for the stopping distance model.
+</p>
 </div>
+<p>The same fitted values and interval can be presented differently on the actuals vs fitted plot:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="regression-line-uncertainty.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(slmSpeedDistance),<span class="fu">actuals</span>(slmSpeedDistance),</span>
+<span id="cb124-2"><a href="regression-line-uncertainty.html#cb124-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
+<span id="cb124-3"><a href="regression-line-uncertainty.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb124-4"><a href="regression-line-uncertainty.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(slmSpeedDistance)),</span>
+<span id="cb124-5"><a href="regression-line-uncertainty.html#cb124-5" aria-hidden="true" tabindex="-1"></a>      slmSpeedDistanceCI<span class="sc">$</span>lower[<span class="fu">order</span>(<span class="fu">fitted</span>(slmSpeedDistance))], </span>
+<span id="cb124-6"><a href="regression-line-uncertainty.html#cb124-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb124-7"><a href="regression-line-uncertainty.html#cb124-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(slmSpeedDistance)),</span>
+<span id="cb124-8"><a href="regression-line-uncertainty.html#cb124-8" aria-hidden="true" tabindex="-1"></a>      slmSpeedDistanceCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(slmSpeedDistance))], </span>
+<span id="cb124-9"><a href="regression-line-uncertainty.html#cb124-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:speedDistanceConfidenceIntervalAvsF"></span>
+<img src="adam_files/figure-html/speedDistanceConfidenceIntervalAvsF-1.png" alt="Actuals vs Fitted and confidence interval for the stopping distance model." width="672" />
+<p class="caption">
+Figure 9.7: Actuals vs Fitted and confidence interval for the stopping distance model.
+</p>
+</div>
+<p>Figure <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceIntervalAvsF">9.7</a> demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the line would be expected to be in 95% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data <span class="math inline">\((\bar{x},\bar{y})\)</span> and the variability in this point is lower than the variability in the tails.</p>
+<p>If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
+<span class="math display" id="eq:regressionLineUncertaintyVariance03">\[\begin{equation}
+    \mathrm{V}(y_t| \mathbf{x}_t) = \mathrm{V}(\hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t} + e_t) ,
+    \tag{9.8}
+\end{equation}\]</span>
+which can be simplified to (if assumptions of regression model hold, see Section <a href="assumptions.html#assumptions">12</a>):
+<span class="math display" id="eq:regressionLineUncertaintyVariance04">\[\begin{equation}
+    \mathrm{V}(y_t| \mathbf{x}_t) = \mathrm{V}(\hat{y}_t| \mathbf{x}_t) + \hat{\sigma}^2,
+    \tag{9.9}
+\end{equation}\]</span>
+where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the residuals <span class="math inline">\(e_t\)</span>. As we see from the formula <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance04">(9.9)</a>, the variance in this case is larger than <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance02">(9.6)</a>, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to <a href="regression-line-uncertainty.html#eq:confidenceIntervalRegression">(9.7)</a>), as long as we can assume that <span class="math inline">\(\epsilon_t \sim \mathcal{N}(0,\sigma^2)\)</span>.</p>
+<p>In R, this can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="regression-line-uncertainty.html#cb125-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistancePI <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
+<p>Based on this, we can construct graphs similar to <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceInterval">9.6</a> and <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceIntervalAvsF">9.7</a>.</p>
+<div class="figure"><span id="fig:speedDistancePI"></span>
+<img src="adam_files/figure-html/speedDistancePI-1.png" alt="Fitted values and prediction interval for the stopping distance model." width="672" />
+<p class="caption">
+Figure 9.8: Fitted values and prediction interval for the stopping distance model.
+</p>
+</div>
+<p>Figure <a href="regression-line-uncertainty.html#fig:speedDistancePI">9.8</a> shows the prediction interval for values over observations and for actuals vs fitted. As we see, the interval is wider in this case, covering only 95% of observations (there are 2 observations outside it).</p>
+<p>In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with stopping distance, we could see what would happen if the speed of a car was, for example, 30mph:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="regression-line-uncertainty.html#cb126-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceForecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">speed=</span><span class="dv">30</span>),</span>
+<span id="cb126-2"><a href="regression-line-uncertainty.html#cb126-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb126-3"><a href="regression-line-uncertainty.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slmSpeedDistanceForecast)</span></code></pre></div>
+<div class="figure"><span id="fig:speedDistanceForecast"></span>
+<img src="adam_files/figure-html/speedDistanceForecast-1.png" alt="Forecast of the stopping distance for the speed of 30mph." width="672" />
+<p class="caption">
+Figure 9.9: Forecast of the stopping distance for the speed of 30mph.
+</p>
+</div>
+<p>Figure <a href="regression-line-uncertainty.html#fig:speedDistanceForecast">9.9</a> shows the point forecast (the expected stopping distance if the speed of car was 30mph) and the 95% prediction interval (we expect that in 95% of the cases, the cars will have the stopping distance between 66.865 and 133.921 feet.</p>
+
+</div>
+<!-- </div> -->
 
             </section>
 
           </div>
         </div>
       </div>
-<a href="correlations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ordinal-scale-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="hypothesis-testing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dummyVariables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -405,7 +434,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//08-measures-of-association.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//11-regression-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {

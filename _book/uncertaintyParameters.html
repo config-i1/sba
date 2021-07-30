@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.1 Nominal scale | Statistics for Business Analytics</title>
+  <title>Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.1 Nominal scale | Statistics for Business Analytics" />
+  <meta property="og:title" content="Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.1 Nominal scale | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="correlations.html"/>
-<link rel="next" href="ordinal-scale-1.html"/>
+<link rel="prev" href="interpretation-of-parameters.html"/>
+<link rel="next" href="confidence-intervals.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -315,56 +315,38 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="nominal-scale-1" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Nominal scale</h2>
-<p>As discussed in Section <a href="scales.html#scales">1.3</a>, not all scales support the more advanced operations (such as taking mean in ordinal scale). This means that if we want to analyse relations between variables, we need to use appropriate instrument. The coefficients that show relations between variables are called “<strong>measures of association</strong>.” We start their discussions with the simplest scale - nominal.</p>
-<p>There are several measures of association for the variables in nominal scale. They are all based on calculating the number of specific values of variables, but use different formulae. The first one is called <strong>contingency coefficient <span class="math inline">\(\phi\)</span></strong> and can only be calculated between variables that have only two values. As the name says, this measure is based on the contingency table. Here is an example:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="nominal-scale-1.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
-<pre><code>##           
-##            automatic manual
-##   V-shaped        12      6
-##   Straight         7      7</code></pre>
-<p>The <span class="math inline">\(\phi\)</span> coefficient is calculated as:
-<span class="math display" id="eq:measuresAssociationPhi">\[\begin{equation}
-    \phi = \frac{n_{1,1} n_{2,2} - n_{1,2} n_{2,1}}{\sqrt{n_{1,\cdot}\times n_{2,\cdot}\times n_{\cdot,1}\times n_{\cdot,2}}} ,
-    \tag{6.1}
-\end{equation}\]</span>
-where <span class="math inline">\(n_{i,j}\)</span> is the element of the table on row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, <span class="math inline">\(n_{i,\cdot}=\sum_{j}n_{i,j}\)</span> - is the sum in row <span class="math inline">\(i\)</span> and <span class="math inline">\(n_{\cdot,j}=\sum_{i} n_{i,j}\)</span> - is the sum in column <span class="math inline">\(j\)</span>. This coefficient lies between -1 and 1 and has a simple interpretation: if will be close to 1, when the elements on diagonal are greater than the off-diagonal ones, implying that there is a relation between variables. The value of -1 can only be obtained, when off-diagonal elements are non-zero, while the diagonal ones are zero. Finally, if the values in the contingency table are distributed evenly, the coefficient will be equal to zero. In our case the value of <span class="math inline">\(\phi\)</span> is:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="nominal-scale-1.html#cb53-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">12</span><span class="sc">*</span><span class="dv">7</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="dv">7</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">19</span><span class="sc">*</span><span class="dv">13</span><span class="sc">*</span><span class="dv">14</span><span class="sc">*</span><span class="dv">18</span>)</span></code></pre></div>
-<pre><code>## [1] 0.1683451</code></pre>
-<p>This is a very low value, so even if the two variables are related, the relation is not well pronounced. In order to see, whether this value is statistically significantly different from zero, we could test a statistical hypothesis (hypothesis testing was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>):</p>
-<p><span class="math inline">\(H_0\)</span>: there is no relation between variables</p>
-<p><span class="math inline">\(H_1\)</span>: there is some relation between variables</p>
-<p>This can be done using <strong><span class="math inline">\(\chi^2\)</span> test</strong>, the statistics for which is calculated via:
-<span class="math display" id="eq:measuresAssociationChi">\[\begin{equation}
-    \chi^2 = \sum_{i,j} \frac{n \times n_{i,j} - n_{i,\cdot} \times n_{\cdot,j}}{n \times n_{i,\cdot} \times n_{\cdot,j}} ,
-    \tag{6.2}
-\end{equation}\]</span>
-where <span class="math inline">\(n\)</span> is the sum of elements in the contingency table. The value calculated based on <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a> will follow <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom, where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns in contingency table. This is a proper statistical test, so it should be treated as one. We select my favourite significance level, 1% and can now conduct the test:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="nominal-scale-1.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am))</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  table(mtcarsData$vs, mtcarsData$am)
-## X-squared = 0.34754, df = 1, p-value = 0.5555</code></pre>
-<p>Given that p-value is greater than 1%, we fail to reject the null hypothesis and can conclude that the relation does not seem to be different from zero - we do not find a relation between the variables in our data.</p>
-<p>The main limitation of the coefficient <span class="math inline">\(\phi\)</span> is that it only works for the <span class="math inline">\(2\times 2\)</span> tables. In reality we can have variables in nominal scale that take several values and it might be useful to know relations between them. For example, we can have a variable <code>colour</code>, which takes values <code>red</code>, <code>green</code> and <code>blue</code> and we would want to know if it is related to the transmission type. We do not have this variable in the data, so just for this example, we will create one (using multinomial distribution):</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="nominal-scale-1.html#cb57-1" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb57-2"><a href="nominal-scale-1.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
-<span id="cb57-3"><a href="nominal-scale-1.html#cb57-3" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(colour, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
-<span id="cb57-4"><a href="nominal-scale-1.html#cb57-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
-<span id="cb57-5"><a href="nominal-scale-1.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(colour), <span class="at">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
-<p>In order to measure relation between the new variable and the <code>am</code>, we can use Cramer’s V coefficient, which relies on the formula of <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>:
-<span class="math display" id="eq:measuresAssociationCramer">\[\begin{equation}
-    V = \sqrt{\frac{\chi^2}{n\times \min(r-1, c-1)}} .
-    \tag{6.3}
-\end{equation}\]</span></p>
-<p>Cramer’s V always lies between 0 and 1, becoming close to one only if there is some relation between the two categorical variables. <code>greybox</code> package implements this coefficient in <code>cramer()</code> function:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="nominal-scale-1.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(mtcarsData<span class="sc">$</span>am,colour)</span></code></pre></div>
-<pre><code>## Cramer&#39;s V: 0.1003
-## Chi^2 statistics = 0.3222, df: 2, p-value: 0.8512</code></pre>
-<p>The output above shows that the value of the coefficient is approximately 0.1, which is low, implying that the relation between the two variables is very weak. In addition, the p-value tells us that we fail to reject the null hypothesis on 1% level in the <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>, and the relation does not look statistically significant. So we can conclude that according to our data, the two variables are not related (no wonder, we have generated one of them).</p>
-<p>The main limitation of Cramer’s V is that it is difficult to interpret beyond “there is a relation.” Imagine a situation, where the colour would be related to the variable “class” of a car, that can take 5 values. What could we say more than to state the fact that the two are related? After all, in that case you end up with a contingency table of <span class="math inline">\(3\times 5\)</span>, and it might not be possible to say how specifically one variable changes with the change of another one. Still, Cramer’s V at least provides some information about the relation of two categorical variables.</p>
+<div id="uncertaintyParameters" class="section level1" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Uncertainty about the estimates of pariameters</h1>
+<p>Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was mpg=37.29-5.34wt+et. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?</p>
+<div class="figure"><span id="fig:scatterWeightMPG4"></span>
+<img src="adam_files/figure-html/scatterWeightMPG4-1.png" alt="Weight vs mileage and two regression lines." width="672" />
+<p class="caption">
+Figure 9.1: Weight vs mileage and two regression lines.
+</p>
+</div>
+<p>Figure <a href="uncertaintyParameters.html#fig:scatterWeightMPG4">9.1</a> shows the two lines: the red one corresponds to the larger sample, while the blue one corresponds to the small one. We can see that these lines have different intercepts and slope parameters. So, which one of them is correct? An amateur analyst would say that the one that has more observations is the correct model. But a more experienced statistician would tell you that none of the two is correct. They are both estimated on a sample of data and they both inevitably inherit the uncertainty of the data, making them both incorrect if we compare them to the hypothetical <a href="modelsMethods.html#modelsMethods">true model</a>. This means that whatever regression model we estimate on a sample of data, it will be incorrect as well.</p>
+<p>This uncertainty about the regression line actually comes to the uncertainty of estimates of parameters of the model. In order to see it more clearly, consider the example with Speed and Stopping Distances of Cars dataset from <code>datasets</code> package (<code>?cars</code>):</p>
+<div class="figure"><span id="fig:scatterSpeedDistance"></span>
+<img src="adam_files/figure-html/scatterSpeedDistance-1.png" alt="Speed vs stopping distance of cars" width="672" />
+<p class="caption">
+Figure 9.2: Speed vs stopping distance of cars
+</p>
+</div>
+<p>While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using <code>coefbootstrap()</code> method from <code>greybox</code> package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="uncertaintyParameters.html#cb113-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(slmSpeedDistance)</span></code></pre></div>
+<p>Based on that we can plot the histograms of the estimates of parameters.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="uncertaintyParameters.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb114-2"><a href="uncertaintyParameters.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
+<span id="cb114-3"><a href="uncertaintyParameters.html#cb114-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb114-4"><a href="uncertaintyParameters.html#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
+<span id="cb114-5"><a href="uncertaintyParameters.html#cb114-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:slmSpeedDistanceBoot"></span>
+<img src="adam_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
+<p class="caption">
+Figure 9.3: Distribution of bootstrapped parameters of a regression model
+</p>
+</div>
+<p>Figure <a href="uncertaintyParameters.html#fig:slmSpeedDistanceBoot">9.3</a> shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution. In fact, if we repeated this example thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections <a href="CLT.html#CLT">4.2</a> and <a href="assumptions.html#assumptions">12</a>). As a result, when we work with regression we should take this uncertainty about the parameters into account. This applies to both parameters analysis and forecasting.</p>
 </div>
 
             </section>
@@ -372,8 +354,8 @@ where <span class="math inline">\(n\)</span> is the sum of elements in the conti
           </div>
         </div>
       </div>
-<a href="correlations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ordinal-scale-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="interpretation-of-parameters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="confidence-intervals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -405,7 +387,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//08-measures-of-association.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//11-regression-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {
