@@ -5,7 +5,7 @@ In order for a statistical model to work adequately and not to fail, when applie
 2. [Residuals are independent and identically distributed (i.i.d.)](#assumptionsResidualsAreIID);
 3. [The explanatory variables are not correlated with anything but the response variable](#assumptionsXreg).
 
-We do not aim to explain why the violation of assumptions would lead to the discussed problem, and refer a curious reader to econometrics textbooks [for example @Hanck2020]. In many cases, in our discussions in this textbook, we assume that all of these assumptions hold. In some of the cases, we will say explicitly, which are violated and what needs to be done in those situations. In Section \@ref(diagnostics) we will discuss how these assumptions can be checked for dynamic models, and how the issues caused by their violation can be fixed.
+We do not aim to explain why the violation of assumptions would lead to the discussed problem, and refer a curious reader to econometrics textbooks [for example @Hanck2020]. In many cases, in our discussions in this textbook, we assume that all of these assumptions hold. In some of the cases, we will say explicitly, which are violated and what needs to be done in those situations.
 
 ## Model is correctly specified {#assumptionsCorrectModel}
 This is one of the fundamental group of assumptions, which can be summarised as "we have included everything necessary in the model in the correct form". It implies that:
@@ -129,7 +129,7 @@ In order to do graphical diagnose, we can produce plots of standardised / studen
 plot(SeatbeltsALM01,8,main="")
 ```
 
-If the assumption is not violated, then the plot in Figure \@ref(fig:diagnostics08) would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section \@ref(diagnosticsResidualsIIDAuto).
+If the assumption is not violated, then the plot in Figure \@ref(fig:diagnostics08) would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of @SvetunkovADAM.
 
 The other instrument for diagnostics is ACF / PACF plots, which are produced in `alm()` via the following command:
 

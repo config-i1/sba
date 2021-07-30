@@ -169,9 +169,9 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \sum_{j=0}^{k-1} \mathrm{V}(\hat{a}_j) x^2_{j,t} + 2 \sum_{j=1}^{k-1} \sum_{i=0}^{j-1}  \mathrm{cov}(\hat{a}_i,\hat{a}_j) x_{i,t} x_{j,t} ,
     (\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
-where $x_{0,t}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $\hat{a}_j$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_t$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceIntervals):
+where $x_{0,t}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $\hat{a}_j$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_t$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
 \begin{equation}
-    \mu \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
+    \mu_t \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
     (\#eq:confidenceIntervalRegression)
 \end{equation}
 where $s_{\hat{y}_t}=\sqrt{\mathrm{V}(\hat{y}_t| \mathbf{x}_t)}$.
