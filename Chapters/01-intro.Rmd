@@ -8,7 +8,7 @@ Whenever we talk about analytics or forecasting, we deal with models that are co
 <!-- Throughout this textbook we will use index $t$ to denote the time and index $i$ to denote the cross-sectional elements. So, for example, $y_t$ will mean the response variable changing over time, while $y_i$ will mean the response variable changing from one object to another (for instance, from one person to another). -->
 
 
-## Sources of uncertainty
+## Sources of uncertainty {#sourcesOfUncertainty}
 When estimating any model on a sample of data, we will inevitably have to deal with uncertainty. Consider an example, when we want to estimate the average height of a person in the room. We could take heights of all the people in the room, then take average and we would get our answer. But what would happen with that average if another person comes in the room? We would need to do additional measures and re-estimate the average, and inevitably it will be different from the one we had before. This example demonstrates one of the classical sources of uncertainty - the one caused by estimation on a sample of data.
 
 Furthermore, we might be interested in predicting the weight of a person based on their height. The two variables will be related, but would not have a functional relation: with the increase of height we expect that a person will weigh more, but this only holds on average. So, based on a sample of data, we could estimate the relation between the two variables and then having a height of a person, we could predict their expected weight. Their individual weight will inevitably vary from one person to another. This is the second source of uncertainty, appearing because of the individual discrepancies from one person to another.
@@ -17,9 +17,9 @@ Finally, the model of weight from height could be wrong for different reasons. F
 
 These three sources of uncertainty have been summarised for the first time in @Chatfield1996. Whenever we need to construct any type of model, we will deal with:
 
-1. Uncertainty about the data;
-2. Uncertainty about estimates of parameters;
-3. Uncertainty about the model form.
+1. Uncertainty about the data (see Section \@ref(uncertaintyData));
+2. Uncertainty about estimates of parameters (see Section \@ref(uncertaintyParameters));
+3. Uncertainty about the model form (see Section \@ref(uncertaintyRegressionModel)).
 
 In this textbook we will discuss all of them, slowly moving from (1) to (3), introducing more advanced techniques for model building.
 
