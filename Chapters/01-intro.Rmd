@@ -2,7 +2,10 @@
 Whenever we talk about analytics or forecasting, we deal with models that are constructed based on available information. So, it is important to understand what a model is, what types of models exist and how to measure information in order to use it in models afterwards. This is what we will discuss in the introduction.
 
 
-<!-- ## What is model? -->
+<!-- ## System, information and model -->
+<!-- What is system, information and model. How do we get to the data what are the data types. Response, endogenous and exogenous variables. -->
+
+<!-- Throughout this textbook we will use index $t$ to denote the time and index $i$ to denote the cross-sectional elements. So, for example, $y_t$ will mean the response variable changing over time, while $y_i$ will mean the response variable changing from one object to another (for instance, from one person to another). -->
 
 
 ## Sources of uncertainty
@@ -35,7 +38,7 @@ Mathematically in the simplest case the true model can be presented in the form:
     y_t = \mu_{y,t} + \epsilon_t,
     (\#eq:TrueModel)
 \end{equation}
-where $y_t$ is the actual observation, $\mu_{y,t}$ is the structure in the data and $\epsilon_t$ is the noise with zero mean, unpredictable element, which arises because of the effect of a lot of small factors. An example would be the daily sales of beer in a pub, which has some seasonality (we see growth in sales every weekends), some other elements of structure plus the white noise (I might go to a different pub, reducing the sales of beer by one pint). So what we typically want to do in forecasting is to capture the structure and also represnt the noise with a distribution with some parameters.
+where $y_t$ is the actual observation, $\mu_{y,t}$ is the structure in the data and $\epsilon_t$ is the noise with zero mean, unpredictable element, which arises because of the effect of a lot of small factors and $t$ is the time index. An example would be the daily sales of beer in a pub, which has some seasonality (we see growth in sales every weekends), some other elements of structure plus the white noise (I might go to a different pub, reducing the sales of beer by one pint). So what we typically want to do in forecasting is to capture the structure and also represent the noise with a distribution with some parameters.
 
 When it comes to applying the chosen model to the data, it can be presented as:
 \begin{equation}
