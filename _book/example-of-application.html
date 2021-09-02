@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.1 Example of application | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.1 Example of application | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-30" />
+<meta name="date" content="2021-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="variablesTransformations.html"/>
 <link rel="next" href="types-of-variables-transformations.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -289,8 +289,9 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
-<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
+<li class="chapter" data-level="14" data-path="categoricalResponse.html"><a href="categoricalResponse.html"><i class="fa fa-check"></i><b>14</b> Categorical response variable model</a></li>
+<li class="chapter" data-level="15" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>15</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="16" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>16</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -323,7 +324,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \tag{11.1}
 \end{equation}\]</span>
 If we use the linear function instead, then we might fail in capturing the relation correctly. Here is how the linear regression looks like, when applied to the data (Figure <a href="example-of-application.html#fig:speedDistanceExtrapolation">11.1</a>).</p>
-<div class="figure"><span id="fig:speedDistanceExtrapolation"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceExtrapolation"></span>
 <img src="adam_files/figure-html/speedDistanceExtrapolation-1.png" alt="Speed vs stopping distance and a linear model" width="672" />
 <p class="caption">
 Figure 11.1: Speed vs stopping distance and a linear model
@@ -340,7 +341,7 @@ The multiplication of speed by the error term is necessary, because the effect o
     \tag{11.3}
 \end{equation}\]</span>
 If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(11.3)</a> by other names (e.g. <span class="math inline">\(\log(a_0)=b_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log,” reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">11.2</a>).</p>
-<div class="figure"><span id="fig:speedDistanceLogs"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceLogs"></span>
 <img src="adam_files/figure-html/speedDistanceLogs-1.png" alt="Speed vs stopping distance in logarithms" width="672" />
 <p class="caption">
 Figure 11.2: Speed vs stopping distance in logarithms
@@ -369,7 +370,7 @@ Figure 11.2: Speed vs stopping distance in logarithms
 <p>In order to analyse the fit of the model on the original data, we would need to produce fitted values and exponentiate them. Note that in this case they would correspond to geometric rather than arithmetic means:</p>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="example-of-application.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars, <span class="at">xlab=</span><span class="st">&quot;Speed&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Stopping distance&quot;</span>)</span>
 <span id="cb144-2"><a href="example-of-application.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cars<span class="sc">$</span>speed,<span class="fu">exp</span>(<span class="fu">fitted</span>(slmSpeedDistanceModel01)),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:speedDistanceLogExp"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceLogExp"></span>
 <img src="adam_files/figure-html/speedDistanceLogExp-1.png" alt="Speed vs stopping distance and the log-log model fit." width="672" />
 <p class="caption">
 Figure 11.3: Speed vs stopping distance and the log-log model fit.
@@ -381,7 +382,7 @@ Figure 11.3: Speed vs stopping distance and the log-log model fit.
     \tag{11.4}
 \end{equation}\]</span>
 The issue of this model would be that the error term is additive and thus the model would assume that the variability of the error does not change with the speed, which is not realistic.</p>
-<div class="figure"><span id="fig:speedDistanceSquare"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceSquare"></span>
 <img src="adam_files/figure-html/speedDistanceSquare-1.png" alt="Speed squared vs stopping distance." width="672" />
 <p class="caption">
 Figure 11.4: Speed squared vs stopping distance.
@@ -395,7 +396,7 @@ Figure 11.4: Speed squared vs stopping distance.
 ## fit the model, but this is a very naughty thing to do, and we cannot guarantee
 ## that it will work...</code></pre>
 <p><code>alm()</code> function will complain about the exclusion of the intercept, but it should estimate the model nonetheless. The fit of the model to the data would be similar in its shape to the one from the log-log model (see Figure <a href="example-of-application.html#fig:speedDistanceSquare02">11.5</a>).</p>
-<div class="figure"><span id="fig:speedDistanceSquare02"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceSquare02"></span>
 <img src="adam_files/figure-html/speedDistanceSquare02-1.png" alt="Speed squared vs stopping distance with models with speed^2." width="672" />
 <p class="caption">
 Figure 11.5: Speed squared vs stopping distance with models with speed^2.
@@ -413,7 +414,7 @@ which will be equivalent to:
     \tag{11.6}
 \end{equation}\]</span>
 The good news is, the error term in this model will change with the change of speed due to the interaction effect, cause by the square of the sum in <a href="example-of-application.html#eq:speedDistanceModelSqrt2">(11.6)</a>. And, similar to the previous models, the parameter <span class="math inline">\(a_0\)</span> might not be needed. Graphically, this transformation is present on Figure <a href="example-of-application.html#fig:speedDistanceSqrt">11.6</a>.</p>
-<div class="figure"><span id="fig:speedDistanceSqrt"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt"></span>
 <img src="adam_files/figure-html/speedDistanceSqrt-1.png" alt="Speed vs square root of stopping distance." width="672" />
 <p class="caption">
 Figure 11.6: Speed vs square root of stopping distance.
@@ -427,7 +428,7 @@ Figure 11.6: Speed vs square root of stopping distance.
 ## fit the model, but this is a very naughty thing to do, and we cannot guarantee
 ## that it will work...</code></pre>
 Finally, we can see how both models will fit the original data (squaring the fitted values to get to the original scale):
-<div class="figure"><span id="fig:speedDistanceSqrt02"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt02"></span>
 <img src="adam_files/figure-html/speedDistanceSqrt02-1.png" alt="Speed squared vs stopping distance with Square Root models." width="672" />
 <p class="caption">
 Figure 11.7: Speed squared vs stopping distance with Square Root models.
@@ -518,6 +519,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

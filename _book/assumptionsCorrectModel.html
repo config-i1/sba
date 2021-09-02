@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12.1 Model is correctly specified | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12.1 Model is correctly specified | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-30" />
+<meta name="date" content="2021-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="assumptions.html"/>
 <link rel="next" href="assumptionsResidualsAreIID.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -289,8 +289,9 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
-<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
+<li class="chapter" data-level="14" data-path="categoricalResponse.html"><a href="categoricalResponse.html"><i class="fa fa-check"></i><b>14</b> Categorical response variable model</a></li>
+<li class="chapter" data-level="15" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>15</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="16" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>16</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -332,7 +333,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Based on the preliminary analysis that we have conducted in Sections <a href="dataAnalysis.html#dataAnalysis">2</a> and <a href="correlations.html#correlations">6</a>, this model omits important variables. And there are several basic plots that might allow us diagnosing the violation of this assumption.</p>
 <div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="assumptionsCorrectModel.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb154-2"><a href="assumptionsCorrectModel.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsSLR,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics01"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics01"></span>
 <img src="adam_files/figure-html/diagnostics01-1.png" alt="Diagnostics of omitted variables." width="672" />
 <p class="caption">
 Figure 12.1: Diagnostics of omitted variables.
@@ -340,7 +341,7 @@ Figure 12.1: Diagnostics of omitted variables.
 </div>
 <p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">12.1</a> demonstrates actuals vs fitted and fitted vs standardised residuals. The standardised residuals are the residuals from the model that are divided by their standard deviation, thus removing the scale. What we want to see on the first plot in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">12.1</a>, is for all the point lie around the grey line and for the LOWESS line to coincide with the grey line. That would mean that the relations are captured correctly and all the observations are explained by the model. As for the second plot, we want to see the same, but it just presents that information in a different format, which is sometimes easier to analyse. In both plot of Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">12.1</a>, we can see that there are still some patterns left: the LOWESS line has a u-shaped form, which in general means that something is wrong with model specification. In order to investigate if there are any omitted variables, we construct a spread plot of residuals vs all the variables not included in the model (Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">12.2</a>).</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="assumptionsCorrectModel.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spread</span>(<span class="fu">data.frame</span>(<span class="at">residuals=</span><span class="fu">resid</span>(mtcarsSLR), mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)]))</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics02"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics02"></span>
 <img src="adam_files/figure-html/diagnostics02-1.png" alt="Diagnostics of omitted variables." width="672" />
 <p class="caption">
 Figure 12.2: Diagnostics of omitted variables.
@@ -360,7 +361,7 @@ Figure 12.2: Diagnostics of omitted variables.
 <p>Arguably, the model includes important variables (although there might be some others that could improve it), but the residuals will show some patterns, because the model should be multiplicative (see Figure <a href="assumptionsCorrectModel.html#fig:diagnostics03">12.3</a>), because mileage should not reduce linearly with increase of those variables. In order to understand that, ask yourself, whether the mileage can be negative and whether weight and other variables can be non-positive (a car with <span class="math inline">\(wt=0\)</span> just does not exist).</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="assumptionsCorrectModel.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb157-2"><a href="assumptionsCorrectModel.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics03"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics03"></span>
 <img src="adam_files/figure-html/diagnostics03-1.png" alt="Diagnostics of necessary transformations in linear model." width="672" />
 <p class="caption">
 Figure 12.3: Diagnostics of necessary transformations in linear model.
@@ -371,7 +372,7 @@ Figure 12.3: Diagnostics of necessary transformations in linear model.
 <p>And see what would happen with the diagnostics of the model in logarithms:</p>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="assumptionsCorrectModel.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb159-2"><a href="assumptionsCorrectModel.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics04"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics04"></span>
 <img src="adam_files/figure-html/diagnostics04-1.png" alt="Diagnostics of necessary transformations in log-log model." width="672" />
 <p class="caption">
 Figure 12.4: Diagnostics of necessary transformations in log-log model.
@@ -386,7 +387,7 @@ Figure 12.4: Diagnostics of necessary transformations in log-log model.
 <p>As for the Cook’s distance, its idea is to calculate measures for each observation showing how influential they are in terms of impact on the estimates of parameters of the model. If there is an influential outlier, then it would distort the values of parameters, causing bias.</p>
 <div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="assumptionsCorrectModel.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb160-2"><a href="assumptionsCorrectModel.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics05"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics05"></span>
 <img src="adam_files/figure-html/diagnostics05-1.png" alt="Diagnostics of outliers." width="672" />
 <p class="caption">
 Figure 12.5: Diagnostics of outliers.
@@ -394,7 +395,7 @@ Figure 12.5: Diagnostics of outliers.
 </div>
 <p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics05">12.5</a> demonstrates standardised and studentised residuals vs fitted values for the log-log model on mtcars data. We can see that the plots are very similar, which already indicates that there are no strong outliers in the residuals. The bounds produced on the plots correspond to the 95% prediction interval, so by definition it should contain <span class="math inline">\(0.95\times 32 \approx 30\)</span> observations. Indeed, there are only two observations: 15 and 25 - that lie outside the bounds. Technically, we would suspect that they are outliers, but they do not lie far away from the bounds and their number meets our expectations, so we can conclude that there are no outliers in the data.</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="assumptionsCorrectModel.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">12</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics06"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics06"></span>
 <img src="adam_files/figure-html/diagnostics06-1.png" alt="Cook's distance plot." width="672" />
 <p class="caption">
 Figure 12.6: Cook’s distance plot.
@@ -405,7 +406,7 @@ Figure 12.6: Cook’s distance plot.
 <span id="cb162-2"><a href="assumptionsCorrectModel.html#cb162-2" aria-hidden="true" tabindex="-1"></a>mtcarsALM03 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">log</span>(mpg)<span class="sc">~</span><span class="fu">log</span>(wt)<span class="sc">+</span><span class="fu">log</span>(qsec)<span class="sc">+</span>am, mtcarsData, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <p>This way, we intentionally create an influential outlier (the car should have the minimum weight in the dataset, and now it has a very high one).</p>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="assumptionsCorrectModel.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM03, <span class="dv">12</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>), <span class="at">xlab=</span><span class="st">&quot;Observations&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics07"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics07"></span>
 <img src="adam_files/figure-html/diagnostics07-1.png" alt="Cook's distance plot for the data with influential outlier." width="672" />
 <p class="caption">
 Figure 12.7: Cook’s distance plot for the data with influential outlier.
@@ -470,6 +471,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

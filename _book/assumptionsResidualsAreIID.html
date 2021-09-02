@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12.2 Residuals are i.i.d. | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12.2 Residuals are i.i.d. | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-30" />
+<meta name="date" content="2021-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="assumptionsCorrectModel.html"/>
 <link rel="next" href="assumptionsXreg.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -289,8 +289,9 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
-<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
+<li class="chapter" data-level="14" data-path="categoricalResponse.html"><a href="categoricalResponse.html"><i class="fa fa-check"></i><b>14</b> Categorical response variable model</a></li>
+<li class="chapter" data-level="15" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>15</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="16" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>16</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -332,17 +333,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="assumptionsResidualsAreIID.html#cb166-1" aria-hidden="true" tabindex="-1"></a>SeatbeltsALM01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(drivers<span class="sc">~</span>PetrolPrice<span class="sc">+</span>kms<span class="sc">+</span>front<span class="sc">+</span>rear<span class="sc">+</span>law, Seatbelts)</span></code></pre></div>
 <p>In order to do graphical diagnose, we can produce plots of standardised / studentised residuals over time:</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="assumptionsResidualsAreIID.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(SeatbeltsALM01,<span class="dv">8</span>,<span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics08"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics08"></span>
 <img src="adam_files/figure-html/diagnostics08-1.png" alt="Standardised residuals over time." width="672" />
 <p class="caption">
 Figure 12.8: Standardised residuals over time.
 </p>
 </div>
-<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">12.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section <a href="#diagnosticsResidualsIIDAuto"><strong>??</strong></a>.</p>
+<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">12.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation"><a href="#ref-SvetunkovADAM" role="doc-biblioref">Svetunkov</a> (<a href="#ref-SvetunkovADAM" role="doc-biblioref">2021b</a>)</span>.</p>
 <p>The other instrument for diagnostics is ACF / PACF plots, which are produced in <code>alm()</code> via the following command:</p>
 <div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="assumptionsResidualsAreIID.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb168-2"><a href="assumptionsResidualsAreIID.html#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(SeatbeltsALM01,<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics09"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics09"></span>
 <img src="adam_files/figure-html/diagnostics09-1.png" alt="ACF and PACF of the residuals of a model." width="672" />
 <p class="caption">
 Figure 12.9: ACF and PACF of the residuals of a model.
@@ -353,12 +354,12 @@ Figure 12.9: ACF and PACF of the residuals of a model.
 <div id="assumptionsResidualsAreIIDHomoscedasticity" class="section level3" number="12.2.2">
 <h3><span class="header-section-number">12.2.2</span> Homoscedastic residuals</h3>
 <p>In general, we assume that the variance of residuals is constant. If this is violated, then we say that there is a <strong>heteroscedasticity</strong> in the model. This means that with a change of a variable, the variance of the residuals will change as well. If the model neglects this, then typically the estimates of parameters become <em>inefficient</em> and prediction intervals are wrong: they are wider than needed in some cases (e.g.m when the volume of data is low) and narrower than needed in the other ones (e.g. on high volume data).</p>
-<p>Typically, this assumption will be violated if the model is not specified correctly. The classical example is the income versus expenditure on meals for different families. If the income is low, then there is not many options what to buy and the variability of expenditures would be low. However, with the increase of the income, the mean expenditures and their variability would increase as well, because there are more options of what to buy, including both cheap and expensive products. If we constructed a basic linear model on such data, then it would violate the assumption of homoscedasticity and as a result will have the issues discussed above. But arguably this would typically appear because of the misspecification of the model. For example, taking logarithms might resolve the issue in many cases, implying that the effect of one variable on the other should be multiplicative rather than the additive. Alternatively, dividing variables by some other variable (e.g. working with expenses per family member, not per family) might resolve the problem as well. Unfortunately, the transformations are not the panacea, so in some cases analyst would need to construct a model, taking the changing variance into account (e.g. GARCH or GAMLSS models). This is discussed in Section <a href="#almScaleModel"><strong>??</strong></a>.</p>
+<p>Typically, this assumption will be violated if the model is not specified correctly. The classical example is the income versus expenditure on meals for different families. If the income is low, then there is not many options what to buy and the variability of expenditures would be low. However, with the increase of the income, the mean expenditures and their variability would increase as well, because there are more options of what to buy, including both cheap and expensive products. If we constructed a basic linear model on such data, then it would violate the assumption of homoscedasticity and as a result will have the issues discussed above. But arguably this would typically appear because of the misspecification of the model. For example, taking logarithms might resolve the issue in many cases, implying that the effect of one variable on the other should be multiplicative rather than the additive. Alternatively, dividing variables by some other variable (e.g. working with expenses per family member, not per family) might resolve the problem as well. Unfortunately, the transformations are not the panacea, so in some cases analyst would need to construct a model, taking the changing variance into account (e.g. GARCH or GAMLSS models). This is discussed in Section <a href="#scaleModel"><strong>??</strong></a>.</p>
 <p>While in forecasting we are more interested in the holdout performance of models, in econometrics, the parameters of models are typically of the main interest. And, as we discussed earlier, in case of correctly specified model with heteroscedastic residuals, the estimates of parameters will be unbiased, but inefficient. So, econometricians would use different approaches to diminish the heteroscedasticity effect on parameters: either a different estimator for a model (such as Weighted Least Squares), or a different method for calculation of standard errors of parameters (e.g. Heteroskedasticity-Consistent Standard Errors). This does not resolve the problem, but rather corrects the parameters of the model (i.e. does not heal the illness, but treats the symptoms). Although these approaches typically suffice for the analytical purposes, they do not fix the issues in forecasting.</p>
 <p>The diagnostics of heteroscedasticity can be done via plotting absolute and / or squared residuals against the fitted values.</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="assumptionsResidualsAreIID.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb169-2"><a href="assumptionsResidualsAreIID.html#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics10"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics10"></span>
 <img src="adam_files/figure-html/diagnostics10-1.png" alt="Detecting heteroscedasticity. Model 1." width="672" />
 <p class="caption">
 Figure 12.10: Detecting heteroscedasticity. Model 1.
@@ -367,13 +368,13 @@ Figure 12.10: Detecting heteroscedasticity. Model 1.
 <p>If your model assumes that residuals follow a distribution related to the Normal one, then you should focus on the plot of squared residuals vs fitted, as this would be closer related to the variance of the distribution. In the example of mtcars model in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics10">12.10</a> we see that the variance of residuals increases with the increase of Fitted values (the LOWESS line increases and the overall variability around 1200 is lower than the one around 2000). This indicates that the residuals are heteroscedastic. One of the possible solutions of the problem is taking the logarithms, as we have done in the model <code>mtcarsALM02</code>:</p>
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="assumptionsResidualsAreIID.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb170-2"><a href="assumptionsResidualsAreIID.html#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics11"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics11"></span>
 <img src="adam_files/figure-html/diagnostics11-1.png" alt="Detecting heteroscedasticity. Model 2." width="672" />
 <p class="caption">
 Figure 12.11: Detecting heteroscedasticity. Model 2.
 </p>
 </div>
-<p>While the LOWESS lines on plots in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics11">12.11</a> demonstrate some dynamics, the variability of residuals does not change significantly with the increase of fitted value, so non-linear transformation seems to fix the issue in our example. If it would not, then we would need to consider either some other transformations or finding out, which of the variables causes heteroscedasticity and then modelling it explicitly via the scale model (Section <a href="#almScaleModel"><strong>??</strong></a>).</p>
+<p>While the LOWESS lines on plots in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics11">12.11</a> demonstrate some dynamics, the variability of residuals does not change significantly with the increase of fitted value, so non-linear transformation seems to fix the issue in our example. If it would not, then we would need to consider either some other transformations or finding out, which of the variables causes heteroscedasticity and then modelling it explicitly via the scale model (Section <a href="#scaleModel"><strong>??</strong></a>).</p>
 </div>
 <div id="assumptionsResidualsAreIIDMean" class="section level3" number="12.2.3">
 <h3><span class="header-section-number">12.2.3</span> Mean of residuals</h3>
@@ -386,7 +387,7 @@ Figure 12.11: Detecting heteroscedasticity. Model 2.
 <p>In some cases we are interested in using methods that imply specific distributional assumptions about the model and its residuals. For example, it is assumed in the classical linear model that the error term follows Normal distribution. Estimating this model using MLE with the probability density function of Normal distribution or via minimisation of <a href="#errorMeasures">Mean Squared Error</a> (MSE) would give <em>efficient</em> and <em>consistent</em> estimates of parameters. If the assumption of normality does not hold, then the estimates might be <em>inefficient</em> and in some cases <em>inconsistent</em>. When it comes to forecasting, the main issue in the wrong distributional assumption appears, when prediction intervals are needed: they might rely on a wrong distribution and be narrower or wider than needed. Finally, if we deal with the wrong distribution, then the model selection mechanism might be flawed and would lead to the selection of an inappropriate model.</p>
 <p>The most efficient way of diagnosing this, is constructing QQ-plot of residuals (discussed in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">2.2</a>).</p>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="assumptionsResidualsAreIID.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">6</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics12"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics12"></span>
 <img src="adam_files/figure-html/diagnostics12-1.png" alt="QQ-plot of residuals of model 2 for mtcars dataset." width="672" />
 <p class="caption">
 Figure 12.12: QQ-plot of residuals of model 2 for mtcars dataset.
@@ -394,7 +395,7 @@ Figure 12.12: QQ-plot of residuals of model 2 for mtcars dataset.
 </div>
 <p>Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">12.12</a> shows that all the points lie close to the line (with minor fluctuations around it), so we can conclude that the residuals follow the normal distribution. In comparison, Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">12.12</a> demonstrates how residuals would look in case of a wrong distribution. Although the values lie not too far from ths straight line, there are several observations in the tails that are further away than needed. Comparing the two plots, we would select the on in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">12.12</a>, as the residuals are better behaved.</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="assumptionsResidualsAreIID.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="dv">6</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:diagnostics13"></span>
+<div class="figure"><span style="display:block;" id="fig:diagnostics13"></span>
 <img src="adam_files/figure-html/diagnostics13-1.png" alt="QQ-plot of residuals of model 1 for mtcars dataset." width="672" />
 <p class="caption">
 Figure 12.13: QQ-plot of residuals of model 1 for mtcars dataset.
@@ -404,6 +405,12 @@ Figure 12.13: QQ-plot of residuals of model 1 for mtcars dataset.
 <div id="assumptionsDistributionFixed" class="section level3" number="12.2.5">
 <h3><span class="header-section-number">12.2.5</span> Distribution does not change</h3>
 <p>This assumption aligns with the Subsection <a href="assumptionsResidualsAreIID.html#assumptionsDistribution">12.2.4</a>, but in this specific context implies that all the parameters of distribution stay the same and the shape of distribution does not change. If the former is violated then we might have one of the issues discussed above. If the latter is violated then we might produce <em>biased</em> forecasts and underestimate / overestimate the uncertainty about the future. The diagnosis of this comes to analysing QQ-plots, similar to Subsection <a href="assumptionsResidualsAreIID.html#assumptionsDistribution">12.2.4</a>.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-SvetunkovADAM" class="csl-entry">
+• Svetunkov, I., 2021b. Forecasting and analytics with ADAM. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)
 </div>
 </div>
 
@@ -457,6 +464,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

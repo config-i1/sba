@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.2 Models, methods et al.  | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.2 Models, methods et al.  | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-30" />
+<meta name="date" content="2021-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="sourcesOfUncertainty.html"/>
 <link rel="next" href="scales.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -289,8 +289,9 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
-<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
+<li class="chapter" data-level="14" data-path="categoricalResponse.html"><a href="categoricalResponse.html"><i class="fa fa-check"></i><b>14</b> Categorical response variable model</a></li>
+<li class="chapter" data-level="15" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>15</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="16" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>16</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -355,17 +356,11 @@ where <span class="math inline">\(\hat{y}_t\)</span> is the point forecast. This
     \tag{1.4}
 \end{equation}\]</span>
 where <span class="math inline">\(\varepsilon_t\)</span> is some noise again, which in the reasonable cases should take only positive values and have mean of one. We will discuss this type of model later in the textbook. We will also see several examples of statistical models, forecasting methods, DGPs and other notions and discuss how they relate to each other.</p>
-<p>Furthermore, we will be talking about forecasting in this textbook, so it is also important to introduce the notation <span class="math inline">\(\hat{y}_{t+h}\)</span>, which corresponds to the <span class="math inline">\(h\)</span> steps ahead <strong>point forecast</strong> produced from the observation <span class="math inline">\(t\)</span>. Typically, this corresponds to the conditional expectation of the model <span class="math inline">\(\mu_{t+h|t}\)</span>, given all the information on observation <span class="math inline">\(t\)</span>, although this does not hold all the time for the classical ETS models. When we use notation <span class="math inline">\(\mu_{y,t}\)</span>, then this means one step ahead conditional expectation on observation <span class="math inline">\(t\)</span>, given the information on the previous observation <span class="math inline">\(t-1\)</span>. We will also discuss <strong>prediction interval</strong>, the term which means specific bounds that should include <span class="math inline">\((1-\alpha)\times100\)</span>% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term <strong>confidence interval</strong> usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance).</p>
-<p>Note that this textbook assumes that the reader is familiar with introductory statistics and knows basic forecasting principles. <span class="citation"><a href="#ref-Hanck2020" role="doc-biblioref">Hanck et al.</a> (<a href="#ref-Hanck2020" role="doc-biblioref">2020</a>)</span> is a good textbook on econometrics and statistics. <span class="citation"><a href="#ref-Hyndman2018" role="doc-biblioref">Hyndman and Athanasopoulos</a> (<a href="#ref-Hyndman2018" role="doc-biblioref">2018</a>)</span> can be a good start if you do not know forecasting principles. We will also use elements of linear algebra to explain some modelling parts, but this will not be the main focus of the textbook and you will be able to skip the more challenging parts without jeopardising the main understanding of the topic.</p>
+<!-- Furthermore, we will be talking about forecasting in this textbook, so it is also important to introduce the notation $\hat{y}_{t+h}$, which corresponds to the $h$ steps ahead **point forecast** produced from the observation $t$. Typically, this corresponds to the conditional expectation of the model $\mu_{t+h|t}$, given all the information on observation $t$, although this does not hold all the time for the classical ETS models. When we use notation $\mu_{y,t}$, then this means one step ahead conditional expectation on observation $t$, given the information on the previous observation $t-1$. We will also discuss **prediction interval**, the term which means specific bounds that should include $(1-\alpha)\times100$% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term **confidence interval** usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance). -->
+<!-- Note that this textbook assumes that the reader is familiar with introductory statistics and knows basic forecasting principles. @Hanck2020 is a good textbook on econometrics and statistics. @Hyndman2018 can be a good start if you do not know forecasting principles. We will also use elements of linear algebra to explain some modelling parts, but this will not be the main focus of the textbook and you will be able to skip the more challenging parts without jeopardising the main understanding of the topic. -->
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Hanck2020" class="csl-entry">
-• Hanck, C., Arnold, M., Gerber, A., Schmelzer, M., 2020. <span class="nocase">Introduction to Econometrics with R</span>. <a href="https://www.econometrics-with-r.org/index.html">https://www.econometrics-with-r.org/index.html</a> (version: 2020-08-12)
-</div>
-<div id="ref-Hyndman2018" class="csl-entry">
-• Hyndman, R.J., Athanasopoulos, G., 2018. Forecasting: Principles and practice, 2nd edition. Accessed on 01.04.2020. OTexts: Melbourne, Australia. <a href="https://OTexts.com/fpp2">https://OTexts.com/fpp2</a>
-</div>
 <div id="ref-Svetunkov2019a" class="csl-entry">
 • Svetunkov, I., Boylan, J.E., 2019. <span class="nocase">Multiplicative state-space models for intermittent time series</span>. <a href="https://doi.org/10.13140/RG.2.2.35897.06242">https://doi.org/10.13140/RG.2.2.35897.06242</a>
 </div>
@@ -421,6 +416,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

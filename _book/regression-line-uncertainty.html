@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.3 Regression line uncertainty | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.3 Regression line uncertainty | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-07-30" />
+<meta name="date" content="2021-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="hypothesis-testing.html"/>
 <link rel="next" href="dummyVariables.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -289,8 +289,9 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>14</b> Augmented Linear Model</a></li>
-<li class="chapter" data-level="15" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>15</b> Uncertainty about the model form</a></li>
+<li class="chapter" data-level="14" data-path="categoricalResponse.html"><a href="categoricalResponse.html"><i class="fa fa-check"></i><b>14</b> Categorical response variable model</a></li>
+<li class="chapter" data-level="15" data-path="ALM.html"><a href="ALM.html"><i class="fa fa-check"></i><b>15</b> Augmented Linear Model</a></li>
+<li class="chapter" data-level="16" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>16</b> Uncertainty about the model form</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -328,16 +329,16 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \sum_{j=0}^{k-1} \mathrm{V}(\hat{a}_j) x^2_{j,t} + 2 \sum_{j=1}^{k-1} \sum_{i=0}^{j-1}  \mathrm{cov}(\hat{a}_i,\hat{a}_j) x_{i,t} x_{j,t} ,
     \tag{9.6}
 \end{equation}\]</span>
-where <span class="math inline">\(x_{0,t}=1\)</span>. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(\hat{a}_j\)</span> will follow normal distribution with a fixed mean and variance due to <a href="CLT.html#CLT">CLT</a>, the predicted value <span class="math inline">\(\hat{y}_t\)</span> will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section <a href="#confidenceIntervals"><strong>??</strong></a>:
+where <span class="math inline">\(x_{0,t}=1\)</span>. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(\hat{a}_j\)</span> will follow normal distribution with a fixed mean and variance due to <a href="CLT.html#CLT">CLT</a>, the predicted value <span class="math inline">\(\hat{y}_t\)</span> will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section <a href="confidenceInterval.html#confidenceInterval">5.1</a>:
 <span class="math display" id="eq:confidenceIntervalRegression">\[\begin{equation}
-    \mu \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
+    \mu_t \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
     \tag{9.7}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{\hat{y}_t}=\sqrt{\mathrm{V}(\hat{y}_t| \mathbf{x}_t)}\)</span>.</p>
 <p>In R, this interval can be constructed via the function <code>predict()</code> with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="regression-line-uncertainty.html#cb123-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
 <span id="cb123-2"><a href="regression-line-uncertainty.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slmSpeedDistanceCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:speedDistanceConfidenceInterval"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceConfidenceInterval"></span>
 <img src="adam_files/figure-html/speedDistanceConfidenceInterval-1.png" alt="Fitted values and confidence interval for the stopping distance model." width="672" />
 <p class="caption">
 Figure 9.6: Fitted values and confidence interval for the stopping distance model.
@@ -353,7 +354,7 @@ Figure 9.6: Fitted values and confidence interval for the stopping distance mode
 <span id="cb124-7"><a href="regression-line-uncertainty.html#cb124-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(slmSpeedDistance)),</span>
 <span id="cb124-8"><a href="regression-line-uncertainty.html#cb124-8" aria-hidden="true" tabindex="-1"></a>      slmSpeedDistanceCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(slmSpeedDistance))], </span>
 <span id="cb124-9"><a href="regression-line-uncertainty.html#cb124-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:speedDistanceConfidenceIntervalAvsF"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceConfidenceIntervalAvsF"></span>
 <img src="adam_files/figure-html/speedDistanceConfidenceIntervalAvsF-1.png" alt="Actuals vs Fitted and confidence interval for the stopping distance model." width="672" />
 <p class="caption">
 Figure 9.7: Actuals vs Fitted and confidence interval for the stopping distance model.
@@ -374,7 +375,7 @@ where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the
 <p>In R, this can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="regression-line-uncertainty.html#cb125-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistancePI <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
 <p>Based on this, we can construct graphs similar to <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceInterval">9.6</a> and <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceIntervalAvsF">9.7</a>.</p>
-<div class="figure"><span id="fig:speedDistancePI"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistancePI"></span>
 <img src="adam_files/figure-html/speedDistancePI-1.png" alt="Fitted values and prediction interval for the stopping distance model." width="672" />
 <p class="caption">
 Figure 9.8: Fitted values and prediction interval for the stopping distance model.
@@ -385,7 +386,7 @@ Figure 9.8: Fitted values and prediction interval for the stopping distance mode
 <div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="regression-line-uncertainty.html#cb126-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceForecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(slmSpeedDistance,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">speed=</span><span class="dv">30</span>),</span>
 <span id="cb126-2"><a href="regression-line-uncertainty.html#cb126-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
 <span id="cb126-3"><a href="regression-line-uncertainty.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slmSpeedDistanceForecast)</span></code></pre></div>
-<div class="figure"><span id="fig:speedDistanceForecast"></span>
+<div class="figure"><span style="display:block;" id="fig:speedDistanceForecast"></span>
 <img src="adam_files/figure-html/speedDistanceForecast-1.png" alt="Forecast of the stopping distance for the speed of 30mph." width="672" />
 <p class="caption">
 Figure 9.9: Forecast of the stopping distance for the speed of 30mph.
@@ -446,6 +447,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
