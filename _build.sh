@@ -8,10 +8,12 @@ Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
 
 sleep 3
 
-rm -r _bookdown_files
+git commit -am "New version of SBA compiled"
 
-git add *
+git push
 
-git commit -am "New version of adam compiled. Step 1"
+git add * || true
+
+git commit -am "New version of SBA compiled" || true
 
 git push
