@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-09-07" />
+<meta name="date" content="2021-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -175,15 +175,18 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.1</b> Sources of uncertainty</a></li>
-<li class="chapter" data-level="1.2" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.2</b> Models, methods et al. </a></li>
-<li class="chapter" data-level="1.3" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.3</b> Scales of information</a>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.3.1</b> Nominal scale</a></li>
-<li class="chapter" data-level="1.3.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.3.2</b> Ordinal scale</a></li>
-<li class="chapter" data-level="1.3.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.3.3</b> Interval scale</a></li>
-<li class="chapter" data-level="1.3.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.3.4</b> Ratio scale</a></li>
+<li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
 </ul></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.3</b> Sources of uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
@@ -318,7 +321,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="uncertaintyData" class="section level1" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Dealing with uncertainty in the data</h1>
-<p>As mentioned in Section <a href="sourcesOfUncertainty.html#sourcesOfUncertainty">1.1</a>, we always work with samples and inevitably we deal with randomness just because of that even, when there are no other sources of uncertainty in the data. For example, if we want to estimate the mean of a variable based on the observed data, the value we get will differ from one sample to another. This should have become apparent from the examples we discussed <a href="estimatesProperties.html#estimatesProperties">earlier</a>. And, if the <a href="LLN.html#LLN">LLN</a> and <a href="CLT.html#CLT">CLT</a> hold, then we know that the estimate of our parameter will have its own distribution and will converge to the population value with the increase of the sample size. This is the basis for the confidence and prediction interval construction, discussed in this section. Depending on our needs, we can focus on the uncertainty of either the estimate of a parameter, or the random variable <span class="math inline">\(y\)</span> itself. When dealing with the former, we typically work with the <strong>confidence interval</strong> - the interval constructed for the estimate of a parameter, while in the latter case we are interested in the <strong>prediction interval</strong> - the interval constructed for the random variable <span class="math inline">\(y\)</span>.</p>
+<p>As mentioned in Section <a href="sourcesOfUncertainty.html#sourcesOfUncertainty">1.3</a>, we always work with samples and inevitably we deal with randomness just because of that even, when there are no other sources of uncertainty in the data. For example, if we want to estimate the mean of a variable based on the observed data, the value we get will differ from one sample to another. This should have become apparent from the examples we discussed <a href="estimatesProperties.html#estimatesProperties">earlier</a>. And, if the <a href="LLN.html#LLN">LLN</a> and <a href="CLT.html#CLT">CLT</a> hold, then we know that the estimate of our parameter will have its own distribution and will converge to the population value with the increase of the sample size. This is the basis for the confidence and prediction interval construction, discussed in this section. Depending on our needs, we can focus on the uncertainty of either the estimate of a parameter, or the random variable <span class="math inline">\(y\)</span> itself. When dealing with the former, we typically work with the <strong>confidence interval</strong> - the interval constructed for the estimate of a parameter, while in the latter case we are interested in the <strong>prediction interval</strong> - the interval constructed for the random variable <span class="math inline">\(y\)</span>.</p>
 <p>In order to simplify further discussion in this section, we will take the population mean and its in-sample estimate as an example. In this case we have:</p>
 <ol style="list-style-type: decimal">
 <li>A random variable <span class="math inline">\(y\)</span>, which is assumed to follow some distribution with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>;</li>

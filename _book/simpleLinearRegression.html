@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-09-07" />
+<meta name="date" content="2021-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -175,15 +175,18 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.1</b> Sources of uncertainty</a></li>
-<li class="chapter" data-level="1.2" data-path="modelsMethods.html"><a href="modelsMethods.html"><i class="fa fa-check"></i><b>1.2</b> Models, methods et al. </a></li>
-<li class="chapter" data-level="1.3" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.3</b> Scales of information</a>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.3.1</b> Nominal scale</a></li>
-<li class="chapter" data-level="1.3.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.3.2</b> Ordinal scale</a></li>
-<li class="chapter" data-level="1.3.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.3.3</b> Interval scale</a></li>
-<li class="chapter" data-level="1.3.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.3.4</b> Ratio scale</a></li>
+<li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
 </ul></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.3</b> Sources of uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
@@ -323,7 +326,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     y_t = a_0 + a_1 x_t + \epsilon_t ,
     \tag{7.1}
 \end{equation}\]</span>
-where <span class="math inline">\(a_0\)</span> is the intercept (constant term), <span class="math inline">\(a_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_t\)</span> is the error term. The regression model is a basic <a href="modelsMethods.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_t\)</span> and the response variable <span class="math inline">\(y_t\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
+where <span class="math inline">\(a_0\)</span> is the intercept (constant term), <span class="math inline">\(a_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_t\)</span> is the error term. The regression model is a basic <a href="what-is-model.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_t\)</span> and the response variable <span class="math inline">\(y_t\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
 <p>In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">2.2</a>) shown in Figure <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">7.1</a>.</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="simpleLinearRegression.html#cb97-1" aria-hidden="true" tabindex="-1"></a>slmMPGWt <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>wt,mtcarsData)</span>
 <span id="cb97-2"><a href="simpleLinearRegression.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>wt, mtcarsData<span class="sc">$</span>mpg,</span>
