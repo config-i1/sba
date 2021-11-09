@@ -1,7 +1,7 @@
 # Preliminary data analysis {#dataAnalysis}
 One of the basic thing that is worth doing before starting any modelling is the preliminary data analysis. This can be done either using numerical or graphical analysis. The former is useful when you want to have a summary information about the data without trying to find detailed information about it. The latter is useful when you can spend more time, investigating relations and issues in the data. In many cases, they compliment each other.
 
-## Numerical analysis
+## Numerical analysis {#dataAnalysisNumerical}
 In this section we will use the classical `mtcars` dataset from `datasets` package for R. It contains 32 observations with 11 variables. While all the variables are numerical, some of them are in fact categorical variables encoded as binary ones. We can check the description of the dataset in R:
 
 ```{r eval=FALSE}
@@ -63,16 +63,49 @@ The output above produces:
 2. **Quantiles** - the values that show, below which values the respective proportions of the dataset lie. For example, 25% of observations have mpg less than 15.425. The 25%, 50% and 75% quantiles are also called 1st, 2nd and 3rd **quartiles** respectively.
 3. **Median**, which splits the sample in two halves. It corresponds to the 50% quantile.
 
-If median is greater than mean, then this typically means that the distribution of the variable is skewed (it has some rare observations that have large values). This is the case in our case, we can investigate it further using skewness and kurtosis from `timeDate` package:
+If median is greater than mean, then this typically means that the distribution of the variable is skewed (it has some rare observations that have large values).
+
+Making a step back, we also need to mention the **variance**, which shows the overall variability of the variable around its mean:
+\begin{equation}
+    \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
+    (\#eq:Variance)
+\end{equation}
+Note that the division in \@ref(eq:Variance) is done by $n-1$, and not by $n$. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \@ref(estimatesPropertiesBias)). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences. It is called **standard deviation**:
+\begin{equation}
+    \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
+    (\#eq:StdDev)
+\end{equation}
+it has the same scale as the variable $y_j$. In our example, both can be obtained via:
+
+```{r}
+var(mtcarsData$mpg)
+sd(mtcarsData$mpg)
+```
+Coming back to the point about the asymmetry of the distribution of a variable in our example, we can investigate it further using skewness and kurtosis from `timeDate` package:
 
 ```{r}
 timeDate::skewness(mtcarsData$mpg)
 timeDate::kurtosis(mtcarsData$mpg)
 ```
 
-**Skewness** shows the asymmetry of distribution. If it is greater than zero, then the distribution has the long right tail. If it is equal to zero, then it is symmetric.
+**Skewness** shows the asymmetry of distribution. If it is greater than zero, then the distribution has the long right tail. If it is equal to zero, then it is symmetric. It is calculated as:
+\begin{equation}
+    \mathrm{skew}(y)= \frac{1}{n}\sum_{j=1}^n \frac{(y_j - \bar{y})^3}{\hat{\sigma}^3} .
+    (\#eq:Skewness)
+\end{equation}
 
-**Kurtosis** shows the excess of distribution (fatness of tails) in comparison with the normal distribution. If it is equal to zero, then it is the same as for normal distribution.
+**Kurtosis** shows the excess of distribution (fatness of tails) in comparison with the normal distribution. If it is equal to zero, then it is the same as for the normal distribution. Here how it is calculated:
+\begin{equation}
+    \mathrm{kurt}(y)= \frac{1}{n}\sum_{j=1}^n \frac{(y_j - \bar{y})^4}{\hat{\sigma}^4} - 3 .
+    (\#eq:Kurtosis)
+\end{equation}
+Note that there is $3$ in the formula. This is because the excess (which is the value without 3) of Normal distribution is equal to 3. Instead of dividing the value by 3 (which would make kurtosis easier to interpret), Karl Pearson has decided to use subtraction. The same formula \@ref(eq:Kurtosis) can be rewritten as:
+\begin{equation}
+    \mathrm{kurt}(y)= \frac{1}{n}\sum_{j=1}^n \left(\frac{y_j - \bar{y}}{\hat{\sigma}}\right)^4 - 3 .
+    (\#eq:KurtosisRewritten)
+\end{equation}
+Analysing the formula \@ref(eq:KurtosisRewritten), we see that the impact of the deviations lying inside one $\hat{\sigma}$ bounds are reduced, while those that lie outside, are increased. e.g. if the value $y_j - \bar{y} > \hat{\sigma}$, then the value in the ratio will be greater than one (e.g. 2), thus impacting the final value (e.g. $2^4=16$), while in the opposite case of $y_j - \bar{y} < \hat{\sigma}$, the ratio will be diminished (e.g. $0.5^4 = 0.0625$). After summing up all $n$ values in \@ref(eq:KurtosisRewritten), the values outside one $\hat{\sigma}$ will have a bigger impact on the resulting kurtosis than those lying inside. So, kurtosis will be higher for the distributions with longer tails and in the cases, when there are outliers in the data.
+
 
 <!-- Another potentially useful measure is the half moment (`hm` from `greybox`), which returns the complex number: -->
 <!-- ```{r} -->
