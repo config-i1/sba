@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -381,7 +385,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="interval-scale" class="section level3" number="1.2.3">
 <h3><span class="header-section-number">1.2.3</span> Interval scale</h3>
 <p>This scale is even more complex than the previous two, as in addition to description and order it also has a distance. This permits doing addition and subtraction to the elements of scale, which are meaningful operations in this case. Arithmetic mean and standard deviation become available in this scale in addition to all those used in lower level scales discussed above. The classical example of a variable measured in this scale is the temperature. Indeed, we can not only say if the temperature of one person is higher than the temperature of the other one, but also by how much: 39°C - 37°C = 2°C, which is a meaningful number in the scale. The only limitation in this scale is that there is no natural zero. 0°C does not mean the absence of temperature, but rather means the point at which water starts freezing. If we switch to Fahrenheit (although why would anyone do that?!), then the 0°F would correspond to the point, where the mixture of ice, water, and ammonium chloride used to stabilise back in 1724, when Fahrenheit proposed the scale.</p>
-<p>Almost all descriptive statistics are meaningful in this scale (see Section <a href="dataAnalysis.html#dataAnalysis">2</a>). This includes, but is not limited with <strong>mean, variance, skewness, kurtosis</strong>. Coefficient of variation and other statistics, where division is done by an actual value or mean, are not meaningful, because the scale does not have a meaningful zero. For example, switching, for example, from Celsius to Fahrenheit would change the value of coefficient of variation, although the distribution of the variable will stay the same. Furthermore, some error measures <span class="citation">(see Chapter 2 of <a href="#ref-SvetunkovADAM" role="doc-biblioref">Svetunkov, 2021b</a>)</span> cannot be used for the measurement of accuracy of models for this scale (for example, MAPE cannot be used as it assumes meaningful zero).</p>
+<p>Almost all descriptive statistics are meaningful in this scale (see Section <a href="dataAnalysis.html#dataAnalysis">2</a>). This includes, but is not limited with <strong>mean, variance, skewness, kurtosis</strong>. Coefficient of variation and other statistics, where division is done by an actual value or mean, are not meaningful, because the scale does not have a meaningful zero. For example, switching from Celsius to Fahrenheit would change the value of coefficient of variation, although the distribution of the variable will stay the same. Furthermore, some error measures <span class="citation">(see Chapter 2 of <a href="#ref-SvetunkovADAM" role="doc-biblioref">Svetunkov, 2021b</a>)</span> cannot be used for the measurement of accuracy of models for this scale (for example, MAPE cannot be used as it assumes meaningful zero).</p>
 <p>The relation between two variables in interval scale can be measured by Pearson’s correlation coefficient. The scale can be used in the model as is.</p>
 <p>Finally, when it comes to the identification of scale, only linear transformations are permitted for the variables without the loss of its properties. This means that if we measure temperature of two respondents and then do their linear transformations via <span class="math inline">\(y=a+bx\)</span>, then the characteristics of scale will not be broken: it will still have description, order and distance with the same meaning as prior to the transformation. In the example of temperature, this is how you switch, for example, from Celsius to Fahrenheit (<span class="math inline">\(y=a+bx\)</span>).</p>
 </div>

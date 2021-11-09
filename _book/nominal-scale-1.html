@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -320,7 +324,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">6.1</span> Nominal scale</h2>
 <p>As discussed in Section <a href="scales.html#scales">1.2</a>, not all scales support the more advanced operations (such as taking mean in ordinal scale). This means that if we want to analyse relations between variables, we need to use appropriate instrument. The coefficients that show relations between variables are called “<strong>measures of association</strong>.” We start their discussions with the simplest scale - nominal.</p>
 <p>There are several measures of association for the variables in nominal scale. They are all based on calculating the number of specific values of variables, but use different formulae. The first one is called <strong>contingency coefficient <span class="math inline">\(\phi\)</span></strong> and can only be calculated between variables that have only two values. As the name says, this measure is based on the contingency table. Here is an example:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="nominal-scale-1.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="nominal-scale-1.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
 <pre><code>##           
 ##            automatic manual
 ##   V-shaped        12      6
@@ -331,7 +335,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \tag{6.1}
 \end{equation}\]</span>
 where <span class="math inline">\(n_{i,j}\)</span> is the element of the table on row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, <span class="math inline">\(n_{i,\cdot}=\sum_{j}n_{i,j}\)</span> - is the sum in row <span class="math inline">\(i\)</span> and <span class="math inline">\(n_{\cdot,j}=\sum_{i} n_{i,j}\)</span> - is the sum in column <span class="math inline">\(j\)</span>. This coefficient lies between -1 and 1 and has a simple interpretation: if will be close to 1, when the elements on diagonal are greater than the off-diagonal ones, implying that there is a relation between variables. The value of -1 can only be obtained, when off-diagonal elements are non-zero, while the diagonal ones are zero. Finally, if the values in the contingency table are distributed evenly, the coefficient will be equal to zero. In our case the value of <span class="math inline">\(\phi\)</span> is:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="nominal-scale-1.html#cb53-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">12</span><span class="sc">*</span><span class="dv">7</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="dv">7</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">19</span><span class="sc">*</span><span class="dv">13</span><span class="sc">*</span><span class="dv">14</span><span class="sc">*</span><span class="dv">18</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="nominal-scale-1.html#cb57-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">12</span><span class="sc">*</span><span class="dv">7</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="dv">7</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">19</span><span class="sc">*</span><span class="dv">13</span><span class="sc">*</span><span class="dv">14</span><span class="sc">*</span><span class="dv">18</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1683451</code></pre>
 <p>This is a very low value, so even if the two variables are related, the relation is not well pronounced. In order to see, whether this value is statistically significantly different from zero, we could test a statistical hypothesis (hypothesis testing was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>):</p>
 <p><span class="math inline">\(H_0\)</span>: there is no relation between variables</p>
@@ -342,7 +346,7 @@ where <span class="math inline">\(n_{i,j}\)</span> is the element of the table o
     \tag{6.2}
 \end{equation}\]</span>
 where <span class="math inline">\(n\)</span> is the sum of elements in the contingency table. The value calculated based on <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a> will follow <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom, where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns in contingency table. This is a proper statistical test, so it should be treated as one. We select my favourite significance level, 1% and can now conduct the test:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="nominal-scale-1.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am))</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="nominal-scale-1.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am))</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
 ## 
@@ -350,18 +354,18 @@ where <span class="math inline">\(n\)</span> is the sum of elements in the conti
 ## X-squared = 0.34754, df = 1, p-value = 0.5555</code></pre>
 <p>Given that p-value is greater than 1%, we fail to reject the null hypothesis and can conclude that the relation does not seem to be different from zero - we do not find a relation between the variables in our data.</p>
 <p>The main limitation of the coefficient <span class="math inline">\(\phi\)</span> is that it only works for the <span class="math inline">\(2\times 2\)</span> tables. In reality we can have variables in nominal scale that take several values and it might be useful to know relations between them. For example, we can have a variable <code>colour</code>, which takes values <code>red</code>, <code>green</code> and <code>blue</code> and we would want to know if it is related to the transmission type. We do not have this variable in the data, so just for this example, we will create one (using multinomial distribution):</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="nominal-scale-1.html#cb57-1" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb57-2"><a href="nominal-scale-1.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
-<span id="cb57-3"><a href="nominal-scale-1.html#cb57-3" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(colour, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
-<span id="cb57-4"><a href="nominal-scale-1.html#cb57-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
-<span id="cb57-5"><a href="nominal-scale-1.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(colour), <span class="at">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="nominal-scale-1.html#cb61-1" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
+<span id="cb61-2"><a href="nominal-scale-1.html#cb61-2" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
+<span id="cb61-3"><a href="nominal-scale-1.html#cb61-3" aria-hidden="true" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(colour, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
+<span id="cb61-4"><a href="nominal-scale-1.html#cb61-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
+<span id="cb61-5"><a href="nominal-scale-1.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(colour), <span class="at">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
 <p>In order to measure relation between the new variable and the <code>am</code>, we can use Cramer’s V coefficient, which relies on the formula of <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>:
 <span class="math display" id="eq:measuresAssociationCramer">\[\begin{equation}
     V = \sqrt{\frac{\chi^2}{n\times \min(r-1, c-1)}} .
     \tag{6.3}
 \end{equation}\]</span></p>
 <p>Cramer’s V always lies between 0 and 1, becoming close to one only if there is some relation between the two categorical variables. <code>greybox</code> package implements this coefficient in <code>cramer()</code> function:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="nominal-scale-1.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(mtcarsData<span class="sc">$</span>am,colour)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="nominal-scale-1.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(mtcarsData<span class="sc">$</span>am,colour)</span></code></pre></div>
 <pre><code>## Cramer&#39;s V: 0.1003
 ## Chi^2 statistics = 0.3222, df: 2, p-value: 0.8512</code></pre>
 <p>The output above shows that the value of the coefficient is approximately 0.1, which is low, implying that the relation between the two variables is very weak. In addition, the p-value tells us that we fail to reject the null hypothesis on 1% level in the <span class="math inline">\(\chi^2\)</span> test <a href="nominal-scale-1.html#eq:measuresAssociationChi">(6.2)</a>, and the relation does not look statistically significant. So we can conclude that according to our data, the two variables are not related (no wonder, we have generated one of them).</p>

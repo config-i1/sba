@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -322,23 +326,23 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>When it comes to inference based on regression models, the general idea is to calculate the number of <strong>all the independent estimated parameters</strong> <span class="math inline">\(k\)</span>. This typically includes all initial components and all coefficients of the model together with the scale, shape and shift parameters of the assumed distribution (e.g. variance in the Normal distribution).</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-82" class="example"><strong>Example 13.1  </strong></span>In a simple regression model: <span class="math inline">\(y_t = \beta_0 + \beta_1 x_t + \epsilon_t\)</span> - assuming Normal distribution for <span class="math inline">\(\epsilon_t\)</span>, using the MLE will result in the estimation of <span class="math inline">\(k=3\)</span>: the two parameters of the model (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) and the variance of the error term <span class="math inline">\(\sigma^2\)</span>.
+<span id="exm:unnamed-chunk-85" class="example"><strong>Example 13.1  </strong></span>In a simple regression model: <span class="math inline">\(y_t = \beta_0 + \beta_1 x_t + \epsilon_t\)</span> - assuming Normal distribution for <span class="math inline">\(\epsilon_t\)</span>, using the MLE will result in the estimation of <span class="math inline">\(k=3\)</span>: the two parameters of the model (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) and the variance of the error term <span class="math inline">\(\sigma^2\)</span>.
 </div>
 <p>If likelihood is not used, then the number of parameters might be different. For example, if we estimate the model via the minimisation of MSE (similar to OLS), then the number of all estimated parameters does not include the variance anymore - it is obtained as a by product of the estimation. This is because the likelihood needs to have all the parameters of distribution in order to be maximised, but with MSE, we just minimise the mean of squared errors, and the variance of the distribution is obtained automatically. While the values of parameters might be the same, the logic is slightly different.</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-83" class="example"><strong>Example 13.2  </strong></span>This means that for the same simple linear regression, estimated using OLS, the number of parameters is equal to 2: estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.
+<span id="exm:unnamed-chunk-86" class="example"><strong>Example 13.2  </strong></span>This means that for the same simple linear regression, estimated using OLS, the number of parameters is equal to 2: estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.
 </div>
 <p>In addition, all the restrictions on the parameters can reduce the number of estimated parameters, when they get to the boundary values.</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-84" class="example"><strong>Example 13.3  </strong></span>If we know that the parameter <span class="math inline">\(\beta_1\)</span> lies between 0 and 1, and in the estimation process it gets to the value of 1 (due to how the optimiser works), it can be considered as a restriction <span class="math inline">\(\beta_1=1\)</span>. So, when estimated via the minimum of MSE with this restriction, this would imply that <span class="math inline">\(k=1\)</span>.
+<span id="exm:unnamed-chunk-87" class="example"><strong>Example 13.3  </strong></span>If we know that the parameter <span class="math inline">\(\beta_1\)</span> lies between 0 and 1, and in the estimation process it gets to the value of 1 (due to how the optimiser works), it can be considered as a restriction <span class="math inline">\(\beta_1=1\)</span>. So, when estimated via the minimum of MSE with this restriction, this would imply that <span class="math inline">\(k=1\)</span>.
 </div>
 <p>In general, if a parameter is provided in the model, then it does not count towards the number of all estimated parameters. So, setting <span class="math inline">\(b_1=1\)</span> acts in the same fashion.</p>
 <p>Finally, if a parameter is just a function of another one, then it does not count towards the <span class="math inline">\(k\)</span> as well.</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-85" class="example"><strong>Example 13.4  </strong></span>If we know that in the same simple linear regression <span class="math inline">\(\beta_1 = \frac{\beta_0}{\sigma^2}\)</span>, then the number of all the estimated parameter via the maximum likelihood is 2: <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\sigma^2\)</span>.
+<span id="exm:unnamed-chunk-88" class="example"><strong>Example 13.4  </strong></span>If we know that in the same simple linear regression <span class="math inline">\(\beta_1 = \frac{\beta_0}{\sigma^2}\)</span>, then the number of all the estimated parameter via the maximum likelihood is 2: <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\sigma^2\)</span>.
 </div>
 <p>We will come back to the number of parameters later in this textbook, when we discuss specific models.</p>
 <p>A final note: typically, the standard maximum likelihood estimators for the scale, shape and shift parameters are biased in small samples and do not coincide with the OLS estimators. For example, in case of Normal distribution, OLS estimate of variance has <span class="math inline">\(T-k\)</span> in the denominator, while the likelihood one has just <span class="math inline">\(T\)</span>. This needs to be taken into account, when the variance is used in forecasting.</p>

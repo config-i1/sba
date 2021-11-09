@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.1 Normal distribution | Statistics for Business Analytics</title>
+  <title>7.2 Quality of the fit | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.1 Normal distribution | Statistics for Business Analytics" />
+  <meta property="og:title" content="7.2 Quality of the fit | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.1 Normal distribution | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="7.2 Quality of the fit | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="distributions.html"/>
-<link rel="next" href="distributionsLaplace.html"/>
+<link rel="prev" href="OLS.html"/>
+<link rel="next" href="linearRegression.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -320,57 +320,131 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionsNormal" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Normal distribution</h2>
-<p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions in some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">4.2</a>).
-Here is the probability density function (PDF) of this distribution:
-<span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y_t) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} \right) ,
-    \tag{3.1}
+<div id="linearRegressionSimpleQualityOfFit" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Quality of the fit</h2>
+<p>In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.</p>
+<p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(7.4)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
+<span class="math display" id="eq:SSE">\[\begin{equation}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
+    \tag{7.7}
 \end{equation}\]</span>
-where <span class="math inline">\(y_t\)</span> is the value of the response variable, <span class="math inline">\(\mu_{y,t}=\mu_{y,t|t-1}\)</span> is the one step ahead conditional expectation on observation <span class="math inline">\(t\)</span>, given the information on <span class="math inline">\(t-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term. The <a href="likelihoodApproach.html#likelihoodApproach">maximum likelihood estimate</a> of <span class="math inline">\(\sigma^2\)</span> is:
-<span class="math display" id="eq:sigmaNormal">\[\begin{equation}
-    \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)^2 ,
-    \tag{3.2}
+This sum of squares is related to another two, the first being the Sum of Squares Total:
+<span class="math display" id="eq:SST">\[\begin{equation}
+    \mathrm{SST}=\sum_{j=1}^n (y_j - \bar{y})^2,
+    \tag{7.8}
 \end{equation}\]</span>
-where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the conditional expecatation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="distributionsNormal.html#eq:sigmaNormal">(3.2)</a> coincides with Mean Squared Error (MSE), discussed in the <a href="#errorMeasures">section 1</a>.</p>
-<p>And here how this distribution looks (Figure <a href="distributionsNormal.html#fig:dnormPlot">3.1</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
-<img src="adam_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Normal distribution" width="672" />
+where <span class="math inline">\(\bar{y}\)</span> is the in-sample mean. If we divide the value <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.8)</a> by <span class="math inline">\(n-1\)</span>, then we will get the in-sample variance (introduced in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">2.1</a>):
+<span class="math display">\[\begin{equation*}
+    \mathrm{V}(y)=\frac{\mathrm{SST}}{n-1}=\frac{1}{n-1} \sum_{j=1}^n (y_j - \bar{y})^2 .
+\end{equation*}\]</span>
+The last sum of squares is Sum of Squared of Regression:
+<span class="math display" id="eq:SSR">\[\begin{equation}
+    \mathrm{SSR} = \sum_{j=1}^n (\bar{y} - \hat{y}_j)^2 ,
+    \tag{7.9}
+\end{equation}\]</span>
+which shows the variability of the regression line. It is possible to show that in <em>the linear regression</em> (this is important! This property might be violated in other models), the three sums are related to each other via the following equation:
+<span class="math display" id="eq:SSTSum">\[\begin{equation}
+    \mathrm{SST} = \mathrm{SSE} + \mathrm{SSR} .
+    \tag{7.10}
+\end{equation}\]</span></p>
+<div class="proof">
+<p><span id="unlabeled-div-2" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
+<span class="math display" id="eq:SSTProof01">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
+        &amp;= \sum_{j=1}^n \left( \hat{y}_j^2 - 2 \hat{y}_j \bar{y} + \bar{y}^2 \right) + \sum_{j=1}^n \left( y_j^2 - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &amp;= \sum_{j=1}^n \left( \hat{y}_j^2 - 2 \hat{y}_j \bar{y} + \bar{y}^2 + y_j^2 - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &amp;= \sum_{j=1}^n \left(\bar{y}^2 -2 \bar{y} y_j + y_j^2 + 2 \bar{y} y_j + \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} y_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j \right)
+    \end{aligned} .
+    \tag{7.11}
+\end{equation}\]</span>
+We can then substitute <span class="math inline">\(y_j=\hat{y}_j+e_j\)</span> in the right hand side of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof01">(7.11)</a> to get:
+<span class="math display" id="eq:SSTProof02">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} (\hat{y}_j+e_j) + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 (\hat{y}_j+e_j) \hat{y}_j \right) \\
+        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} \hat{y}_j + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 \hat{y}_j\hat{y}_j -2 e_j \hat{y}_j \right) \\
+        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j^2 -2 e_j \hat{y}_j \right) \\
+        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j - 2 e_j \hat{y}_j \right) 
+    \end{aligned} .
+    \tag{7.12}
+\end{equation}\]</span>
+Now if we split the sum into three elements, we will get:
+<span class="math display" id="eq:SSTProof03">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &amp;= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \sum_{j=1}^n \left(\bar{y} e_j\right) - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right) \\
+        &amp;= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \bar{y} \sum_{j=1}^n e_j - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right)
+    \end{aligned} .
+    \tag{7.13}
+\end{equation}\]</span>
+The second sum in <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof03">(7.13)</a> is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero. The second one can be expanded to:
+<span class="math display" id="eq:SSTProof04">\[\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
+    \end{aligned} .
+    \tag{7.14}
+\end{equation}\]</span>
+We see the sum of errors in the first sum of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof04">(7.14)</a> again, so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this will be discussed in Chapter <a href="assumptions.html#assumptions">12</a>) because it guarantees that <span class="math inline">\(\sum_{j=1}^n e_j x_j = 0\)</span>. This means that:
+<span class="math display" id="eq:SSTProof05">\[\begin{equation}
+    \mathrm{SST} =  \sum_{j=1}^n (\bar{y} - y_j)^2 ,
+    \tag{7.15}
+\end{equation}\]</span>
+which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.8)</a>.</p>
+</div>
+<p>The relation between SSE, SSR and SST is shown in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>. If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.</p>
+<div class="figure"><span style="display:block;" id="fig:sumsSquaredRelation"></span>
+<img src="images/09-SLR-SSE-white.png" alt="Relation between different sums of squares."  />
 <p class="caption">
-Figure 3.1: Probability Density Function of Normal distribution
+Figure 7.3: Relation between different sums of squares.
 </p>
 </div>
-<p>What we typically assume in the basic time series models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean <span class="math inline">\(mu\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre.</p>
-<p>The Normal distribution has skewness of zero and kurtosis of 3 (and excess kurtosis, being kurtosis minus three, of 0).</p>
-<p>Additionally, if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same parameters as the minimisation of MSE would give.</p>
-<p>The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution <a href="distributionsNormal.html#eq:Normal">(3.1)</a>:
-<span class="math display" id="eq:NormalLogLik">\[\begin{equation}
-    \ell(\mathbf{Y}| \theta, \sigma^2) = - \frac{T}{2} \log \left(2 \pi \sigma^2\right) - \sum_{t=1}^T \frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} ,
-    \tag{3.3}
+<p>Building upon thata, there is a measure called “Coefficient of Determination,” which is calculated based on the sums of squares discussed above:
+<span class="math display" id="eq:Determination">\[\begin{equation}
+    \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
+    \tag{7.16}
 \end{equation}\]</span>
-where <span class="math inline">\(\theta\)</span> is the vector of all the estimated parameters in the model, and <span class="math inline">\(\log\)</span> is the natural logarithm. If one takes the derivative of <a href="distributionsNormal.html#eq:NormalLogLik">(3.3)</a> with respect to <span class="math inline">\(\sigma^2\)</span>, then the formula <a href="distributionsNormal.html#eq:sigmaNormal">(3.2)</a> is obtained. Another useful thing to note is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="distributionsNormal.html#eq:sigmaNormal">(3.2)</a> in <a href="distributionsNormal.html#eq:NormalLogLik">(3.3)</a>:
-<span class="math display" id="eq:NormalLogLikConcentrated">\[\begin{equation}
-    \ell(\mathbf{Y}| \theta, \hat{\sigma}^2) = - \frac{T}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
-    \tag{3.4}
+Given the meaning of the sums of squares, we can imagine the following situations to interpret the values of <span class="math inline">\(\mathrm{R}^2\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>The model fits the data in the same way as the mean line (grey line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>). In this case SSE would be equal to SST and SSR would be equal to zero (because <span class="math inline">\(\hat{y}_j=\bar{y}\)</span>) and as a result the R<span class="math inline">\(^2\)</span> would be equal to zero.</li>
+<li>The model fits the data perfectly, without any errors (all points lie on the black line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. <span class="math inline">\(\hat{y}_j=y_j\)</span>). This would make R<span class="math inline">\(^2\)</span> equal to one.</li>
+</ol>
+<p>In the linear regression model due to <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTSum">(7.10)</a>, the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> corresponds to:
+<span class="math display">\[\begin{equation*}
+    y_j = b_0 + b_1 x_j ,
+\end{equation*}\]</span>
+implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealistic and is only possible if there is a functional relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> (no need for statistical inference then). So, in practice we should not maximise R<span class="math inline">\(^2\)</span> and should be careful with models that have very high values of it. At the same time, too low values of R<span class="math inline">\(^2\)</span> are also alarming, as they tell us that the model becomes:
+<span class="math display">\[\begin{equation*}
+    y_j = b_0 + e_j,
+\end{equation*}\]</span>
+meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
+<p>Here how this measure can be calculated in R based on the model earlier:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="linearRegressionSimpleQualityOfFit.html#cb103-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
+<span id="cb103-2"><a href="linearRegressionSimpleQualityOfFit.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb103-3"><a href="linearRegressionSimpleQualityOfFit.html#cb103-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<pre><code>## [1] 0.7528328</code></pre>
+<p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
+<p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">6.4</a>:
+<span class="math display" id="eq:multipleCorrelation">\[\begin{equation}
+    R = \sqrt{R^2} = \sqrt{\frac{\mathrm{SSR}}{\mathrm{SST}}} .
+    \tag{7.17}
 \end{equation}\]</span>
-where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(3.4)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(<a href="#ref-Burnham2004" role="doc-biblioref">Burnham and Anderson, 2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
-<p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
+It shows the closeness of relation between the response variable <span class="math inline">\(y_j\)</span> and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section <a href="correlationCoefficient.html#correlationCoefficient">6.3</a>) with the sign equal to the sign of the coefficient of the slop <span class="math inline">\(b_1\)</span>:
+<span class="math display" id="eq:correlationInRegression">\[\begin{equation}
+    r_{x,y} = \mathrm{sign} (b_1) R .
+    \tag{7.18}
+\end{equation}\]</span></p>
+<!-- Proof -->
+
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Burnham2004" class="csl-entry">
-• Burnham, K.P., Anderson, D.R., 2004. <span class="nocase">Model Selection and Multimodel Inference</span>. Springer New York. <a href="https://doi.org/10.1007/b97636">https://doi.org/10.1007/b97636</a>
-</div>
-</div>
+<!-- </div> -->
 
             </section>
 
           </div>
         </div>
       </div>
-<a href="distributions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="distributionsLaplace.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="OLS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linearRegression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -402,7 +476,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//05-distributions-continuous.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//09-SLR.Rmd",
 "text": "Edit"
 },
 "history": {

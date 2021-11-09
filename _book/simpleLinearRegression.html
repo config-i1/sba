@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -320,26 +324,26 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h1><span class="header-section-number">Chapter 7</span> Simple Linear Regression</h1>
 <p>When we want to analyse some relations between variables, we can do <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">graphical</a> and <a href="correlations.html#correlations">correlations</a> analysis. But this will not provide us sufficient information about what happens with the response variable with the change of explanatory variable. So it makes sense to consider the possible relations between variables, and the basis for this is Simple Linear Regression, which can be represented in the form:
 <span class="math display" id="eq:SLRFormula">\[\begin{equation}
-    y_t = a_0 + a_1 x_t + \epsilon_t ,
+    y_j = \beta_0 + \beta_1 x_j + \epsilon_j ,
     \tag{7.1}
 \end{equation}\]</span>
-where <span class="math inline">\(a_0\)</span> is the intercept (constant term), <span class="math inline">\(a_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_t\)</span> is the error term. The regression model is a basic <a href="what-is-model.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_t\)</span> and the response variable <span class="math inline">\(y_t\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
+where <span class="math inline">\(\beta_0\)</span> is the intercept (constant term), <span class="math inline">\(\beta_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_j\)</span> is the error term. The regression model is a basic <a href="what-is-model.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_j\)</span> and the response variable <span class="math inline">\(y_j\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
 <p>In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">2.2</a>) shown in Figure <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">7.1</a>.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="simpleLinearRegression.html#cb97-1" aria-hidden="true" tabindex="-1"></a>slmMPGWt <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>wt,mtcarsData)</span>
-<span id="cb97-2"><a href="simpleLinearRegression.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>wt, mtcarsData<span class="sc">$</span>mpg,</span>
-<span id="cb97-3"><a href="simpleLinearRegression.html#cb97-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Weight&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Mileage&quot;</span>,</span>
-<span id="cb97-4"><a href="simpleLinearRegression.html#cb97-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">6</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>))</span>
-<span id="cb97-5"><a href="simpleLinearRegression.html#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb97-6"><a href="simpleLinearRegression.html#cb97-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb97-7"><a href="simpleLinearRegression.html#cb97-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(slmMPGWt,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb97-8"><a href="simpleLinearRegression.html#cb97-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,<span class="dv">35</span>,<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;mpg=&quot;</span>,<span class="fu">round</span>(<span class="fu">coef</span>(slmMPGWt),<span class="dv">2</span>),<span class="st">&quot;wt+et&quot;</span>),<span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="simpleLinearRegression.html#cb101-1" aria-hidden="true" tabindex="-1"></a>slmMPGWt <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>wt,mtcarsData)</span>
+<span id="cb101-2"><a href="simpleLinearRegression.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>wt, mtcarsData<span class="sc">$</span>mpg,</span>
+<span id="cb101-3"><a href="simpleLinearRegression.html#cb101-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Weight&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Mileage&quot;</span>,</span>
+<span id="cb101-4"><a href="simpleLinearRegression.html#cb101-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">6</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>))</span>
+<span id="cb101-5"><a href="simpleLinearRegression.html#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb101-6"><a href="simpleLinearRegression.html#cb101-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb101-7"><a href="simpleLinearRegression.html#cb101-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(slmMPGWt,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb101-8"><a href="simpleLinearRegression.html#cb101-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,<span class="dv">35</span>,<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;mpg=&quot;</span>,<span class="fu">round</span>(<span class="fu">coef</span>(slmMPGWt),<span class="dv">2</span>),<span class="st">&quot;wt+et&quot;</span>),<span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:scatterWeightMPG2"></span>
 <img src="adam_files/figure-html/scatterWeightMPG2-1.png" alt="Scatterplot diagram between weight and mileage." width="672" />
 <p class="caption">
 Figure 7.1: Scatterplot diagram between weight and mileage.
 </p>
 </div>
-<p>The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept <span class="math inline">\(\hat{a}_0\)</span>=37.29, meaning that this is where the red line crosses the y-axis, while the parameter of slope <span class="math inline">\(\hat{a}_1\)</span>=-5.34 shows how fast the values change (how steep the line is). I’ve added hat symbols on the parameters to point out that they were estimated based on a sample of data. If we had all the data in the universe (population) and estimated a correct model on it, we would not need the hats. In simple linear regression, the re line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as “with the increase of weight, on average the mileage of cars goes down.” Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest left points show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.</p>
+<p>The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept <span class="math inline">\({b}_0\)</span>=37.29, meaning that this is where the red line crosses the y-axis, while the parameter of slope <span class="math inline">\({b}_1\)</span>=-5.34 shows how fast the values change (how steep the line is). I’ve added hat symbols on the parameters to point out that they were estimated based on a sample of data. If we had all the data in the universe (population) and estimated a correct model on it, we would not need the hats. In simple linear regression, the re line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as “with the increase of weight, on average the mileage of cars goes down.” Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest left points show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.</p>
 </div>
 
             </section>

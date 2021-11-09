@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -319,17 +323,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="LLN" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Law of Large Numbers</h2>
 <p>The first law is called the <strong>Law of Large Numbers</strong> (LLN). It is the theorem saying that (under wide conditions) the average of a variable obtained over the large number of trials will be close to its expected value and will get closer to it with the increase of the sample size. This can be demonstrated with the following example:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="LLN.html#cb40-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb40-2"><a href="LLN.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
-<span id="cb40-3"><a href="LLN.html#cb40-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
-<span id="cb40-4"><a href="LLN.html#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sub-samples of 50 and 100 observations</span></span>
-<span id="cb40-5"><a href="LLN.html#cb40-5" aria-hidden="true" tabindex="-1"></a>y30 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">30</span>)</span>
-<span id="cb40-6"><a href="LLN.html#cb40-6" aria-hidden="true" tabindex="-1"></a>y1000 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">1000</span>)</span>
-<span id="cb40-7"><a href="LLN.html#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb40-8"><a href="LLN.html#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y30, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
-<span id="cb40-9"><a href="LLN.html#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y30), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb40-10"><a href="LLN.html#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y1000, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
-<span id="cb40-11"><a href="LLN.html#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y1000), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="LLN.html#cb44-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb44-2"><a href="LLN.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
+<span id="cb44-3"><a href="LLN.html#cb44-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
+<span id="cb44-4"><a href="LLN.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sub-samples of 50 and 100 observations</span></span>
+<span id="cb44-5"><a href="LLN.html#cb44-5" aria-hidden="true" tabindex="-1"></a>y30 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">30</span>)</span>
+<span id="cb44-6"><a href="LLN.html#cb44-6" aria-hidden="true" tabindex="-1"></a>y1000 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">1000</span>)</span>
+<span id="cb44-7"><a href="LLN.html#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb44-8"><a href="LLN.html#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y30, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
+<span id="cb44-9"><a href="LLN.html#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y30), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb44-10"><a href="LLN.html#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y1000, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
+<span id="cb44-11"><a href="LLN.html#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y1000), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histY30Y1000"></span>
 <img src="adam_files/figure-html/histY30Y1000-1.png" alt="Histograms of samples of data from variable y." width="672" />
 <p class="caption">
@@ -337,11 +341,11 @@ Figure 4.1: Histograms of samples of data from variable y.
 </p>
 </div>
 <p>What we will typically see on the plots above is that the mean (red line) on the left plot will be further away from the true mean of 100 than in the case of the right plot. Given that this is randomly generated, the situation might differ, but the idea would be that with the increase of the sample size the estimated sample mean will converge to the true one. We can even produce a plot showing how this happens:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="LLN.html#cb41-1" aria-hidden="true" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
-<span id="cb41-2"><a href="LLN.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>obs){</span>
-<span id="cb41-3"><a href="LLN.html#cb41-3" aria-hidden="true" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,i))</span>
-<span id="cb41-4"><a href="LLN.html#cb41-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb41-5"><a href="LLN.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yMean, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sample mean&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="LLN.html#cb45-1" aria-hidden="true" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
+<span id="cb45-2"><a href="LLN.html#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>obs){</span>
+<span id="cb45-3"><a href="LLN.html#cb45-3" aria-hidden="true" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,i))</span>
+<span id="cb45-4"><a href="LLN.html#cb45-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-5"><a href="LLN.html#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yMean, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sample mean&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:statsSampleMean"></span>
 <img src="images/02-statistics-LLN.png" alt="Demonstration of Law of Large Numbers."  />
 <p class="caption">

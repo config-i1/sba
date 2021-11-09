@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-10-13" />
+<meta name="date" content="2021-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="linearRegression.html"/>
-<link rel="next" href="linearRegressionQualityOfFit.html"/>
+<link rel="next" href="linearRegressionMultipleQualityOfFit.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -190,7 +190,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="numerical-analysis.html"><a href="numerical-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>3</b> Continuous distributions</a>
@@ -235,18 +235,22 @@ div.csl-indent {
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation</a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionQualityOfFit.html"><a href="linearRegressionQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -347,13 +351,13 @@ Now that we have this compact form of multiple linear regression, we can estimat
     \tag{8.8}
 \end{equation}\]</span>
 The formula <a href="ols-estimation.html#eq:MLROLS">(8.8)</a> is used in all the statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same <code>mtcars</code> dataset:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="ols-estimation.html#cb99-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ols-estimation.html#cb105-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
 <p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_t\)</span> on x-axis and <span class="math inline">\(y_t\)</span> on the y-axis:</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="ols-estimation.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
-<p><img src="adam_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ols-estimation.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
+<p><img src="adam_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="ols-estimation.html#cb101-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb101-2"><a href="ols-estimation.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ols-estimation.html#cb107-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb107-2"><a href="ols-estimation.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsModel02Plot"></span>
 <img src="adam_files/figure-html/mtcarsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">
@@ -370,7 +374,7 @@ Figure 8.2: Actuals vs fitted values for multiple linear regression model on mtc
         </div>
       </div>
 <a href="linearRegression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linearRegressionQualityOfFit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="linearRegressionMultipleQualityOfFit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
