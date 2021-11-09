@@ -241,3 +241,28 @@ plot(slmSpeedDistanceForecast)
 ```
 
 Figure \@ref(fig:speedDistanceForecast) shows the point forecast (the expected stopping distance if the speed of car was 30mph) and the 95% prediction interval (we expect that in 95% of the cases, the cars will have the stopping distance between `r paste(round(c(slmSpeedDistanceForecast$lower,slmSpeedDistanceForecast$upper),3),collapse=" and ")` feet.
+
+
+### Significance of the regression line
+Finally, instead of constructing confidence interval for the line, we could test the following hypothesis:
+\begin{equation*}
+    \mathrm{H}_0: \b_1 = \b_2 = \dots \b_{k-1} = 0, \mathrm{H}_1: \b_1 \neq 0 \vee \b_2 \neq 0 \vee \dots \vee \b_{k-1} \neq 0,
+\end{equation*}
+which in human language means: H$_0$: all parameters for explanatory variables are equal to zero; H$_1$: at least one of the parameters is not equal to zero. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+\begin{equation*}
+    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+\end{equation*}
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis. Here is an example with the speed model discussed above with the significance level of 1%:
+
+```{r}
+lmSpeedDistanceF <- summary(lmSpeedDistance)$fstatistic
+# F value
+lmSpeedDistanceF[1]
+# F critical
+qf(0.99,lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+# p-value from the test
+1-pf(lmSpeedDistanceF[1],lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+```
+
+In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `speed`. Alternatively, we could focus on p-value. We see that the p-value is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above.
+
