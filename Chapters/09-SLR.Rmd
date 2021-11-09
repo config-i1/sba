@@ -1,10 +1,10 @@
 # Simple Linear Regression {#simpleLinearRegression}
 When we want to analyse some relations between variables, we can do [graphical](#dataAnalysisGraphical) and [correlations](#correlations) analysis. But this will not provide us sufficient information about what happens with the response variable with the change of explanatory variable. So it makes sense to consider the possible relations between variables, and the basis for this is Simple Linear Regression, which can be represented in the form:
 \begin{equation}
-    y_t = a_0 + a_1 x_t + \epsilon_t ,
+    y_j = \beta_0 + \beta_1 x_j + \epsilon_j ,
     (\#eq:SLRFormula)
 \end{equation}
-where $a_0$ is the intercept (constant term), $a_1$ is the coefficient for the slope parameter and $\epsilon_t$ is the error term. The regression model is a basic [statistical model](#modelsMethods) that captures the relation between an explanatory variable $x_t$ and the response variable $y_t$. The parameters of the models are typically denoted as $\beta_0$ and $\beta_1$ in econometrics literature, but we use $a_0$ and $a_1$ because we will use $\beta$ for other purposes later in this textbook.
+where $\beta_0$ is the intercept (constant term), $\beta_1$ is the coefficient for the slope parameter and $\epsilon_j$ is the error term. The regression model is a basic [statistical model](#modelsMethods) that captures the relation between an explanatory variable $x_j$ and the response variable $y_j$. The parameters of the models are typically denoted as $\beta_0$ and $\beta_1$ in econometrics literature, but we use $\beta_0$ and $\beta_1$ because we will use $\beta$ for other purposes later in this textbook.
 
 In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section \@ref(dataAnalysisGraphical)) shown in Figure \@ref(fig:scatterWeightMPG2).
 
@@ -19,7 +19,7 @@ abline(slmMPGWt,col="red")
 text(4,35,paste0(c("mpg=",round(coef(slmMPGWt),2),"wt+et"),collapse=""))
 ```
 
-The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept $\hat{a}_0$=`r round(coef(slmMPGWt)[1],2)`, meaning that this is where the red line crosses the y-axis, while the parameter of slope $\hat{a}_1$=`r round(coef(slmMPGWt)[2],2)` shows how fast the values change (how steep the line is). I've added hat symbols on the parameters to point out that they were estimated based on a sample of data. If we had all the data in the universe (population) and estimated a correct model on it, we would not need the hats. In simple linear regression, the re line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as "with the increase of weight, on average the mileage of cars goes down". Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest left points show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.
+The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept ${b}_0$=`r round(coef(slmMPGWt)[1],2)`, meaning that this is where the red line crosses the y-axis, while the parameter of slope ${b}_1$=`r round(coef(slmMPGWt)[2],2)` shows how fast the values change (how steep the line is). I've added hat symbols on the parameters to point out that they were estimated based on a sample of data. If we had all the data in the universe (population) and estimated a correct model on it, we would not need the hats. In simple linear regression, the re line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as "with the increase of weight, on average the mileage of cars goes down". Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest left points show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.
 
 
 ## Ordinary Least Squares (OLS) {#OLS}
@@ -34,17 +34,17 @@ abline(h=0, col="grey")
 abline(v=0, col="grey")
 abline(slmMPGWt,col="red")
 lines(rep(mtcarsData$wt[20],2),c(fitted(slmMPGWt)[20],mtcarsData$mpg[20]), lty=2)
-text(mtcarsData$wt[20]+0.15,mean(c(fitted(slmMPGWt)[20],mtcarsData$mpg[20])),TeX("$e_t$"))
+text(mtcarsData$wt[20]+0.15,mean(c(fitted(slmMPGWt)[20],mtcarsData$mpg[20])),TeX("$e_j$"))
 points(mtcarsData$wt[20],mtcarsData$mpg[20], pch=16)
 points(mtcarsData$wt[20],fitted(slmMPGWt)[20], pch=3)
 ```
 
 When we estimate the simple linear regression model, the model \@ref(eq:SLRFormula) transforms into:
 \begin{equation}
-    y_t = \hat{a}_0 + \hat{a}_1 x_t + e_t .
+    y_j = {b}_0 + {b}_1 x_j + e_j .
     (\#eq:SLRFormulaEstimated)
 \end{equation}
-This is because we do not know the true values of parameters and thus they are substituted by their estimates. This also applies to the error term for which in general $e_t \neq \epsilon_t$ because of the sample estimation. Now consider the same situation with weight vs mileage in Figure \@ref(fig:scatterWeightMPG3) but with some arbitrary line with unknown parameters. Each point on the plot will typically lie above or below the line, and we would be able to calculate the distances from those points to the line. They would correspond to $e_t = y_t - \hat{y}_t$, where $\hat{y}_t$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. For example, for the weight of car of `r mtcarsData$wt[20]` tones, the actual mileage is `r mtcarsData$mpg[20]`, while the fitted value is `r round(fitted(slmMPGWt)[20],3)`. The resulting error (or residual of model) is `r round(residuals(slmMPGWt)[20],3)`. We could collect all these errors of the model for all available cars based on their weights and this would result in a vector of positive and negative values like this:
+This is because we do not know the true values of parameters and thus they are substituted by their estimates. This also applies to the error term for which in general $e_j \neq \epsilon_j$ because of the sample estimation. Now consider the same situation with weight vs mileage in Figure \@ref(fig:scatterWeightMPG3) but with some arbitrary line with unknown parameters. Each point on the plot will typically lie above or below the line, and we would be able to calculate the distances from those points to the line. They would correspond to $e_j = y_j - \hat{y}_j$, where $\hat{y}_j$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. For example, for the weight of car of `r mtcarsData$wt[20]` tones, the actual mileage is `r mtcarsData$mpg[20]`, while the fitted value is `r round(fitted(slmMPGWt)[20],3)`. The resulting error (or residual of model) is `r round(residuals(slmMPGWt)[20],3)`. We could collect all these errors of the model for all available cars based on their weights and this would result in a vector of positive and negative values like this:
 
 ```{r echo=FALSE}
 residuals(slmMPGWt)
@@ -52,35 +52,155 @@ residuals(slmMPGWt)
 
 This corresponds to the formula:
 \begin{equation}
-    e_t = y_t - \hat{a}_0 - \hat{a}_1 x_t.
+    e_j = y_j - {b}_0 - {b}_1 x_j.
     (\#eq:SLRFormulaEstimatedError)
 \end{equation}
-If we needed to estimate parameters $\hat{a}_0$ and $\hat{a}_1$ of the model, we would need to minimise those distances by changing the parameters of the model. The problem is that some errors are positive, while the others are negative. If we just sum them up, they will cancel each other out, and we would loose the information about the distance. The simplest way to get rid of sign and keep the distance is by taking squares of each error and calculating Sum of Squared Errors for the whole sample $T$:
+If we needed to estimate parameters ${b}_0$ and ${b}_1$ of the model, we would need to minimise those distances by changing the parameters of the model. The problem is that some errors are positive, while the others are negative. If we just sum them up, they will cancel each other out, and we would loose the information about the distance. The simplest way to get rid of sign and keep the distance is by taking squares of each error and calculating Sum of Squared Errors for the whole sample $T$:
 \begin{equation}
-    \mathrm{SSE} = \sum_{t=1}^T e_t^2 .
+    \mathrm{SSE} = \sum_{j=1}^n e_j^2 .
     (\#eq:OLSCriterion)
 \end{equation}
-If we now minimise SSE by changing values of parameters $\hat{a}_0$ and $\hat{a}_1$, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as this has analytical solution (in order to get it, insert \@ref(eq:SLRFormulaEstimatedError) in \@ref(eq:OLSCriterion), take derivatives with respect to the parameters $\hat{a}_0$ and $\hat{a}_1$ and equate the resulting values to zero):
+If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as this has analytical solution (in order to get it, insert \@ref(eq:SLRFormulaEstimatedError) in \@ref(eq:OLSCriterion), take derivatives with respect to the parameters ${b}_0$ and ${b}_1$ and equate the resulting values to zero):
 \begin{equation}
     \begin{aligned}
-        \hat{a}_1 = & \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
-        \hat{a}_0 = & \bar{y} - \hat{a}_1 \bar{x}
+        {b}_1 = & \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
+        {b}_0 = & \bar{y} - {b}_1 \bar{x}
     \end{aligned} ,
     (\#eq:OLSSLREstimates)
 \end{equation}
-where $\bar{x}$ is the mean of the explanatory variable $x_t$ and $\bar{y}$ is the mean of the response variables $y_t$. Note that if for some reason $\hat{a}_1=0$ (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept $\hat{a}_0 = \bar{y}$, meaning that the global average of the data is the best predictor of the variable $y_t$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
+where $\bar{x}$ is the mean of the explanatory variable $x_j$ and $\bar{y}$ is the mean of the response variables $y_j$. Note that if for some reason ${b}_1=0$ (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data is the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
 
-Another thing to note is the connection between the parameter $\hat{a}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
+Another thing to note is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
 
 1. Model \@ref(eq:SLRFormulaEstimated);
-2. The inverse model $x_t = \hat{b}_0 + \hat{b}_1 y_t + u_t$.
+2. The inverse model $x_j = \hat{b}_0 + \hat{b}_1 y_j + u_j$.
 
 We could then extract the slope parameters of the two models via \@ref(eq:OLSSLREstimates) and get the value of correlation coefficient as a geometric mean of the two:
 \begin{equation}
-    r_{x,y} = \mathrm{sign}(\hat{b}_1) \sqrt{\hat{a}_1 \hat{b}_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
+    r_{x,y} = \mathrm{sign}(\hat{b}_1) \sqrt{{b}_1 \hat{b}_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
     (\#eq:correlationDerivationPearson)
 \end{equation}
 which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived.
 
 While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.
 
+
+## Quality of the fit {#linearRegressionSimpleQualityOfFit}
+In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.
+
+The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion \@ref(eq:OLSCriterion). It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
+\begin{equation}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
+    (\#eq:SSE)
+\end{equation}
+This sum of squares is related to another two, the first being the Sum of Squares Total:
+\begin{equation}
+    \mathrm{SST}=\sum_{j=1}^n (y_j - \bar{y})^2,
+    (\#eq:SST)
+\end{equation}
+where $\bar{y}$ is the in-sample mean. If we divide the value \@ref(eq:SST) by $n-1$, then we will get the in-sample variance (introduced in Section \@ref(dataAnalysisNumerical)):
+\begin{equation*}
+    \mathrm{V}(y)=\frac{\mathrm{SST}}{n-1}=\frac{1}{n-1} \sum_{j=1}^n (y_j - \bar{y})^2 .
+\end{equation*}
+The last sum of squares is Sum of Squared of Regression:
+\begin{equation}
+    \mathrm{SSR} = \sum_{j=1}^n (\bar{y} - \hat{y}_j)^2 ,
+    (\#eq:SSR)
+\end{equation}
+which shows the variability of the regression line. It is possible to show that in *the linear regression* (this is important! This property might be violated in other models), the three sums are related to each other via the following equation:
+\begin{equation}
+    \mathrm{SST} = \mathrm{SSE} + \mathrm{SSR} .
+    (\#eq:SSTSum)
+\end{equation}
+
+::: proof
+This involves manipulations, some of which are not straightforward:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
+        &= \sum_{j=1}^n \left( \hat{y}_j^2 - 2 \hat{y}_j \bar{y} + \bar{y}^2 \right) + \sum_{j=1}^n \left( y_j^2 - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &= \sum_{j=1}^n \left( \hat{y}_j^2 - 2 \hat{y}_j \bar{y} + \bar{y}^2 + y_j^2 - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &= \sum_{j=1}^n \left(\bar{y}^2 -2 \bar{y} y_j + y_j^2 + 2 \bar{y} y_j + \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
+        &= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} y_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j \right)
+    \end{aligned} .
+    (\#eq:SSTProof01)
+\end{equation}
+We can then substitute $y_j=\hat{y}_j+e_j$ in the right hand side of \@ref(eq:SSTProof01) to get:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} (\hat{y}_j+e_j) + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 (\hat{y}_j+e_j) \hat{y}_j \right) \\
+        &= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} \hat{y}_j + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 \hat{y}_j\hat{y}_j -2 e_j \hat{y}_j \right) \\
+        &= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j^2 -2 e_j \hat{y}_j \right) \\
+        &= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j - 2 e_j \hat{y}_j \right) 
+    \end{aligned} .
+    (\#eq:SSTProof02)
+\end{equation}
+Now if we split the sum into three elements, we will get:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{SST} &= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \sum_{j=1}^n \left(\bar{y} e_j\right) - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right) \\
+        &= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \bar{y} \sum_{j=1}^n e_j - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right)
+    \end{aligned} .
+    (\#eq:SSTProof03)
+\end{equation}
+The second sum in \@ref(eq:SSTProof03) is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero. The second one can be expanded to:
+\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
+    \end{aligned} .
+    (\#eq:SSTProof04)
+\end{equation}
+We see the sum of errors in the first sum of \@ref(eq:SSTProof04) again, so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this will be discussed in Chapter \@ref(assumptions)) because it guarantees that $\sum_{j=1}^n e_j x_j = 0$. This means that:
+\begin{equation}
+    \mathrm{SST} =  \sum_{j=1}^n (\bar{y} - y_j)^2 ,
+    (\#eq:SSTProof05)
+\end{equation}
+which is the formula of SST \@ref(eq:SST).
+:::
+
+The relation between SSE, SSR and SST is shown in Figure \@ref(fig:sumsSquaredRelation). If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.
+
+```{r sumsSquaredRelation, fig.cap="Relation between different sums of squares.", echo=FALSE}
+knitr::include_graphics("images/09-SLR-SSE-white.png")
+```
+
+Building upon thata, there is a measure called "Coefficient of Determination", which is calculated based on the sums of squares discussed above:
+\begin{equation}
+    \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
+    (\#eq:Determination)
+\end{equation}
+Given the meaning of the sums of squares, we can imagine the following situations to interpret the values of $\mathrm{R}^2$:
+
+1. The model fits the data in the same way as the mean line (grey line in Figure \@ref(fig:sumsSquaredRelation)). In this case SSE would be equal to SST and SSR would be equal to zero (because $\hat{y}_j=\bar{y}$) and as a result the R$^2$ would be equal to zero.
+2. The model fits the data perfectly, without any errors (all points lie on the black line in Figure \@ref(fig:sumsSquaredRelation)). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. $\hat{y}_j=y_j$). This would make R$^2$ equal to one.
+
+In the linear regression model due to \@ref(eq:SSTSum), the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section \@ref(modelsMethods)). The adequate statistical model should always have some randomness in it. The situation of $\mathrm{R}^2=1$ corresponds to:
+\begin{equation*}
+    y_j = b_0 + b_1 x_j ,
+\end{equation*}
+implying that all $e_j=0$, which is unrealistic and is only possible if there is a functional relation between $y$ and $x$ (no need for statistical inference then). So, in practice we should not maximise R$^2$ and should be careful with models that have very high values of it. At the same time, too low values of R$^2$ are also alarming, as they tell us that the model becomes:
+\begin{equation*}
+    y_j = b_0 + e_j,
+\end{equation*}
+meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R$^2$ close to 1) or underfits (R$^2$ close to 0) the data. But no serious conclusions should be made based on it.
+
+Here how this measure can be calculated in R based on the model earlier:
+```{r}
+n <- nobs(slmMPGWt)
+1 - sum(resid(slmMPGWt)^2) /
+    (var(actuals(slmMPGWt))*(n-1))
+```
+Note that in this formula we used the relation between SST and V$(y)$, multiplying the value by $n-1$ to get rid of the denominator. The resulting value tells us that the model has explained `r round(1 - sum(resid(slmMPGWt)^2) / (var(actuals(slmMPGWt))*(n-1)),3)*100`% deviations in the data.
+
+Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section \@ref(correlationsMixed):
+\begin{equation}
+    R = \sqrt{R^2} = \sqrt{\frac{\mathrm{SSR}}{\mathrm{SST}}} .
+    (\#eq:multipleCorrelation)
+\end{equation}
+It shows the closeness of relation between the response variable $y_j$ and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section \@ref(correlationCoefficient)) with the sign equal to the sign of the coefficient of the slop $b_1$:
+\begin{equation}
+    r_{x,y} = \mathrm{sign} (b_1) R .
+    (\#eq:correlationInRegression)
+\end{equation}
+
+<!-- Proof -->
