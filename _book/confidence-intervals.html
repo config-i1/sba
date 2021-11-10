@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-09" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -333,17 +333,17 @@ This matrix will contain variances of parameters on the diagonal and covariances
     \tag{9.1}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{\hat{a}_j}\)</span> is the standard error of the parameter <span class="math inline">\(\hat{a}_j\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="confidence-intervals.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="confidence-intervals.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##             (Intercept)      speed
 ## (Intercept)   45.676514 -2.6588234
 ## speed         -2.658823  0.1726509</code></pre>
 <p>This is the covariance matrix of parameters, the diagonal elements of which are then used in the <code>confint()</code> method:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="confidence-intervals.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="confidence-intervals.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##                  S.E.       2.5%     97.5%
 ## (Intercept) 6.7584402 -31.167850 -3.990340
 ## speed       0.4155128   3.096964  4.767853</code></pre>
 <p>The confidence interval for speed above shows, for example, that if we repeat the construction of interval many times, the true value of parameter speed will lie in 95% of cases between 3.08 and 4.78. This gives an idea about the real effect in the population. We can also present all of this in the following summary (this is based on the <code>alm()</code> model, the other functions will produce different summaries):</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="confidence-intervals.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="confidence-intervals.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>## Response variable: dist
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE

@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-09" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -351,13 +351,13 @@ Now that we have this compact form of multiple linear regression, we can estimat
     \tag{8.8}
 \end{equation}\]</span>
 The formula <a href="ols-estimation.html#eq:MLROLS">(8.8)</a> is used in all the statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same <code>mtcars</code> dataset:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ols-estimation.html#cb105-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ols-estimation.html#cb109-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
 <p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_t\)</span> on x-axis and <span class="math inline">\(y_t\)</span> on the y-axis:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ols-estimation.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
-<p><img src="adam_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ols-estimation.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
+<p><img src="adam_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ols-estimation.html#cb107-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb107-2"><a href="ols-estimation.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="ols-estimation.html#cb111-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb111-2"><a href="ols-estimation.html#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsModel02Plot"></span>
 <img src="adam_files/figure-html/mtcarsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">

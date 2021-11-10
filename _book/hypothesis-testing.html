@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-09" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -362,8 +362,8 @@ The procedure is the same, the calculated t-value is:
 \end{equation*}\]</span>
 which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is “we do not know.” The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
 <p>In R, if you want to test the hypothesis for parameters, I would recommend using <code>lm()</code> function for regression:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="hypothesis-testing.html#cb127-1" aria-hidden="true" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
-<span id="cb127-2"><a href="hypothesis-testing.html#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="hypothesis-testing.html#cb131-1" aria-hidden="true" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
+<span id="cb131-2"><a href="hypothesis-testing.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
