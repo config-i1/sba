@@ -1,17 +1,17 @@
 # Multiple Linear Regression {#linearRegression}
 While simple linear regression provides a basic understanding of the idea of capturing the relations between variables, it is obvious that in reality there are more than one external variable that would impact the response variable. This means that instead of \@ref(eq:SLRFormula) we should have:
 \begin{equation}
-    y_t = a_0 + a_1 x_{1,t} + a_2 x_{2,t} + \dots + a_{k-1} x_{k-1,t} + \epsilon_t ,
+    y_j = \beta_0 + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \dots + \beta_{k-1} x_{k-1,t} + \epsilon_j ,
     (\#eq:MLRFormula)
 \end{equation}
-where $a_j$ is a $j$-th parameter for the respective $j$-th explanatory variable and there is $k-1$ of them in the model, meaning that when we want to estimate this model, we will have $k$ unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
+where $\beta_j$ is a $j$-th parameter for the respective $j$-th explanatory variable and there is $k-1$ of them in the model, meaning that when we want to estimate this model, we will have $k$ unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
 \begin{equation}
-    \mu_{y,t} = \mathrm{E}(y_t | \mathbf{x}_t) = a_0 + a_1 x_{1,t} + a_2 x_{2,t} + \dots + a_{k-1} x_{k-1,t} ,
+    \mu_{y,t} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \dots + \beta_{k-1} x_{k-1,t} ,
     (\#eq:MLRExpectation)
 \end{equation}
 while in case of a sample estimation of the model we will use:
 \begin{equation}
-    \hat{y}_t = \hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t} .
+    \hat{y}_j = b_0 + b_1 x_{1,t} + b_2 x_{2,t} + \dots + b_{k-1} x_{k-1,t} .
     (\#eq:MLRExpectationSample)
 \end{equation}
 While the simple linear regression can be represented as a line on the plane with an explanatory variable and a response variable, the multiple linear regression cannot be easily represented in the same way. In case of two explanatory variables the plot becomes three dimensional and the regression line transforms into regression plane.
@@ -23,26 +23,26 @@ s3d <- scatterplot3d::scatterplot3d(mtcars$wt, mtcars$hp, mtcars$mpg, pch=16, hi
 s3d$plane3d(fit, lty.box="solid", col="darkblue", draw_polygon=TRUE, polygon_args=list(col=rgb(0,0,0.8,0.2)))
 ```
 
-Figure \@ref(fig:scatterplot3dmtcars) demonstrates a three dimensional scatterplot with the regression plane, going through the points, similar to how the regression line went through the two dimensional scatterplot \@ref(fig:scatterWeightMPG2). These sorts of plots are already difficult to read, but the situation becomes even more challenging, when more than two explanatory variables are under consideration: plotting 4D, 5D etc is not a trivial task. Still, what can be said about the parameters of the model even if we cannot plot it in the same way, is that they represent slopes for each variable, in a similar manner as $a_1$ did in the [simple linear regression](#simpleLinearRegression).
+Figure \@ref(fig:scatterplot3dmtcars) demonstrates a three dimensional scatterplot with the regression plane, going through the points, similar to how the regression line went through the two dimensional scatterplot \@ref(fig:scatterWeightMPG2). These sorts of plots are already difficult to read, but the situation becomes even more challenging, when more than two explanatory variables are under consideration: plotting 4D, 5D etc is not a trivial task. Still, what can be said about the parameters of the model even if we cannot plot it in the same way, is that they represent slopes for each variable, in a similar manner as $\beta_1$ did in the [simple linear regression](#simpleLinearRegression).
 
 
 ## OLS estimation
 In order to show how the estimation of multiple linear regression is done, we need to present it in a more compact form. In order to do that we will introduce the following vectors:
 \begin{equation}
-    \mathbf{x}'_t = \begin{pmatrix}1 & x_{1,t} & \dots & x_{k-1,t} \end{pmatrix},
-    \boldsymbol{a} = \begin{pmatrix}a_0 \\ a_{1} \\ \vdots \\ a_{k-1} \end{pmatrix} ,
+    \mathbf{x}'_j = \begin{pmatrix}1 & x_{1,j} & \dots & x_{k-1,j} \end{pmatrix},
+    \boldsymbol{a} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
     (\#eq:MLRVectors)
 \end{equation}
 where $'$ symbol is the transposition. This can then be substituted in \@ref(eq:MLRFormula) to get:
 \begin{equation}
-    y_t = \mathbf{x}'_t \boldsymbol{a} + \epsilon_t .
+    y_j = \mathbf{x}'_j \boldsymbol{a} + \epsilon_j .
     (\#eq:MLRFormulaCompacter)
 \end{equation}
 But this is not over yet, we can make it even more compact, if we pack all those values with index $t$ in vectors and matrices:
 \begin{equation}
-    \mathbf{X} = \begin{pmatrix} \mathbf{x}'_1 \\ \mathbf{x}'_2 \\ \vdots \\ \mathbf{x}'_T \end{pmatrix}, 
-    \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_T \end{pmatrix}, 
-    \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_T \end{pmatrix} ,
+    \mathbf{X} = \begin{pmatrix} \mathbf{x}'_1 \\ \mathbf{x}'_2 \\ \vdots \\ \mathbf{x}'_n \end{pmatrix}, 
+    \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}, 
+    \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
     (\#eq:MLRMatrices)
 \end{equation}
 where $T$ is the sample size. This leads to the following compact form of multiple linear regression:
@@ -61,7 +61,7 @@ The formula \@ref(eq:MLROLS) is used in all the statistical software, including 
 mtcarsModel01 <- lm(mpg~cyl+disp+hp++drat+wt+qsec+gear+carb, mtcars)
 ```
 
-The simplest plot that we can produce from this model is fitted values vs actuals, plotting $\hat{y}_t$ on x-axis and $y_t$ on the y-axis:
+The simplest plot that we can produce from this model is fitted values vs actuals, plotting $\hat{y}_j$ on x-axis and $y_j$ on the y-axis:
 
 ```{r}
 plot(fitted(mtcarsModel01),actuals(mtcarsModel01))
@@ -82,10 +82,10 @@ The plot on Figure \@ref(fig:mtcarsModel02Plot) can be used for diagnostic purpo
 ## Quality of the fit {#linearRegressionMultipleQualityOfFit}
 Building upon the discussion of the quality of the fit in Section \@ref(linearRegressionSimpleQualityOfFit), we can introduce a measure, based on the OLS criterion, \@ref(eq:OLSCriterion), which is called either "Root Mean Squared Error" (RMSE) or a "standard error" or a "standard deviation of error" of the regression:
 \begin{equation}
-    \mathrm{RMSE} = \sqrt{\frac{1}{T-k} \sum_{t=1}^T e_t^2 }.
+    \mathrm{RMSE} = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
     (\#eq:RMSERegression)
 \end{equation}
-Note that it is divided by the number of degrees of freedom in the model, $T-k$, not on the number of observations, so technically speaking this is not a "mean" any more. This is needed to correct the in-sample [bias](#estimatesPropertiesBias) of the measure. RMSE does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower RMSE is, the better the model fits the data. Note that this measure is not aware of the randomness in [the true model](#modelsMethods) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
+Note that it is divided by the number of degrees of freedom in the model, $n-k$, not on the number of observations, so technically speaking this is not a "mean" any more. This is needed to correct the in-sample [bias](#estimatesPropertiesBias) of the measure. RMSE does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower RMSE is, the better the model fits the data. Note that this measure is not aware of the randomness in [the true model](#modelsMethods) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
 
 Here is how this can be calculated for our model, estimated using `alm()` function:
 ```{r}
