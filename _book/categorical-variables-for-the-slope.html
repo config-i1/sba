@@ -246,7 +246,11 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
+</ul></li>
 <li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
@@ -362,19 +366,19 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1000.5408     4.4101   991.8250   1009.2567 *
-## price               -6.4982     0.2204    -6.9337     -6.0627 *
-## price:colourGreen    3.5708     0.0501     3.4717      3.6699 *
-## price:colourRed      2.4482     0.0502     2.3489      2.5475 *
+## (Intercept)       1004.6896     3.8956   996.9906   1012.3887 *
+## price               -6.7651     0.1923    -7.1452     -6.3849 *
+## price:colourGreen    3.5362     0.0446     3.4481      3.6243 *
+## price:colourRed      2.5355     0.0438     2.4488      2.6221 *
 ## 
-## Error standard deviation: 5.0495
+## Error standard deviation: 4.495
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 915.4125 915.6884 927.4551 928.1462</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.05 units.</p>
+## 880.5197 880.7956 892.5623 893.2534</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.23 units.</p>
 
 </div>
 <!-- </div> -->

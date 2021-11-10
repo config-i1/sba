@@ -246,7 +246,11 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
+</ul></li>
 <li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
@@ -320,6 +324,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="hypothesis-testing" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Hypothesis testing</h2>
 <p>Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>, I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>.</p>
+<div id="regression-parameters" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Regression parameters</h3>
 <p>The classical hypotheses for the parameters are formulated in the following way:
 <span class="math display" id="eq:regressionHypothesis01">\[\begin{equation}
     \begin{aligned}
@@ -380,6 +386,9 @@ which leads to exactly the same conclusion as before: on 1% significance level, 
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
 ## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <p>This output tells us that when we consider the parameter for the variable speed, we reject the standard H<span class="math inline">\(_0\)</span> on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.</p>
+</div>
+<div id="regression-line" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Regression line</h3>
 <p>Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
 <span class="math display" id="eq:regressionHypothesis02">\[\begin{equation}
     \begin{aligned}
@@ -415,6 +424,7 @@ Figure 9.5: Graphical presentation of F test for regression model.
 <pre><code>##        value 
 ## 1.489919e-12</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>
+</div>
 </div>
 
             </section>
