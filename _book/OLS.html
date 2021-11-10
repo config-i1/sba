@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.1 Ordinary Least Squares (OLS) | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.1 Ordinary Least Squares (OLS) | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="simpleLinearRegression.html"/>
 <link rel="next" href="linearRegressionSimpleQualityOfFit.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -247,10 +247,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
-<ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
-</ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -331,10 +328,10 @@ Figure 7.2: Scatterplot diagram between weight and mileage.
 </div>
 <p>When we estimate the simple linear regression model, the model <a href="simpleLinearRegression.html#eq:SLRFormula">(7.1)</a> transforms into:
 <span class="math display" id="eq:SLRFormulaEstimated">\[\begin{equation}
-    y_j = {b}_0 + {b}_1 x_j + e_j .
+    y_j = {b}_0 + {b}_1 x_j + e_j ,
     \tag{7.2}
 \end{equation}\]</span>
-This is because we do not know the true values of parameters and thus they are substituted by their estimates. This also applies to the error term for which in general <span class="math inline">\(e_j \neq \epsilon_j\)</span> because of the sample estimation. Now consider the same situation with weight vs mileage in Figure <a href="OLS.html#fig:scatterWeightMPG3">7.2</a> but with some arbitrary line with unknown parameters. Each point on the plot will typically lie above or below the line, and we would be able to calculate the distances from those points to the line. They would correspond to <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable. For example, for the weight of car of 1.835 tones, the actual mileage is 33.9, while the fitted value is 27.478. The resulting error (or residual of model) is 6.422. We could collect all these errors of the model for all available cars based on their weights and this would result in a vector of positive and negative values like this:</p>
+where <span class="math inline">\(b_0\)</span> is the estimate of <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(b_1\)</span> is the estimate of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(e_j\)</span> is the estimate of <span class="math inline">\(\epsilon_j\)</span>. This is because we do not know the true values of parameters and thus they are substituted by their estimates. This also applies to the error term for which in general <span class="math inline">\(e_j \neq \epsilon_j\)</span> because of the sample estimation. Now consider the same situation with weight vs mileage in Figure <a href="OLS.html#fig:scatterWeightMPG3">7.2</a> but with some arbitrary line with unknown parameters. Each point on the plot will typically lie above or below the line, and we would be able to calculate the distances from those points to the line. They would correspond to <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable. For example, for the weight of car of 1.835 tones, the actual mileage is 33.9, while the fitted value is 27.478. The resulting error (or residual of model) is 6.422. We could collect all these errors of the model for all available cars based on their weights and this would result in a vector of positive and negative values like this:</p>
 <pre><code>##           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
 ##          -2.2826106          -0.9197704          -2.0859521           1.2973499 
 ##   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
@@ -394,7 +391,6 @@ which is the formula <a href="correlationCoefficient.html#eq:measuresAssociation
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -435,7 +431,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

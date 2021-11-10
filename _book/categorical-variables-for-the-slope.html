@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10.2 Categorical variables for the slope | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10.2 Categorical variables for the slope | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="dummy-variables-for-the-intercept.html"/>
 <link rel="next" href="variablesTransformations.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -247,10 +247,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
-<ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
-</ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -344,14 +341,14 @@ Figure 10.3: Scatterplot of Sales vs Price of t-shirts of different colour, inte
 </div>
 <p>The plot on Figure <a href="categorical-variables-for-the-slope.html#fig:tShirtsInteractionScatterPlot">10.3</a> shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure <a href="dummy-variables-for-the-intercept.html#fig:tShirtsScatterPlot">10.2</a>, where we had the difference only in intercepts. This implies a different model:
 <span class="math display" id="eq:regressionDummies03">\[\begin{equation}
-    sales_t = a_0 + a_1 price_t + a_2 price_t \times colourRed_t + a_3 price_t \times colourGreen_t + \epsilon_t .
+    sales_t = \beta_0 + \beta_1 price_t + \beta_2 price_t \times colourRed_t + \beta_3 price_t \times colourGreen_t + \epsilon_t .
     \tag{10.3}
 \end{equation}\]</span>
 Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model <a href="categorical-variables-for-the-slope.html#eq:regressionDummies03">(10.3)</a> would look like for the three types of colours:</p>
 <ol style="list-style-type: decimal">
-<li>Red colour: <span class="math inline">\(sales_t = a_0 + a_1 price_t + a_2 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = a_0 + (a_1 + a_2) price_t + \epsilon_t\)</span>;</li>
-<li>Green colour: <span class="math inline">\(sales_t = a_0 + a_1 price_t + a_3 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = a_0 + (a_1 + a_3) price_t + \epsilon_t\)</span>;</li>
-<li>Blue colour: <span class="math inline">\(sales_t = a_0 + a_1 price_t + \epsilon_t\)</span>.</li>
+<li>Red colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \beta_2 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = \beta_0 + (\beta_1 + \beta_2) price_t + \epsilon_t\)</span>;</li>
+<li>Green colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \beta_3 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = \beta_0 + (\beta_1 + \beta_3) price_t + \epsilon_t\)</span>;</li>
+<li>Blue colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \epsilon_t\)</span>.</li>
 </ol>
 <p>In R, the interaction effect can be introduced explicitly in the formula via <code>:</code> symbol if you have a proper factor variable:</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="categorical-variables-for-the-slope.html#cb155-1" aria-hidden="true" tabindex="-1"></a>tShirtsInteractionDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirtsInteraction[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
@@ -364,20 +361,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1000.1255     4.0267   992.1673   1008.0837 *
-## price               -6.5564     0.2038    -6.9591     -6.1537 *
-## price:colourGreen    3.5328     0.0518     3.4304      3.6352 *
-## price:colourRed      2.5197     0.0525     2.4159      2.6235 *
+##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       998.9718     3.6029   991.8511   1006.0924 *
+## price              -6.4496     0.1802    -6.8056     -6.0936 *
+## price:colourGreen   3.4873     0.0466     3.3953      3.5794 *
+## price:colourRed     2.4720     0.0461     2.3809      2.5631 *
 ## 
-## Error standard deviation: 5.1838
+## Error standard deviation: 4.641
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 923.2910 923.5668 935.3335 936.0246</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.04 units.</p>
+## 890.1046 890.3804 902.1471 902.8382</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.98 units.</p>
 
 </div>
 <!-- </div> -->
@@ -392,7 +389,6 @@ Notice that we still include only two dummy variables out of three in order to a
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -433,7 +429,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

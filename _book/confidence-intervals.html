@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.1 Confidence intervals | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.1 Confidence intervals | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="uncertaintyParameters.html"/>
 <link rel="next" href="hypothesis-testing.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -247,10 +247,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
-<ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
-</ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -324,15 +321,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">9.1</span> Confidence intervals</h2>
 <p>In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section <a href="confidenceInterval.html#confidenceInterval">5.1</a>. This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that <a href="CLT.html#CLT">CLT</a> holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section <a href="likelihoodApproach.html#likelihoodApproach">13</a>). In these conditions the covariance matrix of parameters can be calculated using the following formula:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
-    \mathrm{V}(\hat{\mathbf{a}}) = \frac{1}{T-k} \sum_{t=1}^T e_t^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
+    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
     \tag{9.1}
 \end{equation}\]</span>
 This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter <span class="math inline">\(j\)</span> via:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
-    a_j \in (\hat{a}_j + t_{\alpha/2}(T-k) s_{\hat{a}_j}, \hat{a}_j + t_{1-\alpha/2}(T-k) s_{\hat{a}_j}),
+    \beta_j \in (b_j + t_{\alpha/2}(T-k) s_{b_j}, b_j + t_{1-\alpha/2}(T-k) s_{b_j}),
     \tag{9.1}
 \end{equation}\]</span>
-where <span class="math inline">\(s_{\hat{a}_j}\)</span> is the standard error of the parameter <span class="math inline">\(\hat{a}_j\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
+where <span class="math inline">\(s_{b_j}\)</span> is the standard error of the parameter <span class="math inline">\(b_j\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="confidence-intervals.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##             (Intercept)      speed
 ## (Intercept)   45.676514 -2.6588234
@@ -372,7 +369,6 @@ where <span class="math inline">\(s_{\hat{a}_j}\)</span> is the standard error o
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -413,7 +409,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {
