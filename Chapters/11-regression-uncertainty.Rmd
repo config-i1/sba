@@ -81,6 +81,7 @@ This summary provide all the necessary information about the estimates of parame
 ## Hypothesis testing
 Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section \@ref(hypothesisTesting), I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section \@ref(hypothesisTesting).
 
+### Regression parameters
 The classical hypotheses for the parameters are formulated in the following way:
 \begin{equation}
     \begin{aligned}
@@ -135,6 +136,7 @@ summary(lmSpeedDistance)
 
 This output tells us that when we consider the parameter for the variable speed, we reject the standard H$_0$ on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.
 
+### Regression line
 Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
 \begin{equation}
     \begin{aligned}
