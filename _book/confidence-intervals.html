@@ -324,12 +324,12 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
     \tag{9.1}
 \end{equation}\]</span>
-This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter <span class="math inline">\(j\)</span> via:
+This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter <span class="math inline">\(i\)</span> via:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
-    \beta_j \in (b_j + t_{\alpha/2}(T-k) s_{b_j}, b_j + t_{1-\alpha/2}(T-k) s_{b_j}),
+    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     \tag{9.1}
 \end{equation}\]</span>
-where <span class="math inline">\(s_{b_j}\)</span> is the standard error of the parameter <span class="math inline">\(b_j\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
+where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="confidence-intervals.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##             (Intercept)      speed
 ## (Intercept)   45.676514 -2.6588234

@@ -341,14 +341,14 @@ Figure 10.3: Scatterplot of Sales vs Price of t-shirts of different colour, inte
 </div>
 <p>The plot on Figure <a href="categorical-variables-for-the-slope.html#fig:tShirtsInteractionScatterPlot">10.3</a> shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure <a href="dummy-variables-for-the-intercept.html#fig:tShirtsScatterPlot">10.2</a>, where we had the difference only in intercepts. This implies a different model:
 <span class="math display" id="eq:regressionDummies03">\[\begin{equation}
-    sales_t = \beta_0 + \beta_1 price_t + \beta_2 price_t \times colourRed_t + \beta_3 price_t \times colourGreen_t + \epsilon_t .
+    sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j \times colourRed_j + \beta_3 price_j \times colourGreen_j + \epsilon_j .
     \tag{10.3}
 \end{equation}\]</span>
 Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model <a href="categorical-variables-for-the-slope.html#eq:regressionDummies03">(10.3)</a> would look like for the three types of colours:</p>
 <ol style="list-style-type: decimal">
-<li>Red colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \beta_2 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = \beta_0 + (\beta_1 + \beta_2) price_t + \epsilon_t\)</span>;</li>
-<li>Green colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \beta_3 price_t + \epsilon_t\)</span> or <span class="math inline">\(sales_t = \beta_0 + (\beta_1 + \beta_3) price_t + \epsilon_t\)</span>;</li>
-<li>Blue colour: <span class="math inline">\(sales_t = \beta_0 + \beta_1 price_t + \epsilon_t\)</span>.</li>
+<li>Red colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_2) price_j + \epsilon_j\)</span>;</li>
+<li>Green colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_3 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_3) price_j + \epsilon_j\)</span>;</li>
+<li>Blue colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \epsilon_j\)</span>.</li>
 </ol>
 <p>In R, the interaction effect can be introduced explicitly in the formula via <code>:</code> symbol if you have a proper factor variable:</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="categorical-variables-for-the-slope.html#cb155-1" aria-hidden="true" tabindex="-1"></a>tShirtsInteractionDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirtsInteraction[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
@@ -361,20 +361,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       998.9718     3.6029   991.8511   1006.0924 *
-## price              -6.4496     0.1802    -6.8056     -6.0936 *
-## price:colourGreen   3.4873     0.0466     3.3953      3.5794 *
-## price:colourRed     2.4720     0.0461     2.3809      2.5631 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1000.5408     4.4101   991.8250   1009.2567 *
+## price               -6.4982     0.2204    -6.9337     -6.0627 *
+## price:colourGreen    3.5708     0.0501     3.4717      3.6699 *
+## price:colourRed      2.4482     0.0502     2.3489      2.5475 *
 ## 
-## Error standard deviation: 4.641
+## Error standard deviation: 5.0495
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 890.1046 890.3804 902.1471 902.8382</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.98 units.</p>
+## 915.4125 915.6884 927.4551 928.1462</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.05 units.</p>
 
 </div>
 <!-- </div> -->

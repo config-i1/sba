@@ -323,8 +323,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>The classical hypotheses for the parameters are formulated in the following way:
 <span class="math display" id="eq:regressionHypothesis01">\[\begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: \beta_j = 0 \\
-        \mathrm{H}_1: \beta_j \neq 0
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
     \tag{9.2}
 \end{equation}\]</span>
@@ -336,9 +336,9 @@ Figure 9.4: Graphical presentation of null and alternative hypothesis in regress
 </p>
 </div>
 <p>The graph on the left in Figure <a href="hypothesis-testing.html#fig:speedDistanceHypotheses">9.4</a> demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H<span class="math inline">\(_0\)</span>, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>, the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.</p>
-<p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(T-k\)</span> degrees of freedom:
+<p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(n-k\)</span> degrees of freedom:
 <span class="math display" id="eq:regressionHypothesisTest01">\[\begin{equation}
-    \frac{b_j - 0}{s_{b_j}} \sim t(T-k) .
+    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
     \tag{9.3}
 \end{equation}\]</span>
 After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on <a href="hypothesis-testing.html#eq:regressionHypothesisTest01">(9.3)</a> with the significance level, we can make conclusions about the hypothesis.</p>

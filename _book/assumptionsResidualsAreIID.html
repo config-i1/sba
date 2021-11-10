@@ -379,7 +379,16 @@ Figure 12.11: Detecting heteroscedasticity. Model 2.
 </div>
 <div id="assumptionsResidualsAreIIDMean" class="section level3" number="12.2.3">
 <h3><span class="header-section-number">12.2.3</span> Mean of residuals</h3>
-<p>While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be <em>biased</em>, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model.</p>
+<p>While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be <em>biased</em>, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model. This implies that the following holds for all <span class="math inline">\(x_i\)</span>:
+<span class="math display">\[\begin{equation*}
+  \mathrm{cov}(x_i, e) = 0 ,
+\end{equation*}\]</span>
+which in the case of <span class="math inline">\(\mathrm{E}(e)=0\)</span> is equivalent to:
+<span class="math display">\[\begin{equation*}
+  \mathrm{E}(x_i e) = 0 .
+\end{equation*}\]</span>
+If OLS is used in linear model estimation, then this condition is satisfied in sample automatically and does not require checking.</p>
+<!-- Proof -->
 <p>Note that some models assume that the expectation of residuals is equal to one instead of zero (e.g. multiplicative error models). The idea of the assumption stays the same, it is only the value that changes.</p>
 <p>The diagnostics of the problem would be similar to the case of non-linear transformations or autocorrelations: plotting residuals vs fitted or residuals vs time and trying to find patterns. If the mean of residuals changes either with the change of fitted values of with time, then the conditional expectation of residuals is not zero, and something is missing in the model.</p>
 </div>
