@@ -1,17 +1,17 @@
 # Multiple Linear Regression {#linearRegression}
 While simple linear regression provides a basic understanding of the idea of capturing the relations between variables, it is obvious that in reality there are more than one external variable that would impact the response variable. This means that instead of \@ref(eq:SLRFormula) we should have:
 \begin{equation}
-    y_j = \beta_0 + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \dots + \beta_{k-1} x_{k-1,t} + \epsilon_j ,
+    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
     (\#eq:MLRFormula)
 \end{equation}
-where $\beta_j$ is a $j$-th parameter for the respective $j$-th explanatory variable and there is $k-1$ of them in the model, meaning that when we want to estimate this model, we will have $k$ unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
+where $\beta_i$ is a $i$-th parameter for the respective $i$-th explanatory variable and there is $k-1$ of them in the model, meaning that when we want to estimate this model, we will have $k$ unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
 \begin{equation}
-    \mu_{y,t} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \dots + \beta_{k-1} x_{k-1,t} ,
+    \mu_{y,j} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} ,
     (\#eq:MLRExpectation)
 \end{equation}
 while in case of a sample estimation of the model we will use:
 \begin{equation}
-    \hat{y}_j = b_0 + b_1 x_{1,t} + b_2 x_{2,t} + \dots + b_{k-1} x_{k-1,t} .
+    \hat{y}_j = b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} .
     (\#eq:MLRExpectationSample)
 \end{equation}
 While the simple linear regression can be represented as a line on the plane with an explanatory variable and a response variable, the multiple linear regression cannot be easily represented in the same way. In case of two explanatory variables the plot becomes three dimensional and the regression line transforms into regression plane.

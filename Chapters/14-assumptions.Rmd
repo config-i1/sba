@@ -166,7 +166,17 @@ While the LOWESS lines on plots in Figure \@ref(fig:diagnostics11) demonstrate s
 
 
 ### Mean of residuals {#assumptionsResidualsAreIIDMean}
-While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be *biased*, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model.
+While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be *biased*, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model. This implies that the following holds for all $x_i$:
+\begin{equation*}
+  \mathrm{cov}(x_i, e) = 0 ,
+\end{equation*}
+which in the case of $\mathrm{E}(e)=0$ is equivalent to:
+\begin{equation*}
+  \mathrm{E}(x_i e) = 0 .
+\end{equation*}
+If OLS is used in linear model estimation, then this condition is satisfied in sample automatically and does not require checking.
+
+<!-- Proof -->
 
 Note that some models assume that the expectation of residuals is equal to one instead of zero (e.g. multiplicative error models). The idea of the assumption stays the same, it is only the value that changes.
 
@@ -231,9 +241,9 @@ Now `cyl` has linear relation with some other variables, so it would not be wise
 
 Instead of calculating the coefficients of determination, econometricians prefer to calculate Variance Inflation Factor (VIF), which shows by how many times the estimates of parameters will loose efficiency. Its formula is based on the $R^2$ calculated above:
 \begin{equation*}
-  \mathrm{VIF}_j = \frac{1}{1-R_j^2}
+  \mathrm{VIF}_i = \frac{1}{1-R_i^2}
 \end{equation*}
-for each model $j$. Which in our case can be calculated as:
+for each model $i$. Which in our case can be calculated as:
 ```{r}
 1/(1-determ(mtcars[,-c(1,3)]))
 ```
@@ -243,6 +253,6 @@ Finally, in some cases nothing can be done with multicollinearity, it just exist
 
 
 ### Engogeneity {#assumptionsXregEndogeneity}
-**Endogeneity** applies to the situation, when the dependent variable $y_t$ influences the explanatory variable $x_t$ in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be *biased*, and a different estimation method would be needed or maybe a different model would need to be constructed in order to fix this.
+**Endogeneity** applies to the situation, when the dependent variable $y_j$ influences the explanatory variable $x_j$ in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be *biased*, and a different estimation method would be needed or maybe a different model would need to be constructed in order to fix this.
 
 Endogeneity cannot be properly diagnosed and comes to the judgment: do we expect the relation between variable to be one directional or bi-directional? Note that if we work with time series, then endogeneity would only appear, when the bi-directional relation happens at the same time $t$, not over time.

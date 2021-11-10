@@ -55,12 +55,12 @@ In order to take this uncertainty into account, we could construct confidence in
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter $j$ via:
+This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter $i$ via:
 \begin{equation}
-    \beta_j \in (b_j + t_{\alpha/2}(T-k) s_{b_j}, b_j + t_{1-\alpha/2}(T-k) s_{b_j}),
+    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-where $s_{b_j}$ is the standard error of the parameter $b_j$. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
+where $s_{b_i}$ is the standard error of the parameter $b_i$. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
 
 ```{r}
 vcov(slmSpeedDistance)
@@ -84,8 +84,8 @@ Another way to look at the uncertainty of parameters is to test a statistical hy
 The classical hypotheses for the parameters are formulated in the following way:
 \begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: \beta_j = 0 \\
-        \mathrm{H}_1: \beta_j \neq 0
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
     (\#eq:regressionHypothesis01)
 \end{equation}
@@ -94,18 +94,18 @@ This formulation of hypotheses comes from the idea that we want to check if the 
 ```{r speedDistanceHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
 par(mfcol=c(1,2))
 plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $\\beta_j = 0$"))
+     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $\\beta_i = 0$"))
 abline(h=mean(cars$dist),col="red")
 plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_1$: $\\beta_j \\neq 0$"))
+     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_1$: $\\beta_i \\neq 0$"))
 abline(slmSpeedDistance,col="blue")
 ```
 
 The graph on the left in Figure \@ref(fig:speedDistanceHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \@ref(hypothesisTesting), the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
 
-Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $T-k$ degrees of freedom:
+Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $n-k$ degrees of freedom:
 \begin{equation}
-    \frac{b_j - 0}{s_{b_j}} \sim t(T-k) .
+    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
     (\#eq:regressionHypothesisTest01)
 \end{equation}
 After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on \@ref(eq:regressionHypothesisTest01) with the significance level, we can make conclusions about the hypothesis.
@@ -189,9 +189,9 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
     (\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
-where $x_{0,j}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_j$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_j$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
+where $x_{0,j}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_j$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
 \begin{equation}
-    \mu_j \in (\hat{y}_j + t_{\alpha/2}(T-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(T-k) s_{\hat{y}_j}),
+    \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
     (\#eq:confidenceIntervalRegression)
 \end{equation}
 where $s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}$.
