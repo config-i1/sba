@@ -30,12 +30,12 @@ Figure \@ref(fig:scatterplot3dmtcars) demonstrates a three dimensional scatterpl
 In order to show how the estimation of multiple linear regression is done, we need to present it in a more compact form. In order to do that we will introduce the following vectors:
 \begin{equation}
     \mathbf{x}'_j = \begin{pmatrix}1 & x_{1,j} & \dots & x_{k-1,j} \end{pmatrix},
-    \boldsymbol{a} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
+    \boldsymbol{\beta} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
     (\#eq:MLRVectors)
 \end{equation}
 where $'$ symbol is the transposition. This can then be substituted in \@ref(eq:MLRFormula) to get:
 \begin{equation}
-    y_j = \mathbf{x}'_j \boldsymbol{a} + \epsilon_j .
+    y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
     (\#eq:MLRFormulaCompacter)
 \end{equation}
 But this is not over yet, we can make it even more compact, if we pack all those values with index $t$ in vectors and matrices:
@@ -47,12 +47,12 @@ But this is not over yet, we can make it even more compact, if we pack all those
 \end{equation}
 where $T$ is the sample size. This leads to the following compact form of multiple linear regression:
 \begin{equation}
-    \mathbf{y} = \mathbf{X} \boldsymbol{a} + \boldsymbol{\epsilon} .
+    \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} .
     (\#eq:MLRFormulaCompactest)
 \end{equation}
-Now that we have this compact form of multiple linear regression, we can estimate it using linear algebra. Many statistical textbooks explain how the following result is obtained (this involves taking derivative of SSE \@ref(eq:OLSCriterion) with respect to $\boldsymbol{a}$ and equating it to zero):
+Now that we have this compact form of multiple linear regression, we can estimate it using linear algebra. Many statistical textbooks explain how the following result is obtained (this involves taking derivative of SSE \@ref(eq:OLSCriterion) with respect to $\boldsymbol{\beta}$ and equating it to zero):
 \begin{equation}
-    \hat{\boldsymbol{a}} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
+    \hat{\boldsymbol{\beta}} = \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
     (\#eq:MLROLS)
 \end{equation}
 The formula \@ref(eq:MLROLS) is used in all the statistical software, including `lm()` function from `stats` package for R. Here is an example with the same `mtcars` dataset:
