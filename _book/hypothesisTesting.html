@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5.3 Hypothesis testing | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5.3 Hypothesis testing | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2021-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,9 +33,8 @@
   
 <link rel="prev" href="confidenceIntervalsPrediction.html"/>
 <link rel="next" href="correlations.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -43,6 +42,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
 
 
 
@@ -413,6 +413,7 @@ Figure 5.5: Confidence interval for for the population mean example.
 </ol>
 <p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
 <p>Finally, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation"><a href="#ref-Cohen1994" role="doc-biblioref">Cohen</a> (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, H<span class="math inline">\(_0\)</span> will inevitably be rejected. Furthermore, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>,” with the latter appearing when there is not enough evidence to reject H<span class="math inline">\(_0\)</span>. Summarising all of this, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.</p>
+<!-- The significance level is the probability of making a mistake if the hypothesis is true. It is never true (unless it is one sided), so you will make more mistakes than you expect. On the other hand, confidence interval will cover the true value in 1-alpha percent of cases. We don't know it, but we know that it will be there. -->
 <div id="hypothesisTestingMistakes" class="section level3" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Common mistakes related to hypothesis testing</h3>
 <p>Over the years of teaching statistics, I have seen many different mistakes, related to hypothesis testing. No wonder, this is a difficult topic to grasp. Here, I have decided to summarise several typical erroneous statements, providing explanations why they are wrong. They partially duplicate the 6 principles from ASA discussed above, but they are formulated slightly differently.</p>
@@ -420,7 +421,7 @@ Figure 5.5: Confidence interval for for the population mean example.
 <li>“Calculated value is lower than the critical one, so the null hypothesis is true.”</li>
 </ol>
 <ul>
-<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the H<span class="math inline">\(_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia.” Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject H<span class="math inline">\(_0\)</span> that all swans are white.” Uneducated people would be tempted to say that ” H<span class="math inline">\(_0\)</span>: All swans are white” is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting H<span class="math inline">\(_0\)</span> and showing that “not all swans are white,” which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting H<span class="math inline">\(_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
+<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the H<span class="math inline">\(_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia.” Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject H<span class="math inline">\(_0\)</span> that all swans are white.” Uneducated people would be tempted to say that " H<span class="math inline">\(_0\)</span>: All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting H<span class="math inline">\(_0\)</span> and showing that “not all swans are white,” which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting H<span class="math inline">\(_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>“Calculated value is lower than the critical one, so we accept the null hypothesis.”</li>
@@ -484,6 +485,7 @@ Figure 5.5: Confidence interval for for the population mean example.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -524,7 +526,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "fuse",
+"engine": "lunr",
 "options": null
 },
 "toc": {
