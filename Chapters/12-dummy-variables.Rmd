@@ -17,12 +17,12 @@ Every t-shirt in our dataset would have one of these colours, and based on this 
 
 These dummy variables can then be added to a model instead of the original variable colour, resulting, for example, in the model:
 \begin{equation}
-    sales_t = a_0 + a_1 price_t + a_2 colourRed_t + a_3 colourGreen_t + \epsilon_t .
+    sales_j = \beta_0 + \beta_1 price_j + \beta_2 colourRed_j + \beta_3 colourGreen_j + \epsilon_j .
     (\#eq:regressionDummies01)
 \end{equation}
 Notice that I have only included two dummy variables out of the three. This is because we do not need to have all of them to be able to say what colour of t-shirt we have: if it is not Red and not Green, then it must be Blue. Furthermore, while some models and estimation methods could handle all the dummy variables in the model, the linear regression cannot be estimated via the conventional methods if they are all in. This is exactly because of this situation with "not Red, not Green". If we introduce all three, the model will have so called "dummy variables trap", implying perfect multicollinearity (see Subsection \@ref(assumptionsXreg)), because of the functional relation between variables:
 \begin{equation}
-    colourBlue_t = 1 - colourRed_t - colourGreen_t \text{ for all } t .
+    colourBlue_j = 1 - colourRed_j - colourGreen_j \text{ for all } j=1, \dots, n .
     (\#eq:regressionDummies02)
 \end{equation}
 This is a general rule: if you have created a set of dummy variables from a categorical one, then one of them needs to be dropped, in order not to have the dummy variables trap.
@@ -117,14 +117,14 @@ abline(a=1000, b=-2.5-4, col="blue")
 
 The plot on Figure \@ref(fig:tShirtsInteractionScatterPlot) shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure \@ref(fig:tShirtsScatterPlot), where we had the difference only in intercepts. This implies a different model:
 \begin{equation}
-    sales_t = a_0 + a_1 price_t + a_2 price_t \times colourRed_t + a_3 price_t \times colourGreen_t + \epsilon_t .
+    sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j \times colourRed_j + \beta_3 price_j \times colourGreen_j + \epsilon_j .
     (\#eq:regressionDummies03)
 \end{equation}
 Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model \@ref(eq:regressionDummies03) would look like for the three types of colours:
 
-1. Red colour: $sales_t = a_0 + a_1 price_t + a_2 price_t + \epsilon_t$ or $sales_t = a_0 + (a_1 + a_2) price_t + \epsilon_t$;
-2. Green colour: $sales_t = a_0 + a_1 price_t + a_3 price_t + \epsilon_t$ or $sales_t = a_0 + (a_1 + a_3) price_t + \epsilon_t$;
-3. Blue colour: $sales_t = a_0 + a_1 price_t + \epsilon_t$.
+1. Red colour: $sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j + \epsilon_j$ or $sales_j = \beta_0 + (\beta_1 + \beta_2) price_j + \epsilon_j$;
+2. Green colour: $sales_j = \beta_0 + \beta_1 price_j + \beta_3 price_j + \epsilon_j$ or $sales_j = \beta_0 + (\beta_1 + \beta_3) price_j + \epsilon_j$;
+3. Blue colour: $sales_j = \beta_0 + \beta_1 price_j + \epsilon_j$.
 
 In R, the interaction effect can be introduced explicitly in the formula via `:` symbol if you have a proper factor variable:
 ```{r}

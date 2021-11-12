@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.1 Example of application | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.1 Example of application | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="variablesTransformations.html"/>
 <link rel="next" href="types-of-variables-transformations.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -246,11 +246,12 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
 </ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -336,15 +337,15 @@ Figure 11.1: Speed vs stopping distance and a linear model
 </div>
 <p>The model on the plot in Figure <a href="example-of-application.html#fig:speedDistanceExtrapolation">11.1</a> is misleading, because it predicts that the stopping distance of a car, travelling with speed less than 4mph will be negative. Furthermore, the modelunderestimates the real stopping distance for cars with higher speed. If a decision is made based on this model, then it will be inevitably wrong and might potentially lead to serious repercussions in terms of road safety. Given the relation <a href="example-of-application.html#eq:speedDistanceFormula">(11.1)</a>, we should consider a non-linear model. In this specific case, we should consider the model of the type:
 <span class="math display" id="eq:speedDistanceModel">\[\begin{equation}
-    distance = a_0 speed^{a_1} \times (1+\epsilon).
+    distance = \beta_0 speed^{\beta_1} \times (1+\epsilon).
     \tag{11.2}
 \end{equation}\]</span>
-The multiplication of speed by the error term is necessary, because the effect of randomness will have an increasing variability with the increase of speed: if the speed is low, then the random factors (such as road conditions, breaks condition etc) will not have a strong effect on distance, while in case of the high speed these random factors might lead either to the serious decrease or increase of distance (a car on a slippery road, stopping from 50mph will have much longer distance than the same car on a dry road). Note that I have left the parameter <span class="math inline">\(a_1\)</span> in (eq:speedDistanceModel) and did not set it equal to two. This is done for the case we want to estimate the parameter based on the data. The problem with the model <a href="example-of-application.html#eq:speedDistanceModel">(11.2)</a> is that it is difficult to estimate due to the non-linearity. In order to resolve this problem, we can linearise it by taking logarithms of both sides, which will lead to:
+The multiplication of speed by the error term is necessary, because the effect of randomness will have an increasing variability with the increase of speed: if the speed is low, then the random factors (such as road conditions, breaks condition etc) will not have a strong effect on distance, while in case of the high speed these random factors might lead either to the serious decrease or increase of distance (a car on a slippery road, stopping from 50mph will have much longer distance than the same car on a dry road). Note that I have left the parameter <span class="math inline">\(\beta_1\)</span> in (eq:speedDistanceModel) and did not set it equal to two. This is done for the case we want to estimate the parameter based on the data. The problem with the model <a href="example-of-application.html#eq:speedDistanceModel">(11.2)</a> is that it is difficult to estimate due to the non-linearity. In order to resolve this problem, we can linearise it by taking logarithms of both sides, which will lead to:
 <span class="math display" id="eq:speedDistanceModelLogs">\[\begin{equation}
-    \log (distance) = \log a_0 + a_1 \log (speed) + \log(1+\epsilon).
+    \log (distance) = \log \beta_0 + \beta_1 \log (speed) + \log(1+\epsilon).
     \tag{11.3}
 \end{equation}\]</span>
-If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(11.3)</a> by other names (e.g. <span class="math inline">\(\log(a_0)=b_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log,” reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">11.2</a>).</p>
+If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(11.3)</a> by other names (e.g. <span class="math inline">\(\log(\beta_0)=\beta^\prime_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log,” reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">11.2</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceLogs"></span>
 <img src="adam_files/figure-html/speedDistanceLogs-1.png" alt="Speed vs stopping distance in logarithms" width="672" />
 <p class="caption">
@@ -382,7 +383,7 @@ Figure 11.3: Speed vs stopping distance and the log-log model fit.
 </div>
 <p>The resulting model in Figure <a href="example-of-application.html#fig:speedDistanceLogExp">11.3</a> is the power function, which exhibits the increase in speed of change of one parameter with a linear change of another one. Note that technically speaking, the log-log model only makes sense, when the data is strictly positive. If it also contains zeroes (the speed is zero, thus the stopping distance is zero), then some other transformations might be in order. For example, we could square the speed in the model and try constructing the linear model, aligning it better with the physical model <a href="example-of-application.html#eq:speedDistanceFormula">(11.1)</a>:
 <span class="math display" id="eq:speedDistanceModelSquare">\[\begin{equation}
-    distance = a_0 + a_1 speed^2 + \epsilon .
+    distance = \beta_0 + \beta_1 speed^2 + \epsilon .
     \tag{11.4}
 \end{equation}\]</span>
 The issue of this model would be that the error term is additive and thus the model would assume that the variability of the error does not change with the speed, which is not realistic.</p>
@@ -409,15 +410,15 @@ Figure 11.5: Speed squared vs stopping distance with models with speed^2.
 <p>The plot in Figure <a href="example-of-application.html#fig:speedDistanceSquare02">11.5</a> demonstrates how the two models fit the data. The Model 2, as we see goes through the origin, which makes sense from the physical point of view. However, because of that it might fit the data worse than the Model 1 does. Still, it it better to have a more meaningful model than the one that potentially overfits the data.</p>
 <p>Another way to introduce the squares in the model is to take square root of distance. This would potentially align better with the physical model of stopping distance <a href="example-of-application.html#eq:speedDistanceFormula">(11.1)</a>:
 <span class="math display" id="eq:speedDistanceModelSqrt">\[\begin{equation}
-    \sqrt{distance} = a_0 + a_1 speed + \epsilon ,
+    \sqrt{distance} = \beta_0 + \beta_1 speed + \epsilon ,
     \tag{11.5}
 \end{equation}\]</span>
 which will be equivalent to:
 <span class="math display" id="eq:speedDistanceModelSqrt2">\[\begin{equation}
-    distance = (a_0 + a_1 speed + \epsilon)^2 .
+    distance = (\beta_0 + \beta_1 speed + \epsilon)^2 .
     \tag{11.6}
 \end{equation}\]</span>
-The good news is, the error term in this model will change with the change of speed due to the interaction effect, cause by the square of the sum in <a href="example-of-application.html#eq:speedDistanceModelSqrt2">(11.6)</a>. And, similar to the previous models, the parameter <span class="math inline">\(a_0\)</span> might not be needed. Graphically, this transformation is present on Figure <a href="example-of-application.html#fig:speedDistanceSqrt">11.6</a>.</p>
+The good news is, the error term in this model will change with the change of speed due to the interaction effect, cause by the square of the sum in <a href="example-of-application.html#eq:speedDistanceModelSqrt2">(11.6)</a>. And, similar to the previous models, the parameter <span class="math inline">\(\beta_0\)</span> might not be needed. Graphically, this transformation is present on Figure <a href="example-of-application.html#fig:speedDistanceSqrt">11.6</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt"></span>
 <img src="adam_files/figure-html/speedDistanceSqrt-1.png" alt="Speed vs square root of stopping distance." width="672" />
 <p class="caption">
@@ -456,20 +457,20 @@ Figure 11.7: Speed squared vs stopping distance with Square Root models.
 ## 158.3623 158.4456 160.2743 160.4373</code></pre>
 <p>Its parameter contains some average information about the mass of cars and their breaking forces (this is based on the formula <a href="example-of-application.html#eq:speedDistanceFormula">(11.1)</a>). The interpretation of the parameter in this model, however, is challenging. In order to get to some crude interpretation, we need to revert to maths. Model 5 can be written as:
 <span class="math display" id="eq:speedDistanceModelSqrt3">\[\begin{equation}
-    distance = (a_1 speed + \epsilon)^2 .
+    distance = (\beta_1 speed + \epsilon)^2 .
     \tag{11.7}
 \end{equation}\]</span>
 If we take the first derivative of distance with respect to speed, we will get:
 <span class="math display" id="eq:speedDistanceModelSqrt4">\[\begin{equation}
-    \frac{\mathrm{d}distance}{\mathrm{d}speed} = 2 (a_1 speed + \epsilon) ,
+    \frac{\mathrm{d}distance}{\mathrm{d}speed} = 2 (\beta_1 speed + \epsilon) ,
     \tag{11.8}
 \end{equation}\]</span>
-which is now closer to what we need. We can say that if speed increases by 1mph, the distance will change on average by <span class="math inline">\(2 a_1 speed\)</span>. But this does not explain what the meaning of <span class="math inline">\(a_1\)</span> in the model is. So we take the second derivative with respect to speed:
+which is now closer to what we need. We can say that if speed increases by 1mph, the distance will change on average by <span class="math inline">\(2 \beta_1 speed\)</span>. But this does not explain what the meaning of <span class="math inline">\(\beta_1\)</span> in the model is. So we take the second derivative with respect to speed:
 <span class="math display" id="eq:speedDistanceModelSqrt5">\[\begin{equation}
-    \frac{\mathrm{d}^2 distance}{\mathrm{d}^2 speed} = 2 a_1 .
+    \frac{\mathrm{d}^2 distance}{\mathrm{d}^2 speed} = 2 \beta_1 .
     \tag{11.9}
 \end{equation}\]</span>
-The meaning of the second derivative is that it shows the change of change of distance with a change of change of speed by 1. This implies a tricky interpretation of the parameter. Based on the summary above, the only thing we can conclude is that when the change of speed increases by 1mph, the change of distance will increase by 0.7934 feet. An alternative interpretation would be based on the model <a href="example-of-application.html#eq:speedDistanceModelSqrt">(11.5)</a>: with the increase of speed of car by 1mph, the square roo tof stopping distance would increase by 0.3967 square root feet. Neither of these two interpretations are very helpful, but this is the best we have for the parameter <span class="math inline">\(a_1\)</span> in the Model 5.
+The meaning of the second derivative is that it shows the change of change of distance with a change of change of speed by 1. This implies a tricky interpretation of the parameter. Based on the summary above, the only thing we can conclude is that when the change of speed increases by 1mph, the change of distance will increase by 0.7934 feet. An alternative interpretation would be based on the model <a href="example-of-application.html#eq:speedDistanceModelSqrt">(11.5)</a>: with the increase of speed of car by 1mph, the square roo tof stopping distance would increase by 0.3967 square root feet. Neither of these two interpretations are very helpful, but this is the best we have for the parameter <span class="math inline">\(\beta_1\)</span> in the Model 5.
 <!-- The more useful interpretation would be related to equation \@ref(eq:speedDistanceModelSqrt4), if we know a specific speed. For example, if a car drives with the speed of 30mph, then an increase in speed by 1mph would on average lead to 23.805 23 feet increase in stopping distance. --></p>
 </div>
 
@@ -483,7 +484,6 @@ The meaning of the second derivative is that it shows the change of change of di
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -524,7 +524,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

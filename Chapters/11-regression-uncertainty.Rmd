@@ -52,15 +52,15 @@ Figure \@ref(fig:slmSpeedDistanceBoot) shows the uncertainty around the estimate
 ## Confidence intervals
 In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section \@ref(confidenceInterval). This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that [CLT](#CLT) holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section \@ref(likelihoodApproach)). In these conditions the covariance matrix of parameters can be calculated using the following formula:
 \begin{equation}
-    \mathrm{V}(\hat{\mathbf{a}}) = \frac{1}{T-k} \sum_{t=1}^T e_t^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
+    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter $j$ via:
+This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter $i$ via:
 \begin{equation}
-    a_j \in (\hat{a}_j + t_{\alpha/2}(T-k) s_{\hat{a}_j}, \hat{a}_j + t_{1-\alpha/2}(T-k) s_{\hat{a}_j}),
+    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-where $s_{\hat{a}_j}$ is the standard error of the parameter $\hat{a}_j$. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
+where $s_{b_i}$ is the standard error of the parameter $b_i$. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
 
 ```{r}
 vcov(slmSpeedDistance)
@@ -81,11 +81,12 @@ This summary provide all the necessary information about the estimates of parame
 ## Hypothesis testing
 Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section \@ref(hypothesisTesting), I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section \@ref(hypothesisTesting).
 
+### Regression parameters
 The classical hypotheses for the parameters are formulated in the following way:
 \begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: a_j = 0 \\
-        \mathrm{H}_1: a_j \neq 0
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
     (\#eq:regressionHypothesis01)
 \end{equation}
@@ -94,31 +95,31 @@ This formulation of hypotheses comes from the idea that we want to check if the 
 ```{r speedDistanceHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
 par(mfcol=c(1,2))
 plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $a_j = 0$"))
+     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $\\beta_i = 0$"))
 abline(h=mean(cars$dist),col="red")
 plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_1$: $a_j \\neq 0$"))
+     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_1$: $\\beta_i \\neq 0$"))
 abline(slmSpeedDistance,col="blue")
 ```
 
 The graph on the left in Figure \@ref(fig:speedDistanceHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \@ref(hypothesisTesting), the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
 
-Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $T-k$ degrees of freedom:
+Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $n-k$ degrees of freedom:
 \begin{equation}
-    \frac{\hat{a}_j - 0}{s_{\hat{a}_j}} \sim t(T-k) .
+    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
     (\#eq:regressionHypothesisTest01)
 \end{equation}
 After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on \@ref(eq:regressionHypothesisTest01) with the significance level, we can make conclusions about the hypothesis.
 
-The context of regression provides a great example, why we never accept hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $\hat{a}_1=0.5$, and its standard error is $s_{\hat{a}_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:regressionHypothesisTest01), we get: 
+The context of regression provides a great example, why we never accept hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:regressionHypothesisTest01), we get: 
 \begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}
 with the critical value for two-tailed test of $t_{0.01}(30-2)\approx 2.76$. Comparing t-value with the critical one, we would conclude that we fail to reject H$_0$ and thus the parameter is not statistically different from zero. But what would happen if we check another hypothesis:
 \begin{equation*}
     \begin{aligned}
-        \mathrm{H}_0: a_1 = 1 \\
-        \mathrm{H}_1: a_1 \neq 1
+        \mathrm{H}_0: \beta_1 = 1 \\
+        \mathrm{H}_1: \beta_1 \neq 1
     \end{aligned} .
 \end{equation*}
 The procedure is the same, the calculated t-value is:
@@ -135,15 +136,22 @@ summary(lmSpeedDistance)
 
 This output tells us that when we consider the parameter for the variable speed, we reject the standard H$_0$ on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.
 
+### Regression line
 Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
 \begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: a_1 = a_2 = \dots = a_{k-1} = 0 \\
-        \mathrm{H}_1: a_1 \neq 0 \vee a_2 \neq 0 \vee \dots \vee a_{k-1} \neq 0
+        \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
+        \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0
     \end{aligned} ,
     (\#eq:regressionHypothesis02)
 \end{equation}
-which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This is tested based on F statistics with $k-1$, $T-k$ degrees of freedom and is reported, for example, by `lm()` (see the last line in the previous output). This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure \@ref(fig:speedDistanceHypothesesF).
+which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+\begin{equation*}
+    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+\end{equation*}
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis. 
+
+This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure \@ref(fig:speedDistanceHypothesesF).
 
 ```{r speedDistanceHypothesesF, fig.cap="Graphical presentation of F test for regression model.", echo=FALSE}
 testModel <- alm(actuals(slmSpeedDistance)~fitted(slmSpeedDistance))
@@ -155,26 +163,40 @@ abline(h=mean(actuals(slmSpeedDistance)),col="red")
 
 What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.
 
+Here is an example with the speed model discussed above with the significance level of 1%:
+
+```{r}
+lmSpeedDistanceF <- summary(lmSpeedDistance)$fstatistic
+# F value
+lmSpeedDistanceF[1]
+# F critical
+qf(0.99,lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+# p-value from the test
+1-pf(lmSpeedDistanceF[1],lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+```
+
+In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `dist`. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above.
+
 
 ## Regression line uncertainty
-Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_t$, but also the uncertainty around them.
+Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but also the uncertainty around them.
 
 The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
 \begin{equation}
-    \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \mathrm{V}(\hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t}) ,
+    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
     (\#eq:regressionLineUncertaintyVariance01)
 \end{equation}
 which after some simplifications leads to:
 \begin{equation}
-    \mathrm{V}(\hat{y}_t| \mathbf{x}_t) = \sum_{j=0}^{k-1} \mathrm{V}(\hat{a}_j) x^2_{j,t} + 2 \sum_{j=1}^{k-1} \sum_{i=0}^{j-1}  \mathrm{cov}(\hat{a}_i,\hat{a}_j) x_{i,t} x_{j,t} ,
+    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
     (\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
-where $x_{0,t}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $\hat{a}_j$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_t$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
+where $x_{0,j}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_j$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
 \begin{equation}
-    \mu_t \in (\hat{y}_t + t_{\alpha/2}(T-k) s_{\hat{y}_t}, \hat{y}_t + t_{1-\alpha/2}(T-k) s_{\hat{y}_t}),
+    \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
     (\#eq:confidenceIntervalRegression)
 \end{equation}
-where $s_{\hat{y}_t}=\sqrt{\mathrm{V}(\hat{y}_t| \mathbf{x}_t)}$.
+where $s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}$.
 
 In R, this interval can be constructed via the function `predict()` with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function:
 ```{r speedDistanceConfidenceInterval, fig.cap="Fitted values and confidence interval for the stopping distance model."}
@@ -199,15 +221,15 @@ Figure \@ref(fig:speedDistanceConfidenceIntervalAvsF) demonstrates the actuals v
 
 If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
 \begin{equation}
-    \mathrm{V}(y_t| \mathbf{x}_t) = \mathrm{V}(\hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t} + e_t) ,
+    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
     (\#eq:regressionLineUncertaintyVariance03)
 \end{equation}
 which can be simplified to (if assumptions of regression model hold, see Section \@ref(assumptions)):
 \begin{equation}
-    \mathrm{V}(y_t| \mathbf{x}_t) = \mathrm{V}(\hat{y}_t| \mathbf{x}_t) + \hat{\sigma}^2,
+    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2,
     (\#eq:regressionLineUncertaintyVariance04)
 \end{equation}
-where $\hat{\sigma}^2$ is the variance of the residuals $e_t$. As we see from the formula \@ref(eq:regressionLineUncertaintyVariance04), the variance in this case is larger than \@ref(eq:regressionLineUncertaintyVariance02), which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to \@ref(eq:confidenceIntervalRegression)), as long as we can assume that $\epsilon_t \sim \mathcal{N}(0,\sigma^2)$.
+where $\hat{\sigma}^2$ is the variance of the residuals $e_j$. As we see from the formula \@ref(eq:regressionLineUncertaintyVariance04), the variance in this case is larger than \@ref(eq:regressionLineUncertaintyVariance02), which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to \@ref(eq:confidenceIntervalRegression)), as long as we can assume that $\epsilon_j \sim \mathcal{N}(0,\sigma^2)$.
 
 In R, this can be done via the very same `predict()` function with `interval="prediction"`:
 ```{r}
@@ -241,28 +263,3 @@ plot(slmSpeedDistanceForecast)
 ```
 
 Figure \@ref(fig:speedDistanceForecast) shows the point forecast (the expected stopping distance if the speed of car was 30mph) and the 95% prediction interval (we expect that in 95% of the cases, the cars will have the stopping distance between `r paste(round(c(slmSpeedDistanceForecast$lower,slmSpeedDistanceForecast$upper),3),collapse=" and ")` feet.
-
-
-### Significance of the regression line
-Finally, instead of constructing confidence interval for the line, we could test the following hypothesis:
-\begin{equation*}
-    \mathrm{H}_0: \beta_1 = \beta_2 = \dots \beta_{k-1} = 0, \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0,
-\end{equation*}
-which in human language means: H$_0$: all parameters for explanatory variables are equal to zero; H$_1$: at least one of the parameters is not equal to zero. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
-\begin{equation*}
-    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
-\end{equation*}
-where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis. Here is an example with the speed model discussed above with the significance level of 1%:
-
-```{r}
-lmSpeedDistanceF <- summary(lmSpeedDistance)$fstatistic
-# F value
-lmSpeedDistanceF[1]
-# F critical
-qf(0.99,lmSpeedDistanceF[2],lmSpeedDistanceF[3])
-# p-value from the test
-1-pf(lmSpeedDistanceF[1],lmSpeedDistanceF[2],lmSpeedDistanceF[3])
-```
-
-In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `dist`. Alternatively, we could focus on p-value. We see that the p-value is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above.
-

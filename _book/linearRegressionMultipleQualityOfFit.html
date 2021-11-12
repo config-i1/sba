@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8.2 Quality of the fit | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8.2 Quality of the fit | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="ols-estimation.html"/>
 <link rel="next" href="interpretation-of-parameters.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -246,11 +246,12 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
 </ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -324,10 +325,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">8.2</span> Quality of the fit</h2>
 <p>Building upon the discussion of the quality of the fit in Section <a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit">7.2</a>, we can introduce a measure, based on the OLS criterion, <a href="OLS.html#eq:OLSCriterion">(7.4)</a>, which is called either “Root Mean Squared Error” (RMSE) or a “standard error” or a “standard deviation of error” of the regression:
 <span class="math display" id="eq:RMSERegression">\[\begin{equation}
-    \mathrm{RMSE} = \sqrt{\frac{1}{T-k} \sum_{t=1}^T e_t^2 }.
+    \mathrm{RMSE} = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
     \tag{8.9}
 \end{equation}\]</span>
-Note that it is divided by the number of degrees of freedom in the model, <span class="math inline">\(T-k\)</span>, not on the number of observations, so technically speaking this is not a “mean” any more. This is needed to correct the in-sample <a href="estimatesProperties.html#estimatesPropertiesBias">bias</a> of the measure. RMSE does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower RMSE is, the better the model fits the data. Note that this measure is not aware of the randomness in <a href="what-is-model.html#modelsMethods">the true model</a> and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.</p>
+Note that it is divided by the number of degrees of freedom in the model, <span class="math inline">\(n-k\)</span>, not on the number of observations, so technically speaking this is not a “mean” any more. This is needed to correct the in-sample <a href="estimatesProperties.html#estimatesPropertiesBias">bias</a> of the measure. RMSE does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower RMSE is, the better the model fits the data. Note that this measure is not aware of the randomness in <a href="what-is-model.html#modelsMethods">the true model</a> and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.</p>
 <p>Here is how this can be calculated for our model, estimated using <code>alm()</code> function:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="linearRegressionMultipleQualityOfFit.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sigma</span>(mtcarsModel02)</span></code></pre></div>
 <pre><code>## [1] 2.622011</code></pre>
@@ -340,7 +341,7 @@ Note that it is divided by the number of degrees of freedom in the model, <span 
 <p>And here is the value of determination coefficient of the new model:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="linearRegressionMultipleQualityOfFit.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
 <span id="cb115-2"><a href="linearRegressionMultipleQualityOfFit.html#cb115-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.8597004</code></pre>
+<pre><code>## [1] 0.8596023</code></pre>
 <p>and the previous one:</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="linearRegressionMultipleQualityOfFit.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
 <span id="cb117-2"><a href="linearRegressionMultipleQualityOfFit.html#cb117-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
@@ -356,7 +357,7 @@ where MSE is the Mean Squared Error (square of RMSE <a href="linearRegressionMul
 <span id="cb119-2"><a href="linearRegressionMultipleQualityOfFit.html#cb119-2" aria-hidden="true" tabindex="-1"></a>           <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))),</span>
 <span id="cb119-3"><a href="linearRegressionMultipleQualityOfFit.html#cb119-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;R^2-adj&quot;</span>,<span class="st">&quot;R^2-adj, Noise&quot;</span>))</span></code></pre></div>
 <pre><code>##        R^2-adj R^2-adj, Noise 
-##      0.8107333      0.8023051</code></pre>
+##      0.8107333      0.8021669</code></pre>
 <p>What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R<span class="math inline">\(^2\)</span> than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter. So, you should not fully trust R<span class="math inline">\(^2_{adj}\)</span> either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inaccurate forecasts and inefficient estimates of parameters (see Section <a href="assumptions.html#assumptions">12</a> for details).</p>
 </div>
 
@@ -370,7 +371,6 @@ where MSE is the Mean Squared Error (square of RMSE <a href="linearRegressionMul
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -411,7 +411,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

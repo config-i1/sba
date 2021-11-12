@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Multiple Linear Regression | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Multiple Linear Regression | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="linearRegressionSimpleQualityOfFit.html"/>
 <link rel="next" href="ols-estimation.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -246,11 +246,12 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
 </ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -324,17 +325,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h1><span class="header-section-number">Chapter 8</span> Multiple Linear Regression</h1>
 <p>While simple linear regression provides a basic understanding of the idea of capturing the relations between variables, it is obvious that in reality there are more than one external variable that would impact the response variable. This means that instead of <a href="simpleLinearRegression.html#eq:SLRFormula">(7.1)</a> we should have:
 <span class="math display" id="eq:MLRFormula">\[\begin{equation}
-    y_t = a_0 + a_1 x_{1,t} + a_2 x_{2,t} + \dots + a_{k-1} x_{k-1,t} + \epsilon_t ,
+    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
     \tag{8.1}
 \end{equation}\]</span>
-where <span class="math inline">\(a_j\)</span> is a <span class="math inline">\(j\)</span>-th parameter for the respective <span class="math inline">\(j\)</span>-th explanatory variable and there is <span class="math inline">\(k-1\)</span> of them in the model, meaning that when we want to estimate this model, we will have <span class="math inline">\(k\)</span> unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
+where <span class="math inline">\(\beta_i\)</span> is a <span class="math inline">\(i\)</span>-th parameter for the respective <span class="math inline">\(i\)</span>-th explanatory variable and there is <span class="math inline">\(k-1\)</span> of them in the model, meaning that when we want to estimate this model, we will have <span class="math inline">\(k\)</span> unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
 <span class="math display" id="eq:MLRExpectation">\[\begin{equation}
-    \mu_{y,t} = \mathrm{E}(y_t | \mathbf{x}_t) = a_0 + a_1 x_{1,t} + a_2 x_{2,t} + \dots + a_{k-1} x_{k-1,t} ,
+    \mu_{y,j} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} ,
     \tag{8.2}
 \end{equation}\]</span>
 while in case of a sample estimation of the model we will use:
 <span class="math display" id="eq:MLRExpectationSample">\[\begin{equation}
-    \hat{y}_t = \hat{a}_0 + \hat{a}_1 x_{1,t} + \hat{a}_2 x_{2,t} + \dots + \hat{a}_{k-1} x_{k-1,t} .
+    \hat{y}_j = b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} .
     \tag{8.3}
 \end{equation}\]</span>
 While the simple linear regression can be represented as a line on the plane with an explanatory variable and a response variable, the multiple linear regression cannot be easily represented in the same way. In case of two explanatory variables the plot becomes three dimensional and the regression line transforms into regression plane.</p>
@@ -344,7 +345,7 @@ While the simple linear regression can be represented as a line on the plane wit
 Figure 8.1: 3D scatterplot of Mileage vs Weight of a car and its Engine Horsepower.
 </p>
 </div>
-<p>Figure <a href="linearRegression.html#fig:scatterplot3dmtcars">8.1</a> demonstrates a three dimensional scatterplot with the regression plane, going through the points, similar to how the regression line went through the two dimensional scatterplot <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">7.1</a>. These sorts of plots are already difficult to read, but the situation becomes even more challenging, when more than two explanatory variables are under consideration: plotting 4D, 5D etc is not a trivial task. Still, what can be said about the parameters of the model even if we cannot plot it in the same way, is that they represent slopes for each variable, in a similar manner as <span class="math inline">\(a_1\)</span> did in the <a href="simpleLinearRegression.html#simpleLinearRegression">simple linear regression</a>.</p>
+<p>Figure <a href="linearRegression.html#fig:scatterplot3dmtcars">8.1</a> demonstrates a three dimensional scatterplot with the regression plane, going through the points, similar to how the regression line went through the two dimensional scatterplot <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">7.1</a>. These sorts of plots are already difficult to read, but the situation becomes even more challenging, when more than two explanatory variables are under consideration: plotting 4D, 5D etc is not a trivial task. Still, what can be said about the parameters of the model even if we cannot plot it in the same way, is that they represent slopes for each variable, in a similar manner as <span class="math inline">\(\beta_1\)</span> did in the <a href="simpleLinearRegression.html#simpleLinearRegression">simple linear regression</a>.</p>
 </div>
 
             </section>
@@ -357,7 +358,6 @@ Figure 8.1: 3D scatterplot of Mileage vs Weight of a car and its Engine Horsepow
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -398,7 +398,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

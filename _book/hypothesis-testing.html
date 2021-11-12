@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.2 Hypothesis testing | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.2 Hypothesis testing | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="confidence-intervals.html"/>
 <link rel="next" href="regression-line-uncertainty.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -246,11 +246,12 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
 </ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -323,11 +324,13 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="hypothesis-testing" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Hypothesis testing</h2>
 <p>Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>, I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>.</p>
+<div id="regression-parameters" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Regression parameters</h3>
 <p>The classical hypotheses for the parameters are formulated in the following way:
 <span class="math display" id="eq:regressionHypothesis01">\[\begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: a_j = 0 \\
-        \mathrm{H}_1: a_j \neq 0
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
     \tag{9.2}
 \end{equation}\]</span>
@@ -339,21 +342,21 @@ Figure 9.4: Graphical presentation of null and alternative hypothesis in regress
 </p>
 </div>
 <p>The graph on the left in Figure <a href="hypothesis-testing.html#fig:speedDistanceHypotheses">9.4</a> demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H<span class="math inline">\(_0\)</span>, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>, the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.</p>
-<p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(T-k\)</span> degrees of freedom:
+<p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(n-k\)</span> degrees of freedom:
 <span class="math display" id="eq:regressionHypothesisTest01">\[\begin{equation}
-    \frac{\hat{a}_j - 0}{s_{\hat{a}_j}} \sim t(T-k) .
+    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
     \tag{9.3}
 \end{equation}\]</span>
 After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on <a href="hypothesis-testing.html#eq:regressionHypothesisTest01">(9.3)</a> with the significance level, we can make conclusions about the hypothesis.</p>
-<p>The context of regression provides a great example, why we never accept hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>,” we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(\hat{a}_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{\hat{a}_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="hypothesis-testing.html#eq:regressionHypothesis01">(9.2)</a>) on 1% significance level. Inserting the values in formula <a href="hypothesis-testing.html#eq:regressionHypothesisTest01">(9.3)</a>, we get:
+<p>The context of regression provides a great example, why we never accept hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>,” we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="hypothesis-testing.html#eq:regressionHypothesis01">(9.2)</a>) on 1% significance level. Inserting the values in formula <a href="hypothesis-testing.html#eq:regressionHypothesisTest01">(9.3)</a>, we get:
 <span class="math display">\[\begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}\]</span>
 with the critical value for two-tailed test of <span class="math inline">\(t_{0.01}(30-2)\approx 2.76\)</span>. Comparing t-value with the critical one, we would conclude that we fail to reject H<span class="math inline">\(_0\)</span> and thus the parameter is not statistically different from zero. But what would happen if we check another hypothesis:
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
-        \mathrm{H}_0: a_1 = 1 \\
-        \mathrm{H}_1: a_1 \neq 1
+        \mathrm{H}_0: \beta_1 = 1 \\
+        \mathrm{H}_1: \beta_1 \neq 1
     \end{aligned} .
 \end{equation*}\]</span>
 The procedure is the same, the calculated t-value is:
@@ -383,15 +386,23 @@ which leads to exactly the same conclusion as before: on 1% significance level, 
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
 ## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <p>This output tells us that when we consider the parameter for the variable speed, we reject the standard H<span class="math inline">\(_0\)</span> on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.</p>
+</div>
+<div id="regression-line" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Regression line</h3>
 <p>Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
 <span class="math display" id="eq:regressionHypothesis02">\[\begin{equation}
     \begin{aligned}
-        \mathrm{H}_0: a_1 = a_2 = \dots = a_{k-1} = 0 \\
-        \mathrm{H}_1: a_1 \neq 0 \vee a_2 \neq 0 \vee \dots \vee a_{k-1} \neq 0
+        \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
+        \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0
     \end{aligned} ,
     \tag{9.4}
 \end{equation}\]</span>
-which translates into normal language as “H<span class="math inline">\(_0\)</span>: all parameters (except for intercept) are equal to zero; H<span class="math inline">\(_1\)</span>: at least one parameter is not equal to zero.” This is tested based on F statistics with <span class="math inline">\(k-1\)</span>, <span class="math inline">\(T-k\)</span> degrees of freedom and is reported, for example, by <code>lm()</code> (see the last line in the previous output). This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure <a href="hypothesis-testing.html#fig:speedDistanceHypothesesF">9.5</a>.</p>
+which translates into normal language as “H<span class="math inline">\(_0\)</span>: all parameters (except for intercept) are equal to zero; H<span class="math inline">\(_1\)</span>: at least one parameter is not equal to zero.” This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+<span class="math display">\[\begin{equation*}
+    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+\end{equation*}\]</span>
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis.</p>
+<p>This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure <a href="hypothesis-testing.html#fig:speedDistanceHypothesesF">9.5</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceHypothesesF"></span>
 <img src="adam_files/figure-html/speedDistanceHypothesesF-1.png" alt="Graphical presentation of F test for regression model." width="672" />
 <p class="caption">
@@ -399,6 +410,21 @@ Figure 9.5: Graphical presentation of F test for regression model.
 </p>
 </div>
 <p>What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.</p>
+<p>Here is an example with the speed model discussed above with the significance level of 1%:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="hypothesis-testing.html#cb133-1" aria-hidden="true" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
+<span id="cb133-2"><a href="hypothesis-testing.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="co"># F value</span></span>
+<span id="cb133-3"><a href="hypothesis-testing.html#cb133-3" aria-hidden="true" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##    value 
+## 89.56711</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="hypothesis-testing.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co"># F critical</span></span>
+<span id="cb135-2"><a href="hypothesis-testing.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## [1] 7.194218</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="hypothesis-testing.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
+<span id="cb137-2"><a href="hypothesis-testing.html#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>##        value 
+## 1.489919e-12</code></pre>
+<p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>
+</div>
 </div>
 
             </section>
@@ -411,7 +437,6 @@ Figure 9.5: Graphical presentation of F test for regression model.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -452,7 +477,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

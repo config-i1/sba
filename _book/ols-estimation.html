@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8.1 OLS estimation | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8.1 OLS estimation | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="linearRegression.html"/>
 <link rel="next" href="linearRegressionMultipleQualityOfFit.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -246,11 +246,12 @@ div.csl-indent {
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a>
+<li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html#significance-of-the-regression-line"><i class="fa fa-check"></i><b>9.3.1</b> Significance of the regression line</a></li>
+<li class="chapter" data-level="9.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>9.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="9.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>9.2.2</b> Regression line</a></li>
 </ul></li>
+<li class="chapter" data-level="9.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>9.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>10</b> Regression with categorical variables</a>
 <ul>
@@ -324,20 +325,20 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">8.1</span> OLS estimation</h2>
 <p>In order to show how the estimation of multiple linear regression is done, we need to present it in a more compact form. In order to do that we will introduce the following vectors:
 <span class="math display" id="eq:MLRVectors">\[\begin{equation}
-    \mathbf{x}&#39;_t = \begin{pmatrix}1 &amp; x_{1,t} &amp; \dots &amp; x_{k-1,t} \end{pmatrix},
-    \boldsymbol{a} = \begin{pmatrix}a_0 \\ a_{1} \\ \vdots \\ a_{k-1} \end{pmatrix} ,
+    \mathbf{x}&#39;_j = \begin{pmatrix}1 &amp; x_{1,j} &amp; \dots &amp; x_{k-1,j} \end{pmatrix},
+    \boldsymbol{a} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
     \tag{8.4}
 \end{equation}\]</span>
 where <span class="math inline">\(&#39;\)</span> symbol is the transposition. This can then be substituted in <a href="linearRegression.html#eq:MLRFormula">(8.1)</a> to get:
 <span class="math display" id="eq:MLRFormulaCompacter">\[\begin{equation}
-    y_t = \mathbf{x}&#39;_t \boldsymbol{a} + \epsilon_t .
+    y_j = \mathbf{x}&#39;_j \boldsymbol{a} + \epsilon_j .
     \tag{8.5}
 \end{equation}\]</span>
 But this is not over yet, we can make it even more compact, if we pack all those values with index <span class="math inline">\(t\)</span> in vectors and matrices:
 <span class="math display" id="eq:MLRMatrices">\[\begin{equation}
-    \mathbf{X} = \begin{pmatrix} \mathbf{x}&#39;_1 \\ \mathbf{x}&#39;_2 \\ \vdots \\ \mathbf{x}&#39;_T \end{pmatrix}, 
-    \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_T \end{pmatrix}, 
-    \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_T \end{pmatrix} ,
+    \mathbf{X} = \begin{pmatrix} \mathbf{x}&#39;_1 \\ \mathbf{x}&#39;_2 \\ \vdots \\ \mathbf{x}&#39;_n \end{pmatrix}, 
+    \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}, 
+    \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
     \tag{8.6}
 \end{equation}\]</span>
 where <span class="math inline">\(T\)</span> is the sample size. This leads to the following compact form of multiple linear regression:
@@ -352,7 +353,7 @@ Now that we have this compact form of multiple linear regression, we can estimat
 \end{equation}\]</span>
 The formula <a href="ols-estimation.html#eq:MLROLS">(8.8)</a> is used in all the statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same <code>mtcars</code> dataset:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ols-estimation.html#cb109-1" aria-hidden="true" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
-<p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_t\)</span> on x-axis and <span class="math inline">\(y_t\)</span> on the y-axis:</p>
+<p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ols-estimation.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
 <p><img src="adam_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
@@ -378,7 +379,6 @@ Figure 8.2: Actuals vs fitted values for multiple linear regression model on mtc
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -419,7 +419,7 @@ gitbook.start({
 },
 "download": ["adam.pdf", "adam.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {
