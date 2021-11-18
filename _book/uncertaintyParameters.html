@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics</title>
+  <title>Chapter 9 Uncertainty in regression | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics" />
+  <meta property="og:title" content="Chapter 9 Uncertainty in regression | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Uncertainty about the estimates of pariameters | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="Chapter 9 Uncertainty in regression | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-12" />
+<meta name="date" content="2021-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -216,7 +216,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="uncertaintyData.html"><a href="uncertaintyData.html"><i class="fa fa-check"></i><b>5</b> Dealing with uncertainty in the data</a>
+<li class="chapter" data-level="5" data-path="uncertaintyData.html"><a href="uncertaintyData.html"><i class="fa fa-check"></i><b>5</b> Sample related uncertainty</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>5.1</b> Confidence interval</a></li>
 <li class="chapter" data-level="5.2" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>5.2</b> Prediction interval</a></li>
@@ -243,7 +243,7 @@ div.csl-indent {
 <li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit</a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty about the estimates of pariameters</a>
+<li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty in regression</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>9.1</b> Confidence intervals</a></li>
 <li class="chapter" data-level="9.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a>
@@ -322,7 +322,7 @@ div.csl-indent {
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
 <div id="uncertaintyParameters" class="section level1" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Uncertainty about the estimates of pariameters</h1>
+<h1><span class="header-section-number">Chapter 9</span> Uncertainty in regression</h1>
 <p>Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was mpg=37.29-5.34wt+et. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?</p>
 <div class="figure"><span style="display:block;" id="fig:scatterWeightMPG4"></span>
 <img src="adam_files/figure-html/scatterWeightMPG4-1.png" alt="Weight vs mileage and two regression lines." width="672" />
