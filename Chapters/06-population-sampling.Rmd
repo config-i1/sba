@@ -70,7 +70,7 @@ Before we move further, we need to agree what the term "estimator" means, which 
 
 In this section, we discuss such terms as **bias**, **efficiency** and **consistency** of estimates of parameters, which are directly related to [LLN](#LLN) and [CLT](#CLT). Although there are strict statistical definitions of the aforementioned terms (you can easily find them in Wikipedia or anywhere else), I do not want to copy-paste them here, because there are only a couple of important points worth mentioning in our context.
 
-Note that all the discussions in this chapter relate to **the estimates of parameters**, not to the distribution of a random variable itself. A common mistake that students make when studying statistics, is that they think that the properties apply to the variable $y_t$ instead of the estimate of its parameters (e.g. mean of $y_t$).
+Note that all the discussions in this chapter relate to **the estimates of parameters**, not to the distribution of a random variable itself. A common mistake that students make when studying statistics, is that they think that the properties apply to the variable $y_j$ instead of the estimate of its parameters (e.g. mean of $y_j$).
 
 
 ### Bias {#estimatesPropertiesBias}
@@ -78,10 +78,10 @@ Note that all the discussions in this chapter relate to **the estimates of param
 
 The classical example of bias in statistics is the estimation of variance in sample. The following formula gives biased estimate of variance in sample:
 \begin{equation}
-    \mathrm{V}(y) = \frac{1}{T} \sum_{j=1}^T \left( y_t - \bar{y} \right)^2,
+    \mathrm{V}(y) = \frac{1}{T} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     (\#eq:varianceBiased)
 \end{equation}
-where $T$ is the sample size and $\bar{y} = \frac{1}{T} \sum_{j=1}^T y_t$ is the mean of the data. There is a lot of proofs in the literature of this issue (even @WikipediaVarianceBias2020 has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:
+where $T$ is the sample size and $\bar{y} = \frac{1}{T} \sum_{j=1}^n y_j$ is the mean of the data. There is a lot of proofs in the literature of this issue (even @WikipediaVarianceBias2020 has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:
 ```{r}
 mu <- 100
 sigma <- 10
@@ -114,7 +114,7 @@ legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValu
 
 Every run of this experiment will produce different plots, but typically what we will see is that, the biased estimate of variance (the histogram on the right hand side of the plot) will have lower mean than the unbiased one. This is the graphical example of the effect of not taking the number of estimated parameters into account. The correct formula for the unbiased estimate of variance is:
 \begin{equation}
-    s^2 = \frac{1}{T-k} \sum_{j=1}^T \left( y_t - \bar{y} \right)^2,
+    s^2 = \frac{1}{T-k} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     (\#eq:varianceUnBiased)
 \end{equation}
 where $k$ is the number of all independent estimated parameters. In this simple example $k=1$, because we only estimate mean (the variance is based on it). Analysing the formulae \@ref(eq:varianceBiased) and \@ref(eq:varianceUnBiased), we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size $T$ becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.
@@ -159,7 +159,7 @@ What we should typically see on this graph, is that the black line should be bel
 
 An example of inconsistent estimator is Chebyshev (or max norm) metric. It is formulated the following way:
 \begin{equation}
-    \mathrm{LMax} = \max \left(|y_1-\hat{y}|, |y_2-\hat{y}|, \dots, |y_T-\hat{y}| \right).
+    \mathrm{LMax} = \max \left(|y_1-\hat{y}|, |y_2-\hat{y}|, \dots, |y_n-\hat{y}| \right).
     (\#eq:chebyshevNorm)
 \end{equation}
 Minimising this norm, we can get an estimate $\hat{y}$ of the location parameter $\mu$. The simulation experiment becomes a bit more tricky in this situation, but here is the code to generate the estimates of the location parameter:
