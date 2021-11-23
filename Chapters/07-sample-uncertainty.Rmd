@@ -4,8 +4,8 @@ As mentioned in Section \@ref(sourcesOfUncertainty), we always work with samples
 In order to simplify further discussion in this section, we will take the population mean and its in-sample estimate as an example. In this case we have:
 
 1. A random variable $y$, which is assumed to follow some distribution with finite mean $\mu$ and variance $\sigma^2$;
-2. A sample of size $T$ from the population of $y$;
-3. Estimates of mean $\hat{\mu}=\bar{y}$ and variance $\hat{\sigma}^2 = s^2$, obtained based on the sample of size $T$.
+2. A sample of size $n$ from the population of $y$;
+3. Estimates of mean $\hat{\mu}=\bar{y}$ and variance $\hat{\sigma}^2 = s^2$, obtained based on the sample of size $n$.
 
 
 ## Confidence interval {#confidenceInterval}
@@ -71,7 +71,7 @@ Mathematically the red bounds in Figure \@ref(fig:normalCurveIntervalsShades) ar
     \mu \in (\bar{y} + t_{\alpha/2}(df) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(df) s_{\bar{y}}),
     (\#eq:confidenceInterval)
 \end{equation}
-where $t_{\alpha/2}(df)$ is Student's t-statistics for $df=T-k$ degrees of freedom ($T$ is the sample size and $k$ is the number of estimated parameters, e.g. $k=1$ in our case) and level $\alpha/2$, and $s_{\bar{y}}=\frac{1}{\sqrt{T}}s$ is the estimate of the standard deviation of the sample mean. If we knew for some reason the true variance $\sigma^2$, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics.
+where $t_{\alpha/2}(df)$ is Student's t-statistics for $df=n-k$ degrees of freedom ($n$ is the sample size and $k$ is the number of estimated parameters, e.g. $k=1$ in our case) and level $\alpha/2$, and $s_{\bar{y}}=\frac{1}{\sqrt{n}}s$ is the estimate of the standard deviation of the sample mean. If we knew for some reason the true variance $\sigma^2$, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics.
 
 Note, that in order to construct *confidence interval*, we do not care what distribution $y$ follows, as long as LLN and CLT hold.
 

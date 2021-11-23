@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-11-18" />
+<meta name="date" content="2021-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -351,7 +351,7 @@ Figure 5.3: Distribution of the sample mean and the confidence interval based on
     \mu \in (\bar{y} + t_{\alpha/2}(df) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(df) s_{\bar{y}}),
     \tag{5.1}
 \end{equation}\]</span>
-where <span class="math inline">\(t_{\alpha/2}(df)\)</span> is Student’s t-statistics for <span class="math inline">\(df=T-k\)</span> degrees of freedom (<span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(k\)</span> is the number of estimated parameters, e.g. <span class="math inline">\(k=1\)</span> in our case) and level <span class="math inline">\(\alpha/2\)</span>, and <span class="math inline">\(s_{\bar{y}}=\frac{1}{\sqrt{T}}s\)</span> is the estimate of the standard deviation of the sample mean. If we knew for some reason the true variance <span class="math inline">\(\sigma^2\)</span>, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics.</p>
+where <span class="math inline">\(t_{\alpha/2}(df)\)</span> is Student’s t-statistics for <span class="math inline">\(df=n-k\)</span> degrees of freedom (<span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(k\)</span> is the number of estimated parameters, e.g. <span class="math inline">\(k=1\)</span> in our case) and level <span class="math inline">\(\alpha/2\)</span>, and <span class="math inline">\(s_{\bar{y}}=\frac{1}{\sqrt{n}}s\)</span> is the estimate of the standard deviation of the sample mean. If we knew for some reason the true variance <span class="math inline">\(\sigma^2\)</span>, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics.</p>
 <p>Note, that in order to construct <em>confidence interval</em>, we do not care what distribution <span class="math inline">\(y\)</span> follows, as long as LLN and CLT hold.</p>
 </div>
 
@@ -393,7 +393,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//07-uncertainty.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//07-sample-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {
