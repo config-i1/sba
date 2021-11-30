@@ -2,7 +2,7 @@
 We will use different estimation techniques throughout this book, one of the main of which is **Maximum Likelihood Estimate** (MLE). The very rough idea of the approach is to maximise the chance that each observation in the sample follows a pre-selected distribution with specific set of parameters. In a nutshell, what we try to do when using likelihood for estimation, is fit the distribution function to the data. In order to demonstrate this idea, we start in a non-conventional way, with an example in R. We will then move to the mathematical side of the problem.
 
 ## An example in R
-We consider a simple example, when we want to estimate the model $y_t = \mu_y + \epsilon_t$ (global average), assuming that the error term follows normal distribution: $\epsilon_t \sim \mathcal{N}(0, \sigma^2)$, which means that $y_t \sim \mathcal{N}(\mu_{y}, \sigma^2)$. In this case we want to estimate two parameters using likelihood: $\hat{\mu}_y$ and $\hat{\sigma}^2$. First, we generate the random variable in R and plot its distribution:
+We consider a simple example, when we want to estimate the model $y_j = \mu_y + \epsilon_j$ (global average), assuming that the error term follows normal distribution: $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$, which means that $y_j \sim \mathcal{N}(\mu_{y}, \sigma^2)$. In this case we want to estimate two parameters using likelihood: $\hat{\mu}_y$ and $\hat{\sigma}^2$. First, we generate the random variable in R and plot its distribution:
 ```{r}
 y <- rnorm(1000, 100, 10)
 hist(y, xlim=c(50,150), main="", probability=TRUE)
@@ -61,7 +61,7 @@ lines(c(50:150),dnorm(c(50:150),mean(y),10),col="darkblue",lwd=2)
 abline(v=mean(y),col="darkblue",lwd=2)
 ```
 
-The fit on Figure \@ref(fig:MLENormalExample06) is better than on Figure \@ref(fig:MLENormalExample05), which is also reflected in the log-likelihood value being equal to `r round(sum(dnorm(y,mean(y),10,log=T)),3)` instead of `r round(sum(dnorm(y,mean(y),15,log=T)),3)`. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula $\hat{\sigma}^2 = \frac{1}{T}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2$, resulting in log-likelihood of `r round(sum(dnorm(y,mean(y),sqrt(mean((y-mean(y))^2)),log=T)),3)`. Note that if we use the unbiased estimate of the variance $\hat{s}^2 = \frac{1}{T-1}\sum_{t=1}^T\left(y_t - \bar{y}\right)^2$, the log-likelihood will not reach the maximum and will be equal to `r round(sum(dnorm(y,mean(y),sd(y),log=T)),3)`. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are diffrent, which can be checked in R via the following commands:
+The fit on Figure \@ref(fig:MLENormalExample06) is better than on Figure \@ref(fig:MLENormalExample05), which is also reflected in the log-likelihood value being equal to `r round(sum(dnorm(y,mean(y),10,log=T)),3)` instead of `r round(sum(dnorm(y,mean(y),15,log=T)),3)`. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula $\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2$, resulting in log-likelihood of `r round(sum(dnorm(y,mean(y),sqrt(mean((y-mean(y))^2)),log=T)),3)`. Note that if we use the unbiased estimate of the variance $\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2$, the log-likelihood will not reach the maximum and will be equal to `r round(sum(dnorm(y,mean(y),sd(y),log=T)),3)`. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are diffrent, which can be checked in R via the following commands:
 ```{r, eval=FALSE}
 # The maximum log-likelihood with the biased variance
 logLik01 <- sum(dnorm(y,mean(y),sqrt(mean((y-mean(y))^2)),log=TRUE))
@@ -93,42 +93,42 @@ As a final word, when it comes to more complicated models with more parameters a
 ## Mathematical explanation {#likelihoodApproachMaths}
 Now we can discuss the same idea from the mathematical point of view. We use an example of [normal distribution](#distributionsNormal) and a simple model as before:
 \begin{equation}
-    y_t = \mu_{y} + \epsilon_t,
+    y_j = \mu_{y} + \epsilon_j,
     (\#eq:MLESimpleRegression)
 \end{equation}
-where $\mu_{y}$ is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that $\epsilon_t \sim \mathcal{N}(0, \sigma^2)$, which means that $y_t \sim \mathcal{N}(\mu_{y}, \sigma^2)$. We can use this assumption in order to calculate the point likelihood value for each observation based on the [PDF of Normal distribution](#distributionsNormal):
+where $\mu_{y}$ is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$, which means that $y_j \sim \mathcal{N}(\mu_{y}, \sigma^2)$. We can use this assumption in order to calculate the point likelihood value for each observation based on the [PDF of Normal distribution](#distributionsNormal):
 \begin{equation}
-    \mathcal{L} (\mu_{y}, \sigma^2 | y_t) = f(y_t | \mu_{y}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} \right).
+    \mathcal{L} (\mu_{y}, \sigma^2 | y_j) = f(y_j | \mu_{y}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
     (\#eq:MLEPointLik)
 \end{equation}
 Very roughly, what the value \@ref(eq:MLEPointLik) shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interprertation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a "chance". The point likelihood \@ref(eq:MLEPointLik) is not very helpful on its own, but we can get $T$ values like that, based on our sample of data. We can then summarise it in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
 \begin{equation}
-    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y}, \sigma^2 | \mathbf{y}) = \prod_{t=1}^T f(y_t | \mu_{y}, \sigma^2),
+    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y}, \sigma^2),
     (\#eq:MLEFullLik)
 \end{equation}
-where $\boldsymbol{\theta}$ is the vector of all parameters in the model (in our example, it is just the two of them). We take the product of likelihoods in \@ref(eq:MLEFullLik) because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation $t$ will not be influenced by the value on $t-1$). The value \@ref(eq:MLEFullLik) shows the summary chance that the data comes from the assumed model with specified parameters. Having this value, we can change the values of parameters of the model, getting different value of \@ref(eq:MLEFullLik) (as we did in the example above). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood \@ref(eq:MLEFullLik), which are called Maximum Likelihood Estimates (MLE) of parameters. However, working with the products in that formula is difficult, so typically we linearise it using natural logarithm, obtaining log-likelihood:
+where $\boldsymbol{\theta}$ is the vector of all parameters in the model (in our example, it is just the two of them). We take the product of likelihoods in \@ref(eq:MLEFullLik) because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation $j$ will not be influenced by the value on $j-1$). The value \@ref(eq:MLEFullLik) shows the summary chance that the data comes from the assumed model with specified parameters. Having this value, we can change the values of parameters of the model, getting different value of \@ref(eq:MLEFullLik) (as we did in the example above). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood \@ref(eq:MLEFullLik), which are called Maximum Likelihood Estimates (MLE) of parameters. However, working with the products in that formula is difficult, so typically we linearise it using natural logarithm, obtaining log-likelihood:
 \begin{equation}
-    \ell (\boldsymbol{\theta} | \mathbf{y}) = \log \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = -\frac{T}{2} \log(2 \pi \sigma^2) -\sum_{t=1}^T \frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} .
+    \ell (\boldsymbol{\theta} | \mathbf{y}) = \log \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = -\frac{n}{2} \log(2 \pi \sigma^2) -\sum_{j=1}^n \frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} .
     (\#eq:MLEFullLogLik)
 \end{equation}
 Based on that, we can find some of parameters of the model analytically. For example, we can take derivative of \@ref(eq:MLEFullLogLik) with respect to the scale $\hat{\sigma}^2$ (which is an estimate of the true parameter $\sigma^2$) and equate it to zero in order to find the value that maximises the log-likelihood function in our sample:
 \begin{equation}
-    \frac{d \ell (\boldsymbol{\theta} | \mathbf{y})}{d \hat{\sigma}^2} = -\frac{T}{2} \frac{1}{\hat{\sigma}^2} + \frac{1}{2 \hat{\sigma}^4}\sum_{t=1}^T \left(y_t - \mu_{y,t} \right)^2 =0 , 
+    \frac{d \ell (\boldsymbol{\theta} | \mathbf{y})}{d \hat{\sigma}^2} = -\frac{n}{2} \frac{1}{\hat{\sigma}^2} + \frac{1}{2 \hat{\sigma}^4}\sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 =0 , 
     (\#eq:MLEFullLogLikScale01)
 \end{equation}
 which after multiplication of both sides by $2 \hat{\sigma}^4$ leads to:
 \begin{equation}
-    T \hat{\sigma}^2 = \sum_{t=1}^T \left(y_t - \mu_{y,t} \right)^2 , 
+    T \hat{\sigma}^2 = \sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 , 
     (\#eq:MLEFullLogLikScale02)
 \end{equation}
 or
 \begin{equation}
-    \hat{\sigma}^2 = \frac{1}{T}\sum_{t=1}^T \left(y_t - \mu_{y,t} \right)^2 .
+    \hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 .
     (\#eq:MLEFullLogLikScale)
 \end{equation}
 The value \@ref(eq:MLEFullLogLikScale) is in fact a [Mean Squared Error](#errorMeasures) (MSE) of the model. If we calculate the value of $\hat{\sigma}^2$ using the formula \@ref(eq:MLEFullLogLikScale), we will maximise the likelihood with respect to the scale parameter. In fact, we can insert \@ref(eq:MLEFullLogLikScale) in \@ref(eq:MLEFullLogLik) in order to obtain the so called concentrated (or profile) log-likelihood for the normal distribution:
 \begin{equation}
-    \ell^* (\boldsymbol{\theta}, \hat{\sigma}^2 | \mathbf{y}) = -\frac{T}{2}\left( \log(2 \pi e) + \log \hat{\sigma}^2 \right) .
+    \ell^* (\boldsymbol{\theta}, \hat{\sigma}^2 | \mathbf{y}) = -\frac{n}{2}\left( \log(2 \pi e) + \log \hat{\sigma}^2 \right) .
     (\#eq:MLEFullLogLikConcentrated)
 \end{equation}
 This function is useful because it simplifies some calculations and also demonstrates the condition, for which the likelihood is maximised: the first part on the right hand side of the formula does not depend on the parameters of the model, it is only the $\log \hat{\sigma}^2$ that does. So, the maximum of the concentrated log-likelihood \@ref(eq:MLEFullLogLikConcentrated) is obtained, when $\hat{\sigma}^2$ is minimised, implying the minimisation of MSE, which is the mechanism behind the "Ordinary Least Squares" (OLS)
@@ -136,7 +136,7 @@ This function is useful because it simplifies some calculations and also demonst
 
 First, the finding above holds for normal distribution only. If we assume a different [distribution](#distributions), we would get different estimates of parameters. In some cases, it might not be possible or reasonable to use OLS, but MLE would be a plausible option (for example, logistic, Poisson and any other non-standard model).
 
-Second, the MLE of parameters have good statistical properties: they are [consistent](#estimatesPropertiesConsistency) and [efficient](#estimatesPropertiesEfficiency). These properties hold almost universally for many likelihoods under very mild conditions. Note that the MLE of parameters are not necessarily [unbiased](#estimatesPropertiesBias), but after estimating the model, one can de-bias some of them (for example, calculate the standard deviation of the error via devision of the sum of squared errors by the number of degrees of freedom $T-k$ instead of $T$).
+Second, the MLE of parameters have good statistical properties: they are [consistent](#estimatesPropertiesConsistency) and [efficient](#estimatesPropertiesEfficiency). These properties hold almost universally for many likelihoods under very mild conditions. Note that the MLE of parameters are not necessarily [unbiased](#estimatesPropertiesBias), but after estimating the model, one can de-bias some of them (for example, calculate the standard deviation of the error via devision of the sum of squared errors by the number of degrees of freedom $n-k$ instead of $T$).
 
 Third, likelihood can be used for the model assessment, even when the standard statistics, such as $R^2$ or F-test are not available. We do not discuss these aspects in this textbook.
 
@@ -151,7 +151,7 @@ When performing model selection and calculating different statistics, it is impo
 When it comes to inference based on regression models, the general idea is to calculate the number of **all the independent estimated parameters** $k$. This typically includes all initial components and all coefficients of the model together with the scale, shape and shift parameters of the assumed distribution (e.g. variance in the Normal distribution).
 
 ```{example}
-In a simple regression model: $y_t = \beta_0 + \beta_1 x_t + \epsilon_t$ - assuming Normal distribution for $\epsilon_t$, using the MLE will result in the estimation of $k=3$: the two parameters of the model ($\beta_0$ and $\beta_1$) and the variance of the error term $\sigma^2$.
+In a simple regression model: $y_j = \beta_0 + \beta_1 x_j + \epsilon_j$ - assuming Normal distribution for $\epsilon_j$, using the MLE will result in the estimation of $k=3$: the two parameters of the model ($\beta_0$ and $\beta_1$) and the variance of the error term $\sigma^2$.
 ```
 
 If likelihood is not used, then the number of parameters might be different. For example, if we estimate the model via the minimisation of MSE (similar to OLS), then the number of all estimated parameters does not include the variance anymore - it is obtained as a by product of the estimation. This is because the likelihood needs to have all the parameters of distribution in order to be maximised, but with MSE, we just minimise the mean of squared errors, and the variance of the distribution is obtained automatically. While the values of parameters might be the same, the logic is slightly different.
@@ -176,7 +176,7 @@ If we know that in the same simple linear regression $\beta_1 = \frac{\beta_0}{\
 
 We will come back to the number of parameters later in this textbook, when we discuss specific models.
 
-A final note: typically, the standard maximum likelihood estimators for the scale, shape and shift parameters are biased in small samples and do not coincide with the OLS estimators. For example, in case of Normal distribution, OLS estimate of variance has $T-k$ in the denominator, while the likelihood one has just $T$. This needs to be taken into account, when the variance is used in forecasting.
+A final note: typically, the standard maximum likelihood estimators for the scale, shape and shift parameters are biased in small samples and do not coincide with the OLS estimators. For example, in case of Normal distribution, OLS estimate of variance has $n-k$ in the denominator, while the likelihood one has just $T$. This needs to be taken into account, when the variance is used in forecasting.
 
 
 ## Information criteria {#informationCriteria}
@@ -238,20 +238,20 @@ Various alternative criteria motivated by similar ideas have been proposed. The 
 
 - AICc [@Sugiura1978], which is a sample corrected version of the AIC for normal and related distributions, which takes the number of observations into account:
 \begin{equation}
-    \mathrm{AICc}_j = 2 \frac{T}{T-k_j-1} k_j - 2 \ell_j
+    \mathrm{AICc}_j = 2 \frac{n}{n-k_j-1} k_j - 2 \ell_j
     (\#eq:AICc),
 \end{equation}
 where $T$ is the sample size.
 
 - BIC [@Schwarz1978] (aka "Schwarz criterion"), which is derived from Bayesian statistics:
 \begin{equation}
-    \mathrm{BIC}_j = \log(T) k_j - 2 \ell_j
+    \mathrm{BIC}_j = \log(n) k_j - 2 \ell_j
     (\#eq:BIC).
 \end{equation}
 
 - BICc [@McQuarrie1999] - the sample-corrected version of BIC, relying on the assumption of normality:
 \begin{equation}
-    \mathrm{BICc}_j = \frac{T \log (T)}{T-k_j-1} k_j - 2 \ell_j
+    \mathrm{BICc}_j = \frac{n \log (n)}{n-k_j-1} k_j - 2 \ell_j
     (\#eq:BICc).
 \end{equation}
 
