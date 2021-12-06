@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-02" />
+<meta name="date" content="2021-12-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -325,17 +325,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">13.2</span> Mathematical explanation</h2>
 <p>Now we can discuss the same idea from the mathematical point of view. We use an example of <a href="distributionsNormal.html#distributionsNormal">normal distribution</a> and a simple model as before:
 <span class="math display" id="eq:MLESimpleRegression">\[\begin{equation}
-    y_j = \mu_{y} + \epsilon_j,
+    y_j = \mu_{y,j} + \epsilon_j,
     \tag{13.1}
 \end{equation}\]</span>
-where <span class="math inline">\(\mu_{y}\)</span> is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>, which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y}, \sigma^2)\)</span>. We can use this assumption in order to calculate the point likelihood value for each observation based on the <a href="distributionsNormal.html#distributionsNormal">PDF of Normal distribution</a>:
+where <span class="math inline">\(\mu_{y,j}\)</span> is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>, which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y,j}, \sigma^2)\)</span>. We can use this assumption in order to calculate the point likelihood value for each observation based on the <a href="distributionsNormal.html#distributionsNormal">PDF of Normal distribution</a>:
 <span class="math display" id="eq:MLEPointLik">\[\begin{equation}
-    \mathcal{L} (\mu_{y}, \sigma^2 | y_j) = f(y_j | \mu_{y}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
+    \mathcal{L} (\mu_{y,j}, \sigma^2 | y_j) = f(y_j | \mu_{y,j}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
     \tag{13.2}
 \end{equation}\]</span>
 Very roughly, what the value <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.2)</a> shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interprertation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a “chance.” The point likelihood <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.2)</a> is not very helpful on its own, but we can get <span class="math inline">\(n\)</span> values like that, based on our sample of data. We can then summarise it in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
 <span class="math display" id="eq:MLEFullLik">\[\begin{equation}
-    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y}, \sigma^2),
+    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y,j}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y,j}, \sigma^2),
     \tag{13.3}
 \end{equation}\]</span>
 where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of all parameters in the model (in our example, it is just the two of them). We take the product of likelihoods in <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation <span class="math inline">\(j\)</span> will not be influenced by the value on <span class="math inline">\(j-1\)</span>). The value <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> shows the summary chance that the data comes from the assumed model with specified parameters. Having this value, we can change the values of parameters of the model, getting different value of <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> (as we did in the example above). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a>, which are called Maximum Likelihood Estimates (MLE) of parameters. However, working with the products in that formula is difficult, so typically we linearise it using natural logarithm, obtaining log-likelihood:
