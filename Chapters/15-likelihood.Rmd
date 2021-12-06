@@ -91,17 +91,27 @@ The model in Figure \@ref(fig:MLENormalExample08) has the log likelihood of `r r
 As a final word, when it comes to more complicated models with more parameters and dynamic structure, the specific curves and data become more complicated, but the logic of the likelihood approach stays the same.
 
 ## Mathematical explanation {#likelihoodApproachMaths}
-Now we can discuss the same idea from the mathematical point of view. We use an example of [normal distribution](#distributionsNormal) and a simple model as before:
+Now we can discuss the same idea from the mathematical point of view. We estimated the following simple model:
+\begin{equation}
+    y_j = \mu_{y} + \epsilon_j,
+    (\#eq:MLEConstant)
+\end{equation}
+assuming normal distribution of the residuals. In order to make things closer to the regression context, we will introduce changing location, which is defined by the regression line (thus, it is conditional on the set of $k-1$ explanatory variables):
 \begin{equation}
     y_j = \mu_{y,j} + \epsilon_j,
     (\#eq:MLESimpleRegression)
 \end{equation}
-where $\mu_{y,j}$ is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$, which means that $y_j \sim \mathcal{N}(\mu_{y,j}, \sigma^2)$. We can use this assumption in order to calculate the point likelihood value for each observation based on the [PDF of Normal distribution](#distributionsNormal):
+where $\mu_{y,j}$ is the population regression line, defined via:
+\begin{equation}
+    \mu_{y,j} = \beta_0 + \beta_1 x_{1,j}+ \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} .
+    (\#eq:MLERegression)
+\end{equation}
+The typical assumption in regression context is that $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$ (normal distribution with zero mean and fixed variance), which means that $y_j \sim \mathcal{N}(\mu_{y,j}, \sigma^2)$. We can use this assumption in order to calculate the point likelihood value for each observation based on the PDF of Normal distribution (Subsection \@ref(distributionsNormal)):
 \begin{equation}
     \mathcal{L} (\mu_{y,j}, \sigma^2 | y_j) = f(y_j | \mu_{y,j}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
     (\#eq:MLEPointLik)
 \end{equation}
-Very roughly, what the value \@ref(eq:MLEPointLik) shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interprertation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a "chance". The point likelihood \@ref(eq:MLEPointLik) is not very helpful on its own, but we can get $n$ values like that, based on our sample of data. We can then summarise it in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
+Very roughly, what the value \@ref(eq:MLEPointLik) shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interpretation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a "chance". The point likelihood \@ref(eq:MLEPointLik) is not very helpful on its own, but we can get $n$ values like that, based on our sample of data. We can then summarise them in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
 \begin{equation}
     \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y,j}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y,j}, \sigma^2),
     (\#eq:MLEFullLik)
