@@ -323,47 +323,57 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="likelihoodApproachMaths" class="section level2" number="13.2">
 <h2><span class="header-section-number">13.2</span> Mathematical explanation</h2>
-<p>Now we can discuss the same idea from the mathematical point of view. We use an example of <a href="distributionsNormal.html#distributionsNormal">normal distribution</a> and a simple model as before:
-<span class="math display" id="eq:MLESimpleRegression">\[\begin{equation}
-    y_j = \mu_{y,j} + \epsilon_j,
+<p>Now we can discuss the same idea from the mathematical point of view. We estimated the following simple model:
+<span class="math display" id="eq:MLEConstant">\[\begin{equation}
+    y_j = \mu_{y} + \epsilon_j,
     \tag{13.1}
 \end{equation}\]</span>
-where <span class="math inline">\(\mu_{y,j}\)</span> is the population location parameter (the true parameter, the global mean). The typical assumption in regression context is that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>, which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y,j}, \sigma^2)\)</span>. We can use this assumption in order to calculate the point likelihood value for each observation based on the <a href="distributionsNormal.html#distributionsNormal">PDF of Normal distribution</a>:
-<span class="math display" id="eq:MLEPointLik">\[\begin{equation}
-    \mathcal{L} (\mu_{y,j}, \sigma^2 | y_j) = f(y_j | \mu_{y,j}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
+assuming normal distribution of the residuals. In order to make things closer to the regression context, we will introduce changing location, which is defined by the regression line (thus, it is conditional on the set of <span class="math inline">\(k-1\)</span> explanatory variables):
+<span class="math display" id="eq:MLESimpleRegression">\[\begin{equation}
+    y_j = \mu_{y,j} + \epsilon_j,
     \tag{13.2}
 \end{equation}\]</span>
-Very roughly, what the value <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.2)</a> shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interprertation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a “chance.” The point likelihood <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.2)</a> is not very helpful on its own, but we can get <span class="math inline">\(n\)</span> values like that, based on our sample of data. We can then summarise it in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
-<span class="math display" id="eq:MLEFullLik">\[\begin{equation}
-    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y,j}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y,j}, \sigma^2),
+where <span class="math inline">\(\mu_{y,j}\)</span> is the population regression line, defined via:
+<span class="math display" id="eq:MLERegression">\[\begin{equation}
+    \mu_{y,j} = \beta_0 + \beta_1 x_{1,j}+ \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} .
     \tag{13.3}
 \end{equation}\]</span>
-where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of all parameters in the model (in our example, it is just the two of them). We take the product of likelihoods in <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation <span class="math inline">\(j\)</span> will not be influenced by the value on <span class="math inline">\(j-1\)</span>). The value <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> shows the summary chance that the data comes from the assumed model with specified parameters. Having this value, we can change the values of parameters of the model, getting different value of <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a> (as we did in the example above). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.3)</a>, which are called Maximum Likelihood Estimates (MLE) of parameters. However, working with the products in that formula is difficult, so typically we linearise it using natural logarithm, obtaining log-likelihood:
-<span class="math display" id="eq:MLEFullLogLik">\[\begin{equation}
-    \ell (\boldsymbol{\theta} | \mathbf{y}) = \log \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = -\frac{n}{2} \log(2 \pi \sigma^2) -\sum_{j=1}^n \frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} .
+The typical assumption in regression context is that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span> (normal distribution with zero mean and fixed variance), which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y,j}, \sigma^2)\)</span>. We can use this assumption in order to calculate the point likelihood value for each observation based on the PDF of Normal distribution (Subsection <a href="distributionsNormal.html#distributionsNormal">3.1</a>):
+<span class="math display" id="eq:MLEPointLik">\[\begin{equation}
+    \mathcal{L} (\mu_{y,j}, \sigma^2 | y_j) = f(y_j | \mu_{y,j}, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} \right).
     \tag{13.4}
 \end{equation}\]</span>
-Based on that, we can find some of parameters of the model analytically. For example, we can take derivative of <a href="likelihoodApproachMaths.html#eq:MLEFullLogLik">(13.4)</a> with respect to the scale <span class="math inline">\(\hat{\sigma}^2\)</span> (which is an estimate of the true parameter <span class="math inline">\(\sigma^2\)</span>) and equate it to zero in order to find the value that maximises the log-likelihood function in our sample:
+Very roughly, what the value <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.4)</a> shows is the chance that the specific observation comes from the assumed model with specified parameters (we know that in real world the data does not come from any model, but this interpretation is easier to work with). Note that the likelihood is not the same as probability, because for any continuous random variables the probability for it to be equal to any specific number is equal to zero. However, the idea of likelihood has some similarities with the probability, so we prefer to refer to it as a “chance.” The point likelihood <a href="likelihoodApproachMaths.html#eq:MLEPointLik">(13.4)</a> is not very helpful on its own, but we can get <span class="math inline">\(n\)</span> values like that, based on our sample of data. We can then summarise them in one number, that would characterise the whole sample, given the assumed distribution, applied model and selected values of parameters:
+<span class="math display" id="eq:MLEFullLik">\[\begin{equation}
+    \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = \mathcal{L} (\mu_{y,j}, \sigma^2 | \mathbf{y}) = \prod_{j=1}^n f(y_j | \mu_{y,j}, \sigma^2),
+    \tag{13.5}
+\end{equation}\]</span>
+where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of all parameters in the model (in our example, it is just the two of them). We take the product of likelihoods in <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.5)</a> because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation <span class="math inline">\(j\)</span> will not be influenced by the value on <span class="math inline">\(j-1\)</span>). The value <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.5)</a> shows the summary chance that the data comes from the assumed model with specified parameters. Having this value, we can change the values of parameters of the model, getting different value of <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.5)</a> (as we did in the example above). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(13.5)</a>, which are called Maximum Likelihood Estimates (MLE) of parameters. However, working with the products in that formula is difficult, so typically we linearise it using natural logarithm, obtaining log-likelihood:
+<span class="math display" id="eq:MLEFullLogLik">\[\begin{equation}
+    \ell (\boldsymbol{\theta} | \mathbf{y}) = \log \mathcal{L} (\boldsymbol{\theta} | \mathbf{y}) = -\frac{n}{2} \log(2 \pi \sigma^2) -\sum_{j=1}^n \frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} .
+    \tag{13.6}
+\end{equation}\]</span>
+Based on that, we can find some of parameters of the model analytically. For example, we can take derivative of <a href="likelihoodApproachMaths.html#eq:MLEFullLogLik">(13.6)</a> with respect to the scale <span class="math inline">\(\hat{\sigma}^2\)</span> (which is an estimate of the true parameter <span class="math inline">\(\sigma^2\)</span>) and equate it to zero in order to find the value that maximises the log-likelihood function in our sample:
 <span class="math display" id="eq:MLEFullLogLikScale01">\[\begin{equation}
     \frac{d \ell (\boldsymbol{\theta} | \mathbf{y})}{d \hat{\sigma}^2} = -\frac{n}{2} \frac{1}{\hat{\sigma}^2} + \frac{1}{2 \hat{\sigma}^4}\sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 =0 , 
-    \tag{13.5}
+    \tag{13.7}
 \end{equation}\]</span>
 which after multiplication of both sides by <span class="math inline">\(2 \hat{\sigma}^4\)</span> leads to:
 <span class="math display" id="eq:MLEFullLogLikScale02">\[\begin{equation}
     n \hat{\sigma}^2 = \sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 , 
-    \tag{13.6}
+    \tag{13.8}
 \end{equation}\]</span>
 or
 <span class="math display" id="eq:MLEFullLogLikScale">\[\begin{equation}
     \hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n \left(y_j - \mu_{y,j} \right)^2 .
-    \tag{13.7}
+    \tag{13.9}
 \end{equation}\]</span>
-The value <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.7)</a> is in fact a <a href="#errorMeasures">Mean Squared Error</a> (MSE) of the model. If we calculate the value of <span class="math inline">\(\hat{\sigma}^2\)</span> using the formula <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.7)</a>, we will maximise the likelihood with respect to the scale parameter. In fact, we can insert <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.7)</a> in <a href="likelihoodApproachMaths.html#eq:MLEFullLogLik">(13.4)</a> in order to obtain the so called concentrated (or profile) log-likelihood for the normal distribution:
+The value <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.9)</a> is in fact a <a href="#errorMeasures">Mean Squared Error</a> (MSE) of the model. If we calculate the value of <span class="math inline">\(\hat{\sigma}^2\)</span> using the formula <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.9)</a>, we will maximise the likelihood with respect to the scale parameter. In fact, we can insert <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(13.9)</a> in <a href="likelihoodApproachMaths.html#eq:MLEFullLogLik">(13.6)</a> in order to obtain the so called concentrated (or profile) log-likelihood for the normal distribution:
 <span class="math display" id="eq:MLEFullLogLikConcentrated">\[\begin{equation}
     \ell^* (\boldsymbol{\theta}, \hat{\sigma}^2 | \mathbf{y}) = -\frac{n}{2}\left( \log(2 \pi e) + \log \hat{\sigma}^2 \right) .
-    \tag{13.8}
+    \tag{13.10}
 \end{equation}\]</span>
-This function is useful because it simplifies some calculations and also demonstrates the condition, for which the likelihood is maximised: the first part on the right hand side of the formula does not depend on the parameters of the model, it is only the <span class="math inline">\(\log \hat{\sigma}^2\)</span> that does. So, the maximum of the concentrated log-likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikConcentrated">(13.8)</a> is obtained, when <span class="math inline">\(\hat{\sigma}^2\)</span> is minimised, implying the minimisation of MSE, which is the mechanism behind the “Ordinary Least Squares” (OLS)
+This function is useful because it simplifies some calculations and also demonstrates the condition, for which the likelihood is maximised: the first part on the right hand side of the formula does not depend on the parameters of the model, it is only the <span class="math inline">\(\log \hat{\sigma}^2\)</span> that does. So, the maximum of the concentrated log-likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikConcentrated">(13.10)</a> is obtained, when <span class="math inline">\(\hat{\sigma}^2\)</span> is minimised, implying the minimisation of MSE, which is the mechanism behind the “Ordinary Least Squares” (OLS)
 ) estimation method. By doing this, we have just demonstrated that if we assume normality in the model, then the estimates of its parameters obtained via the maximisation of the likelihood coincide with the values obtained from OLS. So, why bother with MLE, when we have OLS?</p>
 <p>First, the finding above holds for normal distribution only. If we assume a different <a href="distributions.html#distributions">distribution</a>, we would get different estimates of parameters. In some cases, it might not be possible or reasonable to use OLS, but MLE would be a plausible option (for example, logistic, Poisson and any other non-standard model).</p>
 <p>Second, the MLE of parameters have good statistical properties: they are <a href="estimatesProperties.html#estimatesPropertiesConsistency">consistent</a> and <a href="estimatesProperties.html#estimatesPropertiesEfficiency">efficient</a>. These properties hold almost universally for many likelihoods under very mild conditions. Note that the MLE of parameters are not necessarily <a href="estimatesProperties.html#estimatesPropertiesBias">unbiased</a>, but after estimating the model, one can de-bias some of them (for example, calculate the standard deviation of the error via devision of the sum of squared errors by the number of degrees of freedom <span class="math inline">\(n-k\)</span> instead of <span class="math inline">\(n\)</span>).</p>
