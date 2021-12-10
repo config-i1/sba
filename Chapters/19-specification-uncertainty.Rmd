@@ -1,15 +1,15 @@
 # Uncertainty about the model form {#uncertaintyModel}
-In this Chapter, we discuss more advanced topics related to regression modelling. In a way, this part builds upon elements of Statistical Learning [see, for example, the textbook of @Hastie2009] and focuses on how to select variables for regression model. We start with a fundamental idea of bias-variance trade-off, which lies in the core of many selection methods. We then move to the discussion of information criteria, explaining what they imply, after that - to several existing variable selection approaches, explaining their advantages and limitations. Furthermore, we discuss combination approaches and what they mean in terms of parameters of models. We finish this chapter with an introductory discussion of regularisation techniques (such as LASSO and RIDGE).
+In this Chapter, we discuss more advanced topics related to regression modelling. In a way, this part builds upon elements of Statistical Learning [see, for example, the textbook of @Hastie2009] and focuses on how to select variables for regression model. We start with a fundamental idea of bias-variance tradeoff, which lies in the core of many selection methods. We then move to the discussion of information criteria, explaining what they imply, after that - to several existing variable selection approaches, explaining their advantages and limitations. Furthermore, we discuss combination approaches and what they mean in terms of parameters of models. We finish this chapter with an introductory discussion of regularisation techniques (such as LASSO and RIDGE).
 
-## Bias-variance trade-off
-In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the notion of bias-variance trade-off. Consider a simple example of relation between fuel consumption of a car and the engine size based on the `mtcars` dataset in R (Figure \@ref(fig:biasVariance01)):
+## Bias-variance tradeoff
+In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the `mtcars` dataset in R (Figure \@ref(fig:biasVariance01)):
 
 ```{r biasVariance01, fig.cap="Fuel consumption vs engine size"}
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 ```
 
-The plot in Figure \@ref(fig:biasVariance01) demonstrates clear non-linearity. Indeed, we would expect the relation between these variables to be non-linear: it is difficult to imagine the situation, where a car with no engine will be able to drive any miles. On the other hand, a car with a huge engine will still be able to drive some distance, although probably very small. The linear model would assume that the "no engine" case would correspond to the value of approximately 30 miles per gallon (the intersection with y-axis), while the case of "huge engine" would probably result in negative mileage. So, the theoretically suitable model should be multiplicative, which for example can be formulated in logarithms:
+The plot in Figure \@ref(fig:biasVariance01) demonstrates clear non-linearity. Indeed, we would expect the relation between these variables to be non-linear in real life: it is difficult to imagine the situation, where a car with no engine will be able to drive at all. On the other hand, a car with a huge engine will still be able to drive some distance, although probably very small. The linear model would assume that the "no engine" case would correspond to the value of approximately 30 miles per gallon (the intersection with y-axis), while the case of "huge engine" would probably result in negative mileage. So, the theoretically suitable model should be multiplicative, which for example can be formulated in logarithms:
 \begin{equation}
     \log mpg_j = \beta_0 + \beta_1 \log x_j + \epsilon_j .
     (\#eq:mpgLinear)
@@ -25,7 +25,7 @@ lines(seq(1,500,1),
       col="darkgreen",lwd=2)
 ```
 
-While being wrong, we could still use the linear model to capture some relations in some parts of this data. It would not be a perfect fit (and would have some issues in the tails of our data), but would be an acceptable approximation of the true model in some case (Figure \@ref(fig:biasVariance03)):
+While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations (Figure \@ref(fig:biasVariance03)):
 
 ```{r biasVariance03, fig.cap="Fuel consumption vs engine size, the true and the linear models", echo=FALSE}
 mpgLinALM <- alm(mpg~disp, mtcars, distribution="dnorm")
@@ -39,9 +39,11 @@ lines(seq(1,500,1),
       col="darkblue",lwd=2)
 ```
 
-This model would exhibit some sort of bias in comparison with the true one, but in general it will not exhibit high variability. Alternatively, we could fit a high order polynomial model to approximate the data (Figure \@ref(fig:biasVariance04)):
+This model would exhibit some sort of bias in comparison with the true one: it is consistently below the true model, when engine size is less than 100 and when it is greater than 400 and consistently above in the region between 100 and 400 (approximately). But in general this model does not exhibit high variability in comparison with the true model.
 
-```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models", echo=FALSE}
+Alternatively, we could fit a high order polynomial model to approximate the data (Figure \@ref(fig:biasVariance04)):
+
+```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models.", echo=FALSE}
 mpgPolyALM <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4), mtcars)
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
@@ -56,4 +58,34 @@ lines(seq(1,500,1),
       col="darkred",lwd=2)
 ```
 
-The new polynomial model on the plot in Figure \@ref(fig:biasVariance04) has a lower bias and is closer to the true model, but at the same time has higher variability. This is because it includes more variables (polynomial terms).
+The new polynomial model on the plot in Figure \@ref(fig:biasVariance04) has a lower bias than the linear one, because on average it is closer to the true model in sample, but at the same time has higher variability. This is because it is a more complex model than the linear model: it includes more variables (polynomial terms). If we were to introduce even more polynomial terms, the model would have even more variance around than before (Figure \@ref(fig:biasVariance05)).
+
+```{r biasVariance05, fig.cap="Fuel consumption vs engine size, the true and the polynomial (7th order) models", echo=FALSE}
+mpgPolyALM2 <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4)+I(disp^5)+I(disp^6)+I(disp^7), mtcars)
+plot(mtcars$disp, mtcars$mpg,
+     xlab="Engine size", ylab="Miles per galon")
+lines(seq(1,500,1),
+      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      col="darkgreen",lwd=1)
+lines(seq(1,500,1),
+      predict(mpgPolyALM2,data.frame(disp=seq(1,500,1))),
+      col="darkred",lwd=2)
+```
+
+The pattern that we observe here with the increase of complexity is that the variance of the model in comparison with the true one increases, while the bias either decreases or does not change substantially. This is bias-variance tradeoff in action. It is the principle that says that with the increase of complexity of model, its variance (with respect to the true model) increases, while the bias decreases. The principle states that typically you cannot minimise both at the same time - depending on how you formulate and estimate a model, it will either have bigger variance or a bigger bias.
+
+Mathematically, it is represented for an estimate as parts of Mean Squared Error (MSE) of that estimate (we drop the index of observations in $\hat{y}_j$ for convenience):
+\begin{equation}
+    \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2 ,
+    (\#eq:biasVariance01)
+\end{equation}
+where $\hat{y}$ is the fitted value of our model, $\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})$, $\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)$, $\mu_y$ is the fitted value of the true model, and $\sigma^2$ is the variance of the white noise of the true model.
+
+::: proof
+\begin{equation}
+    \mathrm{MSE} = \mathrm{E}\left((y-\hat{y})^2\right) = \mathrm{E}\left((\mu_y + \epsilon -\hat{y})^2\right),
+    (\#eq:biasVarianceProof)
+\end{equation}
+:::
+
+
