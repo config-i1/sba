@@ -1,3 +1,59 @@
-<!-- # Uncertainty about the model form {#uncertaintyModel} -->
-<!-- In this Chapter, we discuss more advanced topics related to regression modelling. In a way, this part builds upon elements of Statistical Learning [see, for example, the textbook of @Hastie2009] and focuses on how to select variables for regression model. We start with a fundamental idea of bias-variance trade-off, which lies in the core of many selection methods. We then move to the discussion of information criteria, explaining what they imply, after that - to several existing variable selection approaches, explaining their advantages and limitations. Furthermore, we discuss combination approaches and what they mean in terms of parameters of models. We finish this chapter with an introductory discussion of regularisation techniques (such as LASSO and RIDGE). -->
+# Uncertainty about the model form {#uncertaintyModel}
+In this Chapter, we discuss more advanced topics related to regression modelling. In a way, this part builds upon elements of Statistical Learning [see, for example, the textbook of @Hastie2009] and focuses on how to select variables for regression model. We start with a fundamental idea of bias-variance trade-off, which lies in the core of many selection methods. We then move to the discussion of information criteria, explaining what they imply, after that - to several existing variable selection approaches, explaining their advantages and limitations. Furthermore, we discuss combination approaches and what they mean in terms of parameters of models. We finish this chapter with an introductory discussion of regularisation techniques (such as LASSO and RIDGE).
 
+## Bias-variance trade-off
+In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the notion of bias-variance trade-off. Consider a simple example of relation between fuel consumption of a car and the engine size based on the `mtcars` dataset in R (Figure \@ref(fig:biasVariance01)):
+
+```{r biasVariance01, fig.cap="Fuel consumption vs engine size"}
+plot(mtcars$disp, mtcars$mpg,
+     xlab="Engine size", ylab="Miles per galon")
+```
+
+The plot in Figure \@ref(fig:biasVariance01) demonstrates clear non-linearity. Indeed, we would expect the relation between these variables to be non-linear: it is difficult to imagine the situation, where a car with no engine will be able to drive any miles. On the other hand, a car with a huge engine will still be able to drive some distance, although probably very small. The linear model would assume that the "no engine" case would correspond to the value of approximately 30 miles per gallon (the intersection with y-axis), while the case of "huge engine" would probably result in negative mileage. So, the theoretically suitable model should be multiplicative, which for example can be formulated in logarithms:
+\begin{equation}
+    \log mpg_j = \beta_0 + \beta_1 \log x_j + \epsilon_j .
+    (\#eq:mpgLinear)
+\end{equation}
+We will assume for now that this is the "true model", which would fit the data in the following way if we knew all the data in the universe (Figure \@ref(fig:biasVariance02)):
+
+```{r biasVariance02, fig.cap="Fuel consumption vs engine size and the true model", echo=FALSE}
+mpgLogsALM <- alm(mpg~log(disp), mtcars, distribution="dlnorm")
+plot(mtcars$disp, mtcars$mpg,
+     xlab="Engine size", ylab="Miles per galon")
+lines(seq(1,500,1),
+      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      col="darkgreen",lwd=2)
+```
+
+While being wrong, we could still use the linear model to capture some relations in some parts of this data. It would not be a perfect fit (and would have some issues in the tails of our data), but would be an acceptable approximation of the true model in some case (Figure \@ref(fig:biasVariance03)):
+
+```{r biasVariance03, fig.cap="Fuel consumption vs engine size, the true and the linear models", echo=FALSE}
+mpgLinALM <- alm(mpg~disp, mtcars, distribution="dnorm")
+plot(mtcars$disp, mtcars$mpg,
+     xlab="Engine size", ylab="Miles per galon")
+lines(seq(1,500,1),
+      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      col="darkgreen",lwd=1)
+lines(seq(1,500,1),
+      coef(mpgLinALM)[1]+coef(mpgLinALM)[2]*seq(1,500,1),
+      col="darkblue",lwd=2)
+```
+
+This model would exhibit some sort of bias in comparison with the true one, but in general it will not exhibit high variability. Alternatively, we could fit a high order polynomial model to approximate the data (Figure \@ref(fig:biasVariance04)):
+
+```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models", echo=FALSE}
+mpgPolyALM <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4), mtcars)
+plot(mtcars$disp, mtcars$mpg,
+     xlab="Engine size", ylab="Miles per galon")
+lines(seq(1,500,1),
+      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      col="darkgreen",lwd=1)
+lines(seq(1,500,1),
+      coef(mpgLinALM)[1]+coef(mpgLinALM)[2]*seq(1,500,1),
+      col="darkblue",lwd=1)
+lines(seq(1,500,1),
+      predict(mpgPolyALM,data.frame(disp=seq(1,500,1))),
+      col="darkred",lwd=2)
+```
+
+The new polynomial model on the plot in Figure \@ref(fig:biasVariance04) has a lower bias and is closer to the true model, but at the same time has higher variability. This is because it includes more variables (polynomial terms).
