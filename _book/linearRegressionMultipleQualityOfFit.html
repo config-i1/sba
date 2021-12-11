@@ -204,7 +204,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>3.7</b> Inverse Gaussian distribution</a></li>
 <li class="chapter" data-level="3.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>3.8</b> Gamma distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="population-and-sampling.html"><a href="population-and-sampling.html"><i class="fa fa-check"></i><b>4</b> Population and sampling</a>
+<li class="chapter" data-level="4" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>4</b> Population and sampling</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>4.1</b> Law of Large Numbers</a></li>
 <li class="chapter" data-level="4.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>4.2</b> Central Limit Theorem</a></li>
@@ -299,7 +299,12 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="14" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>14</b> Uncertainty about the model form</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>14.1</b> Bias-variance tradeoff</a></li>
+<li class="chapter" data-level="14.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>14.1</b> Bias-variance tradeoff</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>14.1.1</b> Graphical explanation</a></li>
+<li class="chapter" data-level="14.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>14.1.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="14.1.3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#why-having-biased-estimate-can-be-better-than-having-the-inefficient-one"><i class="fa fa-check"></i><b>14.1.3</b> Why having biased estimate can be better than having the inefficient one?</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -345,7 +350,7 @@ Note that it is divided by the number of degrees of freedom in the model, <span 
 <p>And here is the value of determination coefficient of the new model:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="linearRegressionMultipleQualityOfFit.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
 <span id="cb115-2"><a href="linearRegressionMultipleQualityOfFit.html#cb115-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.8600438</code></pre>
+<pre><code>## [1] 0.8626051</code></pre>
 <p>and the previous one:</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="linearRegressionMultipleQualityOfFit.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
 <span id="cb117-2"><a href="linearRegressionMultipleQualityOfFit.html#cb117-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
@@ -361,7 +366,7 @@ where MSE is the Mean Squared Error (square of RMSE <a href="linearRegressionMul
 <span id="cb119-2"><a href="linearRegressionMultipleQualityOfFit.html#cb119-2" aria-hidden="true" tabindex="-1"></a>           <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))),</span>
 <span id="cb119-3"><a href="linearRegressionMultipleQualityOfFit.html#cb119-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;R^2-adj&quot;</span>,<span class="st">&quot;R^2-adj, Noise&quot;</span>))</span></code></pre></div>
 <pre><code>##        R^2-adj R^2-adj, Noise 
-##      0.8107333      0.8027890</code></pre>
+##      0.8107333      0.8063981</code></pre>
 <p>What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R<span class="math inline">\(^2\)</span> than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter. So, you should not fully trust R<span class="math inline">\(^2_{adj}\)</span> either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inaccurate forecasts and inefficient estimates of parameters (see Section <a href="assumptions.html#assumptions">12</a> for details).</p>
 </div>
 
