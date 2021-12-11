@@ -17,75 +17,93 @@ The plot in Figure \@ref(fig:biasVariance01) demonstrates clear non-linearity. I
 We will assume for now that this is the "true model", which would fit the data in the following way if we knew all the data in the universe (Figure \@ref(fig:biasVariance02)):
 
 ```{r biasVariance02, fig.cap="Fuel consumption vs engine size and the true model", echo=FALSE}
-mpgLogsALM <- alm(mpg~log(disp), mtcars, distribution="dlnorm")
+load("/data/biasVariance.Rdata")
+
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 lines(seq(1,500,1),
-      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      mpgLogsALMFitted,
       col="darkgreen",lwd=2)
 ```
 
-While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations (Figure \@ref(fig:biasVariance03)):
+While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure \@ref(fig:biasVariance03)).
+
+```{r eval=FALSE, echo=FALSE}
+mpgLogsALM <- alm(mpg~log(disp), mtcars, distribution="dlnorm")
+mpgLogsALMFitted <- predict(mpgLogsALM,data.frame(disp=seq(1,500,1)))$mean
+
+nIterations <- 1000
+mpgLinALM <- vector("list",nrow(mtcars))
+for(i in 1:nIterations){
+    mpgLinALM[[i]] <- lm(mpg~disp, mtcars, subset=sample(c(1:nrow(mtcars)),20,TRUE))
+}
+mpgLinALMFitted <- sapply(mpgLinALM, predict, newdata=data.frame(disp=seq(1,500,1)))
+
+mpgPolyALM <- vector("list",nrow(mtcars))
+for(i in 1:nIterations){
+    mpgPolyALM[[i]] <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4), mtcars, subset=sample(c(1:nrow(mtcars)),20,TRUE))
+}
+mpgPolyALMFitted <- sapply(mpgPolyALM, predict, newdata=data.frame(disp=seq(1,500,1)))
+
+mpgPolyALM2 <- vector("list",nrow(mtcars))
+for(i in 1:nIterations){
+    mpgPolyALM2[[i]] <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4)+I(disp^5)+I(disp^6)+I(disp^7), mtcars, subset=sample(c(1:nrow(mtcars)),20,TRUE))
+}
+mpgPolyALM2Fitted <- sapply(mpgPolyALM2, predict, newdata=data.frame(disp=seq(1,500,1)))
+
+save(mpgLogsALMFitted, mpgLinALMFitted, mpgPolyALMFitted, mpgPolyALM2Fitted, file="../data/biasVariance.Rdata")
+
+```
 
 ```{r biasVariance03, fig.cap="Fuel consumption vs engine size, the true and the linear models", echo=FALSE}
-mpgLinALM <- alm(mpg~disp, mtcars, distribution="dnorm")
 plot(mtcars$disp, mtcars$mpg,
-     xlab="Engine size", ylab="Miles per galon")
+     xlab="Engine size", ylab="Miles per galon",
+     col="white")
+for(i in 1:nIterations){
+    lines(seq(1,500,1),
+          mpgLinALMFitted[,i],
+          col=rgb(0.5,0.5,1,0.5),lwd=1)
+}
 lines(seq(1,500,1),
-      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      mpgLogsALMFitted,
       col="darkgreen",lwd=1)
-lines(seq(1,500,1),
-      coef(mpgLinALM)[1]+coef(mpgLinALM)[2]*seq(1,500,1),
-      col="darkblue",lwd=2)
+points(mtcars$disp, mtcars$mpg)
 ```
 
-This model would exhibit some sort of bias in comparison with the true one: it is consistently below the true model, when engine size is less than 100 and when it is greater than 400 and consistently above in the region between 100 and 400 (approximately). But in general this model does not exhibit high variability in comparison with the true model.
+Figure \@ref(fig:biasVariance03) demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.
 
-Alternatively, we could fit a high order polynomial model to approximate the data (Figure \@ref(fig:biasVariance04)):
+Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same proecedure with sub-samples as before (Figure \@ref(fig:biasVariance04)):
 
 ```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models.", echo=FALSE}
-mpgPolyALM <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4), mtcars)
 plot(mtcars$disp, mtcars$mpg,
-     xlab="Engine size", ylab="Miles per galon")
+     xlab="Engine size", ylab="Miles per galon",
+     col="white")
+for(i in 1:nIterations){
+    lines(seq(1,500,1),
+          mpgPolyALMFitted[,i],
+          col=rgb(0.9,0.5,0.2,0.5),lwd=1)
+}
 lines(seq(1,500,1),
-      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      mpgLogsALMFitted,
       col="darkgreen",lwd=1)
-lines(seq(1,500,1),
-      coef(mpgLinALM)[1]+coef(mpgLinALM)[2]*seq(1,500,1),
-      col="darkblue",lwd=1)
-lines(seq(1,500,1),
-      predict(mpgPolyALM,data.frame(disp=seq(1,500,1))),
-      col="darkred",lwd=2)
+points(mtcars$disp, mtcars$mpg)
 ```
 
-The new polynomial model on the plot in Figure \@ref(fig:biasVariance04) has a lower bias than the linear one, because on average it is closer to the true model in sample, but at the same time has higher variability. This is because it is a more complex model than the linear model: it includes more variables (polynomial terms). If we were to introduce even more polynomial terms, the model would have even more variance around than before (Figure \@ref(fig:biasVariance05)).
+The new polynomial model on the plot in Figure \@ref(fig:biasVariance04) has a lower bias than the linear one, because on average it is closer to the true model in sample, getting closer to the green line (true model) even in the tails. However, it is also apparent that it has higher variability. This is because it is a more complex model than the linear one: it includes more variables (polynomial terms), making it more sensitive to specific observations in the sample. If we were to introduce even more polynomial terms, the model would have even more variance around the true model than before (Figure \@ref(fig:biasVariance05)).
 
 ```{r biasVariance05, fig.cap="Fuel consumption vs engine size, the true and the polynomial (7th order) models", echo=FALSE}
-mpgPolyALM2 <- lm(mpg~disp+I(disp^2)+I(disp^3)+I(disp^4)+I(disp^5)+I(disp^6)+I(disp^7), mtcars)
 plot(mtcars$disp, mtcars$mpg,
-     xlab="Engine size", ylab="Miles per galon")
+     xlab="Engine size", ylab="Miles per galon",
+     col="white")
+for(i in 1:nIterations){
+    lines(seq(1,500,1),
+          mpgPolyALM2Fitted[,i],
+          col=rgb(1,0.5,0.5,0.5),lwd=1)
+}
 lines(seq(1,500,1),
-      exp(coef(mpgLogsALM)[1]+coef(mpgLogsALM)[2]*log(seq(1,500,1))),
+      mpgLogsALMFitted,
       col="darkgreen",lwd=1)
-lines(seq(1,500,1),
-      predict(mpgPolyALM2,data.frame(disp=seq(1,500,1))),
-      col="darkred",lwd=2)
+points(mtcars$disp, mtcars$mpg)
 ```
 
-The pattern that we observe here with the increase of complexity is that the variance of the model in comparison with the true one increases, while the bias either decreases or does not change substantially. This is bias-variance tradeoff in action. It is the principle that says that with the increase of complexity of model, its variance (with respect to the true model) increases, while the bias decreases. The principle states that typically you cannot minimise both at the same time - depending on how you formulate and estimate a model, it will either have bigger variance or a bigger bias.
-
-Mathematically, it is represented for an estimate as parts of Mean Squared Error (MSE) of that estimate (we drop the index of observations in $\hat{y}_j$ for convenience):
-\begin{equation}
-    \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2 ,
-    (\#eq:biasVariance01)
-\end{equation}
-where $\hat{y}$ is the fitted value of our model, $\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})$, $\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)$, $\mu_y$ is the fitted value of the true model, and $\sigma^2$ is the variance of the white noise of the true model.
-
-::: proof
-\begin{equation}
-    \mathrm{MSE} = \mathrm{E}\left((y-\hat{y})^2\right) = \mathrm{E}\left((\mu_y + \epsilon -\hat{y})^2\right),
-    (\#eq:biasVarianceProof)
-\end{equation}
-:::
-
-
+The model on plot in Figure \@ref(fig:biasVariance05) exhibits even higher variance in comparison with the true model, but it is still less biased than the linear model. The pattern that we observe in this demonstration is that the variance of the model in comparison with the true one increases with the increase of complexity, while the bias either decreases or does not change substantially. This is bias-variance tradeoff in action. It is the principle that states that with the increase of complexity of model, its variance (with respect to the true one) increases, while the bias decreases. This implies that typically you cannot minimise both variance and bias at the same time - depending on how you formulate and estimate a model, it will either have bigger variance or a bigger bias. This principle can be applied not only to models, but also to estimates of parameters or to forecasts from the models. It is one of the fundamental basic modelling principles.
