@@ -184,12 +184,13 @@ So, this means that the last three terms in \@ref(eq:biasVarianceProof02) are eq
 \begin{equation*}
     \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2 
 \end{equation*}
+
 :::
 
 The similar mathematical formula holds for any other estimate, for example for an estimate of parameter. What this formula tells us is that there are two forces in the MSE of estimate that impact its value. Minimisation MSE does not imply that we reduce both of them, but most probably we are reducing one at the cost of another. The classical plot based on this looks as shown in Figure \@ref(fig:biasVarianceMSE).
 
 ```{r biasVarianceMSE, fig.cap="Bias, Variance and MSE as functions of model complexity.", echo=FALSE}
-layout(matrix(c(1,2),1,2), widths=c(0.75,0.25))
+layout(matrix(c(1,2),1,2), widths=c(0.71,0.29))
 plot(seq(1,20,0.1),400/(21-seq(1,20,0.1)),
      type="l", ylab="Error", xlab="Complexity",
      col="darkblue", lwd=2, ylim=c(0,300))
@@ -213,7 +214,7 @@ This plot shows the basic principles: with increase of complexity, the bias of e
 It might not be clear to everyone why the model with some bias in it might be better than the model with high variance. In order to answer this question, consider the situation, where we want to estimate the value of parameter $\beta_j$, and we have two methods to do that. Given that we work on a sample of data, the estimates will have some sorts of distributions, shown in Figure \@ref(fig:biasVarianceEstimate).
 
 ```{r biasVarianceEstimate, fig.cap="Example.", echo=FALSE}
-layout(matrix(c(1,2),1,2), widths=c(0.75,0.25))
+layout(matrix(c(1,2),1,2), widths=c(0.73,0.27))
 plot(seq(-10,10,0.1),dnorm(seq(-10,10,0.1),2,2),
      type="l", ylim=c(0,1), col="darkblue",
      xlab=latex2exp::TeX("$b_j$"), ylab="Density",
