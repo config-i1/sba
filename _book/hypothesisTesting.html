@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,10 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="14" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>14</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>14.1</b> Bias-variance tradeoff</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -421,7 +425,7 @@ Figure 5.5: Confidence interval for for the population mean example.
 <li>“Calculated value is lower than the critical one, so the null hypothesis is true.”</li>
 </ol>
 <ul>
-<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the H<span class="math inline">\(_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia.” Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject H<span class="math inline">\(_0\)</span> that all swans are white.” Uneducated people would be tempted to say that ” H<span class="math inline">\(_0\)</span>: All swans are white” is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting H<span class="math inline">\(_0\)</span> and showing that “not all swans are white,” which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting H<span class="math inline">\(_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
+<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the H<span class="math inline">\(_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia.” Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject H<span class="math inline">\(_0\)</span> that all swans are white.” Uneducated people would be tempted to say that " H<span class="math inline">\(_0\)</span>: All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting H<span class="math inline">\(_0\)</span> and showing that “not all swans are white,” which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting H<span class="math inline">\(_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>“Calculated value is lower than the critical one, so we accept the null hypothesis.”</li>

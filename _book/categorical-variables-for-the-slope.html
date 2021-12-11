@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,10 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="14" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>14</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>14.1</b> Bias-variance tradeoff</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -365,20 +369,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       998.8170     4.4299   990.0620   1007.5721 *
-## price              -6.3788     0.2232    -6.8200     -5.9376 *
-## price:colourGreen   3.4357     0.0536     3.3298      3.5415 *
-## price:colourRed     2.4145     0.0533     2.3092      2.5199 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1000.4204     4.3075   991.9073   1008.9336 *
+## price               -6.5507     0.2138    -6.9733     -6.1281 *
+## price:colourGreen    3.5120     0.0483     3.4166      3.6074 *
+## price:colourRed      2.5252     0.0486     2.4292      2.6213 *
 ## 
-## Error standard deviation: 5.3453
+## Error standard deviation: 4.8579
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 932.4944 932.7703 944.5370 945.2281</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.96 units.</p>
+## 903.8079 904.0837 915.8504 916.5415</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.03 units.</p>
 
 </div>
 <!-- </div> -->

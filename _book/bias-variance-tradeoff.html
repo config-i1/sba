@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.3 Interpretation of parameters | Statistics for Business Analytics</title>
+  <title>14.1 Bias-variance tradeoff | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.3 Interpretation of parameters | Statistics for Business Analytics" />
+  <meta property="og:title" content="14.1 Bias-variance tradeoff | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.3 Interpretation of parameters | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="14.1 Bias-variance tradeoff | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="linearRegressionMultipleQualityOfFit.html"/>
-<link rel="next" href="uncertaintyParameters.html"/>
+<link rel="prev" href="uncertaintyModel.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -325,15 +325,52 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="interpretation-of-parameters" class="section level2" number="8.3">
-<h2><span class="header-section-number">8.3</span> Interpretation of parameters</h2>
-<p>Finally, we come to the discussion of parameters of a model. As mentioned earlier, each one of them represents the slope of the model. But there is more to the meaning of parameters of the model. Consider the coefficients of the previously estimated model:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="interpretation-of-parameters.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(mtcarsModel02)</span></code></pre></div>
-<pre><code>## (Intercept)         cyl        disp          hp        drat          wt 
-## 17.88963741 -0.41459575  0.01293240 -0.02084886  1.10109551 -3.92064847 
-##        qsec        gear        carb 
-##  0.54145693  1.23321026 -0.25509911</code></pre>
-<p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the mileage. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant. For example, the parameter for <code>wt</code> (weight) shows that with the increase of weight of a car by 1000 pounds, the mileage would decrease <strong>on average</strong> by 3.921 miles per gallon, if all the other variables do not change. I have made the word “average” boldface three times in this paragraph for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. They do not show how it will change for each point. The regression model capture average tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of weight by 1 will lead to different decreases (and even increases in some cases). But if we take the arithmetic mean of those individual effects, it will be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">12</a>).</p>
+<div id="bias-variance-tradeoff" class="section level2" number="14.1">
+<h2><span class="header-section-number">14.1</span> Bias-variance tradeoff</h2>
+<p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">14.1</a>):</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="bias-variance-tradeoff.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
+<span id="cb211-2"><a href="bias-variance-tradeoff.html#cb211-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
+<img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
+<p class="caption">
+Figure 14.1: Fuel consumption vs engine size
+</p>
+</div>
+<p>The plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">14.1</a> demonstrates clear non-linearity. Indeed, we would expect the relation between these variables to be non-linear in real life: it is difficult to imagine the situation, where a car with no engine will be able to drive at all. On the other hand, a car with a huge engine will still be able to drive some distance, although probably very small. The linear model would assume that the “no engine” case would correspond to the value of approximately 30 miles per gallon (the intersection with y-axis), while the case of “huge engine” would probably result in negative mileage. So, the theoretically suitable model should be multiplicative, which for example can be formulated in logarithms:
+<span class="math display" id="eq:mpgLinear">\[\begin{equation}
+    \log mpg_j = \beta_0 + \beta_1 \log x_j + \epsilon_j .
+    \tag{14.1}
+\end{equation}\]</span>
+We will assume for now that this is the “true model,” which would fit the data in the following way if we knew all the data in the universe (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance02">14.2</a>):</p>
+<div class="figure"><span style="display:block;" id="fig:biasVariance02"></span>
+<img src="adam_files/figure-html/biasVariance02-1.png" alt="Fuel consumption vs engine size and the true model" width="672" />
+<p class="caption">
+Figure 14.2: Fuel consumption vs engine size and the true model
+</p>
+</div>
+<p>While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">14.3</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:biasVariance03"></span>
+<img src="adam_files/figure-html/biasVariance03-1.png" alt="Fuel consumption vs engine size, the true and the linear models" width="672" />
+<p class="caption">
+Figure 14.3: Fuel consumption vs engine size, the true and the linear models
+</p>
+</div>
+<p>Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">14.3</a> demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.</p>
+<p>Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same proecedure with sub-samples as before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">14.4</a>):</p>
+<div class="figure"><span style="display:block;" id="fig:biasVariance04"></span>
+<img src="adam_files/figure-html/biasVariance04-1.png" alt="Fuel consumption vs engine size, the true, the linear and the polynomial models." width="672" />
+<p class="caption">
+Figure 14.4: Fuel consumption vs engine size, the true, the linear and the polynomial models.
+</p>
+</div>
+<p>The new polynomial model on the plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">14.4</a> has a lower bias than the linear one, because on average it is closer to the true model in sample, getting closer to the green line (true model) even in the tails. However, it is also apparent that it has higher variability. This is because it is a more complex model than the linear one: it includes more variables (polynomial terms), making it more sensitive to specific observations in the sample. If we were to introduce even more polynomial terms, the model would have even more variance around the true model than before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance05">14.5</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:biasVariance05"></span>
+<img src="adam_files/figure-html/biasVariance05-1.png" alt="Fuel consumption vs engine size, the true and the polynomial (7th order) models" width="672" />
+<p class="caption">
+Figure 14.5: Fuel consumption vs engine size, the true and the polynomial (7th order) models
+</p>
+</div>
+<p>The model on plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance05">14.5</a> exhibits even higher variance in comparison with the true model, but it is still less biased than the linear model. The pattern that we observe in this demonstration is that the variance of the model in comparison with the true one increases with the increase of complexity, while the bias either decreases or does not change substantially. This is bias-variance tradeoff in action. It is the principle that states that with the increase of complexity of model, its variance (with respect to the true one) increases, while the bias decreases. This implies that typically you cannot minimise both variance and bias at the same time - depending on how you formulate and estimate a model, it will either have bigger variance or a bigger bias. This principle can be applied not only to models, but also to estimates of parameters or to forecasts from the models. It is one of the fundamental basic modelling principles.</p>
 
 </div>
 <!-- </div> -->
@@ -343,8 +380,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
           </div>
         </div>
       </div>
-<a href="linearRegressionMultipleQualityOfFit.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="uncertaintyParameters.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uncertaintyModel.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -375,7 +412,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//10-MLR.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//19-specification-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="statisticsNumberOfParameters.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="uncertaintyModel.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -297,6 +297,10 @@ div.csl-indent {
 <li class="chapter" data-level="13.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>13.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="14" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>14</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>14.1</b> Bias-variance tradeoff</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -433,9 +437,6 @@ where <span class="math inline">\(n\)</span> is the sample size.</p></li>
 <!-- In this chapter we discuss a specific model implemented in `greybox` package, which is called "Augmented Linear Model" (ALM). As the name suggests, this is the model that extends the basic linear regression in several directions. First, it focuses on forecasting using regression (which will be discussed later in this textbook). Second, it introduces a set of distributional assumptions for the response variable, allowing, for example, to construct Laplace or Inverse Gaussian model instead of the Normal one (in this respect, the ALM has some similarities with Generalised Linear Model, GLM. See, for example @Dunn2018). Third, it supports mixture distributions, allowing, for example, to construct a combination of logistic and log normal regressions. This becomes especially useful for intermittent demand and other types of data that contain naturally occurring zeroes. Finally, ALM supports ARIMA elements, but we will discuss this topic later in the textbook. -->
 <!-- In this chapter, we discuss all the aforementioned aspects of ALM and show how it can be used in a variety of contexts. -->
 
-<!-- # Uncertainty about the model form {#uncertaintyModel} -->
-<!-- In this Chapter, we discuss more advanced topics related to regression modelling. In a way, this part builds upon elements of Statistical Learning [see, for example, the textbook of @Hastie2009] and focuses on how to select variables for regression model. We start with a fundamental idea of bias-variance trade-off, which lies in the core of many selection methods. We then move to the discussion of information criteria, explaining what they imply, after that - to several existing variable selection approaches, explaining their advantages and limitations. Furthermore, we discuss combination approaches and what they mean in terms of parameters of models. We finish this chapter with an introductory discussion of regularisation techniques (such as LASSO and RIDGE). -->
-
 </div>
 </div>
 <!-- </div> -->
@@ -467,7 +468,7 @@ where <span class="math inline">\(n\)</span> is the sample size.</p></li>
         </div>
       </div>
 <a href="statisticsNumberOfParameters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uncertaintyModel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
