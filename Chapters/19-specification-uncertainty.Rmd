@@ -6,6 +6,7 @@ In this Chapter, we discuss more advanced topics related to regression modelling
 In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the `mtcars` dataset in R (Figure \@ref(fig:biasVariance01)):
 
 ```{r biasVariance01, fig.cap="Fuel consumption vs engine size"}
+load("data/biasVariance.Rdata")
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 ```
@@ -18,13 +19,11 @@ The plot in Figure \@ref(fig:biasVariance01) demonstrates clear non-linearity. I
 where $mpg_j$ is the miles per galon of a car and $disp_j$ is the displacement (size) of engine. We will assume for now that this is the "true model", which would fit the data in the following way if we knew all the data in the universe (Figure \@ref(fig:biasVariance02)):
 
 ```{r biasVariance02, fig.cap="Fuel consumption vs engine size and the true model", echo=FALSE}
-load("data/biasVariance.Rdata")
-
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2)
+      col="darkgreen",lwd=2,lty=2)
 ```
 
 While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure \@ref(fig:biasVariance03)).
@@ -67,7 +66,7 @@ for(i in 1:nIterations){
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2)
+      col="darkgreen",lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
@@ -86,7 +85,7 @@ for(i in 1:nIterations){
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2)
+      col="darkgreen",lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
@@ -103,7 +102,7 @@ for(i in 1:nIterations){
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2)
+      col="darkgreen",lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
