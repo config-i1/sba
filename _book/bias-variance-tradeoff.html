@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-11" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -390,16 +390,14 @@ where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our mo
 <div class="proof">
 <p><span id="unlabeled-div-3" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
-  \begin{aligned}
-    \mathrm{MSE} = &amp; \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right) = \\
-                   &amp; \mathrm{E}\left(\left(\mu_y +\epsilon -\hat{y} +\mathrm{E}(\hat{y}) -\mathrm{E}(\hat{y})\right)^2\right)
-  \end{aligned}
+    \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{14.3}
 \end{equation}\]</span>
-The expectation of square of sum can be expanded as:
+The expectation of square of sum above can be expanded as:
 <span class="math display" id="eq:biasVarianceProof02">\[\begin{equation}
   \begin{aligned}
-    \mathrm{MSE} = &amp; \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) +\\
+    \mathrm{MSE} = &amp; \mathrm{E}\left(\left(\mu_y +\epsilon -\hat{y} +\mathrm{E}(\hat{y}) -\mathrm{E}(\hat{y})\right)^2\right) =\\
+                    &amp; \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) +\\
                     &amp; \mathrm{E}\left((\mathrm{E}(\hat{y}) -\hat{y})^2\right) +\\
                     &amp; \mathrm{E}(\epsilon^2) +\\
                     &amp; 2\mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y})) \epsilon \right) +\\
@@ -413,7 +411,7 @@ We now can consider each element of the sum of squares in <a href="bias-variance
     \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) = \mathrm{E}(\mu_y^2) -2 \mathrm{E}(\mu_y \mathrm{E}(\hat{y})) + \mathrm{E}(\mathrm{E}(\hat{y})^2).
     \tag{14.5}
 \end{equation}\]</span>
-Given that <span class="math inline">\(\mu_y\)</span> is the value of the model in the population, which is fixed, its expectation will be equal to itself. In addition, the expectation of expectation is just an expectation (<span class="math inline">\(\mathrm{E}(\mathrm{E}(\hat{y})^2)=\mathrm{E}(\hat{y})^2\)</span>). This leads to the following, which is just the bias of the estimated model:
+Given that <span class="math inline">\(\mu_y\)</span> is the value of the model in the population, which is fixed, its expectation will be equal to itself. In addition, the expectation of expectation is just an expectation: <span class="math inline">\(\mathrm{E}(\mathrm{E}(\hat{y})^2)=\mathrm{E}(\hat{y})^2\)</span>. This leads to the following, which is just the bias of the estimated model:
 <span class="math display" id="eq:biasVarianceProof04">\[\begin{equation}
   \begin{aligned}
     \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) = &amp; \mu_y^2 -2 \mu_y \mathrm{E}(\hat{y}) + \mathrm{E}(\hat{y})^2 = \\

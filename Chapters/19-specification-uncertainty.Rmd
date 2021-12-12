@@ -120,16 +120,14 @@ where $\hat{y}$ is the fitted value of our model, $\mathrm{Bias}(\hat{y})=\mathr
 ::: proof
 The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 \begin{equation}
-  \begin{aligned}
-    \mathrm{MSE} = & \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right) = \\
-                   & \mathrm{E}\left(\left(\mu_y +\epsilon -\hat{y} +\mathrm{E}(\hat{y}) -\mathrm{E}(\hat{y})\right)^2\right)
-  \end{aligned}
+    \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     (\#eq:biasVarianceProof01)
 \end{equation}
-The expectation of square of sum can be expanded as:
+The expectation of square of sum above can be expanded as:
 \begin{equation}
   \begin{aligned}
-    \mathrm{MSE} = & \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) +\\
+    \mathrm{MSE} = & \mathrm{E}\left(\left(\mu_y +\epsilon -\hat{y} +\mathrm{E}(\hat{y}) -\mathrm{E}(\hat{y})\right)^2\right) =\\
+                    & \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) +\\
                     & \mathrm{E}\left((\mathrm{E}(\hat{y}) -\hat{y})^2\right) +\\
                     & \mathrm{E}(\epsilon^2) +\\
                     & 2\mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y})) \epsilon \right) +\\
@@ -143,7 +141,7 @@ We now can consider each element of the sum of squares in \@ref(eq:biasVarianceP
     \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) = \mathrm{E}(\mu_y^2) -2 \mathrm{E}(\mu_y \mathrm{E}(\hat{y})) + \mathrm{E}(\mathrm{E}(\hat{y})^2).
     (\#eq:biasVarianceProof03)
 \end{equation}
-Given that $\mu_y$ is the value of the model in the population, which is fixed, its expectation will be equal to itself. In addition, the expectation of expectation is just an expectation ($\mathrm{E}(\mathrm{E}(\hat{y})^2)=\mathrm{E}(\hat{y})^2$). This leads to the following, which is just the bias of the estimated model:
+Given that $\mu_y$ is the value of the model in the population, which is fixed, its expectation will be equal to itself. In addition, the expectation of expectation is just an expectation: $\mathrm{E}(\mathrm{E}(\hat{y})^2)=\mathrm{E}(\hat{y})^2$. This leads to the following, which is just the bias of the estimated model:
 \begin{equation}
   \begin{aligned}
     \mathrm{E}\left((\mu_y -\mathrm{E}(\hat{y}))^2\right) = & \mu_y^2 -2 \mu_y \mathrm{E}(\hat{y}) + \mathrm{E}(\hat{y})^2 = \\
