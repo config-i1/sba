@@ -335,8 +335,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="graphical-explanation" class="section level3" number="14.1.1">
 <h3><span class="header-section-number">14.1.1</span> Graphical explanation</h3>
 <p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">14.1</a>):</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="bias-variance-tradeoff.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
-<span id="cb211-2"><a href="bias-variance-tradeoff.html#cb211-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="bias-variance-tradeoff.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
+<span id="cb211-2"><a href="bias-variance-tradeoff.html#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
+<span id="cb211-3"><a href="bias-variance-tradeoff.html#cb211-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
 <img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">
@@ -363,7 +364,7 @@ Figure 14.3: Fuel consumption vs engine size, the true and the linear models
 </p>
 </div>
 <p>Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">14.3</a> demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.</p>
-<p>Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same proecedure with sub-samples as before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">14.4</a>):</p>
+<p>Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same procedure with sub-samples as before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">14.4</a>):</p>
 <div class="figure"><span style="display:block;" id="fig:biasVariance04"></span>
 <img src="adam_files/figure-html/biasVariance04-1.png" alt="Fuel consumption vs engine size, the true, the linear and the polynomial models." width="672" />
 <p class="caption">
