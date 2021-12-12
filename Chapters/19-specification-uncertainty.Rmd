@@ -73,7 +73,7 @@ points(mtcars$disp, mtcars$mpg)
 
 Figure \@ref(fig:biasVariance03) demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.
 
-Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same proecedure with sub-samples as before (Figure \@ref(fig:biasVariance04)):
+Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same procedure with sub-samples as before (Figure \@ref(fig:biasVariance04)):
 
 ```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models.", echo=FALSE}
 plot(mtcars$disp, mtcars$mpg,
