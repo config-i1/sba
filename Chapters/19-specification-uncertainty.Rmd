@@ -210,7 +210,7 @@ This plot shows the basic principles: with increase of complexity, the bias of e
 ### Why having biased estimate can be better than having the inefficient one?
 It might not be clear to everyone why the model with some bias in it might be better than the model with high variance. In order to answer this question, consider the situation, where we want to estimate the value of parameter $\beta_j$, and we have two methods to do that. Given that we work on a sample of data, the estimates will have some sorts of distributions, shown in Figure \@ref(fig:biasVarianceEstimate).
 
-```{r biasVarianceEstimate, fig.cap="Example of two estimates of a parameter.", echo=FALSE}
+```{r biasVarianceEstimate, fig.cap="Example of two estimators of a parameter.", echo=FALSE}
 layout(matrix(c(1,2),1,2), widths=c(0.73,0.27))
 plot(seq(-10,10,0.1),dnorm(seq(-10,10,0.1),2,2),
      type="l", ylim=c(0,1), col="darkblue",
