@@ -222,13 +222,19 @@ abline(v=2, lwd=2, lty=3)
 # The plot for the legend
 par(mar=c(0.1,0.1,4.1,0.1), bty="n", xaxt="n", yaxt="n")
 plot(0, 0, col="white")
-legend("topright",legend=c("Estimate 1","Estimate 2","The true value"),
+legend("topright",legend=c("Estimator 1","Estimator 2","The true value"),
        col=c("darkblue","darkred","black"),
        lwd=2, lty=c(1,1,3))
 ```
 
-Which of the two estimates would you prefer: the first one or the second one? The conventional statistician might choose Estimate 1, because it is unbiased, meaning that on average we will have the correct value of the true parameter. However, if we rephrase the question slightly, making it more realistic, their answer would probably change: "Which of the two estimates would you prefer **on small sample**?". In this situation, we understand that we have limited data and need to make a decision based on what we have on hands, we might not be able to rely on asymptotic properties, on LLN and CLT (Chapter \@ref(PopulationSampling)). If we choose Estimate 1, then on our specific sample, we might end up easily with a value for $b_j$ of -2, 0 or 6, just due to the pure chance - this is how wide the distribution is. On the other hand, if we choose the Estimate 2, we will end up with the value, which will be close to the true one: 2.5, 3 or 4. Yes, this value will be typically higher than needed, but at least it will not lead us to confusing conclusions on the data we have. Having said that, if the bias was too high (e.g. if the distribution of the Estimate 2 was placed around -4), the estimate might become unreliable, so there should be some balance in how much bias one should impose on the estimates. But this example explains why model selection, model combinations and regularisation are important and have become so popular over the last few decades: they all allow deciding, where to be in the bias-variance trade-off in order to produce more accurate estimates of parameters based on the available sample of data.
+Which of the two estimators would you prefer: the first one or the second one? The conventional statistician might choose Estimator 1, because it produces the unbiased estimates of parameter, meaning that on average we will have the correct value of the true parameter. However, if we rephrase the question slightly, making it more realistic, the answer would probably change: "Which of the two estimators would you prefer **on small sample**?". In this situation, we understand that we have limited data and need to make a decision based on what we have on hands, we might not be able to rely on asymptotic properties, on LLN and CLT (Chapter \@ref(PopulationSampling)). If we choose Estimator 1, then on our specific sample, we might end up easily with a value for $b_j$ of -2, 0 or 6, just due to the pure chance - this is how wide the distribution is. On the other hand, if we choose the Estimator 2, we will end up with the value, which will be close to the true one: 2.5, 3 or 4. Yes, this value will be typically higher than needed, but at least it will not lead us to confusing conclusions on the data we have. Having said that, if the bias was too high (e.g. if the distribution of the Estimator 2 was placed around -4), the estimator might become unreliable, so there should be some balance in how much bias one should impose. But this example explains why model selection, model combinations and regularisation are important and have become so popular over the last few decades: they all allow deciding, where to be in the bias-variance trade-off in order to produce more accurate estimates of parameters based on the available sample of data.
 
 
+<!-- ## AIC-based model selection -->
 
+
+<!-- ## AIC-based model combination -->
+
+
+<!-- ## Regression with regularisation -->
 
