@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-18" />
+<meta name="date" content="2021-12-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,6 +214,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>4.3.2</b> Efficiency</a></li>
 <li class="chapter" data-level="4.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>4.3.3</b> Consistency</a></li>
 <li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
+<li class="chapter" data-level="4.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#why-having-biased-estimate-can-be-better-than-having-the-inefficient-one"><i class="fa fa-check"></i><b>4.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="uncertaintyData.html"><a href="uncertaintyData.html"><i class="fa fa-check"></i><b>5</b> Sample related uncertainty</a>
@@ -303,7 +304,6 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="14.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>14.1.1</b> Graphical explanation</a></li>
 <li class="chapter" data-level="14.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>14.1.2</b> Mathematical explanation</a></li>
-<li class="chapter" data-level="14.1.3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#why-having-biased-estimate-can-be-better-than-having-the-inefficient-one"><i class="fa fa-check"></i><b>14.1.3</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -389,31 +389,31 @@ Figure 10.2: Scatterplot of Sales vs Price of t-shirts of different colour.
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1049.8802     4.0793  1041.8181   1057.9424 *
-## price         -2.4474     0.2031    -2.8489     -2.0459 *
-## colourRed    -19.9885     1.0221   -22.0085    -17.9685 *
-## colourGreen  -72.8196     1.0316   -74.8583    -70.7808 *
+## (Intercept) 1052.3922     3.8672  1044.7493   1060.0351 *
+## price         -2.6637     0.1832    -3.0259     -2.3016 *
+## colourRed    -18.4868     0.9752   -20.4141    -16.5595 *
+## colourGreen  -69.3436     0.9861   -71.2924    -67.3947 *
 ## 
-## Error standard deviation: 5.0978
+## Error standard deviation: 4.8587
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 918.2694 918.5453 930.3119 931.0031</code></pre>
-<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1050. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
+## 903.8590 904.1349 915.9016 916.5927</code></pre>
+<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1052. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 18 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
 <ol style="list-style-type: decimal">
-<li>For the blue t-shirt, our model is: sales=1049.88-2.45price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
-<li>For the red t-shirt the model is: sales=1049.88+-19.99-2.45price+et or sales=1029.89-2.45price+et;</li>
-<li>Finally, for the green one, the model is: sales=1049.88+-72.82-2.45price+et or sales=977.06-2.45price+et.</li>
+<li>For the blue t-shirt, our model is: sales=1052.39-2.66price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
+<li>For the red t-shirt the model is: sales=1052.39+-18.49-2.66price+et or sales=1033.9-2.66price+et;</li>
+<li>Finally, for the green one, the model is: sales=1052.39+-69.34-2.66price+et or sales=983.05-2.66price+et.</li>
 </ol>
 <p>In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model <code>tShirtsALM</code>.</p>
-<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1049.88, 1029.89 and 977.06 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
+<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1052.39, 1033.9 and 983.05 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="dummy-variables-for-the-intercept.html#cb148-1" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
 <span id="cb148-2"><a href="dummy-variables-for-the-intercept.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
 <span id="cb148-3"><a href="dummy-variables-for-the-intercept.html#cb148-3" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
 <pre><code>##   colourRed colourGreen  colourBlue 
-##    10.94750   -41.88353    30.93603</code></pre>
+##    10.79000   -40.06678    29.27677</code></pre>
 <p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 11 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
 <p>In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable <code>colour</code>:</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="dummy-variables-for-the-intercept.html#cb150-1" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
@@ -428,18 +428,18 @@ Figure 10.2: Scatterplot of Sales vs Price of t-shirts of different colour.
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1049.8802     4.0793  1041.8181   1057.9424 *
-## price         -2.4474     0.2031    -2.8489     -2.0459 *
-## colourGreen  -72.8196     1.0316   -74.8583    -70.7808 *
-## colourRed    -19.9885     1.0221   -22.0085    -17.9685 *
+## (Intercept) 1052.3922     3.8672  1044.7493   1060.0351 *
+## price         -2.6637     0.1832    -3.0259     -2.3016 *
+## colourGreen  -69.3436     0.9861   -71.2924    -67.3947 *
+## colourRed    -18.4868     0.9752   -20.4141    -16.5595 *
 ## 
-## Error standard deviation: 5.0978
+## Error standard deviation: 4.8587
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 918.2694 918.5453 930.3119 931.0031</code></pre>
+## 903.8590 904.1349 915.9016 916.5927</code></pre>
 <p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>colourRed</code> and only have the model with <code>colourGreen</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.</p>
 </div>
 

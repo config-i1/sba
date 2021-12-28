@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-18" />
+<meta name="date" content="2021-12-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,6 +214,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>4.3.2</b> Efficiency</a></li>
 <li class="chapter" data-level="4.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>4.3.3</b> Consistency</a></li>
 <li class="chapter" data-level="4.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>4.3.4</b> Asymptotic normality</a></li>
+<li class="chapter" data-level="4.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#why-having-biased-estimate-can-be-better-than-having-the-inefficient-one"><i class="fa fa-check"></i><b>4.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="uncertaintyData.html"><a href="uncertaintyData.html"><i class="fa fa-check"></i><b>5</b> Sample related uncertainty</a>
@@ -303,7 +304,6 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="14.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>14.1.1</b> Graphical explanation</a></li>
 <li class="chapter" data-level="14.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>14.1.2</b> Mathematical explanation</a></li>
-<li class="chapter" data-level="14.1.3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#why-having-biased-estimate-can-be-better-than-having-the-inefficient-one"><i class="fa fa-check"></i><b>14.1.3</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -374,20 +374,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1002.0687     5.0089   992.1695   1011.9680 *
-## price               -6.5777     0.2490    -7.0698     -6.0855 *
-## price:colourGreen    3.5382     0.0568     3.4259      3.6506 *
-## price:colourRed      2.5016     0.0562     2.3906      2.6126 *
+##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       997.3168     4.0412   989.3301   1005.3036 *
+## price              -6.3273     0.2021    -6.7268     -5.9279 *
+## price:colourGreen   3.5080     0.0487     3.4116      3.6043 *
+## price:colourRed     2.4363     0.0493     2.3389      2.5338 *
 ## 
-## Error standard deviation: 5.6862
+## Error standard deviation: 4.919
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 951.0383 951.3142 963.0809 963.7720</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.08 units.</p>
+## 907.5560 907.8318 919.5985 920.2896</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.89 units.</p>
 
 </div>
 <!-- </div> -->
