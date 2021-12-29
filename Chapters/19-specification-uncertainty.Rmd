@@ -206,7 +206,7 @@ legend("topright",legend=c("Variance","Bias","MSE","Minimum MSE"),
 
 This plot shows the basic principles: with increase of complexity, the bias of estimate decreases, but its variance increases. There is typically the specific type of model (the point on Complexity axis) that minimises MSE (the vertical line on the plot), which will have some combination of variance and bias. But in practice, this point does not guarantee that we will have an accurate adequate model. In some situations we might prefer moving to the left on the plot in Figure \@ref(fig:biasVarianceMSE), sacrificing unbiasedness of model to get the reduced variance. The model selection, model combinations and regularisation methods all aim to find the sweet spot on the plot for the specific sample available to the analyst.
 
-
+The bias-variance trade-off is also related to the discussion we had in Subsection \@ref(efficiencyVSBias): having a more biased but more efficient estimate of parameter (thus going to the left in Figure \@ref(fig:biasVarianceMSE)) might be more desirable than having the unbiased but inefficient estimate. This is because on small samples the former estimate will be typically closer to the true value than the latter one. This explains why model selection, model combinations and regularisation are important topics and have become so popular over the last few decades: they all allow deciding, where to be in the bias-variance trade-off in order to produce more accurate estimates of parameters based on the available sample of data.
 
 <!-- ## AIC-based model selection -->
 
