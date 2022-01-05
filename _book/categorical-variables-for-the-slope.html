@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2021-12-29" />
+<meta name="date" content="2022-01-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -262,7 +262,17 @@ div.csl-indent {
 <li class="chapter" data-level="11" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>11</b> Variables transformations</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>11.1</b> Example of application</a></li>
-<li class="chapter" data-level="11.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>11.2</b> Types of variables transformations</a></li>
+<li class="chapter" data-level="11.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>11.2</b> Types of variables transformations</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>11.2.1</b> Linear model</a></li>
+<li class="chapter" data-level="11.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>11.2.2</b> Log-Log model</a></li>
+<li class="chapter" data-level="11.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>11.2.3</b> Log-linear model</a></li>
+<li class="chapter" data-level="11.2.4" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-log-model"><i class="fa fa-check"></i><b>11.2.4</b> Linear-Log model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>11.2.5</b> Square root model</a></li>
+<li class="chapter" data-level="11.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>11.2.6</b> Quadratic model</a></li>
+<li class="chapter" data-level="11.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>11.2.7</b> Polynomial model</a></li>
+<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>12</b> Statistical models assumptions</a>
 <ul>
@@ -375,19 +385,19 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1010.1767     3.5585  1003.1438   1017.2095 *
-## price               -6.9923     0.1771    -7.3424     -6.6422 *
-## price:colourGreen    3.5072     0.0479     3.4126      3.6018 *
-## price:colourRed      2.4436     0.0475     2.3497      2.5376 *
+## (Intercept)       1001.2168     4.0440   993.2246   1009.2091 *
+## price               -6.5700     0.2014    -6.9679     -6.1720 *
+## price:colourGreen    3.5239     0.0496     3.4259      3.6219 *
+## price:colourRed      2.5715     0.0504     2.4718      2.6711 *
 ## 
-## Error standard deviation: 4.7877
+## Error standard deviation: 5.0036
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 899.4435 899.7193 911.4860 912.1771</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.55 units.</p>
+## 912.6751 912.9510 924.7176 925.4088</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4 units.</p>
 
 </div>
 <!-- </div> -->
