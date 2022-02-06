@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-01-18" />
+<meta name="date" content="2022-02-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -294,7 +294,7 @@ div.csl-indent {
 <li class="chapter" data-level="12.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>12.3</b> The explanatory variables are not correlated with anything but the response variable</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>12.3.1</b> Multicollinearity</a></li>
-<li class="chapter" data-level="12.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>12.3.2</b> Engogeneity</a></li>
+<li class="chapter" data-level="12.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>12.3.2</b> Endogeneity</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>13</b> Likelihood Approach</a>
@@ -363,7 +363,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Figure 12.8: Standardised residuals over time.
 </p>
 </div>
-<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">12.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation"><a href="#ref-SvetunkovADAM" role="doc-biblioref">Svetunkov</a> (<a href="#ref-SvetunkovADAM" role="doc-biblioref">2021b</a>)</span>.</p>
+<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">12.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation"><a href="#ref-SvetunkovADAM" role="doc-biblioref">Svetunkov</a> (<a href="#ref-SvetunkovADAM" role="doc-biblioref">2021</a>)</span>.</p>
 <p>The other instrument for diagnostics is ACF / PACF plots, which are produced in <code>alm()</code> via the following command:</p>
 <div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="assumptionsResidualsAreIID.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb184-2"><a href="assumptionsResidualsAreIID.html#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(SeatbeltsALM01,<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
@@ -443,7 +443,7 @@ Figure 12.13: QQ-plot of residuals of model 1 for mtcars dataset.
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-SvetunkovADAM" class="csl-entry">
-• Svetunkov, I., 2021b. Forecasting and analytics with ADAM. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)
+• Svetunkov, I., 2021. Forecasting and analytics with ADAM. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)
 </div>
 </div>
 

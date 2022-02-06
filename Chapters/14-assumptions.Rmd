@@ -252,7 +252,7 @@ This is useful when you want to see the specific impact on the variance of param
 Finally, in some cases nothing can be done with multicollinearity, it just exists, and we need to include those correlated variables. This might not be a big problem, as long as we acknowledge the issues it will cause to the estimates of parameters.
 
 
-### Engogeneity {#assumptionsXregEndogeneity}
+### Endogeneity {#assumptionsXregEndogeneity}
 **Endogeneity** applies to the situation, when the dependent variable $y_j$ influences the explanatory variable $x_j$ in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be *biased*, and a different estimation method would be needed or maybe a different model would need to be constructed in order to fix this.
 
 Endogeneity cannot be properly diagnosed and comes to the judgment: do we expect the relation between variable to be one directional or bi-directional? Note that if we work with time series, then endogeneity would only appear, when the bi-directional relation happens at the same time $t$, not over time.

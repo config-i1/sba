@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-01-18" />
+<meta name="date" content="2022-02-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -294,7 +294,7 @@ div.csl-indent {
 <li class="chapter" data-level="12.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>12.3</b> The explanatory variables are not correlated with anything but the response variable</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>12.3.1</b> Multicollinearity</a></li>
-<li class="chapter" data-level="12.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>12.3.2</b> Engogeneity</a></li>
+<li class="chapter" data-level="12.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>12.3.2</b> Endogeneity</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>13</b> Likelihood Approach</a>
@@ -404,7 +404,7 @@ for each model <span class="math inline">\(i\)</span>. Which in our case can be 
 <p>Finally, in some cases nothing can be done with multicollinearity, it just exists, and we need to include those correlated variables. This might not be a big problem, as long as we acknowledge the issues it will cause to the estimates of parameters.</p>
 </div>
 <div id="assumptionsXregEndogeneity" class="section level3" number="12.3.2">
-<h3><span class="header-section-number">12.3.2</span> Engogeneity</h3>
+<h3><span class="header-section-number">12.3.2</span> Endogeneity</h3>
 <p><strong>Endogeneity</strong> applies to the situation, when the dependent variable <span class="math inline">\(y_j\)</span> influences the explanatory variable <span class="math inline">\(x_j\)</span> in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be <em>biased</em>, and a different estimation method would be needed or maybe a different model would need to be constructed in order to fix this.</p>
 <p>Endogeneity cannot be properly diagnosed and comes to the judgment: do we expect the relation between variable to be one directional or bi-directional? Note that if we work with time series, then endogeneity would only appear, when the bi-directional relation happens at the same time <span class="math inline">\(t\)</span>, not over time.</p>
 
