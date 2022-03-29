@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -372,26 +372,26 @@ After that we get the critical value of t with <span class="math inline">\(df=36
 <div class="figure"><span style="display:block;" id="fig:hypothesisTesting01"></span>
 <img src="adam_files/figure-html/hypothesisTesting01-1.png" alt="The process of hypothesis testing with t value." width="672" />
 <p class="caption">
-Figure 5.4: The process of hypothesis testing with t value.
+Figure 5.5: The process of hypothesis testing with t value.
 </p>
 </div>
-<p>If the blue line on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting01">5.4</a> would lie inside the red bounds (i.e. the calculated value is less than the critical value by absolute), then we would fail to reject H<span class="math inline">\(_0\)</span>. But in our example it is outside the bounds, so we have enough evidence to conclude that the population mean is not equal to zero on 5% significance level. Notice, how similar the mechanisms of confidence interval construction and hypothesis testing are. This is because they are one and the same thing, presented differently. In fact, we could test the same hypothesis by constructing the 95% confidence interval using <a href="confidenceInterval.html#eq:confidenceInterval">(5.1)</a> and checking, whether the interval covers the <span class="math inline">\(\mu=0\)</span>:
+<p>If the blue line on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting01">5.5</a> would lie inside the red bounds (i.e. the calculated value is less than the critical value by absolute), then we would fail to reject H<span class="math inline">\(_0\)</span>. But in our example it is outside the bounds, so we have enough evidence to conclude that the population mean is not equal to zero on 5% significance level. Notice, how similar the mechanisms of confidence interval construction and hypothesis testing are. This is because they are one and the same thing, presented differently. In fact, we could test the same hypothesis by constructing the 95% confidence interval using <a href="confidenceInterval.html#eq:confidenceInterval">(5.1)</a> and checking, whether the interval covers the <span class="math inline">\(\mu=0\)</span>:
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
         &amp; \mu \in \left(-0.50 -2.03 \frac{1}{\sqrt{36}}, -0.50 + 2.03 \frac{1}{\sqrt{36}} \right), \\
         &amp; \mu \in (-0.84, -0.16).
     \end{aligned}
 \end{equation*}\]</span>
-In our case it does not, so we conclude that we reject H<span class="math inline">\(_0\)</span> on 5% significance level. This can be roughly represented by the graph on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting02">5.5</a>:</p>
+In our case it does not, so we conclude that we reject H<span class="math inline">\(_0\)</span> on 5% significance level. This can be roughly represented by the graph on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting02">5.6</a>:</p>
 <div class="figure"><span style="display:block;" id="fig:hypothesisTesting02"></span>
 <img src="adam_files/figure-html/hypothesisTesting02-1.png" alt="Confidence interval for for the population mean example." width="672" />
 <p class="caption">
-Figure 5.5: Confidence interval for for the population mean example.
+Figure 5.6: Confidence interval for for the population mean example.
 </p>
 </div>
 <p>Note that the positioning of the blue line has changed in the case of confidence interval, which happens because of the transition from <a href="hypothesisTesting.html#eq:ttestFormula">(5.3)</a> to <a href="confidenceInterval.html#eq:confidenceInterval">(5.1)</a>. The idea and the message, however, stay the same: if the value is not inside the light grey area, then we reject H<span class="math inline">\(_0\)</span> on the selected significance level.</p>
 <p>Also <strong>note</strong> that we never say that we accept H<span class="math inline">\(_0\)</span>, because this is not what we do in hypothesis testing: if the value would lie inside the interval, then this would only mean that our sample shows that the tested value is covered by the region - the true value can be any of the numbers between the bounds.</p>
-<p>Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting01">5.4</a> (calculated value). In R this can be done using the <code>pt()</code> function:</p>
+<p>Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure <a href="hypothesisTesting.html#fig:hypothesisTesting01">5.5</a> (calculated value). In R this can be done using the <code>pt()</code> function:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="hypothesisTesting.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.002474416</code></pre>
 <p>Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately 0.0049. This is the significance level, for which the switch from “reject” to “do not reject” happens. We could compare this value with the pre-selected significance level directly, rejecting H<span class="math inline">\(_0\)</span> if it is lower than <span class="math inline">\(\alpha\)</span>. This value is called “p-value” and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: <strong>p-value</strong> is the smallest significance level at which a null hypothesis can be rejected.</p>

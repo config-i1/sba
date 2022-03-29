@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,7 +347,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     y \in (\bar{y} + z_{\alpha/2} s, \bar{y} + z_{1-\alpha/2} s),
     \tag{5.2}
 \end{equation}\]</span>
-where <span class="math inline">\(z_{\alpha/2}\)</span> is the z-statistics (quantile of standard normal distribution) for the level <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(\bar{y}\)</span> is the sample estimate of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(s\)</span> is the sample estimate of <span class="math inline">\(\sigma\)</span>. If we assume some other distributions for the random variable, the formula would change. In a way, the prediction interval just comes to getting the quantiles of the assumed distribution based on estimated parameters. In some cases, when some of the <a href="assumptions.html#assumptions">assumptions</a> do not hold, we might switch to more advanced methods for prediction interval construction.</p>
+where <span class="math inline">\(z_{\alpha/2}\)</span> is the z-statistics (quantile of standard normal distribution) for the level <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(\bar{y}\)</span> is the sample estimate of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(s\)</span> is the sample estimate of <span class="math inline">\(\sigma\)</span>. The graphical presentation of such interval can be shown as in Figure <a href="confidenceIntervalsPrediction.html#fig:predictionInterval">5.4</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:predictionInterval"></span>
+<img src="adam_files/figure-html/predictionInterval-1.png" alt="Prediction interval" width="672" />
+<p class="caption">
+Figure 5.4: Prediction interval
+</p>
+</div>
+<p>Figure <a href="confidenceIntervalsPrediction.html#fig:predictionInterval">5.4</a> shows the 95% prediction interval on two plots: the linear plot of values vs observations id and on the histogram. In both cases the prediction intervals are the dashed orange lines, lying further away from the sample mean (the solid blue line). The two solid red lines around the mean represent the 95% confidence intervals for the mean (discussed in Section <a href="confidenceInterval.html#confidenceInterval">5.1</a>). As can be seen, the prediction intervals show, where the 95% of observations are expected to lie. As a result, several observations lie outside the bounds (given the sample of 100 observations, we would expect 5 of them to lie outside, but this will vary from one sample to another). In contrast, confidence interval shows, where the expectation of the population will lie in 95% of the cases, if the interval is constructed many times for random samples.</p>
+<p>The formula <a href="confidenceIntervalsPrediction.html#eq:predictionInterval">(5.2)</a> relies on the assumption of normality. If it does not hold, the formula would change. In a way, the prediction interval just comes to getting the quantiles of the assumed distribution based on estimated parameters. In some cases, when some of the <a href="assumptions.html#assumptions">assumptions</a> do not hold, we might switch to more advanced methods for prediction interval construction.</p>
 </div>
 
             </section>

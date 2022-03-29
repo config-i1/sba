@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -371,13 +371,13 @@ Figure 9.6: Fitted values and confidence interval for the stopping distance mode
 <p>The same fitted values and interval can be presented differently on the actuals vs fitted plot:</p>
 <div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="regression-line-uncertainty.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(slmSpeedDistance),<span class="fu">actuals</span>(slmSpeedDistance),</span>
 <span id="cb140-2"><a href="regression-line-uncertainty.html#cb140-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
-<span id="cb140-3"><a href="regression-line-uncertainty.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb140-3"><a href="regression-line-uncertainty.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb140-4"><a href="regression-line-uncertainty.html#cb140-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(slmSpeedDistance)),</span>
 <span id="cb140-5"><a href="regression-line-uncertainty.html#cb140-5" aria-hidden="true" tabindex="-1"></a>      slmSpeedDistanceCI<span class="sc">$</span>lower[<span class="fu">order</span>(<span class="fu">fitted</span>(slmSpeedDistance))], </span>
-<span id="cb140-6"><a href="regression-line-uncertainty.html#cb140-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb140-6"><a href="regression-line-uncertainty.html#cb140-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb140-7"><a href="regression-line-uncertainty.html#cb140-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(slmSpeedDistance)),</span>
 <span id="cb140-8"><a href="regression-line-uncertainty.html#cb140-8" aria-hidden="true" tabindex="-1"></a>      slmSpeedDistanceCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(slmSpeedDistance))], </span>
-<span id="cb140-9"><a href="regression-line-uncertainty.html#cb140-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<span id="cb140-9"><a href="regression-line-uncertainty.html#cb140-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceConfidenceIntervalAvsF"></span>
 <img src="adam_files/figure-html/speedDistanceConfidenceIntervalAvsF-1.png" alt="Actuals vs Fitted and confidence interval for the stopping distance model." width="672" />
 <p class="caption">
