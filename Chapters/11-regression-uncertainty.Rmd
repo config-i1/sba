@@ -208,13 +208,13 @@ The same fitted values and interval can be presented differently on the actuals 
 ```{r speedDistanceConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the stopping distance model."}
 plot(fitted(slmSpeedDistance),actuals(slmSpeedDistance),
      xlab="Fitted",ylab="Actuals")
-abline(a=0,b=1,col="blue",lwd=2)
+abline(a=0,b=1,col="darkblue",lwd=2)
 lines(sort(fitted(slmSpeedDistance)),
       slmSpeedDistanceCI$lower[order(fitted(slmSpeedDistance))], 
-      col="red")
+      col="darkred", lwd=2)
 lines(sort(fitted(slmSpeedDistance)),
       slmSpeedDistanceCI$upper[order(fitted(slmSpeedDistance))], 
-      col="red")
+      col="darkred", lwd=2)
 ```
 
 Figure \@ref(fig:speedDistanceConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the line would be expected to be in 95% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
@@ -243,13 +243,13 @@ par(mfcol=c(1,2))
 plot(slmSpeedDistancePI)
 plot(fitted(slmSpeedDistance),actuals(slmSpeedDistance),
      xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted for the variable dist")
-abline(a=0,b=1,col="blue",lwd=2)
+abline(a=0,b=1,col="darkblue",lwd=2)
 lines(sort(fitted(slmSpeedDistance)),
       slmSpeedDistancePI$lower[order(fitted(slmSpeedDistance))], 
-      col="red")
+      col="darkorange", lty=2, lwd=2)
 lines(sort(fitted(slmSpeedDistance)),
       slmSpeedDistancePI$upper[order(fitted(slmSpeedDistance))], 
-      col="red")
+      col="darkorange", lty=2, lwd=2)
 ```
 
 Figure \@ref(fig:speedDistancePI) shows the prediction interval for values over observations and for actuals vs fitted. As we see, the interval is wider in this case, covering only 95% of observations (there are 2 observations outside it).

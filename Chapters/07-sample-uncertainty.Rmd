@@ -81,7 +81,30 @@ If we are interested in capturing the uncertainty about the random variable $y$,
     y \in (\bar{y} + z_{\alpha/2} s, \bar{y} + z_{1-\alpha/2} s),
     (\#eq:predictionInterval)
 \end{equation}
-where $z_{\alpha/2}$ is the z-statistics (quantile of standard normal distribution) for the level $\alpha/2$ and $\bar{y}$ is the sample estimate of $\mu$ and $s$ is the sample estimate of $\sigma$. If we assume some other distributions for the random variable, the formula would change. In a way, the prediction interval just comes to getting the quantiles of the assumed distribution based on estimated parameters. In some cases, when some of the [assumptions](#assumptions) do not hold, we might switch to more advanced methods for prediction interval construction.
+where $z_{\alpha/2}$ is the z-statistics (quantile of standard normal distribution) for the level $\alpha/2$ and $\bar{y}$ is the sample estimate of $\mu$ and $s$ is the sample estimate of $\sigma$. The graphical presentation of such interval can be shown as in Figure \@ref(fig:predictionInterval).
+
+```{r predictionInterval, fig.cap="Prediction interval", echo=FALSE}
+y <- rnorm(100,100,10)
+yInterval <- qnorm(c(0.025,0.975),mean(y),sd(y))
+yMeanInterval <- qnorm(c(0.025,0.975),mean(y),sd(y)/10)
+
+par(mfcol=c(1,2))
+plot(y, xlab="Observation", ylab="Value")
+points(which(y>yInterval[2] | y<yInterval[1]),
+       y[y>yInterval[2] | y<yInterval[1]], pch=16)
+abline(h=mean(y), col="darkblue", lwd=2)
+abline(h=yInterval, col="darkorange", lwd=2, lty=2)
+abline(h=yMeanInterval, col="darkred", lwd=2)
+
+hist(y, xlab="Value", main="")
+abline(v=mean(y), col="darkblue", lwd=2)
+abline(v=yInterval, col="darkorange", lwd=2, lty=2)
+abline(v=yMeanInterval, col="darkred", lwd=2)
+```
+
+Figure \@ref(fig:predictionInterval) shows the 95% prediction interval on two plots: the linear plot of values vs observations id and on the histogram. In both cases the prediction intervals are the dashed orange lines, lying further away from the sample mean (the solid blue line). The two solid red lines around the mean represent the 95% confidence intervals for the mean (discussed in Section \@ref(confidenceInterval)). As can be seen, the prediction intervals show, where the 95% of observations are expected to lie. As a result, several observations lie outside the bounds (given the sample of 100 observations, we would expect 5 of them to lie outside, but this will vary from one sample to another). In contrast, confidence interval shows, where the expectation of the population will lie in 95% of the cases, if the interval is constructed many times for random samples.
+
+The formula \@ref(eq:predictionInterval) relies on the assumption of normality. If it does not hold, the formula would change. In a way, the prediction interval just comes to getting the quantiles of the assumed distribution based on estimated parameters. In some cases, when some of the [assumptions](#assumptions) do not hold, we might switch to more advanced methods for prediction interval construction.
 
 
 ## Hypothesis testing {#hypothesisTesting}
