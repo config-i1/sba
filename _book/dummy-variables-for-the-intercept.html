@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-03-29" />
+<meta name="date" content="2022-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -225,6 +225,10 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
+<li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="typeErrors.html"><a href="typeErrors.html#powerOfTheTest"><i class="fa fa-check"></i><b>5.4.1</b> Power of the test</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables</a>
 <ul>
@@ -399,32 +403,32 @@ Figure 10.2: Scatterplot of Sales vs Price of t-shirts of different colour.
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1046.2531     4.6012  1037.1595   1055.3468 *
-## price         -2.3163     0.2224    -2.7558     -1.8768 *
-## colourRed    -20.4329     1.0001   -22.4095    -18.4563 *
-## colourGreen  -68.9017     1.0119   -70.9016    -66.9018 *
+## (Intercept) 1053.5318     4.3112  1045.0113   1062.0522 *
+## price         -2.7387     0.2156    -3.1647     -2.3127 *
+## colourRed    -17.6188     1.0327   -19.6599    -15.5778 *
+## colourGreen  -67.6510     1.0371   -69.7006    -65.6014 *
 ## 
-## Error standard deviation: 4.9647
+## Error standard deviation: 5.163
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 910.3321 910.6079 922.3746 923.0657</code></pre>
-<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1046. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
+## 922.0812 922.3571 934.1237 934.8149</code></pre>
+<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1054. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 18 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
 <ol style="list-style-type: decimal">
-<li>For the blue t-shirt, our model is: sales=1046.25-2.32price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
-<li>For the red t-shirt the model is: sales=1046.25+-20.43-2.32price+et or sales=1025.82-2.32price+et;</li>
-<li>Finally, for the green one, the model is: sales=1046.25+-68.9-2.32price+et or sales=977.35-2.32price+et.</li>
+<li>For the blue t-shirt, our model is: sales=1053.53-2.74price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
+<li>For the red t-shirt the model is: sales=1053.53+-17.62-2.74price+et or sales=1035.91-2.74price+et;</li>
+<li>Finally, for the green one, the model is: sales=1053.53+-67.65-2.74price+et or sales=985.88-2.74price+et.</li>
 </ol>
 <p>In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model <code>tShirtsALM</code>.</p>
-<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1046.25, 1025.82 and 977.35 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
+<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1053.53, 1035.91 and 985.88 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="dummy-variables-for-the-intercept.html#cb148-1" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
 <span id="cb148-2"><a href="dummy-variables-for-the-intercept.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
 <span id="cb148-3"><a href="dummy-variables-for-the-intercept.html#cb148-3" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
 <pre><code>##   colourRed colourGreen  colourBlue 
-##    9.345309  -39.123525   29.778215</code></pre>
-<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 9 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
+##    10.80446   -39.22774    28.42328</code></pre>
+<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 11 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
 <p>In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable <code>colour</code>:</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="dummy-variables-for-the-intercept.html#cb150-1" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
 <span id="cb150-2"><a href="dummy-variables-for-the-intercept.html#cb150-2" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Green&quot;</span>,<span class="st">&quot;Blue&quot;</span>)[tShirts[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="sc">%*%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
@@ -438,18 +442,18 @@ Figure 10.2: Scatterplot of Sales vs Price of t-shirts of different colour.
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1046.2531     4.6012  1037.1595   1055.3468 *
-## price         -2.3163     0.2224    -2.7558     -1.8768 *
-## colourGreen  -68.9017     1.0119   -70.9016    -66.9018 *
-## colourRed    -20.4329     1.0001   -22.4095    -18.4563 *
+## (Intercept) 1053.5318     4.3112  1045.0113   1062.0522 *
+## price         -2.7387     0.2156    -3.1647     -2.3127 *
+## colourGreen  -67.6510     1.0371   -69.7006    -65.6014 *
+## colourRed    -17.6188     1.0327   -19.6599    -15.5778 *
 ## 
-## Error standard deviation: 4.9647
+## Error standard deviation: 5.163
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 910.3321 910.6079 922.3746 923.0657</code></pre>
+## 922.0812 922.3571 934.1237 934.8149</code></pre>
 <p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>colourRed</code> and only have the model with <code>colourGreen</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.</p>
 </div>
 

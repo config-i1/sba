@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-03-29" />
+<meta name="date" content="2022-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -225,6 +225,10 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
+<li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="typeErrors.html"><a href="typeErrors.html#powerOfTheTest"><i class="fa fa-check"></i><b>5.4.1</b> Power of the test</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables</a>
 <ul>
@@ -384,20 +388,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1003.6394     4.5833   994.5813   1012.6976 *
-## price               -6.6493     0.2295    -7.1029     -6.1956 *
-## price:colourGreen    3.4625     0.0520     3.3597      3.5653 *
-## price:colourRed      2.4464     0.0520     2.3436      2.5493 *
+##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       999.5282     3.2725   993.0606   1005.9958 *
+## price              -6.4098     0.1642    -6.7343     -6.0853 *
+## price:colourGreen   3.4436     0.0406     3.3634      3.5238 *
+## price:colourRed     2.4278     0.0413     2.3463      2.5094 *
 ## 
-## Error standard deviation: 5.253
+## Error standard deviation: 4.1115
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 927.2657 927.5415 939.3082 939.9993</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.2 units.</p>
+## 853.7633 854.0392 865.8059 866.4970</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.98 units.</p>
 
 </div>
 <!-- </div> -->

@@ -24,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-03-29" />
+<meta name="date" content="2022-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="confidenceIntervalsPrediction.html"/>
-<link rel="next" href="correlations.html"/>
+<link rel="next" href="typeErrors.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -224,6 +224,10 @@ div.csl-indent {
 <li class="chapter" data-level="5.3" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>5.3</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="typeErrors.html"><a href="typeErrors.html#powerOfTheTest"><i class="fa fa-check"></i><b>5.4.1</b> Power of the test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables</a>
@@ -431,7 +435,9 @@ Figure 5.6: Confidence interval for for the population mean example.
 <li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
 </ol>
 <p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
-<p>Finally, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation"><a href="#ref-Cohen1994" role="doc-biblioref">Cohen</a> (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, H<span class="math inline">\(_0\)</span> will inevitably be rejected. Furthermore, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>,” with the latter appearing when there is not enough evidence to reject H<span class="math inline">\(_0\)</span>. Summarising all of this, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.</p>
+<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation"><a href="#ref-Cohen1994" role="doc-biblioref">Cohen</a> (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, H<span class="math inline">\(_0\)</span> will inevitably be rejected.</p>
+<p>Finally, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>,” with the latter appearing when there is not enough evidence to reject H<span class="math inline">\(_0\)</span>. As a result of this, people tend to make wrong conclusions, because it is difficult to distinguish “not true” from “I don’t know,” especially for those who do not know statistics well.</p>
+<p>Summarising the discussion above, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.</p>
 <!-- The significance level is the probability of making a mistake if the hypothesis is true. It is never true (unless it is one sided), so you will make more mistakes than you expect. On the other hand, confidence interval will cover the true value in 1-alpha percent of cases. We don't know it, but we know that it will be there. -->
 <div id="hypothesisTestingMistakes" class="section level3" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Common mistakes related to hypothesis testing</h3>
@@ -480,10 +486,8 @@ Figure 5.6: Confidence interval for for the population mean example.
 </ul>
 <p>Remember that the p-value itself is random and will change if you change the sample size or the model specification. Always keep this in mind, when conducting statistical tests. All these mistakes typically arise because of the misuse of p-values and hypothesis testing mechanism. This is one of the reasons, why I prefer <a href="#confidenceIntervals">confidence intervals</a>, when possible (as discussed above).</p>
 <p>Finally, a related question to all of this, is <em>how to select the significance level</em>. Dave Worthington, a colleague of mine and a Statistics mentor at Lancaster University, has proposed an interesting motivation for that. If you do not have a level, driven by the problem (e.g. we need to satisfy 99% of demand, thus the significance level is 1%), then select the one for your life time. In how many cases in your life would you be ready to make a mistake? Would it be 5%? 3%? 1%? Select something and stick with it. Then over the years you will know that you have made the selected proportion of mistakes, when conducting different statistical test in variaous circumstances.</p>
-
 </div>
 </div>
-<!-- </div> -->
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Cohen1994" class="csl-entry">
@@ -500,7 +504,7 @@ Figure 5.6: Confidence interval for for the population mean example.
         </div>
       </div>
 <a href="confidenceIntervalsPrediction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="typeErrors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
