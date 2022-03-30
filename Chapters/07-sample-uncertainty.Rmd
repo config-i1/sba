@@ -83,7 +83,7 @@ If we are interested in capturing the uncertainty about the random variable $y$,
 \end{equation}
 where $z_{\alpha/2}$ is the z-statistics (quantile of standard normal distribution) for the level $\alpha/2$ and $\bar{y}$ is the sample estimate of $\mu$ and $s$ is the sample estimate of $\sigma$. The graphical presentation of such interval can be shown as in Figure \@ref(fig:predictionInterval).
 
-```{r predictionInterval, fig.cap="Prediction interval", echo=FALSE}
+```{r predictionInterval, fig.cap="Artificial data, mean, confidence and prediction intervals.", echo=FALSE}
 y <- rnorm(100,100,10)
 yInterval <- qnorm(c(0.025,0.975),mean(y),sd(y))
 yMeanInterval <- qnorm(c(0.025,0.975),mean(y),sd(y)/10)
@@ -257,27 +257,55 @@ Finally, a related question to all of this, is *how to select the significance l
 
 
 ## Errors of types 0, I and II {#typeErrors}
-When conducting a conventional statistical test, we can have one of the four situations, depending on what happens in real life and what results we have obtained:
+When conducting a conventional statistical test, we can have one of the four situations, depending on what happens in real life and what results we obtain. They are summarised in Table \@ref(tab:typeErrorsTable).
 
-```{r typeErrorsTable, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-typeErrorsTable <- "
-|                                        |                 Reality                   |
-|                                        |     H0 is true     |      H0 is wrong     |
-|----------------------------------------|--------------------|----------------------|
-| The data tells us | Fail to reject H0  | Correct decision,  | Type II error,       |
-|                   |                    | Probability is 1-α | Probability is β     |
-|----------------------------------------|--------------------|----------------------|
-|                   | Reject H0          | Type I error,      | Correct decision,    |
-|                   |                    | Probability is α   | Probability is 1 − β |
-|----------------------------------------|--------------------|----------------------|
-"
-cat(typeErrorsTable)
+```{r typeErrorsTable, echo=FALSE}
+typeErrorsTable <- data.frame(C1 = c(rep("The data tells us",4)),
+                              C2 = c(rep("Fail to reject H$_0$",2), rep("Reject H$_0$",2)),
+                              C3 = c("Correct decision,", "Probability is $1-\\alpha$",
+                                     "Type I error,", "Probability is $\\alpha$"),
+                              C4 = c("Type II error,", "Probability is $\\beta$",
+                                     "Correct decision,", "Probability is $1-\\beta$"))
+colnames(typeErrorsTable) <- c("","","H$_0$ is true","H$_0$ is wrong")
+typeErrorsTable <- kableExtra::kbl(typeErrorsTable, align="c", caption="Four outcomes in hypothesis testing.")
+typeErrorsTable <- kableExtra::kable_paper(typeErrorsTable, full_width=FALSE)
+typeErrorsTable <- kableExtra::column_spec(typeErrorsTable, 1, bold=TRUE)
+typeErrorsTable <- kableExtra::add_header_above(typeErrorsTable, c(" "=2, "Reality" = 2))
+typeErrorsTable <- kableExtra::collapse_rows(typeErrorsTable, columns=1:2)
+kableExtra::kable_styling(typeErrorsTable, font_size=12, protect_latex=TRUE)
 ```
 
-Note that H0 is always wrong...
+The Table \@ref(tab:typeErrorsTable) shows two hypothetical outcomes in reality (we never know, which one we have) and two outcomes of hypothesis testing. This gives us the $2\times 2$ matrix, where $\alpha$ is the significance level and $1-\beta$ is so called "Power of the Test" (discussed in detail in Subsection \@ref(powerOfTheTest)).
 
-Type 0 error
+**Type I** error (aka "false positive", i.e. we find a positive effect, when we should not have found it) happens when the null hypothesis is actually true, but we reject it. The probability of this event is equal to $\alpha$. This is one of the definitions of the significance level $\alpha$ (in how many cases we are ready to make mistakes, when the null hypothesis is true).
 
-### Power of the test {#powerOfTheTest}
+**Type II** error (aka "false negative", i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (H$_0$ is not true). The probability of this event equals to $\beta$, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.
+
+In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried "wolf".
+
+::: example
+Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying "Wolf!". We should acknowledge that there was no wolf at that stage, so in our terms we would say that the H$_0$: $\mu=0$ was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a **Type I error**.
+
+Next week, the boy encountered a wolf on the main street and started crying "Wolf!", calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, H$_1$: $\mu\neq 0$. By doing so they have made the **Type II error**. If the villagers knew statistics, they would understand that failing to reject H$_0$ does not mean that it is true.
+:::
+
+Coming back to the table \@ref(tab:typeErrorsTable), there is a notion of "Power of the test", which is the probability to correctly reject the wrong null hypothesis ($1-\beta$). The power of the test is a useful theoretical idea, which allows selecting appropriate statistical tools in different circumstances and is discussed later in this section.
+
+In real life, we never know whether the null hypothesis is true or not, but we could get a general idea about the performance of statistical tests in specific situation and decide, which of them to use, given their power. In general, the more information about the "true" parameters and model you can provide to the test, the more powerful it is. For example, if you can assume that the assumption of normality of distribution of mean holds, then you might want to choose between t-test and z-test. The latter is more powerful than the former, but is only applicable when you know the population standard deviation.
+
+::: remark
+As discussed in the Section \@ref(hypothesisTesting), when formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, the null hypothesis should be reformulated as:
+\begin{equation*}
+    \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \neq a ,
+\end{equation*}
+instead of being the "equal to". In the formula above, $a$ is the value we are comparing our statistics with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. H$_0$:$\mu\leq a$).
+:::
+
+Finally, sometimes analysts refer to the **Type 0** error. This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.
+
+
+<!-- Statistical vs practical significance. -->
+
+<!-- ### Power of a test {#powerOfTheTest} -->
 
 
