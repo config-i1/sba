@@ -389,18 +389,18 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1000.9342     5.1996   990.6580   1011.2104 *
-## price               -6.4728     0.2617    -6.9900     -5.9556 *
-## price:colourGreen    3.3796     0.0551     3.2706      3.4885 *
-## price:colourRed      2.4520     0.0549     2.3435      2.5605 *
+## (Intercept)       1000.0511     3.5379   993.0589   1007.0432 *
+## price               -6.4926     0.1754    -6.8393     -6.1460 *
+## price:colourGreen    3.5063     0.0407     3.4258      3.5867 *
+## price:colourRed      2.4745     0.0410     2.3935      2.5555 *
 ## 
-## Error standard deviation: 5.5051
+## Error standard deviation: 4.0846
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 941.3282 941.6040 953.3707 954.0618</code></pre>
+## 851.7980 852.0739 863.8406 864.5317</code></pre>
 <p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.02 units.</p>
 
 </div>
