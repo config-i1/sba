@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-03-30" />
+<meta name="date" content="2022-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -423,21 +423,15 @@ Probability is <span class="math inline">\(1-\beta\)</span>
 <p><strong>Type II</strong> error (aka “false negative,” i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (H<span class="math inline">\(_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
 <p>In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried “wolf.”</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-3" class="example"><strong>Example 5.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the H<span class="math inline">\(_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 5.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the H<span class="math inline">\(_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
 <p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, H<span class="math inline">\(_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject H<span class="math inline">\(_0\)</span> does not mean that it is true.</p>
 </div>
-<p>Coming back to the table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a>, there is a notion of “Power of the test,” which is the probability to correctly reject the wrong null hypothesis (<span class="math inline">\(1-\beta\)</span>). The power of the test is a useful theoretical idea, which allows selecting appropriate statistical tools in different circumstances and is discussed later in this section.</p>
-<p>In real life, we never know whether the null hypothesis is true or not, but we could get a general idea about the performance of statistical tests in specific situation and decide, which of them to use, given their power. In general, the more information about the “true” parameters and model you can provide to the test, the more powerful it is. For example, if you can assume that the assumption of normality of distribution of mean holds, then you might want to choose between t-test and z-test. The latter is more powerful than the former, but is only applicable when you know the population standard deviation.</p>
-<div class="remark">
-<p><span id="unlabeled-div-4" class="remark"><em>Remark</em>. </span>As discussed in the Section <a href="hypothesisTesting.html#hypothesisTesting">5.3</a>, when formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, the null hypothesis should be reformulated as:
-<span class="math display">\[\begin{equation*}
-    \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \neq a ,
-\end{equation*}\]</span>
-instead of being the “equal to.” In the formula above, <span class="math inline">\(a\)</span> is the value we are comparing our statistics with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. H<span class="math inline">\(_0\)</span>:<span class="math inline">\(\mu\leq a\)</span>).</p>
-</div>
+<p>While we can regulate the probability of Type I error by changing <span class="math inline">\(\alpha\)</span>, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the “true” parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section <a href="CLT.html#CLT">4.2</a>), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section <a href="#statisticalTests"><strong>??</strong></a>.</p>
+<p>All the four situations in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> rely on the idea that the reality is somehow known. But in real life, we never know whether the null hypothesis is true or not. However, the Table is still useful because it gives an understanding of what to expect from a statistical test and what test to select in each specific situation.</p>
 <p>Finally, sometimes analysts refer to the <strong>Type 0</strong> error. This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.</p>
 <!-- Statistical vs practical significance. -->
 <!-- ### Power of a test {#powerOfTheTest} -->
+<!-- ### Parametric statistical tests {#statisticalTests} -->
 
 </div>
 <!-- </div> -->
