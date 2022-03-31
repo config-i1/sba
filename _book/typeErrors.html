@@ -367,10 +367,10 @@ Reality
 <th style="text-align:center;">
 </th>
 <th style="text-align:center;">
-H<span class="math inline">\(_0\)</span> is true
+<span class="math inline">\(\mathrm{H}_0\)</span> is true
 </th>
 <th style="text-align:center;">
-H<span class="math inline">\(_0\)</span> is wrong
+<span class="math inline">\(\mathrm{H}_0\)</span> is wrong
 </th>
 </tr>
 </thead>
@@ -380,7 +380,7 @@ H<span class="math inline">\(_0\)</span> is wrong
 The data tells us
 </td>
 <td style="text-align:center;vertical-align: middle !important;" rowspan="2">
-Fail to reject H<span class="math inline">\(_0\)</span>
+Fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>
 </td>
 <td style="text-align:center;">
 Correct decision,
@@ -399,7 +399,7 @@ Probability is <span class="math inline">\(\beta\)</span>
 </tr>
 <tr>
 <td style="text-align:center;vertical-align: middle !important;" rowspan="2">
-Reject H<span class="math inline">\(_0\)</span>
+Reject <span class="math inline">\(\mathrm{H}_0\)</span>
 </td>
 <td style="text-align:center;">
 Type I error,
@@ -420,11 +420,11 @@ Probability is <span class="math inline">\(1-\beta\)</span>
 </table>
 <p>The Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> shows two hypothetical outcomes in reality (we never know, which one we have) and two outcomes of hypothesis testing. This gives us the <span class="math inline">\(2\times 2\)</span> matrix, where <span class="math inline">\(\alpha\)</span> is the significance level and <span class="math inline">\(1-\beta\)</span> is so called “Power of the Test” (discussed in detail in Subsection <a href="#powerOfTheTest"><strong>??</strong></a>).</p>
 <p><strong>Type I</strong> error (aka “false positive,” i.e. we find a positive effect, when we should not have found it) happens when the null hypothesis is actually true, but we reject it. The probability of this event is equal to <span class="math inline">\(\alpha\)</span>. This is one of the definitions of the significance level <span class="math inline">\(\alpha\)</span> (in how many cases we are ready to make mistakes, when the null hypothesis is true).</p>
-<p><strong>Type II</strong> error (aka “false negative,” i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (H<span class="math inline">\(_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
+<p><strong>Type II</strong> error (aka “false negative,” i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (<span class="math inline">\(\mathrm{H}_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
 <p>In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried “wolf.”</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 5.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the H<span class="math inline">\(_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
-<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, H<span class="math inline">\(_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject H<span class="math inline">\(_0\)</span> does not mean that it is true.</p>
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 5.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the <span class="math inline">\(\mathrm{H}_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
+<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, <span class="math inline">\(\mathrm{H}_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject <span class="math inline">\(\mathrm{H}_0\)</span> does not mean that it is true.</p>
 </div>
 <p>While we can regulate the probability of Type I error by changing <span class="math inline">\(\alpha\)</span>, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the “true” parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section <a href="CLT.html#CLT">4.2</a>), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section <a href="#statisticalTests"><strong>??</strong></a>.</p>
 <p>All the four situations in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> rely on the idea that the reality is somehow known. But in real life, we never know whether the null hypothesis is true or not. However, the Table is still useful because it gives an understanding of what to expect from a statistical test and what test to select in each specific situation.</p>
