@@ -226,6 +226,14 @@ The statement provides more details about that, but summarising, whatever hypoth
 
 Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, @Cohen1994 discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, H$_0$ will inevitably be rejected.
 
+::: remark
+When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. This can be formulated in the following way:
+\begin{equation*}
+    \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \not\approx a ,
+\end{equation*}
+where $a$ is the value we are comparing our parameter with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. H$_0$:$\mu\leq a$).
+:::
+
 Finally, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy "**I know** / **I don't know**", with the latter appearing when there is not enough evidence to reject H$_0$. As a result of this, people tend to make wrong conclusions, because it is difficult to distinguish "not true" from "I don't know", especially for those who do not know statistics well.
 
 Summarising the discussion above, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.
@@ -289,17 +297,9 @@ Just as a reminder, in a village, there lived a boy who one day decided to make 
 Next week, the boy encountered a wolf on the main street and started crying "Wolf!", calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, H$_1$: $\mu\neq 0$. By doing so they have made the **Type II error**. If the villagers knew statistics, they would understand that failing to reject H$_0$ does not mean that it is true.
 :::
 
-Coming back to the table \@ref(tab:typeErrorsTable), there is a notion of "Power of the test", which is the probability to correctly reject the wrong null hypothesis ($1-\beta$). The power of the test is a useful theoretical idea, which allows selecting appropriate statistical tools in different circumstances and is discussed later in this section.
+While we can regulate the probability of Type I error by changing $\alpha$, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the "true" parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section \@ref(CLT)), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section \@ref(statisticalTests).
 
-In real life, we never know whether the null hypothesis is true or not, but we could get a general idea about the performance of statistical tests in specific situation and decide, which of them to use, given their power. In general, the more information about the "true" parameters and model you can provide to the test, the more powerful it is. For example, if you can assume that the assumption of normality of distribution of mean holds, then you might want to choose between t-test and z-test. The latter is more powerful than the former, but is only applicable when you know the population standard deviation.
-
-::: remark
-As discussed in the Section \@ref(hypothesisTesting), when formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, the null hypothesis should be reformulated as:
-\begin{equation*}
-    \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \neq a ,
-\end{equation*}
-instead of being the "equal to". In the formula above, $a$ is the value we are comparing our statistics with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. H$_0$:$\mu\leq a$).
-:::
+All the four situations in Table \@ref(tab:typeErrorsTable) rely on the idea that the reality is somehow known. But in real life, we never know whether the null hypothesis is true or not. However, the Table is still useful because it gives an understanding of what to expect from a statistical test and what test to select in each specific situation.
 
 Finally, sometimes analysts refer to the **Type 0** error. This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.
 
@@ -308,4 +308,4 @@ Finally, sometimes analysts refer to the **Type 0** error. This is the error tha
 
 <!-- ### Power of a test {#powerOfTheTest} -->
 
-
+<!-- ### Parametric statistical tests {#statisticalTests} -->
