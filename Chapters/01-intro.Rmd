@@ -44,20 +44,20 @@ c. Black box - the model with randomness, for which we do not know what is happe
 
 Finally, the *imitation* model is a simplified reproduction of a real object or a process. This can be, for example, a physical model of a building standing in a room of an architect, or a mental arrangement in psychology.
 
-In this textbook, we will deal with only first three types of models, focusing on the third one.
+In these lecture notes, we will deal with only first three types of models, focusing on the third one.
 
 When constructing mathematical models, we will inevitably deal with variables, with factors that are potentially related to each other and reflect some aspects of the real object or phenomenon. These variables can be split into two categories:
 
 1. Input, or external, or exogenous, or explanatory variables - those that are provided to us and are assumed to impact the variable (or several variables) of interest;
 2. Output, or internal, or endogenous, or response variable(s) - the variable of the main interest, which is assumed to be related by a set of explanatory variables.
 
-The models that have only one response variable are called "*univariate*" models. But in some cases, we might have several response variables (for example, sales of several similar products). We would then deal with a *multivariate* model. In the literature, you might meet a different definition of univariate / multivariate models. For example, some consider a model with several variables multivariate, even if it has only one response and several explanatory ones. But throughout this textbook we use the definitions above, focused on response variable.
+The models that have only one response variable are called "*univariate*" models. But in some cases, we might have several response variables (for example, sales of several similar products). We would then deal with a *multivariate* model. In the literature, you might meet a different definition of univariate / multivariate models. For example, some consider a model with several variables multivariate, even if it has only one response and several explanatory ones. But throughout these lecture notes we use the definitions above, focused on response variable.
 
 
 ### Models, methods et al. {#modelsMethods}
-There are several other definitions that will be useful throughout this textbook:
+There are several other definitions that will be useful throughout these lecture notes:
 
-- **Statistical model** (or 'stochastic model', or just 'model' in this textbook) is a 'mathematical representation of a real phenomenon with a complete specification of distribution and parameters' [@Svetunkov2019a]. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.
+- **Statistical model** (or 'stochastic model', or just 'model' in these lecture notes) is a 'mathematical representation of a real phenomenon with a complete specification of distribution and parameters' [@Svetunkov2019a]. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.
 - **True model** is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.
 - **Estimated model** (aka 'applied model' or 'used model') is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully [converge to the true ones](#statistics) if the sample size increases.
 - **Data generating process** (DGP) is an artificial statistical model, showing how the data could be generated in theory. This notion is utopic and can be used in simulation experiments in order to check, how the selected model with the specific estimator behave in a specific setting. In real life, the data is not generated from any process, but is usually based on complex interactions between different agents in a dynamic environment. Note that I make a distinction between DGP and true model, because I do not think that the idea of something being generated using a mathematical formula is helpful. Many statisticians will not agree with me on this distinction.
@@ -86,7 +86,7 @@ The simplest forecasting method can be represented with the equation:
 \end{equation}
 where $\hat{y}_t$ is the point forecast. This equation does not explain where the structure and the noise come from, it just shows the way of producing point forecasts.
 
-In addition, we will discuss in this textbook two types of models:
+In addition, we will discuss in these lecture notes two types of models:
 
 1. Additive, where (most) components are added to one another;
 2. Multiplicative, where the components are multiplied.
@@ -98,10 +98,10 @@ In addition, we will discuss in this textbook two types of models:
 \end{equation}
 where $\varepsilon_t$ is some noise again, which in the reasonable cases should take only positive values and have mean of one. We will discuss this type of model later in the textbook. We will also see several examples of statistical models, forecasting methods, DGPs and other notions and discuss how they relate to each other.
 
-**Note** that throughout this textbook we will use index $t$ to denote the time and index $i$ to denote the cross-sectional elements. So, for example, $y_t$ will mean the response variable changing over time, while $y_i$ will mean the response variable changing from one object to another (for instance, from one person to another).
+**Note** that throughout these lecture notes we will use index $t$ to denote the time and index $i$ to denote the cross-sectional elements. So, for example, $y_t$ will mean the response variable changing over time, while $y_i$ will mean the response variable changing from one object to another (for instance, from one person to another).
 
 
-<!-- Furthermore, we will be talking about forecasting in this textbook, so it is also important to introduce the notation $\hat{y}_{t+h}$, which corresponds to the $h$ steps ahead **point forecast** produced from the observation $t$. Typically, this corresponds to the conditional expectation of the model $\mu_{t+h|t}$, given all the information on observation $t$, although this does not hold all the time for the classical ETS models. When we use notation $\mu_{y,t}$, then this means one step ahead conditional expectation on observation $t$, given the information on the previous observation $t-1$. We will also discuss **prediction interval**, the term which means specific bounds that should include $(1-\alpha)\times100$% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term **confidence interval** usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance). -->
+<!-- Furthermore, we will be talking about forecasting in these lecture notes, so it is also important to introduce the notation $\hat{y}_{t+h}$, which corresponds to the $h$ steps ahead **point forecast** produced from the observation $t$. Typically, this corresponds to the conditional expectation of the model $\mu_{t+h|t}$, given all the information on observation $t$, although this does not hold all the time for the classical ETS models. When we use notation $\mu_{y,t}$, then this means one step ahead conditional expectation on observation $t$, given the information on the previous observation $t-1$. We will also discuss **prediction interval**, the term which means specific bounds that should include $(1-\alpha)\times100$% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term **confidence interval** usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance). -->
 
 
 <!-- What is system, information and model. How do we get to the data what are the data types. Response, endogenous and exogenous variables. -->
@@ -141,7 +141,7 @@ What is your nationality?
 
 In this case after collecting the data we can only say whether each respondent is Russian or not, English or not etc. So, the only thing that can be done with the data measured in this scale is to produce a basic summary, showing how many people selected one option or another. Among the statistical instruments, **only the mode** is useful, as it shows which of the options was selected the most. If there are several variables measured in nominal scale, we can calculate some measures of association to see if there are any patterns in respondents behaviour (e.g. those who select "Russian" would prefer Vodka, while those who selected "Belgian" will tend to drink "Beer").
 
-When it comes to constructing models, the nominal scale is typically transformed in a set of dummy variables, which will be discussed later in [regression analysis](#regression) of this textbook.
+When it comes to constructing models, the nominal scale is typically transformed in a set of dummy variables, which will be discussed later in [regression analysis](#regression) of these lecture notes.
 
 If you are not sure, whether your data is measured in nominal or another scale, you can do a simple test: if changing the places of two values does not break the scale, then this is the nominal one. For example, in the question above, moving "Greek" to the first place will not change anything, so this is indeed the nominal scale. Another example of nominal scale is the number on the T-shirt of football players. They are only descriptive, and if two players change numbers, this will not change anything (although it might confuse football fans).
 
@@ -210,4 +210,4 @@ These three sources of uncertainty have been summarised for the first time in @C
 2. Uncertainty about estimates of parameters (see Section \@ref(uncertaintyParameters));
 3. Uncertainty about the model form (see Section \@ref(uncertaintyModel)).
 
-In this textbook we will discuss all of them, slowly moving from (1) to (3), introducing more advanced techniques for model building.
+In these lecture notes we will discuss all of them, slowly moving from (1) to (3), introducing more advanced techniques for model building.
