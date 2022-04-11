@@ -13,7 +13,7 @@ This is one of the fundamental group of assumptions, which can be summarised as 
 1. [We have not omitted important variables in the model (underfitting the data)](#assumptionsCorrectModelOmitted);
 2. [We do not have redundant variables in the model (overfitting the data)](#assumptionsCorrectModelRedundant);
 3. [The necessary transformations of the variables are applied](#assumptionsCorrectModelTransformations);
-4. [We do not have outliers in the model](#assumptionsCorrectModelOutliers).
+4. [We do not have outliers in the residuals of the model](#assumptionsCorrectModelOutliers).
 
 ### Omitted variables {#assumptionsCorrectModelOmitted}
 If there are some important variables that we did not include in the model, then the estimates of the parameters might be *biased* and in some cases quite seriously (e.g. positive sign instead of the negative one). A classical example of model with omitted important variables is [simple linear regression](#simpleLinearRegression), which by definition includes only one explanatory variable. Making decisions based on such model might not be wise, as it might mislead about the significance and sign of effects. Yes, we use simple linear regression for educational purposes, to understand how the model works and what it implies, but it is not sufficient on its own. Finally, when it comes to forecasting, omitting important variables is equivalent to underfitting the data, ignoring significant aspects of the model. This means that the point forecasts from the model might be *biased* (systematic under or over forecasting), the variance of the error term will be higher than needed, which will result in wider than necessary [prediction interval](#confidenceIntervalsPrediction).
