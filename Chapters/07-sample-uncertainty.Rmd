@@ -294,7 +294,7 @@ In order to remember what Type I and Type II errors stand for, there is a good m
 ::: example
 Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying "Wolf!". We should acknowledge that there was no wolf at that stage, so in our terms we would say that the $\mathrm{H}_0$: $\mu=0$ was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a **Type I error**.
 
-Next week, the boy encountered a wolf on the main street and started crying "Wolf!", calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, $\mathrm{H}_1$: $\mu\neq 0$. By doing so they have made the **Type II error**. If the villagers knew statistics, they would understand that failing to reject $\mathrm{H}_0$ does not mean that it is true.
+Next week, the boy encountered a wolf on the main street and started crying "Wolf!", calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, $\mathrm{H}_1$: $\mu\neq 0$. By doing so they have made the **Type II error**. If the villagers knew statistics, they would understand that failing to reject $\mathrm{H}_0$ once does not mean that it is true.
 :::
 
 While we can regulate the probability of Type I error by changing $\alpha$, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the "true" parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section \@ref(CLT)), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section \@ref(statisticalTests).
@@ -304,7 +304,10 @@ All the four situations in Table \@ref(tab:typeErrorsTable) rely on the idea tha
 Finally, sometimes analysts refer to the **Type 0** error (it is sometimes called "type III" error, but it is more fundamental than Type I or Type II, so I prefer "Type 0"). This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.
 
 
-<!-- ### Power of a test {#powerOfTheTest} -->
+### Power of a test {#powerOfTheTest}
+Power of a test is one of the important theoretical ideas related to hypothesis testing. It is **the probability of correctly rejecting the wrong hypothesis**. By definition, it is equal to $1-\beta$ in Table \@ref(tab:typeErrorsTable) and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.
+
+
 
 <!-- ## Parametric statistical tests {#statisticalTests} -->
 
