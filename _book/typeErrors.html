@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-03-31" />
+<meta name="date" content="2022-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="hypothesisTesting.html"/>
-<link rel="next" href="correlations.html"/>
+<link rel="next" href="powerOfTheTest.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -229,6 +229,10 @@ div.csl-indent {
 <li class="chapter" data-level="5.3.1" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>5.3.1</b> Common mistakes related to hypothesis testing<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>5.5</b> Power of a test<span></span></a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>5.5.1</b> Mathematical explantion<span></span></a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables<span></span></a>
 <ul>
@@ -418,23 +422,18 @@ Probability is <span class="math inline">\(1-\beta\)</span>
 </tr>
 </tbody>
 </table>
-<p>The Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> shows two hypothetical outcomes in reality (we never know, which one we have) and two outcomes of hypothesis testing. This gives us the <span class="math inline">\(2\times 2\)</span> matrix, where <span class="math inline">\(\alpha\)</span> is the significance level and <span class="math inline">\(1-\beta\)</span> is so called “Power of the Test” (discussed in detail in Subsection <a href="#powerOfTheTest"><strong>??</strong></a>).</p>
+<p>The Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> shows two hypothetical outcomes in reality (we never know, which one we have) and two outcomes of hypothesis testing. This gives us the <span class="math inline">\(2\times 2\)</span> matrix, where <span class="math inline">\(\alpha\)</span> is the significance level and <span class="math inline">\(1-\beta\)</span> is so called “Power of the Test” (discussed in detail in Subsection <a href="powerOfTheTest.html#powerOfTheTest">5.5</a>).</p>
 <p><strong>Type I</strong> error (aka “false positive,” i.e. we find a positive effect, when we should not have found it) happens when the null hypothesis is actually true, but we reject it. The probability of this event is equal to <span class="math inline">\(\alpha\)</span>. This is one of the definitions of the significance level <span class="math inline">\(\alpha\)</span> (in how many cases we are ready to make mistakes, when the null hypothesis is true).</p>
 <p><strong>Type II</strong> error (aka “false negative,” i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (<span class="math inline">\(\mathrm{H}_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
 <p>In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried “wolf.”</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-4" class="example"><strong>Example 5.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the <span class="math inline">\(\mathrm{H}_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
-<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, <span class="math inline">\(\mathrm{H}_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject <span class="math inline">\(\mathrm{H}_0\)</span> does not mean that it is true.</p>
+<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, <span class="math inline">\(\mathrm{H}_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject <span class="math inline">\(\mathrm{H}_0\)</span> once does not mean that it is true.</p>
 </div>
 <p>While we can regulate the probability of Type I error by changing <span class="math inline">\(\alpha\)</span>, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the “true” parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section <a href="CLT.html#CLT">4.2</a>), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section <a href="#statisticalTests"><strong>??</strong></a>.</p>
 <p>All the four situations in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> rely on the idea that the reality is somehow known. But in real life, we never know whether the null hypothesis is true or not. However, the Table is still useful because it gives an understanding of what to expect from a statistical test and what test to select in each specific situation.</p>
 <p>Finally, sometimes analysts refer to the <strong>Type 0</strong> error (it is sometimes called “type III” error, but it is more fundamental than Type I or Type II, so I prefer “Type 0”). This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.</p>
-<!-- ### Power of a test {#powerOfTheTest} -->
-<!-- ## Parametric statistical tests {#statisticalTests} -->
-<!-- ## Statistical vs practical significance. -->
-
 </div>
-<!-- </div> -->
 
             </section>
 
@@ -442,7 +441,7 @@ Probability is <span class="math inline">\(1-\beta\)</span>
         </div>
       </div>
 <a href="hypothesisTesting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="powerOfTheTest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

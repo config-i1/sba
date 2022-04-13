@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Statistics for Business Analytics</title>
+  <title>5.5 Power of a test | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Statistics for Business Analytics" />
+  <meta property="og:title" content="5.5 Power of a test | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Statistics for Business Analytics" />
+  <meta name="twitter:title" content="5.5 Power of a test | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="intro.html"/>
+<link rel="prev" href="typeErrors.html"/>
+<link rel="next" href="correlations.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -348,56 +348,109 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="header">
-<h1 class="title">Statistics for Business Analytics</h1>
-<p class="author"><em>Ivan Svetunkov</em></p>
-<p class="date"><em>2022-04-13</em></p>
+<div id="powerOfTheTest" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Power of a test<a href="powerOfTheTest.html#powerOfTheTest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Power of a test is one of the important theoretical ideas related to hypothesis testing. It is <strong>the probability of correctly rejecting the wrong hypothesis</strong>. By definition, it is equal to <span class="math inline">\(1-\beta\)</span> in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.</p>
+<p>Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.</p>
+<!-- ### Visual explanation -->
+<!-- Figures by Alisa here -->
+<div id="mathematical-explantion" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Conceptually, Power of a Test can be calculated as:
+<span class="math display" id="eq:powerOfATestConcept">\[\begin{equation}
+    \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
+    \tag{5.4}
+\end{equation}\]</span>
+The calculation of the Power of the Test can be done based on the data of the specific test with some parameters.</p>
+<p>Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section <a href="#statisticalTests"><strong>??</strong></a> for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+<span class="math display">\[\begin{equation*}
+    \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu &lt; 3.
+\end{equation*}\]</span>
+For the example, we assume that the population standard deviation is known and equal to <span class="math inline">\(\sigma=0.18\)</span>, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
+<span class="math display" id="eq:powerOfATest01">\[\begin{equation}
+    z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} ,
+    \tag{5.5}
+\end{equation}\]</span>
+where <span class="math inline">\(\bar{y}\)</span> is the sample mean. The rule for rejecting the null hypothesis in this situation is that if the calculated value <span class="math inline">\(z\)</span> is lower than or equal to the critical one, which in our case (for the chosen 5% significance level) is -1.645:
+<span class="math display">\[\begin{equation*}
+    z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} \leq -1.645
+\end{equation*}\]</span>
+Solving this inequality for <span class="math inline">\(\bar{y}\)</span>, we will reject H<span class="math inline">\(_0\)</span> if the sample mean is
+<span class="math display" id="eq:powerOfATest02">\[\begin{equation}
+    \bar{y} \leq 3 -1.645 \times 0.03 = 2.95 .
+    \tag{5.6}
+\end{equation}\]</span>
+This can be interpreted as “we will fail to reject the null hypothesis in the cases, when the sample mean is greater than 2.95.” Now that we have this value, we can calculate the theoretical power of the test for a variety of cases. For example, we can see how powerful the test is in rejecting the wrong null hypothesis if the true mean is in fact equal to 2.87:
+<span class="math display" id="eq:powerOfATest03">\[\begin{equation}
+    \begin{aligned}
+        1-\beta = &amp; \mathrm{P}(\bar{y}\leq 2.95 | \mu=2.87) = \\
+                  &amp; \mathrm{P}\left(z \leq \frac{2.95 - 2.87}{0.03} \right) =
+                  &amp; \mathrm{P}\left(z \leq 2.67 \right) = \\
+                  &amp; 0.9962
+    \end{aligned}
+    \tag{5.7}
+\end{equation}\]</span>
+We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a <strong>power curve</strong>, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="powerOfTheTest.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set all the parameters</span></span>
+<span id="cb55-2"><a href="powerOfTheTest.html#cb55-2" aria-hidden="true" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb55-3"><a href="powerOfTheTest.html#cb55-3" aria-hidden="true" tabindex="-1"></a>yMeanSD <span class="ot">&lt;-</span> <span class="fl">0.18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb55-4"><a href="powerOfTheTest.html#cb55-4" aria-hidden="true" tabindex="-1"></a>levelSignigicance <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb55-5"><a href="powerOfTheTest.html#cb55-5" aria-hidden="true" tabindex="-1"></a>zValue <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span><span class="fu">qnorm</span>(levelSignigicance) <span class="sc">*</span> yMeanSD</span>
+<span id="cb55-6"><a href="powerOfTheTest.html#cb55-6" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb55-7"><a href="powerOfTheTest.html#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
+<span id="cb55-8"><a href="powerOfTheTest.html#cb55-8" aria-hidden="true" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span>nIterations)</span>
+<span id="cb55-9"><a href="powerOfTheTest.html#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
+<span id="cb55-10"><a href="powerOfTheTest.html#cb55-10" aria-hidden="true" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb55-11"><a href="powerOfTheTest.html#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-12"><a href="powerOfTheTest.html#cb55-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
+<span id="cb55-13"><a href="powerOfTheTest.html#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
+<span id="cb55-14"><a href="powerOfTheTest.html#cb55-14" aria-hidden="true" tabindex="-1"></a>    powerValues[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues[i])<span class="sc">/</span>yMeanSD)</span>
+<span id="cb55-15"><a href="powerOfTheTest.html#cb55-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-16"><a href="powerOfTheTest.html#cb55-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-17"><a href="powerOfTheTest.html#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
+<span id="cb55-18"><a href="powerOfTheTest.html#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(muValues,powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
+<span id="cb55-19"><a href="powerOfTheTest.html#cb55-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
+<span id="cb55-20"><a href="powerOfTheTest.html#cb55-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the Test&quot;</span>)</span>
+<span id="cb55-21"><a href="powerOfTheTest.html#cb55-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
+<span id="cb55-22"><a href="powerOfTheTest.html#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb55-23"><a href="powerOfTheTest.html#cb55-23" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb55-24"><a href="powerOfTheTest.html#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="co"># And provide a description</span></span>
+<span id="cb55-25"><a href="powerOfTheTest.html#cb55-25" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
+<span id="cb55-26"><a href="powerOfTheTest.html#cb55-26" aria-hidden="true" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha=1-</span><span class="sc">\\</span><span class="st">beta=0.05$&quot;</span>),</span>
+<span id="cb55-27"><a href="powerOfTheTest.html#cb55-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
+<img src="adam_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
+<p class="caption">
+Figure 5.7: Power curve for the z-test in the example.
+</p>
 </div>
-<div id="preface" class="section level1 unnumbered hasAnchor">
-<h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="images/sba.png" width="60%" style="display: block; margin: auto;" /></p>
-<p>Have you encountered the term “Business Analytics” in your life? If not, then you are probably wondering what it means. If yes, then again, you are probably wondering what it means. It is a term that is used nowadays instead of such terms as “Operations Research” and “Management Science.” It is a discipline that covers a variety of qualitative and quantitative methods that can be used in practice for real life decisions. It uses methods and approaches from different scientific areas, including statistics, forecasting, optimisation, operations management etc. These lecture notes is focused on the core of quantitative side of the discipline - statistics. While there are many books on statistics, the author failed to find one that would be focused on the application side, discuss the application of statistics both for analysis and forecasting and would rely on modern statistical approaches.</p>
-<p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox" role="doc-biblioref">Svetunkov, 2022</a>)</span>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;greybox&quot;</span>)</span></code></pre></div>
-<p>A very important thing to note is that these lecture notes <strong>do not use <code>tidyverse</code> packages</strong>. I like base R, and, to be honest, I am sure that <code>tidyverse</code> packages are great, but I have never needed them in my research. So, I will not use pipeline operators, <code>tibble</code> or <code>tsibble</code> objects and <code>ggplot2</code>. It is assumed throughout the lecture notes that you can do all those nice tricks on your own if you want to.</p>
-<p>If you want to get in touch with me, there are lots of ways to do that: comments section on any page of <a href="https://forecasting.svetunkov.ru/">my website</a>, <a href="https://ivan.svetunkov.ru/">my Russian website</a>, <a href="https://vk.com/isvetunkov">vk.com</a>, <a href="https://www.facebook.com/isvetunkov">Facebook</a>, <a href="https://www.linkedin.com/in/isvetunkov">Linkedin</a>, <a href="https://twitter.com/iSvetunkov">Twitter</a>.</p>
-<p>You can also find me on <a href="https://www.researchgate.net/profile/Ivan_Svetunkov">ResearchGate</a>, <a href="http://stats.stackexchange.com/users/87585/ivan-svetunkov">StackExchange</a> and <a href="http://stackoverflow.com/users/5296618/ivan-svetunkov">StackOverflow</a>, although I’m not really active there. Finally, I also have <a href="https://github.com/config-i1">GitHub</a> account.</p>
-<hr />
-<p>You can use the following to cite the online version of this book:</p>
-<div class="adamCitation">
-<ul>
-<li>Svetunkov, I. (2022) Statistics for Business Analytics: Lancaster, UK. openforecast.org/sba. Accessed on [current date].</li>
-</ul>
-</div>
-<p>If you use LaTeX, the following can be used instead:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>MISC{SvetunkovSBA,</span>
-<span id="cb2-2"><a href="index.html#cb2-2" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {Statistics <span class="cf">for</span> Business Analytics},</span>
-<span id="cb2-3"><a href="index.html#cb2-3" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Ivan Svetunkov},</span>
-<span id="cb2-4"><a href="index.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    howpublished <span class="ot">=</span> {Lecture notes. OpenForecast},</span>
-<span id="cb2-5"><a href="index.html#cb2-5" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {(version<span class="sc">:</span> [current date])},</span>
-<span id="cb2-6"><a href="index.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>openforecast.org<span class="sc">/</span>sba<span class="sc">/</span>},</span>
-<span id="cb2-7"><a href="index.html#cb2-7" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2022</span>}</span>
-<span id="cb2-8"><a href="index.html#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div id="license" class="section level3 unnumbered hasAnchor">
-<h3>License<a href="index.html#license" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>These lecture notes are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Common License by-nc-sa 4.0</a>, which means that you can share, copy, redistribute and remix the content of the lecture notes for non-commercial purposes as long as you give appropriate credit to the author and provide the link to the original license. If you remix, transform, or build upon the material, you must distribute your contributions under the same CC-BY-NC-SA 4.0 license. See <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">the explanation on the Creative Commons website</a>.</p>
+<p>The plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.7</a> shows how powerful the z-test is for each specific value of population mean. We can see that the test becomes more powerful the further the true mean is away from the tested value (we chose 3 as the tested value). This means that it is easier for the test to detect the distance of the sample mean from the true value, when the true value is, for instance, 2.8 than in the case, when it is 2.95.</p>
+<p>There is one specific point, where the power of the test coincides with the significance level. It is the case, when the population mean is indeed equal to 3. In this situation rejecting the null hypothesis would result in Type I error, which is equivalent to the significance level <span class="math inline">\(\alpha\)</span>, which we chose to be equal to 0.05.</p>
+<p>In general, there are several things that influence the power of any statistical test:</p>
+<ol style="list-style-type: decimal">
+<li>The value of the true parameter;</li>
+<li>The significance level;</li>
+<li>The sample size;</li>
+<li>The amount of information available for the test.</li>
+</ol>
+<p>The element (1) is depicted on the plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.7</a>. If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.</p>
+<p>The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.</p>
+<p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(5.5)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong.</p>
+<p>Finally, the more general point about the “amount of information” applies to the selection between the tests. In the Section <a href="#statisticalTests"><strong>??</strong></a> we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.</p>
+<!-- ## Parametric statistical tests {#statisticalTests} -->
+<!-- ## Statistical vs practical significance. -->
 
 </div>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-R-greybox" class="csl-entry">
-• Svetunkov, I., 2022. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 1.0.5
-</div>
-</div>
+<!-- </div> -->
 
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="typeErrors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -428,7 +481,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/index.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//07-sample-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {
