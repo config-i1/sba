@@ -304,9 +304,101 @@ All the four situations in Table \@ref(tab:typeErrorsTable) rely on the idea tha
 Finally, sometimes analysts refer to the **Type 0** error (it is sometimes called "type III" error, but it is more fundamental than Type I or Type II, so I prefer "Type 0"). This is the error that arises when an answer is obtained to the wrong question. This does not have any mathematics behind it but is important in general: we need to understand what questions to ask and how to formulate them correctly before doing the test.
 
 
-### Power of a test {#powerOfTheTest}
+## Power of a test {#powerOfTheTest}
 Power of a test is one of the important theoretical ideas related to hypothesis testing. It is **the probability of correctly rejecting the wrong hypothesis**. By definition, it is equal to $1-\beta$ in Table \@ref(tab:typeErrorsTable) and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.
 
+Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.
+
+
+<!-- ### Visual explanation -->
+<!-- Figures by Alisa here -->
+
+### Mathematical explantion
+Conceptually, Power of a Test can be calculated as:
+\begin{equation}
+    \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
+    (\#eq:powerOfATestConcept)
+\end{equation}
+The calculation of the Power of the Test can be done based on the data of the specific test with some parameters.
+
+Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section \@ref(statisticalTests) for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+\begin{equation*}
+    \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu < 3.
+\end{equation*}
+For the example, we assume that the population standard deviation is known and equal to $\sigma=0.18$, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
+\begin{equation}
+    z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} ,
+    (\#eq:powerOfATest01)
+\end{equation}
+where $\bar{y}$ is the sample mean. The rule for rejecting the null hypothesis in this situation is that if the calculated value $z$ is lower than or equal to the critical one, which in our case (for the chosen 5% significance level) is -1.645:
+\begin{equation*}
+    z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} \leq -1.645
+\end{equation*}
+Solving this inequality for $\bar{y}$, we will reject H$_0$ if the sample mean is
+\begin{equation}
+    \bar{y} \leq 3 -1.645 \times 0.03 = 2.95 .
+    (\#eq:powerOfATest02)
+\end{equation}
+This can be interpreted as "we will fail to reject the null hypothesis in the cases, when the sample mean is greater than 2.95". Now that we have this value, we can calculate the theoretical power of the test for a variety of cases. For example, we can see how powerful the test is in rejecting the wrong null hypothesis if the true mean is in fact equal to 2.87:
+\begin{equation}
+    \begin{aligned}
+        1-\beta = & \mathrm{P}(\bar{y}\leq 2.95 | \mu=2.87) = \\
+                  & \mathrm{P}\left(z \leq \frac{2.95 - 2.87}{0.03} \right) =
+                  & \mathrm{P}\left(z \leq 2.67 \right) = \\
+                  & 0.9962
+    \end{aligned}
+    (\#eq:powerOfATest03)
+\end{equation}
+We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a **power curve**, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:
+
+```{r powerCurve, fig.cap="Power curve for the z-test in the example."}
+# Set all the parameters
+yMean <- 3
+yMeanSD <- 0.18 / sqrt(36)
+levelSignigicance <- 0.05
+zValue <- 3 +qnorm(levelSignigicance) * yMeanSD
+nIterations <- 100
+# Vector of hypothetical population means
+muValues <- seq(2.8,3.1,length.out=nIterations)
+# Vector of values for power curve
+powerValues <- vector("numeric",nIterations)
+
+# Calculate the power values
+for(i in 1:nIterations){
+    powerValues[i] <- pnorm((zValue - muValues[i])/yMeanSD)
+}
+
+# Plot the power curve
+plot(muValues,powerValues, type="l",
+     xlab=latex2exp::TeX("$\\mu$"),
+     ylab="Power of the Test")
+# Add lines for the case of 1-beta=0.05
+lines(rep(3,2),c(0,0.05), lty=3)
+lines(c(0,3),rep(0.05,2), lty=3)
+# And provide a description
+text(3, 0.05+0.05,
+     latex2exp::TeX("$\\alpha=1-\\beta=0.05$"),
+     pos=4)
+```
+
+The plot in Figure \@ref(fig:powerCurve) shows how powerful the z-test is for each specific value of population mean. We can see that the test becomes more powerful the further the true mean is away from the tested value (we chose 3 as the tested value). This means that it is easier for the test to detect the distance of the sample mean from the true value, when the true value is, for instance, 2.8 than in the case, when it is 2.95.
+
+There is one specific point, where the power of the test coincides with the significance level. It is the case, when the population mean is indeed equal to 3. In this situation rejecting the null hypothesis would result in Type I error, which is equivalent to the significance level $\alpha$, which we chose to be equal to 0.05.
+
+In general, there are several things that influence the power of any statistical test:
+
+1. The value of the true parameter;
+2. The significance level;
+3. The sample size;
+4. The amount of information available for the test.
+
+The element (1) is depicted on the plot in Figure \@ref(fig:powerCurve). If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.
+
+The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.
+
+The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation \@ref(eq:powerOfATest01), where the sample size $n$ is in the denominator of the denominator. The higher values of $n$ will lead to the higher values of $z$ and as a result, the higher chance of rejecting the H$_0$ if it is wrong.
+
+Finally, the more general point about the "amount of information" applies to the selection between the tests. In the Section \@ref(statisticalTests) we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.
 
 
 <!-- ## Parametric statistical tests {#statisticalTests} -->
