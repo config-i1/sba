@@ -310,22 +310,109 @@ Power of a test is one of the important theoretical ideas related to hypothesis 
 Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.
 
 
-<!-- ### Visual explanation -->
-<!-- Figures by Alisa here -->
+### Visual explanation
+We start the explanation of the idea of the Power of a Test with a visual example. Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section \@ref(statisticalTests) for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+\begin{equation}
+    \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu < 3.
+    (\#eq:powerOfATestHypothesis)
+\end{equation}
+In this example we will test the hypothesis on 5% significance level. The general process of hypothesis testing can be visualised as shown in Figure \@ref(fig:powerOfTestVisual01).
+
+```{r powerOfTestVisual01, echo=FALSE, fig.cap="The process of hypothesis testing of one sided hypothesis \@ref(eq:powerOfATestHypothesis)."}
+plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
+     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
+lines(c(-8,10), c(0,0), col="black", lwd=1)
+polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
+abline(v=qnorm(0.05), col="darkred", lwd=2)
+abline(v=-2.66, col="darkblue", lwd=2)
+legend("topright",legend=c("critical values","calculated z",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
+       lwd=c(2,2,6,6), col=c("darkred","darkblue","grey95","lightgrey"))
+```
+
+The plot in Figure \@ref(fig:powerOfTestVisual01) shows the theoretical distribution of z-values, the 5% critical value and the calculated one. On the plot, we see that the calculated value lies in the tail of the distribution, which means that we can reject the null hypothesis on 5% significance level. The situation, when we correctly reject H$_0$ in our example corresponds to the case, when the true distribution lies to the left of the assumed one as shown in Figure \@ref(fig:powerOfTestVisual02).
+
+```{r powerOfTestVisual02, echo=FALSE, fig.cap="Hypothetical \"true\" and the assumed distributions."}
+plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
+     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
+lines(c(-8,10), c(0,0), col="black", lwd=1)
+polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col="purple")
+abline(v=qnorm(0.05), col="darkred", lwd=2)
+abline(v=-2.66, col="darkblue", lwd=2)
+abline(v=-4, col="purple", lwd=2, lty=2)
+legend("topright",legend=c("critical values","calculated z","True distribution",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
+       lwd=c(2,2,2,6,6), col=c("darkred","darkblue","purple","grey95","lightgrey"), lty=c(1,1,2,1,1))
+```
+
+In the example of Figure \@ref(fig:powerOfTestVisual02) we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table \@ref(tab:typeErrorsTable) and the probability of this case is the "Power of a Test". Visually, it corresponds to the surface of the "true" distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H$_0$ and thus to the correct decision. This is shown visually in Figure \@ref(fig:powerOfTestVisual03).
+
+```{r powerOfTestVisual03, echo=FALSE, fig.cap="Power of the Test based on the hypothetical true value of $\\mu$."}
+plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
+     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
+lines(c(-8,10), c(0,0), col="black", lwd=1)
+polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col="purple")
+polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
+        c(dnorm(seq(-8,qnorm(0.05),0.01),-4), rep(0,length(seq(-8,qnorm(0.05),0.01)))),
+        col=rgb(0.9,0.8,0.9,0.5), lty=2, border="purple", lwd=2)
+abline(v=qnorm(0.05), col="darkred", lwd=2)
+legend("topright",legend=c("critical values","True distribution",TeX("$1-\\alpha$"),TeX("$\\alpha$"),"Power of the Test"),
+       lwd=c(2,2,6,6,6), col=c("darkred","purple","grey95","lightgrey",rgb(0.9,0.8,0.9,0.5)), lty=c(1,2,1,1,1))
+```
+
+The surface to the left of the critical value in Figure \@ref(fig:powerOfTestVisual03) is the Power of the Test for the example of a specific value of assumed $\mu$. Given that we never know the true value, we could try other values, which would shift the distribution to the left or to the right, meaning either the increase or the decrease in power of the test. For example, the situation shown in Figure \@ref(fig:powerOfTestVisual04) corresponds to the smaller Power of the Test (because the surface of the distribution to the left is smaller than the surface of the distribution in Figure \@ref(fig:powerOfTestVisual03)).
+
+```{r powerOfTestVisual04, echo=FALSE, fig.cap="Power of the Test based on another hypothetical true value of $\\mu$."}
+plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
+     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
+lines(c(-8,10), c(0,0), col="black", lwd=1)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-2.5), lwd=2, lty=2, col="purple")
+polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
+        c(dnorm(seq(-8,qnorm(0.05),0.01),-2.5), rep(0,length(seq(-8,qnorm(0.05),0.01)))),
+        col=rgb(0.9,0.8,0.9,0.5), lty=2, border="purple", lwd=2)
+abline(v=qnorm(0.05), col="darkred", lwd=2)
+legend("topright",legend=c("critical values","True distribution","Power of the Test"),
+       lwd=c(2,2,6), col=c("darkred","purple",rgb(0.9,0.8,0.9,0.5)), lty=c(1,2,1))
+```
+
+Analysing Figures \@ref(fig:powerOfTestVisual03) and \@ref(fig:powerOfTestVisual04), we can already outline two factors impacting the power of a test:
+
+1. The location of the true mean. The further it is away to the tested one, the easier it is to detect the difference and reject the H$_0$, which implies a higher power of a test;
+2. Significance level $\alpha$. With the lower significance level, the critical value (vertical line in Figures \@ref(fig:powerOfTestVisual03) and \@ref(fig:powerOfTestVisual04)) will be further to the left and thus the power of the test will be lower.
+
+There are other factors, which are not as obvious as the two above. For example, if we did not know the true value of $\sigma$, we would need to estimate it, and as a result we would need to use a less powerful t-test instead of the z-test. On smaller samples the critical value of the t-test is typically higher than the one from the z-test by absolute value. For example, in case of 36 observations, on 5% significance level it is equal to `r round(qt(0.05, 35),4)`, which is lower than the similar value of `r round(qnorm(0.05),4)` from the standard normal distribution. This means that if we used the t-test instead of the z-test in the example above, the vertical line on the plots in Figures \@ref(fig:powerOfTestVisual03) and \@ref(fig:powerOfTestVisual04) would be firther to the left of the one that we had. As a result, we would conclude that the power of the t-test is lower than the power of the z-test.
+
+Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section \@ref(LLN)) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.
+
+Finally, coming back to Table \@ref(tab:typeErrorsTable), there is a trade-off between the significance level and the power of a test. If we use a very low significance level then we will make fewer mistakes when testing the correct hypothesis (failing to reject the correct H$_0$), but we will make more mistakes when the null hypothesis is wrong, because the power of the test will be lower. This can be compensated by choosing appropriate, more powerful statistical tests (see Section \@ref(statisticalTests)) and increasing the sample size, where possible. On the other hand, choosing a high significance level means that we will make more Type I errors, rejecting the null hypothesis when it is correct, but at the cost of making fewer Type II mistakes, rejecting the H$_0$, when it is wrong even if the difference between the true unknown mean and the sample one is small. This trade-off can be taken into account, when an analyst needs to decide what significance level to use.
+
 
 ### Mathematical explantion
-Conceptually, Power of a Test can be calculated as:
+Moving from the visual explanation to the mathematical one, we can present the Power of a Test as the following probability:
 \begin{equation}
     \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
     (\#eq:powerOfATestConcept)
 \end{equation}
-The calculation of the Power of the Test can be done based on the data of the specific test with some parameters.
-
-Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section \@ref(statisticalTests) for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+As shown in the previous Subsection, the calculation of the Power of the Test is done based on the parameters of the specific test. In this Subsection, we continue with the same example as before and the same hypothesis:
 \begin{equation*}
     \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu < 3.
 \end{equation*}
-For the example, we assume that the population standard deviation is known and equal to $\sigma=0.18$, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
+For the example, we assume that the population standard deviation is known and is equal to $\sigma=0.18$, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
 \begin{equation}
     z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} ,
     (\#eq:powerOfATest01)
