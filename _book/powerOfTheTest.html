@@ -441,28 +441,25 @@ We could do similar calculations for other cases of the true mean and see how po
 <span id="cb55-3"><a href="powerOfTheTest.html#cb55-3" aria-hidden="true" tabindex="-1"></a>yMeanSD <span class="ot">&lt;-</span> <span class="fl">0.18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
 <span id="cb55-4"><a href="powerOfTheTest.html#cb55-4" aria-hidden="true" tabindex="-1"></a>levelSignigicance <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb55-5"><a href="powerOfTheTest.html#cb55-5" aria-hidden="true" tabindex="-1"></a>zValue <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span><span class="fu">qnorm</span>(levelSignigicance) <span class="sc">*</span> yMeanSD</span>
-<span id="cb55-6"><a href="powerOfTheTest.html#cb55-6" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb55-7"><a href="powerOfTheTest.html#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
-<span id="cb55-8"><a href="powerOfTheTest.html#cb55-8" aria-hidden="true" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span>nIterations)</span>
-<span id="cb55-9"><a href="powerOfTheTest.html#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
-<span id="cb55-10"><a href="powerOfTheTest.html#cb55-10" aria-hidden="true" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb55-11"><a href="powerOfTheTest.html#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-12"><a href="powerOfTheTest.html#cb55-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
-<span id="cb55-13"><a href="powerOfTheTest.html#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb55-14"><a href="powerOfTheTest.html#cb55-14" aria-hidden="true" tabindex="-1"></a>    powerValues[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues[i])<span class="sc">/</span>yMeanSD)</span>
-<span id="cb55-15"><a href="powerOfTheTest.html#cb55-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-16"><a href="powerOfTheTest.html#cb55-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-17"><a href="powerOfTheTest.html#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
-<span id="cb55-18"><a href="powerOfTheTest.html#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(muValues,powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
-<span id="cb55-19"><a href="powerOfTheTest.html#cb55-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
-<span id="cb55-20"><a href="powerOfTheTest.html#cb55-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the Test&quot;</span>)</span>
-<span id="cb55-21"><a href="powerOfTheTest.html#cb55-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
-<span id="cb55-22"><a href="powerOfTheTest.html#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
-<span id="cb55-23"><a href="powerOfTheTest.html#cb55-23" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
-<span id="cb55-24"><a href="powerOfTheTest.html#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="co"># And provide a description</span></span>
-<span id="cb55-25"><a href="powerOfTheTest.html#cb55-25" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
-<span id="cb55-26"><a href="powerOfTheTest.html#cb55-26" aria-hidden="true" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha=1-</span><span class="sc">\\</span><span class="st">beta=0.05$&quot;</span>),</span>
-<span id="cb55-27"><a href="powerOfTheTest.html#cb55-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
+<span id="cb55-6"><a href="powerOfTheTest.html#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
+<span id="cb55-7"><a href="powerOfTheTest.html#cb55-7" aria-hidden="true" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb55-8"><a href="powerOfTheTest.html#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
+<span id="cb55-9"><a href="powerOfTheTest.html#cb55-9" aria-hidden="true" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</span>
+<span id="cb55-10"><a href="powerOfTheTest.html#cb55-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-11"><a href="powerOfTheTest.html#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
+<span id="cb55-12"><a href="powerOfTheTest.html#cb55-12" aria-hidden="true" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues)<span class="sc">/</span>yMeanSD)</span>
+<span id="cb55-13"><a href="powerOfTheTest.html#cb55-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="powerOfTheTest.html#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
+<span id="cb55-15"><a href="powerOfTheTest.html#cb55-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(muValues, powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
+<span id="cb55-16"><a href="powerOfTheTest.html#cb55-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
+<span id="cb55-17"><a href="powerOfTheTest.html#cb55-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</span>
+<span id="cb55-18"><a href="powerOfTheTest.html#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
+<span id="cb55-19"><a href="powerOfTheTest.html#cb55-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb55-20"><a href="powerOfTheTest.html#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb55-21"><a href="powerOfTheTest.html#cb55-21" aria-hidden="true" tabindex="-1"></a><span class="co"># And provide a description</span></span>
+<span id="cb55-22"><a href="powerOfTheTest.html#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
+<span id="cb55-23"><a href="powerOfTheTest.html#cb55-23" aria-hidden="true" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha=1-</span><span class="sc">\\</span><span class="st">beta=0.05$&quot;</span>),</span>
+<span id="cb55-24"><a href="powerOfTheTest.html#cb55-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
 <img src="adam_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
@@ -480,9 +477,17 @@ Figure 6.7: Power curve for the z-test in the example.
 </ol>
 <p>The element (1) is depicted on the plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">6.7</a>. If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.</p>
 <p>The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.</p>
-<p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(6.4)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong.</p>
+<p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(6.4)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong. Figure <a href="powerOfTheTest.html#fig:powerCurves02">6.8</a> demonstrates how the power curve changes with the increase of the sample size. we see that the power of the test increases much faster with the decrease of the hypothetical value of <span class="math inline">\(\mu\)</span>, when the sample size is large (for example, <span class="math inline">\(n=1000\)</span>) than in the case of small samples (e.g., <span class="math inline">\(n=25\)</span>).</p>
+<div class="figure"><span style="display:block;" id="fig:powerCurves02"></span>
+<img src="adam_files/figure-html/powerCurves02-1.png" alt="Power curves with different sample sizes." width="672" />
+<p class="caption">
+Figure 6.8: Power curves with different sample sizes.
+</p>
+</div>
 <p>Finally, the more general point about the “amount of information” applies to the selection between the tests. In the Section <a href="#statisticalTests"><strong>??</strong></a> we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.</p>
 <!-- ## Parametric statistical tests {#statisticalTests} -->
+<!-- ## Non-parametric tests -->
+<!-- ## Selecting appropriate statistical test -->
 <!-- ## Statistical vs practical significance. -->
 
 </div>
