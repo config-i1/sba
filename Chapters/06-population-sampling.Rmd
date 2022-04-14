@@ -78,10 +78,10 @@ Note that all the discussions in this chapter relate to **the estimates of param
 
 The classical example of bias in statistics is the estimation of variance in sample. The following formula gives biased estimate of variance in sample:
 \begin{equation}
-    \mathrm{V}(y) = \frac{1}{T} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
+    \mathrm{V}(y) = \frac{1}{n} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     (\#eq:varianceBiased)
 \end{equation}
-where $T$ is the sample size and $\bar{y} = \frac{1}{T} \sum_{j=1}^n y_j$ is the mean of the data. There is a lot of proofs in the literature of this issue (even @WikipediaVarianceBias2020 has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:
+where $n$ is the sample size and $\bar{y} = \frac{1}{n} \sum_{j=1}^n y_j$ is the mean of the data. There is a lot of proofs in the literature of this issue (even @WikipediaVarianceBias2020 has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:
 ```{r}
 mu <- 100
 sigma <- 10
@@ -114,10 +114,10 @@ legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValu
 
 Every run of this experiment will produce different plots, but typically what we will see is that, the biased estimate of variance (the histogram on the right hand side of the plot) will have lower mean than the unbiased one. This is the graphical example of the effect of not taking the number of estimated parameters into account. The correct formula for the unbiased estimate of variance is:
 \begin{equation}
-    s^2 = \frac{1}{T-k} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
+    s^2 = \frac{1}{n-k} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     (\#eq:varianceUnBiased)
 \end{equation}
-where $k$ is the number of all independent estimated parameters. In this simple example $k=1$, because we only estimate mean (the variance is based on it). Analysing the formulae \@ref(eq:varianceBiased) and \@ref(eq:varianceUnBiased), we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size $T$ becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.
+where $k$ is the number of all independent estimated parameters. In this simple example $k=1$, because we only estimate mean (the variance is based on it). Analysing the formulae \@ref(eq:varianceBiased) and \@ref(eq:varianceUnBiased), we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size $n$ becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.
 
 
 ### Efficiency {#estimatesPropertiesEfficiency}

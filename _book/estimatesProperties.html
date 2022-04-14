@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-13" />
+<meta name="date" content="2022-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -362,10 +362,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p><strong>Bias</strong> refers to the expected difference between the estimated value of parameter (on a specific sample) and the “<a href="intro.html#intro">true</a>” one (in the true model). Having unbiased estimates of parameters is important because they should lead to more accurate forecasts (at least in theory). For example, if the estimated parameter is equal to zero, while in fact it should be 0.5, then the model would not take the provided information into account correctly and as a result will produce less accurate point forecasts and incorrect prediction intervals. In inventory context this may mean that we constantly order 100 units less than needed only because the parameter is lower than it should be.</p>
 <p>The classical example of bias in statistics is the estimation of variance in sample. The following formula gives biased estimate of variance in sample:
 <span class="math display" id="eq:varianceBiased">\[\begin{equation}
-    \mathrm{V}(y) = \frac{1}{T} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
+    \mathrm{V}(y) = \frac{1}{n} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     \tag{4.1}
 \end{equation}\]</span>
-where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\bar{y} = \frac{1}{T} \sum_{j=1}^n y_j\)</span> is the mean of the data. There is a lot of proofs in the literature of this issue (even <span class="citation"><a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">Wikipedia</a> (<a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">2020a</a>)</span> has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:</p>
+where <span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(\bar{y} = \frac{1}{n} \sum_{j=1}^n y_j\)</span> is the mean of the data. There is a lot of proofs in the literature of this issue (even <span class="citation"><a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">Wikipedia</a> (<a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">2020a</a>)</span> has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="estimatesProperties.html#cb47-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb47-2"><a href="estimatesProperties.html#cb47-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb47-3"><a href="estimatesProperties.html#cb47-3" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
@@ -397,10 +397,10 @@ Figure 4.4: Histograms for biased and unbiased estimates of variance.
 </div>
 <p>Every run of this experiment will produce different plots, but typically what we will see is that, the biased estimate of variance (the histogram on the right hand side of the plot) will have lower mean than the unbiased one. This is the graphical example of the effect of not taking the number of estimated parameters into account. The correct formula for the unbiased estimate of variance is:
 <span class="math display" id="eq:varianceUnBiased">\[\begin{equation}
-    s^2 = \frac{1}{T-k} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
+    s^2 = \frac{1}{n-k} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     \tag{4.2}
 \end{equation}\]</span>
-where <span class="math inline">\(k\)</span> is the number of all independent estimated parameters. In this simple example <span class="math inline">\(k=1\)</span>, because we only estimate mean (the variance is based on it). Analysing the formulae <a href="estimatesProperties.html#eq:varianceBiased">(4.1)</a> and <a href="estimatesProperties.html#eq:varianceUnBiased">(4.2)</a>, we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size <span class="math inline">\(T\)</span> becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.</p>
+where <span class="math inline">\(k\)</span> is the number of all independent estimated parameters. In this simple example <span class="math inline">\(k=1\)</span>, because we only estimate mean (the variance is based on it). Analysing the formulae <a href="estimatesProperties.html#eq:varianceBiased">(4.1)</a> and <a href="estimatesProperties.html#eq:varianceUnBiased">(4.2)</a>, we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size <span class="math inline">\(n\)</span> becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.</p>
 </div>
 <div id="estimatesPropertiesEfficiency" class="section level3 hasAnchor" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> Efficiency<a href="estimatesProperties.html#estimatesPropertiesEfficiency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
