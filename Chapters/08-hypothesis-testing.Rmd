@@ -337,21 +337,18 @@ yMean <- 3
 yMeanSD <- 0.18 / sqrt(36)
 levelSignigicance <- 0.05
 zValue <- 3 +qnorm(levelSignigicance) * yMeanSD
-nIterations <- 100
 # Vector of hypothetical population means
-muValues <- seq(2.8,3.1,length.out=nIterations)
+muValues <- seq(2.8,3.1,length.out=100)
 # Vector of values for power curve
-powerValues <- vector("numeric",nIterations)
+powerValues <- vector("numeric",100)
 
 # Calculate the power values
-for(i in 1:nIterations){
-    powerValues[i] <- pnorm((zValue - muValues[i])/yMeanSD)
-}
+powerValues <- pnorm((zValue - muValues)/yMeanSD)
 
 # Plot the power curve
-plot(muValues,powerValues, type="l",
+plot(muValues, powerValues, type="l",
      xlab=latex2exp::TeX("$\\mu$"),
-     ylab="Power of the Test")
+     ylab="Power of the test")
 # Add lines for the case of 1-beta=0.05
 lines(rep(3,2),c(0,0.05), lty=3)
 lines(c(0,3),rep(0.05,2), lty=3)
@@ -376,12 +373,31 @@ The element (1) is depicted on the plot in Figure \@ref(fig:powerCurve). If we c
 
 The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.
 
-The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation \@ref(eq:powerOfATest01), where the sample size $n$ is in the denominator of the denominator. The higher values of $n$ will lead to the higher values of $z$ and as a result, the higher chance of rejecting the H$_0$ if it is wrong.
+The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation \@ref(eq:powerOfATest01), where the sample size $n$ is in the denominator of the denominator. The higher values of $n$ will lead to the higher values of $z$ and as a result, the higher chance of rejecting the H$_0$ if it is wrong. Figure \@ref(fig:powerCurves02) demonstrates how the power curve changes with the increase of the sample size. we see that the power of the test increases much faster with the decrease of the hypothetical value of $\mu$, when the sample size is large (for example, $n=1000$) than in the case of small samples (e.g., $n=25$).
+
+
+```{r powerCurves02, fig.cap="Power curves with different sample sizes.", echo=FALSE}
+muValues <- seq(2.8,3.1,length.out=1000)
+plot(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(1000))), type="l",
+     xlab=TeX("$\\mu$"), ylab="Power of the test")
+lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(300))), col="blue")
+lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(100))), col="purple")
+lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(50))), col="red")
+lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(25))), col="orange")
+legend("topright", legend=c("n=1000","n=300","n=100","n=50","n=25"),
+       col=c("black","blue","purple","red","orange"), lwd=1)
+```
 
 Finally, the more general point about the "amount of information" applies to the selection between the tests. In the Section \@ref(statisticalTests) we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.
 
 
 <!-- ## Parametric statistical tests {#statisticalTests} -->
+
+
+<!-- ## Non-parametric tests -->
+
+
+<!-- ## Selecting appropriate statistical test -->
 
 
 <!-- ## Statistical vs practical significance. -->
