@@ -231,7 +231,8 @@ div.csl-indent {
 <li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II<span></span></a></li>
 <li class="chapter" data-level="5.5" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>5.5</b> Power of a test<span></span></a>
 <ul>
-<li class="chapter" data-level="5.5.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>5.5.1</b> Mathematical explantion<span></span></a></li>
+<li class="chapter" data-level="5.5.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>5.5.1</b> Visual explanation<span></span></a></li>
+<li class="chapter" data-level="5.5.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>5.5.2</b> Mathematical explantion<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables<span></span></a>
@@ -393,19 +394,19 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1002.8920     3.9884   995.0095   1010.7745 *
-## price               -6.6494     0.1987    -7.0421     -6.2566 *
-## price:colourGreen    3.5179     0.0501     3.4189      3.6169 *
-## price:colourRed      2.4767     0.0495     2.3789      2.5744 *
+## (Intercept)       1003.4034     4.0862   995.3276   1011.4791 *
+## price               -6.6521     0.2030    -7.0532     -6.2509 *
+## price:colourGreen    3.5121     0.0502     3.4129      3.6112 *
+## price:colourRed      2.5116     0.0516     2.4096      2.6136 *
 ## 
-## Error standard deviation: 5.0103
+## Error standard deviation: 5.1082
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 913.0750 913.3508 925.1175 925.8086</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.17 units.</p>
+## 918.8827 919.1586 930.9253 931.6164</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.14 units.</p>
 
 </div>
 <!-- </div> -->

@@ -231,7 +231,8 @@ div.csl-indent {
 <li class="chapter" data-level="5.4" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>5.4</b> Errors of types 0, I and II<span></span></a></li>
 <li class="chapter" data-level="5.5" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>5.5</b> Power of a test<span></span></a>
 <ul>
-<li class="chapter" data-level="5.5.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>5.5.1</b> Mathematical explantion<span></span></a></li>
+<li class="chapter" data-level="5.5.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>5.5.1</b> Visual explanation<span></span></a></li>
+<li class="chapter" data-level="5.5.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>5.5.2</b> Mathematical explantion<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>6</b> Measuring relations between variables<span></span></a>
@@ -352,24 +353,65 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">5.5</span> Power of a test<a href="powerOfTheTest.html#powerOfTheTest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Power of a test is one of the important theoretical ideas related to hypothesis testing. It is <strong>the probability of correctly rejecting the wrong hypothesis</strong>. By definition, it is equal to <span class="math inline">\(1-\beta\)</span> in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.</p>
 <p>Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.</p>
-<!-- ### Visual explanation -->
-<!-- Figures by Alisa here -->
-<div id="mathematical-explantion" class="section level3 hasAnchor" number="5.5.1">
-<h3><span class="header-section-number">5.5.1</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Conceptually, Power of a Test can be calculated as:
-<span class="math display" id="eq:powerOfATestConcept">\[\begin{equation}
-    \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
+<div id="visual-explanation" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> Visual explanation<a href="powerOfTheTest.html#visual-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We start the explanation of the idea of the Power of a Test with a visual example. Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section <a href="#statisticalTests"><strong>??</strong></a> for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+<span class="math display" id="eq:powerOfATestHypothesis">\[\begin{equation}
+    \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu &lt; 3.
     \tag{5.4}
 \end{equation}\]</span>
-The calculation of the Power of the Test can be done based on the data of the specific test with some parameters.</p>
-<p>Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section <a href="#statisticalTests"><strong>??</strong></a> for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
+In this example we will test the hypothesis on 5% significance level. The general process of hypothesis testing can be visualised as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">5.7</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual01"></span>
+<img src="adam_files/figure-html/powerOfTestVisual01-1.png" alt="The process of hypothesis testing of one sided hypothesis \@ref(eq:powerOfATestHypothesis)." width="672" />
+<p class="caption">
+Figure 5.7: The process of hypothesis testing of one sided hypothesis <a href="powerOfTheTest.html#eq:powerOfATestHypothesis">(5.4)</a>.
+</p>
+</div>
+<p>The plot in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">5.7</a> shows the theoretical distribution of z-values, the 5% critical value and the calculated one. On the plot, we see that the calculated value lies in the tail of the distribution, which means that we can reject the null hypothesis on 5% significance level. The situation, when we correctly reject H<span class="math inline">\(_0\)</span> in our example corresponds to the case, when the true distribution lies to the left of the assumed one as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">5.8</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual02"></span>
+<img src="adam_files/figure-html/powerOfTestVisual02-1.png" alt="Hypothetical &quot;true&quot; and the assumed distributions." width="672" />
+<p class="caption">
+Figure 5.8: Hypothetical “true” and the assumed distributions.
+</p>
+</div>
+<p>In the example of Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">5.8</a> we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a> and the probability of this case is the “Power of a Test.” Visually, it corresponds to the surface of the “true” distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H<span class="math inline">\(_0\)</span> and thus to the correct decision. This is shown visually in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual03"></span>
+<img src="adam_files/figure-html/powerOfTestVisual03-1.png" alt="Power of the Test based on the hypothetical true value of $\mu$." width="672" />
+<p class="caption">
+Figure 5.9: Power of the Test based on the hypothetical true value of <span class="math inline">\(\mu\)</span>.
+</p>
+</div>
+<p>The surface to the left of the critical value in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a> is the Power of the Test for the example of a specific value of assumed <span class="math inline">\(\mu\)</span>. Given that we never know the true value, we could try other values, which would shift the distribution to the left or to the right, meaning either the increase or the decrease in power of the test. For example, the situation shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual04">5.10</a> corresponds to the smaller Power of the Test (because the surface of the distribution to the left is smaller than the surface of the distribution in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual04"></span>
+<img src="adam_files/figure-html/powerOfTestVisual04-1.png" alt="Power of the Test based on another hypothetical true value of $\mu$." width="672" />
+<p class="caption">
+Figure 5.10: Power of the Test based on another hypothetical true value of <span class="math inline">\(\mu\)</span>.
+</p>
+</div>
+<p>Analysing Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">5.10</a>, we can already outline two factors impacting the power of a test:</p>
+<ol style="list-style-type: decimal">
+<li>The location of the true mean. The further it is away to the tested one, the easier it is to detect the difference and reject the H<span class="math inline">\(_0\)</span>, which implies a higher power of a test;</li>
+<li>Significance level <span class="math inline">\(\alpha\)</span>. With the lower significance level, the critical value (vertical line in Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">5.10</a>) will be further to the left and thus the power of the test will be lower.</li>
+</ol>
+<p>There are other factors, which are not as obvious as the two above. For example, if we did not know the true value of <span class="math inline">\(\sigma\)</span>, we would need to estimate it, and as a result we would need to use a less powerful t-test instead of the z-test. On smaller samples the critical value of the t-test is typically higher than the one from the z-test by absolute value. For example, in case of 36 observations, on 5% significance level it is equal to -1.6896, which is lower than the similar value of -1.6449 from the standard normal distribution. This means that if we used the t-test instead of the z-test in the example above, the vertical line on the plots in Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">5.9</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">5.10</a> would be firther to the left of the one that we had. As a result, we would conclude that the power of the t-test is lower than the power of the z-test.</p>
+<p>Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section <a href="LLN.html#LLN">4.1</a>) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.</p>
+<p>Finally, coming back to Table <a href="typeErrors.html#tab:typeErrorsTable">5.1</a>, there is a trade-off between the significance level and the power of a test. If we use a very low significance level then we will make fewer mistakes when testing the correct hypothesis (failing to reject the correct H<span class="math inline">\(_0\)</span>), but we will make more mistakes when the null hypothesis is wrong, because the power of the test will be lower. This can be compensated by choosing appropriate, more powerful statistical tests (see Section <a href="#statisticalTests"><strong>??</strong></a>) and increasing the sample size, where possible. On the other hand, choosing a high significance level means that we will make more Type I errors, rejecting the null hypothesis when it is correct, but at the cost of making fewer Type II mistakes, rejecting the H<span class="math inline">\(_0\)</span>, when it is wrong even if the difference between the true unknown mean and the sample one is small. This trade-off can be taken into account, when an analyst needs to decide what significance level to use.</p>
+</div>
+<div id="mathematical-explantion" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Moving from the visual explanation to the mathematical one, we can present the Power of a Test as the following probability:
+<span class="math display" id="eq:powerOfATestConcept">\[\begin{equation}
+    \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
+    \tag{5.5}
+\end{equation}\]</span>
+As shown in the previous Subsection, the calculation of the Power of the Test is done based on the parameters of the specific test. In this Subsection, we continue with the same example as before and the same hypothesis:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu &lt; 3.
 \end{equation*}\]</span>
-For the example, we assume that the population standard deviation is known and equal to <span class="math inline">\(\sigma=0.18\)</span>, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
+For the example, we assume that the population standard deviation is known and is equal to <span class="math inline">\(\sigma=0.18\)</span>, that we work with a sample of 36 observations and that we use a 5% significance level to test the hypothesis. In this case, the test statistics is:
 <span class="math display" id="eq:powerOfATest01">\[\begin{equation}
     z = \frac{\bar{y}-3}{\sigma/\sqrt{n}} = \frac{\bar{y}-3}{0.03} ,
-    \tag{5.5}
+    \tag{5.6}
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{y}\)</span> is the sample mean. The rule for rejecting the null hypothesis in this situation is that if the calculated value <span class="math inline">\(z\)</span> is lower than or equal to the critical one, which in our case (for the chosen 5% significance level) is -1.645:
 <span class="math display">\[\begin{equation*}
@@ -378,7 +420,7 @@ where <span class="math inline">\(\bar{y}\)</span> is the sample mean. The rule 
 Solving this inequality for <span class="math inline">\(\bar{y}\)</span>, we will reject H<span class="math inline">\(_0\)</span> if the sample mean is
 <span class="math display" id="eq:powerOfATest02">\[\begin{equation}
     \bar{y} \leq 3 -1.645 \times 0.03 = 2.95 .
-    \tag{5.6}
+    \tag{5.7}
 \end{equation}\]</span>
 This can be interpreted as “we will fail to reject the null hypothesis in the cases, when the sample mean is greater than 2.95.” Now that we have this value, we can calculate the theoretical power of the test for a variety of cases. For example, we can see how powerful the test is in rejecting the wrong null hypothesis if the true mean is in fact equal to 2.87:
 <span class="math display" id="eq:powerOfATest03">\[\begin{equation}
@@ -388,7 +430,7 @@ This can be interpreted as “we will fail to reject the null hypothesis in the 
                   &amp; \mathrm{P}\left(z \leq 2.67 \right) = \\
                   &amp; 0.9962
     \end{aligned}
-    \tag{5.7}
+    \tag{5.8}
 \end{equation}\]</span>
 We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a <strong>power curve</strong>, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="powerOfTheTest.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set all the parameters</span></span>
@@ -421,10 +463,10 @@ We could do similar calculations for other cases of the true mean and see how po
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
 <img src="adam_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
-Figure 5.7: Power curve for the z-test in the example.
+Figure 5.11: Power curve for the z-test in the example.
 </p>
 </div>
-<p>The plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.7</a> shows how powerful the z-test is for each specific value of population mean. We can see that the test becomes more powerful the further the true mean is away from the tested value (we chose 3 as the tested value). This means that it is easier for the test to detect the distance of the sample mean from the true value, when the true value is, for instance, 2.8 than in the case, when it is 2.95.</p>
+<p>The plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.11</a> shows how powerful the z-test is for each specific value of population mean. We can see that the test becomes more powerful the further the true mean is away from the tested value (we chose 3 as the tested value). This means that it is easier for the test to detect the distance of the sample mean from the true value, when the true value is, for instance, 2.8 than in the case, when it is 2.95.</p>
 <p>There is one specific point, where the power of the test coincides with the significance level. It is the case, when the population mean is indeed equal to 3. In this situation rejecting the null hypothesis would result in Type I error, which is equivalent to the significance level <span class="math inline">\(\alpha\)</span>, which we chose to be equal to 0.05.</p>
 <p>In general, there are several things that influence the power of any statistical test:</p>
 <ol style="list-style-type: decimal">
@@ -433,9 +475,9 @@ Figure 5.7: Power curve for the z-test in the example.
 <li>The sample size;</li>
 <li>The amount of information available for the test.</li>
 </ol>
-<p>The element (1) is depicted on the plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.7</a>. If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.</p>
+<p>The element (1) is depicted on the plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">5.11</a>. If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.</p>
 <p>The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.</p>
-<p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(5.5)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong.</p>
+<p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(5.6)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong.</p>
 <p>Finally, the more general point about the “amount of information” applies to the selection between the tests. In the Section <a href="#statisticalTests"><strong>??</strong></a> we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.</p>
 <!-- ## Parametric statistical tests {#statisticalTests} -->
 <!-- ## Statistical vs practical significance. -->
