@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-14" />
+<meta name="date" content="2022-04-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -237,6 +237,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>6.3.1</b> Visual explanation<span></span></a></li>
 <li class="chapter" data-level="6.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>6.3.2</b> Mathematical explantion<span></span></a></li>
 </ul></li>
+<li class="chapter" data-level="6.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>6.4</b> Statistical and practical significance<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>7</b> Measuring relations between variables<span></span></a>
 <ul>
@@ -397,19 +398,19 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1003.5140     4.7397   994.1467   1012.8812 *
-## price               -6.6694     0.2327    -7.1293     -6.2095 *
-## price:colourGreen    3.4624     0.0527     3.3583      3.5665 *
-## price:colourRed      2.5512     0.0522     2.4480      2.6543 *
+## (Intercept)       1001.0366     4.0302   993.0716   1009.0016 *
+## price               -6.5780     0.2083    -6.9896     -6.1663 *
+## price:colourGreen    3.5105     0.0537     3.4043      3.6166 *
+## price:colourRed      2.5382     0.0538     2.4319      2.6445 *
 ## 
-## Error standard deviation: 5.3024
+## Error standard deviation: 5.2834
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 930.0760 930.3518 942.1185 942.8096</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.12 units.</p>
+## 928.9961 929.2719 941.0386 941.7297</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.04 units.</p>
 
 </div>
 <!-- </div> -->
@@ -451,7 +452,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//13-dummy-variables.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//14-dummy-variables.Rmd",
 "text": "Edit"
 },
 "history": {

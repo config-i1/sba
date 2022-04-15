@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-14" />
+<meta name="date" content="2022-04-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="typeErrors.html"/>
-<link rel="next" href="correlations.html"/>
+<link rel="next" href="significance.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -237,6 +237,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>6.3.1</b> Visual explanation<span></span></a></li>
 <li class="chapter" data-level="6.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>6.3.2</b> Mathematical explantion<span></span></a></li>
 </ul></li>
+<li class="chapter" data-level="6.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>6.4</b> Statistical and practical significance<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>7</b> Measuring relations between variables<span></span></a>
 <ul>
@@ -398,7 +399,6 @@ Figure 6.6: Power of the Test based on another hypothetical true value of <span 
 </ol>
 <p>There are other factors, which are not as obvious as the two above. For example, if we did not know the true value of <span class="math inline">\(\sigma\)</span>, we would need to estimate it, and as a result we would need to use a less powerful t-test instead of the z-test. On smaller samples the critical value of the t-test is typically higher than the one from the z-test by absolute value. For example, in case of 36 observations, on 5% significance level it is equal to -1.6896, which is lower than the similar value of -1.6449 from the standard normal distribution. This means that if we used the t-test instead of the z-test in the example above, the vertical line on the plots in Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">6.5</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">6.6</a> would be firther to the left of the one that we had. As a result, we would conclude that the power of the t-test is lower than the power of the z-test.</p>
 <p>Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section <a href="LLN.html#LLN">4.1</a>) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.</p>
-<p>Finally, coming back to Table <a href="typeErrors.html#tab:typeErrorsTable">6.1</a>, there is a trade-off between the significance level and the power of a test. If we use a very low significance level then we will make fewer mistakes when testing the correct hypothesis (failing to reject the correct H<span class="math inline">\(_0\)</span>), but we will make more mistakes when the null hypothesis is wrong, because the power of the test will be lower. This can be compensated by choosing appropriate, more powerful statistical tests (see Section <a href="#statisticalTests"><strong>??</strong></a>) and increasing the sample size, where possible. On the other hand, choosing a high significance level means that we will make more Type I errors, rejecting the null hypothesis when it is correct, but at the cost of making fewer Type II mistakes, rejecting the H<span class="math inline">\(_0\)</span>, when it is wrong even if the difference between the true unknown mean and the sample one is small. This trade-off can be taken into account, when an analyst needs to decide what significance level to use.</p>
 </div>
 <div id="mathematical-explantion" class="section level3 hasAnchor" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -485,14 +485,8 @@ Figure 6.8: Power curves with different sample sizes.
 </p>
 </div>
 <p>Finally, the more general point about the “amount of information” applies to the selection between the tests. In the Section <a href="#statisticalTests"><strong>??</strong></a> we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.</p>
-<!-- ## Parametric statistical tests {#statisticalTests} -->
-<!-- ## Non-parametric tests -->
-<!-- ## Selecting appropriate statistical test -->
-<!-- ## Statistical vs practical significance. -->
-
 </div>
 </div>
-<!-- </div> -->
 
             </section>
 
@@ -500,7 +494,7 @@ Figure 6.8: Power curves with different sample sizes.
         </div>
       </div>
 <a href="typeErrors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="significance.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
