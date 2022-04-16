@@ -391,7 +391,7 @@ If we needed to estimate parameters <span class="math inline">\({b}_0\)</span> a
     \mathrm{SSE} = \sum_{j=1}^n e_j^2 .
     \tag{7.4}
 \end{equation}\]</span>
-If we now minimise SSE by changing values of parameters <span class="math inline">\({b}_0\)</span> and <span class="math inline">\({b}_1\)</span>, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as this has analytical solution (in order to get it, insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(7.3)</a> in <a href="OLS.html#eq:OLSCriterion">(7.4)</a>, take derivatives with respect to the parameters <span class="math inline">\({b}_0\)</span> and <span class="math inline">\({b}_1\)</span> and equate the resulting values to zero):
+If we now minimise SSE by changing values of parameters <span class="math inline">\({b}_0\)</span> and <span class="math inline">\({b}_1\)</span>, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as there is an analytical solution to this:
 <span class="math display" id="eq:OLSSLREstimates">\[\begin{equation}
     \begin{aligned}
         {b}_1 = &amp; \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
@@ -399,7 +399,37 @@ If we now minimise SSE by changing values of parameters <span class="math inline
     \end{aligned} ,
     \tag{7.5}
 \end{equation}\]</span>
-where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span>. Note that if for some reason <span class="math inline">\({b}_1=0\)</span> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data is the best predictor of the variable <span class="math inline">\(y_j\)</span>. This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares.” It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.</p>
+where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span>.</p>
+<div class="proof">
+<p><span id="unlabeled-div-5" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(7.3)</a> in <a href="OLS.html#eq:OLSCriterion">(7.4)</a> to get:
+<span class="math display">\[\begin{equation*}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
+\end{equation*}\]</span>
+This can be expanded to:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        \mathrm{SSE} = &amp; \sum_{j=1}^n y_j^2 - 2 b_0 \sum_{j=1}^n y_j - 2 b_1 \sum_{j=1}^n y_j x_j + \\
+                       &amp; n b_0^2 + 2 b_0 b_1 \sum_{j=1}^n x_j + b_1^2 \sum_{j=1}^n x_j^2
+    \end{aligned}
+\end{equation*}\]</span>
+Given that we need to find the values of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> minimising SSE, we can take a derivative of SSE with respect to <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>, equating them to zero to get the following system of equations:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        &amp; \frac{d \mathrm{SSE}}{d b_0} = -2 \sum_{j=1}^n y_j + 2 n b_0 + 2 b_1 \sum_{j=1}^n x_j = 0 \\
+        &amp; \frac{d \mathrm{SSE}}{d b_1} = -2 \sum_{j=1}^n y_j x_j  + 2 b_0 \sum_{j=1}^n x_j + 2 b_1 \sum_{j=1}^n x_j^2 = 0
+    \end{aligned}
+\end{equation*}\]</span></p>
+<p>Solving this system of equations for <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> we get:
+<span class="math display" id="eq:OLSSLREstimatesProof">\[\begin{equation}
+    \begin{aligned}
+        &amp; b_0 = \frac{1}{n}\left(\sum_{j=1}^n y_j - b_1 \sum_{j=1}^n x_j) \\
+        &amp; b_1 = \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2}
+    \end{aligned}
+    \tag{7.6}
+\end{equation}\]</span>
+In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a>, we have the following elements: <span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\)</span>, <span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\)</span>, <span class="math inline">\(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\)</span> and <span class="math inline">\(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\)</span>, which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> leads to <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a>.</p>
+</div>
+<p>Note that if for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>. This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares.” It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.</p>
 <p>Another thing to note is the connection between the parameter <span class="math inline">\({b}_1\)</span> and the correlation coefficient. We have already briefly discussed this in Section <a href="correlationCoefficient.html#correlationCoefficient">6.3</a>, we could estimate two models given the pair of variable <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
 <ol style="list-style-type: decimal">
 <li>Model <a href="OLS.html#eq:SLRFormulaEstimated">(7.2)</a>;</li>
@@ -408,7 +438,7 @@ where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanator
 <p>We could then extract the slope parameters of the two models via <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a> and get the value of correlation coefficient as a geometric mean of the two:
 <span class="math display" id="eq:correlationDerivationPearson">\[\begin{equation}
     r_{x,y} = \mathrm{sign}(\hat{b}_1) \sqrt{{b}_1 \hat{b}_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
-    \tag{7.6}
+    \tag{7.7}
 \end{equation}\]</span>
 which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(6.9)</a>. This is how the correlation coefficient was originally derived.</p>
 <p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.</p>
