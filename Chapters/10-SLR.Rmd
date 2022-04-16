@@ -60,7 +60,7 @@ If we needed to estimate parameters ${b}_0$ and ${b}_1$ of the model, we would n
     \mathrm{SSE} = \sum_{j=1}^n e_j^2 .
     (\#eq:OLSCriterion)
 \end{equation}
-If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as this has analytical solution (in order to get it, insert \@ref(eq:SLRFormulaEstimatedError) in \@ref(eq:OLSCriterion), take derivatives with respect to the parameters ${b}_0$ and ${b}_1$ and equate the resulting values to zero):
+If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as there is an analytical solution to this:
 \begin{equation}
     \begin{aligned}
         {b}_1 = & \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
@@ -68,7 +68,40 @@ If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we 
     \end{aligned} ,
     (\#eq:OLSSLREstimates)
 \end{equation}
-where $\bar{x}$ is the mean of the explanatory variable $x_j$ and $\bar{y}$ is the mean of the response variables $y_j$. Note that if for some reason ${b}_1=0$ (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data is the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
+where $\bar{x}$ is the mean of the explanatory variable $x_j$ and $\bar{y}$ is the mean of the response variables $y_j$.
+
+::: proof
+In order to get \@ref(eq:OLSSLREstimates), we should first insert \@ref(eq:SLRFormulaEstimatedError) in \@ref(eq:OLSCriterion) to get:
+\begin{equation*}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
+\end{equation*}
+This can be expanded to:
+\begin{equation*}
+    \begin{aligned}
+        \mathrm{SSE} = & \sum_{j=1}^n y_j^2 - 2 b_0 \sum_{j=1}^n y_j - 2 b_1 \sum_{j=1}^n y_j x_j + \\
+                       & n b_0^2 + 2 b_0 b_1 \sum_{j=1}^n x_j + b_1^2 \sum_{j=1}^n x_j^2
+    \end{aligned}
+\end{equation*}
+Given that we need to find the values of parameters $b_0$ and $b_1$ minimising SSE, we can take a derivative of SSE with respect to $b_0$ and $b_1$, equating them to zero to get the following system of equations:
+\begin{equation*}
+    \begin{aligned}
+        & \frac{d \mathrm{SSE}}{d b_0} = -2 \sum_{j=1}^n y_j + 2 n b_0 + 2 b_1 \sum_{j=1}^n x_j = 0 \\
+        & \frac{d \mathrm{SSE}}{d b_1} = -2 \sum_{j=1}^n y_j x_j  + 2 b_0 \sum_{j=1}^n x_j + 2 b_1 \sum_{j=1}^n x_j^2 = 0
+    \end{aligned}
+\end{equation*}
+
+Solving this system of equations for $b_0$ and $b_1$ we get:
+\begin{equation}
+    \begin{aligned}
+        & b_0 = \frac{1}{n}\left(\sum_{j=1}^n y_j - b_1 \sum_{j=1}^n x_j) \\
+        & b_1 = \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2}
+    \end{aligned}
+    (\#eq:OLSSLREstimatesProof)
+\end{equation}
+In the system of equations \@ref(eq:OLSSLREstimatesProof), we have the following elements: $\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j$,  $\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j$, $\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j$ and  $\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2$, which after inserting in \@ref(eq:OLSSLREstimatesProof) leads to \@ref(eq:OLSSLREstimates).
+:::
+
+Note that if for some reason ${b}_1=0$ in \@ref(eq:OLSSLREstimates) (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data would be the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
 
 Another thing to note is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
 
