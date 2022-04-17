@@ -150,14 +150,14 @@ The second property is less straightforward, but it can be proven as well, using
 ::: proof
 For the same simple linear regression, estimated using OLS, consider:
 \begin{equation}
-    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j - b_0 x_j - b_1 x_j^2) = \sum_{j=1}^n y_j - b_0 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 .
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     (\#eq:sumOfResiduals04)
 \end{equation}
 Inserting \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals04) leads to:
 \begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
-                               & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+                               & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
     (\#eq:sumOfResiduals05)
 \end{equation}

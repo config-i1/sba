@@ -475,14 +475,14 @@ Given that the sum of errors is equal to zero, its mean will be equal to zero as
 <div class="proof">
 <p><span id="unlabeled-div-7" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
-    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j - b_0 x_j - b_1 x_j^2) = \sum_{j=1}^n y_j - b_0 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 .
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     \tag{7.11}
 \end{equation}\]</span>
 Inserting <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.html#eq:sumOfResiduals04">(7.11)</a> leads to:
 <span class="math display" id="eq:sumOfResiduals05">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
-                               &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+                               &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
     \tag{7.12}
 \end{equation}\]</span>
