@@ -447,10 +447,10 @@ which is the formula <a href="correlationCoefficient.html#eq:measuresAssociation
 <p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.</p>
 <div id="OLSResiduals" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> Residuals of model estimated via OLS<a href="OLS.html#OLSResiduals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>OLS applied to any model guarantees two important properties:</p>
+<p>OLS applied to any model guarantees two important properties about its residuals:</p>
 <ol style="list-style-type: decimal">
-<li><span class="math inline">\(\frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
-<li><span class="math inline">\(\frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0\)</span> for any <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
+<li><span class="math inline">\(\mathrm{E}(e_j x_j) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0\)</span> for any <span class="math inline">\(i\)</span>.</li>
 </ol>
 <p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
 <div class="proof">
