@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-17" />
+<meta name="date" content="2022-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -285,7 +285,9 @@ div.csl-indent {
 <li class="chapter" data-level="11.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>11.2.5</b> Square root model<span></span></a></li>
 <li class="chapter" data-level="11.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>11.2.6</b> Quadratic model<span></span></a></li>
 <li class="chapter" data-level="11.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>11.2.7</b> Polynomial model<span></span></a></li>
-<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox<span></span></a></li>
+<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox transform<span></span></a></li>
+<li class="chapter" data-level="11.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>11.2.9</b> Logistic transform<span></span></a></li>
+<li class="chapter" data-level="11.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>11.2.10</b> Summary<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>12</b> Statistical models assumptions<span></span></a>
@@ -459,14 +461,41 @@ Figure 11.12: Examples of linear-log relations with two values of slope paramete
 \end{equation}\]</span>
 This is a more general model than the quadratic one, introducing <span class="math inline">\(k\)</span> polynomials. This is not used very often in analytics, because any data can be approximated by a high order polynomial, and because the branches of polynomial will inevitably lead to infinite increase / decrease, which is not a common tendency in practice.</p>
 </div>
-<div id="box-cox" class="section level3 hasAnchor" number="11.2.8">
-<h3><span class="header-section-number">11.2.8</span> Box-Cox<a href="types-of-variables-transformations.html#box-cox" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="box-cox-transform" class="section level3 hasAnchor" number="11.2.8">
+<h3><span class="header-section-number">11.2.8</span> Box-Cox transform<a href="types-of-variables-transformations.html#box-cox-transform" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Or power transform:
 <span class="math display" id="eq:transformBoxCox">\[\begin{equation}
     \frac{y^\lambda -1}{\lambda} = \beta_0 + \beta_1 x + \epsilon .
     \tag{11.19}
 \end{equation}\]</span>
 This type of transform can be applied to either response variable or any of explanatory variables and can be considered as something more general than linear, log-linear, quadratic and square root models. This is because with different values of <span class="math inline">\(\lambda\)</span>, the transformation would revert to one of the above. For example, with <span class="math inline">\(\lambda=1\)</span>, we end up with a linear model, just with a different intercept. If <span class="math inline">\(\lambda=0.5\)</span>, then we end up with square root, and when <span class="math inline">\(\lambda \rightarrow 0\)</span>, then the relation becomes equivalent to logarithmic. The choice of <span class="math inline">\(\lambda\)</span> might be a challenging task on its own, however it can be estimated via <a href="likelihoodApproach.html#likelihoodApproach">likelihood</a>. If estimated and close to either 0, 0.5, 1 or 2, then typically a respective transformation should be applied instead of Box-Cox. For example, if <span class="math inline">\(\lambda=0.49\)</span>, then taking square root might be a preferred option.</p>
+</div>
+<div id="logistic-transform" class="section level3 hasAnchor" number="11.2.9">
+<h3><span class="header-section-number">11.2.9</span> Logistic transform<a href="types-of-variables-transformations.html#logistic-transform" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In some cases, the variable of interest might lie in a specific region, for example between 0 and 100. In that case a non-linear transform is required to change the range to the conventional one <span class="math inline">\((-\infty, \infty)\)</span> used in the classical regression. The logistic transform is supposed to do that. Assuming that <span class="math inline">\(y \in (0,1)\)</span> the model based on it can be written as:
+<span class="math display" id="eq:transformLogit">\[\begin{equation}
+    y = \frac{1}{1+\exp \left(-(\beta_0 + \beta_1 x + \epsilon)\right)}.
+    \tag{11.20}
+\end{equation}\]</span></p>
+<div class="remark">
+<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span>If <span class="math inline">\(y\)</span> lies in a different fixed range, then a scaling can be applied to it to make it lie between zero and one. For example, if it lies between 0 and 100, division by 100 will fix the scale.</p>
+</div>
+<p>The inverse logistic transform might also be useful and allows estimating the model using the conventional methods after transforming the response variable:
+<span class="math display" id="eq:transformLogitInverse">\[\begin{equation}
+    \log \left( \frac{y}{1-y}\right) = \beta_0 + \beta_1 x + \epsilon.
+    \tag{11.21}
+\end{equation}\]</span></p>
+<p>The logistic function is used in models with binary response variable and is also one of the conventional functions used in more advanced machine learning techniques (e.g. Artificial Neural Networks). Figure <a href="#fig:"><strong>??</strong></a> demonstrates how the response variable might look in the case of the model <a href="types-of-variables-transformations.html#eq:transformLogit">(11.20)</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:transformationsExamples06"></span>
+<img src="adam_files/figure-html/transformationsExamples06-1.png" alt="Examples of linear-log relations with two values of slope parameter." width="672" />
+<p class="caption">
+Figure 11.13: Examples of linear-log relations with two values of slope parameter.
+</p>
+</div>
+<p>Sometimes the value of <span class="math inline">\(y\)</span> in case of logistic model is interpreted as a probability of outcome. We will discuss models based on logistic function later in this textbook.</p>
+</div>
+<div id="summary" class="section level3 hasAnchor" number="11.2.10">
+<h3><span class="header-section-number">11.2.10</span> Summary<a href="types-of-variables-transformations.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In this subsection we discussed the basic types of variables transformations on examples with simple linear regression. The more complicated models with multiple explanatory variables and complex transformations can be considered as well. However, whatever transformation is considered, it needs to be meaningful and come from the theory, not from the data. Otherwise we may overfit the data, which will lead to a variety of issues, some of which are discussed in Section <a href="assumptionsCorrectModel.html#assumptionsCorrectModel">12.1</a>.</p>
 
 </div>

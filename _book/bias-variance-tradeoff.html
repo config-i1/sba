@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-17" />
+<meta name="date" content="2022-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -285,7 +285,9 @@ div.csl-indent {
 <li class="chapter" data-level="11.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>11.2.5</b> Square root model<span></span></a></li>
 <li class="chapter" data-level="11.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>11.2.6</b> Quadratic model<span></span></a></li>
 <li class="chapter" data-level="11.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>11.2.7</b> Polynomial model<span></span></a></li>
-<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox<span></span></a></li>
+<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox transform<span></span></a></li>
+<li class="chapter" data-level="11.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>11.2.9</b> Logistic transform<span></span></a></li>
+<li class="chapter" data-level="11.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>11.2.10</b> Summary<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>12</b> Statistical models assumptions<span></span></a>
@@ -413,7 +415,7 @@ Figure 14.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-11" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-12" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{14.3}

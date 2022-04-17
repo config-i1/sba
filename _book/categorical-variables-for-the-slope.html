@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-04-17" />
+<meta name="date" content="2022-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -285,7 +285,9 @@ div.csl-indent {
 <li class="chapter" data-level="11.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>11.2.5</b> Square root model<span></span></a></li>
 <li class="chapter" data-level="11.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>11.2.6</b> Quadratic model<span></span></a></li>
 <li class="chapter" data-level="11.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>11.2.7</b> Polynomial model<span></span></a></li>
-<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox<span></span></a></li>
+<li class="chapter" data-level="11.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>11.2.8</b> Box-Cox transform<span></span></a></li>
+<li class="chapter" data-level="11.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>11.2.9</b> Logistic transform<span></span></a></li>
+<li class="chapter" data-level="11.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>11.2.10</b> Summary<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>12</b> Statistical models assumptions<span></span></a>
@@ -398,20 +400,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       992.7944     4.2546   984.3857   1001.2030 *
-## price              -6.1576     0.2090    -6.5707     -5.7446 *
-## price:colourGreen   3.4838     0.0510     3.3830      3.5847 *
-## price:colourRed     2.4635     0.0504     2.3639      2.5631 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1002.9803     3.7515   995.5660   1010.3946 *
+## price               -6.6029     0.1852    -6.9689     -6.2369 *
+## price:colourGreen    3.4644     0.0475     3.3706      3.5583 *
+## price:colourRed      2.4565     0.0468     2.3640      2.5490 *
 ## 
-## Error standard deviation: 5.1318
+## Error standard deviation: 4.7089
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 920.2661 920.5419 932.3086 932.9997</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.69 units.</p>
+## 894.4623 894.7382 906.5049 907.1960</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.15 units.</p>
 
 </div>
 <!-- </div> -->
