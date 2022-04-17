@@ -118,6 +118,85 @@ which is the formula \@ref(eq:measuresAssociationPearson). This is how the corre
 While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.
 
 
+### Residuals of model estimated via OLS {#OLSResiduals}
+OLS applied to any model guarantees two important properties:
+
+1. $\frac{1}{n} \sum_{j=1}^n e_j = 0$,
+2. $\frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0$ for any $i$.
+
+The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.
+
+::: proof
+Consider the sum of residuals of a simple linear regression model estimated using OLS:
+\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
+    (\#eq:sumOfResiduals01)
+\end{equation}
+Inserting the formula for $b_0$ from \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals01) we get:
+\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - n \frac{1}{n}\sum_{j=1}^n y_j + n b_1 \frac{1}{n}\sum_{j=1}^n x_j - b_1  \sum_{j=1}^n x_j
+    (\#eq:sumOfResiduals02)
+\end{equation}
+which after some cancelations leads to:
+\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
+    (\#eq:sumOfResiduals03)
+\end{equation}
+Given that the sum of errors is equal to zero, its mean will be equal to zero as well.
+:::
+
+The second property is less straightforward, but it can be proven as well, using similar logic:
+
+::: proof
+For the same simple linear regression, estimated using OLS, consider:
+\begin{equation}
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j - b_0 x_j - b_1 x_j^2) = \sum_{j=1}^n y_j - b_0 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 .
+    (\#eq:sumOfResiduals04)
+\end{equation}
+Inserting \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals04) leads to:
+\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
+                               & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+    \end{aligned}
+    (\#eq:sumOfResiduals05)
+\end{equation}
+Now we insert the formula for $b_1$ from \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals05) to get:
+\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+    \end{aligned}
+    (\#eq:sumOfResiduals06)
+\end{equation}
+The ratio in the right-hand side of \@ref(eq:sumOfResiduals06) can be regrouped and rewritten as:
+\begin{equation}
+        -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) ,
+    (\#eq:sumOfResiduals07)
+\end{equation}
+which after inserting in \@ref(eq:sumOfResiduals06) and the cancelation of elements leads to:
+\begin{equation}
+    \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
+    (\#eq:sumOfResiduals08)
+\end{equation}
+Given that the sum \@ref(eq:sumOfResiduals08) is equal to zero, the mean of $e_j x_j$ will be equal to zero as well.
+:::
+
+In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between $e_j$ and $x_j$:
+\begin{equation}
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
+    (\#eq:sumOfResiduals09)
+\end{equation}
+The first thing to notice in \@ref(eq:sumOfResiduals09) is that $\bar{e}=0$ because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
+\begin{equation}
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j .
+    (\#eq:sumOfResiduals10)
+\end{equation}
+The second sum in \@ref(eq:sumOfResiduals10) is equal to zero due to the same property, so we see that in this special case the covariance between the residuals and the regressor is equal to $\sum_{j=1}^n e_j x_j$.
+
+These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS.
+
+
+
 ## Quality of the fit {#linearRegressionSimpleQualityOfFit}
 In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.
 
@@ -176,14 +255,14 @@ Now if we split the sum into three elements, we will get:
     \end{aligned} .
     (\#eq:SSTProof03)
 \end{equation}
-The second sum in \@ref(eq:SSTProof03) is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero. The second one can be expanded to:
+The second sum in \@ref(eq:SSTProof03) is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection \@ref(OLSResiduals)). The second one can be expanded to:
 \begin{equation}
     \begin{aligned}
         \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
     \end{aligned} .
     (\#eq:SSTProof04)
 \end{equation}
-We see the sum of errors in the first sum of \@ref(eq:SSTProof04) again, so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this will be discussed in Chapter \@ref(assumptions)) because it guarantees that $\sum_{j=1}^n e_j x_j = 0$. This means that:
+We see the sum of errors in the first sum of \@ref(eq:SSTProof04), so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this was also proven in Subsection \@ref(OLSResiduals)). This means that:
 \begin{equation}
     \mathrm{SST} =  \sum_{j=1}^n (\bar{y} - y_j)^2 ,
     (\#eq:SSTProof05)
@@ -197,7 +276,7 @@ The relation between SSE, SSR and SST is shown in Figure \@ref(fig:sumsSquaredRe
 knitr::include_graphics("images/09-SLR-SSE-white.png")
 ```
 
-Building upon thata, there is a measure called "Coefficient of Determination", which is calculated based on the sums of squares discussed above:
+Building upon that, there is a measure called "Coefficient of Determination", which is calculated based on the sums of squares discussed above:
 \begin{equation}
     \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
     (\#eq:Determination)
