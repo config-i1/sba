@@ -189,10 +189,10 @@ In order to see that the second property implies that the correlation between th
 \end{equation}
 The first thing to notice in \@ref(eq:sumOfResiduals09) is that $\bar{e}=0$ because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
 \begin{equation}
-    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j .
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
     (\#eq:sumOfResiduals10)
 \end{equation}
-The second sum in \@ref(eq:sumOfResiduals10) is equal to zero due to the same property, so we see that in this special case the covariance between the residuals and the regressor is equal to $\sum_{j=1}^n e_j x_j$.
+because the second sum in \@ref(eq:sumOfResiduals10) is equal to zero due to the same property.
 
 These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS.
 
