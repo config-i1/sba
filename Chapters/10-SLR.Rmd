@@ -164,7 +164,8 @@ Inserting \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals04) leads to:
 Now we insert the formula for $b_1$ from \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals05) to get:
 \begin{equation}
     \begin{aligned}
-        \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+        \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \\
+         & \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
     (\#eq:sumOfResiduals06)
 \end{equation}
@@ -175,7 +176,7 @@ The ratio in the right-hand side of \@ref(eq:sumOfResiduals06) can be regrouped 
 \end{equation}
 which after inserting in \@ref(eq:sumOfResiduals06) and the cancelation of elements leads to:
 \begin{equation}
-    \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
     (\#eq:sumOfResiduals08)
 \end{equation}
 Given that the sum \@ref(eq:sumOfResiduals08) is equal to zero, the mean of $e_j x_j$ will be equal to zero as well.

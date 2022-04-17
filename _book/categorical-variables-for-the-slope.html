@@ -398,19 +398,19 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       1004.5439     3.9567   996.7241   1012.3638 *
-## price               -6.7296     0.1915    -7.1081     -6.3512 *
-## price:colourGreen    3.4675     0.0484     3.3719      3.5631 *
-## price:colourRed      2.4619     0.0479     2.3673      2.5566 *
+## (Intercept)       1000.8050     4.3657   992.1768   1009.4332 *
+## price               -6.5366     0.2149    -6.9613     -6.1119 *
+## price:colourGreen    3.4832     0.0484     3.3875      3.5789 *
+## price:colourRed      2.5526     0.0484     2.4570      2.6482 *
 ## 
-## Error standard deviation: 4.9195
+## Error standard deviation: 4.8597
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 907.5914 907.8672 919.6339 920.3251</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.27 units.</p>
+## 903.9179 904.1938 915.9604 916.6516</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.98 units.</p>
 
 </div>
 <!-- </div> -->

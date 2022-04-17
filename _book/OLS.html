@@ -489,7 +489,8 @@ Inserting <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.h
 Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.html#eq:sumOfResiduals05">(7.12)</a> to get:
 <span class="math display" id="eq:sumOfResiduals06">\[\begin{equation}
     \begin{aligned}
-        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \\
+         &amp; \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
     \tag{7.13}
 \end{equation}\]</span>
@@ -500,7 +501,7 @@ The ratio in the right-hand side of <a href="OLS.html#eq:sumOfResiduals06">(7.13
 \end{equation}\]</span>
 which after inserting in <a href="OLS.html#eq:sumOfResiduals06">(7.13)</a> and the cancelation of elements leads to:
 <span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
-    \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
     \tag{7.15}
 \end{equation}\]</span>
 Given that the sum <a href="OLS.html#eq:sumOfResiduals08">(7.15)</a> is equal to zero, the mean of <span class="math inline">\(e_j x_j\)</span> will be equal to zero as well.</p>
