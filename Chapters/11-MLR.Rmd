@@ -40,7 +40,8 @@ where $'$ symbol is the transposition. This can then be substituted in \@ref(eq:
 \end{equation}
 But this is not over yet, we can make it even more compact, if we pack all those values with index $t$ in vectors and matrices:
 \begin{equation}
-    \mathbf{X} = \begin{pmatrix} \mathbf{x}'_1 \\ \mathbf{x}'_2 \\ \vdots \\ \mathbf{x}'_n \end{pmatrix}, 
+    \mathbf{X} = \begin{pmatrix} \mathbf{x}'_1 \\ \mathbf{x}'_2 \\ \vdots \\ \mathbf{x}'_n \end{pmatrix} = 
+    \begin{pmatrix} 1 & x_{1,1} & \dots & x_{k-1,1} \\ 1 & x_{1,2} & \dots & x_{k-1,2} \\ \vdots \\ 1 & x_{1,n} & \dots & x_{k-1,n} \end{pmatrix}, 
     \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}, 
     \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
     (\#eq:MLRMatrices)
@@ -79,7 +80,7 @@ We use `loss="MSE"` in this case, to make sure that the model is estimated via O
 The plot on Figure \@ref(fig:mtcarsModel02Plot) can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Section \@ref(assumptions)). 
 
 
-## Quality of the fit {#linearRegressionMultipleQualityOfFit}
+## Quality of a fit {#linearRegressionMultipleQualityOfFit}
 Building upon the discussion of the quality of the fit in Section \@ref(linearRegressionSimpleQualityOfFit), we can introduce a measure, based on the OLS criterion, \@ref(eq:OLSCriterion), which is called either "Root Mean Squared Error" (RMSE) or a "standard error" or a "standard deviation of error" of the regression:
 \begin{equation}
     \mathrm{RMSE} = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
@@ -93,19 +94,22 @@ sigma(mtcarsModel02)
 ```
 The value of RMSE does not provide any important insights on its own, but it can be compared to the RMSE of another model to decide, which one of the two fits the data better.
 
-Similarly to the simple linear regression, we can calculate the R$^2$. The problem is that the value of coefficient of determination would always increase with the increase of number of variables included in the model. This is because every variable will explain some proportion of the data due to randomness. So, if we add redundant variables, the fit will improve, but the quality of model will deteriorate. Here is an example:
+Similarly to the simple linear regression, we can calculate the R$^2$ (see Section \@ref(linearRegressionSimpleQualityOfFit)). The problem is that the value of coefficient of determination would always increase with the increase of number of variables included in the model. This is because every variable will explain some proportion of the data due to randomness. So, if we add redundant variables, the fit will improve, but the quality of model will deteriorate. Here is an example:
 ```{r}
+# Record number of observations
 n <- nobs(mtcarsModel02)
+# Generate white noise
 mtcarsData$noise <- rnorm(n,0,10)
+# Add it to the model
 mtcarsModel02WithNoise <- alm(mpg~cyl+disp+hp++drat+wt+qsec+gear+carb+noise,
                                    mtcarsData, loss="MSE")
 ```
-And here is the value of determination coefficient of the new model:
+The code above introduces a new variable, `noise`, which has nothing to do with the `mpg`. We would expect that this variable would not bring value to the model. And here is the value of determination coefficient of the new model:
 ```{r}
 1 - sum(resid(mtcarsModel02WithNoise)^2) /
     (var(actuals(mtcarsModel02WithNoise))*(n-1))
 ```
-and the previous one: 
+Compare it with the previous one: 
 ```{r}
 1 - sum(resid(mtcarsModel02)^2) /
     (var(actuals(mtcarsModel02))*(n-1))
