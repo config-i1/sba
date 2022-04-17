@@ -165,7 +165,7 @@ Now we insert the formula for $b_1$ from \@ref(eq:OLSSLREstimatesProof) in \@ref
 \begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \\
-         & \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+         & \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
     (\#eq:sumOfResiduals06)
 \end{equation}
@@ -182,7 +182,7 @@ which after inserting in \@ref(eq:sumOfResiduals06) and the cancelation of eleme
 Given that the sum \@ref(eq:sumOfResiduals08) is equal to zero, the mean of $e_j x_j$ will be equal to zero as well.
 :::
 
-In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between $e_j$ and $x_j$:
+In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between $e_j$ and $x_j$ (because it is used in correlation coefficient as discussed in Section \@ref(correlationCoefficient)):
 \begin{equation}
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
     (\#eq:sumOfResiduals09)
