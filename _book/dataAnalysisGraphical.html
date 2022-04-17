@@ -249,12 +249,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="7.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>7.1.1</b> Residuals of model estimated via OLS<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit<span></span></a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of a fit<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression<span></span></a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation<span></span></a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit<span></span></a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty in regression<span></span></a>
@@ -400,7 +400,7 @@ Figure 2.4: Barplot for the type of engine and transmission.
 Figure 2.5: Heat map for the type of engine and transmission.
 </p>
 </div>
-<p>The idea of this plot is that the darkness of areas shows the frequency of occurrence of each specific value. The numbers inside the box show the proportions for each answer. So, we can conclude (again), that automatic transmission with V-shaped engine is met in 37.5% of cases. On the other hand, the least frequent type of car is the one with V-shaped engine and manual transmission. There might be some tendency in the dataset: the engine and transmission might be related (v-shaped with automatic vs Straigh with manual) - but it is not very well pronounced. The same table plot can be used for the analysis of relations between integer variables (and categorical). Here, for example, the plot between the number of cylinders and the type of engine:</p>
+<p>The idea of this plot is that the darkness of areas shows the frequency of occurrence of each specific value. This message is duplicated by the number of dots in the plot (the more dots there are, the more observations there are in that specific area). The numbers inside the box show the proportions for each answer. So, we can conclude (again), that automatic transmission with V-shaped engine is met in 37.5% of cases. On the other hand, the least frequent type of car is the one with V-shaped engine and manual transmission. There might be some tendency in the dataset: the engine and transmission might be related (v-shaped with automatic vs Straigh with manual) - but it is not very well pronounced. The same table plot can be used for the analysis of relations between integer variables (and categorical). Here, for example, the plot between the number of cylinders and the type of engine:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="dataAnalysisGraphical.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tableplot</span>(mtcarsData<span class="sc">$</span>cyl,mtcarsData<span class="sc">$</span>vs,</span>
 <span id="cb32-2"><a href="dataAnalysisGraphical.html#cb32-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">xlab=</span><span class="st">&quot;Number of cylinders&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Type of engine&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:tableplotCYLVS"></span>

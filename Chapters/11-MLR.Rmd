@@ -119,7 +119,7 @@ The value in the new model will always be higher than in the previous one (or eq
     R^2_{adj} = 1 - \frac{\mathrm{MSE}}{\mathrm{V}(y)} = 1 - \frac{(n-1)\mathrm{SSE}}{(n-k)\mathrm{SST}},
     (\#eq:DeterminationAdjusted)
 \end{equation}
-where MSE is the Mean Squared Error (square of RMSE \@ref(eq:RMSERegression)). So, instead of dividing sums of squares, in the adjusted R$^2$ we divide the entities that are based on degrees of freedom. Given the presence of $k$ in the formula \@ref(eq:DeterminationAdjusted), the coefficient will not necessarily increase with the addition of variables - when the variable does not contribute in the reduction of SSE of model substantially, R$^2$ will not go up. Furthermore, if one model has higher RMSE than the other one, then the R$^2_{adj}$ of that model will be lower, which becomes apparent, given that we have $-MSE$ in the formula \@ref(eq:DeterminationAdjusted).
+where MSE is the Mean Squared Error (square of RMSE \@ref(eq:RMSERegression)). So, instead of dividing sums of squares, in the adjusted R$^2$ we divide the entities that are based on degrees of freedom. Given the presence of $k$ in the formula \@ref(eq:DeterminationAdjusted), the coefficient will not necessarily increase with the addition of variables -- when the variable does not contribute in the reduction of SSE of model substantially, R$^2$ will not go up. Furthermore, if one model has higher RMSE than the other one, then the R$^2_{adj}$ of that model will be lower, which becomes apparent, given that we have $-MSE$ in the formula \@ref(eq:DeterminationAdjusted).
 
 Here how the adjusted R$^2$ can be calculated for a model in R:
 ```{r}

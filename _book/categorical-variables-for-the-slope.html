@@ -249,12 +249,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="7.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>7.1.1</b> Residuals of model estimated via OLS<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit<span></span></a></li>
+<li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of a fit<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression<span></span></a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>8.1</b> OLS estimation<span></span></a></li>
-<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of the fit<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>8.2</b> Quality of a fit<span></span></a></li>
 <li class="chapter" data-level="8.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>8.3</b> Interpretation of parameters<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>9</b> Uncertainty in regression<span></span></a>
@@ -397,20 +397,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       996.5926     4.2613   988.1708   1005.0143 *
-## price              -6.2871     0.2159    -6.7138     -5.8604 *
-## price:colourGreen   3.5042     0.0461     3.4131      3.5954 *
-## price:colourRed     2.4535     0.0462     2.3621      2.5449 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1003.8324     3.5450   996.8261   1010.8386 *
+## price               -6.6685     0.1808    -7.0258     -6.3113 *
+## price:colourGreen    3.5336     0.0493     3.4362      3.6311 *
+## price:colourRed      2.4581     0.0495     2.3602      2.5559 *
 ## 
-## Error standard deviation: 4.6051
+## Error standard deviation: 4.9346
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 887.7755 888.0514 899.8181 900.5092</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.83 units.</p>
+## 908.5096 908.7855 920.5522 921.2433</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.21 units.</p>
 
 </div>
 <!-- </div> -->
