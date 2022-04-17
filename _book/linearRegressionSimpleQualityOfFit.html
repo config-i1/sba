@@ -245,7 +245,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a></li>
+<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>7.1.1</b> Residuals of model estimated via OLS<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression<span></span></a>
@@ -356,29 +359,29 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(7.4)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 <span class="math display" id="eq:SSE">\[\begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
-    \tag{7.8}
+    \tag{7.18}
 \end{equation}\]</span>
 This sum of squares is related to another two, the first being the Sum of Squares Total:
 <span class="math display" id="eq:SST">\[\begin{equation}
     \mathrm{SST}=\sum_{j=1}^n (y_j - \bar{y})^2,
-    \tag{7.9}
+    \tag{7.19}
 \end{equation}\]</span>
-where <span class="math inline">\(\bar{y}\)</span> is the in-sample mean. If we divide the value <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.9)</a> by <span class="math inline">\(n-1\)</span>, then we will get the in-sample variance (introduced in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">2.1</a>):
+where <span class="math inline">\(\bar{y}\)</span> is the in-sample mean. If we divide the value <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.19)</a> by <span class="math inline">\(n-1\)</span>, then we will get the in-sample variance (introduced in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">2.1</a>):
 <span class="math display">\[\begin{equation*}
     \mathrm{V}(y)=\frac{\mathrm{SST}}{n-1}=\frac{1}{n-1} \sum_{j=1}^n (y_j - \bar{y})^2 .
 \end{equation*}\]</span>
 The last sum of squares is Sum of Squared of Regression:
 <span class="math display" id="eq:SSR">\[\begin{equation}
     \mathrm{SSR} = \sum_{j=1}^n (\bar{y} - \hat{y}_j)^2 ,
-    \tag{7.10}
+    \tag{7.20}
 \end{equation}\]</span>
 which shows the variability of the regression line. It is possible to show that in <em>the linear regression</em> (this is important! This property might be violated in other models), the three sums are related to each other via the following equation:
 <span class="math display" id="eq:SSTSum">\[\begin{equation}
     \mathrm{SST} = \mathrm{SSE} + \mathrm{SSR} .
-    \tag{7.11}
+    \tag{7.21}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-6" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
+<p><span id="unlabeled-div-8" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -387,9 +390,9 @@ which shows the variability of the regression line. It is possible to show that 
         &amp;= \sum_{j=1}^n \left(\bar{y}^2 -2 \bar{y} y_j + y_j^2 + 2 \bar{y} y_j + \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j + \hat{y}_j^2 \right) \\
         &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} y_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 y_j \hat{y}_j \right)
     \end{aligned} .
-    \tag{7.12}
+    \tag{7.22}
 \end{equation}\]</span>
-We can then substitute <span class="math inline">\(y_j=\hat{y}_j+e_j\)</span> in the right hand side of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof01">(7.12)</a> to get:
+We can then substitute <span class="math inline">\(y_j=\hat{y}_j+e_j\)</span> in the right hand side of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof01">(7.22)</a> to get:
 <span class="math display" id="eq:SSTProof02">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} (\hat{y}_j+e_j) + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 (\hat{y}_j+e_j) \hat{y}_j \right) \\
@@ -397,7 +400,7 @@ We can then substitute <span class="math inline">\(y_j=\hat{y}_j+e_j\)</span> in
         &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j^2 -2 e_j \hat{y}_j \right) \\
         &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j - 2 e_j \hat{y}_j \right) 
     \end{aligned} .
-    \tag{7.13}
+    \tag{7.23}
 \end{equation}\]</span>
 Now if we split the sum into three elements, we will get:
 <span class="math display" id="eq:SSTProof03">\[\begin{equation}
@@ -405,21 +408,21 @@ Now if we split the sum into three elements, we will get:
         \mathrm{SST} &amp;= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \sum_{j=1}^n \left(\bar{y} e_j\right) - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right) \\
         &amp;= \sum_{j=1}^n (\bar{y} - y_j)^2 + 2 \bar{y} \sum_{j=1}^n e_j - 2 \sum_{j=1}^n \left(e_j \hat{y}_j \right)
     \end{aligned} .
-    \tag{7.14}
+    \tag{7.24}
 \end{equation}\]</span>
-The second sum in <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof03">(7.14)</a> is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero. The second one can be expanded to:
+The second sum in <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof03">(7.24)</a> is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection <a href="OLS.html#OLSResiduals">7.1.1</a>). The second one can be expanded to:
 <span class="math display" id="eq:SSTProof04">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
     \end{aligned} .
-    \tag{7.15}
+    \tag{7.25}
 \end{equation}\]</span>
-We see the sum of errors in the first sum of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof04">(7.15)</a> again, so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this will be discussed in Chapter <a href="assumptions.html#assumptions">12</a>) because it guarantees that <span class="math inline">\(\sum_{j=1}^n e_j x_j = 0\)</span>. This means that:
+We see the sum of errors in the first sum of <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof04">(7.25)</a>, so the first elements is equal to zero again. The second term is equal to zero as well due to OLS estimation (this was also proven in Subsection <a href="OLS.html#OLSResiduals">7.1.1</a>). This means that:
 <span class="math display" id="eq:SSTProof05">\[\begin{equation}
     \mathrm{SST} =  \sum_{j=1}^n (\bar{y} - y_j)^2 ,
-    \tag{7.16}
+    \tag{7.26}
 \end{equation}\]</span>
-which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.9)</a>.</p>
+which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(7.19)</a>.</p>
 </div>
 <p>The relation between SSE, SSR and SST is shown in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>. If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.</p>
 <div class="figure"><span style="display:block;" id="fig:sumsSquaredRelation"></span>
@@ -428,17 +431,17 @@ which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:
 Figure 7.3: Relation between different sums of squares.
 </p>
 </div>
-<p>Building upon thata, there is a measure called “Coefficient of Determination,” which is calculated based on the sums of squares discussed above:
+<p>Building upon that, there is a measure called “Coefficient of Determination,” which is calculated based on the sums of squares discussed above:
 <span class="math display" id="eq:Determination">\[\begin{equation}
     \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
-    \tag{7.17}
+    \tag{7.27}
 \end{equation}\]</span>
 Given the meaning of the sums of squares, we can imagine the following situations to interpret the values of <span class="math inline">\(\mathrm{R}^2\)</span>:</p>
 <ol style="list-style-type: decimal">
 <li>The model fits the data in the same way as the mean line (grey line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>). In this case SSE would be equal to SST and SSR would be equal to zero (because <span class="math inline">\(\hat{y}_j=\bar{y}\)</span>) and as a result the R<span class="math inline">\(^2\)</span> would be equal to zero.</li>
 <li>The model fits the data perfectly, without any errors (all points lie on the black line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">7.3</a>). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. <span class="math inline">\(\hat{y}_j=y_j\)</span>). This would make R<span class="math inline">\(^2\)</span> equal to one.</li>
 </ol>
-<p>In the linear regression model due to <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTSum">(7.11)</a>, the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> corresponds to:
+<p>In the linear regression model due to <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTSum">(7.21)</a>, the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> corresponds to:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}\]</span>
@@ -457,12 +460,12 @@ meaning that it is not different from the global mean. So, coefficient of determ
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">6.4</a>:
 <span class="math display" id="eq:multipleCorrelation">\[\begin{equation}
     R = \sqrt{R^2} = \sqrt{\frac{\mathrm{SSR}}{\mathrm{SST}}} .
-    \tag{7.18}
+    \tag{7.28}
 \end{equation}\]</span>
 It shows the closeness of relation between the response variable <span class="math inline">\(y_j\)</span> and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section <a href="correlationCoefficient.html#correlationCoefficient">6.3</a>) with the sign equal to the sign of the coefficient of the slop <span class="math inline">\(b_1\)</span>:
 <span class="math display" id="eq:correlationInRegression">\[\begin{equation}
     r_{x,y} = \mathrm{sign} (b_1) R .
-    \tag{7.19}
+    \tag{7.29}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="linearRegressionSimpleQualityOfFit.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>

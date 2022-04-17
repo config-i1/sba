@@ -245,7 +245,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a></li>
+<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>7.1.1</b> Residuals of model estimated via OLS<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression<span></span></a>
@@ -394,20 +397,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       999.4708     4.0067   991.5521   1007.3895 *
-## price              -6.4688     0.1993    -6.8626     -6.0750 *
-## price:colourGreen   3.4680     0.0497     3.3698      3.5663 *
-## price:colourRed     2.5170     0.0500     2.4182      2.6159 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1004.5439     3.9567   996.7241   1012.3638 *
+## price               -6.7296     0.1915    -7.1081     -6.3512 *
+## price:colourGreen    3.4675     0.0484     3.3719      3.5631 *
+## price:colourRed      2.4619     0.0479     2.3673      2.5566 *
 ## 
-## Error standard deviation: 5.0246
+## Error standard deviation: 4.9195
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 913.9291 914.2050 925.9716 926.6628</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.95 units.</p>
+## 907.5914 907.8672 919.6339 920.3251</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.27 units.</p>
 
 </div>
 <!-- </div> -->

@@ -245,7 +245,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>7</b> Simple Linear Regression<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a></li>
+<li class="chapter" data-level="7.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>7.1</b> Ordinary Least Squares (OLS)<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>7.1.1</b> Residuals of model estimated via OLS<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>7.2</b> Quality of the fit<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>8</b> Multiple Linear Regression<span></span></a>
@@ -442,6 +445,79 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a>,
 \end{equation}\]</span>
 which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(6.9)</a>. This is how the correlation coefficient was originally derived.</p>
 <p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.</p>
+<div id="OLSResiduals" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Residuals of model estimated via OLS<a href="OLS.html#OLSResiduals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>OLS applied to any model guarantees two important properties:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
+<li><span class="math inline">\(\frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0\)</span> for any <span class="math inline">\(i\)</span>.</li>
+</ol>
+<p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
+<div class="proof">
+<p><span id="unlabeled-div-6" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
+<span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
+    \tag{7.8}
+\end{equation}\]</span>
+Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.html#eq:sumOfResiduals01">(7.8)</a> we get:
+<span class="math display" id="eq:sumOfResiduals02">\[\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - n \frac{1}{n}\sum_{j=1}^n y_j + n b_1 \frac{1}{n}\sum_{j=1}^n x_j - b_1  \sum_{j=1}^n x_j
+    \tag{7.9}
+\end{equation}\]</span>
+which after some cancelations leads to:
+<span class="math display" id="eq:sumOfResiduals03">\[\begin{equation}
+    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
+    \tag{7.10}
+\end{equation}\]</span>
+Given that the sum of errors is equal to zero, its mean will be equal to zero as well.</p>
+</div>
+<p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
+<div class="proof">
+<p><span id="unlabeled-div-7" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
+<span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j - b_0 x_j - b_1 x_j^2) = \sum_{j=1}^n y_j - b_0 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 .
+    \tag{7.11}
+\end{equation}\]</span>
+Inserting <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.html#eq:sumOfResiduals04">(7.11)</a> leads to:
+<span class="math display" id="eq:sumOfResiduals05">\[\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
+                               &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+    \end{aligned}
+    \tag{7.12}
+\end{equation}\]</span>
+Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(7.6)</a> in <a href="OLS.html#eq:sumOfResiduals05">(7.12)</a> to get:
+<span class="math display" id="eq:sumOfResiduals06">\[\begin{equation}
+    \begin{aligned}
+        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - \sum_{j=1}^n x_j^2 \right) .
+    \end{aligned}
+    \tag{7.13}
+\end{equation}\]</span>
+The ratio in the right-hand side of <a href="OLS.html#eq:sumOfResiduals06">(7.13)</a> can be regrouped and rewritten as:
+<span class="math display" id="eq:sumOfResiduals07">\[\begin{equation}
+        -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) ,
+    \tag{7.14}
+\end{equation}\]</span>
+which after inserting in <a href="OLS.html#eq:sumOfResiduals06">(7.13)</a> and the cancelation of elements leads to:
+<span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
+    \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
+    \tag{7.15}
+\end{equation}\]</span>
+Given that the sum <a href="OLS.html#eq:sumOfResiduals08">(7.15)</a> is equal to zero, the mean of <span class="math inline">\(e_j x_j\)</span> will be equal to zero as well.</p>
+</div>
+<p>In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between <span class="math inline">\(e_j\)</span> and <span class="math inline">\(x_j\)</span>:
+<span class="math display" id="eq:sumOfResiduals09">\[\begin{equation}
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
+    \tag{7.16}
+\end{equation}\]</span>
+The first thing to notice in <a href="OLS.html#eq:sumOfResiduals09">(7.16)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
+<span class="math display" id="eq:sumOfResiduals10">\[\begin{equation}
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j .
+    \tag{7.17}
+\end{equation}\]</span>
+The second sum in <a href="OLS.html#eq:sumOfResiduals10">(7.17)</a> is equal to zero due to the same property, so we see that in this special case the covariance between the residuals and the regressor is equal to <span class="math inline">\(\sum_{j=1}^n e_j x_j\)</span>.</p>
+<p>These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS.</p>
+</div>
 </div>
 
             </section>
