@@ -276,12 +276,43 @@ lines(400+20*c(1:100)+-.2*c(1:100)^2, col="red")
 \end{equation}
 This is a more general model than the quadratic one, introducing $k$ polynomials. This is not used very often in analytics, because any data can be approximated by a high order polynomial, and because the branches of polynomial will inevitably lead to infinite increase / decrease, which is not a common tendency in practice.
 
-### Box-Cox
+### Box-Cox transform
 Or power transform:
 \begin{equation}
     \frac{y^\lambda -1}{\lambda} = \beta_0 + \beta_1 x + \epsilon .
     (\#eq:transformBoxCox)
 \end{equation}
 This type of transform can be applied to either response variable or any of explanatory variables and can be considered as something more general than linear, log-linear, quadratic and square root models. This is because with different values of $\lambda$, the transformation would revert to one of the above. For example, with $\lambda=1$, we end up with a linear model, just with a different intercept. If $\lambda=0.5$, then we end up with square root, and when $\lambda \rightarrow 0$, then the relation becomes equivalent to logarithmic. The choice of $\lambda$ might be a challenging task on its own, however it can be estimated via [likelihood](#likelihoodApproach). If estimated and close to either 0, 0.5, 1 or 2, then typically a respective transformation should be applied instead of Box-Cox. For example, if $\lambda=0.49$, then taking square root might be a preferred option.
+
+### Logistic transform
+In some cases, the variable of interest might lie in a specific region, for example between 0 and 100. In that case a non-linear transform is required to change the range to the conventional one $(-\infty, \infty)$ used in the classical regression. The logistic transform is supposed to do that. Assuming that $y \in (0,1)$ the model based on it can be written as:
+\begin{equation}
+    y = \frac{1}{1+\exp \left(-(\beta_0 + \beta_1 x + \epsilon)\right)}.
+    (\#eq:transformLogit)
+\end{equation}
+
+::: remark
+If $y$ lies in a different fixed range, then a scaling can be applied to it to make it lie between zero and one. For example, if it lies between 0 and 100, division by 100 will fix the scale.
+:::
+
+The inverse logistic transform might also be useful and allows estimating the model using the conventional methods after transforming the response variable:
+\begin{equation}
+    \log \left( \frac{y}{1-y}\right) = \beta_0 + \beta_1 x + \epsilon.
+    (\#eq:transformLogitInverse)
+\end{equation}
+
+
+The logistic function is used in models with binary response variable and is also one of the conventional functions used in more advanced machine learning techniques (e.g. Artificial Neural Networks). Figure \@ref(fig:) demonstrates how the response variable might look in the case of the model \@ref(eq:transformLogit).
+
+```{r transformationsExamples06, fig.cap="Examples of linear-log relations with two values of slope parameter.", echo=FALSE}
+plot(1/(1+exp(8-0.03*c(1:500) +rnorm(100,0,1))),
+     xlab="x", ylab="y", main="")
+lines(1/(1+exp(8-0.03*c(1:500))), col="red")
+```
+
+Sometimes the value of $y$ in case of logistic model is interpreted as a probability of outcome. We will discuss models based on logistic function later in this textbook.
+
+
+### Summary
 
 In this subsection we discussed the basic types of variables transformations on examples with simple linear regression. The more complicated models with multiple explanatory variables and complex transformations can be considered as well. However, whatever transformation is considered, it needs to be meaningful and come from the theory, not from the data. Otherwise we may overfit the data, which will lead to a variety of issues, some of which are discussed in Section \@ref(assumptionsCorrectModel).
