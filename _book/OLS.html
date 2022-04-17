@@ -189,7 +189,8 @@ div.csl-indent {
 <li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale<span></span></a></li>
 <li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.3</b> Sources of uncertainty<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data<span></span></a></li>
+<li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis<span></span></a>
 <ul>
@@ -404,7 +405,7 @@ If we now minimise SSE by changing values of parameters <span class="math inline
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span>.</p>
 <div class="proof">
-<p><span id="unlabeled-div-5" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(7.3)</a> in <a href="OLS.html#eq:OLSCriterion">(7.4)</a> to get:
+<p><span id="unlabeled-div-6" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(7.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(7.3)</a> in <a href="OLS.html#eq:OLSCriterion">(7.4)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -454,7 +455,7 @@ which is the formula <a href="correlationCoefficient.html#eq:measuresAssociation
 </ol>
 <p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
 <div class="proof">
-<p><span id="unlabeled-div-6" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
+<p><span id="unlabeled-div-7" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
 <span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
     \tag{7.8}
@@ -473,7 +474,7 @@ Given that the sum of errors is equal to zero, its mean will be equal to zero as
 </div>
 <p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
 <div class="proof">
-<p><span id="unlabeled-div-7" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
+<p><span id="unlabeled-div-8" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     \tag{7.11}
