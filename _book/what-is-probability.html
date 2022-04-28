@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.5 Asymmetric Laplace distribution | Statistics for Business Analytics</title>
+  <title>3.1 What is probability? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.5 Asymmetric Laplace distribution | Statistics for Business Analytics" />
+  <meta property="og:title" content="3.1 What is probability? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.5 Asymmetric Laplace distribution | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="3.1 What is probability? | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="distributionsGeneralisedNormal.html"/>
-<link rel="next" href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"/>
+<link rel="prev" href="probabilityTheory.html"/>
+<link rel="next" href="countDistributions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -362,51 +362,25 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionsALaplace" class="section level2 hasAnchor" number="5.5">
-<h2><span class="header-section-number">5.5</span> Asymmetric Laplace distribution<a href="distributionsALaplace.html#distributionsALaplace" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Asymmetric Laplace distribution (<span class="math inline">\(\mathcal{AL}\)</span>) can be considered as a two Laplace distributions with different parameters <span class="math inline">\(s\)</span> for left and right sides from the location <span class="math inline">\(\mu_{y,t}\)</span>. There are several ways to summarise the probability density function, the neater one relies on the asymmetry parameter <span class="math inline">\(\alpha\)</span> <span class="citation">(<a href="#ref-Yu2005" role="doc-biblioref">Yu and Zhang, 2005</a>)</span>:
-<span class="math display" id="eq:ALaplace">\[\begin{equation}
-    f(y_t) = \frac{\alpha (1- \alpha)}{s} \exp \left( -\frac{y_t - \mu_{y,t}}{s} (\alpha - I(y_t \leq \mu_{y,t})) \right) ,
-    \tag{5.14}
-\end{equation}\]</span>
-where <span class="math inline">\(s\)</span> is the scale parameter, <span class="math inline">\(\alpha\)</span> is the skewness parameter and <span class="math inline">\(I(y_t \leq \mu_{y,t})\)</span> is the indicator function, which is equal to one, when the condition is satisfied and to zero otherwise. The scale parameter <span class="math inline">\(s\)</span> estimated using likelihood is equal to the quantile loss:
-<span class="math display" id="eq:sALaplace">\[\begin{equation}
-    \hat{s} = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)(\alpha - I(y_t \leq \hat{\mu}_{y,t})) .
-    \tag{5.15}
-\end{equation}\]</span>
-Thus maximising the likelihood <a href="distributionsALaplace.html#eq:ALaplace">(5.14)</a> is equivalent to estimating the model via the minimisation of <span class="math inline">\(\alpha\)</span> quantile, making this equivalent to quantile regression approach. So quantile regression models assume indirectly that the error term in the model is <span class="math inline">\(\epsilon_t \sim \mathcal{AL}(0, s, \alpha)\)</span> <span class="citation">(<a href="#ref-Geraci2007" role="doc-biblioref">Geraci and Bottai, 2007</a>)</span>.</p>
-<p>Depending on the value of <span class="math inline">\(\alpha\)</span>, the distribution can have different shapes, shown in Figure <a href="distributionsALaplace.html#fig:dALaplacePlot">5.5</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:dALaplacePlot"></span>
-<img src="adam_files/figure-html/dALaplacePlot-1.png" alt="Probability Density Functions of Asymmetric Laplace distribution" width="672" />
-<p class="caption">
-Figure 5.5: Probability Density Functions of Asymmetric Laplace distribution
-</p>
+<div id="what-is-probability" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> What is probability?<a href="what-is-probability.html#what-is-probability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We start with a classical example: tossing a coin. If you have one, take it in your hands, look at it, and answer a question: what outcome will you have if you toss it? Toss it once and, let’s say, it ended up showing heads. Can you predict the outcome of the next toss based on this observation? What if you toss it again and end up with tails? Would that change your prediction for the next toss?</p>
+<p>What we could do in this situation to predict future outcomes is to write down the results of tosses as zeroes (for heads) and ones (for tails). We will then have a set of observations of a style: 1 0 0 1 0 1 1 1 0 1. If we then take the mean of this series, we will see that the expected outcome based on our sample is 0.6. We would call this value the <strong>empirical probability</strong>. If we continue this experiment for many times, this probability (in the case of a fair coin) will be equal to 0.5, meaning that in the 50% of the cases the coin will show heads and in the other 50% it will be tails. Note that this does not tell us anything about each specific outcome, but only demonstrates what happens on average, when we repeat the experiment many times.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definition 3.1  </strong></span>Probability is the measure of how likely an event is expected to occur if we repeat it many times.</p>
 </div>
-<p>Similarly to <span class="math inline">\(\mathcal{GN}\)</span> distribution, the parameter <span class="math inline">\(\alpha\)</span> can be estimated during the maximisation of the likelihood, although it makes more sense to set it to some specific values in order to obtain the desired quantile of distribution.</p>
-<p>The variance of the random variable following Asymmetric Laplace distribution is equal to:
-<span class="math display" id="eq:varianceALaplace">\[\begin{equation}
-    \sigma^2 = s^2\frac{(1-\alpha)^2+\alpha^2}{\alpha^2(1-\alpha)^2}.
-    \tag{5.16}
-\end{equation}\]</span></p>
-<p>Functions <code>dalaplace</code>, <code>qalaplace</code>, <code>palaplace</code> and <code>ralaplace</code> from <code>greybox</code> package implement the Asymmetric Laplace distribution.</p>
+<p>By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.</p>
+
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Geraci2007" class="csl-entry">
-• Geraci, M., Bottai, M., 2007. <span class="nocase">Quantile regression for longitudinal data using the asymmetric Laplace distribution</span>. Biostatistics. 8, 140–154. <a href="https://doi.org/10.1093/biostatistics/kxj039">https://doi.org/10.1093/biostatistics/kxj039</a>
-</div>
-<div id="ref-Yu2005" class="csl-entry">
-• Yu, K., Zhang, J., 2005. <span class="nocase">A three-parameter asymmetric laplace distribution and its extension</span>. Communications in Statistics - Theory and Methods. 34, 1867–1879. <a href="https://doi.org/10.1080/03610920500199018">https://doi.org/10.1080/03610920500199018</a>
-</div>
-</div>
+<!-- </div> -->
 
             </section>
 
           </div>
         </div>
       </div>
-<a href="distributionsGeneralisedNormal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="probabilityTheory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="countDistributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -437,7 +411,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//05-distributions-continuous.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//03-probability-theory.Rmd",
 "text": "Edit"
 },
 "history": {

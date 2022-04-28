@@ -197,8 +197,11 @@ div.csl-indent {
 <li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis<span></span></a></li>
 <li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>3</b> Probability theory<span></span></a></li>
-<li class="chapter" data-level="4" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>4</b> Count distributions<span></span></a></li>
+<li class="chapter" data-level="3" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>3</b> Probability theory<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="what-is-probability.html"><a href="what-is-probability.html"><i class="fa fa-check"></i><b>3.1</b> What is probability?<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>4</b> Random variables and count distributions<span></span></a></li>
 <li class="chapter" data-level="5" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>5</b> Continuous distributions<span></span></a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>5.1</b> Normal distribution<span></span></a></li>
@@ -450,7 +453,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
 <p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation"><a href="#ref-Cohen1994" role="doc-biblioref">Cohen</a> (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
 <div class="remark">
-<p><span id="unlabeled-div-4" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
+<p><span id="unlabeled-div-5" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \not\approx a ,
 \end{equation*}\]</span>
