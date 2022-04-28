@@ -1,2 +1,14 @@
 # Probability theory {#probabilityTheory}
+Before moving to the discussion of statistics, we need to understand the basics of probability theory. In this chapter we will discuss the definition of probability, addition, multiplication of probabilities, conditional and independent probabilities and finally the Bayes' Theorem. All these theoretical ideas form the basis of more advanced statistical tools, which is why they are important.
 
+
+## What is probability?
+We start with a classical example: tossing a coin. If you have one, take it in your hands, look at it, and answer a question: what outcome will you have if you toss it? Toss it once and, let's say, it ended up showing heads. Can you predict the outcome of the next toss based on this observation? What if you toss it again and end up with tails? Would that change your prediction for the next toss?
+
+What we could do in this situation to predict future outcomes is to write down the results of tosses as zeroes (for heads) and ones (for tails). We will then have a set of observations of a style: 1 0 0 1 0 1 1 1 0 1. If we then take the mean of this series, we will see that the expected outcome based on our sample is 0.6. We would call this value the **empirical probability**. If we continue this experiment for many times, this probability (in the case of a fair coin) will be equal to 0.5, meaning that in the 50% of the cases the coin will show heads and in the other 50% it will be tails. Note that this does not tell us anything about each specific outcome, but only demonstrates what happens on average, when we repeat the experiment many times.
+
+::: definition
+Probability is the measure of how likely an event is expected to occur if we repeat it many times.
+:::
+
+By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.
