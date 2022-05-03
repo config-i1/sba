@@ -374,9 +374,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="graphical-explanation" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> Graphical explanation<a href="bias-variance-tradeoff.html#graphical-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">17.1</a>):</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="bias-variance-tradeoff.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
-<span id="cb218-2"><a href="bias-variance-tradeoff.html#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
-<span id="cb218-3"><a href="bias-variance-tradeoff.html#cb218-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="bias-variance-tradeoff.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
+<span id="cb220-2"><a href="bias-variance-tradeoff.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
+<span id="cb220-3"><a href="bias-variance-tradeoff.html#cb220-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
 <img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">
@@ -428,7 +428,7 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-15" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-16" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{17.3}

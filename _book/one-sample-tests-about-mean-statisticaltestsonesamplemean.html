@@ -425,6 +425,32 @@ while the critical value for the chosen 1% significance level is:</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), <span class="dv">100-1</span>)</span></code></pre></div>
 <pre><code>## [1] -2.626405  2.626405</code></pre>
 <p>Given that the calculated value of 2 is lower than 2.626, we fail to reject the null hypothesis on 1% significance level. So, we again conclude that we cannot tell the difference between the mean in the data and the assumed population mean.</p>
+<p>In R, the same procedures can be done using the <code>t.test()</code> function from <code>stats</code> package. Here is an example, demonstrating how the test can be done for the generated data:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#cb62-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="fl">175.3</span>, <span class="dv">5</span>)</span>
+<span id="cb62-2"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that our significance level is 1%,</span></span>
+<span id="cb62-3"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># so we ask to produce 99% confidence interval</span></span>
+<span id="cb62-4"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(y, <span class="at">mu=</span><span class="fl">175.3</span>, <span class="at">alternative=</span><span class="st">&quot;two.sided&quot;</span>, <span class="at">conf.level=</span><span class="fl">0.99</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  y
+## t = 1.8509, df = 99, p-value = 0.06717
+## alternative hypothesis: true mean is not equal to 175.3
+## 99 percent confidence interval:
+##  174.9013 177.6018
+## sample estimates:
+## mean of x 
+##  176.2516</code></pre>
+<div class="remark">
+<p><span id="unlabeled-div-9" class="remark"><em>Remark</em>. </span>If we were to test a one-sided hypothesis (e.g. <span class="math inline">\(\mathrm{H}_0: \mu &lt; 175.3, \mathrm{H}_1: \mu \geq 175.3\)</span>), then we would need to change the <code>alternative</code> parameters in the <code>t.test()</code> function to correspond to the formulated H<span class="math inline">\(_1\)</span>.</p>
+</div>
+<p>The output above shows the calculated t (1.8509), the number of degrees of freedom and the p-value. It also constructs the 99% confidence interval (174.9013, 177.6018). The conclusions can be made using one of the three approaches, discussed above and in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>:</p>
+<ol style="list-style-type: decimal">
+<li>The calculated value is 1.8509, which is lower than the critical one of 2.6264 as discussed earlier, so we fail to reject H<span class="math inline">\(_0\)</span>;</li>
+<li>The p-value is 0.0672, which is greater than the selected significance level of 1%, so we fail to reject H<span class="math inline">\(_0\)</span>;</li>
+<li>The 99% confidence interval includes the tested value of 175.3, so we fail to reject the H<span class="math inline">\(_0\)</span> on the 99% confidence level.</li>
+</ol>
+<p>As mentioned in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>, I personally prefer the last approach of the three because it gives more information about the uncertainty around the estimate of the sample mean.</p>
 <!-- ### One-sided wilcoxon -->
 <!-- ## Tests about a variance -->
 <!-- ### chisq -->
