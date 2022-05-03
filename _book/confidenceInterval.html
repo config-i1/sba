@@ -230,9 +230,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="basic-idea.html"><a href="basic-idea.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="basic-idea.html"><a href="basic-idea.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
 <li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
@@ -242,7 +242,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean {statisticalTestsOneSampleMean}</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
@@ -399,7 +406,18 @@ Figure 6.10: Distribution of the sample mean and the confidence interval based o
     \mu \in (\bar{y} + t_{\alpha/2}(df) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(df) s_{\bar{y}}),
     \tag{6.4}
 \end{equation}\]</span>
-where <span class="math inline">\(t_{\alpha/2}(df)\)</span> is Student’s t-statistics for <span class="math inline">\(df=n-k\)</span> degrees of freedom (<span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(k\)</span> is the number of estimated parameters, e.g. <span class="math inline">\(k=1\)</span> in our case) and level <span class="math inline">\(\alpha/2\)</span>, and <span class="math inline">\(s_{\bar{y}}=\frac{1}{\sqrt{n}}s\)</span> is the estimate of the standard deviation of the sample mean. If we knew for some reason the true variance <span class="math inline">\(\sigma^2\)</span>, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics.</p>
+where <span class="math inline">\(t_{\alpha/2}(df)\)</span> is Student’s t-statistics for <span class="math inline">\(df=n-k\)</span> degrees of freedom (<span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(k\)</span> is the number of estimated parameters, e.g. <span class="math inline">\(k=1\)</span> in our case) and level <span class="math inline">\(\alpha/2\)</span>, and <span class="math inline">\(s_{\bar{y}}=\frac{1}{\sqrt{n}}s\)</span> is the estimate of the standard deviation of the sample mean (see proof below). If we knew for some reason the true variance <span class="math inline">\(\sigma^2\)</span>, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics (see discussion of sample mean tests in Section <a href="#statisticalTestsOneSampleMean"><strong>??</strong></a>).</p>
+<div class="proof">
+<p><span id="unlabeled-div-5" class="proof"><em>Proof</em>. </span>We are interested in calculating the variance of <span class="math inline">\(\bar{y}=\frac{1}{n} \sum_{j=1}^n y_j\)</span>. If <span class="math inline">\(s\)</span> is the standard deviation of the random variable <span class="math inline">\(y\)</span>, then <span class="math inline">\(\mathrm{V}(y_j) = s^2\)</span>. The following derivations assume that <span class="math inline">\(y_j\)</span> is i.i.d. (specifically, not correlated with each other).
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+    \mathrm{V}(\bar{y}) = &amp; \mathrm{V}\left(\frac{1}{n} \sum_{j=1}^n y_j \right) = \frac{1}{n^2} \mathrm{V} \left(\sum_{j=1}^n y_j \right) = \\
+                          &amp; \frac{1}{n^2} \sum_{j=1}^n \mathrm{V} \left( y_j \right) = \frac{1}{n^2} \sum_{j=1}^n s^2 = \\
+                          &amp; \frac{1}{n} s^2
+    \end{aligned}
+\end{equation*}\]</span>
+Based on this, we can conclude that <span class="math inline">\(s_{\bar{y}}=\sqrt{\mathrm{V}(\bar{y})}= \frac{1}{\sqrt{n}} s\)</span>.</p>
+</div>
 <p>Note, that in order to construct <em>confidence interval</em>, we do not care what distribution <span class="math inline">\(y\)</span> follows, as long as LLN and CLT hold.</p>
 </div>
 

@@ -230,9 +230,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="basic-idea.html"><a href="basic-idea.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="basic-idea.html"><a href="basic-idea.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
 <li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
@@ -242,7 +242,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean {statisticalTestsOneSampleMean}</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
@@ -367,9 +374,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="graphical-explanation" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> Graphical explanation<a href="bias-variance-tradeoff.html#graphical-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">17.1</a>):</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="bias-variance-tradeoff.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
-<span id="cb212-2"><a href="bias-variance-tradeoff.html#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
-<span id="cb212-3"><a href="bias-variance-tradeoff.html#cb212-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="bias-variance-tradeoff.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
+<span id="cb218-2"><a href="bias-variance-tradeoff.html#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
+<span id="cb218-3"><a href="bias-variance-tradeoff.html#cb218-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
 <img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">
@@ -421,7 +428,7 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-13" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-15" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{17.3}

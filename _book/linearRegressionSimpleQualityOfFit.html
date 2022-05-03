@@ -230,9 +230,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="basic-idea.html"><a href="basic-idea.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="basic-idea.html"><a href="basic-idea.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
 <li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
@@ -242,7 +242,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean {statisticalTestsOneSampleMean}</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
@@ -390,7 +397,7 @@ which shows the variability of the regression line. It is possible to show that 
     \tag{10.21}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-10" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
+<p><span id="unlabeled-div-12" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -460,10 +467,10 @@ implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealist
 \end{equation*}\]</span>
 meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
 <p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="linearRegressionSimpleQualityOfFit.html#cb104-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
-<span id="cb104-2"><a href="linearRegressionSimpleQualityOfFit.html#cb104-2" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
-<span id="cb104-3"><a href="linearRegressionSimpleQualityOfFit.html#cb104-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb104-4"><a href="linearRegressionSimpleQualityOfFit.html#cb104-4" aria-hidden="true" tabindex="-1"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="linearRegressionSimpleQualityOfFit.html#cb110-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
+<span id="cb110-2"><a href="linearRegressionSimpleQualityOfFit.html#cb110-2" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb110-3"><a href="linearRegressionSimpleQualityOfFit.html#cb110-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb110-4"><a href="linearRegressionSimpleQualityOfFit.html#cb110-4" aria-hidden="true" tabindex="-1"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.7528328</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -477,10 +484,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.29}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="linearRegressionSimpleQualityOfFit.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="linearRegressionSimpleQualityOfFit.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##         wt 
 ## -0.8676594</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="linearRegressionSimpleQualityOfFit.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg,mtcars<span class="sc">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="linearRegressionSimpleQualityOfFit.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg,mtcars<span class="sc">$</span>wt)</span></code></pre></div>
 <pre><code>## [1] -0.8676594</code></pre>
 <!-- Proof -->
 
