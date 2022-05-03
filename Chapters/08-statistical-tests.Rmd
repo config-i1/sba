@@ -117,7 +117,30 @@ The output above shows the calculated t (`r format(test$statistic,digits=5)`), t
 
 As mentioned in Section \@ref(hypothesisTestingBasics), I personally prefer the last approach of the three because it gives more information about the uncertainty around the estimate of the sample mean.
 
-<!-- ### One-sided wilcoxon -->
+
+### Non-parametric, one-sample Wilcoxon test
+In some situations, the CLT might not hold due to violation of some of assumptions. For example, the distribution of the random variable is expected to be asymmetric with a long tail. In this case, the mean might not be finite and thus the CLT would not hold. Alternatively, the sample size might be too small to assume that CLT has started working. In these cases, the parametric tests for the mean will not be powerful enough (see discussion in Section \@ref(powerOfTheTest)) and would lead to wrong conclusions about the tested hypothesis.
+
+One of the solutions in this situation is a non-parametric test that does not have distributional assumptions. In the case of the hypothesis about the mean of a random variable, we could use Wilcoxon test. The null hypothesis in this test can be formulated in a variety of ways, one of which is the following:
+\begin{equation*}
+    \mathrm{H}_0: \text{ distribution is symmetric around } \mu = 175.3,
+    \mathrm{H}_1: \text{ distribution is not symmetric around } \mu = 175.3 .
+\end{equation*}
+If the H$_0$ is true in this case, then it means that the mean will coincide with the centre of distribution, which should be around the tested value. If it is not symmetric, then possibly the centre of distribution is not around the tested value. The test is done on the ranked data, sorting the values of $y$ from the lowest to the highest and assigning the numerical values to them. After that the test values is calculated.
+
+Given that the test does not rely on distributional assumptions, it is less powerful than the parametric tests on large samples, but it is also more powerful on the small ones.
+
+In R, the test can be conducted using `wilcox.test()` function from `stats` package:
+
+```{r}
+wilcox.test(y, mu=175.3, alternative="two.sided")
+```
+
+```{r echo=FALSE}
+test <- wilcox.test(y, mu=175.3, alternative="two.sided")
+```
+
+Similar to how we have done that with t-test, we can compare the p-value with the significance level (reminder: we have chosen 1%) and make a conclusion. Based on the output above, we fail to reject H$_0$ because `r format(test$p.value,digits=3)`>0.01.This means that once again, we cannot tell the difference between the sample mean and the population mean of 175.3.
 
 
 <!-- ## Tests about a variance -->
