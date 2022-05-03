@@ -1,12 +1,95 @@
 # Statistical tests {#statisticalTests}
 Having discussed the idea of hypothesis testing, we can now move to the discussion of specific tests. In this chapter, we will start the discussion from the tests for the means of random variables, then move towards the variance and to the comparison of several variables. The tests in this chapter are introduced based on the needs of an analyst. We finish the chapter with a discussion of how to select the appropriate statistical test for your problem.
 
+Before we proceed, we need to define two terms, which will be used in this chapter. **Parametric statistical test** is the test that fully relies on distributional assumptions about the random variable. For example, we can assume that the variable follows Normal distribution and thus we can use a parametric test. **Non-parametric statistical test** is the test that does not rely on distributional assumptions. These types of test are typically conducted on ranked data rather than on the original one, reducing the scale of information to the ordinal one (see Section \@ref(scales)).
 
-<!-- The group of tests united by the term "Parametric statistical tests" includes those of them that have some distributional assumptions and typically rely on moments of distributions. These tests are typically more powerful than their non-parametrical counterparts, because they rely on more assumptions. In this Section we discuss the most popular tests that are used in practice. -->
 
-<!-- ## Tests about a mean -->
-<!-- ### z-test -->
-<!-- ### t-test -->
+## One-sample tests about mean {statisticalTestsOneSampleMean}
+Consider an example, where we collected the data of height of 100 males in across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS in 2012. Based on our sample, we found that the mean height was 176.1 cm. How do we formulate and test such hypothesis? We need to follow the procedure described in Section \@ref(hypothesisTestingBasics). We start by formulating null and alternative hypotheses:
+\begin{equation*}
+    \mathrm{H}_0: \mu = 175.3, \mathrm{H}_1: \mu \neq 175.3 .
+\end{equation*}
+Next, we select the significance level. If the level is not given to us, then we need to choose one based on our preferences. I like 1%, because I am risk averse.
+
+After that, we select the appropriate test. The task described above focuses on investigating the hypothesis about the mean. If we can assume that the CLT holds (see Section \@ref(CLT)), then we can use a parametric statistical test, because we know that the sample mean will follow Normal distribution in that case. In our example, we can indeed assume that it holds, because we deal with a sample of 100 observations, and we can also assume that the distribution of height across England is symmetric (we do not expect people to have extreme heights of, let's say, 5 meters or 0.5 meters). The next thing to consider is whether the population standard deviation of the mean height is known or not. Based on that, we would choose either z-test or t-test.
+
+
+### z-test {#statisticalTestsOneSampleMeanZ}
+Consider the situation, where we know from NHS that the population standard deviation of height is $\sigma=5$.
+
+::: remark
+As shown in Section \@ref(confidenceInterval), if the standard deviation of $y$ is $\sigma$, then the standard deviation of $\bar{y}$ is $\frac{1}{\sqrt{n}} \sigma$. This means that in our case $\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5$.
+:::
+
+If we assume that the mean follows Normal distribution and know the population standard deviation, i.e. $\bar{y} \sim \mathcal{N}\left(\mu, \sigma^2_{\bar{y}}\right)$, then the standardised value z:
+\begin{equation}
+    z = \frac{\bar{y}-\mu}{\sigma_{\bar{y}}} .
+    (\#eq:zTestFormula)
+\end{equation}
+will follow standard normal distribution: $z \sim \mathcal{N}\left(0, 1\right)$. Knowing these properties, we can conduct the test using one of the three approaches discussed in Section \@ref(hypothesisTestingBasics). First, we could calculate the z value based on formula \@ref(eq:zTestFormula):
+\begin{equation*}
+    z = \frac{176.1 -175.3}{0.5} = 1.6 
+\end{equation*}
+and compare it with the critical one. Given that we test the two-sided hypothesis (because the alternative is "inequality"), he critical value should be split into two parts, to have $\frac{\alpha}{2}$ in one tail and $\frac{\alpha}{2}$ in the other one. The critical values can be calculated, for example, in R using the code below:
+
+```{r}
+# I have previously selected significance level of 1%
+alpha <- 0.01
+qnorm(c(alpha/2, 1-alpha/2), 0, 1)
+```
+
+We see that the calculated value lies inside the interval, so we fail to reject the null hypothesis on 1% significance level. The simplified version for this procedure is to compare the absolute of the calculated value with the absolute of the critical one. If the calculated is greater than the critical, then we reject H$_0$. In our case 1.6 < 2.58, so we fail to reject H$_0$.
+
+Another way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In R, this can be done using the command:
+
+```{r}
+(1-pnorm(abs(1.6)))*2
+```
+
+In the R code above we are calculating the surface in the tails of distribution. Thus the appearance of the number 2, to add the surfaces in two tails. This procedure is shown in Figure \@ref(fig:hypothesisTestingZTestPvalue).
+
+```{r hypothesisTestingZTestPvalue, echo=FALSE, fig.cap="The process of p-value calculation for the z-test."}
+plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), xlab="z", ylab="Density", type="l",
+     lwd=0, lty=0, col="darkblue")
+polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
+        c(dnorm(seq(-5,5,0.1)),rep(0,length(seq(-5,5,0.1)))), col="grey95", lty=0)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=1, lty=1, col="darkgreen")
+lines(c(-5,5), c(0,0), col="black", lwd=1)
+polygon(c(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01),rev(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01))),
+        c(dnorm(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)), rep(0,length(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)))), col="lightblue")
+polygon(c(seq(qnorm(pnorm(abs(1.6))),5,0.01),rev(seq(qnorm(pnorm(abs(1.6))),5,0.01))),
+        c(dnorm(seq(qnorm(pnorm(abs(1.6))),5,0.01)), rep(0,length(seq(qnorm(pnorm(abs(1.6))),5,0.01)))), col="lightblue")
+# abline(v=qnorm(c(1-pnorm(abs(1.6)),pnorm(abs(1.6)))), col="darkred", lwd=2)
+abline(v=c(-1.6,1.6), col="darkblue", lwd=2)
+text(-1.65,0.02,"-1.6",pos=4)
+text(1.65,0.02,"1.6",pos=2)
+legend("topright",legend=c("calculated z","p-value"),
+       lwd=c(2,6), col=c("darkblue","lightblue"))
+```
+
+Comparing the p-value of `r round((1-pnorm(abs(1.6)))*2,4)` with the significance level of 0.01, we can conclude that we fail to reject the null hypothesis. This means that based on the collected sample, we cannot tell the difference between the population mean height of 175.3 and the sample height of 176.1.
+
+
+### t-test {#statisticalTestsOneSampleMeanT}
+The population standard deviation is rarely known. The more practical test is the t-test, which relies on the relation between the normal distribution and the Student's distribution. If $y \sim \mathcal{N}(\mu ,\sigma^2)$ and $s=\sqrt{\frac{1}{n}\sum_{j=1}^n{\left(y_j-\bar{y}\right)^2}}$ is the estimate of the sample standard deviation, then $t \sim \mathcal{t}(n-1)$ where
+\begin{equation}
+    t = \frac{\bar{y}-\mu}{s_{\bar{y}}} 
+    (\#eq:tTestFormulaAgain)
+\end{equation}
+and $n-1$ is the number of degrees of freedom. The reason why we need to use Student's distribution in this case rather than the Normal one is because of the uncertainty arising from the estimation of the standard deviation $s$. The hypothesis testing procedure in this case is exactly the same as in the case of z-test. We insert the values in \@ref(eq:tTestFormulaAgain) to get the calculated t, then compare it with the critical and make a conclusion. Consider an example, where the estimated standard deviation $s=4$. We then get:
+\begin{equation*}
+    t = \frac{176.1-175.3}{0.4} = 2 ,
+\end{equation*}
+while the critical value for the chosen 1% significance level is:
+
+```{r}
+qt(c(alpha/2, 1-alpha/2), 100-1)
+```
+
+Given that the calculated value of 2 is lower than `r round(qt(1-alpha/2, 100-1),3)`, we fail to reject the null hypothesis on 1% significance level. So, we again conclude that we cannot tell the difference between the mean in the data and the assumed population mean.
+
+
+
 <!-- ### One-sided wilcoxon -->
 
 
@@ -27,6 +110,9 @@ Having discussed the idea of hypothesis testing, we can now move to the discussi
 <!-- ### Kruskal-Wallis -->
 <!-- ### Friedman -->
 <!-- ### Nemenyi / MCB -->
+
+
+<!-- The group of tests united by the term "Parametric statistical tests" includes those of them that have some distributional assumptions and typically rely on moments of distributions. These tests are typically more powerful than their non-parametrical counterparts, because they rely on more assumptions. In this Section we discuss the most popular tests that are used in practice. -->
 
 
 <!-- ## Selecting appropriate statistical test {#statisticalTestsSelection} -->
