@@ -248,6 +248,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+<li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
@@ -387,13 +388,13 @@ Figure 12.2: Speed vs stopping distance of cars
 </p>
 </div>
 <p>While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using <code>coefbootstrap()</code> method from <code>greybox</code> package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="uncertaintyParameters.html#cb132-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="uncertaintyParameters.html#cb134-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(slmSpeedDistance)</span></code></pre></div>
 <p>Based on that we can plot the histograms of the estimates of parameters.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="uncertaintyParameters.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb133-2"><a href="uncertaintyParameters.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
-<span id="cb133-3"><a href="uncertaintyParameters.html#cb133-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb133-4"><a href="uncertaintyParameters.html#cb133-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
-<span id="cb133-5"><a href="uncertaintyParameters.html#cb133-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="uncertaintyParameters.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb135-2"><a href="uncertaintyParameters.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
+<span id="cb135-3"><a href="uncertaintyParameters.html#cb135-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb135-4"><a href="uncertaintyParameters.html#cb135-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
+<span id="cb135-5"><a href="uncertaintyParameters.html#cb135-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:slmSpeedDistanceBoot"></span>
 <img src="adam_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">
