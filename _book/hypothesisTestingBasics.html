@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7.1 Basic idea | Statistics for Business Analytics</title>
+  <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7.1 Basic idea | Statistics for Business Analytics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="github-repo" content="config-i1/sba" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7.1 Basic idea | Statistics for Business Analytics" />
+  
+  <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  
+
+<meta name="author" content="Ivan Svetunkov" />
+
+
+<meta name="date" content="2022-05-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hypothesisTesting.html"/>
+<link rel="next" href="typeErrors.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script async defer src="https://hypothes.is/embed.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XH37Z8VYP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XH37Z8VYP8');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics for Business Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
+<li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>3</b> Probability theory</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="what-is-probability.html"><a href="what-is-probability.html"><i class="fa fa-check"></i><b>3.1</b> What is probability?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>4</b> Random variables and count distributions</a></li>
+<li class="chapter" data-level="5" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>5</b> Continuous distributions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>5.1</b> Normal distribution</a></li>
+<li class="chapter" data-level="5.2" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>5.2</b> Laplace distribution</a></li>
+<li class="chapter" data-level="5.3" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>5.3</b> S distribution</a></li>
+<li class="chapter" data-level="5.4" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>5.4</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="5.5" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>5.5</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="5.6" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>5.6</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="5.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>5.7</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="5.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>5.8</b> Gamma distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>6.1</b> Law of Large Numbers</a></li>
+<li class="chapter" data-level="6.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>6.2</b> Central Limit Theorem</a></li>
+<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>6.3.1</b> Bias</a></li>
+<li class="chapter" data-level="6.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>6.3.2</b> Efficiency</a></li>
+<li class="chapter" data-level="6.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>6.3.3</b> Consistency</a></li>
+<li class="chapter" data-level="6.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>6.3.4</b> Asymptotic normality</a></li>
+<li class="chapter" data-level="6.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
+<li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
+<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
+<li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean {statisticalTestsOneSampleMean}</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="one-sample-tests-about-mean-statisticaltestsonesamplemean.html"><a href="one-sample-tests-about-mean-statisticaltestsonesamplemean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
+<li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>10.1.1</b> Residuals of model estimated via OLS</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.2</b> Quality of a fit</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
+<li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>14.1</b> Example of application</a></li>
+<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>14.2.1</b> Linear model</a></li>
+<li class="chapter" data-level="14.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>14.2.2</b> Log-Log model</a></li>
+<li class="chapter" data-level="14.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>14.2.3</b> Log-linear model</a></li>
+<li class="chapter" data-level="14.2.4" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-log-model"><i class="fa fa-check"></i><b>14.2.4</b> Linear-Log model</a></li>
+<li class="chapter" data-level="14.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>14.2.5</b> Square root model</a></li>
+<li class="chapter" data-level="14.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>14.2.6</b> Quadratic model</a></li>
+<li class="chapter" data-level="14.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>14.2.7</b> Polynomial model</a></li>
+<li class="chapter" data-level="14.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>14.2.8</b> Box-Cox transform</a></li>
+<li class="chapter" data-level="14.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>14.2.9</b> Logistic transform</a></li>
+<li class="chapter" data-level="14.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>14.2.10</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted"><i class="fa fa-check"></i><b>15.1.1</b> Omitted variables</a></li>
+<li class="chapter" data-level="15.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant"><i class="fa fa-check"></i><b>15.1.2</b> Redundant variables</a></li>
+<li class="chapter" data-level="15.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations"><i class="fa fa-check"></i><b>15.1.3</b> Transformations</a></li>
+<li class="chapter" data-level="15.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers"><i class="fa fa-check"></i><b>15.1.4</b> Outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations"><i class="fa fa-check"></i><b>15.2.1</b> No autocorrelations</a></li>
+<li class="chapter" data-level="15.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity"><i class="fa fa-check"></i><b>15.2.2</b> Homoscedastic residuals</a></li>
+<li class="chapter" data-level="15.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean"><i class="fa fa-check"></i><b>15.2.3</b> Mean of residuals</a></li>
+<li class="chapter" data-level="15.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>15.2.4</b> Distributional assumptions</a></li>
+<li class="chapter" data-level="15.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed"><i class="fa fa-check"></i><b>15.2.5</b> Distribution does not change</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>15.3.1</b> Multicollinearity</a></li>
+<li class="chapter" data-level="15.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>15.3.2</b> Endogeneity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
+<li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
+<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>17.1.1</b> Graphical explanation</a></li>
+<li class="chapter" data-level="17.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>17.1.2</b> Mathematical explanation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics for Business Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
+</div>
+<div id="hypothesisTestingBasics" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Basic idea<a href="hypothesisTestingBasics.html#hypothesisTestingBasics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Fundamentally, the hypothesis testing process relies on the ideas of induction and dichotomy: we have a null (<span class="math inline">\(\mathrm{H}_0\)</span>) and alternative (<span class="math inline">\(\mathrm{H}_1\)</span>) hypotheses about the process or a property in the population, and we want to find some evidence to reject the <span class="math inline">\(\mathrm{H}_0\)</span>. Rejecting a hypothesis is actually more useful than not rejecting it, because in the former case we know what not to expect from the data, while in the latter we just might not have enough evidence to make any solid conclusion. For example, we could formulate <span class="math inline">\(\mathrm{H}_0\)</span> that all cats are white. Failing to reject this hypothesis based on the data that we have (e.g. a dataset of white cats) does not mean that they are all (in the universe) indeed white, it just means that we have not observed the non-white ones. If we collect enough evidence to reject <span class="math inline">\(\mathrm{H}_0\)</span> (i.e. encountered a black cat), then we can conclude that not all cats are white. This is a more solid conclusion than the one in the previous case. So, if you are interested in a specific outcome, then it makes sense to put this in the alternative hypothesis and see if the data allows to reject the null. For example, if we want to see if the average salary of professors in the UK is higher than £100k per year we would formulate the hypotheses in the following way:
+<span class="math display">\[\begin{equation*}
+    \mathrm{H}_0: \mu \leq 100, \mathrm{H}_1: \mu &gt; 100.
+\end{equation*}\]</span>
+Having formulated hypotheses, we can check them, but in order to do that, we need to follow a proper procedure, which can be summarised in the six steps:</p>
+<ol style="list-style-type: decimal">
+<li>Formulate null and alternative hypotheses (<span class="math inline">\(\mathrm{H}_0\)</span> and <span class="math inline">\(\mathrm{H}_1\)</span>) based on your understanding of the problem;</li>
+<li>Select the significance level <span class="math inline">\(\alpha\)</span> on which the hypothesis will be tested;</li>
+<li>Select the test appropriate for the formulated hypotheses (1);</li>
+<li>Conduct the test (3) and get the calculated value;</li>
+<li>Compare the value in (4) with the threshold one;</li>
+<li>Make a conclusion based on (5) on the selected level (2).</li>
+</ol>
+<p>Note that the order of some elements might change depending on the circumstances, but (2) should always happen before (4), otherwise we might be dealing with so called “p-hacking”, trying to make results look nicer than they really are.</p>
+<p>Consider an example, where we want to check, whether the population mean <span class="math inline">\(\mu\)</span> is equal to zero, based on a sample of 36 observations, where <span class="math inline">\(\bar{y}=-0.5\)</span> and <span class="math inline">\(s^2=1\)</span>. In this case, we formulate the null and alternative hypotheses:
+<span class="math display">\[\begin{equation*}
+    \mathrm{H}_0: \mu=0, \mathrm{H}_1: \mu \neq 0.
+\end{equation*}\]</span>
+We then select the significance level <span class="math inline">\(\alpha=0.05\)</span> (just as an example) and select the test. Based on the description of the task, this can be either a t-test, or a z-test, depending on whether the variance of the variable is known or not. Usually it is not, so we tend to use t-test. We then conduct the test using the formula:
+<span class="math display" id="eq:ttestFormula">\[\begin{equation}
+    t = \frac{\bar{y} - \mu}{s_{\bar{y}}} = \frac{-0.5 - 0}{\frac{1}{\sqrt{36}}} = -3 .
+    \tag{7.1}
+\end{equation}\]</span>
+After that we get the critical value of t with <span class="math inline">\(df=36-1=35\)</span> degrees of freedom and significance level <span class="math inline">\(\alpha/2=0.025\)</span>, which is approximately equal to -2.03. We compare this value with the <a href="hypothesisTestingBasics.html#eq:ttestFormula">(7.1)</a> by absolute and reject <span class="math inline">\(\mathrm{H}_0\)</span> if the calculated value is higher than the critical one. In our case it is, so it appears that we have enough evidence to say that the population mean is not equal to 0, on the 5% significance level.</p>
+<p>Visually, the whole process of hypothesis testing explained above can be represented in the following way:</p>
+<div class="figure"><span style="display:block;" id="fig:hypothesisTesting01"></span>
+<img src="adam_files/figure-html/hypothesisTesting01-1.png" alt="The process of hypothesis testing with t value." width="672" />
+<p class="caption">
+Figure 7.1: The process of hypothesis testing with t value.
+</p>
+</div>
+<p>If the blue line on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting01">7.1</a> would lie inside the red bounds (i.e. the calculated value is less than the critical value by absolute), then we would fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. But in our example it is outside the bounds, so we have enough evidence to conclude that the population mean is not equal to zero on 5% significance level. Notice, how similar the mechanisms of confidence interval construction and hypothesis testing are. This is because they are one and the same thing, presented differently. In fact, we could test the same hypothesis by constructing the 95% confidence interval using <a href="confidenceInterval.html#eq:confidenceInterval">(6.4)</a> and checking, whether the interval covers the <span class="math inline">\(\mu=0\)</span>:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        &amp; \mu \in \left(-0.50 -2.03 \frac{1}{\sqrt{36}}, -0.50 + 2.03 \frac{1}{\sqrt{36}} \right), \\
+        &amp; \mu \in (-0.84, -0.16).
+    \end{aligned}
+\end{equation*}\]</span>
+In our case it does not, so we conclude that we reject <span class="math inline">\(\mathrm{H}_0\)</span> on 5% significance level. This can be roughly represented by the graph on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting02">7.2</a>:</p>
+<div class="figure"><span style="display:block;" id="fig:hypothesisTesting02"></span>
+<img src="adam_files/figure-html/hypothesisTesting02-1.png" alt="Confidence interval for for the population mean example." width="672" />
+<p class="caption">
+Figure 7.2: Confidence interval for for the population mean example.
+</p>
+</div>
+<p>Note that the positioning of the blue line has changed in the case of confidence interval, which happens because of the transition from <a href="hypothesisTestingBasics.html#eq:ttestFormula">(7.1)</a> to <a href="confidenceInterval.html#eq:confidenceInterval">(6.4)</a>. The idea and the message, however, stay the same: if the value is not inside the light grey area, then we reject <span class="math inline">\(\mathrm{H}_0\)</span> on the selected significance level.</p>
+<p>Also <strong>note</strong> that we never say that we accept <span class="math inline">\(\mathrm{H}_0\)</span>, because this is not what we do in hypothesis testing: if the value would lie inside the interval, then this would only mean that our sample shows that the tested value is covered by the region - the true value can be any of the numbers between the bounds.</p>
+<p>Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting01">7.1</a> (calculated value). In R this can be done using the <code>pt()</code> function:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="hypothesisTestingBasics.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.002474416</code></pre>
+<p>Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately 0.0049. This is the significance level, for which the switch from “reject” to “do not reject” happens. We could compare this value with the pre-selected significance level directly, rejecting <span class="math inline">\(\mathrm{H}_0\)</span> if it is lower than <span class="math inline">\(\alpha\)</span>. This value is called “p-value” and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: <strong>p-value</strong> is the smallest significance level at which a null hypothesis can be rejected.</p>
+<p>Despite this simplification, we still need to follow the procedure and select <span class="math inline">\(\alpha\)</span> <em>before conducting the test</em>! We should not change the significance level after observing the p-values, otherwise we might end up bending reality for our needs. Also <em>note</em> that if in one case p-value is 0.2, while in the other it is 0.3, it does not mean that the the first case is more significant than the second! P-values are not comparable with each other and they do not tell you about the size of significance. <em>This is still a binary process</em>: we either reject, or fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>, depending on whether p-value is smaller or greater than the selected significance level.</p>
+<p>While p-value is a comfortable instrument, I personally prefer using confidence intervals, because they show the uncertainty clearer and are less confusing. Consider the following cases to see what I mean:</p>
+<ol style="list-style-type: decimal">
+<li>We reject <span class="math inline">\(\mathrm{H}_0\)</span> because t-value is -3, which is smaller than the critical value of -2.03 (or equivalently the absolute of t-value is 3, while the critical is 2.03);</li>
+<li>We reject <span class="math inline">\(\mathrm{H}_0\)</span> because p-value is 0.0049, which is smaller than the significance level <span class="math inline">\(\alpha=0.05\)</span>;</li>
+<li>The confidence interval for the mean is <span class="math inline">\(\mu \in (-0.84, -0.16)\)</span>. It does not include zero, so we reject <span class="math inline">\(\mathrm{H}_0\)</span>.</li>
+</ol>
+<p>In case of (3), we not only get the same message as in (1) and (2), but we also see how far the bound is from the tested value. In addition, in the situation, when we fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>, the approach (3) gives more appropriate information. Consider the case, when we test, whether <span class="math inline">\(\mu=-0.6\)</span> in the example above. We then have the following three approaches to the problem:</p>
+<ol style="list-style-type: decimal">
+<li>We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> because t-value is 0.245, which is smaller than the critical value of 2.03;</li>
+<li>We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> because p-value is 0.808, which is greater than the significance level <span class="math inline">\(\alpha=0.05\)</span>;</li>
+<li>The confidence interval for the mean is <span class="math inline">\(\mu \in (-0.84, -0.16)\)</span>. It includes -0.6, so we fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. <em>This does not mean that the true mean is indeed equal to -0.6</em>, but it means that the region will cover this number in 95% of cases if we do resampling many times.</li>
+</ol>
+<p>In my opinion, the third approach is more informative and saves from making wrong conclusions about the tested hypothesis, making you work a bit more (you cannot change the confidence level on the fly, you would need to reconstruct the interval). Having said that, either of the three is fine, as long as you understand what they really imply.</p>
+<p>Furthermore, if you do hypothesis testing and use p-values, it is worth mentioning the statement of American Statistical Association about p-values <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Among the different aspects discussed in this statement, there is a list of principles related to p-values, which I cite below:</p>
+<ol style="list-style-type: decimal">
+<li>P-values can indicate how incompatible the data are with a specified statistical model;</li>
+<li>P-values do not measure:</li>
+</ol>
+<ul>
+<li>the probability that the studied hypothesis is true,</li>
+<li>or the probability that the data were produced by random chance alone;</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold;</li>
+<li>Proper inference requires full reporting and transparency;</li>
+<li>A p-value, or statistical significance, does not measure:</li>
+</ol>
+<ul>
+<li>the size of an effect</li>
+<li>or the importance of a result;</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
+</ol>
+<p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
+<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation">Cohen (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
+<div class="remark">
+<p><span id="unlabeled-div-6" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
+<span class="math display">\[\begin{equation*}
+    \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \not\approx a ,
+\end{equation*}\]</span>
+where <span class="math inline">\(a\)</span> is the value we are comparing our parameter with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. <span class="math inline">\(\mathrm{H}_0: \mu\leq a\)</span>).</p>
+</div>
+<p>Finally, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>”, with the latter appearing when there is not enough evidence to reject <span class="math inline">\(\mathrm{H}_0\)</span>. As a result of this, people tend to make wrong conclusions, because it is difficult to distinguish “not true” from “I don’t know”, especially for those who do not know statistics well.</p>
+<p>Summarising the discussion above, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.</p>
+<!-- The significance level is the probability of making a mistake if the hypothesis is true. It is never true (unless it is one sided), so you will make more mistakes than you expect. On the other hand, confidence interval will cover the true value in 1-alpha percent of cases. We don't know it, but we know that it will be there. -->
+<div id="hypothesisTestingMistakes" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Common mistakes related to hypothesis testing<a href="hypothesisTestingBasics.html#hypothesisTestingMistakes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Over the years of teaching statistics, I have seen many different mistakes, related to hypothesis testing. No wonder, this is a difficult topic to grasp. Here, I have decided to summarise several typical erroneous statements, providing explanations why they are wrong. They partially duplicate the 6 principles from ASA discussed above, but they are formulated slightly differently.</p>
+<ol style="list-style-type: decimal">
+<li>“Calculated value is lower than the critical one, so the null hypothesis is true”.</li>
+</ol>
+<ul>
+<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the <span class="math inline">\(\mathrm{H}_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia”. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> that all swans are white”. Uneducated people would be tempted to say that ” <span class="math inline">\(\mathrm{H}_0\)</span>: All swans are white” is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting <span class="math inline">\(\mathrm{H}_0\)</span> and showing that “not all swans are white”, which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting <span class="math inline">\(\mathrm{H}_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>“Calculated value is lower than the critical one, so we accept the null hypothesis”.</li>
+</ol>
+<ul>
+<li>We <strong>never</strong> accept null hypothesis. Even if your house is on fire or there is a tsunami coming, you should not “accept <span class="math inline">\(\mathrm{H}_0\)</span>”. This is a fundamental statistical principle. We collect evidence to reject the null hypothesis. If we do not have enough evidence, then we just fail to reject it, but we can never accept it, because failing to reject just means that we need to collect more data. As mentioned earlier, we focus on rejecting hypothesis, because this at least tells us, what the phenomenon is not (e.g. that not all swans are white).</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>“The parameter in the model is significant, so we can conclude that…”</li>
+</ol>
+<ul>
+<li>You cannot conclude if something is significant or not without specifying the significance level. Things are only significant if they pass specific test on a specified level <span class="math inline">\(\alpha\)</span>. The correct sentence would be “The parameter in the model is significant on 3%, so we can conclude that…”, where 3% is the selected significance level <span class="math inline">\(\alpha\)</span>.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>“The parameter in the model is significant because p-value&lt;0.0000”</li>
+</ol>
+<ul>
+<li>Indeed, some statistical software will tell you that <code>p-value&lt;0.0000</code>, but this just says that the value is very small and cannot be printed. Even if it is that small, you need to state your significance level and compare it with the p-value. You might wonder, “why bother if it is that low?”. Well, if you change the sample size or change model specification, your p-value will change as well, and in some cases it might all of a sudden become higher than your significance level. So, you always need to keep it in mind and make conclusions based on the significance level, not just based on what software tells you.</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>“The parameter is not significant, so we remove the variable from the model”.</li>
+</ol>
+<ul>
+<li>This is one of the worst motivations for removing variables that there is (statistical blasphemy!). There are thousands of reasons, why you might get p-value greater than your significance level (<a href="assumptions.html#assumptions">assumptions</a> do not hold, sample is too small, the test is too weak, the true value is small etc) and only one of them is that the explanatory variable does not impact the response variable and thus you fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. Are you sure that you face exactly this one special case? If yes, then you already have some other (better) reasons to remove the variable. This means that you should not make decisions just based on the results of a statistical test. <em>You always need to have some fundamental reason to include or remove variables in the model</em>. Hypothesis testing just gives you additional information that can be helpful for decision making.</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>“The parameter in the new model is more significant than in the old one”.</li>
+</ol>
+<ul>
+<li>There is no such thing as “more significant” or “less significant”. <strong>Significance is binary</strong> and depends on the selected level. The only thing you can conclude is whether the parameter is significant on the chosen level <span class="math inline">\(\alpha\)</span> or not.</li>
+</ul>
+<ol start="7" style="list-style-type: decimal">
+<li>“The p-value of one variables is higher than the p-value of another, so…”.</li>
+</ol>
+<ul>
+<li>p-values are not comparable between variables. They only show on what level the hypothesis is rejected and only work together with the chosen significance level. (6) is similar to this mistake.</li>
+</ul>
+<p>Remember that the p-value itself is random and will change if you change the sample size or the model specification. Always keep this in mind, when conducting statistical tests. All these mistakes typically arise because of the misuse of p-values and hypothesis testing mechanism. This is one of the reasons, why I prefer <a href="#confidenceIntervals">confidence intervals</a>, when possible (as discussed above).</p>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Cohen1994" class="csl-entry">
+• Cohen, J., 1994. <span class="nocase">The earth is round (p <span>&lt;</span> .05).</span> American Psychologist. 49, 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a>
+</div>
+<div id="ref-Wasserstein2016" class="csl-entry">
+• Wasserstein, R.L., Lazar, N.A., 2016. <span class="nocase">The ASA’s Statement on p-Values: Context, Process, and Purpose</span>. American Statistician. 70, 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>
+</div>
+</div>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hypothesisTesting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="typeErrors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//07-hypothesis-testing.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
