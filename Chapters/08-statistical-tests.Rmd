@@ -88,7 +88,34 @@ qt(c(alpha/2, 1-alpha/2), 100-1)
 
 Given that the calculated value of 2 is lower than `r round(qt(1-alpha/2, 100-1),3)`, we fail to reject the null hypothesis on 1% significance level. So, we again conclude that we cannot tell the difference between the mean in the data and the assumed population mean.
 
+In R, the same procedures can be done using the `t.test()` function from `stats` package. Here is an example, demonstrating how the test can be done for the generated data:
 
+```{r echo=FALSE}
+set.seed(41)
+```
+
+```{r}
+y <- rnorm(100, 175.3, 5)
+# Note that our significance level is 1%,
+# so we ask to produce 99% confidence interval
+t.test(y, mu=175.3, alternative="two.sided", conf.level=0.99)
+```
+
+```{r echo=FALSE}
+test <- t.test(y, mu=175.3, alternative="two.sided",conf.level=0.99)
+```
+
+::: remark
+If we were to test a one-sided hypothesis (e.g. $\mathrm{H}_0: \mu < 175.3, \mathrm{H}_1: \mu \geq 175.3$), then we would need to change the `alternative` parameters in the `t.test()` function to correspond to the formulated H$_1$.
+:::
+
+The output above shows the calculated t (`r format(test$statistic,digits=5)`), the number of degrees of freedom and the p-value. It also constructs the 99% confidence interval (`r paste0(format(test$conf.int[1:2],digits=7),collapse=", ")`). The conclusions can be made using one of the three approaches, discussed above and in Section \@ref(hypothesisTestingBasics):
+
+1. The calculated value is `r format(test$statistic, digits=5)`, which is lower than the critical one of `r format(qt(1-alpha/2, 100-1), digits=5)` as discussed earlier, so we fail to reject H$_0$;
+2. The p-value is `r format(test$p.value, digits=3)`, which is greater than the selected significance level of 1%, so we fail to reject H$_0$;
+3. The 99% confidence interval includes the tested value of 175.3, so we fail to reject the H$_0$ on the 99% confidence level.
+
+As mentioned in Section \@ref(hypothesisTestingBasics), I personally prefer the last approach of the three because it gives more information about the uncertainty around the estimate of the sample mean.
 
 <!-- ### One-sided wilcoxon -->
 
