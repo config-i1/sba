@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-02" />
+<meta name="date" content="2022-05-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -406,20 +406,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       996.8945     4.3693   988.2592   1005.5298 *
-## price              -6.3680     0.2179    -6.7988     -5.9373 *
-## price:colourGreen   3.5339     0.0465     3.4419      3.6258 *
-## price:colourRed     2.5565     0.0463     2.4650      2.6481 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1011.2470     4.1568  1003.0317   1019.4622 *
+## price               -7.0597     0.2109    -7.4765     -6.6428 *
+## price:colourGreen    3.5333     0.0454     3.4436      3.6230 *
+## price:colourRed      2.4828     0.0454     2.3932      2.5725 *
 ## 
-## Error standard deviation: 4.642
+## Error standard deviation: 4.5326
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 890.1721 890.4480 902.2147 902.9058</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.81 units.</p>
+## 883.0156 883.2915 895.0582 895.7493</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.58 units.</p>
 
 </div>
 <!-- </div> -->
