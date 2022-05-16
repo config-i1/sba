@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Uncertainty in regression | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Uncertainty in regression | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="interpretation-of-parameters.html"/>
 <link rel="next" href="confidence-intervals.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,10 +372,10 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="uncertaintyParameters" class="section level1 hasAnchor" number="12">
-<h1><span class="header-section-number">Chapter 12</span> Uncertainty in regression<a href="uncertaintyParameters.html#uncertaintyParameters" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="uncertaintyParameters" class="section level1" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Uncertainty in regression</h1>
 <p>Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was mpg=37.29-5.34wt+et. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?</p>
-<div class="figure"><span style="display:block;" id="fig:scatterWeightMPG4"></span>
+<div class="figure"><span id="fig:scatterWeightMPG4"></span>
 <img src="adam_files/figure-html/scatterWeightMPG4-1.png" alt="Weight vs mileage and two regression lines." width="672" />
 <p class="caption">
 Figure 12.1: Weight vs mileage and two regression lines.
@@ -381,21 +383,21 @@ Figure 12.1: Weight vs mileage and two regression lines.
 </div>
 <p>Figure <a href="uncertaintyParameters.html#fig:scatterWeightMPG4">12.1</a> shows the two lines: the red one corresponds to the larger sample, while the blue one corresponds to the small one. We can see that these lines have different intercepts and slope parameters. So, which one of them is correct? An amateur analyst would say that the one that has more observations is the correct model. But a more experienced statistician would tell you that none of the two is correct. They are both estimated on a sample of data and they both inevitably inherit the uncertainty of the data, making them both incorrect if we compare them to the hypothetical <a href="what-is-model.html#modelsMethods">true model</a>. This means that whatever regression model we estimate on a sample of data, it will be incorrect as well.</p>
 <p>This uncertainty about the regression line actually comes to the uncertainty of estimates of parameters of the model. In order to see it more clearly, consider the example with Speed and Stopping Distances of Cars dataset from <code>datasets</code> package (<code>?cars</code>):</p>
-<div class="figure"><span style="display:block;" id="fig:scatterSpeedDistance"></span>
+<div class="figure"><span id="fig:scatterSpeedDistance"></span>
 <img src="adam_files/figure-html/scatterSpeedDistance-1.png" alt="Speed vs stopping distance of cars" width="672" />
 <p class="caption">
 Figure 12.2: Speed vs stopping distance of cars
 </p>
 </div>
 <p>While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using <code>coefbootstrap()</code> method from <code>greybox</code> package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="uncertaintyParameters.html#cb134-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="uncertaintyParameters.html#cb136-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(slmSpeedDistance)</span></code></pre></div>
 <p>Based on that we can plot the histograms of the estimates of parameters.</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="uncertaintyParameters.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb135-2"><a href="uncertaintyParameters.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
-<span id="cb135-3"><a href="uncertaintyParameters.html#cb135-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb135-4"><a href="uncertaintyParameters.html#cb135-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
-<span id="cb135-5"><a href="uncertaintyParameters.html#cb135-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:slmSpeedDistanceBoot"></span>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="uncertaintyParameters.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb137-2"><a href="uncertaintyParameters.html#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
+<span id="cb137-3"><a href="uncertaintyParameters.html#cb137-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb137-4"><a href="uncertaintyParameters.html#cb137-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(slmSpeedDistanceBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
+<span id="cb137-5"><a href="uncertaintyParameters.html#cb137-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:slmSpeedDistanceBoot"></span>
 <img src="adam_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">
 Figure 12.3: Distribution of bootstrapped parameters of a regression model
@@ -414,6 +416,7 @@ Figure 12.3: Distribution of bootstrapped parameters of a regression model
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -453,10 +456,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

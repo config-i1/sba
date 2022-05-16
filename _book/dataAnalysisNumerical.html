@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.1 Numerical analysis | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.1 Numerical analysis | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="dataAnalysis.html"/>
 <link rel="next" href="dataAnalysisGraphical.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,8 +372,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="dataAnalysisNumerical" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Numerical analysis<a href="dataAnalysisNumerical.html#dataAnalysisNumerical" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="dataAnalysisNumerical" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Numerical analysis</h2>
 <p>In this section we will use the classical <code>mtcars</code> dataset from <code>datasets</code> package for R. It contains 32 observations with 11 variables. While all the variables are numerical, some of them are in fact categorical variables encoded as binary ones. We can check the description of the dataset in R:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="dataAnalysisNumerical.html#cb3-1" aria-hidden="true" tabindex="-1"></a>?mtcars</span></code></pre></div>
 <p>Judging by the explanation in the R documentation, the following variables are categorical:</p>
@@ -401,7 +403,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <pre><code>## 
 ## automatic    manual 
 ##        19        13</code></pre>
-<p>These tables are called <strong>contingency tables</strong>, they show the frequency of appearance of values of variables. Based on this, we can conclude that the cars with V-shaped engine are met more often in the dataset than the cars with the Straight one. In addition, the automatic transmission prevails in the data. The related statistics which is useful for analysis of categorical variables is called <strong>mode</strong>. It shows which of the values happens most often in the data. Judging by the frequencies above, we can conclude that the mode for the first variable is the value “V-shaped”.</p>
+<p>These tables are called <strong>contingency tables</strong>, they show the frequency of appearance of values of variables. Based on this, we can conclude that the cars with V-shaped engine are met more often in the dataset than the cars with the Straight one. In addition, the automatic transmission prevails in the data. The related statistics which is useful for analysis of categorical variables is called <strong>mode</strong>. It shows which of the values happens most often in the data. Judging by the frequencies above, we can conclude that the mode for the first variable is the value “V-shaped.”</p>
 <p>All of this is purely descriptive information, which does not provide us much. We could probably get more information if we analysed the contingency table based on these two variables:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="dataAnalysisNumerical.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
 <pre><code>##           
@@ -511,6 +513,7 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -550,10 +553,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

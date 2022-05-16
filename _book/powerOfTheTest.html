@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.3 Power of a test | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.3 Power of a test | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="typeErrors.html"/>
 <link rel="next" href="significance.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,40 +372,40 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="powerOfTheTest" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> Power of a test<a href="powerOfTheTest.html#powerOfTheTest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="powerOfTheTest" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Power of a test</h2>
 <p>Power of a test is one of the important theoretical ideas related to hypothesis testing. It is <strong>the probability of correctly rejecting the wrong hypothesis</strong>. By definition, it is equal to <span class="math inline">\(1-\beta\)</span> in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.</p>
 <p>Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.</p>
-<div id="visual-explanation" class="section level3 hasAnchor" number="7.3.1">
-<h3><span class="header-section-number">7.3.1</span> Visual explanation<a href="powerOfTheTest.html#visual-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="visual-explanation" class="section level3" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Visual explanation</h3>
 <p>We start the explanation of the idea of the Power of a Test with a visual example. Consider an example of a z-test, which can be used for comparison of means if the population standard deviation is known (see Section <a href="statisticalTests.html#statisticalTests">8</a> for the explanation of the test). We will use an example of a one sided test for the following hypothesis (where number 3 is selected arbitrarily, just for the example):
 <span class="math display" id="eq:powerOfATestHypothesis">\[\begin{equation}
     \mathrm{H}_0: \mu \geq 3, \mathrm{H}_1: \mu &lt; 3.
     \tag{7.2}
 \end{equation}\]</span>
 In this example we will test the hypothesis on 5% significance level. The general process of hypothesis testing can be visualised as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">7.3</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual01"></span>
+<div class="figure"><span id="fig:powerOfTestVisual01"></span>
 <img src="adam_files/figure-html/powerOfTestVisual01-1.png" alt="The process of hypothesis testing of one sided hypothesis \@ref(eq:powerOfATestHypothesis)." width="672" />
 <p class="caption">
 Figure 7.3: The process of hypothesis testing of one sided hypothesis <a href="powerOfTheTest.html#eq:powerOfATestHypothesis">(7.2)</a>.
 </p>
 </div>
 <p>The plot in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">7.3</a> shows the theoretical distribution of z-values, the 5% critical value and the calculated one. On the plot, we see that the calculated value lies in the tail of the distribution, which means that we can reject the null hypothesis on 5% significance level. The situation, when we correctly reject H<span class="math inline">\(_0\)</span> in our example corresponds to the case, when the true distribution lies to the left of the assumed one as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">7.4</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual02"></span>
+<div class="figure"><span id="fig:powerOfTestVisual02"></span>
 <img src="adam_files/figure-html/powerOfTestVisual02-1.png" alt="Hypothetical &quot;true&quot; and the assumed distributions." width="672" />
 <p class="caption">
 Figure 7.4: Hypothetical “true” and the assumed distributions.
 </p>
 </div>
-<p>In the example of Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">7.4</a> we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and the probability of this case is the “Power of a Test”. Visually, it corresponds to the surface of the “true” distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H<span class="math inline">\(_0\)</span> and thus to the correct decision. This is shown visually in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual03"></span>
+<p>In the example of Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">7.4</a> we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and the probability of this case is the “Power of a Test.” Visually, it corresponds to the surface of the “true” distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H<span class="math inline">\(_0\)</span> and thus to the correct decision. This is shown visually in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a>.</p>
+<div class="figure"><span id="fig:powerOfTestVisual03"></span>
 <img src="adam_files/figure-html/powerOfTestVisual03-1.png" alt="Power of the Test based on the hypothetical true value of $\mu$." width="672" />
 <p class="caption">
 Figure 7.5: Power of the Test based on the hypothetical true value of <span class="math inline">\(\mu\)</span>.
 </p>
 </div>
 <p>The surface to the left of the critical value in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a> is the Power of the Test for the example of a specific value of assumed <span class="math inline">\(\mu\)</span>. Given that we never know the true value, we could try other values, which would shift the distribution to the left or to the right, meaning either the increase or the decrease in power of the test. For example, the situation shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual04">7.6</a> corresponds to the smaller Power of the Test (because the surface of the distribution to the left is smaller than the surface of the distribution in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:powerOfTestVisual04"></span>
+<div class="figure"><span id="fig:powerOfTestVisual04"></span>
 <img src="adam_files/figure-html/powerOfTestVisual04-1.png" alt="Power of the Test based on another hypothetical true value of $\mu$." width="672" />
 <p class="caption">
 Figure 7.6: Power of the Test based on another hypothetical true value of <span class="math inline">\(\mu\)</span>.
@@ -417,8 +419,8 @@ Figure 7.6: Power of the Test based on another hypothetical true value of <span 
 <p>There are other factors, which are not as obvious as the two above. For example, if we did not know the true value of <span class="math inline">\(\sigma\)</span>, we would need to estimate it, and as a result we would need to use a less powerful t-test instead of the z-test. On smaller samples the critical value of the t-test is typically higher than the one from the z-test by absolute value. For example, in case of 36 observations, on 5% significance level it is equal to -1.6896, which is lower than the similar value of -1.6449 from the standard normal distribution. This means that if we used the t-test instead of the z-test in the example above, the vertical line on the plots in Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">7.6</a> would be firther to the left of the one that we had. As a result, we would conclude that the power of the t-test is lower than the power of the z-test.</p>
 <p>Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section <a href="LLN.html#LLN">6.1</a>) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.</p>
 </div>
-<div id="mathematical-explantion" class="section level3 hasAnchor" number="7.3.2">
-<h3><span class="header-section-number">7.3.2</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="mathematical-explantion" class="section level3" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Mathematical explantion</h3>
 <p>Moving from the visual explanation to the mathematical one, we can present the Power of a Test as the following probability:
 <span class="math display" id="eq:powerOfATestConcept">\[\begin{equation}
     \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
@@ -442,7 +444,7 @@ Solving this inequality for <span class="math inline">\(\bar{y}\)</span>, we wil
     \bar{y} \leq 3 -1.645 \times 0.03 = 2.95 .
     \tag{7.5}
 \end{equation}\]</span>
-This can be interpreted as “we will fail to reject the null hypothesis in the cases, when the sample mean is greater than 2.95”. Now that we have this value, we can calculate the theoretical power of the test for a variety of cases. For example, we can see how powerful the test is in rejecting the wrong null hypothesis if the true mean is in fact equal to 2.87:
+This can be interpreted as “we will fail to reject the null hypothesis in the cases, when the sample mean is greater than 2.95.” Now that we have this value, we can calculate the theoretical power of the test for a variety of cases. For example, we can see how powerful the test is in rejecting the wrong null hypothesis if the true mean is in fact equal to 2.87:
 <span class="math display" id="eq:powerOfATest03">\[\begin{equation}
     \begin{aligned}
         1-\beta = &amp; \mathrm{P}(\bar{y}\leq 2.95 | \mu=2.87) = \\
@@ -475,9 +477,9 @@ We could do similar calculations for other cases of the true mean and see how po
 <span id="cb55-20"><a href="powerOfTheTest.html#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
 <span id="cb55-21"><a href="powerOfTheTest.html#cb55-21" aria-hidden="true" tabindex="-1"></a><span class="co"># And provide a description</span></span>
 <span id="cb55-22"><a href="powerOfTheTest.html#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
-<span id="cb55-23"><a href="powerOfTheTest.html#cb55-23" aria-hidden="true" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha=1-</span><span class="sc">\\</span><span class="st">beta=0.05$&quot;</span>),</span>
+<span id="cb55-23"><a href="powerOfTheTest.html#cb55-23" aria-hidden="true" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha =1- </span><span class="sc">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
 <span id="cb55-24"><a href="powerOfTheTest.html#cb55-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
+<div class="figure"><span id="fig:powerCurve"></span>
 <img src="adam_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
 Figure 7.7: Power curve for the z-test in the example.
@@ -495,7 +497,7 @@ Figure 7.7: Power curve for the z-test in the example.
 <p>The element (1) is depicted on the plot in Figure <a href="powerOfTheTest.html#fig:powerCurve">7.7</a>. If we conduct the test about the wrong value of the true mean, then the distance from it will impact the power: the further it is away, the more powerful the test will be, being able to tell the difference between the sample mean and the true mean.</p>
 <p>The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.</p>
 <p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(7.4)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong. Figure <a href="powerOfTheTest.html#fig:powerCurves02">7.8</a> demonstrates how the power curve changes with the increase of the sample size. we see that the power of the test increases much faster with the decrease of the hypothetical value of <span class="math inline">\(\mu\)</span>, when the sample size is large (for example, <span class="math inline">\(n=1000\)</span>) than in the case of small samples (e.g., <span class="math inline">\(n=25\)</span>).</p>
-<div class="figure"><span style="display:block;" id="fig:powerCurves02"></span>
+<div class="figure"><span id="fig:powerCurves02"></span>
 <img src="adam_files/figure-html/powerCurves02-1.png" alt="Power curves with different sample sizes." width="672" />
 <p class="caption">
 Figure 7.8: Power curves with different sample sizes.
@@ -515,6 +517,7 @@ Figure 7.8: Power curves with different sample sizes.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -554,10 +557,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

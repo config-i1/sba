@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>17.1 Bias-variance tradeoff | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="17.1 Bias-variance tradeoff | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="uncertaintyModel.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,15 +372,15 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="bias-variance-tradeoff" class="section level2 hasAnchor" number="17.1">
-<h2><span class="header-section-number">17.1</span> Bias-variance tradeoff<a href="bias-variance-tradeoff.html#bias-variance-tradeoff" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="graphical-explanation" class="section level3 hasAnchor" number="17.1.1">
-<h3><span class="header-section-number">17.1.1</span> Graphical explanation<a href="bias-variance-tradeoff.html#graphical-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="bias-variance-tradeoff" class="section level2" number="17.1">
+<h2><span class="header-section-number">17.1</span> Bias-variance tradeoff</h2>
+<div id="graphical-explanation" class="section level3" number="17.1.1">
+<h3><span class="header-section-number">17.1.1</span> Graphical explanation</h3>
 <p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">17.1</a>):</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="bias-variance-tradeoff.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
-<span id="cb222-2"><a href="bias-variance-tradeoff.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
-<span id="cb222-3"><a href="bias-variance-tradeoff.html#cb222-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="bias-variance-tradeoff.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
+<span id="cb224-2"><a href="bias-variance-tradeoff.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg,</span>
+<span id="cb224-3"><a href="bias-variance-tradeoff.html#cb224-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:biasVariance01"></span>
 <img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">
 Figure 17.1: Fuel consumption vs engine size
@@ -389,15 +391,15 @@ Figure 17.1: Fuel consumption vs engine size
     \log mpg_j = \beta_0 + \beta_1 \log disp_j + \epsilon_j ,
     \tag{17.1}
 \end{equation}\]</span>
-where <span class="math inline">\(mpg_j\)</span> is the miles per galon of a car and <span class="math inline">\(disp_j\)</span> is the displacement (size) of engine. We will assume for now that this is the “true model”, which would fit the data in the following way if we knew all the data in the universe (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance02">17.2</a>):</p>
-<div class="figure"><span style="display:block;" id="fig:biasVariance02"></span>
+where <span class="math inline">\(mpg_j\)</span> is the miles per galon of a car and <span class="math inline">\(disp_j\)</span> is the displacement (size) of engine. We will assume for now that this is the “true model,” which would fit the data in the following way if we knew all the data in the universe (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance02">17.2</a>):</p>
+<div class="figure"><span id="fig:biasVariance02"></span>
 <img src="adam_files/figure-html/biasVariance02-1.png" alt="Fuel consumption vs engine size and the true model" width="672" />
 <p class="caption">
 Figure 17.2: Fuel consumption vs engine size and the true model
 </p>
 </div>
 <p>While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">17.3</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:biasVariance03"></span>
+<div class="figure"><span id="fig:biasVariance03"></span>
 <img src="adam_files/figure-html/biasVariance03-1.png" alt="Fuel consumption vs engine size, the true and the linear models" width="672" />
 <p class="caption">
 Figure 17.3: Fuel consumption vs engine size, the true and the linear models
@@ -405,14 +407,14 @@ Figure 17.3: Fuel consumption vs engine size, the true and the linear models
 </div>
 <p>Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">17.3</a> demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.</p>
 <p>Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same procedure with sub-samples as before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">17.4</a>):</p>
-<div class="figure"><span style="display:block;" id="fig:biasVariance04"></span>
+<div class="figure"><span id="fig:biasVariance04"></span>
 <img src="adam_files/figure-html/biasVariance04-1.png" alt="Fuel consumption vs engine size, the true, the linear and the polynomial models." width="672" />
 <p class="caption">
 Figure 17.4: Fuel consumption vs engine size, the true, the linear and the polynomial models.
 </p>
 </div>
 <p>The new polynomial model on the plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">17.4</a> has a lower bias than the linear one, because on average it is closer to the true model in sample, getting closer to the green line (true model) even in the tails. However, it is also apparent that it has higher variability. This is because it is a more complex model than the linear one: it includes more variables (polynomial terms), making it more sensitive to specific observations in the sample. If we were to introduce even more polynomial terms, the model would have even more variance around the true model than before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance05">17.5</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:biasVariance05"></span>
+<div class="figure"><span id="fig:biasVariance05"></span>
 <img src="adam_files/figure-html/biasVariance05-1.png" alt="Fuel consumption vs engine size, the true and the polynomial (7th order) models" width="672" />
 <p class="caption">
 Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th order) models
@@ -420,8 +422,8 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 </div>
 <p>The model on plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance05">17.5</a> exhibits even higher variance in comparison with the true model, but it is still less biased than the linear model. The pattern that we observe in this demonstration is that the variance of the model in comparison with the true one increases with the increase of complexity, while the bias either decreases or does not change substantially. This is bias-variance tradeoff in action. It is the principle that states that with the increase of complexity of model, its variance (with respect to the true one) increases, while the bias decreases. This implies that typically you cannot minimise both variance and bias at the same time - depending on how you formulate and estimate a model, it will either have bigger variance or a bigger bias. This principle can be applied not only to models, but also to estimates of parameters or to forecasts from the models. It is one of the fundamental basic modelling principles.</p>
 </div>
-<div id="mathematical-explanation" class="section level3 hasAnchor" number="17.1.2">
-<h3><span class="header-section-number">17.1.2</span> Mathematical explanation<a href="bias-variance-tradeoff.html#mathematical-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="mathematical-explanation" class="section level3" number="17.1.2">
+<h3><span class="header-section-number">17.1.2</span> Mathematical explanation</h3>
 <p>Mathematically, it is represented for an estimate as parts of Mean Squared Error (MSE) of that estimate (we drop the index of observations <span class="math inline">\(j\)</span> in <span class="math inline">\(\hat{y}_j\)</span> for convenience):
 <span class="math display" id="eq:biasVariance01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2 ,
@@ -429,7 +431,7 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-16" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-21" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{17.3}
@@ -491,11 +493,11 @@ Given that <span class="math inline">\(\mathrm{E}(\epsilon)=0\)</span> due to on
 \end{equation}\]</span>
 So, this means that the last three terms in <a href="bias-variance-tradeoff.html#eq:biasVarianceProof02">(17.4)</a> are equal to zero and thus, inserting <a href="bias-variance-tradeoff.html#eq:biasVarianceProof03">(17.5)</a>, <a href="bias-variance-tradeoff.html#eq:biasVarianceProof04">(17.6)</a> and <a href="bias-variance-tradeoff.html#eq:biasVarianceProof05">(17.7)</a> in <a href="bias-variance-tradeoff.html#eq:biasVarianceProof02">(17.4)</a>, we get:
 <span class="math display">\[\begin{equation*}
-    \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2
+    \mathrm{MSE} = \mathrm{Bias}(\hat{y})^2 + \mathrm{V}(\hat{y}) + \sigma^2 
 \end{equation*}\]</span></p>
 </div>
 <p>The similar mathematical formula holds for any other estimate, for example for an estimate of parameter. What this formula tells us is that there are two forces in the MSE of estimate that impact its value. Minimisation MSE does not imply that we reduce both of them, but most probably we are reducing one at the cost of another. The classical plot based on this looks as shown in Figure <a href="bias-variance-tradeoff.html#fig:biasVarianceMSE">17.6</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:biasVarianceMSE"></span>
+<div class="figure"><span id="fig:biasVarianceMSE"></span>
 <img src="adam_files/figure-html/biasVarianceMSE-1.png" alt="Bias, Variance and MSE as functions of model complexity." width="672" />
 <p class="caption">
 Figure 17.6: Bias, Variance and MSE as functions of model complexity.
@@ -533,6 +535,7 @@ Figure 17.6: Bias, Variance and MSE as functions of model complexity.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -572,10 +575,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

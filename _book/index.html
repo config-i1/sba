@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 
 <link rel="next" href="intro.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -373,13 +375,13 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="header">
 <h1 class="title">Statistics for Business Analytics</h1>
 <p class="author"><em>Ivan Svetunkov</em></p>
-<p class="date"><em>2022-05-03</em></p>
+<p class="date" style="margin-top: 1.5em;"><em>2022-05-16</em></p>
 </div>
-<div id="preface" class="section level1 unnumbered hasAnchor">
-<h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
 <p><img src="images/sba.png" width="60%" style="display: block; margin: auto;" /></p>
-<p>Have you encountered the term “Business Analytics” in your life? If not, then you are probably wondering what it means. If yes, then again, you are probably wondering what it means. It is a term that is used nowadays instead of such terms as “Operations Research” and “Management Science”. It is a discipline that covers a variety of qualitative and quantitative methods that can be used in practice for real life decisions. It uses methods and approaches from different scientific areas, including statistics, forecasting, optimisation, operations management etc. These lecture notes are focused on the core of quantitative side of the discipline - statistics. While there are many books on statistics, the author failed to find one that would be focused on the application of statistics both for analysis and forecasting and would rely on modern statistical approaches.</p>
-<p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox" role="doc-biblioref">Svetunkov, 2022</a>)</span>:</p>
+<p>Have you encountered the term “Business Analytics” in your life? If not, then you are probably wondering what it means. If yes, then again, you are probably wondering what it means. It is a term that is used nowadays instead of such terms as “Operations Research” and “Management Science.” It is a discipline that covers a variety of qualitative and quantitative methods that can be used in practice for real life decisions. It uses methods and approaches from different scientific areas, including statistics, forecasting, optimisation, operations management etc. These lecture notes are focused on the core of quantitative side of the discipline - statistics. While there are many books on statistics, the author failed to find one that would be focused on the application of statistics both for analysis and forecasting and would rely on modern statistical approaches.</p>
+<p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox" role="doc-biblioref">Svetunkov, 2021a</a>)</span>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;greybox&quot;</span>)</span></code></pre></div>
 <p>A very important thing to note is that these lecture notes <strong>do not use <code>tidyverse</code> packages</strong>. I like base R, and, to be honest, I am sure that <code>tidyverse</code> packages are great, but I have never needed them in my research. So, I will not use pipeline operators, <code>tibble</code> or <code>tsibble</code> objects and <code>ggplot2</code>. It is assumed throughout the lecture notes that you can do all those nice tricks on your own if you want to.</p>
 <p>If you want to get in touch with me, there are lots of ways to do that: comments section on any page of <a href="https://forecasting.svetunkov.ru/">my website</a>, <a href="https://ivan.svetunkov.ru/">my Russian website</a>, <a href="https://vk.com/isvetunkov">vk.com</a>, <a href="https://www.facebook.com/isvetunkov">Facebook</a>, <a href="https://www.linkedin.com/in/isvetunkov">Linkedin</a>, <a href="https://twitter.com/iSvetunkov">Twitter</a>.</p>
@@ -400,16 +402,16 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <span id="cb2-6"><a href="index.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>openforecast.org<span class="sc">/</span>sba<span class="sc">/</span>},</span>
 <span id="cb2-7"><a href="index.html#cb2-7" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2022</span>}</span>
 <span id="cb2-8"><a href="index.html#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div id="license" class="section level3 unnumbered hasAnchor">
-<h3>License<a href="index.html#license" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="license" class="section level3 unnumbered">
+<h3>License</h3>
 <p>These lecture notes are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Common License by-nc-sa 4.0</a>, which means that you can share, copy, redistribute and remix the content of the lecture notes for non-commercial purposes as long as you give appropriate credit to the author and provide the link to the original license. If you remix, transform, or build upon the material, you must distribute your contributions under the same CC-BY-NC-SA 4.0 license. See <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">the explanation on the Creative Commons website</a>.</p>
 
 </div>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-greybox" class="csl-entry">
-• Svetunkov, I., 2022. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 1.0.5
+• Svetunkov, I., 2021a. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 1.0.2
 </div>
 </div>
 
@@ -423,6 +425,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -462,10 +465,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

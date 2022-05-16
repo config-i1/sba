@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.4 Mixed scales | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.4 Mixed scales | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="correlationCoefficient.html"/>
 <link rel="next" href="simpleLinearRegression.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,20 +372,20 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="correlationsMixed" class="section level2 hasAnchor" number="9.4">
-<h2><span class="header-section-number">9.4</span> Mixed scales<a href="correlationsMixed.html#correlationsMixed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="correlationsMixed" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Mixed scales</h2>
 <p>Finally, when we have two variables measured in different scales, the general recommendation is to use the measure of association for the lower scale. For example, if we have the nominal variable colour and the ordinal variable size (both related to T-shirts people prefer), we should use Cramer’s V in order to measure the relation between them:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="correlationsMixed.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(colour,size)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="correlationsMixed.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cramer</span>(colour,size)</span></code></pre></div>
 <pre><code>## Cramer&#39;s V: 0.2991
 ## Chi^2 statistics = 5.7241, df: 4, p-value: 0.2207</code></pre>
 <p>Similarly, if we have a numerical and ordinal variables, we should use one of the measures for ordinal scales.</p>
 <p>However, in some cases we might be able to use a different measure of association. One of those is called multiple correlation coefficient and can be calculated for variables in numerical vs categorical scales. This coefficient can be calculated using different principles, the simplest of which is constructing a regression model (discussed later in Section <a href="linearRegression.html#linearRegression">11</a>) of numerical variable from the dummy variables (see Section <a href="dummyVariables.html#dummyVariables">13</a>) created from the categorical one and then extracting the square root of coefficient of determination (discussed in Section <a href="#linearRegressionQualityOfFit"><strong>??</strong></a>). The resulting coefficient lies between 0 and 1, where 1 implies perfect linear relation between the two variables and 0 implies no linear relation between them. <code>mcor()</code> function from <code>greybox</code> implements this:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="correlationsMixed.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcor</span>(mtcars<span class="sc">$</span>am, mtcars<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="correlationsMixed.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcor</span>(mtcars<span class="sc">$</span>am, mtcars<span class="sc">$</span>mpg)</span></code></pre></div>
 <pre><code>## Multiple correlations value: 0.5998
 ## F-statistics = 16.8603, df: 1, df resid: 30, p-value: 3e-04</code></pre>
 <p>Based on the value above, we can conclude that the type of transmission has a linear relation with the mileage. This aligns with what we have already discovered earlier, in preliminary analysis section (Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">2.2</a>) in Figure <a href="dataAnalysisGraphical.html#fig:vioAMMPG">2.14</a>.</p>
 <p>Finally, there is a function <code>assoc()</code> (aka <code>association()</code>) in <code>greybox</code> package, which will automatically select the necessary measure of association based on the type of a variable and produce three matrices: 1. measures of association, 2. p-values for testing H<span class="math inline">\(_0\)</span> that there measure is equal to zero, 3. names of functions used for each pair. Here how it works for the <code>mtcarsData</code> example:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="correlationsMixed.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assoc</span>(mtcarsData)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="correlationsMixed.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assoc</span>(mtcarsData)</span></code></pre></div>
 <pre><code>## Associations: 
 ## values:
 ##          mpg    cyl    disp      hp    drat      wt    qsec     vs     am
@@ -476,6 +478,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -515,10 +518,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

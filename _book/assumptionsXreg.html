@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>15.3 The explanatory variables are not correlated with anything but the response variable | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="15.3 The explanatory variables are not correlated with anything but the response variable | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="assumptionsResidualsAreIID.html"/>
 <link rel="next" href="likelihoodApproach.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,19 +372,19 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="assumptionsXreg" class="section level2 hasAnchor" number="15.3">
-<h2><span class="header-section-number">15.3</span> The explanatory variables are not correlated with anything but the response variable<a href="assumptionsXreg.html#assumptionsXreg" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="assumptionsXreg" class="section level2" number="15.3">
+<h2><span class="header-section-number">15.3</span> The explanatory variables are not correlated with anything but the response variable</h2>
 <p>There are two assumptions in this group:</p>
 <ol style="list-style-type: decimal">
 <li><a href="assumptionsXreg.html#assumptionsXregMulti">No multicollinearity</a>;</li>
 <li><a href="assumptionsXreg.html#assumptionsXregEndogeneity">No endogeneity</a>;</li>
 </ol>
-<p>Technically speaking, both of them are not assumptions, but rather potential issues of a model. This is because they have nothing to do with properties of the “true model”. Indeed, it is unreasonable to assume that the explanatory variables do not have any relation between them or that they are not impacted by the response variable – they are what they are. However, the two issues cause difficulties in estimating parameters of models and lead to issues with estimates of parameters. So, they are worth discussing.</p>
-<div id="assumptionsXregMulti" class="section level3 hasAnchor" number="15.3.1">
-<h3><span class="header-section-number">15.3.1</span> Multicollinearity<a href="assumptionsXreg.html#assumptionsXregMulti" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Multicollinearity appears, when either some of explanatory variables are correlated with each other (see Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>), or their linear combination explains another explanatory variable included in the model. Depending on the strength of this relation and the estimation method used for model construction, the multicollinearity might cause issues of varying severity. For example, in the case, when two variables are perfectly correlated (correlation coefficient is equal to 1 or -1), the model will have perfect multicollinearity and it would not be possible to estimate its parameters. Another example is a case, when an explanatory variable can be perfectly explained by a set of other explanatory variables (resulting in <span class="math inline">\(R^2\)</span> being close to one), which will cause exactly the same issue. The classical example of this situation is the dummy variables trap (see Section <a href="dummyVariables.html#dummyVariables">13</a>), when all values of categorical variable are included in regression together with the constant resulting in the linear relation <span class="math inline">\(\sum_{j=1}^k d_j = 1\)</span>. Given that the square root of <span class="math inline">\(R^2\)</span> of linear regression is equal to multiple correlation coefficient, these two situations are equivalent and just come to “absolute value of correlation coefficient is equal to 1”. Finally, if correlation coefficient is high, but not equal to one, the effect of multicollinearity will lead to <a href="estimatesProperties.html#estimatesPropertiesEfficiency">less efficient estimates</a> of parameters. The loss of efficiency is in this case proportional to the absolute value of correlation coefficient. In case of forecasting, the effect is not as straight forward, and in some cases might not damage the point forecasts, but can lead to prediction intervals of an incorrect width. The main issue of multicollinearity comes to the difficulties in the model estimation in a sample. If we had all the data in the world, then the issue would not exist. All of this tells us how this problem can be diagnosed and that this diagnosis should be carried out before constructing regression model.</p>
+<p>Technically speaking, both of them are not assumptions, but rather potential issues of a model. This is because they have nothing to do with properties of the “true model.” Indeed, it is unreasonable to assume that the explanatory variables do not have any relation between them or that they are not impacted by the response variable – they are what they are. However, the two issues cause difficulties in estimating parameters of models and lead to issues with estimates of parameters. So, they are worth discussing.</p>
+<div id="assumptionsXregMulti" class="section level3" number="15.3.1">
+<h3><span class="header-section-number">15.3.1</span> Multicollinearity</h3>
+<p>Multicollinearity appears, when either some of explanatory variables are correlated with each other (see Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>), or their linear combination explains another explanatory variable included in the model. Depending on the strength of this relation and the estimation method used for model construction, the multicollinearity might cause issues of varying severity. For example, in the case, when two variables are perfectly correlated (correlation coefficient is equal to 1 or -1), the model will have perfect multicollinearity and it would not be possible to estimate its parameters. Another example is a case, when an explanatory variable can be perfectly explained by a set of other explanatory variables (resulting in <span class="math inline">\(R^2\)</span> being close to one), which will cause exactly the same issue. The classical example of this situation is the dummy variables trap (see Section <a href="dummyVariables.html#dummyVariables">13</a>), when all values of categorical variable are included in regression together with the constant resulting in the linear relation <span class="math inline">\(\sum_{j=1}^k d_j = 1\)</span>. Given that the square root of <span class="math inline">\(R^2\)</span> of linear regression is equal to multiple correlation coefficient, these two situations are equivalent and just come to “absolute value of correlation coefficient is equal to 1.” Finally, if correlation coefficient is high, but not equal to one, the effect of multicollinearity will lead to <a href="estimatesProperties.html#estimatesPropertiesEfficiency">less efficient estimates</a> of parameters. The loss of efficiency is in this case proportional to the absolute value of correlation coefficient. In case of forecasting, the effect is not as straight forward, and in some cases might not damage the point forecasts, but can lead to prediction intervals of an incorrect width. The main issue of multicollinearity comes to the difficulties in the model estimation in a sample. If we had all the data in the world, then the issue would not exist. All of this tells us how this problem can be diagnosed and that this diagnosis should be carried out before constructing regression model.</p>
 <p>First, we can calculate correlation matrix for the available variables. If they are all numeric, then <code>cor()</code> function from <code>stats</code> should do the trick (we remove the response variable from consideration):</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="assumptionsXreg.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="assumptionsXreg.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
 <pre><code>##             cyl       disp         hp        drat         wt        qsec
 ## cyl   1.0000000  0.9020329  0.8324475 -0.69993811  0.7824958 -0.59124207
 ## disp  0.9020329  1.0000000  0.7909486 -0.71021393  0.8879799 -0.43369788
@@ -406,15 +408,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 ## gear  0.2060233  0.79405876  1.0000000  0.27407284
 ## carb -0.5696071  0.05753435  0.2740728  1.00000000</code></pre>
 <p>This matrix tells us that there are some variables that are highly correlated and might reduce efficiency of estimates of parameters of regression model if included in the model together. This mainly applies to <code>cyl</code> and <code>disp</code>, which both characterise the size of engine. If we have a mix of numerical and categorical variables, then <code>assoc()</code> (aka <code>association()</code>) function from <code>greybox</code> will be more appropriate (see Section <a href="correlations.html#correlations">9</a>).</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="assumptionsXreg.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assoc</span>(mtcars)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="assumptionsXreg.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assoc</span>(mtcars)</span></code></pre></div>
 <p>In order to cover the second situation with linear combination of variables, we can use the <code>determ()</code> (aka <code>determination()</code>) function from <code>greybox</code>:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="assumptionsXreg.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="assumptionsXreg.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
 <pre><code>##       cyl      disp        hp      drat        wt      qsec        vs        am 
 ## 0.9349544 0.9537470 0.8982917 0.7036703 0.9340582 0.8671619 0.7986256 0.7848763 
 ##      gear      carb 
 ## 0.8133441 0.8735577</code></pre>
 <p>This function will construct linear regression models for each variable from all the other variables and report the <span class="math inline">\(R^2\)</span> from these models. If there are coefficients of determination close to one, then this might indicate that the variables would cause multicollinearity in the model. In our case, we see that <code>disp</code> is linearly related to other variables, and we can expect it to cause the reduction of efficiency of estimate of parameters. If we remove it from the consideration (we do not want to include it in our model anyway), then the picture will change:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="assumptionsXreg.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="assumptionsXreg.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)])</span></code></pre></div>
 <pre><code>##       cyl        hp      drat        wt      qsec        vs        am      gear 
 ## 0.9299952 0.8596168 0.6996363 0.8384243 0.8553748 0.7965848 0.7847198 0.8121855 
 ##      carb 
@@ -425,7 +427,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
   \mathrm{VIF}_i = \frac{1}{1-R_i^2}
 \end{equation*}\]</span>
 for each model <span class="math inline">\(i\)</span>. Which in our case can be calculated as:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="assumptionsXreg.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]))</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="assumptionsXreg.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">determ</span>(mtcars[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]))</span></code></pre></div>
 <pre><code>##       cyl        hp      drat        wt      qsec        vs        am      gear 
 ## 14.284737  7.123361  3.329298  6.189050  6.914423  4.916053  4.645108  5.324402 
 ##      carb 
@@ -433,8 +435,8 @@ for each model <span class="math inline">\(i\)</span>. Which in our case can be 
 <p>This is useful when you want to see the specific impact on the variance of parameters, but is difficult to work with, when it comes to model diagnostics, because the value of VIF lies between zero and infinity. So, I prefer using the determination coefficients instead, which is always bounded by <span class="math inline">\((0, 1)\)</span> region and thus easier to interpret.</p>
 <p>Finally, in some cases nothing can be done with multicollinearity, it just exists, and we need to include those correlated variables. This might not be a big problem, as long as we acknowledge the issues it will cause to the estimates of parameters.</p>
 </div>
-<div id="assumptionsXregEndogeneity" class="section level3 hasAnchor" number="15.3.2">
-<h3><span class="header-section-number">15.3.2</span> Endogeneity<a href="assumptionsXreg.html#assumptionsXregEndogeneity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="assumptionsXregEndogeneity" class="section level3" number="15.3.2">
+<h3><span class="header-section-number">15.3.2</span> Endogeneity</h3>
 <p><strong>Endogeneity</strong> applies to the situation, when the dependent variable <span class="math inline">\(y_j\)</span> influences the explanatory variable <span class="math inline">\(x_j\)</span> in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be <em>biased</em>, and a different estimation method would be needed (for example, instrumental variables) or maybe a different model would need to be constructed in order to fix this.</p>
 <p>In econometrics, one of the definitions of the endogeneity is that the correlation between the error term and an explanatory variable is not zero, i.e. <span class="math inline">\(\mathrm{E}(\epsilon_j, x_{i,j}) \neq 0\)</span> for at least some variable <span class="math inline">\(x_i\)</span>. In my personal opinion, this is a very confusing definition. First, if this applies to the “true” model then this is absurd, because by definition the error term in the true model is not related with anything (because the true model is correctly specified). Second, if this applies to the applied model, then this condition does not hold in sample if OLS is used for the estimation of parameters (this was discussed in Subsection <a href="OLS.html#OLSResiduals">10.1.1</a>). Third, even if we are talking about working with an incorrect model on the population data, the OLS will guarantee that <span class="math inline">\(\mathrm{E}(e_j, x_{i,j}) = 0\)</span>. So, the only case when this makes sense is for the relation between the explanatory variables and the forecast errors from the model generated on the holdout sample of data. This is why I think that this definition is not useful.</p>
 <p>To make things even more complicated, endogeneity cannot be properly diagnosed and comes to the judgment of analyst: do we expect the relation between variables to be one directional or bi-directional? From the true model perspective, the latter might imply that we need to consider a system of equations of the style:
@@ -445,15 +447,15 @@ for each model <span class="math inline">\(i\)</span>. Which in our case can be 
     \end{aligned} .
   \tag{15.1}
 \end{equation}\]</span>
-In the equation <a href="assumptionsXreg.html#eq:endogeneitySystemEquations">(15.1)</a>, the response variable <span class="math inline">\(y_j\)</span> depends on the value of <span class="math inline">\(x_{1,j}\)</span> (among other variables), but that variable depends on the value of <span class="math inline">\(y_j\)</span> at the same time. In order to estimate such system of equations and break this loop, an analyst would need to find an “instrumental variable” – a variable that would be correlated with <span class="math inline">\(x_{1,j}\)</span> but would not be correlated with <span class="math inline">\(y_j\)</span> and then use a different estimation procedure (e.g. two-stage least squares). We do not aim to cover possible solutions of this issue, because they lie outside of the scope of this textbook, but an interested reader is referred to Chapter 12 of <span class="citation">Hanck et al. (<a href="#ref-Hanck2020" role="doc-biblioref">2022</a>)</span>.</p>
+In the equation <a href="assumptionsXreg.html#eq:endogeneitySystemEquations">(15.1)</a>, the response variable <span class="math inline">\(y_j\)</span> depends on the value of <span class="math inline">\(x_{1,j}\)</span> (among other variables), but that variable depends on the value of <span class="math inline">\(y_j\)</span> at the same time. In order to estimate such system of equations and break this loop, an analyst would need to find an “instrumental variable” – a variable that would be correlated with <span class="math inline">\(x_{1,j}\)</span> but would not be correlated with <span class="math inline">\(y_j\)</span> and then use a different estimation procedure (e.g. two-stage least squares). We do not aim to cover possible solutions of this issue, because they lie outside of the scope of this textbook, but an interested reader is referred to Chapter 12 of <span class="citation"><a href="#ref-Hanck2020" role="doc-biblioref">Hanck et al.</a> (<a href="#ref-Hanck2020" role="doc-biblioref">2022</a>)</span>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-15" class="remark"><em>Remark</em>. </span>Note that if we work with time series then endogeneity would only appear when the bi-directional relation happens at the same time <span class="math inline">\(t\)</span>, not over time. In the latter case we would be dealing with recursive relation (<span class="math inline">\(y_t\)</span> depends on <span class="math inline">\(x_{t}\)</span>, but <span class="math inline">\(x_t\)</span> depends on <span class="math inline">\(y_{t-1}\)</span>) rather than the contemporaneous and thus the estimation of such a model would not lead to the issues discussed in this subsection.</p>
+<p><span id="unlabeled-div-16" class="remark"><em>Remark</em>. </span>Note that if we work with time series then endogeneity would only appear when the bi-directional relation happens at the same time <span class="math inline">\(t\)</span>, not over time. In the latter case we would be dealing with recursive relation (<span class="math inline">\(y_t\)</span> depends on <span class="math inline">\(x_{t}\)</span>, but <span class="math inline">\(x_t\)</span> depends on <span class="math inline">\(y_{t-1}\)</span>) rather than the contemporaneous and thus the estimation of such a model would not lead to the issues discussed in this subsection.</p>
 </div>
 
 </div>
 </div>
 <!-- </div> -->
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Hanck2020" class="csl-entry">
 • Hanck, C., Arnold, M., Gerber, A., Schmelzer, M., 2022. <span class="nocase">Introduction to Econometrics with R</span>. <a href="https://www.econometrics-with-r.org/index.html">https://www.econometrics-with-r.org/index.html</a> (version: 2022-04-17)
@@ -470,6 +472,7 @@ In the equation <a href="assumptionsXreg.html#eq:endogeneitySystemEquations">(15
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -509,10 +512,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

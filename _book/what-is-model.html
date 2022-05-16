@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.1 What is model? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.1 What is model? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="intro.html"/>
 <link rel="next" href="scales.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,14 +372,14 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="what-is-model" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> What is model?<a href="what-is-model.html#what-is-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="what-is-model" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> What is model?</h2>
 <p>Reality is complex. Everything is connected with everything, and it is difficult to isolate an object or a phenomenon from the other objects or phenomena and their environment. Furthermore, due to this complexity of reality, we cannot work with itself, we need to simplify it, leave only the most important parts and analyse them. This process of simplification implies that we create a model of reality, work with it and make conclusions about the reality based on it.</p>
-<p><span class="citation">Pidd (<a href="#ref-Pidd2010" role="doc-biblioref">2010</a>)</span> defines <strong>model</strong> as “<em>an external and explicit representation of part of reality as seen by the people who wish to use that model to understand, to change, to manage and to control that part of reality</em>”. Let us analyse this definition.</p>
+<p><span class="citation"><a href="#ref-Pidd2010" role="doc-biblioref">Pidd</a> (<a href="#ref-Pidd2010" role="doc-biblioref">2010</a>)</span> defines <strong>model</strong> as “<em>an external and explicit representation of part of reality as seen by the people who wish to use that model to understand, to change, to manage and to control that part of reality</em>.” Let us analyse this definition.</p>
 <ul>
 <li>It is <em>external and explicit</em>, because if you only think about something, it is not a model. The unclear view on an object is not a model, it needs to be formulated.</li>
 <li>It is a <em>representation of part of reality</em>, because it is not possible to represent the reality at full - it is too complex, as discussed above.</li>
-<li>Technically speaking, the model without a purpose is still a model, but <span class="citation">Pidd (<a href="#ref-Pidd2010" role="doc-biblioref">2010</a>)</span> points out in his definition that without it, the model becomes useless (thus “<em>to understand, to change, to manage and to control</em>”).</li>
+<li>Technically speaking, the model without a purpose is still a model, but <span class="citation"><a href="#ref-Pidd2010" role="doc-biblioref">Pidd</a> (<a href="#ref-Pidd2010" role="doc-biblioref">2010</a>)</span> points out in his definition that without it, the model becomes useless (thus “<em>to understand, to change, to manage and to control</em>”).</li>
 <li>Finally, <em>as seen by people</em> is an important element that shows that models are always subjective. One and the same question can be answered with different models based on preferences of analyst.</li>
 </ul>
 <!-- Some argue that there are models for prediction and the others for interpretation. This does not make sense from my perspective. -->
@@ -390,7 +392,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ol>
 <p><em>Textual</em> model is just a description of an object or a process. An instruction of how to assemble a chair is an example of a textual model. Any classification will be a textual model as well, so the list of four types of models is a textual model.</p>
 <p><em>Visual</em> model is a graphical or a schematic representation of an object or a process. An example of such a model is provided in Figure <a href="what-is-model.html#fig:chairAssembly">1.1</a>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:chairAssembly"></span>
+<div class="figure" style="text-align: center"><span id="fig:chairAssembly"></span>
 <img src="images/chairAssembly.jpg" alt="Chair assembly instruction. Found on Reddit." width="60%" />
 <p class="caption">
 Figure 1.1: Chair assembly instruction. Found on Reddit.
@@ -414,11 +416,11 @@ Figure 1.1: Chair assembly instruction. Found on Reddit.
 <li>Output, or internal, or endogenous, or response variable(s) - the variable of the main interest, which is assumed to be related by a set of explanatory variables.</li>
 </ol>
 <p>The models that have only one response variable are called “<em>univariate</em>” models. But in some cases, we might have several response variables (for example, sales of several similar products). We would then deal with a <em>multivariate</em> model. In the literature, you might meet a different definition of univariate / multivariate models. For example, some consider a model with several variables multivariate, even if it has only one response and several explanatory ones. But throughout these lecture notes we use the definitions above, focused on response variable.</p>
-<div id="modelsMethods" class="section level3 hasAnchor" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Models, methods et al. <a href="what-is-model.html#modelsMethods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="modelsMethods" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Models, methods et al. </h3>
 <p>There are several other definitions that will be useful throughout these lecture notes:</p>
 <ul>
-<li><strong>Statistical model</strong> (or ‘stochastic model’, or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(<a href="#ref-Svetunkov2019a" role="doc-biblioref">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
+<li><strong>Statistical model</strong> (or ‘stochastic model,’ or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(<a href="#ref-Svetunkov2019a" role="doc-biblioref">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
 <li><strong>True model</strong> is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.</li>
 <li><strong>Estimated model</strong> (aka ‘applied model’ or ‘used model’) is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully <a href="#statistics">converge to the true ones</a> if the sample size increases.</li>
 <li><strong>Data generating process</strong> (DGP) is an artificial statistical model, showing how the data could be generated in theory. This notion is utopic and can be used in simulation experiments in order to check, how the selected model with the specific estimator behave in a specific setting. In real life, the data is not generated from any process, but is usually based on complex interactions between different agents in a dynamic environment. Note that I make a distinction between DGP and true model, because I do not think that the idea of something being generated using a mathematical formula is helpful. Many statisticians will not agree with me on this distinction.</li>
@@ -458,7 +460,7 @@ where <span class="math inline">\(\varepsilon_t\)</span> is some noise again, wh
 <!-- Furthermore, we will be talking about forecasting in these lecture notes, so it is also important to introduce the notation $\hat{y}_{t+h}$, which corresponds to the $h$ steps ahead **point forecast** produced from the observation $t$. Typically, this corresponds to the conditional expectation of the model $\mu_{t+h|t}$, given all the information on observation $t$, although this does not hold all the time for the classical ETS models. When we use notation $\mu_{y,t}$, then this means one step ahead conditional expectation on observation $t$, given the information on the previous observation $t-1$. We will also discuss **prediction interval**, the term which means specific bounds that should include $(1-\alpha)\times100$% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term **confidence interval** usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance). -->
 </div>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Pidd2010" class="csl-entry">
 • Pidd, M., 2010. <span class="nocase">Why modelling and model use matter</span>. Journal of the Operational Research Society. 61, 14–24. <a href="https://doi.org/10.1057/jors.2009.141">https://doi.org/10.1057/jors.2009.141</a>
@@ -478,6 +480,7 @@ where <span class="math inline">\(\varepsilon_t\)</span> is some noise again, wh
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -517,10 +520,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12.1 Confidence intervals | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12.1 Confidence intervals | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="uncertaintyParameters.html"/>
 <link rel="next" href="hypothesis-testing.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,8 +372,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="confidence-intervals" class="section level2 hasAnchor" number="12.1">
-<h2><span class="header-section-number">12.1</span> Confidence intervals<a href="confidence-intervals.html#confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="confidence-intervals" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Confidence intervals</h2>
 <p>In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>. This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that <a href="CLT.html#CLT">CLT</a> holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section <a href="likelihoodApproach.html#likelihoodApproach">16</a>). In these conditions the covariance matrix of parameters can be calculated using the following formula:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
@@ -383,17 +385,17 @@ This matrix will contain variances of parameters on the diagonal and covariances
     \tag{12.1}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="confidence-intervals.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="confidence-intervals.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##             (Intercept)      speed
 ## (Intercept)   45.676514 -2.6588234
 ## speed         -2.658823  0.1726509</code></pre>
 <p>This is the covariance matrix of parameters, the diagonal elements of which are then used in the <code>confint()</code> method:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="confidence-intervals.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="confidence-intervals.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##                  S.E.       2.5%     97.5%
 ## (Intercept) 6.7584402 -31.167850 -3.990340
 ## speed       0.4155128   3.096964  4.767853</code></pre>
 <p>The confidence interval for speed above shows, for example, that if we repeat the construction of interval many times, the true value of parameter speed will lie in 95% of cases between 3.08 and 4.78. This gives an idea about the real effect in the population. We can also present all of this in the following summary (this is based on the <code>alm()</code> model, the other functions will produce different summaries):</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="confidence-intervals.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="confidence-intervals.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>## Response variable: dist
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
@@ -409,7 +411,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
 ## 417.1569 417.4122 420.9809 421.4803</code></pre>
-<p>This summary provide all the necessary information about the estimates of parameters: their mean values in the column “Estimate”, their standard errors in “Std. Error”, the bounds of confidence interval and finally a star if the interval does not contain zero. This typically indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect really exists.</p>
+<p>This summary provide all the necessary information about the estimates of parameters: their mean values in the column “Estimate,” their standard errors in “Std. Error,” the bounds of confidence interval and finally a star if the interval does not contain zero. This typically indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect really exists.</p>
 </div>
 
             </section>
@@ -422,6 +424,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -461,10 +464,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

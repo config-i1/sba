@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8.1 One-sample tests about mean | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8.1 One-sample tests about mean | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,9 +32,9 @@
   
   
 <link rel="prev" href="statisticalTests.html"/>
-<link rel="next" href="correlations.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link rel="next" href="statisticalTestsOneSampleVariance.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,16 +372,16 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="statisticalTestsOneSampleMean" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> One-sample tests about mean<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="statisticalTestsOneSampleMean" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> One-sample tests about mean</h2>
 <p>Consider an example, where we collected the data of height of 100 males in across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS in 2012. Based on our sample, we found that the mean height was 176.1 cm. How do we formulate and test such hypothesis? We need to follow the procedure described in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>. We start by formulating null and alternative hypotheses:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu = 175.3, \mathrm{H}_1: \mu \neq 175.3 .
 \end{equation*}\]</span>
 Next, we select the significance level. If the level is not given to us, then we need to choose one based on our preferences. I like 1%, because I am risk averse.</p>
 <p>After that, we select the appropriate test. The task described above focuses on investigating the hypothesis about the mean. If we can assume that the CLT holds (see Section <a href="CLT.html#CLT">6.2</a>), then we can use a parametric statistical test, because we know that the sample mean will follow Normal distribution in that case. In our example, we can indeed assume that it holds, because we deal with a sample of 100 observations, and we can also assume that the distribution of height across England is symmetric (we do not expect people to have extreme heights of, let’s say, 5 meters or 0.5 meters). The next thing to consider is whether the population standard deviation of the mean height is known or not. Based on that, we would choose either z-test or t-test.</p>
-<div id="statisticalTestsOneSampleMeanZ" class="section level3 hasAnchor" number="8.1.1">
-<h3><span class="header-section-number">8.1.1</span> z-test<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="statisticalTestsOneSampleMeanZ" class="section level3" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> z-test</h3>
 <p>Consider the situation, where we know from NHS that the population standard deviation of height is <span class="math inline">\(\sigma=5\)</span>.</p>
 <div class="remark">
 <p><span id="unlabeled-div-8" class="remark"><em>Remark</em>. </span>As shown in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, if the standard deviation of <span class="math inline">\(y\)</span> is <span class="math inline">\(\sigma\)</span>, then the standard deviation of <span class="math inline">\(\bar{y}\)</span> is <span class="math inline">\(\frac{1}{\sqrt{n}} \sigma\)</span>. This means that in our case <span class="math inline">\(\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5\)</span>.</p>
@@ -391,7 +393,7 @@ Next, we select the significance level. If the level is not given to us, then we
 \end{equation}\]</span>
 will follow standard normal distribution: <span class="math inline">\(z \sim \mathcal{N}\left(0, 1\right)\)</span>. Knowing these properties, we can conduct the test using one of the three approaches discussed in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>. First, we could calculate the z value based on formula <a href="statisticalTestsOneSampleMean.html#eq:zTestFormula">(8.1)</a>:
 <span class="math display">\[\begin{equation*}
-    z = \frac{176.1 -175.3}{0.5} = 1.6
+    z = \frac{176.1 -175.3}{0.5} = 1.6 
 \end{equation*}\]</span>
 and compare it with the critical one. Given that we test the two-sided hypothesis (because the alternative is “inequality”), he critical value should be split into two parts, to have <span class="math inline">\(\frac{\alpha}{2}\)</span> in one tail and <span class="math inline">\(\frac{\alpha}{2}\)</span> in the other one. The critical values can be calculated, for example, in R using the code below:</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="statisticalTestsOneSampleMean.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I have previously selected significance level of 1%</span></span>
@@ -403,7 +405,7 @@ and compare it with the critical one. Given that we test the two-sided hypothesi
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="statisticalTestsOneSampleMean.html#cb58-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="fu">abs</span>(<span class="fl">1.6</span>)))<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 0.1095986</code></pre>
 <p>In the R code above we are calculating the surface in the tails of distribution. Thus the appearance of the number 2, to add the surfaces in two tails. This procedure is shown in Figure <a href="statisticalTestsOneSampleMean.html#fig:hypothesisTestingZTestPvalue">8.1</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:hypothesisTestingZTestPvalue"></span>
+<div class="figure"><span id="fig:hypothesisTestingZTestPvalue"></span>
 <img src="adam_files/figure-html/hypothesisTestingZTestPvalue-1.png" alt="The process of p-value calculation for the z-test." width="672" />
 <p class="caption">
 Figure 8.1: The process of p-value calculation for the z-test.
@@ -411,11 +413,11 @@ Figure 8.1: The process of p-value calculation for the z-test.
 </div>
 <p>Comparing the p-value of 0.1096 with the significance level of 0.01, we can conclude that we fail to reject the null hypothesis. This means that based on the collected sample, we cannot tell the difference between the population mean height of 175.3 and the sample height of 176.1.</p>
 </div>
-<div id="statisticalTestsOneSampleMeanT" class="section level3 hasAnchor" number="8.1.2">
-<h3><span class="header-section-number">8.1.2</span> t-test<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="statisticalTestsOneSampleMeanT" class="section level3" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> t-test</h3>
 <p>The population standard deviation is rarely known. The more practical test is the t-test, which relies on the relation between the normal distribution and the Student’s distribution. If <span class="math inline">\(y \sim \mathcal{N}(\mu ,\sigma^2)\)</span> and <span class="math inline">\(s=\sqrt{\frac{1}{n}\sum_{j=1}^n{\left(y_j-\bar{y}\right)^2}}\)</span> is the estimate of the sample standard deviation, then <span class="math inline">\(t \sim \mathcal{t}(n-1)\)</span> where
 <span class="math display" id="eq:tTestFormulaAgain">\[\begin{equation}
-    t = \frac{\bar{y}-\mu}{s_{\bar{y}}}
+    t = \frac{\bar{y}-\mu}{s_{\bar{y}}} 
     \tag{8.2}
 \end{equation}\]</span>
 and <span class="math inline">\(n-1\)</span> is the number of degrees of freedom. The reason why we need to use Student’s distribution in this case rather than the Normal one is because of the uncertainty arising from the estimation of the standard deviation <span class="math inline">\(s\)</span>. The hypothesis testing procedure in this case is exactly the same as in the case of z-test. We insert the values in <a href="statisticalTestsOneSampleMean.html#eq:tTestFormulaAgain">(8.2)</a> to get the calculated t, then compare it with the critical and make a conclusion. Consider an example, where the estimated standard deviation <span class="math inline">\(s=4\)</span>. We then get:
@@ -453,8 +455,8 @@ while the critical value for the chosen 1% significance level is:</p>
 </ol>
 <p>As mentioned in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>, I personally prefer the last approach of the three because it gives more information about the uncertainty around the estimate of the sample mean.</p>
 </div>
-<div id="non-parametric-one-sample-wilcoxon-test" class="section level3 hasAnchor" number="8.1.3">
-<h3><span class="header-section-number">8.1.3</span> Non-parametric, one-sample Wilcoxon test<a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="non-parametric-one-sample-wilcoxon-test" class="section level3" number="8.1.3">
+<h3><span class="header-section-number">8.1.3</span> Non-parametric, one-sample Wilcoxon test</h3>
 <p>In some situations, the CLT might not hold due to violation of some of assumptions. For example, the distribution of the random variable is expected to be asymmetric with a long tail. In this case, the mean might not be finite and thus the CLT would not hold. Alternatively, the sample size might be too small to assume that CLT has started working. In these cases, the parametric tests for the mean will not be powerful enough (see discussion in Section <a href="powerOfTheTest.html#powerOfTheTest">7.3</a>) and would lead to wrong conclusions about the tested hypothesis.</p>
 <p>One of the solutions in this situation is a non-parametric test that does not have distributional assumptions. In the case of the hypothesis about the mean of a random variable, we could use Wilcoxon test. The null hypothesis in this test can be formulated in a variety of ways, one of which is the following:
 <span class="math display">\[\begin{equation*}
@@ -472,26 +474,8 @@ If the H<span class="math inline">\(_0\)</span> is true in this case, then it me
 ## V = 3039, p-value = 0.07747
 ## alternative hypothesis: true location is not equal to 175.3</code></pre>
 <p>Similar to how we have done that with t-test, we can compare the p-value with the significance level (reminder: we have chosen 1%) and make a conclusion. Based on the output above, we fail to reject H<span class="math inline">\(_0\)</span> because 0.0775&gt;0.01.This means that once again, we cannot tell the difference between the sample mean and the population mean of 175.3.</p>
-<!-- ## Tests about a variance -->
-<!-- ### chisq -->
-<!-- ## Two-sample tests for mean -->
-<!-- ### t-test -->
-<!-- ### Wilcoxon -->
-<!-- ### Mann-Whitney -->
-<!-- ## Two-sample test for variance -->
-<!-- ### F-test -->
-<!-- ### Conover squared ranks test -->
-<!-- ## Multiple sample tests -->
-<!-- ### F-test -->
-<!-- ### Kruskal-Wallis -->
-<!-- ### Friedman -->
-<!-- ### Nemenyi / MCB -->
-<!-- The group of tests united by the term "Parametric statistical tests" includes those of them that have some distributional assumptions and typically rely on moments of distributions. These tests are typically more powerful than their non-parametrical counterparts, because they rely on more assumptions. In this Section we discuss the most popular tests that are used in practice. -->
-<!-- ## Selecting appropriate statistical test {#statisticalTestsSelection} -->
-
 </div>
 </div>
-<!-- </div> -->
 
             </section>
 
@@ -499,10 +483,11 @@ If the H<span class="math inline">\(_0\)</span> is true in this case, then it me
         </div>
       </div>
 <a href="statisticalTests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="statisticalTestsOneSampleVariance.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -542,10 +527,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }

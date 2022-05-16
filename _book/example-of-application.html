@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>14.1 Example of application | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="14.1 Example of application | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +33,8 @@
   
 <link rel="prev" href="variablesTransformations.html"/>
 <link rel="next" href="types-of-variables-transformations.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,9 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -250,10 +251,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
@@ -370,15 +372,15 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="example-of-application" class="section level2 hasAnchor" number="14.1">
-<h2><span class="header-section-number">14.1</span> Example of application<a href="example-of-application.html#example-of-application" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="example-of-application" class="section level2" number="14.1">
+<h2><span class="header-section-number">14.1</span> Example of application</h2>
 <p>Consider, for example, the stopping distance vs speed of the car, the case we have discussed in the previous sections. This sort of relation in reality is non-linear. We know from physics that the distance travelled by car is proportional to the mass of car, the squared speed and inversely proportional to the breaking force:
 <span class="math display" id="eq:speedDistanceFormula">\[\begin{equation}
     distance \propto \frac{mass}{2 breaking} \times speed^2.
     \tag{14.1}
 \end{equation}\]</span>
 If we use the linear function instead, then we might fail in capturing the relation correctly. Here is how the linear regression looks like, when applied to the data (Figure <a href="example-of-application.html#fig:speedDistanceExtrapolation">14.1</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceExtrapolation"></span>
+<div class="figure"><span id="fig:speedDistanceExtrapolation"></span>
 <img src="adam_files/figure-html/speedDistanceExtrapolation-1.png" alt="Speed vs stopping distance and a linear model" width="672" />
 <p class="caption">
 Figure 14.1: Speed vs stopping distance and a linear model
@@ -394,17 +396,17 @@ The multiplication of speed by the error term is necessary, because the effect o
     \log (distance) = \log \beta_0 + \beta_1 \log (speed) + \log(1+\epsilon).
     \tag{14.3}
 \end{equation}\]</span>
-If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(14.3)</a> by other names (e.g. <span class="math inline">\(\log(\beta_0)=\beta^\prime_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log”, reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">14.2</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceLogs"></span>
+If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(14.3)</a> by other names (e.g. <span class="math inline">\(\log(\beta_0)=\beta^\prime_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log,” reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">14.2</a>).</p>
+<div class="figure"><span id="fig:speedDistanceLogs"></span>
 <img src="adam_files/figure-html/speedDistanceLogs-1.png" alt="Speed vs stopping distance in logarithms" width="672" />
 <p class="caption">
 Figure 14.2: Speed vs stopping distance in logarithms
 </p>
 </div>
 <p>What we want to see on Figure <a href="example-of-application.html#fig:speedDistanceLogs">14.2</a> is the linear relation between the variables with points having fixed variance. However, in our case we can notice that the variance of the stopping distances does not seem to be stable: the variability around 2.0 is higher than the variability around 3.0. This might cause issues in the model due to violation of assumptions (see Section <a href="assumptions.html#assumptions">15</a>). For now, we acknowledge the issue but do not aim to fix it. And here how the model <a href="example-of-application.html#eq:speedDistanceModelLogs">(14.3)</a> can be estimated using R:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="example-of-application.html#cb168-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">log</span>(dist)<span class="sc">~</span><span class="fu">log</span>(speed), cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="example-of-application.html#cb170-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">log</span>(dist)<span class="sc">~</span><span class="fu">log</span>(speed), cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <p>The values of parameters of this model will have a different meaning than the parameters of the linear model. Consider the example with the model above:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="example-of-application.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistanceModel01)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="example-of-application.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistanceModel01)</span></code></pre></div>
 <pre><code>## Response variable: logdist
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
@@ -422,9 +424,9 @@ Figure 14.2: Speed vs stopping distance in logarithms
 ## 53.5318 53.7872 57.3559 57.8553</code></pre>
 <p>The value of parameter for the variable <code>log(speed)</code> now does not represent the marginal effect of speed on distance, but rather shows the elasticity, i.e. if the speed of a car increases by 1%, the travel distance will increase on average by 1.6%.</p>
 <p>In order to analyse the fit of the model on the original data, we would need to produce fitted values and exponentiate them. Note that in this case they would correspond to geometric rather than arithmetic means:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="example-of-application.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars, <span class="at">xlab=</span><span class="st">&quot;Speed&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Stopping distance&quot;</span>)</span>
-<span id="cb171-2"><a href="example-of-application.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cars<span class="sc">$</span>speed,<span class="fu">exp</span>(<span class="fu">fitted</span>(slmSpeedDistanceModel01)),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceLogExp"></span>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="example-of-application.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars, <span class="at">xlab=</span><span class="st">&quot;Speed&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Stopping distance&quot;</span>)</span>
+<span id="cb173-2"><a href="example-of-application.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cars<span class="sc">$</span>speed,<span class="fu">exp</span>(<span class="fu">fitted</span>(slmSpeedDistanceModel01)),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:speedDistanceLogExp"></span>
 <img src="adam_files/figure-html/speedDistanceLogExp-1.png" alt="Speed vs stopping distance and the log-log model fit." width="672" />
 <p class="caption">
 Figure 14.3: Speed vs stopping distance and the log-log model fit.
@@ -436,21 +438,21 @@ Figure 14.3: Speed vs stopping distance and the log-log model fit.
     \tag{14.4}
 \end{equation}\]</span>
 The issue of this model would be that the error term is additive and thus the model would assume that the variability of the error does not change with the speed, which is not realistic.</p>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceSquare"></span>
+<div class="figure"><span id="fig:speedDistanceSquare"></span>
 <img src="adam_files/figure-html/speedDistanceSquare-1.png" alt="Speed squared vs stopping distance." width="672" />
 <p class="caption">
 Figure 14.4: Speed squared vs stopping distance.
 </p>
 </div>
 <p>Figure <a href="example-of-application.html#fig:speedDistanceSquare">14.4</a> demonstrates the scatterplot for squared speed vs stopping distances. While we see that the relation between variables is closer to linear, the problem with variance is not resolved. If we want to estimate this model, we can use the following command in R:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="example-of-application.html#cb172-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(dist<span class="sc">~</span><span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>), cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="example-of-application.html#cb174-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(dist<span class="sc">~</span><span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>), cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <p>Note that we use <code>I()</code> in the formula to tell R to square the variable - it will not do the necessary transformation otherwise. Also note that in our specific case we did not include the non-transformed speed variable, because we know that the lowest distance should be, when speed is zero. But this might not be the case in other cases, so in general instead of the formula used above we should use: <code>y~x+I(x^2)</code>. Furthermore, if we know for sure that the intercept is not needed (i.e. we know that the distance will be zero, when speed is zero), then we can remove it and estimate the model:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="example-of-application.html#cb173-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel03 <span class="ot">&lt;-</span> <span class="fu">alm</span>(dist<span class="sc">~</span><span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span><span class="dv">1</span>, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="example-of-application.html#cb175-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel03 <span class="ot">&lt;-</span> <span class="fu">alm</span>(dist<span class="sc">~</span><span class="fu">I</span>(speed<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span><span class="dv">1</span>, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: You have asked not to include intercept in the model. We will try to
 ## fit the model, but this is a very naughty thing to do, and we cannot guarantee
 ## that it will work...</code></pre>
 <p><code>alm()</code> function will complain about the exclusion of the intercept, but it should estimate the model nonetheless. The fit of the model to the data would be similar in its shape to the one from the log-log model (see Figure <a href="example-of-application.html#fig:speedDistanceSquare02">14.5</a>).</p>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceSquare02"></span>
+<div class="figure"><span id="fig:speedDistanceSquare02"></span>
 <img src="adam_files/figure-html/speedDistanceSquare02-1.png" alt="Speed squared vs stopping distance with models with speed^2." width="672" />
 <p class="caption">
 Figure 14.5: Speed squared vs stopping distance with models with speed^2.
@@ -468,28 +470,28 @@ which will be equivalent to:
     \tag{14.6}
 \end{equation}\]</span>
 The good news is, the error term in this model will change with the change of speed due to the interaction effect, cause by the square of the sum in <a href="example-of-application.html#eq:speedDistanceModelSqrt2">(14.6)</a>. And, similar to the previous models, the parameter <span class="math inline">\(\beta_0\)</span> might not be needed. Graphically, this transformation is present on Figure <a href="example-of-application.html#fig:speedDistanceSqrt">14.6</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt"></span>
+<div class="figure"><span id="fig:speedDistanceSqrt"></span>
 <img src="adam_files/figure-html/speedDistanceSqrt-1.png" alt="Speed vs square root of stopping distance." width="672" />
 <p class="caption">
 Figure 14.6: Speed vs square root of stopping distance.
 </p>
 </div>
 <p>As the plot in Figure <a href="example-of-application.html#fig:speedDistanceSqrt">14.6</a> demonstrates, the relation has become linear and the variance seems to be constant, no matter what the speed is. This means that the proposed model might be more appropriate to the data than the previous ones. This is how we can estimate this model:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="example-of-application.html#cb175-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel04 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="example-of-application.html#cb177-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel04 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <p>Similar to the Model 2 with squares, we will also consider the model without intercept on the grounds that if we capture the relation correctly, the zero speed should result in zero distance.</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="example-of-application.html#cb176-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel05 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed<span class="dv">-1</span>, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="example-of-application.html#cb178-1" aria-hidden="true" tabindex="-1"></a>slmSpeedDistanceModel05 <span class="ot">&lt;-</span> <span class="fu">alm</span>(<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed<span class="dv">-1</span>, cars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: You have asked not to include intercept in the model. We will try to
 ## fit the model, but this is a very naughty thing to do, and we cannot guarantee
 ## that it will work...</code></pre>
 Finally, we can see how both models will fit the original data (squaring the fitted values to get to the original scale):
-<div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt02"></span>
+<div class="figure"><span id="fig:speedDistanceSqrt02"></span>
 <img src="adam_files/figure-html/speedDistanceSqrt02-1.png" alt="Speed squared vs stopping distance with Square Root models." width="672" />
 <p class="caption">
 Figure 14.7: Speed squared vs stopping distance with Square Root models.
 </p>
 </div>
 <p>Subjectively, I would say that Model 5 is the most appropriate from all the models under consideration: it corresponds to the physical model on one hand, and has constant variance on the other one. Here is its summary:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="example-of-application.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistanceModel05)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="example-of-application.html#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistanceModel05)</span></code></pre></div>
 <pre><code>## Response variable: sqrtdist
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
@@ -533,6 +535,7 @@ The meaning of the second derivative is that it shows the change of change of di
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -572,10 +575,6 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
 "toc": {
 "collapse": "section"
 }
