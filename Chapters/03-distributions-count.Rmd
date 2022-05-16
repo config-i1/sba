@@ -1,10 +1,20 @@
 # Random variables and count distributions {#countDistributions}
-In this Chapter, we will focus on discrete probability distributions, discussing their properties, considering several examples of such distributions. We will discuss the following distributions in this chapter: Bernoulli, Binomial, Poisson, Geometric and Negative Binomial.
+### What is distribution?
+A random variable discussed in Section \@ref(whatIsRandomVariable) can take a variety of values. For now we focus on discrete random variable, which means that it can take one of the several possible values with some probabilities. For example, if we throw two six-sided dices, we will have a variety of outcomes from 2 (both having score of one) to 12 (both having score of six), but not all outcomes will have equal probability. For example, there are different ways of obtaining score of 7: 1+6, 2+5, 3+4, 4+3, 5+2 and 6+1 - but there is only one way of obtaining 2: 1+1. In this case, we are dealing with a distribution of values from 2 to 12, where each value has its own probability of occurrence. This situation is shown in Figure \@ref(fig:distributionDice12).
 
-## What is distribution?
+```{r distributionDice12, echo=FALSE, fig.cap="Distribution of outcomes for scores based on two dices."}
+y <- c(1:6,5:1)/36
+names(y) <- c(2:12)
+yBarplot <- barplot(y, xlab="Dice score", ylab="Probability of outcome")
+axis(1, at=yBarplot, labels=FALSE)
+```
+
+As can be seen from Figure \@ref(fig:distributionDice12), the distribution of probabilities in this case is symmetric, the chances of having very low and very high scores are lower than the chance of having something closer to the middle. The probability of having 7 is the highest and is $\frac{6}{36}=\frac{1}{6}$, which means that it will occur more often than other values if we repeat the experiment and throw the dices many times.
+
+Because we considered the discrete random variable, the distribution shown in Figure \@ref(fig:distributionDice12) is discrete as well. In this Chapter, we focus on discrete probability distributions, discussing their properties, considering several examples of such distributions. This includes: Bernoulli, Binomial, Poisson, Geometric and Negative Binomial distributions.
 
 
-<!-- ## Tossing a coin -- Bernouli distribution -->
+<!-- ## Tossing a coin -- Bernoulli distribution -->
 
 
 <!-- ## Outcomes of multiple trials -- Binomial distribution -->
