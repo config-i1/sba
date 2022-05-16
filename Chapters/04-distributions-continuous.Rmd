@@ -1,7 +1,9 @@
 # Continuous distributions {#distributions}
-<!-- There are several probability distributions that will be helpful in the further chapters of this textbook. They becomes useful in a variety of contexts, and it is important to be at least aware of them. In this chapter we discuss them in more detail, introducing mathematical notations and providing examples of what these distributions arise from. -->
+After discussing the discrete probability distributions, we can now move to the continuous ones. The idea behind them is similar to the one discussed in Chapter \@ref(countDistributions). In this chapter, we will discuss the main properties of continuous distributions, focusing on several of them, including: Uniform, Normal, Exponential, Laplace, S, Generalised Normal, Asymmetric Laplace, Log Normal, Inverse Gaussian and Gamma.
 
-After discussing the discrete probability distributions, we can now move to the continuous ones. The idea behind them is similar to the one discussed in Chapter \@ref(countDistributions). The main difference arises from the idea discussed in Section \@ref(whatIsRandomVariable): the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure \@ref(fig:distributionContinuousExample) demonstrates an empirical distribution of continuous random variable.
+
+## What is continuous distribution?
+The main difference arises from the idea discussed in Section \@ref(whatIsRandomVariable): the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure \@ref(fig:distributionContinuousExample) demonstrates an empirical distribution of continuous random variable.
 
 ```{r distributionContinuousExample, echo=FALSE, fig.cap="Distribution of a continuous random variable."}
 set.seed(41)
@@ -22,7 +24,7 @@ Almost any continuous distribution can be characterised by several functions:
 4. Moment Generation Function (MMF);
 5. Characteristic function.
 
-PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure \@ref(fig:dnormPlotIntro) demonstrates an example of PDF of normal distribution.
+PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure \@ref(fig:dnormPlotIntro) demonstrates an example of PDF of Normal distribution (discussed in more detail in Section \@ref(distributionsNormal)).
 
 ```{r dnormPlotIntro, fig.cap="Probability Density Function of Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
@@ -33,7 +35,7 @@ It can be seen from the Figure \@ref(fig:dnormPlotIntro) that the density of the
 If we want to work with probabilities in case of the continuous distribution, we need to use CDF, which is similar to the one discussed in the Chapter \@ref(countDistributions). Figure \@ref(fig:dnormPlotIntroCDF) shows example of CDF of Normal distribution.
 
 ```{r dnormPlotIntroCDF, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
-plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="CDF",xlab="y",main="")
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Probability",xlab="y",main="")
 ```
 
 The CDF of continuous variable has the same properties as CDF of the discrete one with the minor differences: in a general case it converges to one with the increase of the value $y$ and converges to zero with the decrease of it. There are some continuous distributions that are restricted with an interval. For those distributions, the CDF reaches boundary values.
@@ -43,24 +45,29 @@ CDF is obtained by calculating the surface of PDF for each specific value of $y$
 ```{r dnormPlotIntroCDFPDF, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
 par(mfcol=c(2,1), mar=c(2,4,1,1))
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
-polygon(c(seq(-3,0,0.01),rev(seq(-3,0,0.01))),
-        c(dnorm(seq(-3,0,0.01)), rep(0,length(seq(-3,0,0.01)))), col="grey")
-abline(v=0,col="darkred",lwd=2,lty=2)
+polygon(c(seq(-3,-1,0.01),rev(seq(-3,-1,0.01))),
+        c(dnorm(seq(-3,-1,0.01)), rep(0,length(seq(-3,-1,0.01)))), col="grey")
+lines(c(-1,-1),c(0,dnorm(-1)),col="darkred",lwd=2,lty=1)
 
-plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="CDF",xlab="y",main="")
-lines(c(0,0),c(0,0.5),col="darkred",lwd=2,lty=2)
-lines(c(-4,0),c(0.5,0.5),col="darkred",lwd=2,lty=2)
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Probability",xlab="y",main="")
+lines(c(-1,-1),c(0,pnorm(-1)),col="darkred",lwd=2,lty=2)
+lines(c(-4,-1),c(pnorm(-1),pnorm(-1)),col="darkred",lwd=2,lty=2)
 ```
 
+The dark area in the first plot in Figure \@ref(fig:dnormPlotIntroCDFPDF) is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to `r round(pnorm(-1),2)`.
 
-Another important function is the Quantile Function. It returns the value of $y$ for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles.
+Another important function is the Quantile Function. It returns the value of $y$ for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles. Figure \@ref(fig:dnormPlotIntroQF) demonstrates the quantile function of Normal distribution.
 
+```{r dnormPlotIntroQF, fig.cap="Quantile Function of Normal distribution", echo=FALSE}
+plot(seq(0,1,0.01),qnorm(seq(0,1,0.01)),type="l",ylab="y",xlab="Probability",main="")
+lines(c(0.25,0.25),c(-3,qnorm(0.25)),col="darkred",lwd=2,lty=2)
+lines(c(-1,0.25),c(qnorm(0.25),qnorm(0.25)),col="darkred",lwd=2,lty=2)
+```
 
+The dashed lines in Figure \@ref(fig:dnormPlotIntroQF) show the value of $y$ for the probability 0.25 according to the quantile function. In this example $y \approx -0.68$, meaning that in 25% of the cases the random variable $y$ will lie below this value. The quantiles of distributions are discussed in more detail in Section \@ref(dataAnalysisNumerical).
 
 Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.
 
-
-In this Chapter, we will discuss several continuous distributions, including: Uniform, Normal, Exponential, Laplace, S, Generalised Normal, Asymmetric Laplace, Log Normal, Inverse Gaussian and Gamma.
 
 
 ## Normal distribution {#distributionsNormal}
