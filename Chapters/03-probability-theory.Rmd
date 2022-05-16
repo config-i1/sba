@@ -1,8 +1,8 @@
 # Probability theory {#probabilityTheory}
-Before moving to the discussion of statistics, we need to understand the basics of probability theory. In this chapter we will discuss the definition of probability, addition, multiplication of probabilities, conditional and independent probabilities and finally the Bayes' Theorem. All these theoretical ideas form the basis of more advanced statistical tools, which is why they are important.
+Before moving to the discussion of statistics, we need to understand the basics of probability theory. In this chapter we will discuss the definition of probability, the definition of random variable then addition and multiplication of probabilities, conditional and independent probabilities and finally the Bayes' Theorem. All these theoretical ideas form the basis of more advanced statistical tools, which is why they are important.
 
 
-## What is probability?
+## What is probability? {#whatIsProbability}
 We start with a classical example: tossing a coin. If you have one, take it in your hands, look at it, and answer a question: what outcome will you have if you toss it? Toss it once and, let's say, it ended up showing heads. Can you predict the outcome of the next toss based on this observation? What if you toss it again and end up with tails? Would that change your prediction for the next toss?
 
 What we could do in this situation to predict future outcomes is to write down the results of tosses as zeroes (for heads) and ones (for tails). We will then have a set of observations of a style:
@@ -16,3 +16,28 @@ Probability is the measure of how likely an event is expected to occur if we obs
 :::
 
 This definition means that we cannot tell what the next outcome of the experiment will be (whether the coin flip will result in heads or tails). We can rather say what will happen on average if the experiment is repeated many times. By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.
+
+
+## What is random variable?
+We have already discussed what a variable is in Section \@ref(typesOfData) of this textbook. Just as a reminder, it is a symbol that represents any of a set of potential values. If the value of variable is known in advance, then it can be considered deterministic. However, if the value depends on random events (and thus is not known in advance) then such variable is called **random variable** (or stochastic variable). In Section \@ref(whatIsProbability) we discussed the idea of probability and random events with example of coin tossing. If we continue that example then we could encode the outcome of coin tossing as $y$, expecting it to take value of 0 in case of heads and 1 in case of tails. This variable would be random because the outcome of each coin toss is not known in advance.
+
+Fundamentally speaking, the randomness appears because of the lack of information about the environment. If we knew the initial state of the coin, the power of toss and could take into account all movements of air around it and somehow control all possible uncertainties around the flight of the coin, then we would be able to predict what the outcome would be. In that case the event would not be random any more, and thus the variable encoding the process would be deterministic. In real life, we do not know all the factors impacting the response variable (the variable of interest) and thus we consider their impact random.
+
+::: remark
+The randomness disappears as soon as we observe the outcome of the event. For example, if we toss the coin for the first time and obtain tails, then the first value of the variable $y$ is $y_1=1$. The variable itself stays random, but the specific outcome for the first trial is not random any more.
+:::
+
+There are two types of random variables:
+
+1. Discrete;
+2. Continuous.
+
+The first type represents the variable that takes count values. For example, variable $y$ for the event "coin tossing" is discrete because it can only take values of 0 and 1. Another classical example is the variable encoding the score shown on a conventional game dice, which can take randomly any value from 1 to 6. The dice cannot take a value of 4.123, so the variable encoding it is discrete.
+
+The second type represents the variable taking non-count value, such as real number over the whole range of values or on a specific interval of values. An example of a continuous variable is the time on a stopwatch, when a runner crosses the finish line.
+
+::: remark
+The discrete variable can be considered as a continuous or approximated by the models for continuous ones when it has many options. For example, the sales of wine can be measured in bottles, which is a discrete variable, but if the sales are measured in thousands of units then it might be easier to consider the variable to be continuous instead.
+:::
+
+Finally, if we want to measure the probability of random variable taking specific values, then for the discrete variable it can be done by considering the chance of that specific outcome over all possible ones. For example, for the fair dice, the chance of obtaining 3 is $\frac{1}{6}$: it can take values of 1, 2, 3, 4, 5 and 6. However, the probability that a continuous variable takes a specific value is zero, because the number of all possible cases for the continuous variable is infinite. For example, the time of a 100 meter runner can be anything between 9.2 seconds (which comes from the physics of human body) and infinity (if person never finishes). The probability that I will finish a race in 10 seconds is zero not because I am not fit enough, but rather because it is almost impossible to do that precisely on 10.000000 and not, let us say, on 10.000001.
