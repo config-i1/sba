@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>13.1 Dummy variables for the intercept | Statistics for Business Analytics</title>
+  <title>4.1 What is continuous distribution? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="13.1 Dummy variables for the intercept | Statistics for Business Analytics" />
+  <meta property="og:title" content="4.1 What is continuous distribution? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="13.1 Dummy variables for the intercept | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="4.1 What is continuous distribution? | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dummyVariables.html"/>
-<link rel="next" href="categorical-variables-for-the-slope.html"/>
+<link rel="prev" href="distributions.html"/>
+<link rel="next" href="distributionsNormal.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -385,117 +385,57 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="dummy-variables-for-the-intercept" class="section level2" number="13.1">
-<h2><span class="header-section-number">13.1</span> Dummy variables for the intercept</h2>
-<p>As we remember from Section <a href="scales.html#scales">1.2</a>, the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. “red” - “1,” “green” - “2,” “blue” - “3”), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in operations with these values. In order to overcome this limitation, we could create a set of dummy variables, each of which would be equal to one if the value of the original variable is equal to a specific value and zero otherwise. Consider the example with colours, where we have three types of t-shirts to sell:</p>
-<ol style="list-style-type: decimal">
-<li>Red,</li>
-<li>Green,</li>
-<li>Blue.</li>
-</ol>
-<p>Every t-shirt in our dataset would have one of these colours, and based on this we could create three dummy variables:</p>
-<ol style="list-style-type: decimal">
-<li>colourRed, which would be equal to one if the t-shirt is Red and zero otherwise,</li>
-<li>colourGreen: 1 if the t-shirt is Green and 0 otherwise,</li>
-<li>colourBlue: 1 if the t-shirt is Blue and 0 otherwise.</li>
-</ol>
-<p>These dummy variables can then be added to a model instead of the original variable colour, resulting, for example, in the model:
-<span class="math display" id="eq:regressionDummies01">\[\begin{equation}
-    sales_j = \beta_0 + \beta_1 price_j + \beta_2 colourRed_j + \beta_3 colourGreen_j + \epsilon_j .
-    \tag{13.1}
-\end{equation}\]</span>
-Notice that I have only included two dummy variables out of the three. This is because we do not need to have all of them to be able to say what colour of t-shirt we have: if it is not Red and not Green, then it must be Blue. Furthermore, while some models and estimation methods could handle all the dummy variables in the model, the linear regression cannot be estimated via the conventional methods if they are all in. This is exactly because of this situation with “not Red, not Green.” If we introduce all three, the model will have so called “dummy variables trap,” implying perfect multicollinearity (see Subsection <a href="assumptionsXreg.html#assumptionsXreg">15.3</a>), because of the functional relation between variables:
-<span class="math display" id="eq:regressionDummies02">\[\begin{equation}
-    colourBlue_j = 1 - colourRed_j - colourGreen_j \text{ for all } j=1, \dots, n .
-    \tag{13.2}
-\end{equation}\]</span>
-This is a general rule: if you have created a set of dummy variables from a categorical one, then one of them needs to be dropped, in order not to have the dummy variables trap.</p>
-<p>So, what does the inclusion of dummy variables in the regression model means? We can see that on the following example of artificial data:</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="dummy-variables-for-the-intercept.html#cb156-1" aria-hidden="true" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb156-2"><a href="dummy-variables-for-the-intercept.html#cb156-2" aria-hidden="true" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb156-3"><a href="dummy-variables-for-the-intercept.html#cb156-3" aria-hidden="true" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb156-4"><a href="dummy-variables-for-the-intercept.html#cb156-4" aria-hidden="true" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb156-5"><a href="dummy-variables-for-the-intercept.html#cb156-5" aria-hidden="true" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirts <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="dv">30</span>, <span class="sc">-</span><span class="dv">20</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirts)</span>
-<span id="cb156-6"><a href="dummy-variables-for-the-intercept.html#cb156-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tShirts) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;colourRed&quot;</span>,<span class="st">&quot;colourGreen&quot;</span>,<span class="st">&quot;colourBlue&quot;</span>)</span></code></pre></div>
-<p>We can produce spread plot to see how the data looks like:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="dummy-variables-for-the-intercept.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spread</span>(tShirts)</span></code></pre></div>
-<div class="figure"><span id="fig:tShirtsSpread"></span>
-<img src="adam_files/figure-html/tShirtsSpread-1.png" alt="Spread plot of t-shirts data." width="672" />
+<div id="what-is-continuous-distribution" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> What is continuous distribution?</h2>
+<p>The main difference arises from the idea discussed in Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>: the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure <a href="what-is-continuous-distribution.html#fig:distributionContinuousExample">4.1</a> demonstrates an empirical distribution of continuous random variable.</p>
+<div class="figure"><span id="fig:distributionContinuousExample"></span>
+<img src="adam_files/figure-html/distributionContinuousExample-1.png" alt="Distribution of a continuous random variable." width="672" />
 <p class="caption">
-Figure 13.1: Spread plot of t-shirts data.
+Figure 4.1: Distribution of a continuous random variable.
 </p>
 </div>
-<p>Figure @red(fig:tShirtsSpread) demonstrates that the sales differ depending on the type of colour (the boxplots). The scatterplot between sales and price is not very clear, but there are actually three theoretical lines on that plot. We can enlarge the plot and draw them:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="dummy-variables-for-the-intercept.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tShirts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb158-2"><a href="dummy-variables-for-the-intercept.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">30</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb158-3"><a href="dummy-variables-for-the-intercept.html#cb158-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000-20</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb158-4"><a href="dummy-variables-for-the-intercept.html#cb158-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">50</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:tShirtsScatterPlot"></span>
-<img src="adam_files/figure-html/tShirtsScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour." width="672" />
+<p>Based on Figure <a href="what-is-continuous-distribution.html#fig:distributionContinuousExample">4.1</a>, we can say that the probability of obtaining the value between 100 and 105 is higher than for the variable to get any other interval. It also looks like the variable is continuous on the interval between 75 and 125, and we do not observe any values outside of this interval.</p>
+<p>Almost any continuous distribution can be characterised by several functions:</p>
+<ol style="list-style-type: decimal">
+<li>Probability density function (PDF);</li>
+<li>Cumulative distribution function (CDF);</li>
+<li>Quantile function (QF);</li>
+<li>Moment Generation Function (MMF);</li>
+<li>Characteristic function.</li>
+</ol>
+<p>PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntro">4.2</a> demonstrates an example of PDF of Normal distribution (discussed in more detail in Section <a href="distributionsNormal.html#distributionsNormal">4.2</a>).</p>
+<div class="figure"><span id="fig:dnormPlotIntro"></span>
+<img src="adam_files/figure-html/dnormPlotIntro-1.png" alt="Probability Density Function of Normal distribution" width="672" />
 <p class="caption">
-Figure 13.2: Scatterplot of Sales vs Price of t-shirts of different colour.
+Figure 4.2: Probability Density Function of Normal distribution
 </p>
 </div>
-<p>Now, if we want to construct the regression that would take these differences into account, we need to estimate the model <a href="dummy-variables-for-the-intercept.html#eq:regressionDummies01">(13.1)</a>:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="dummy-variables-for-the-intercept.html#cb159-1" aria-hidden="true" tabindex="-1"></a>tShirtsALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colourRed<span class="sc">+</span>colourGreen, tShirts, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb159-2"><a href="dummy-variables-for-the-intercept.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tShirtsALM)</span></code></pre></div>
-<pre><code>## Response variable: sales
-## Distribution used in the estimation: Normal
-## Loss function used in estimation: MSE
-## Coefficients:
-##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1052.0448     3.6871  1044.7577   1059.3318 *
-## price         -2.5728     0.1786    -2.9258     -2.2199 *
-## colourRed    -20.1551     0.9380   -22.0090    -18.3013 *
-## colourGreen  -71.0719     0.9395   -72.9286    -69.2152 *
-## 
-## Error standard deviation: 4.6679
-## Sample size: 150
-## Number of estimated parameters: 4
-## Number of degrees of freedom: 146
-## Information criteria:
-##      AIC     AICc      BIC     BICc 
-## 891.8407 892.1166 903.8833 904.5744</code></pre>
-<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1052. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
-<ol style="list-style-type: decimal">
-<li>For the blue t-shirt, our model is: sales=1052.04-2.57price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
-<li>For the red t-shirt the model is: sales=1052.04+-20.16-2.57price+et or sales=1031.88-2.57price+et;</li>
-<li>Finally, for the green one, the model is: sales=1052.04+-71.07-2.57price+et or sales=980.97-2.57price+et.</li>
-</ol>
-<p>In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model <code>tShirtsALM</code>.</p>
-<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1052.04, 1031.88 and 980.97 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="dummy-variables-for-the-intercept.html#cb161-1" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
-<span id="cb161-2"><a href="dummy-variables-for-the-intercept.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
-<span id="cb161-3"><a href="dummy-variables-for-the-intercept.html#cb161-3" aria-hidden="true" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
-<pre><code>##   colourRed colourGreen  colourBlue 
-##    10.25389   -40.66288    30.40900</code></pre>
-<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 10 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
-<p>In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable <code>colour</code>:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="dummy-variables-for-the-intercept.html#cb163-1" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb163-2"><a href="dummy-variables-for-the-intercept.html#cb163-2" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Green&quot;</span>,<span class="st">&quot;Blue&quot;</span>)[tShirts[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="sc">%*%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
-<span id="cb163-3"><a href="dummy-variables-for-the-intercept.html#cb163-3" aria-hidden="true" tabindex="-1"></a><span class="fu">spread</span>(tShirtsDataFrame)</span></code></pre></div>
-<p><img src="adam_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
-<p>Notice that the “Blue” was automatically set as the first level, because <code>factor()</code> function would sort labels alphabetically unless the levels are provided explicitly. The estimated model in this case will be exactly the same as the <code>tShirts</code> model above:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="dummy-variables-for-the-intercept.html#cb164-1" aria-hidden="true" tabindex="-1"></a>tShirtsDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colour, tShirtsDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb164-2"><a href="dummy-variables-for-the-intercept.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tShirtsDataFrameALM)</span></code></pre></div>
-<pre><code>## Response variable: sales
-## Distribution used in the estimation: Normal
-## Loss function used in estimation: MSE
-## Coefficients:
-##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1052.0448     3.6871  1044.7577   1059.3318 *
-## price         -2.5728     0.1786    -2.9258     -2.2199 *
-## colourGreen  -71.0719     0.9395   -72.9286    -69.2152 *
-## colourRed    -20.1551     0.9380   -22.0090    -18.3013 *
-## 
-## Error standard deviation: 4.6679
-## Sample size: 150
-## Number of estimated parameters: 4
-## Number of degrees of freedom: 146
-## Information criteria:
-##      AIC     AICc      BIC     BICc 
-## 891.8407 892.1166 903.8833 904.5744</code></pre>
-<p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>colourRed</code> and only have the model with <code>colourGreen</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.</p>
+<p>It can be seen from the Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntro">4.2</a> that the density of the distribution is higher at its centre, around zero, which means that it is more likely to get values around the centre rather than near the tails of the distribution.</p>
+<p>If we want to work with probabilities in case of the continuous distribution, we need to use CDF, which is similar to the one discussed in the Chapter <a href="countDistributions.html#countDistributions">3</a>. Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntroCDF">4.3</a> shows example of CDF of Normal distribution.</p>
+<div class="figure"><span id="fig:dnormPlotIntroCDF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroCDF-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.3: Cumulative Distribution Function of Normal distribution
+</p>
+</div>
+<p>The CDF of continuous variable has the same properties as CDF of the discrete one with the minor differences: in a general case it converges to one with the increase of the value <span class="math inline">\(y\)</span> and converges to zero with the decrease of it. There are some continuous distributions that are restricted with an interval. For those distributions, the CDF reaches boundary values.</p>
+<p>CDF is obtained by calculating the surface of PDF for each specific value of <span class="math inline">\(y\)</span>. Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntroCDFPDF">4.4</a> shows the connection between them.</p>
+<div class="figure"><span id="fig:dnormPlotIntroCDFPDF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroCDFPDF-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.4: Cumulative Distribution Function of Normal distribution
+</p>
+</div>
+<p>The dark area in the first plot in Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntroCDFPDF">4.4</a> is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to 0.16.</p>
+<p>Another important function is the Quantile Function. It returns the value of <span class="math inline">\(y\)</span> for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles. Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntroQF">4.5</a> demonstrates the quantile function of Normal distribution.</p>
+<div class="figure"><span id="fig:dnormPlotIntroQF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroQF-1.png" alt="Quantile Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.5: Quantile Function of Normal distribution
+</p>
+</div>
+<p>The dashed lines in Figure <a href="what-is-continuous-distribution.html#fig:dnormPlotIntroQF">4.5</a> show the value of <span class="math inline">\(y\)</span> for the probability 0.25 according to the quantile function. In this example <span class="math inline">\(y \approx -0.68\)</span>, meaning that in 25% of the cases the random variable <span class="math inline">\(y\)</span> will lie below this value. The quantiles of distributions are discussed in more detail in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>.</p>
+<p>Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.</p>
 </div>
 
             </section>
@@ -503,8 +443,8 @@ Figure 13.2: Scatterplot of Sales vs Price of t-shirts of different colour.
           </div>
         </div>
       </div>
-<a href="dummyVariables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="categorical-variables-for-the-slope.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionsNormal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -536,7 +476,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//13-dummy-variables.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//04-distributions-continuous.Rmd",
 "text": "Edit"
 },
 "history": {
