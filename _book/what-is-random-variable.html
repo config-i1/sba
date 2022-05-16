@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.5 Prediction interval | Statistics for Business Analytics</title>
+  <title>4.1 What is random variable? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.5 Prediction interval | Statistics for Business Analytics" />
+  <meta property="og:title" content="4.1 What is random variable? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.5 Prediction interval | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="4.1 What is random variable? | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="confidenceInterval.html"/>
-<link rel="next" href="hypothesisTesting.html"/>
+<link rel="prev" href="countDistributions.html"/>
+<link rel="next" href="distributions.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -375,22 +375,29 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="confidenceIntervalsPrediction" class="section level2" number="6.5">
-<h2><span class="header-section-number">6.5</span> Prediction interval</h2>
-<p>If we are interested in capturing the uncertainty about the random variable <span class="math inline">\(y\)</span>, then we should refer to prediction interval. In this case, we typically rely on <a href="#LLNandCLT">LLN</a> and the <a href="distributions.html#distributions">assumed distribution</a> for the random variable <span class="math inline">\(y\)</span>. For example, if we know that <span class="math inline">\(y \sim \mathcal{N}(\mu, \sigma^2)\)</span>, then based on our sample we can construct a prediction interval of the width <span class="math inline">\(1-\alpha\)</span>:
-<span class="math display" id="eq:predictionInterval">\[\begin{equation}
-    y \in (\bar{y} + z_{\alpha/2} s, \bar{y} + z_{1-\alpha/2} s),
-    \tag{6.5}
-\end{equation}\]</span>
-where <span class="math inline">\(z_{\alpha/2}\)</span> is the z-statistics (quantile of standard normal distribution) for the level <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(\bar{y}\)</span> is the sample estimate of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(s\)</span> is the sample estimate of <span class="math inline">\(\sigma\)</span>. The graphical presentation of such interval can be shown as in Figure <a href="confidenceIntervalsPrediction.html#fig:predictionInterval">6.11</a>.</p>
-<div class="figure"><span id="fig:predictionInterval"></span>
-<img src="adam_files/figure-html/predictionInterval-1.png" alt="Artificial data, mean, confidence and prediction intervals." width="672" />
-<p class="caption">
-Figure 6.11: Artificial data, mean, confidence and prediction intervals.
-</p>
+<div id="what-is-random-variable" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> What is random variable?</h2>
+<p>We have already discussed what a variable is in Section <a href="typesOfData.html#typesOfData">1.3</a> of this textbook. Just as a reminder, it is a symbol that represents any of a set of potential values. If the value of variable is known in advance, then it can be considered deterministic. However, if the value depends on random events (and thus is not known in advance) then such variable is called <strong>random variable</strong> (or stochastic variable). In the previous chapter we discussed the idea of probability and random events with example of coin tossing. If we continue that example then we could encode the outcome of coin tossing as <span class="math inline">\(y\)</span>, expecting it to take value of 0 in case of heads and 1 in case of tails. This variable would be random because the outcome of each coin toss is not known in advance.</p>
+<p>Fundamentally speaking, the randomness appears because of the lack of information about the environment. If we knew the initial state of the coin, the power of toss and could take into account all movements of air around it and somehow control all possible uncertainties around the flight of the coin, then we would be able to predict what the outcome would be. In that case the event would not be random any more, and thus the variable encoding the process would be deterministic. In real life, we do not know all the factors impacting the response variable (the variable of interest) and thus we consider their impact random.</p>
+<div class="remark">
+<p><span id="unlabeled-div-3" class="remark"><em>Remark</em>. </span>The randomness disappears as soon as we observe the outcome of the event. For example, if we toss the coin for the first time and obtain tails, then the first value of the variable <span class="math inline">\(y\)</span> is <span class="math inline">\(y_1=1\)</span>. The variable itself stays random, but the specific outcome for the first trial is not random any more.</p>
 </div>
-<p>Figure <a href="confidenceIntervalsPrediction.html#fig:predictionInterval">6.11</a> shows the 95% prediction interval on two plots: the linear plot of values vs observations id and on the histogram. In both cases the prediction intervals are the dashed orange lines, lying further away from the sample mean (the solid blue line). The two solid red lines around the mean represent the 95% confidence intervals for the mean (discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>). As can be seen, the prediction intervals show, where the 95% of observations are expected to lie. As a result, several observations lie outside the bounds (given the sample of 100 observations, we would expect 5 of them to lie outside, but this will vary from one sample to another). In contrast, confidence interval shows, where the expectation of the population will lie in 95% of the cases, if the interval is constructed many times for random samples.</p>
-<p>The formula <a href="confidenceIntervalsPrediction.html#eq:predictionInterval">(6.5)</a> relies on the assumption of normality. If it does not hold, the formula would change. In a way, the prediction interval just comes to getting the quantiles of the assumed distribution based on estimated parameters. In some cases, when some of the <a href="assumptions.html#assumptions">assumptions</a> do not hold, we might switch to more advanced methods for prediction interval construction.</p>
+<p>There are two types of random variables:</p>
+<ol style="list-style-type: decimal">
+<li>Discrete;</li>
+<li>Continuous.</li>
+</ol>
+<p>The first type represents the variable that takes count values. For example, variable <span class="math inline">\(y\)</span> for the event “coin tossing” is discrete because it can only take values of 0 and 1. Another classical example is the variable encoding the score shown on a conventional game dice, which can take randomly any value from 1 to 6. The dice cannot take a value of 4.123, so the variable encoding it is discrete.</p>
+<p>The second type represents the variable taking non-count value, such as real number over the whole range of values or on a specific interval of values. An example of a continuous variable is the time on a stopwatch, when a runner crosses the finish line.</p>
+<div class="remark">
+<p><span id="unlabeled-div-4" class="remark"><em>Remark</em>. </span>The discrete variable can be considered as a continuous or approximated by the models for continuous ones when it has many options. For example, the sales of wine can be measured in bottles, which is a discrete variable, but if the sales are measured in thousands of units then it might be easier to consider the variable to be continuous instead.</p>
+</div>
+<p>Finally, if we want to measure the probability of random variable taking specific values, then for the discrete variable it can be done by considering the chance of that specific outcome over all possible ones. For example, for the fair dice, the chance of obtaining 3 is <span class="math inline">\(\frac{1}{6}\)</span>: it can take values of 1, 2, 3, 4, 5 and 6. However, the probability that a continuous variable takes a specific value is zero, because the number of all possible cases for the continuous variable is infinite. For example, the time of a 100 meter runner can be anything between 9.2 seconds (which comes from the physics of human body) and infinity (if person never finishes). The probability that I will finish a race in 10 seconds is zero not because I am not fit enough, but rather because it is almost impossible to do that precisely on 10.000000 and not, let us say, on 10.000001.</p>
+<!-- ## Tossing a coin -- Bernouli distribution -->
+<!-- ## Outcomes of multiple trials -- Binomial distribution -->
+<!-- ## Poisson distribution  -->
+<!-- ## Geometric -->
+<!-- ## Negative Binomial -->
 
 </div>
 <!-- </div> -->
@@ -400,8 +407,8 @@ Figure 6.11: Artificial data, mean, confidence and prediction intervals.
           </div>
         </div>
       </div>
-<a href="confidenceInterval.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="hypothesisTesting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="countDistributions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -433,7 +440,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//06-population-sampling.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//04-distributions-count.Rmd",
 "text": "Edit"
 },
 "history": {
