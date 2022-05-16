@@ -129,6 +129,7 @@ summary(mtcarsData)
 
 
 ## Graphical analysis {#dataAnalysisGraphical}
+### One categorical/discrete variable
 Continuing our example with `mtcars` dataset, we now investigate what plots can be used for different types of data. As discussed earlier, we have two categorical variables: vs and am - and they need to be treated differently than the numerical ones. We can start by producing their barplots:
 
 ```{r barplotVS, fig.cap="Barplot for the engine type."}
@@ -136,7 +137,12 @@ barplotVS <- barplot(table(mtcarsData$vs), xlab="Type of engine")
 text(barplotVS,table(mtcarsData$vs)/2,table(mtcarsData$vs),cex=1.25)
 ```
 
-This is just a graphical presentation of the contingency table we have already discussed earlier. Note that histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous. Barplots are useful when you deal with either categorical variables or integer numerical ones. Here is what we can produce in case of the integer variable `cyl`:
+This is just a graphical presentation of the contingency table we have already discussed earlier.
+
+::: remark 
+Histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous (see Section \@ref(whatIsRandomVariable)) - they will split the values of a variable in the bins, based on the idea that the variable can take any of the values in each bin.
+:::
+Barplots are useful when you deal with either categorical variables or integer numerical ones. Here is what we can produce in case of the integer variable `cyl`:
 
 ```{r barplotCYL, fig.cap="Barplot for the number of cylinders."}
 barplotCYL <- barplot(table(mtcarsData$cyl), xlab="Number of cylinders")
@@ -151,6 +157,8 @@ hist(mtcarsData$cyl)
 
 Figure \@ref(fig:histogramCYL) is difficult to read, because on histogram, the bars show frequency at which continuous variable appears in pre-specified bins. In our case we would conclude that the most frequently cars in the dataset are those that have 7.5 - 8 cylinders, which is wrong and misleading. In addition, this basic plot does not have a readable label for x-axis and a meaningful title (in fact, we do not need one, given that we have caption). So, always label your axis and make sure that the text on plots is easy to understand for those people who do not work with the data.
 
+
+### Two categorical/discrete variables
 Coming back to categorical variables, we can construct two-dimensional plots to investigate potential relations between variables. We will first try the same barplot as above, but with `vs` and `am` variables:
 
 ```{r barplotVSAM, fig.cap="Barplot for the type of engine and transmission."}
@@ -174,7 +182,9 @@ tableplot(mtcarsData$cyl,mtcarsData$vs,
 
 Figure \@ref(fig:tableplotCYLVS) allows making more solid conclusions about the relation between the two variables: we see that with the increase of the number of cylinders, the cars tend to switch from Straight to the V-shaped engines. This has an explanation: the engines with more cylinders need to have a different geometry to fit them all, and the V shape is more suitable for them. The table plot shows clearly this relation between the two variables.
 
-Next, we can analyse the numerical variables. We can start with the basic histogram:
+
+### One numerical continuous variable
+Next, we can analyse the numerical continuous variables. We can start with the basic histogram:
 
 ```{r histWeight, fig.cap="Distribution of the weights of cars."}
 hist(mtcarsData$wt, xlab="Weight", main="", probability=TRUE)
@@ -210,6 +220,8 @@ qqline(mtcarsData$wt)
 
 The idea of the plot on Figure \@ref(fig:QQWeight) is to compare theoretical quantiles with the empirical ones. If the variable would follow the specific distribution, then all the points would lie on the solid line. In our case, they do not: there are points in the right tail that are very far from the line - so we would conclude that the distribution of weight does not look Normal.
 
+
+### Two continuous numerical variables
 So far, we have discussed the univariate analysis of numerical variables, but we can also produce plots showing potential relations between them. We start with the classical scatterplot:
 
 ```{r scatterWeightMPG, fig.cap="Scatterplot diagram between weight and mileage."}
@@ -219,6 +231,8 @@ lines(lowess(mtcarsData$wt, mtcarsData$mpg), col="red")
 
 The plot on Figure \@ref(fig:scatterWeightMPG) shows the observations that have specific weight and mileage. Based on this, we can see if there is a relation between variables or not and what sort of relation this is. In order to simplify analysis, I have added the lowess line to the plot. It smooths the relation between variables, drawing the smooth line through the points and helps in understanding the existing relations in the data. Judging by Figure \@ref(fig:scatterWeightMPG), there is a negative, slightly non-linear relation between the variables: the mileage decreases with reduced speed, when weight of a car increases. This relation makes sense, because heavier cars will consume more fuel and thus drive less on a gallon of petrol.
 
+
+### A mixture of variables
 We could construct similar plots for all the other numerical variables, but not all plots would be helpful. For example, a plot of mileage versus number of forward gears would be very difficult to read (see Figure \@ref(fig:scatterGearMPG)).
 
 ```{r scatterGearMPG, fig.cap="Scatterplot diagram between weight and mileage."}
@@ -248,6 +262,8 @@ vioplot(mpg~am, mtcarsData, xlab="Transmission type", ylab="Mileage")
 points(tapply(mtcarsData$mpg, mtcarsData$am, mean), col="red", pch=16)
 ```
 
+
+### Plot for several variables
 Finally, producing plots one by one might be a tedious and challenging task, so it is good to have some instruments for producing several of them together. The `plot()` method will produce scatterplot matrix for numerical variables, but does not deal well with integer and categorical variables:
 
 ```{r scatterMatrix, fig.cap="Scatterplot matrix for the mtcars dataset."}
