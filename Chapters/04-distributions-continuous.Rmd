@@ -1,9 +1,71 @@
 # Continuous distributions {#distributions}
-There are several probability distributions that will be helpful in the further chapters of this textbook. They becomes useful in a variety of contexts, and it is important to be at least aware of them. In this chapter we discuss them in more detail, introducing mathematical notations and providing examples of what these distributions arise from.
+<!-- There are several probability distributions that will be helpful in the further chapters of this textbook. They becomes useful in a variety of contexts, and it is important to be at least aware of them. In this chapter we discuss them in more detail, introducing mathematical notations and providing examples of what these distributions arise from. -->
+
+After discussing the discrete probability distributions, we can now move to the continuous ones. The idea behind them is similar to the one discussed in Chapter \@ref(countDistributions). The main difference arises from the idea discussed in Section \@ref(whatIsRandomVariable): the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure \@ref(fig:distributionContinuousExample) demonstrates an empirical distribution of continuous random variable.
+
+```{r distributionContinuousExample, echo=FALSE, fig.cap="Distribution of a continuous random variable."}
+set.seed(41)
+yHist <- hist(rnorm(100,100,10), probability=TRUE, main="",
+              xlab="Value of variable", ylab="Probability of outcome",
+              axes=FALSE)
+axis(side=2)
+axis(side=1, at=yHist$breaks)
+```
+
+Based on Figure \@ref(fig:distributionContinuousExample), we can say that the probability of obtaining the value between 100 and 105 is higher than for the variable to get any other interval. It also looks like the variable is continuous on the interval between 75 and 125, and we do not observe any values outside of this interval.
+
+Almost any continuous distribution can be characterised by several functions:
+
+1. Probability density function (PDF);
+2. Cumulative distribution function (CDF);
+3. Quantile function (QF);
+4. Moment Generation Function (MMF);
+5. Characteristic function.
+
+PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure \@ref(fig:dnormPlotIntro) demonstrates an example of PDF of normal distribution.
+
+```{r dnormPlotIntro, fig.cap="Probability Density Function of Normal distribution", echo=FALSE}
+plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
+```
+
+It can be seen from the Figure \@ref(fig:dnormPlotIntro) that the density of the distribution is higher at its centre, around zero, which means that it is more likely to get values around the centre rather than near the tails of the distribution.
+
+If we want to work with probabilities in case of the continuous distribution, we need to use CDF, which is similar to the one discussed in the Chapter \@ref(countDistributions). Figure \@ref(fig:dnormPlotIntroCDF) shows example of CDF of Normal distribution.
+
+```{r dnormPlotIntroCDF, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="CDF",xlab="y",main="")
+```
+
+The CDF of continuous variable has the same properties as CDF of the discrete one with the minor differences: in a general case it converges to one with the increase of the value $y$ and converges to zero with the decrease of it. There are some continuous distributions that are restricted with an interval. For those distributions, the CDF reaches boundary values.
+
+CDF is obtained by calculating the surface of PDF for each specific value of $y$. Figure \@ref(fig:dnormPlotIntroCDFPDF) shows the connection between them.
+
+```{r dnormPlotIntroCDFPDF, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
+par(mfcol=c(2,1), mar=c(2,4,1,1))
+plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
+polygon(c(seq(-3,0,0.01),rev(seq(-3,0,0.01))),
+        c(dnorm(seq(-3,0,0.01)), rep(0,length(seq(-3,0,0.01)))), col="grey")
+abline(v=0,col="darkred",lwd=2,lty=2)
+
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="CDF",xlab="y",main="")
+lines(c(0,0),c(0,0.5),col="darkred",lwd=2,lty=2)
+lines(c(-4,0),c(0.5,0.5),col="darkred",lwd=2,lty=2)
+```
+
+
+Another important function is the Quantile Function. It returns the value of $y$ for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles.
+
+
+
+Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.
+
+
+In this Chapter, we will discuss several continuous distributions, including: Uniform, Normal, Exponential, Laplace, S, Generalised Normal, Asymmetric Laplace, Log Normal, Inverse Gaussian and Gamma.
 
 
 ## Normal distribution {#distributionsNormal}
-Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions in some conditions (see discussion of "Central Limit Theorem" in Section \@ref(CLT)). 
+Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of "Central Limit Theorem" in Section \@ref(CLT)).
+
 Here is the probability density function (PDF) of this distribution:
 \begin{equation}
     f(y_t) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} \right) ,
