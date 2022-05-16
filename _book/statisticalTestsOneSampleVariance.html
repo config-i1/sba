@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8.2 One-sample test about variance | Statistics for Business Analytics</title>
+  <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8.2 One-sample test about variance | Statistics for Business Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="github-repo" content="config-i1/sba" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8.2 One-sample test about variance | Statistics for Business Analytics" />
+  
+  <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  
+
+<meta name="author" content="Ivan Svetunkov" />
+
+
+<meta name="date" content="2022-05-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statisticalTestsOneSampleMean.html"/>
+<link rel="next" href="correlations.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script async defer src="https://hypothes.is/embed.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XH37Z8VYP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XH37Z8VYP8');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics for Business Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
+<li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>3</b> Probability theory</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="what-is-probability.html"><a href="what-is-probability.html"><i class="fa fa-check"></i><b>3.1</b> What is probability?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>4</b> Random variables and count distributions</a></li>
+<li class="chapter" data-level="5" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>5</b> Continuous distributions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>5.1</b> Normal distribution</a></li>
+<li class="chapter" data-level="5.2" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>5.2</b> Laplace distribution</a></li>
+<li class="chapter" data-level="5.3" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>5.3</b> S distribution</a></li>
+<li class="chapter" data-level="5.4" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>5.4</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="5.5" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>5.5</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="5.6" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>5.6</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="5.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>5.7</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="5.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>5.8</b> Gamma distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>6.1</b> Law of Large Numbers</a></li>
+<li class="chapter" data-level="6.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>6.2</b> Central Limit Theorem</a></li>
+<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>6.3.1</b> Bias</a></li>
+<li class="chapter" data-level="6.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>6.3.2</b> Efficiency</a></li>
+<li class="chapter" data-level="6.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>6.3.3</b> Consistency</a></li>
+<li class="chapter" data-level="6.3.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>6.3.4</b> Asymptotic normality</a></li>
+<li class="chapter" data-level="6.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
+<li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
+<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
+<li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+<li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
+<li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>10.1.1</b> Residuals of model estimated via OLS</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.2</b> Quality of a fit</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
+<li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>14.1</b> Example of application</a></li>
+<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>14.2.1</b> Linear model</a></li>
+<li class="chapter" data-level="14.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>14.2.2</b> Log-Log model</a></li>
+<li class="chapter" data-level="14.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>14.2.3</b> Log-linear model</a></li>
+<li class="chapter" data-level="14.2.4" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-log-model"><i class="fa fa-check"></i><b>14.2.4</b> Linear-Log model</a></li>
+<li class="chapter" data-level="14.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>14.2.5</b> Square root model</a></li>
+<li class="chapter" data-level="14.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>14.2.6</b> Quadratic model</a></li>
+<li class="chapter" data-level="14.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>14.2.7</b> Polynomial model</a></li>
+<li class="chapter" data-level="14.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>14.2.8</b> Box-Cox transform</a></li>
+<li class="chapter" data-level="14.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>14.2.9</b> Logistic transform</a></li>
+<li class="chapter" data-level="14.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>14.2.10</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted"><i class="fa fa-check"></i><b>15.1.1</b> Omitted variables</a></li>
+<li class="chapter" data-level="15.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant"><i class="fa fa-check"></i><b>15.1.2</b> Redundant variables</a></li>
+<li class="chapter" data-level="15.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations"><i class="fa fa-check"></i><b>15.1.3</b> Transformations</a></li>
+<li class="chapter" data-level="15.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers"><i class="fa fa-check"></i><b>15.1.4</b> Outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations"><i class="fa fa-check"></i><b>15.2.1</b> No autocorrelations</a></li>
+<li class="chapter" data-level="15.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity"><i class="fa fa-check"></i><b>15.2.2</b> Homoscedastic residuals</a></li>
+<li class="chapter" data-level="15.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean"><i class="fa fa-check"></i><b>15.2.3</b> Mean of residuals</a></li>
+<li class="chapter" data-level="15.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>15.2.4</b> Distributional assumptions</a></li>
+<li class="chapter" data-level="15.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed"><i class="fa fa-check"></i><b>15.2.5</b> Distribution does not change</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>15.3.1</b> Multicollinearity</a></li>
+<li class="chapter" data-level="15.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>15.3.2</b> Endogeneity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
+<li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
+<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>17.1.1</b> Graphical explanation</a></li>
+<li class="chapter" data-level="17.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>17.1.2</b> Mathematical explanation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics for Business Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
+</div>
+<div id="statisticalTestsOneSampleVariance" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> One-sample test about variance</h2>
+<p>Another example of a situation that could be potentially interesting in practice is when we are not sure about the estimated variance of a distribution. We might want to understand, whether the variance in population is similar to the value we obtained based on our sample. For illustrative purposes, consider the continued example with the height of humans. After collecting the sample of 30 observations, it was found that the variance of height is 100. However, based on previous survey, we know that the population variance of the height is 121. We want to know whether the in-sample estimate of variance is significantly lower from the population one on 1% significance level. This hypothesis can be formulated as:
+<span class="math display">\[\begin{equation*}
+    \mathrm{H}_0: \sigma^2 \geq 121, \mathrm{H}_1: \sigma^2 &lt; 121 .
+\end{equation*}\]</span>
+where <span class="math inline">\(\sigma^2\)</span> is the population variance. The conventional test for this hypothesis is the Chi-squared test (<span class="math inline">\(\chi^2\)</span>). This is a parametric test, which means that it relies on distributional assumptions. However, unlike the test about the mean from the Section <a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMean">8.1</a> (which assumed that CLT holds, see Section <a href="CLT.html#CLT">6.2</a>), the Chi-squared test relies on the assumption about the random variable itself:
+<span class="math display">\[\begin{equation*}
+    y_j \sim \mathcal{N}(\mu, \sigma^2) ,
+\end{equation*}\]</span>
+which means that (as discussed in Section <a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ">8.1.1</a>):
+<span class="math display">\[\begin{equation*}
+    z_j = \frac{y_j - \mu}{\sigma} \sim \mathcal{N}(0, 1) .
+\end{equation*}\]</span>
+Coming back to the variance, we would typically use the following formula to estimate it in sample:
+<span class="math display">\[\begin{equation*}
+    \mathrm{V}\left( y \right) = \frac{1}{n-1} \sum_{j=1}^n \left(y_j - \bar{y} \right)^2,
+\end{equation*}\]</span>
+where <span class="math inline">\(\bar{y}\)</span> is an unbiased, efficient and consistent estimate of <span class="math inline">\(\mu\)</span> (Section <a href="estimatesProperties.html#estimatesProperties">6.3</a>). If we divide the variance by the true value of the population one, we will get the following:
+<span class="math display">\[\begin{equation*}
+    \frac{\mathrm{V}\left( y \right)}{\sigma^2} = \frac{1}{n-1} \sum_{j=1}^n \frac{\left(y_j - \bar{y} \right)^2}{\sigma^2},
+\end{equation*}\]</span>
+or after multiplying it by <span class="math inline">\(n-1\)</span>:
+<span class="math display" id="eq:chisqFormula">\[\begin{equation}
+    \chi^2 = (n-1) \frac{\mathrm{V}\left( y \right)}{\sigma^2} = \sum_{j=1}^n z_j^2 .
+    \tag{8.3}
+\end{equation}\]</span>
+Given the assumption of normality of the random variable <span class="math inline">\(z_j\)</span>, the variable <a href="statisticalTestsOneSampleVariance.html#eq:chisqFormula">(8.3)</a> will follow the Chi-squared distribution with <span class="math inline">\(n-1\)</span> degrees of freedom (this is the definition of the Chi-squared distribution). This property can be used to test a statistical hypothesis about the variance.</p>
+<p>The hypothesis testing itself is done using the same procedure as before (Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>). After formulating the hypothesis and selecting the significance level, we use the formula <a href="statisticalTestsOneSampleVariance.html#eq:chisqFormula">(8.3)</a> to get the calculated value:
+<span class="math display">\[\begin{equation*}
+    \chi^2 = (30-1) \times \frac{100}{121} \approx 23.97
+\end{equation*}\]</span>
+Given that the alternative hypothesis in our example is “lower than,” we should compare the obtained value with the critical one from the left tail of the distribution, which on 1% significance level is:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="statisticalTestsOneSampleVariance.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.01</span>,<span class="dv">29</span>)</span></code></pre></div>
+<pre><code>## [1] 14.25645</code></pre>
+<p>Comparing the critical and calculated values (<span class="math inline">\(23.97&gt;14.26\)</span>), we conclude that we fail to reject the null hypothesis. This means that the sample variance is not statistically different from the population one. The test of this hypothesis is shown visually in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared">8.2</a>, which shows that the calculated value is not in the tail of the distribution (thus “fail to reject”).</p>
+<div class="figure"><span id="fig:hypothesisTestingChiSquared"></span>
+<img src="adam_files/figure-html/hypothesisTestingChiSquared-1.png" alt="The process of hypothesis testing in Chi-squared distribution (one-tailed case)." width="672" />
+<p class="caption">
+Figure 8.2: The process of hypothesis testing in Chi-squared distribution (one-tailed case).
+</p>
+</div>
+<p>A thing to keep in mind about the Chi-square distribution is that it is in general asymmetric (it converges to normal with the increase of the sample size, see discussion in Chapter <a href="distributions.html#distributions">5</a>). This means that if the alternative hypothesis is formulated as “not equal,” the absolutes of critical values for the left and right tails will differ. This situation is shown in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared2">8.3</a> with the example of 5% significance level, which is split into two equal parts of 2.5% with critical values of 16.05 and 45.72.</p>
+<div class="figure"><span id="fig:hypothesisTestingChiSquared2"></span>
+<img src="adam_files/figure-html/hypothesisTestingChiSquared2-1.png" alt="The process of hypothesis testing in Chi-squared distribution (two-tailed case)." width="672" />
+<p class="caption">
+Figure 8.3: The process of hypothesis testing in Chi-squared distribution (two-tailed case).
+</p>
+</div>
+<p>The surfaces in the tails in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared2">8.3</a> are equal, but because of the asymmetry of distribution they look different.
+<!-- Furthermore, Chi-squared distribution supports positive values only, which is why its left tail starts from zero, while the right one converges to zero asymptotically. --></p>
+<div class="remark">
+<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span>If an analyst needs to conduct the test about the variance of the mean, then only CLT is required to hold, no additional assumptions about the distribution of the random variable <span class="math inline">\(y_j\)</span> are required.</p>
+</div>
+<p>Chi-squared test is also used in many other situations, for example to test the relation between categorical variables (see Section <a href="correlationsNominal.html#correlationsNominal">9.1</a>) or to test the “goodness of fit.” We do not discuss them in this Chapter.</p>
+<p>Finally, there are non-parametric analogues of the Chi-squared test, but they lie outside of the scope of this textbook.</p>
+<!-- ## Two-sample tests for mean -->
+<!-- ### t-test -->
+<!-- ### Wilcoxon -->
+<!-- ### Mann-Whitney -->
+<!-- ## Two-sample test for variance -->
+<!-- ### F-test -->
+<!-- ### Conover squared ranks test -->
+<!-- ## Multiple sample tests -->
+<!-- ### F-test -->
+<!-- ### Kruskal-Wallis -->
+<!-- ### Friedman -->
+<!-- ### Nemenyi / MCB -->
+<!-- The group of tests united by the term "Parametric statistical tests" includes those of them that have some distributional assumptions and typically rely on moments of distributions. These tests are typically more powerful than their non-parametrical counterparts, because they rely on more assumptions. In this Section we discuss the most popular tests that are used in practice. -->
+<!-- ## Selecting appropriate statistical test {#statisticalTestsSelection} -->
+
+</div>
+<!-- </div> -->
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statisticalTestsOneSampleMean.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//08-statistical-tests.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["adam.pdf", "adam.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
