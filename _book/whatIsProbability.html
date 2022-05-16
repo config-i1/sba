@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>13.2 Categorical variables for the slope | Statistics for Business Analytics</title>
+  <title>2.1 What is probability? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="13.2 Categorical variables for the slope | Statistics for Business Analytics" />
+  <meta property="og:title" content="2.1 What is probability? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="13.2 Categorical variables for the slope | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="2.1 What is probability? | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dummy-variables-for-the-intercept.html"/>
-<link rel="next" href="variablesTransformations.html"/>
+<link rel="prev" href="probabilityTheory.html"/>
+<link rel="next" href="whatIsRandomVariable.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -384,75 +384,25 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="categorical-variables-for-the-slope" class="section level2" number="13.2">
-<h2><span class="header-section-number">13.2</span> Categorical variables for the slope</h2>
-<p>In reality, we can have more complicated situations, when the change of price would lead to different changes in sales for different types of t-shirts. In this case, we are talking about an <strong>interaction effect</strong> between price and colour. The following artificial example demonstrates the situation:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="categorical-variables-for-the-slope.html#cb166-1" aria-hidden="true" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb166-2"><a href="categorical-variables-for-the-slope.html#cb166-2" aria-hidden="true" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb166-3"><a href="categorical-variables-for-the-slope.html#cb166-3" aria-hidden="true" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb166-4"><a href="categorical-variables-for-the-slope.html#cb166-4" aria-hidden="true" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb166-5"><a href="categorical-variables-for-the-slope.html#cb166-5" aria-hidden="true" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirtsInteraction <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb166-6"><a href="categorical-variables-for-the-slope.html#cb166-6" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirtsInteraction)</span>
-<span id="cb166-7"><a href="categorical-variables-for-the-slope.html#cb166-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tShirtsInteraction) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;price:colourRed&quot;</span>,</span>
-<span id="cb166-8"><a href="categorical-variables-for-the-slope.html#cb166-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;price:colourGreen&quot;</span>,<span class="st">&quot;price:colourBlue&quot;</span>)</span></code></pre></div>
-<p>This artificial data can be plotted in the following way to show the effect:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="categorical-variables-for-the-slope.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tShirtsInteraction[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb167-2"><a href="categorical-variables-for-the-slope.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-1.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb167-3"><a href="categorical-variables-for-the-slope.html#cb167-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-0.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb167-4"><a href="categorical-variables-for-the-slope.html#cb167-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span><span class="dv">-4</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:tShirtsInteractionScatterPlot"></span>
-<img src="adam_files/figure-html/tShirtsInteractionScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect." width="672" />
-<p class="caption">
-Figure 13.3: Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect.
-</p>
+<div id="whatIsProbability" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> What is probability?</h2>
+<p>We start with a classical example: tossing a coin. If you have one, take it in your hands, look at it, and answer a question: what outcome will you have if you toss it? Toss it once and, let’s say, it ended up showing heads. Can you predict the outcome of the next toss based on this observation? What if you toss it again and end up with tails? Would that change your prediction for the next toss?</p>
+<p>What we could do in this situation to predict future outcomes is to write down the results of tosses as zeroes (for heads) and ones (for tails). We will then have a set of observations of a style:</p>
+<p>1 0 0 1 0 1 1 1 0 1</p>
+<p>If we then take the mean of this series, we will see that the expected outcome based on our sample is 0.6. We would call this value the <strong>empirical probability</strong>. If we continue this experiment for many times, this probability (in the case of a fair coin) will be equal to 0.5, meaning that in the 50% of the cases the coin will show heads and in the other 50% it will be tails. Note that this does not tell us anything about each specific outcome, but only demonstrates what happens on average, when we repeat the experiment many times.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definition 2.1  </strong></span>Probability is the measure of how likely an event is expected to occur if we observe it many times.</p>
 </div>
-<p>The plot on Figure <a href="categorical-variables-for-the-slope.html#fig:tShirtsInteractionScatterPlot">13.3</a> shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure <a href="dummy-variables-for-the-intercept.html#fig:tShirtsScatterPlot">13.2</a>, where we had the difference only in intercepts. This implies a different model:
-<span class="math display" id="eq:regressionDummies03">\[\begin{equation}
-    sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j \times colourRed_j + \beta_3 price_j \times colourGreen_j + \epsilon_j .
-    \tag{13.3}
-\end{equation}\]</span>
-Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model <a href="categorical-variables-for-the-slope.html#eq:regressionDummies03">(13.3)</a> would look like for the three types of colours:</p>
-<ol style="list-style-type: decimal">
-<li>Red colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_2) price_j + \epsilon_j\)</span>;</li>
-<li>Green colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_3 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_3) price_j + \epsilon_j\)</span>;</li>
-<li>Blue colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \epsilon_j\)</span>.</li>
-</ol>
-<p>In R, the interaction effect can be introduced explicitly in the formula via <code>:</code> symbol if you have a proper factor variable:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="categorical-variables-for-the-slope.html#cb168-1" aria-hidden="true" tabindex="-1"></a>tShirtsInteractionDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirtsInteraction[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb168-2"><a href="categorical-variables-for-the-slope.html#cb168-2" aria-hidden="true" tabindex="-1"></a>tShirtsInteractionDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> tShirtsDataFrame<span class="sc">$</span>colour</span>
-<span id="cb168-3"><a href="categorical-variables-for-the-slope.html#cb168-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb168-4"><a href="categorical-variables-for-the-slope.html#cb168-4" aria-hidden="true" tabindex="-1"></a>tShirtsInteractionDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>price<span class="sc">:</span>colour,</span>
-<span id="cb168-5"><a href="categorical-variables-for-the-slope.html#cb168-5" aria-hidden="true" tabindex="-1"></a>                                      tShirtsInteractionDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb168-6"><a href="categorical-variables-for-the-slope.html#cb168-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tShirtsInteractionDataFrameALM)</span></code></pre></div>
-<pre><code>## Response variable: sales
-## Distribution used in the estimation: Normal
-## Loss function used in estimation: MSE
-## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       991.0804     3.9524   983.2690    998.8917 *
-## price              -6.0415     0.1976    -6.4320     -5.6511 *
-## price:colourGreen   3.4479     0.0471     3.3548      3.5410 *
-## price:colourRed     2.4651     0.0471     2.3720      2.5581 *
-## 
-## Error standard deviation: 4.7582
-## Sample size: 150
-## Number of estimated parameters: 4
-## Number of degrees of freedom: 146
-## Information criteria:
-##      AIC     AICc      BIC     BICc 
-## 897.5853 897.8612 909.6279 910.3190</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.58 units.</p>
-
+<p>This definition means that we cannot tell what the next outcome of the experiment will be (whether the coin flip will result in heads or tails). We can rather say what will happen on average if the experiment is repeated many times. By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.</p>
 </div>
-<!-- </div> -->
 
             </section>
 
           </div>
         </div>
       </div>
-<a href="dummy-variables-for-the-intercept.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="variablesTransformations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="probabilityTheory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="whatIsRandomVariable.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -484,7 +434,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//13-dummy-variables.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//02-probability-theory.Rmd",
 "text": "Edit"
 },
 "history": {
