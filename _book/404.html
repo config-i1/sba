@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -72,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -133,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -192,26 +170,39 @@ div.csl-indent {
 <li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
 <li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>2</b> Preliminary data analysis</a>
+<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>2.1</b> Numerical analysis</a></li>
-<li class="chapter" data-level="2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>2.2</b> Graphical analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
+<li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>3</b> Probability theory</a>
+<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="what-is-probability.html"><a href="what-is-probability.html"><i class="fa fa-check"></i><b>3.1</b> What is probability?</a></li>
+<li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>4</b> Random variables and count distributions</a></li>
-<li class="chapter" data-level="5" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>5</b> Continuous distributions</a>
+<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>5.1</b> Normal distribution</a></li>
-<li class="chapter" data-level="5.2" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>5.2</b> Laplace distribution</a></li>
-<li class="chapter" data-level="5.3" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>5.3</b> S distribution</a></li>
-<li class="chapter" data-level="5.4" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>5.4</b> Generalised Normal distribution</a></li>
-<li class="chapter" data-level="5.5" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>5.5</b> Asymmetric Laplace distribution</a></li>
-<li class="chapter" data-level="5.6" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>5.6</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
-<li class="chapter" data-level="5.7" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>5.7</b> Inverse Gaussian distribution</a></li>
-<li class="chapter" data-level="5.8" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>5.8</b> Gamma distribution</a></li>
+<li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.2</b> Normal distribution</a></li>
+<li class="chapter" data-level="4.3" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.3</b> Laplace distribution</a></li>
+<li class="chapter" data-level="4.4" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.4</b> S distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>4.5</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="4.6" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>4.6</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="4.7" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>4.7</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="4.8" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>4.8</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="4.9" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>4.9</b> Gamma distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-categoricaldiscrete-variable"><i class="fa fa-check"></i><b>5.2.1</b> One categorical/discrete variable</a></li>
+<li class="chapter" data-level="5.2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-categoricaldiscrete-variables"><i class="fa fa-check"></i><b>5.2.2</b> Two categorical/discrete variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-numerical-continuous-variable"><i class="fa fa-check"></i><b>5.2.3</b> One numerical continuous variable</a></li>
+<li class="chapter" data-level="5.2.4" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-continuous-numerical-variables"><i class="fa fa-check"></i><b>5.2.4</b> Two continuous numerical variables</a></li>
+<li class="chapter" data-level="5.2.5" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#a-mixture-of-variables"><i class="fa fa-check"></i><b>5.2.5</b> A mixture of variables</a></li>
+<li class="chapter" data-level="5.2.6" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#plot-for-several-variables"><i class="fa fa-check"></i><b>5.2.6</b> Plot for several variables</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
 <ul>
@@ -250,10 +241,11 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="nominal-scale-1.html"><a href="nominal-scale-1.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>

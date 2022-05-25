@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5.1 Numerical analysis | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5.1 Numerical analysis | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="dataAnalysis.html"/>
 <link rel="next" href="dataAnalysisGraphical.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,10 +362,10 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="dataAnalysisNumerical" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Numerical analysis</h2>
+<div id="dataAnalysisNumerical" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Numerical analysis<a href="dataAnalysisNumerical.html#dataAnalysisNumerical" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this section we will use the classical <code>mtcars</code> dataset from <code>datasets</code> package for R. It contains 32 observations with 11 variables. While all the variables are numerical, some of them are in fact categorical variables encoded as binary ones. We can check the description of the dataset in R:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="dataAnalysisNumerical.html#cb3-1" aria-hidden="true" tabindex="-1"></a>?mtcars</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="dataAnalysisNumerical.html#cb3-1" aria-hidden="true"></a>?mtcars</span></code></pre></div>
 <p>Judging by the explanation in the R documentation, the following variables are categorical:</p>
 <ol style="list-style-type: decimal">
 <li>vs - Engine (0 = V-shaped, 1 = straight),</li>
@@ -403,35 +380,35 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ol>
 <p>All the other variables are continuous numeric.</p>
 <p>Takign this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="dataAnalysisNumerical.html#cb4-1" aria-hidden="true" tabindex="-1"></a>mtcarsData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(mtcars)</span>
-<span id="cb4-2"><a href="dataAnalysisNumerical.html#cb4-2" aria-hidden="true" tabindex="-1"></a>mtcarsData<span class="sc">$</span>vs <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>vs,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;V-shaped&quot;</span>,<span class="st">&quot;Straight&quot;</span>))</span>
-<span id="cb4-3"><a href="dataAnalysisNumerical.html#cb4-3" aria-hidden="true" tabindex="-1"></a>mtcarsData<span class="sc">$</span>am <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>am,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;automatic&quot;</span>,<span class="st">&quot;manual&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="dataAnalysisNumerical.html#cb4-1" aria-hidden="true"></a>mtcarsData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(mtcars)</span>
+<span id="cb4-2"><a href="dataAnalysisNumerical.html#cb4-2" aria-hidden="true"></a>mtcarsData<span class="op">$</span>vs &lt;-<span class="st"> </span><span class="kw">factor</span>(mtcarsData<span class="op">$</span>vs,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;V-shaped&quot;</span>,<span class="st">&quot;Straight&quot;</span>))</span>
+<span id="cb4-3"><a href="dataAnalysisNumerical.html#cb4-3" aria-hidden="true"></a>mtcarsData<span class="op">$</span>am &lt;-<span class="st"> </span><span class="kw">factor</span>(mtcarsData<span class="op">$</span>am,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;automatic&quot;</span>,<span class="st">&quot;manual&quot;</span>))</span></code></pre></div>
 <p>Given that we only have two options in those variables, it is not compulsory to do this encoding, but it will help us in the further analysis.</p>
 <p>We can start with the basic summary statistics. We remember from the scales of information (Section <a href="scales.html#scales">1.2</a>) that the nominal variables can be analysed only via frequencies, so this is what we can produce for them:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="dataAnalysisNumerical.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="dataAnalysisNumerical.html#cb5-1" aria-hidden="true"></a><span class="kw">table</span>(mtcarsData<span class="op">$</span>vs)</span></code></pre></div>
 <pre><code>## 
 ## V-shaped Straight 
 ##       18       14</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dataAnalysisNumerical.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dataAnalysisNumerical.html#cb7-1" aria-hidden="true"></a><span class="kw">table</span>(mtcarsData<span class="op">$</span>am)</span></code></pre></div>
 <pre><code>## 
 ## automatic    manual 
 ##        19        13</code></pre>
-<p>These tables are called <strong>contingency tables</strong>, they show the frequency of appearance of values of variables. Based on this, we can conclude that the cars with V-shaped engine are met more often in the dataset than the cars with the Straight one. In addition, the automatic transmission prevails in the data. The related statistics which is useful for analysis of categorical variables is called <strong>mode</strong>. It shows which of the values happens most often in the data. Judging by the frequencies above, we can conclude that the mode for the first variable is the value “V-shaped.”</p>
+<p>These tables are called <strong>contingency tables</strong>, they show the frequency of appearance of values of variables. Based on this, we can conclude that the cars with V-shaped engine are met more often in the dataset than the cars with the Straight one. In addition, the automatic transmission prevails in the data. The related statistics which is useful for analysis of categorical variables is called <strong>mode</strong>. It shows which of the values happens most often in the data. Judging by the frequencies above, we can conclude that the mode for the first variable is the value “V-shaped”.</p>
 <p>All of this is purely descriptive information, which does not provide us much. We could probably get more information if we analysed the contingency table based on these two variables:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="dataAnalysisNumerical.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="dataAnalysisNumerical.html#cb9-1" aria-hidden="true"></a><span class="kw">table</span>(mtcarsData<span class="op">$</span>vs,mtcarsData<span class="op">$</span>am)</span></code></pre></div>
 <pre><code>##           
 ##            automatic manual
 ##   V-shaped        12      6
 ##   Straight         7      7</code></pre>
 <p>For now, we can only conclude that the cars with V-shaped engine and automatic transmission are met more often than the other cars in the dataset.</p>
 <p>Next, we can look at the numerical variables. As we recall from Section <a href="scales.html#scales">1.2</a>, this scale supports all operations, so we can use quantiles, mean, standard deviation etc. Here how we can analyse, for example, the variable mpg:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="dataAnalysisNumerical.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">mean</span>(mtcarsData<span class="sc">$</span>mpg),<span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="dataAnalysisNumerical.html#cb11-1" aria-hidden="true"></a><span class="kw">setNames</span>(<span class="kw">mean</span>(mtcarsData<span class="op">$</span>mpg),<span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
 <pre><code>##     mean 
 ## 20.09062</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="dataAnalysisNumerical.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="dataAnalysisNumerical.html#cb13-1" aria-hidden="true"></a><span class="kw">quantile</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>##     0%    25%    50%    75%   100% 
 ## 10.400 15.425 19.200 22.800 33.900</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="dataAnalysisNumerical.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">median</span>(mtcarsData<span class="sc">$</span>mpg),<span class="st">&quot;median&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="dataAnalysisNumerical.html#cb15-1" aria-hidden="true"></a><span class="kw">setNames</span>(<span class="kw">median</span>(mtcarsData<span class="op">$</span>mpg),<span class="st">&quot;median&quot;</span>)</span></code></pre></div>
 <pre><code>## median 
 ##   19.2</code></pre>
 <p>The output above produces:</p>
@@ -452,16 +429,16 @@ Note that the division in <a href="dataAnalysisNumerical.html#eq:Variance">(5.1)
     \tag{5.2}
 \end{equation}\]</span>
 it has the same scale as the variable <span class="math inline">\(y_j\)</span>. In our example, both can be obtained via:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="dataAnalysisNumerical.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="dataAnalysisNumerical.html#cb17-1" aria-hidden="true"></a><span class="kw">var</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] 36.3241</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="dataAnalysisNumerical.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="dataAnalysisNumerical.html#cb19-1" aria-hidden="true"></a><span class="kw">sd</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] 6.026948</code></pre>
 <p>Coming back to the point about the asymmetry of the distribution of a variable in our example, we can investigate it further using skewness and kurtosis from <code>timeDate</code> package:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="dataAnalysisNumerical.html#cb21-1" aria-hidden="true" tabindex="-1"></a>timeDate<span class="sc">::</span><span class="fu">skewness</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="dataAnalysisNumerical.html#cb21-1" aria-hidden="true"></a>timeDate<span class="op">::</span><span class="kw">skewness</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] 0.610655
 ## attr(,&quot;method&quot;)
 ## [1] &quot;moment&quot;</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="dataAnalysisNumerical.html#cb23-1" aria-hidden="true" tabindex="-1"></a>timeDate<span class="sc">::</span><span class="fu">kurtosis</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="dataAnalysisNumerical.html#cb23-1" aria-hidden="true"></a>timeDate<span class="op">::</span><span class="kw">kurtosis</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] -0.372766
 ## attr(,&quot;method&quot;)
 ## [1] &quot;excess&quot;</code></pre>
@@ -492,7 +469,7 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
 <!-- It lies between -1 and 1 and is equal to zero only if the distribution is symmetric. It shows, where the higher density of values is (the negative number means that it is to the left from the centre, while the positive means that it is to the right). The main advantage of hm and complex asymmetry coefficients is that they are robust to outliers and are not as sensitive as the classical skewness coefficient is. -->
 <p>Based on all of this, we can conclude that the distribution of <code>mpg</code> is skewed and has the longer right tail. This is expected for such variable, because the cars that have higher mileage are not common in this dataset.</p>
 <p>All the conventional statistics discussed above can be produced using the following summary for all variables in the dataset:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="dataAnalysisNumerical.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mtcarsData)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="dataAnalysisNumerical.html#cb25-1" aria-hidden="true"></a><span class="kw">summary</span>(mtcarsData)</span></code></pre></div>
 <pre><code>##       mpg             cyl             disp             hp       
 ##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
 ##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
@@ -526,7 +503,6 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -566,6 +542,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

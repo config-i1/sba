@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.1 Basic idea | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.1 Basic idea | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="hypothesisTesting.html"/>
 <link rel="next" href="typeErrors.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="hypothesisTestingBasics" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Basic idea</h2>
+<div id="hypothesisTestingBasics" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Basic idea<a href="hypothesisTestingBasics.html#hypothesisTestingBasics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Fundamentally, the hypothesis testing process relies on the ideas of induction and dichotomy: we have a null (<span class="math inline">\(\mathrm{H}_0\)</span>) and alternative (<span class="math inline">\(\mathrm{H}_1\)</span>) hypotheses about the process or a property in the population, and we want to find some evidence to reject the <span class="math inline">\(\mathrm{H}_0\)</span>. Rejecting a hypothesis is actually more useful than not rejecting it, because in the former case we know what not to expect from the data, while in the latter we just might not have enough evidence to make any solid conclusion. For example, we could formulate <span class="math inline">\(\mathrm{H}_0\)</span> that all cats are white. Failing to reject this hypothesis based on the data that we have (e.g. a dataset of white cats) does not mean that they are all (in the universe) indeed white, it just means that we have not observed the non-white ones. If we collect enough evidence to reject <span class="math inline">\(\mathrm{H}_0\)</span> (i.e. encountered a black cat), then we can conclude that not all cats are white. This is a more solid conclusion than the one in the previous case. So, if you are interested in a specific outcome, then it makes sense to put this in the alternative hypothesis and see if the data allows to reject the null. For example, if we want to see if the average salary of professors in the UK is higher than £100k per year we would formulate the hypotheses in the following way:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu \leq 100, \mathrm{H}_1: \mu &gt; 100.
@@ -400,7 +377,7 @@ Having formulated hypotheses, we can check them, but in order to do that, we nee
 <li>Compare the value in (4) with the threshold one;</li>
 <li>Make a conclusion based on (5) on the selected level (2).</li>
 </ol>
-<p>Note that the order of some elements might change depending on the circumstances, but (2) should always happen before (4), otherwise we might be dealing with so called “p-hacking,” trying to make results look nicer than they really are.</p>
+<p>Note that the order of some elements might change depending on the circumstances, but (2) should always happen before (4), otherwise we might be dealing with so called “p-hacking”, trying to make results look nicer than they really are.</p>
 <p>Consider an example, where we want to check, whether the population mean <span class="math inline">\(\mu\)</span> is equal to zero, based on a sample of 36 observations, where <span class="math inline">\(\bar{y}=-0.5\)</span> and <span class="math inline">\(s^2=1\)</span>. In this case, we formulate the null and alternative hypotheses:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu=0, \mathrm{H}_1: \mu \neq 0.
@@ -412,7 +389,7 @@ We then select the significance level <span class="math inline">\(\alpha=0.05\)<
 \end{equation}\]</span>
 After that we get the critical value of t with <span class="math inline">\(df=36-1=35\)</span> degrees of freedom and significance level <span class="math inline">\(\alpha/2=0.025\)</span>, which is approximately equal to -2.03. We compare this value with the <a href="hypothesisTestingBasics.html#eq:ttestFormula">(7.1)</a> by absolute and reject <span class="math inline">\(\mathrm{H}_0\)</span> if the calculated value is higher than the critical one. In our case it is, so it appears that we have enough evidence to say that the population mean is not equal to 0, on the 5% significance level.</p>
 <p>Visually, the whole process of hypothesis testing explained above can be represented in the following way:</p>
-<div class="figure"><span id="fig:hypothesisTesting01"></span>
+<div class="figure"><span style="display:block;" id="fig:hypothesisTesting01"></span>
 <img src="adam_files/figure-html/hypothesisTesting01-1.png" alt="The process of hypothesis testing with t value." width="672" />
 <p class="caption">
 Figure 7.1: The process of hypothesis testing with t value.
@@ -426,7 +403,7 @@ Figure 7.1: The process of hypothesis testing with t value.
     \end{aligned}
 \end{equation*}\]</span>
 In our case it does not, so we conclude that we reject <span class="math inline">\(\mathrm{H}_0\)</span> on 5% significance level. This can be roughly represented by the graph on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting02">7.2</a>:</p>
-<div class="figure"><span id="fig:hypothesisTesting02"></span>
+<div class="figure"><span style="display:block;" id="fig:hypothesisTesting02"></span>
 <img src="adam_files/figure-html/hypothesisTesting02-1.png" alt="Confidence interval for for the population mean example." width="672" />
 <p class="caption">
 Figure 7.2: Confidence interval for for the population mean example.
@@ -435,7 +412,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <p>Note that the positioning of the blue line has changed in the case of confidence interval, which happens because of the transition from <a href="hypothesisTestingBasics.html#eq:ttestFormula">(7.1)</a> to <a href="confidenceInterval.html#eq:confidenceInterval">(6.4)</a>. The idea and the message, however, stay the same: if the value is not inside the light grey area, then we reject <span class="math inline">\(\mathrm{H}_0\)</span> on the selected significance level.</p>
 <p>Also <strong>note</strong> that we never say that we accept <span class="math inline">\(\mathrm{H}_0\)</span>, because this is not what we do in hypothesis testing: if the value would lie inside the interval, then this would only mean that our sample shows that the tested value is covered by the region - the true value can be any of the numbers between the bounds.</p>
 <p>Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting01">7.1</a> (calculated value). In R this can be done using the <code>pt()</code> function:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="hypothesisTestingBasics.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="hypothesisTestingBasics.html#cb53-1" aria-hidden="true"></a><span class="kw">pt</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.002474416</code></pre>
 <p>Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately 0.0049. This is the significance level, for which the switch from “reject” to “do not reject” happens. We could compare this value with the pre-selected significance level directly, rejecting <span class="math inline">\(\mathrm{H}_0\)</span> if it is lower than <span class="math inline">\(\alpha\)</span>. This value is called “p-value” and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: <strong>p-value</strong> is the smallest significance level at which a null hypothesis can be rejected.</p>
 <p>Despite this simplification, we still need to follow the procedure and select <span class="math inline">\(\alpha\)</span> <em>before conducting the test</em>! We should not change the significance level after observing the p-values, otherwise we might end up bending reality for our needs. Also <em>note</em> that if in one case p-value is 0.2, while in the other it is 0.3, it does not mean that the the first case is more significant than the second! P-values are not comparable with each other and they do not tell you about the size of significance. <em>This is still a binary process</em>: we either reject, or fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>, depending on whether p-value is smaller or greater than the selected significance level.</p>
@@ -452,7 +429,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <li>The confidence interval for the mean is <span class="math inline">\(\mu \in (-0.84, -0.16)\)</span>. It includes -0.6, so we fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. <em>This does not mean that the true mean is indeed equal to -0.6</em>, but it means that the region will cover this number in 95% of cases if we do resampling many times.</li>
 </ol>
 <p>In my opinion, the third approach is more informative and saves from making wrong conclusions about the tested hypothesis, making you work a bit more (you cannot change the confidence level on the fly, you would need to reconstruct the interval). Having said that, either of the three is fine, as long as you understand what they really imply.</p>
-<p>Furthermore, if you do hypothesis testing and use p-values, it is worth mentioning the statement of American Statistical Association about p-values <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Among the different aspects discussed in this statement, there is a list of principles related to p-values, which I cite below:</p>
+<p>Furthermore, if you do hypothesis testing and use p-values, it is worth mentioning the statement of American Statistical Association about p-values <span class="citation">(Wasserstein and Lazar, <a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span>. Among the different aspects discussed in this statement, there is a list of principles related to p-values, which I cite below:</p>
 <ol style="list-style-type: decimal">
 <li>P-values can indicate how incompatible the data are with a specified statistical model;</li>
 <li>P-values do not measure:</li>
@@ -473,8 +450,8 @@ Figure 7.2: Confidence interval for for the population mean example.
 <ol start="6" style="list-style-type: decimal">
 <li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
 </ol>
-<p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
-<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation"><a href="#ref-Cohen1994" role="doc-biblioref">Cohen</a> (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
+<p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(Wasserstein and Lazar, <a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
+<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation">Cohen (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
 <div class="remark">
 <p><span id="unlabeled-div-9" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
 <span class="math display">\[\begin{equation*}
@@ -482,50 +459,50 @@ Figure 7.2: Confidence interval for for the population mean example.
 \end{equation*}\]</span>
 where <span class="math inline">\(a\)</span> is the value we are comparing our parameter with. Note that in case of one-tailed tests, this is no longer an issue, because the null hypothesis in that case compares the value with a set of values (e.g. <span class="math inline">\(\mathrm{H}_0: \mu\leq a\)</span>).</p>
 </div>
-<p>Finally, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>,” with the latter appearing when there is not enough evidence to reject <span class="math inline">\(\mathrm{H}_0\)</span>. As a result of this, people tend to make wrong conclusions, because it is difficult to distinguish “not true” from “I don’t know,” especially for those who do not know statistics well.</p>
+<p>Finally, our mind operates with binary constructs: true / not true - while the hypothesis testing works in the dichotomy “<strong>I know</strong> / <strong>I don’t know</strong>”, with the latter appearing when there is not enough evidence to reject <span class="math inline">\(\mathrm{H}_0\)</span>. As a result of this, people tend to make wrong conclusions, because it is difficult to distinguish “not true” from “I don’t know”, especially for those who do not know statistics well.</p>
 <p>Summarising the discussion above, in my opinion, it makes sense to move away from hypothesis testing if possible and switch to other instruments for uncertainty measurement, such as confidence intervals.</p>
 <!-- The significance level is the probability of making a mistake if the hypothesis is true. It is never true (unless it is one sided), so you will make more mistakes than you expect. On the other hand, confidence interval will cover the true value in 1-alpha percent of cases. We don't know it, but we know that it will be there. -->
-<div id="hypothesisTestingMistakes" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Common mistakes related to hypothesis testing</h3>
+<div id="hypothesisTestingMistakes" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Common mistakes related to hypothesis testing<a href="hypothesisTestingBasics.html#hypothesisTestingMistakes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Over the years of teaching statistics, I have seen many different mistakes, related to hypothesis testing. No wonder, this is a difficult topic to grasp. Here, I have decided to summarise several typical erroneous statements, providing explanations why they are wrong. They partially duplicate the 6 principles from ASA discussed above, but they are formulated slightly differently.</p>
 <ol style="list-style-type: decimal">
-<li>“Calculated value is lower than the critical one, so the null hypothesis is true.”</li>
+<li>“Calculated value is lower than the critical one, so the null hypothesis is true”.</li>
 </ol>
 <ul>
-<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the <span class="math inline">\(\mathrm{H}_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia.” Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> that all swans are white.” Uneducated people would be tempted to say that " <span class="math inline">\(\mathrm{H}_0\)</span>: All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting <span class="math inline">\(\mathrm{H}_0\)</span> and showing that “not all swans are white,” which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting <span class="math inline">\(\mathrm{H}_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
+<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the <span class="math inline">\(\mathrm{H}_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia”. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> that all swans are white”. Uneducated people would be tempted to say that " <span class="math inline">\(\mathrm{H}_0\)</span>: All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting <span class="math inline">\(\mathrm{H}_0\)</span> and showing that “not all swans are white”, which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting <span class="math inline">\(\mathrm{H}_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>“Calculated value is lower than the critical one, so we accept the null hypothesis.”</li>
+<li>“Calculated value is lower than the critical one, so we accept the null hypothesis”.</li>
 </ol>
 <ul>
-<li>We <strong>never</strong> accept null hypothesis. Even if your house is on fire or there is a tsunami coming, you should not “accept <span class="math inline">\(\mathrm{H}_0\)</span>.” This is a fundamental statistical principle. We collect evidence to reject the null hypothesis. If we do not have enough evidence, then we just fail to reject it, but we can never accept it, because failing to reject just means that we need to collect more data. As mentioned earlier, we focus on rejecting hypothesis, because this at least tells us, what the phenomenon is not (e.g. that not all swans are white).</li>
+<li>We <strong>never</strong> accept null hypothesis. Even if your house is on fire or there is a tsunami coming, you should not “accept <span class="math inline">\(\mathrm{H}_0\)</span>”. This is a fundamental statistical principle. We collect evidence to reject the null hypothesis. If we do not have enough evidence, then we just fail to reject it, but we can never accept it, because failing to reject just means that we need to collect more data. As mentioned earlier, we focus on rejecting hypothesis, because this at least tells us, what the phenomenon is not (e.g. that not all swans are white).</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>“The parameter in the model is significant, so we can conclude that…”</li>
 </ol>
 <ul>
-<li>You cannot conclude if something is significant or not without specifying the significance level. Things are only significant if they pass specific test on a specified level <span class="math inline">\(\alpha\)</span>. The correct sentence would be “The parameter in the model is significant on 3%, so we can conclude that…,” where 3% is the selected significance level <span class="math inline">\(\alpha\)</span>.</li>
+<li>You cannot conclude if something is significant or not without specifying the significance level. Things are only significant if they pass specific test on a specified level <span class="math inline">\(\alpha\)</span>. The correct sentence would be “The parameter in the model is significant on 3%, so we can conclude that…”, where 3% is the selected significance level <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>“The parameter in the model is significant because p-value&lt;0.0000”</li>
 </ol>
 <ul>
-<li>Indeed, some statistical software will tell you that <code>p-value&lt;0.0000</code>, but this just says that the value is very small and cannot be printed. Even if it is that small, you need to state your significance level and compare it with the p-value. You might wonder, “why bother if it is that low?” Well, if you change the sample size or change model specification, your p-value will change as well, and in some cases it might all of a sudden become higher than your significance level. So, you always need to keep it in mind and make conclusions based on the significance level, not just based on what software tells you.</li>
+<li>Indeed, some statistical software will tell you that <code>p-value&lt;0.0000</code>, but this just says that the value is very small and cannot be printed. Even if it is that small, you need to state your significance level and compare it with the p-value. You might wonder, “why bother if it is that low?”. Well, if you change the sample size or change model specification, your p-value will change as well, and in some cases it might all of a sudden become higher than your significance level. So, you always need to keep it in mind and make conclusions based on the significance level, not just based on what software tells you.</li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
-<li>“The parameter is not significant, so we remove the variable from the model.”</li>
+<li>“The parameter is not significant, so we remove the variable from the model”.</li>
 </ol>
 <ul>
 <li>This is one of the worst motivations for removing variables that there is (statistical blasphemy!). There are thousands of reasons, why you might get p-value greater than your significance level (<a href="assumptions.html#assumptions">assumptions</a> do not hold, sample is too small, the test is too weak, the true value is small etc) and only one of them is that the explanatory variable does not impact the response variable and thus you fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. Are you sure that you face exactly this one special case? If yes, then you already have some other (better) reasons to remove the variable. This means that you should not make decisions just based on the results of a statistical test. <em>You always need to have some fundamental reason to include or remove variables in the model</em>. Hypothesis testing just gives you additional information that can be helpful for decision making.</li>
 </ul>
 <ol start="6" style="list-style-type: decimal">
-<li>“The parameter in the new model is more significant than in the old one.”</li>
+<li>“The parameter in the new model is more significant than in the old one”.</li>
 </ol>
 <ul>
-<li>There is no such thing as “more significant” or “less significant.” <strong>Significance is binary</strong> and depends on the selected level. The only thing you can conclude is whether the parameter is significant on the chosen level <span class="math inline">\(\alpha\)</span> or not.</li>
+<li>There is no such thing as “more significant” or “less significant”. <strong>Significance is binary</strong> and depends on the selected level. The only thing you can conclude is whether the parameter is significant on the chosen level <span class="math inline">\(\alpha\)</span> or not.</li>
 </ul>
 <ol start="7" style="list-style-type: decimal">
-<li>“The p-value of one variables is higher than the p-value of another, so….”</li>
+<li>“The p-value of one variables is higher than the p-value of another, so…”.</li>
 </ol>
 <ul>
 <li>p-values are not comparable between variables. They only show on what level the hypothesis is rejected and only work together with the chosen significance level. (6) is similar to this mistake.</li>
@@ -533,13 +510,13 @@ where <span class="math inline">\(a\)</span> is the value we are comparing our p
 <p>Remember that the p-value itself is random and will change if you change the sample size or the model specification. Always keep this in mind, when conducting statistical tests. All these mistakes typically arise because of the misuse of p-values and hypothesis testing mechanism. This is one of the reasons, why I prefer <a href="#confidenceIntervals">confidence intervals</a>, when possible (as discussed above).</p>
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Cohen1994" class="csl-entry">
-• Cohen, J., 1994. <span class="nocase">The earth is round (p <span>&lt;</span> .05).</span> American Psychologist. 49, 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-Cohen1994">
+<p>• Cohen, J., 1994. The earth is round (p &lt; .05). American Psychologist. 49, 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a></p>
 </div>
-<div id="ref-Wasserstein2016" class="csl-entry">
-• Wasserstein, R.L., Lazar, N.A., 2016. <span class="nocase">The ASA’s Statement on p-Values: Context, Process, and Purpose</span>. American Statistician. 70, 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>
+<div id="ref-Wasserstein2016">
+<p>• Wasserstein, R.L., Lazar, N.A., 2016. The ASA’s Statement on p-Values: Context, Process, and Purpose. American Statistician. 70, 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a></p>
 </div>
 </div>
 
@@ -553,7 +530,6 @@ where <span class="math inline">\(a\)</span> is the value we are comparing our p
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -593,6 +569,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

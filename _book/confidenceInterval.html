@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.4 Confidence interval | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.4 Confidence interval | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="estimatesProperties.html"/>
 <link rel="next" href="confidenceIntervalsPrediction.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="confidenceInterval" class="section level2" number="6.4">
-<h2><span class="header-section-number">6.4</span> Confidence interval</h2>
+<div id="confidenceInterval" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Confidence interval<a href="confidenceInterval.html#confidenceInterval" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As mentioned in Section <a href="sourcesOfUncertainty.html#sourcesOfUncertainty">1.4</a>, we always work with samples and inevitably we deal with randomness just because of that even, when there are no other sources of uncertainty in the data. For example, if we want to estimate the mean of a variable based on the observed data, the value we get will differ from one sample to another. This should have become apparent from the examples we discussed <a href="estimatesProperties.html#estimatesProperties">earlier</a>. And, if the <a href="LLN.html#LLN">LLN</a> and <a href="CLT.html#CLT">CLT</a> hold, then we know that the estimate of our parameter will have its own distribution and will converge to the population value with the increase of the sample size. This is the basis for the confidence and prediction interval construction, discussed in this section. Depending on our needs, we can focus on the uncertainty of either the estimate of a parameter, or the random variable <span class="math inline">\(y\)</span> itself. When dealing with the former, we typically work with the <strong>confidence interval</strong> - the interval constructed for the estimate of a parameter, while in the latter case we are interested in the <strong>prediction interval</strong> - the interval constructed for the random variable <span class="math inline">\(y\)</span>.</p>
 <p>In order to simplify further discussion in this section, we will take the population mean and its in-sample estimate as an example. In this case we have:</p>
 <ol style="list-style-type: decimal">
@@ -395,14 +372,14 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <li>Estimates of mean <span class="math inline">\(\hat{\mu}=\bar{y}\)</span> and variance <span class="math inline">\(\hat{\sigma}^2 = s^2\)</span>, obtained based on the sample of size <span class="math inline">\(n\)</span>.</li>
 </ol>
 <p>What we want to get by doing this is an idea about the population mean <span class="math inline">\(\mu\)</span>. The value <span class="math inline">\(\bar{y}\)</span> does not tell us much on its own due to randomness and if we do not capture its uncertainty, we will not know, where the true value <span class="math inline">\(\mu\)</span> can be. But using LLN and CLT, we know that the sample mean should converge to the true one and should follow normal distribution. So, the distribution of the sample mean would look like this (Figure <a href="confidenceInterval.html#fig:normalCurveBasic">6.8</a>).</p>
-<div class="figure"><span id="fig:normalCurveBasic"></span>
+<div class="figure"><span style="display:block;" id="fig:normalCurveBasic"></span>
 <img src="adam_files/figure-html/normalCurveBasic-1.png" alt="Distribution of the sample mean." width="672" />
 <p class="caption">
 Figure 6.8: Distribution of the sample mean.
 </p>
 </div>
 <p>On its own, this distribution just tells us that the variable is random around the true mean <span class="math inline">\(\mu\)</span> and that its density function has a bell-like shape. In order to make this more useful, we can construct the <strong>confidence interval</strong> for it, which would tell us where the true parameter is most likely to lie. We can cut the tails of this distribution to determine the width of the interval, expecting it to cover <span class="math inline">\((1-\alpha)\times 100\)</span>% of cases. In the ideal world, asymptotically, the confidence interval will be constructed based on the true value, like this:</p>
-<div class="figure"><span id="fig:normalCurveIntervals"></span>
+<div class="figure"><span style="display:block;" id="fig:normalCurveIntervals"></span>
 <img src="adam_files/figure-html/normalCurveIntervals-1.png" alt="Distribution of the sample mean and the confidence interval based on the population data." width="672" />
 <p class="caption">
 Figure 6.9: Distribution of the sample mean and the confidence interval based on the population data.
@@ -410,7 +387,7 @@ Figure 6.9: Distribution of the sample mean and the confidence interval based on
 </div>
 <p>Figure <a href="confidenceInterval.html#fig:normalCurveIntervals">6.9</a> shows the classical normal distribution curve around the population mean <span class="math inline">\(\mu\)</span>, confidence interval of the level <span class="math inline">\(1-\alpha\)</span> and the cut off tails, the overall surface of which corresponds to <span class="math inline">\(\alpha\)</span>. The value <span class="math inline">\(1-\alpha\)</span> is called <strong>confidence level</strong>, while <span class="math inline">\(\alpha\)</span> is the <strong>significance level</strong>. By constructing the interval this way, we expect that in the <span class="math inline">\((1-\alpha)\times 100\)</span>% of cases the value will be inside the bounds, and in <span class="math inline">\(\alpha\times 100\)</span>% it will not.</p>
 <p>In reality we do not know the true mean <span class="math inline">\(\mu\)</span>, so we do a slightly different thing: we construct a confidence interval based on the sample mean <span class="math inline">\(\bar{y}\)</span> and sample variance <span class="math inline">\(s^2\)</span>, hoping that due to <a href="#LLNandCLT">LLN</a> they will converge to the true values. We use Normal distribution, because we expect <a href="#LLNandCLT">CLT</a> to work. This process looks something like in Figure <a href="confidenceInterval.html#fig:normalCurveIntervalsShades">6.10</a>, with the bell curve in the background representing the true distribution for the sample mean and the curve on the foreground representing the assumed distribution based on our sample:</p>
-<div class="figure"><span id="fig:normalCurveIntervalsShades"></span>
+<div class="figure"><span style="display:block;" id="fig:normalCurveIntervalsShades"></span>
 <img src="adam_files/figure-html/normalCurveIntervalsShades-1.png" alt="Distribution of the sample mean and the confidence interval based on a sample." width="672" />
 <p class="caption">
 Figure 6.10: Distribution of the sample mean and the confidence interval based on a sample.
@@ -447,7 +424,6 @@ Based on this, we can conclude that <span class="math inline">\(s_{\bar{y}}=\sqr
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -487,6 +463,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

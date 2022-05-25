@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.2 Normal distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.2 Normal distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="what-is-continuous-distribution.html"/>
 <link rel="next" href="distributionsLaplace.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionsNormal" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Normal distribution</h2>
+<div id="distributionsNormal" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Normal distribution<a href="distributionsNormal.html#distributionsNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">6.2</a>).</p>
 <p>Here is the probability density function (PDF) of this distribution:
 <span class="math display" id="eq:Normal">\[\begin{equation}
@@ -400,7 +377,7 @@ where <span class="math inline">\(y_t\)</span> is the value of the response vari
 \end{equation}\]</span>
 where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the conditional expecatation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="distributionsNormal.html#eq:sigmaNormal">(4.2)</a> coincides with Mean Squared Error (MSE), discussed in the <a href="#errorMeasures">section 1</a>.</p>
 <p>And here how this distribution looks (Figure <a href="distributionsNormal.html#fig:dnormPlot">4.6</a>).</p>
-<div class="figure"><span id="fig:dnormPlot"></span>
+<div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
 <img src="adam_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Normal distribution" width="672" />
 <p class="caption">
 Figure 4.6: Probability Density Function of Normal distribution
@@ -419,13 +396,13 @@ where <span class="math inline">\(\theta\)</span> is the vector of all the estim
     \ell(\mathbf{Y}| \theta, \hat{\sigma}^2) = - \frac{T}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
     \tag{4.4}
 \end{equation}\]</span>
-where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(4.4)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(<a href="#ref-Burnham2004" role="doc-biblioref">Burnham and Anderson, 2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
+where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(4.4)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(Burnham and Anderson, <a href="#ref-Burnham2004" role="doc-biblioref">2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
 <p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Burnham2004" class="csl-entry">
-• Burnham, K.P., Anderson, D.R., 2004. <span class="nocase">Model Selection and Multimodel Inference</span>. Springer New York. <a href="https://doi.org/10.1007/b97636">https://doi.org/10.1007/b97636</a>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-Burnham2004">
+<p>• Burnham, K.P., Anderson, D.R., 2004. Model Selection and Multimodel Inference.. Springer New York. <a href="https://doi.org/10.1007/b97636">https://doi.org/10.1007/b97636</a></p>
 </div>
 </div>
 
@@ -439,7 +416,6 @@ where <span class="math inline">\(e\)</span> is the Euler’s constant. The conc
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -479,6 +455,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

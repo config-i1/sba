@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.2 Errors of types 0, I and II | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.2 Errors of types 0, I and II | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="hypothesisTestingBasics.html"/>
 <link rel="next" href="powerOfTheTest.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="typeErrors" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Errors of types 0, I and II</h2>
+<div id="typeErrors" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Errors of types 0, I and II<a href="typeErrors.html#typeErrors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When conducting a conventional statistical test, we can have one of the four situations, depending on what happens in real life and what results we obtain. They are summarised in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a>.</p>
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto; font-size: 12px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
@@ -417,10 +394,10 @@ Reality
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center;font-weight: bold;">
+<td style="text-align:center;font-weight: bold;vertical-align: middle !important;" rowspan="4">
 The data tells us
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;vertical-align: middle !important;" rowspan="2">
 Fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>
 </td>
 <td style="text-align:center;">
@@ -431,12 +408,6 @@ Type II error,
 </td>
 </tr>
 <tr>
-<td style="text-align:center;font-weight: bold;">
-The data tells us
-</td>
-<td style="text-align:center;">
-Fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>
-</td>
 <td style="text-align:center;">
 Probability is <span class="math inline">\(1-\alpha\)</span>
 </td>
@@ -445,10 +416,7 @@ Probability is <span class="math inline">\(\beta\)</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:center;font-weight: bold;">
-The data tells us
-</td>
-<td style="text-align:center;">
+<td style="text-align:center;vertical-align: middle !important;" rowspan="2">
 Reject <span class="math inline">\(\mathrm{H}_0\)</span>
 </td>
 <td style="text-align:center;">
@@ -459,12 +427,6 @@ Correct decision,
 </td>
 </tr>
 <tr>
-<td style="text-align:center;font-weight: bold;">
-The data tells us
-</td>
-<td style="text-align:center;">
-Reject <span class="math inline">\(\mathrm{H}_0\)</span>
-</td>
 <td style="text-align:center;">
 Probability is <span class="math inline">\(\alpha\)</span>
 </td>
@@ -475,12 +437,12 @@ Probability is <span class="math inline">\(1-\beta\)</span>
 </tbody>
 </table>
 <p>The Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> shows two hypothetical outcomes in reality (we never know, which one we have) and two outcomes of hypothesis testing. This gives us the <span class="math inline">\(2\times 2\)</span> matrix, where <span class="math inline">\(\alpha\)</span> is the significance level and <span class="math inline">\(1-\beta\)</span> is so called “Power of the Test” (discussed in detail in Subsection <a href="powerOfTheTest.html#powerOfTheTest">7.3</a>).</p>
-<p><strong>Type I</strong> error (aka “false positive,” i.e. we find a positive effect, when we should not have found it) happens when the null hypothesis is actually true, but we reject it. The probability of this event is equal to <span class="math inline">\(\alpha\)</span>. This is one of the definitions of the significance level <span class="math inline">\(\alpha\)</span> (in how many cases we are ready to make mistakes, when the null hypothesis is true).</p>
-<p><strong>Type II</strong> error (aka “false negative,” i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (<span class="math inline">\(\mathrm{H}_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
-<p>In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried “wolf.”</p>
+<p><strong>Type I</strong> error (aka “false positive”, i.e. we find a positive effect, when we should not have found it) happens when the null hypothesis is actually true, but we reject it. The probability of this event is equal to <span class="math inline">\(\alpha\)</span>. This is one of the definitions of the significance level <span class="math inline">\(\alpha\)</span> (in how many cases we are ready to make mistakes, when the null hypothesis is true).</p>
+<p><strong>Type II</strong> error (aka “false negative”, i.e. we do not find effect, while we should have found it) happens when we fail to reject the wrong hypothesis (<span class="math inline">\(\mathrm{H}_0\)</span> is not true). The probability of this event equals to <span class="math inline">\(\beta\)</span>, which can be calculated based on the assumed distribution, the critical and calculated values for the hypothesis.</p>
+<p>In order to remember what Type I and Type II errors stand for, there is a good mnemonic with a story of a boy who cried “wolf”.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 7.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!” We should acknowledge that there was no wolf at that stage, so in our terms we would say that the <span class="math inline">\(\mathrm{H}_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
-<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!” calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, <span class="math inline">\(\mathrm{H}_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject <span class="math inline">\(\mathrm{H}_0\)</span> once does not mean that it is true.</p>
+<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 7.1  </strong></span>Just as a reminder, in a village, there lived a boy who one day decided to make a practical joke of his fellow villagers. He ran around the main street crying “Wolf!”. We should acknowledge that there was no wolf at that stage, so in our terms we would say that the <span class="math inline">\(\mathrm{H}_0\)</span>: <span class="math inline">\(\mu=0\)</span> was true. But the villagers who have heard the boy went on the streets to help. They rejected the correct null hypothesis in order to help the boy, and they were surprised to find that there were no wolves on the streets. Thus the villagers made a <strong>Type I error</strong>.</p>
+<p>Next week, the boy encountered a wolf on the main street and started crying “Wolf!”, calling for help. Alas, this time nobody believed the boy and nobody came out to help, and thus the villagers rejected the correct null hypothesis in favour of the wrong one, <span class="math inline">\(\mathrm{H}_1\)</span>: <span class="math inline">\(\mu\neq 0\)</span>. By doing so they have made the <strong>Type II error</strong>. If the villagers knew statistics, they would understand that failing to reject <span class="math inline">\(\mathrm{H}_0\)</span> once does not mean that it is true.</p>
 </div>
 <p>While we can regulate the probability of Type I error by changing <span class="math inline">\(\alpha\)</span>, the probability of Type II error cannot be controlled directly. Ideally, we want it to be as low as possible. In general, the more information about the “true” parameters and model you can provide to the test, the lower the Type II error will be. For example, if we want to conduct a test to compare mean with a value and the CLT holds (see Section <a href="CLT.html#CLT">6.2</a>), then you might want to choose between t-test and z-test. The latter assumes that the population standard deviation is known (and you can provide it), and as a result has a lower probability of Type II error than the former. We will discuss specific tests in the Section <a href="statisticalTests.html#statisticalTests">8</a>.</p>
 <p>All the four situations in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> rely on the idea that the reality is somehow known. But in real life, we never know whether the null hypothesis is true or not. However, the Table is still useful because it gives an understanding of what to expect from a statistical test and what test to select in each specific situation.</p>
@@ -497,7 +459,6 @@ Probability is <span class="math inline">\(1-\beta\)</span>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -537,6 +498,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

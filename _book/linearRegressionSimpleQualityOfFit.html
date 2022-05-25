@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10.2 Quality of a fit | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10.2 Quality of a fit | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="OLS.html"/>
 <link rel="next" href="linearRegression.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="linearRegressionSimpleQualityOfFit" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Quality of a fit</h2>
+<div id="linearRegressionSimpleQualityOfFit" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Quality of a fit<a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.</p>
 <p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(10.4)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 <span class="math display" id="eq:SSE">\[\begin{equation}
@@ -457,13 +434,13 @@ We see the sum of errors in the first sum of <a href="linearRegressionSimpleQual
 which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(10.19)</a>.</p>
 </div>
 <p>The relation between SSE, SSR and SST is shown in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.3</a>. If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.</p>
-<div class="figure"><span id="fig:sumsSquaredRelation"></span>
+<div class="figure"><span style="display:block;" id="fig:sumsSquaredRelation"></span>
 <img src="images/09-SLR-SSE-white.png" alt="Relation between different sums of squares."  />
 <p class="caption">
 Figure 10.3: Relation between different sums of squares.
 </p>
 </div>
-<p>Building upon that, there is a measure called “Coefficient of Determination,” which is calculated based on the sums of squares discussed above:
+<p>Building upon that, there is a measure called “Coefficient of Determination”, which is calculated based on the sums of squares discussed above:
 <span class="math display" id="eq:Determination">\[\begin{equation}
     \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
     \tag{10.27}
@@ -483,10 +460,10 @@ implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealist
 \end{equation*}\]</span>
 meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
 <p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="linearRegressionSimpleQualityOfFit.html#cb116-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
-<span id="cb116-2"><a href="linearRegressionSimpleQualityOfFit.html#cb116-2" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
-<span id="cb116-3"><a href="linearRegressionSimpleQualityOfFit.html#cb116-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb116-4"><a href="linearRegressionSimpleQualityOfFit.html#cb116-4" aria-hidden="true" tabindex="-1"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="linearRegressionSimpleQualityOfFit.html#cb116-1" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</span>
+<span id="cb116-2"><a href="linearRegressionSimpleQualityOfFit.html#cb116-2" aria-hidden="true"></a>R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></span>
+<span id="cb116-3"><a href="linearRegressionSimpleQualityOfFit.html#cb116-3" aria-hidden="true"></a><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb116-4"><a href="linearRegressionSimpleQualityOfFit.html#cb116-4" aria-hidden="true"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.7528328</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -500,10 +477,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.29}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="linearRegressionSimpleQualityOfFit.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="linearRegressionSimpleQualityOfFit.html#cb118-1" aria-hidden="true"></a><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##         wt 
 ## -0.8676594</code></pre>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="linearRegressionSimpleQualityOfFit.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg,mtcars<span class="sc">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="linearRegressionSimpleQualityOfFit.html#cb120-1" aria-hidden="true"></a><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</span></code></pre></div>
 <pre><code>## [1] -0.8676594</code></pre>
 <!-- Proof -->
 
@@ -520,7 +497,6 @@ It shows the closeness of relation between the response variable <span class="ma
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -560,6 +536,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

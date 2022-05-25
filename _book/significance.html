@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.4 Statistical and practical significance | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.4 Statistical and practical significance | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="powerOfTheTest.html"/>
 <link rel="next" href="statisticalTests.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,11 +362,11 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="significance" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Statistical and practical significance</h2>
+<div id="significance" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Statistical and practical significance<a href="significance.html#significance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We have already discussed what the significance level means and how it connects with Type I and Type II errors in the previous sections. We have noticed that the significance level <span class="math inline">\(\alpha\)</span> is non-linearly related with the Type II probability <span class="math inline">\(\beta\)</span> and have spotted that there is a relation between them and subsequently relation between significance level and the power of a test. In fact, coming back to Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a>, we can say that there is a trade-off between them. If we use a very low significance level then we will make fewer mistakes when testing the correct hypothesis (failing to reject the correct H<span class="math inline">\(_0\)</span>), but we will make more mistakes when the null hypothesis is wrong, because the power of the test will be lower. Sometimes, this can be compensated by choosing more powerful statistical tests (see Section <a href="statisticalTests.html#statisticalTests">8</a>) or increasing the sample size, but this is not always possible to do. On the other hand, choosing a high significance level means that we will make more Type I errors, rejecting the null hypothesis when it is correct, but at the cost of making fewer Type II errors, rejecting the H<span class="math inline">\(_0\)</span>, when it is wrong even if the difference between the true unknown mean and the sample one is small. This trade-off can be taken into account, when an analyst needs to decide what significance level to use.</p>
 <p>If you are unsure what significance level to choose, Dave Worthington, a colleague of mine and a Statistics mentor at Lancaster University, has proposed an interesting motivation for that. If you do not have a level, driven by the problem (e.g. we need to satisfy 99% of demand, thus the significance level is 1%), then select the one for your life time. In how many times in your life would you be ready to make a mistake? Would it be 5%? 3%? 1%? Select something and stick with it. Then over the years you will know that you have made the selected proportion of mistakes, when conducting different statistical tests in various circumstances.</p>
-<p>However, there is an important aspect that should also be considered when making decisions based on results of statistical tests - “practical significance.” While it is not universally measurable, it is an aspect that is worth considering when making decisions. To better understand it, consider the following artificial example. A company creating helmets for cyclists has collected data about cyclists injuries for two cases: when they wear helmets and when they do not. They found that the cyclists that do not wear helmets get in car accidents less often than the cyclists that do. The probability of the event for them is just 1%, while it is 5% for the latter group (and the difference was statistically significant on 5%). Based on this a cyclist that have only started learning a statistics course can make a conclusion that they should not wear a helmet because it will decrease the chance of accident. However, the company has also analysed the types of injuries that cyclists get in case of accidents, and found that in 2% of the cases, those cyclists that do not wear helmets die in accidents, while this number for those that wear helmets is 1%. The company pointed out that the difference between the two situations was not statistically significant on 5% level. So, a person learning statistics would be inclined to conclude based on that they should not wear a helmet, because the two situations are not statistically different. This would be a wrong decision because it does not consider the practical significance.</p>
+<p>However, there is an important aspect that should also be considered when making decisions based on results of statistical tests - “practical significance”. While it is not universally measurable, it is an aspect that is worth considering when making decisions. To better understand it, consider the following artificial example. A company creating helmets for cyclists has collected data about cyclists injuries for two cases: when they wear helmets and when they do not. They found that the cyclists that do not wear helmets get in car accidents less often than the cyclists that do. The probability of the event for them is just 1%, while it is 5% for the latter group (and the difference was statistically significant on 5%). Based on this a cyclist that have only started learning a statistics course can make a conclusion that they should not wear a helmet because it will decrease the chance of accident. However, the company has also analysed the types of injuries that cyclists get in case of accidents, and found that in 2% of the cases, those cyclists that do not wear helmets die in accidents, while this number for those that wear helmets is 1%. The company pointed out that the difference between the two situations was not statistically significant on 5% level. So, a person learning statistics would be inclined to conclude based on that they should not wear a helmet, because the two situations are not statistically different. This would be a wrong decision because it does not consider the practical significance.</p>
 <p>Indeed, in the example above, based on the data collected by a company, the mortality in two cases is similar in terms of statistical significance. However, having the two times higher probability of death when not wearing a helmet than in the case with a helmet has serious practical implications. Getting in an accident is unpleasant and is associated with some costs (financial, moral etc), but dying has a much higher cost, incomparable with that. And even though the probability of dying in an accident without helmet is low (only 2%), it does not mean that a person not wearing a helmet will be lucky enough to appear in that 98% of cases, when an accident happens. Even 2% is enough for an event with such a critical outcome - this can happen any time with anyone. And although the probability of death in case of “wearing a helmet” is just 1% lower, given the asymmetry of costs, it is better to wear a helmet and increase the odds of survival by that one percent than to continue gambling. After all, your head is one of the most important parts of your body.</p>
 <p>The situation above is artificial, I could not find appropriate data for this example. In reality, the numbers might be different, but the message is the same: you should consider practical implications of statistical analysis, when making decisions. Taking both statistical and practical significance into account, we can crate a table demonstrating the four possible cases for decision making (see Table <a href="significance.html#tab:significanceTable">7.2</a>)</p>
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto; font-size: 12px; margin-left: auto; margin-right: auto;">
@@ -448,7 +425,6 @@ Do not make a decision
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -488,6 +464,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

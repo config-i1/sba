@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.3 Properties of estimators | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.3 Properties of estimators | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="CLT.html"/>
 <link rel="next" href="confidenceInterval.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,8 +362,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="estimatesProperties" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> Properties of estimators</h2>
+<div id="estimatesProperties" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Properties of estimators<a href="estimatesProperties.html#estimatesProperties" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before we move further, we need to agree what the term “estimator” means, which will be used several times further in this textbook:</p>
 <ul>
 <li><strong>Estimate</strong> of a parameter is an in sample result of application of a statistical procedure to the data for obtaining some coefficients of a model. The value calculated using the arithmetic mean would be an estimate of the population mean;</li>
@@ -394,39 +371,39 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ul>
 <p>In this section, we discuss such terms as <strong>bias</strong>, <strong>efficiency</strong> and <strong>consistency</strong> of estimates of parameters, which are directly related to <a href="LLN.html#LLN">LLN</a> and <a href="CLT.html#CLT">CLT</a>. Although there are strict statistical definitions of the aforementioned terms (you can easily find them in Wikipedia or anywhere else), I do not want to copy-paste them here, because there are only a couple of important points worth mentioning in our context.</p>
 <p>Note that all the discussions in this chapter relate to <strong>the estimates of parameters</strong>, not to the distribution of a random variable itself. A common mistake that students make when studying statistics, is that they think that the properties apply to the variable <span class="math inline">\(y_j\)</span> instead of the estimate of its parameters (e.g. mean of <span class="math inline">\(y_j\)</span>).</p>
-<div id="estimatesPropertiesBias" class="section level3" number="6.3.1">
-<h3><span class="header-section-number">6.3.1</span> Bias</h3>
+<div id="estimatesPropertiesBias" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Bias<a href="estimatesProperties.html#estimatesPropertiesBias" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Bias</strong> refers to the expected difference between the estimated value of parameter (on a specific sample) and the “<a href="intro.html#intro">true</a>” one (in the true model). Having unbiased estimates of parameters is important because they should lead to more accurate forecasts (at least in theory). For example, if the estimated parameter is equal to zero, while in fact it should be 0.5, then the model would not take the provided information into account correctly and as a result will produce less accurate point forecasts and incorrect prediction intervals. In inventory context this may mean that we constantly order 100 units less than needed only because the parameter is lower than it should be.</p>
 <p>The classical example of bias in statistics is the estimation of variance in sample. The following formula gives biased estimate of variance in sample:
 <span class="math display" id="eq:varianceBiased">\[\begin{equation}
     \mathrm{V}(y) = \frac{1}{n} \sum_{j=1}^n \left( y_j - \bar{y} \right)^2,
     \tag{6.1}
 \end{equation}\]</span>
-where <span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(\bar{y} = \frac{1}{n} \sum_{j=1}^n y_j\)</span> is the mean of the data. There is a lot of proofs in the literature of this issue (even <span class="citation"><a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">Wikipedia</a> (<a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">2020a</a>)</span> has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="estimatesProperties.html#cb47-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb47-2"><a href="estimatesProperties.html#cb47-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb47-3"><a href="estimatesProperties.html#cb47-3" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb47-4"><a href="estimatesProperties.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from normal distribution, 10,000 observations</span></span>
-<span id="cb47-5"><a href="estimatesProperties.html#cb47-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,mu,sigma)</span>
-<span id="cb47-6"><a href="estimatesProperties.html#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the function, which will calculate the two variances</span></span>
-<span id="cb47-7"><a href="estimatesProperties.html#cb47-7" aria-hidden="true" tabindex="-1"></a>varFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(y){</span>
-<span id="cb47-8"><a href="estimatesProperties.html#cb47-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">c</span>(<span class="fu">var</span>(y), <span class="fu">mean</span>((y<span class="sc">-</span><span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)))</span>
-<span id="cb47-9"><a href="estimatesProperties.html#cb47-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb47-10"><a href="estimatesProperties.html#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate biased and unbiased variances for the sample of 30 observations,</span></span>
-<span id="cb47-11"><a href="estimatesProperties.html#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat nIterations times</span></span>
-<span id="cb47-12"><a href="estimatesProperties.html#cb47-12" aria-hidden="true" tabindex="-1"></a>varValues <span class="ot">&lt;-</span> <span class="fu">replicate</span>(nIterations, <span class="fu">varFunction</span>(<span class="fu">sample</span>(y,<span class="dv">30</span>)))</span></code></pre></div>
+where <span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(\bar{y} = \frac{1}{n} \sum_{j=1}^n y_j\)</span> is the mean of the data. There is a lot of proofs in the literature of this issue (even <span class="citation">Wikipedia (<a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">2020</a><a href="#ref-WikipediaVarianceBias2020" role="doc-biblioref">a</a>)</span> has one), we will not spend time on that. Instead, we will see this effect in the following simple simulation experiment:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="estimatesProperties.html#cb47-1" aria-hidden="true"></a>mu &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb47-2"><a href="estimatesProperties.html#cb47-2" aria-hidden="true"></a>sigma &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb47-3"><a href="estimatesProperties.html#cb47-3" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb47-4"><a href="estimatesProperties.html#cb47-4" aria-hidden="true"></a><span class="co"># Generate data from normal distribution, 10,000 observations</span></span>
+<span id="cb47-5"><a href="estimatesProperties.html#cb47-5" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>,mu,sigma)</span>
+<span id="cb47-6"><a href="estimatesProperties.html#cb47-6" aria-hidden="true"></a><span class="co"># This is the function, which will calculate the two variances</span></span>
+<span id="cb47-7"><a href="estimatesProperties.html#cb47-7" aria-hidden="true"></a>varFunction &lt;-<span class="st"> </span><span class="cf">function</span>(y){</span>
+<span id="cb47-8"><a href="estimatesProperties.html#cb47-8" aria-hidden="true"></a>   <span class="kw">return</span>(<span class="kw">c</span>(<span class="kw">var</span>(y), <span class="kw">mean</span>((y<span class="op">-</span><span class="kw">mean</span>(y))<span class="op">^</span><span class="dv">2</span>)))</span>
+<span id="cb47-9"><a href="estimatesProperties.html#cb47-9" aria-hidden="true"></a>}</span>
+<span id="cb47-10"><a href="estimatesProperties.html#cb47-10" aria-hidden="true"></a><span class="co"># Calculate biased and unbiased variances for the sample of 30 observations,</span></span>
+<span id="cb47-11"><a href="estimatesProperties.html#cb47-11" aria-hidden="true"></a><span class="co"># repeat nIterations times</span></span>
+<span id="cb47-12"><a href="estimatesProperties.html#cb47-12" aria-hidden="true"></a>varValues &lt;-<span class="st"> </span><span class="kw">replicate</span>(nIterations, <span class="kw">varFunction</span>(<span class="kw">sample</span>(y,<span class="dv">30</span>)))</span></code></pre></div>
 <p>This way we have generated 1000 samples with 30 observations and calculated variances using the formulae <a href="estimatesProperties.html#eq:varianceBiased">(6.1)</a> and the corrected one for each step. Now we can plot it in order to see how it worked out:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estimatesProperties.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb48-2"><a href="estimatesProperties.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of the biased estimate</span></span>
-<span id="cb48-3"><a href="estimatesProperties.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(varValues[<span class="dv">2</span>,], <span class="at">xlab=</span><span class="st">&quot;V(y)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;y&quot;</span>, <span class="at">main=</span><span class="st">&quot;Biased estimate of V(y)&quot;</span>)</span>
-<span id="cb48-4"><a href="estimatesProperties.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(varValues[<span class="dv">2</span>,]), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb48-5"><a href="estimatesProperties.html#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="at">legend=</span><span class="fu">TeX</span>(<span class="fu">paste0</span>(<span class="st">&quot;E$</span><span class="sc">\\</span><span class="st">left(V(y)</span><span class="sc">\\</span><span class="st">right)$=&quot;</span>,<span class="fu">round</span>(<span class="fu">mean</span>(varValues[<span class="dv">2</span>,]),<span class="dv">2</span>))),<span class="at">lwd=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb48-6"><a href="estimatesProperties.html#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="estimatesProperties.html#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of unbiased estimate</span></span>
-<span id="cb48-8"><a href="estimatesProperties.html#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(varValues[<span class="dv">1</span>,], <span class="at">xlab=</span><span class="st">&quot;V(y)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;y&quot;</span>, <span class="at">main=</span><span class="st">&quot;Unbiased estimate of V(y)&quot;</span>)</span>
-<span id="cb48-9"><a href="estimatesProperties.html#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(varValues[<span class="dv">1</span>,]), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb48-10"><a href="estimatesProperties.html#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="at">legend=</span><span class="fu">TeX</span>(<span class="fu">paste0</span>(<span class="st">&quot;E$</span><span class="sc">\\</span><span class="st">left(V(y)</span><span class="sc">\\</span><span class="st">right)$=&quot;</span>,<span class="fu">round</span>(<span class="fu">mean</span>(varValues[<span class="dv">1</span>,]),<span class="dv">2</span>))),<span class="at">lwd=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-14"></span>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estimatesProperties.html#cb48-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb48-2"><a href="estimatesProperties.html#cb48-2" aria-hidden="true"></a><span class="co"># Histogram of the biased estimate</span></span>
+<span id="cb48-3"><a href="estimatesProperties.html#cb48-3" aria-hidden="true"></a><span class="kw">hist</span>(varValues[<span class="dv">2</span>,], <span class="dt">xlab=</span><span class="st">&quot;V(y)&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Biased estimate of V(y)&quot;</span>)</span>
+<span id="cb48-4"><a href="estimatesProperties.html#cb48-4" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(varValues[<span class="dv">2</span>,]), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb48-5"><a href="estimatesProperties.html#cb48-5" aria-hidden="true"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="dt">legend=</span><span class="kw">TeX</span>(<span class="kw">paste0</span>(<span class="st">&quot;E$</span><span class="ch">\\</span><span class="st">left(V(y)</span><span class="ch">\\</span><span class="st">right)$=&quot;</span>,<span class="kw">round</span>(<span class="kw">mean</span>(varValues[<span class="dv">2</span>,]),<span class="dv">2</span>))),<span class="dt">lwd=</span><span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb48-6"><a href="estimatesProperties.html#cb48-6" aria-hidden="true"></a></span>
+<span id="cb48-7"><a href="estimatesProperties.html#cb48-7" aria-hidden="true"></a><span class="co"># Histogram of unbiased estimate</span></span>
+<span id="cb48-8"><a href="estimatesProperties.html#cb48-8" aria-hidden="true"></a><span class="kw">hist</span>(varValues[<span class="dv">1</span>,], <span class="dt">xlab=</span><span class="st">&quot;V(y)&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Unbiased estimate of V(y)&quot;</span>)</span>
+<span id="cb48-9"><a href="estimatesProperties.html#cb48-9" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(varValues[<span class="dv">1</span>,]), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb48-10"><a href="estimatesProperties.html#cb48-10" aria-hidden="true"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="dt">legend=</span><span class="kw">TeX</span>(<span class="kw">paste0</span>(<span class="st">&quot;E$</span><span class="ch">\\</span><span class="st">left(V(y)</span><span class="ch">\\</span><span class="st">right)$=&quot;</span>,<span class="kw">round</span>(<span class="kw">mean</span>(varValues[<span class="dv">1</span>,]),<span class="dv">2</span>))),<span class="dt">lwd=</span><span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
 <img src="adam_files/figure-html/unnamed-chunk-14-1.png" alt="Histograms for biased and unbiased estimates of variance." width="672" />
 <p class="caption">
 Figure 6.4: Histograms for biased and unbiased estimates of variance.
@@ -439,36 +416,36 @@ Figure 6.4: Histograms for biased and unbiased estimates of variance.
 \end{equation}\]</span>
 where <span class="math inline">\(k\)</span> is the number of all independent estimated parameters. In this simple example <span class="math inline">\(k=1\)</span>, because we only estimate mean (the variance is based on it). Analysing the formulae <a href="estimatesProperties.html#eq:varianceBiased">(6.1)</a> and <a href="estimatesProperties.html#eq:varianceUnBiased">(6.2)</a>, we can say that with the increase of the sample size, the bias will disappear and the two formulae will give almost the same results: when the sample size <span class="math inline">\(n\)</span> becomes big enough, the difference between the two becomes negligible. This is the graphical presentation of the bias in the estimator.</p>
 </div>
-<div id="estimatesPropertiesEfficiency" class="section level3" number="6.3.2">
-<h3><span class="header-section-number">6.3.2</span> Efficiency</h3>
+<div id="estimatesPropertiesEfficiency" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Efficiency<a href="estimatesProperties.html#estimatesPropertiesEfficiency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Efficiency</strong> means, if the sample size increases, then the estimated parameters will not change substantially, they will vary in a narrow range (variance of estimates will be small). In the case with inefficient estimates the increase of sample size from 50 to 51 observations may lead to the change of a parameter from 0.1 to, let’s say, 10. This is bad because the values of parameters usually influence both point forecasts and prediction intervals. As a result the inventory decision may differ radically from day to day. For example, we may decide that we urgently need 1000 units of product on Monday, and order it just to realise on Tuesday that we only need 100. Obviously this is an exaggeration, but no one wants to deal with such an erratically behaving model, so we need to have efficient estimates of parameters.</p>
 <p>Another classical example of not efficient estimator is the median, when used on the data that follows Normal distribution. Here is a simple experiment demonstrating the idea:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="estimatesProperties.html#cb49-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb49-2"><a href="estimatesProperties.html#cb49-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb49-3"><a href="estimatesProperties.html#cb49-3" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb49-4"><a href="estimatesProperties.html#cb49-4" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb49-5"><a href="estimatesProperties.html#cb49-5" aria-hidden="true" tabindex="-1"></a>varMeanValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
-<span id="cb49-6"><a href="estimatesProperties.html#cb49-6" aria-hidden="true" tabindex="-1"></a>varMedianValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
-<span id="cb49-7"><a href="estimatesProperties.html#cb49-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100000</span>,mu,sigma)</span>
-<span id="cb49-8"><a href="estimatesProperties.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>obs){</span>
-<span id="cb49-9"><a href="estimatesProperties.html#cb49-9" aria-hidden="true" tabindex="-1"></a>    ySample <span class="ot">&lt;-</span> <span class="fu">replicate</span>(nIterations,<span class="fu">sample</span>(y,i<span class="sc">*</span><span class="dv">100</span>))</span>
-<span id="cb49-10"><a href="estimatesProperties.html#cb49-10" aria-hidden="true" tabindex="-1"></a>    varMeanValues[i] <span class="ot">&lt;-</span> <span class="fu">var</span>(<span class="fu">apply</span>(ySample,<span class="dv">2</span>,mean))</span>
-<span id="cb49-11"><a href="estimatesProperties.html#cb49-11" aria-hidden="true" tabindex="-1"></a>    varMedianValues[i] <span class="ot">&lt;-</span> <span class="fu">var</span>(<span class="fu">apply</span>(ySample,<span class="dv">2</span>,median))</span>
-<span id="cb49-12"><a href="estimatesProperties.html#cb49-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="estimatesProperties.html#cb49-1" aria-hidden="true"></a>mu &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb49-2"><a href="estimatesProperties.html#cb49-2" aria-hidden="true"></a>sigma &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb49-3"><a href="estimatesProperties.html#cb49-3" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb49-4"><a href="estimatesProperties.html#cb49-4" aria-hidden="true"></a>obs &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb49-5"><a href="estimatesProperties.html#cb49-5" aria-hidden="true"></a>varMeanValues &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
+<span id="cb49-6"><a href="estimatesProperties.html#cb49-6" aria-hidden="true"></a>varMedianValues &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
+<span id="cb49-7"><a href="estimatesProperties.html#cb49-7" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100000</span>,mu,sigma)</span>
+<span id="cb49-8"><a href="estimatesProperties.html#cb49-8" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>obs){</span>
+<span id="cb49-9"><a href="estimatesProperties.html#cb49-9" aria-hidden="true"></a>    ySample &lt;-<span class="st"> </span><span class="kw">replicate</span>(nIterations,<span class="kw">sample</span>(y,i<span class="op">*</span><span class="dv">100</span>))</span>
+<span id="cb49-10"><a href="estimatesProperties.html#cb49-10" aria-hidden="true"></a>    varMeanValues[i] &lt;-<span class="st"> </span><span class="kw">var</span>(<span class="kw">apply</span>(ySample,<span class="dv">2</span>,mean))</span>
+<span id="cb49-11"><a href="estimatesProperties.html#cb49-11" aria-hidden="true"></a>    varMedianValues[i] &lt;-<span class="st"> </span><span class="kw">var</span>(<span class="kw">apply</span>(ySample,<span class="dv">2</span>,median))</span>
+<span id="cb49-12"><a href="estimatesProperties.html#cb49-12" aria-hidden="true"></a>}</span></code></pre></div>
 <p>In order to establish the efficiency of the estimators, we will take their variances and look at the ratio of mean over median. If both are equally efficient, then this ratio will be equal to one. If the mean is more efficient than the median, then the ratio will be less than one:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estimatesProperties.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">6</span>)</span>
-<span id="cb50-2"><a href="estimatesProperties.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span><span class="sc">*</span><span class="dv">100</span>,varMeanValues<span class="sc">/</span>varMedianValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Relative efficiency&quot;</span>)</span>
-<span id="cb50-3"><a href="estimatesProperties.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:statsEfficiecny"></span>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estimatesProperties.html#cb50-1" aria-hidden="true"></a><span class="kw">options</span>(<span class="dt">scipen=</span><span class="dv">6</span>)</span>
+<span id="cb50-2"><a href="estimatesProperties.html#cb50-2" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span><span class="op">*</span><span class="dv">100</span>,varMeanValues<span class="op">/</span>varMedianValues, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Sample size&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Relative efficiency&quot;</span>)</span>
+<span id="cb50-3"><a href="estimatesProperties.html#cb50-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:statsEfficiecny"></span>
 <img src="images/02-statistics-efficiency.png" alt="An example of a relatively inefficient estimator."  />
 <p class="caption">
 Figure 6.5: An example of a relatively inefficient estimator.
 </p>
 </div>
-<p>What we should typically see on this graph, is that the black line should be below the red one, indicating that the variance of mean is lower than the variance of the median. This means that mean is more efficient estimator of the true location of the distribution <span class="math inline">\(\mu\)</span> than the median. In fact, it is easy to proove that asymptotically the mean will be 1.57 times more efficient than median <span class="citation">(<a href="#ref-WikipediaMedianEfficiency2020" role="doc-biblioref">Wikipedia, 2020b</a>)</span> (so, the line should converge approximately to the value of 0.64).</p>
+<p>What we should typically see on this graph, is that the black line should be below the red one, indicating that the variance of mean is lower than the variance of the median. This means that mean is more efficient estimator of the true location of the distribution <span class="math inline">\(\mu\)</span> than the median. In fact, it is easy to proove that asymptotically the mean will be 1.57 times more efficient than median <span class="citation">(Wikipedia, <a href="#ref-WikipediaMedianEfficiency2020" role="doc-biblioref">2020</a><a href="#ref-WikipediaMedianEfficiency2020" role="doc-biblioref">b</a>)</span> (so, the line should converge approximately to the value of 0.64).</p>
 </div>
-<div id="estimatesPropertiesConsistency" class="section level3" number="6.3.3">
-<h3><span class="header-section-number">6.3.3</span> Consistency</h3>
+<div id="estimatesPropertiesConsistency" class="section level3 hasAnchor" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Consistency<a href="estimatesProperties.html#estimatesPropertiesConsistency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Consistency</strong> means that our estimates of parameters will get closer to the stable values (true value in the population) with the increase of the sample size. This follows directly from <a href="#LLNandCLT">LLN</a> and is important because in the opposite case estimates of parameters will diverge and become less and less realistic. This once again influences both point forecasts and prediction intervals, which will be less meaningful than they should have been. In a way consistency means that with the increase of the sample size the parameters will become more efficient and less biased. This in turn means that the more observations we have, the better.</p>
 <p>An example of inconsistent estimator is Chebyshev (or max norm) metric. It is formulated the following way:
 <span class="math display" id="eq:chebyshevNorm">\[\begin{equation}
@@ -476,26 +453,26 @@ Figure 6.5: An example of a relatively inefficient estimator.
     \tag{6.3}
 \end{equation}\]</span>
 Minimising this norm, we can get an estimate <span class="math inline">\(\hat{y}\)</span> of the location parameter <span class="math inline">\(\mu\)</span>. The simulation experiment becomes a bit more tricky in this situation, but here is the code to generate the estimates of the location parameter:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="estimatesProperties.html#cb51-1" aria-hidden="true" tabindex="-1"></a>LMax <span class="ot">&lt;-</span> <span class="cf">function</span>(y){</span>
-<span id="cb51-2"><a href="estimatesProperties.html#cb51-2" aria-hidden="true" tabindex="-1"></a>    estimator <span class="ot">&lt;-</span> <span class="cf">function</span>(par){</span>
-<span id="cb51-3"><a href="estimatesProperties.html#cb51-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="fu">max</span>(<span class="fu">abs</span>(y<span class="sc">-</span>par)));</span>
-<span id="cb51-4"><a href="estimatesProperties.html#cb51-4" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb51-5"><a href="estimatesProperties.html#cb51-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb51-6"><a href="estimatesProperties.html#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">optim</span>(<span class="fu">mean</span>(y), <span class="at">fn=</span>estimator, <span class="at">method=</span><span class="st">&quot;Brent&quot;</span>, <span class="at">lower=</span><span class="fu">min</span>(y), <span class="at">upper=</span><span class="fu">max</span>(y)));</span>
-<span id="cb51-7"><a href="estimatesProperties.html#cb51-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb51-8"><a href="estimatesProperties.html#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="estimatesProperties.html#cb51-9" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb51-10"><a href="estimatesProperties.html#cb51-10" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb51-11"><a href="estimatesProperties.html#cb51-11" aria-hidden="true" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb51-12"><a href="estimatesProperties.html#cb51-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, mu, sigma)</span>
-<span id="cb51-13"><a href="estimatesProperties.html#cb51-13" aria-hidden="true" tabindex="-1"></a>LMaxEstimates <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>, nIterations)</span>
-<span id="cb51-14"><a href="estimatesProperties.html#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb51-15"><a href="estimatesProperties.html#cb51-15" aria-hidden="true" tabindex="-1"></a>    LMaxEstimates[i] <span class="ot">&lt;-</span> <span class="fu">LMax</span>(y[<span class="dv">1</span><span class="sc">:</span>(i<span class="sc">*</span><span class="dv">10</span>)])<span class="sc">$</span>par;</span>
-<span id="cb51-16"><a href="estimatesProperties.html#cb51-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="estimatesProperties.html#cb51-1" aria-hidden="true"></a>LMax &lt;-<span class="st"> </span><span class="cf">function</span>(y){</span>
+<span id="cb51-2"><a href="estimatesProperties.html#cb51-2" aria-hidden="true"></a>    estimator &lt;-<span class="st"> </span><span class="cf">function</span>(par){</span>
+<span id="cb51-3"><a href="estimatesProperties.html#cb51-3" aria-hidden="true"></a>        <span class="kw">return</span>(<span class="kw">max</span>(<span class="kw">abs</span>(y<span class="op">-</span>par)));</span>
+<span id="cb51-4"><a href="estimatesProperties.html#cb51-4" aria-hidden="true"></a>    }</span>
+<span id="cb51-5"><a href="estimatesProperties.html#cb51-5" aria-hidden="true"></a>    </span>
+<span id="cb51-6"><a href="estimatesProperties.html#cb51-6" aria-hidden="true"></a>    <span class="kw">return</span>(<span class="kw">optim</span>(<span class="kw">mean</span>(y), <span class="dt">fn=</span>estimator, <span class="dt">method=</span><span class="st">&quot;Brent&quot;</span>, <span class="dt">lower=</span><span class="kw">min</span>(y), <span class="dt">upper=</span><span class="kw">max</span>(y)));</span>
+<span id="cb51-7"><a href="estimatesProperties.html#cb51-7" aria-hidden="true"></a>}</span>
+<span id="cb51-8"><a href="estimatesProperties.html#cb51-8" aria-hidden="true"></a></span>
+<span id="cb51-9"><a href="estimatesProperties.html#cb51-9" aria-hidden="true"></a>mu &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb51-10"><a href="estimatesProperties.html#cb51-10" aria-hidden="true"></a>sigma &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb51-11"><a href="estimatesProperties.html#cb51-11" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb51-12"><a href="estimatesProperties.html#cb51-12" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, mu, sigma)</span>
+<span id="cb51-13"><a href="estimatesProperties.html#cb51-13" aria-hidden="true"></a>LMaxEstimates &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>, nIterations)</span>
+<span id="cb51-14"><a href="estimatesProperties.html#cb51-14" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nIterations){</span>
+<span id="cb51-15"><a href="estimatesProperties.html#cb51-15" aria-hidden="true"></a>    LMaxEstimates[i] &lt;-<span class="st"> </span><span class="kw">LMax</span>(y[<span class="dv">1</span><span class="op">:</span>(i<span class="op">*</span><span class="dv">10</span>)])<span class="op">$</span>par;</span>
+<span id="cb51-16"><a href="estimatesProperties.html#cb51-16" aria-hidden="true"></a>}</span></code></pre></div>
 <p>And here how the estimate looks with the increase of sample size:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="estimatesProperties.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>nIterations<span class="sc">*</span><span class="dv">10</span>, LMaxEstimates, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>,<span class="at">ylab=</span><span class="fu">TeX</span>(<span class="st">&quot;Estimate of $</span><span class="sc">\\</span><span class="st">mu$&quot;</span>))</span>
-<span id="cb52-2"><a href="estimatesProperties.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>mu, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:statsConsistency"></span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="estimatesProperties.html#cb52-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">1</span><span class="op">:</span>nIterations<span class="op">*</span><span class="dv">10</span>, LMaxEstimates, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Sample size&quot;</span>,<span class="dt">ylab=</span><span class="kw">TeX</span>(<span class="st">&quot;Estimate of $</span><span class="ch">\\</span><span class="st">mu$&quot;</span>))</span>
+<span id="cb52-2"><a href="estimatesProperties.html#cb52-2" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">h=</span>mu, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:statsConsistency"></span>
 <img src="images/02-statistics-consistency.png" alt="An example of inconsistent estimator."  />
 <p class="caption">
 Figure 6.6: An example of inconsistent estimator.
@@ -506,33 +483,33 @@ Figure 6.6: An example of inconsistent estimator.
 <p><span id="unlabeled-div-6" class="remark"><em>Remark</em>. </span>There is a prejudice in the world of practitioners that the situation in the market changes so fast that the old observations become useless very fast. As a result many companies just through away the old data. Although, in general the statement about the market changes is true, the forecasters tend to work with the models that take this into account (e.g. Exponential smoothing, ARIMA, discussed in this book). These models adapt to the potential changes. So, we may benefit from the old data because it allows us getting more consistent estimates of parameters. Just keep in mind, that you can always remove the annoying bits of data but you can never un-throw away the data.</p>
 </div>
 </div>
-<div id="asymptoticNormality" class="section level3" number="6.3.4">
-<h3><span class="header-section-number">6.3.4</span> Asymptotic normality</h3>
+<div id="asymptoticNormality" class="section level3 hasAnchor" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> Asymptotic normality<a href="estimatesProperties.html#asymptoticNormality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Finally, <strong>asymptotic normality</strong> is not critical, but in many cases is a desired, useful property of estimates. What it tells us is that the distribution of the estimate of parameter will be well behaved with a specific mean (typically equal to <span class="math inline">\(\mu\)</span>) and a fixed variance. This follows directly from <a href="#LLNandCLT">CLT</a>. Some of the statistical tests and mathematical derivations rely on this assumption. For example, when one conducts a significance test for parameters of model, this assumption is implied in the process. If the distribution is not Normal, then the confidence intervals constructed for the parameters will be wrong together with the respective t- and p- values.</p>
 <p>Another important aspect to cover is what the term <strong>asymptotic</strong>, which we have already used, means in our context. Here and after in this book, when this word is used, we refer to an unrealistic hypothetical situation of having all the data in the multiverse, where the time index <span class="math inline">\(t \rightarrow \infty\)</span>. While this is impossible in practice, the idea is useful, because asymptotic behaviour of estimators and models is helpful on large samples of data. Besides, even if we deal with small samples, it is good to know what to expect to happen if the sample size increases.</p>
 </div>
-<div id="efficiencyVSBias" class="section level3" number="6.3.5">
-<h3><span class="header-section-number">6.3.5</span> Why having biased estimate can be better than having the inefficient one?</h3>
+<div id="efficiencyVSBias" class="section level3 hasAnchor" number="6.3.5">
+<h3><span class="header-section-number">6.3.5</span> Why having biased estimate can be better than having the inefficient one?<a href="estimatesProperties.html#efficiencyVSBias" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It might not be clear to everyone why the model with some bias in it might be better than the model with high variance. In order to answer this question, consider the situation, where we want to estimate the value of parameter <span class="math inline">\(\mu\)</span>, and we have two methods to do that. Given that we work on a sample of data, the estimates will have some sorts of distributions, shown in Figure <a href="estimatesProperties.html#fig:biasVarianceEstimate">6.7</a>.</p>
-<div class="figure"><span id="fig:biasVarianceEstimate"></span>
+<div class="figure"><span style="display:block;" id="fig:biasVarianceEstimate"></span>
 <img src="adam_files/figure-html/biasVarianceEstimate-1.png" alt="Example of two estimators of a parameter." width="672" />
 <p class="caption">
 Figure 6.7: Example of two estimators of a parameter.
 </p>
 </div>
-<p>Which of the two estimators would you prefer: the first one or the second one? The conventional statistician might choose Estimator 1, because it produces the unbiased estimates of parameter, meaning that on average we will have the correct value of the true parameter. However, if we rephrase the question slightly, making it more realistic, the answer would probably change: “Which of the two estimators would you prefer <strong>on small sample</strong>?” In this situation, we understand that we have limited data and need to make a decision based on what we have on hands, we might not be able to rely on asymptotic properties, on LLN and CLT (Chapter <a href="PopulationSampling.html#PopulationSampling">6</a>). If we choose Estimator 1, then on our specific sample, we might end up easily with a value for <span class="math inline">\(m\)</span> of -2, 0 or 6, just due to the pure chance - this is how wide the distribution is. On the other hand, if we choose the Estimator 2, we will end up with the value, which will be close to the true one: 2.5, 3 or 4. Yes, this value will be typically higher than needed, but at least it will not lead us to confusing conclusions on the data we have. Having said that, if the bias was too high (e.g. if the distribution of the Estimator 2 was placed around -4), the estimator might become unreliable, so there should be some balance in how much bias one should impose.</p>
+<p>Which of the two estimators would you prefer: the first one or the second one? The conventional statistician might choose Estimator 1, because it produces the unbiased estimates of parameter, meaning that on average we will have the correct value of the true parameter. However, if we rephrase the question slightly, making it more realistic, the answer would probably change: “Which of the two estimators would you prefer <strong>on small sample</strong>?”. In this situation, we understand that we have limited data and need to make a decision based on what we have on hands, we might not be able to rely on asymptotic properties, on LLN and CLT (Chapter <a href="PopulationSampling.html#PopulationSampling">6</a>). If we choose Estimator 1, then on our specific sample, we might end up easily with a value for <span class="math inline">\(m\)</span> of -2, 0 or 6, just due to the pure chance - this is how wide the distribution is. On the other hand, if we choose the Estimator 2, we will end up with the value, which will be close to the true one: 2.5, 3 or 4. Yes, this value will be typically higher than needed, but at least it will not lead us to confusing conclusions on the data we have. Having said that, if the bias was too high (e.g. if the distribution of the Estimator 2 was placed around -4), the estimator might become unreliable, so there should be some balance in how much bias one should impose.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-7" class="example"><strong>Example 6.1  </strong></span>In a computer game Diablo II (by Blizzard North), there are two spells, which might be considered as similar in terms of damage to monsters: Lightning and Glacial Spike. On the first level, the Lightning does random damage from 1 to 43, while the Glacial Spike does randomly 17 to 26. Assuming that the distributions of damage are uniform in both cases, we would conclude that on average the Lightning does slightly more damage than the Glacial Spike: <span class="math inline">\(\frac{1}{2}(43+1)=22\)</span> vs <span class="math inline">\(\frac{1}{2}(17+26)=21.5\)</span>. However, the Lightning has much higher variability, and is less efficient in killing monsters than the Glacial Spike: it has variance of <span class="math inline">\(\frac{1}{12}(43-1)^2 = 147\)</span> versus <span class="math inline">\(\frac{1}{12}(26-17)^2 = 6.75\)</span> of the Glacial Spike. This means that each time a player shoots the Lightning, there is a chance that it will do less damage than the Glacial Spike (for example, in <span class="math inline">\(\frac{(17-1)}{(43-1)} \approx 38\)</span>% of the cases Lightning will do less damage than the lowest possible damage of the Glacial Spike). This means that if one needs to choose, which of the spells to use in a battle, the Glacial Spike would be a safer option, as each specific shot will not be as weak as it could be in the case of the Lightning. But if a player casts both spells many times, then asymptotically the Lightning will be better than Glacial Spike, as it would do more damage on average.</p>
 </div>
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-WikipediaVarianceBias2020" class="csl-entry">
-• Wikipedia, 2020a. Bias of estimator: Sample variance. <a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator#Sample_variance">https://en.wikipedia.org/wiki/Bias_of_an_estimator#Sample_variance</a> (version: 2020-08-12)
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-WikipediaVarianceBias2020">
+<p>• Wikipedia, 2020a. Bias of estimator: Sample variance. <a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator#Sample_variance">https://en.wikipedia.org/wiki/Bias_of_an_estimator#Sample_variance</a> (version: 2020-08-12)</p>
 </div>
-<div id="ref-WikipediaMedianEfficiency2020" class="csl-entry">
-• Wikipedia, 2020b. Efficiency (statistics): Asymptotic efficiency. <a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)#Asymptotic_efficiency">https://en.wikipedia.org/wiki/Efficiency_(statistics)#Asymptotic_efficiency</a> (version: 2020-08-12)
+<div id="ref-WikipediaMedianEfficiency2020">
+<p>• Wikipedia, 2020b. Efficiency (statistics): Asymptotic efficiency. <a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)#Asymptotic_efficiency">https://en.wikipedia.org/wiki/Efficiency_(statistics)#Asymptotic_efficiency</a> (version: 2020-08-12)</p>
 </div>
 </div>
 
@@ -546,7 +523,6 @@ Figure 6.7: Example of two estimators of a parameter.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -586,6 +562,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

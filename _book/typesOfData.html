@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.3 Types of data | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.3 Types of data | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="scales.html"/>
 <link rel="next" href="sourcesOfUncertainty.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,10 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -73,7 +73,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -134,28 +133,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -385,9 +362,9 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="typesOfData" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Types of data</h2>
-<p>After doing measurement (e.g. measuring temperature of patients), an analyst typically obtains data. According to Cambridge dictionary, <strong>data is “information, especially facts or numbers, collected to be examined and considered and used to help decision-making”</strong> <span class="citation">(<a href="#ref-CambridgeData" role="doc-biblioref"><span>“Data,”</span> 2022</a>)</span>. Data can be <em>unprocessed</em> (or raw data), containing an disorganised array of recordings about a process under consideration, or it can be <em>cleaned</em>, having a proper structure with correctly encoded variables, without obvious mistakes or missing values. When first dealing with data, an analyst needs to clean it and transform it into a usable format in order to be able to extract useful information from it or apply models.</p>
+<div id="typesOfData" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Types of data<a href="typesOfData.html#typesOfData" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After doing measurement (e.g. measuring temperature of patients), an analyst typically obtains data. According to Cambridge dictionary, <strong>data is “information, especially facts or numbers, collected to be examined and considered and used to help decision-making”</strong> <span class="citation">(“Data,” <a href="#ref-CambridgeData" role="doc-biblioref">2022</a>)</span>. Data can be <em>unprocessed</em> (or raw data), containing an disorganised array of recordings about a process under consideration, or it can be <em>cleaned</em>, having a proper structure with correctly encoded variables, without obvious mistakes or missing values. When first dealing with data, an analyst needs to clean it and transform it into a usable format in order to be able to extract useful information from it or apply models.</p>
 <p>The process of data cleaning itself depends on a variety of factors, and most importantly on what the analyst wants to do. For example, if an analyst is interested in getting insights about daily A&amp;E attendance, and they have records of every patient arriving to A&amp;E, the first step would be to aggregate those values into daily buckets, obtaining the information about the number of A&amp;E arrivals per day. As another example, if an analyst conducts a survey, aiming to find brand preferences of citizens of Lancaster, then after collecting the survey data, they need to transform some of the questions into appropriate variables to be able to work with them (e.g. if there were multiple choice questions with several options, they need to be transformed into a set of variables equal to the number of that options).</p>
 <p>The question related to the data cleaning is what type of data the analyst is working with. There are three fundamental types:</p>
 <ol style="list-style-type: decimal">
@@ -400,7 +377,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div class="remark">
 <p><span id="unlabeled-div-1" class="remark"><em>Remark</em>. </span>In time series, the observations typically do not happen at random, the number of A&amp;E arrivals will depend on the time of day, day of week and month of year. This is an important characteristic of this specific type of data, and we will come back to it later in this textbook.</p>
 </div>
-<p>Finally, in some situations we might be able to measure data of several objects over time. For example, we could have daily A&amp;E arrival in several hospitals. This type of data would be called “panel data,” and in this situation we would use both indices <span class="math inline">\(j\)</span> and <span class="math inline">\(t\)</span>, ending up with a variable <span class="math inline">\(y_{j,t}\)</span>, showing, for example, a specific number of patients arriving to a specific hospital at a specific moment of time.</p>
+<p>Finally, in some situations we might be able to measure data of several objects over time. For example, we could have daily A&amp;E arrival in several hospitals. This type of data would be called “panel data”, and in this situation we would use both indices <span class="math inline">\(j\)</span> and <span class="math inline">\(t\)</span>, ending up with a variable <span class="math inline">\(y_{j,t}\)</span>, showing, for example, a specific number of patients arriving to a specific hospital at a specific moment of time.</p>
 <p>In this textbook we will focus on cross-sectional data and then will move to the time series one. We will also briefly discuss panel data models, but we do not discuss them in detail, as they become available to analysts less often than the other two types.</p>
 <p>We have already used the term “variable” several times in this chapter, assuming that a reader is familiar with it. In mathematics, <strong>variable is a symbol that represents any of a set of potential values</strong>. In this textbook, we will face several types of variables. We will work with a <strong>response</strong> variable, representing a place holder for a quantity of the main interest of our analysis, something that is formed using an assumed mechanism. This will be denoted with letter <span class="math inline">\(y\)</span>. We will also work with <strong>explanatory</strong> variables, which are supposed to explain how the response variable is formed and are denoted using letter <span class="math inline">\(x\)</span> with potential subscripts, e.g. <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span> etc, representing a first, a second etc variables. In some cases, we will also use terms “exogenous” and “endogenous” variables, where the former means the variable that is formed on its own and is not impacted by any of variables under consideration, while the latter represents a variable that is created by a combination of variables under consideration. Sometimes, the terms “response” and “endogenous” are used as synonyms. Similarly, the terms “explanatory” and “exogenous” are used as synonyms as well. The basic model with one response variable <span class="math inline">\(y_j\)</span> and one explanatory variable <span class="math inline">\(x_j\)</span> can be written as:
 <span class="math display">\[\begin{equation*}
@@ -408,10 +385,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 \end{equation*}\]</span>
 where <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are parameters of the model. This model is discussed in more detail in Chapter <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>.</p>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-CambridgeData" class="csl-entry">
-• Data, 2022. <span>Cambridge Dictionary</span>. <a href="https://dictionary.cambridge.org/dictionary/english/data">https://dictionary.cambridge.org/dictionary/english/data</a>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-CambridgeData">
+<p>• Data, 2022.. Cambridge Dictionary. <a href="https://dictionary.cambridge.org/dictionary/english/data">https://dictionary.cambridge.org/dictionary/english/data</a></p>
 </div>
 </div>
 
@@ -425,7 +402,6 @@ where <span class="math inline">\(\beta_0\)</span> and <span class="math inline"
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -465,6 +441,10 @@ gitbook.start({
 "text": null
 },
 "download": ["adam.pdf", "adam.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
