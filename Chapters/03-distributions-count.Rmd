@@ -171,11 +171,11 @@ A company produces headphones, putting serial numbers on them. So far, it has pr
 :::
 
 ::: solution
-This is the task on Uniform distribution, where $a=1$ and $b=9990$. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
+This is the task on Uniform distribution, because serial numbers do not repeat and we can assume that the probability of getting any of them is the same. In terms of parameters, $a=1$ and $b=9990$. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
 \end{equation*}
-Inserting the values in the CDF of the Uniform distribution \ref(eq:BernoulliCDF) we get:
+Inserting the values in the CDF of the Uniform distribution \@ref(eq:BernoulliCDF) we get:
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \frac{999}{9990} - \frac{99}{9990} \approx 0.1 - 0.01 = 0.09.
 \end{equation*}

@@ -408,11 +408,11 @@ Figure 3.6: Cumulative Distribution Function of Uniform distribution for 1d6.
 <p>A company produces headphones, putting serial numbers on them. So far, it has produced 9,990 of them. If a customer buys headphones, what is the probability that they will get a serial number with three digits?</p>
 </div>
 <div class="solution">
-<p><span id="unlabeled-div-7" class="solution"><em>Solution</em>. </span>This is the task on Uniform distribution, where <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=9990\)</span>. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
+<p><span id="unlabeled-div-7" class="solution"><em>Solution</em>. </span>This is the task on Uniform distribution, because serial numbers do not repeat and we can assume that the probability of getting any of them is the same. In terms of parameters, <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=9990\)</span>. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
 <span class="math display">\[\begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
 \end{equation*}\]</span>
-Inserting the values in the CDF of the Uniform distribution (eq:BernoulliCDF) we get:
+Inserting the values in the CDF of the Uniform distribution <a href="distributionBernoulli.html#eq:BernoulliCDF">(3.2)</a> we get:
 <span class="math display">\[\begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \frac{999}{9990} - \frac{99}{9990} \approx 0.1 - 0.01 = 0.09.
 \end{equation*}\]</span></p>
