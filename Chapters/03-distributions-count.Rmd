@@ -37,7 +37,85 @@ Finally, MGF and CF are the functions that allow obtaining the moments of distri
 Because we considered the discrete random variable, the distribution shown in Figure \@ref(fig:distributionDice12) is discrete as well.
 
 
-<!-- ## Tossing a coin -- Bernoulli distribution -->
+## Tossing a coin -- Bernoulli distribution {#distributionBernoulli}
+The simplest distribution that arises from one of the commonly used example in statistics is Bernoulli distribution. It can be used to characterise the outcomes of coin tossing for many times. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
+
+In general, the distribution can be characterised with the following PMF:
+\begin{equation}
+    f(y, p) = p^y (1-p)^(1-y),
+    (\#eq:Bernoulli)
+\end{equation}
+where $y$ can only take values of 0 and 1. Figure \@ref(fig:bernoulliPMF) demonstrates how the PMF \@ref(eq:Bernoulli) looks for several probabilities.
+
+```{r bernoulliPMF, fig.cap="Probability Mass Function of Bernoulli distribution with probabilities of 0.2, 0.5 and 0.8", echo=FALSE}
+par(mfcol=c(1,3))
+test <- barplot(dbinom(c(0,1), size=1, prob=0.2), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.2")
+axis(side=1,at=test,labels=c(0,1))
+
+test <- barplot(dbinom(c(0,1), size=1, prob=0.5), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.5")
+axis(side=1,at=test,labels=c(0,1))
+
+test <- barplot(dbinom(c(0,1), size=1, prob=0.8), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.8")
+axis(side=1,at=test,labels=c(0,1))
+```
+
+The mean of this distribution equals to $p$, which is in practice used in the estimation of the probability of occurrence $p$: collecting a vector of zeroes and ones and then taking the mean will give the empirical probability of occurrence $\hat{p}$. The variance of Bernoulli distribution is $p\times (1-p)$.
+
+Finally, the CDF of the distribution is:
+\begin{equation}
+    F(y, p) = \left\{ \begin{aligned}
+                            1-p, & \text{ for } y=0 \\
+                            1,   & \text{ for } y=1 .
+                    \end{aligned} \right.
+    (\#eq:Bernoulli)
+\end{equation}
+which can be plotted as shown in Figure \@ref(fig:bernoulliCDF).
+
+```{r bernoulliCDF, fig.cap="Cumulative Distribution Function of Bernoulli distribution with probabilities of 0.2, 0.5 and 0.8", echo=FALSE}
+par(mfcol=c(1,3))
+test <- barplot(pbinom(c(0,1), size=1, prob=0.2), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.2")
+axis(side=1,at=test,labels=c(0,1))
+
+test <- barplot(pbinom(c(0,1), size=1, prob=0.5), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.5")
+axis(side=1,at=test,labels=c(0,1))
+
+test <- barplot(pbinom(c(0,1), size=1, prob=0.8), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="p=0.8")
+axis(side=1,at=test,labels=c(0,1))
+```
+
+The CDF of Bernoulli distribution is seldom used in practice and is provided here for completeness.
+
+::: task
+While sitting at home during the COVID pandemic isolation, Vasiliy conducted an experiment: he threw paper balls in a rubbish bin located in the far corner of his room. He counted how many times he missed and how many times he got the balls in the bin. It was 36 to 64.
+
+1. What is the probability distribution that describes this experiment?
+2. What is the probability that Vasiliy will miss when he throws the next ball?
+3. What is the variance of his throws?
+:::
+
+::: solution
+1. This is an example of Bernoulli distribution: it has two outcomes and a probability of success.
+
+2. We will encode the miss as zero and the score as one. Based on that, taking the mean of the outcomes, we can estimate the mean of Bernoulli probability of miss:
+\begin{equation*}
+    \bar{y} = \hat{p} = \frac{36}{100} = 0.36.
+\end{equation*}
+So, when Vasiliy throws the next ball in the bin, he will miss with the probability of 0.36.
+
+3. The variance is $p \times (1-p) = 0.36 \times 0.64 = 0.2304$.
+:::
 
 
 <!-- ## Outcomes of multiple trials -- Binomial distribution -->
@@ -50,4 +128,7 @@ Because we considered the discrete random variable, the distribution shown in Fi
 
 
 <!-- ## Negative Binomial -->
+
+
+<!-- Uniform discrete -->
 
