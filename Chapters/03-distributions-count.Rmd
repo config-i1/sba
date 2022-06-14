@@ -38,12 +38,12 @@ Because we considered the discrete random variable, the distribution shown in Fi
 
 
 ## Tossing a coin -- Bernoulli distribution {#distributionBernoulli}
-The simplest distribution that arises from one of the commonly used example in statistics is Bernoulli distribution. It can be used to characterise the outcomes of coin tossing for many times. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
+The simplest distribution that arises from one of the commonly used example in probability theory is Bernoulli distribution. It can be used to characterise the outcomes of coin tossing for many times. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
 
 In general, the distribution can be characterised with the following PMF:
 \begin{equation}
-    f(y, p) = p^y (1-p)^{(1-y)},
-    (\#eq:Bernoulli)
+    f(y, p) = p^y (1-p)^{1-y},
+    (\#eq:BernoulliPMF)
 \end{equation}
 where $y$ can only take values of 0 and 1. Figure \@ref(fig:bernoulliPMF) demonstrates how the PMF \@ref(eq:Bernoulli) looks for several probabilities.
 
@@ -73,7 +73,7 @@ Finally, the CDF of the distribution is:
                             1-p, & \text{ for } y=0 \\
                             1,   & \text{ for } y=1 .
                     \end{aligned} \right.
-    (\#eq:Bernoulli)
+    (\#eq:BernoulliCDF)
 \end{equation}
 which can be plotted as shown in Figure \@ref(fig:bernoulliCDF).
 
@@ -118,7 +118,68 @@ The variance is $p \times (1-p) = 0.36 \times 0.64 = 0.2304$.
 :::
 
 
-<!-- Uniform discrete -->
+## Throwing a dice -- Uniform distribution {#distributionUniform}
+Another simple distribution, arising from a classical probability theory examples, is the Uniform distribution. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section \@ref(distributionsUniformContinuous)).
+
+The classical example of application of this distribution is dice throwing. The conventional dice has 6 sides and when thrown can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
+\begin{equation}
+    f(y, k) = \frac{1}{k},
+    (\#eq:BernoulliPMF)
+\end{equation}
+where $k$ is the number of outcomes (sides of the dice). The more outcomes there are, the lower the probability of having a specific outcome is. For example, on a dice with 10 sides, the probability of getting the score 5 is $\frac{1}{10}$, while on the 6-sided version it is $\frac{1}{6}$.
+
+::: remark
+In some tabletop games, the number of dices and their outcomes are encoded as $a \mathrm{d} b$, where $a$ is the number of dices, $b$ is the number of sides and d stands for the word "dice". In our example, the 10-sided dice can be encoded as 1d10, while the classical 6-sided one is 1d6.
+:::
+
+The PMF of the Uniform distribution is shown visually in Figure \@ref(fig:uniformPMF) on example of 1d6.
+
+```{r uniformPMF, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", echo=FALSE}
+test <- barplot(rep(1/6,6), ylim=c(0,1),
+                ylab="Probability",xlab="y")
+axis(side=1,at=test,labels=c(1:6))
+```
+
+The mean of this distribution is calculated as $\frac{a+b}{2}$, where $a$ is the lowest and $b$ is the highest possible values. So, for the 1d6, the mean is $\frac{1+6}{2}=3.5$. This means that if we throw the dice many times the average score will be 3.5.
+
+The variance of the uniform distribution depends on the number of outcomes and is calculated as:
+\begin{equation}
+    \sigma^2(y, k) = \frac{k^2-1}{12} .
+    (\#eq:BernoulliVariance)
+\end{equation}
+As can be seen from the formula, the variance of Uniform distribution is proportional to the number of outcomes.
+
+Coming to the CDF of the Uniform distribution, it is calculated as:
+\begin{equation}
+    f(y, k) = \frac{y-a+1}{k},
+    (\#eq:BernoulliCDF)
+\end{equation}
+where $a$ is the lowest possible value and $k$ is the number of outcomes. This CDF can be visualised as shown in Figure \@ref(fig:uniformCDF).
+
+```{r uniformCDF, fig.cap="Cumulative Distribution Function of Uniform distribution for 1d6.", echo=FALSE}
+test <- barplot(cumsum(rep(1/6,6)), ylim=c(0,1),
+                ylab="Probability",xlab="y")
+axis(side=1,at=test,labels=c(1:6))
+```
+
+Given that the probability of each separate outcome in the Uniform distribution is always $\frac{1}{k}$, the CDF demonstrates a linear growth, reaching 1 at the highest point, which can be interpreted as throwing 1d6, we will always get a value up to 6 (less than or equal to 6). The CDF can be used to get probabilities of several events at the same time. For example, we can say that when throwing 1d6 the probability of getting 1 or 2 is $\frac{2-1+1}{6}=\frac{1}{3}$.
+
+Bernoulli distribution (Section \@ref(distributionBernoulli)) with $p=0.5$ can be considered as a special case of the Uniform distribution (with only two outcomes).
+
+::: task
+A company produces headphones, putting serial numbers on them. So far, it has produced 9,990 of them. If a customer buys headphones, what is the probability that they will get a serial number with three digits?
+:::
+
+::: solution
+This is the task on Uniform distribution, where $a=1$ and $b=9990$. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
+\begin{equation*}
+    \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
+\end{equation*}
+Inserting the values in the CDF of the Uniform distribution \ref(eq:BernoulliCDF) we get:
+\begin{equation*}
+    \mathrm{P}(100 \leq y \leq 999) = \frac{999}{9990} - \frac{99}{9990} \approx 0.1 - 0.01 = 0.09.
+\end{equation*}
+:::
 
 
 <!-- ## Outcomes of multiple trials -- Binomial distribution -->
