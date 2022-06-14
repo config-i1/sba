@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-05-26" />
+<meta name="date" content="2022-06-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -178,6 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
+<li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -377,7 +378,7 @@ Figure 5.1: Barplot for the engine type.
 </div>
 <p>This is just a graphical presentation of the contingency table we have already discussed earlier.</p>
 <div class="remark">
-<p><span id="unlabeled-div-5" class="remark"><em>Remark</em>. </span>Histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous (see Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>) - they will split the values of a variable in the bins, based on the idea that the variable can take any of the values in each bin.</p>
+<p><span id="unlabeled-div-6" class="remark"><em>Remark</em>. </span>Histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous (see Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>) - they will split the values of a variable in the bins, based on the idea that the variable can take any of the values in each bin.</p>
 </div>
 <p>Barplots are useful when you deal with either categorical variables or integer numerical ones. Here is what we can produce in case of the integer variable <code>cyl</code>:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="dataAnalysisGraphical.html#cb28-1" aria-hidden="true"></a>barplotCYL &lt;-<span class="st"> </span><span class="kw">barplot</span>(<span class="kw">table</span>(mtcarsData<span class="op">$</span>cyl), <span class="dt">xlab=</span><span class="st">&quot;Number of cylinders&quot;</span>)</span>
