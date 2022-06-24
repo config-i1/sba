@@ -118,7 +118,32 @@ The variance is $p \times (1-p) = 0.36 \times 0.64 = 0.2304$.
 :::
 
 
-<!-- ## Multiple coin tosses -- Binomial distribution -->
+## Multiple coin tosses -- Binomial distribution {#distributionBinomial}
+In the previous example with coin tossing we focused on the experiment that contained only one step: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways: 1. first trial is one and then the rest are zero; 2. second trial is one and the rest are zero, etc. This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?
+
+Yes, we can. The distribution that underlies this situation is called "Binomial". For the coin tossing experiment with 10 trials and $p=0.5$ it looks like one shown in Figure \@ref(fig:binomialPMF05).
+
+```{r binomialPMF05, fig.cap="Probability mass function for Binomial distribution with p=0.5 and n=10.", echo=FALSE}
+test <- barplot(dbinom(c(0:10), size=10, prob=0.5), ylim=c(0,1),
+                ylab="Probability",xlab="y",
+                main="")
+axis(side=1,at=test,labels=c(0:10))
+```
+
+From the Figure \@ref(fig:binomialPMF05), we can see that the most probable outcome is the score of 5. This is because there are more ways of getting 5 than getting 4 in our example. In fact the number of ways can be calculated using Binomial coefficient, which is defined as:
+\begin{equation}
+    \left( \begin{aligned} n \\ k \end{aligned} \right) = \frac{n!}{k!(n-k)!},
+    (\#eq:BinomialCoefficient)
+\end{equation}
+where $k$ is the score of interest, $n$ is the number of trials and $!$ is the symbol for factorial. In our example, $k=5$ and $n=10$, meaning that we have:
+\begin{equation*}
+    \left( \begin{aligned} 10 \\ 5 \end{aligned} \right) = \frac{10!}{5!(10-5)!} ,
+\end{equation*}
+which can be calculated in R as:
+```{r eval=FALSE}
+factorial(10)/(factorial(5)^2)
+```
+and is equal to 252.
 
 
 ## Throwing a dice -- Uniform distribution {#distributionUniform}
