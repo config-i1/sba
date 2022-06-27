@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.3 Types of data | Statistics for Business Analytics</title>
+  <title>3.3 Multiple coin tosses – Binomial distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.3 Types of data | Statistics for Business Analytics" />
+  <meta property="og:title" content="3.3 Multiple coin tosses – Binomial distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.3 Types of data | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="3.3 Multiple coin tosses – Binomial distribution | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="scales.html"/>
-<link rel="next" href="sourcesOfUncertainty.html"/>
+<link rel="prev" href="distributionBernoulli.html"/>
+<link rel="next" href="distributionUniform.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -330,42 +330,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="typesOfData" class="section level2 hasAnchor">
-<h2><span class="header-section-number">1.3</span> Types of data<a href="typesOfData.html#typesOfData" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>After doing measurement (e.g. measuring temperature of patients), an analyst typically obtains data. According to Cambridge dictionary, <strong>data is “information, especially facts or numbers, collected to be examined and considered and used to help decision-making”</strong> <span class="citation">(“Data,” <a href="#ref-CambridgeData">2022</a>)</span>. Data can be <em>unprocessed</em> (or raw data), containing an disorganised array of recordings about a process under consideration, or it can be <em>cleaned</em>, having a proper structure with correctly encoded variables, without obvious mistakes or missing values. When first dealing with data, an analyst needs to clean it and transform it into a usable format in order to be able to extract useful information from it or apply models.</p>
-<p>The process of data cleaning itself depends on a variety of factors, and most importantly on what the analyst wants to do. For example, if an analyst is interested in getting insights about daily A&amp;E attendance, and they have records of every patient arriving to A&amp;E, the first step would be to aggregate those values into daily buckets, obtaining the information about the number of A&amp;E arrivals per day. As another example, if an analyst conducts a survey, aiming to find brand preferences of citizens of Lancaster, then after collecting the survey data, they need to transform some of the questions into appropriate variables to be able to work with them (e.g. if there were multiple choice questions with several options, they need to be transformed into a set of variables equal to the number of that options).</p>
-<p>The question related to the data cleaning is what type of data the analyst is working with. There are three fundamental types:</p>
-<ol style="list-style-type: decimal">
-<li>Cross-sectional data;</li>
-<li>Time series;</li>
-<li>Panel data.</li>
-</ol>
-<p>In the example above the cross-sectional data is the data collected after conducting a survey in a specific location over a fixed period of time. We end up with answers to the questions (and thus values of variables) of different respondents at the fixed time. Mathematically, we denote these observations with index <span class="math inline">\(j\)</span>, which separates, for example, one respondent from another, and in this textbook we will use letter <span class="math inline">\(n\)</span> to denote the number of elements (respondents) in our sample. So, the variable <span class="math inline">\(y_j\)</span> would mean the value of a variable for the <span class="math inline">\(j^{\mathrm{th}}\)</span> respondent.</p>
-<p>The time series data is typically measured for one and the same object over time. In the example above, the A&amp;E arrival would imply time series data, where we observe a value (number of patients arriving) over time (daily). Mathematically, we denote the observation over time with index <span class="math inline">\(t\)</span>, separating, for example, one day from another. The last available observation in this case will be denoted with the capital letter <span class="math inline">\(T\)</span>. In our notations, the variable <span class="math inline">\(y_t\)</span> contains the value at a specific moment of time.</p>
-<div class="remark">
-<p><span id="unlabeled-div-1" class="remark"><em>Remark</em>. </span>In time series, the observations typically do not happen at random, the number of A&amp;E arrivals will depend on the time of day, day of week and month of year. This is an important characteristic of this specific type of data, and we will come back to it later in this textbook.</p>
+<div id="distributionBinomial" class="section level2 hasAnchor">
+<h2><span class="header-section-number">3.3</span> Multiple coin tosses – Binomial distribution<a href="distributionBinomial.html#distributionBinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the previous example with coin tossing we focused on the experiment that contained only one step: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways: 1. first trial is one and then the rest are zero; 2. second trial is one and the rest are zero, etc. This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?</p>
+<p>Yes, we can. The distribution that underlies this situation is called “Binomial”. For the coin tossing experiment with 10 trials and <span class="math inline">\(p=0.5\)</span> it looks like one shown in Figure <a href="distributionBinomial.html#fig:binomialPMF05">3.5</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialPMF05"></span>
+<img src="adam_files/figure-html/binomialPMF05-1.png" alt="Probability Mass Function for Binomial distribution with p=0.5 and n=10." width="672" />
+<p class="caption">
+Figure 3.5: Probability Mass Function for Binomial distribution with p=0.5 and n=10.
+</p>
 </div>
-<p>Finally, in some situations we might be able to measure data of several objects over time. For example, we could have daily A&amp;E arrival in several hospitals. This type of data would be called “panel data”, and in this situation we would use both indices <span class="math inline">\(j\)</span> and <span class="math inline">\(t\)</span>, ending up with a variable <span class="math inline">\(y_{j,t}\)</span>, showing, for example, a specific number of patients arriving to a specific hospital at a specific moment of time.</p>
-<p>In this textbook we will focus on cross-sectional data and then will move to the time series one. We will also briefly discuss panel data models, but we do not discuss them in detail, as they become available to analysts less often than the other two types.</p>
-<p>We have already used the term “variable” several times in this chapter, assuming that a reader is familiar with it. In mathematics, <strong>variable is a symbol that represents any of a set of potential values</strong>. In this textbook, we will face several types of variables. We will work with a <strong>response</strong> variable, representing a place holder for a quantity of the main interest of our analysis, something that is formed using an assumed mechanism. This will be denoted with letter <span class="math inline">\(y\)</span>. We will also work with <strong>explanatory</strong> variables, which are supposed to explain how the response variable is formed and are denoted using letter <span class="math inline">\(x\)</span> with potential subscripts, e.g. <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span> etc, representing a first, a second etc variables. In some cases, we will also use terms “exogenous” and “endogenous” variables, where the former means the variable that is formed on its own and is not impacted by any of variables under consideration, while the latter represents a variable that is created by a combination of variables under consideration. Sometimes, the terms “response” and “endogenous” are used as synonyms. Similarly, the terms “explanatory” and “exogenous” are used as synonyms as well. The basic model with one response variable <span class="math inline">\(y_j\)</span> and one explanatory variable <span class="math inline">\(x_j\)</span> can be written as:
+<p>From the Figure <a href="distributionBinomial.html#fig:binomialPMF05">3.5</a>, we can see that the most probable outcome is the score of 5. This is because there are more ways of getting 5 than getting 4 in our example. In fact the number of ways can be calculated using <strong>Binomial coefficient</strong>, which is defined as:
+<span class="math display" id="eq:BinomialCoefficient">\[\begin{equation}
+    \begin{pmatrix} n \\ k \end{pmatrix} = \frac{n!}{k!(n-k)!},
+    \tag{3.3}
+\end{equation}\]</span>
+where <span class="math inline">\(k\)</span> is the score of interest, <span class="math inline">\(n\)</span> is the number of trials and <span class="math inline">\(!\)</span> is the symbol for factorial. In our example, <span class="math inline">\(k=5\)</span> and <span class="math inline">\(n=10\)</span>, meaning that we have:
 <span class="math display">\[\begin{equation*}
-    y_j = \beta_0 + \beta_1 x_j + \epsilon_j ,
+    \begin{pmatrix} 10 \\ 5 \end{pmatrix} = \frac{10!}{5!(10-5)!} ,
 \end{equation*}\]</span>
-where <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are parameters of the model. This model is discussed in more detail in Chapter <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>.</p>
+which can be calculated in R as:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">factorial</span>(<span class="dv">10</span>)<span class="op">/</span>(<span class="kw">factorial</span>(<span class="dv">5</span>)<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
+<p>and is equal to 252. Using this formula, we can calculate other scores for comparison:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">factorial</span>(<span class="dv">10</span>)<span class="op">/</span>(<span class="kw">factorial</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))<span class="op">*</span><span class="kw">factorial</span>(<span class="dv">10</span><span class="op">-</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))) <span class="op">|</span><span class="er">&gt;</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">    </span><span class="kw">setNames</span>(<span class="dt">nm=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))</a></code></pre></div>
+<pre><code>##   0   1   2   3   4   5   6   7   8   9  10 
+##   1  10  45 120 210 252 210 120  45  10   1</code></pre>
+<p>Given that we throw the coin 10 times, there are overall <span class="math inline">\(2^{10}=1024\)</span> theoretical of outcomes of this experiment, which allows calculating the probability of each outcome:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">round</span>((<span class="kw">factorial</span>(<span class="dv">10</span>) <span class="op">/</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">           </span>(<span class="kw">factorial</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))<span class="op">*</span><span class="kw">factorial</span>(<span class="dv">10</span><span class="op">-</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)))) <span class="op">/</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">          </span><span class="dv">1024</span>,<span class="dv">3</span>) <span class="op">|</span><span class="er">&gt;</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">    </span><span class="kw">setNames</span>(<span class="dt">nm=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))</a></code></pre></div>
+<pre><code>##     0     1     2     3     4     5     6     7     8     9    10 
+## 0.001 0.010 0.044 0.117 0.205 0.246 0.205 0.117 0.044 0.010 0.001</code></pre>
+<p>These probabilities can be obtained via the PMF of Binomial distribution:
+<span class="math display" id="eq:BernoulliPMF">\[\begin{equation}
+    f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
+    \tag{3.1}
+\end{equation}\]</span>
+In R, this is implemented in the <code>dbinom()</code> function from <code>stats</code> package. Note that so far we assumed that <span class="math inline">\(p=0.5\)</span>, however in real life this is not necessarily the case. Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. If we then assume that there is a fixed probability <span class="math inline">\(p=0.1\)</span> that any given hospital decides to by such machine. It is safe to assume that the probability that machine is needed in one hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as <span class="math inline">\(\mathcal{Bi}(20, 0.1)\)</span> and will be an asymmetric distribution, as shown in Figure <a href="distributionBinomial.html#fig:binomialPMF01">3.6</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialPMF01"></span>
+<img src="adam_files/figure-html/binomialPMF01-1.png" alt="Probability Mass Function for Binomial distribution with p=0.1 and n=20." width="672" />
+<p class="caption">
+Figure 3.6: Probability Mass Function for Binomial distribution with p=0.1 and n=20.
+</p>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-CambridgeData">
-<p>• Data, 2022.. Cambridge Dictionary. <a href="https://dictionary.cambridge.org/dictionary/english/data">https://dictionary.cambridge.org/dictionary/english/data</a></p>
+<p>From the Figure <a href="distributionBinomial.html#fig:binomialPMF01">3.6</a>, it is clear that there is a high probability that only a few machines will be bought: 0, 1, 2 or 3. The probability that we will sell 10 is almost zero. We can also say that with the highest probability, the company will sell 2 machines. We could also use mean, saying how much the company will sell on average, which in Binomial distribution is calculated as <span class="math inline">\(n \times p\)</span> and in our case is <span class="math inline">\(20 \times 0.1 = 2\)</span>. However, producing expensive medical equipment typically takes time and should be done in advance. So, if we told the company that they should produce only two, we might then face a situation, when the demand was higher (for example, 6) and they lost the sales.</p>
+<p>So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99%. Formally, this can be written as <span class="math inline">\(P(y&lt;k)=0.99\)</span> and we need to find <span class="math inline">\(k\)</span>. One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
+<span class="math display" id="eq:BernoulliPMF">\[\begin{equation}
+    F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
+    \tag{3.1}
+\end{equation}\]</span></p>
+<p>This CDF in our example will have the shape shown in Figure <a href="distributionBinomial.html#fig:binomialCDF01">3.7</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialCDF01"></span>
+<img src="adam_files/figure-html/binomialCDF01-1.png" alt="Cumulative Distribution Function for Binomial distribution with p=0.1 and n=20." width="672" />
+<p class="caption">
+Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.1 and n=20.
+</p>
 </div>
+<p>We can see from Figure <a href="distributionBinomial.html#fig:binomialCDF01">3.7</a> that the cumulative probability reaches value close to 1 after the outcome of 6. Numerically, for the <span class="math inline">\(y=6\)</span>, we have probability:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">pbinom</span>(<span class="dv">6</span>, <span class="dt">size=</span><span class="dv">20</span>, <span class="dt">prob=</span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code>## [1] 0.9976139</code></pre>
+<p>while for 5 we will have approximately 0.989. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.</p>
+<p>From the example above, we can take away several important characteristics of Binomial distribution:</p>
+<ol style="list-style-type: decimal">
+<li>In each experiment, there are only two outcomes: buy or do not buy;</li>
+<li>The probability of success (someone decides to buy a machine) is fixed between the experiments: we assume that the probability that a hospital A decides to buy a machine is the same as for the hospital B;</li>
+<li>The experiments are independent: if one hospital buys a machine, this should not impact the decision of another one;</li>
+<li>The number of experiments <span class="math inline">\(n\)</span> is limited and known.</li>
+</ol>
+<p>What if we have more trials?</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="scales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sourcesOfUncertainty.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributionBernoulli.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionUniform.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -396,7 +438,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//01-intro.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//03-distributions-count.Rmd",
 "text": "Edit"
 },
 "history": {
