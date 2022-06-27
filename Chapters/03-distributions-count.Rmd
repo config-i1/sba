@@ -3,7 +3,7 @@ In this chapter we discuss the idea of discrete distributions, their properties 
 
 
 ## What is discrete distribution?
-A random variable discussed in Section \@ref(whatIsRandomVariable) can take a variety of values. For now we focus on discrete random variable, which means that it can take one of the several possible values with some probabilities. For example, if we throw two six-sided dices, we will have a variety of outcomes from 2 (both having score of one) to 12 (both having score of six), but not all outcomes will have equal probability. For example, there are different ways of obtaining score of 7: 1+6, 2+5, 3+4, 4+3, 5+2 and 6+1 - but there is only one way of obtaining 2: 1+1. In this case, we are dealing with a distribution of values from 2 to 12, where each value has its own probability of occurrence. This situation is shown in Figure \@ref(fig:distributionDice12).
+A random variable discussed in Section \@ref(whatIsRandomVariable) can take a variety of values. For now we focus on discrete random variable, which means that it can take one of the several possible values with some probabilities. For example, if we roll two six-sided dices, we will have a variety of outcomes from 2 (both having score of one) to 12 (both having score of six), but not all outcomes will have equal probability. For example, there are different ways of obtaining score of 7: 1+6, 2+5, 3+4, 4+3, 5+2 and 6+1 - but there is only one way of obtaining 2: 1+1. In this case, we are dealing with a distribution of values from 2 to 12, where each value has its own probability of occurrence. This situation is shown in Figure \@ref(fig:distributionDice12).
 
 ```{r distributionDice12, echo=FALSE, fig.cap="Distribution of outcomes for scores based on two dices."}
 y <- c(1:6,5:1)/36
@@ -12,7 +12,7 @@ yBarplot <- barplot(y, xlab="Dice score", ylab="Probability of outcome")
 axis(1, at=yBarplot, labels=FALSE)
 ```
 
-As can be seen from Figure \@ref(fig:distributionDice12), the distribution of probabilities in this case is symmetric, the chances of having very low and very high scores are lower than the chance of having something closer to the middle. The probability of having 7 is the highest and is $\frac{6}{36}=\frac{1}{6}$, which means that it will occur more often than other values if we repeat the experiment and throw the dices many times.
+As can be seen from Figure \@ref(fig:distributionDice12), the distribution of probabilities in this case is symmetric, the chances of having very low and very high scores are lower than the chance of having something closer to the middle. The probability of having 7 is the highest and is $\frac{6}{36}=\frac{1}{6}$, which means that it will occur more often than other values if we repeat the experiment and roll the dices many times.
 
 Any discrete distribution can be characterised using the following functions:
 
@@ -30,7 +30,7 @@ yBarplot <- barplot(cumsum(y), xlab="Cumulative dice score", ylab="Probability o
 axis(1, at=yBarplot, labels=FALSE)
 ```
 
-Any CDF is equal to zero for the values below possible (e.g. it is impossible to get score of 1 throwing two dices) and is equal to one for the values at and above the maximum (if we throw two dices, the score will be below 13). Given that CDF shows probabilities, it can never be greater than one or lower than zero.
+Any CDF is equal to zero for the values below possible (e.g. it is impossible to get score of 1 rolling two dices) and is equal to one for the values at and above the maximum (if we roll two dices, the score will be below 13). Given that CDF shows probabilities, it can never be greater than one or lower than zero.
 
 Finally, MGF and CF are the functions that allow obtaining the moments of distributions, such as mean, variance, skewness etc. We do not discuss these functions in detail in this textbook, and we will discuss the moments later in the Section \@ref(dataAnalysisNumerical).
 
@@ -123,33 +123,93 @@ In the previous example with coin tossing we focused on the experiment that cont
 
 Yes, we can. The distribution that underlies this situation is called "Binomial". For the coin tossing experiment with 10 trials and $p=0.5$ it looks like one shown in Figure \@ref(fig:binomialPMF05).
 
-```{r binomialPMF05, fig.cap="Probability mass function for Binomial distribution with p=0.5 and n=10.", echo=FALSE}
+```{r binomialPMF05, fig.cap="Probability Mass Function for Binomial distribution with p=0.5 and n=10.", echo=FALSE}
 test <- barplot(dbinom(c(0:10), size=10, prob=0.5), ylim=c(0,1),
                 ylab="Probability",xlab="y",
                 main="")
 axis(side=1,at=test,labels=c(0:10))
 ```
 
-From the Figure \@ref(fig:binomialPMF05), we can see that the most probable outcome is the score of 5. This is because there are more ways of getting 5 than getting 4 in our example. In fact the number of ways can be calculated using Binomial coefficient, which is defined as:
+From the Figure \@ref(fig:binomialPMF05), we can see that the most probable outcome is the score of 5. This is because there are more ways of getting 5 than getting 4 in our example. In fact the number of ways can be calculated using **Binomial coefficient**, which is defined as:
 \begin{equation}
-    \left( \begin{aligned} n \\ k \end{aligned} \right) = \frac{n!}{k!(n-k)!},
+    \begin{pmatrix} n \\ k \end{pmatrix} = \frac{n!}{k!(n-k)!},
     (\#eq:BinomialCoefficient)
 \end{equation}
 where $k$ is the score of interest, $n$ is the number of trials and $!$ is the symbol for factorial. In our example, $k=5$ and $n=10$, meaning that we have:
 \begin{equation*}
-    \left( \begin{aligned} 10 \\ 5 \end{aligned} \right) = \frac{10!}{5!(10-5)!} ,
+    \begin{pmatrix} 10 \\ 5 \end{pmatrix} = \frac{10!}{5!(10-5)!} ,
 \end{equation*}
 which can be calculated in R as:
 ```{r eval=FALSE}
 factorial(10)/(factorial(5)^2)
 ```
-and is equal to 252.
+and is equal to 252. Using this formula, we can calculate other scores for comparison:
+```{r}
+factorial(10)/(factorial(c(0:10))*factorial(10-c(0:10))) |>
+    setNames(nm=c(0:10))
+```
+Given that we throw the coin 10 times, there are overall $2^{10}=1024$ theoretical of outcomes of this experiment, which allows calculating the probability of each outcome:
+```{r}
+round((factorial(10) /
+           (factorial(c(0:10))*factorial(10-c(0:10)))) /
+          1024,3) |>
+    setNames(nm=c(0:10))
+```
+These probabilities can be obtained via the PMF of Binomial distribution:
+\begin{equation}
+    f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
+    (\#eq:BernoulliPMF)
+\end{equation}
+In R, this is implemented in the `dbinom()` function from `stats` package. Note that so far we assumed that $p=0.5$, however in real life this is not necessarily the case. Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. If we then assume that there is a fixed probability $p=0.1$ that any given hospital decides to by such machine. It is safe to assume that the probability that machine is needed in one hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as $\mathcal{Bi}(20, 0.1)$ and will be an asymmetric distribution, as shown in Figure \@ref(fig:binomialPMF01).
+
+```{r binomialPMF01, fig.cap="Probability Mass Function for Binomial distribution with p=0.1 and n=20.", echo=FALSE}
+test <- barplot(dbinom(c(0:20), size=20, prob=0.1),
+                ylab="Probability",xlab="y", ylim=c(0,0.25),
+                main="")
+axis(side=1,at=test,labels=c(0:20))
+```
+
+From the Figure \@ref(fig:binomialPMF01), it is clear that there is a high probability that only a few machines will be bought: 0, 1, 2 or 3. The probability that we will sell 10 is almost zero. We can also say that with the highest probability, the company will sell 2 machines. We could also use mean, saying how much the company will sell on average, which in Binomial distribution is calculated as $n \times p$ and in our case is $20 \times 0.1 = 2$. However, producing expensive medical equipment typically takes time and should be done in advance. So, if we told the company that they should produce only two, we might then face a situation, when the demand was higher (for example, 6) and they lost the sales. 
+
+So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99%. Formally, this can be written as $P(y<k)=0.99$ and we need to find $k$. One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
+\begin{equation}
+    F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
+    (\#eq:BernoulliPMF)
+\end{equation}
+
+This CDF in our example will have the shape shown in Figure \@ref(fig:binomialCDF01).
+
+```{r binomialCDF01, fig.cap="Cumulative Distribution Function for Binomial distribution with p=0.1 and n=20.", echo=FALSE}
+test <- barplot(pbinom(c(0:20), size=20, prob=0.1),
+                ylab="Probability",xlab="y", ylim=c(0,1),
+                main="")
+axis(side=1,at=test,labels=c(0:20))
+```
+
+We can see from Figure \@ref(fig:binomialCDF01) that the cumulative probability reaches value close to 1 after the outcome of 6. Numerically, for the $y=6$, we have probability:
+
+```{r}
+pbinom(6, size=20, prob=0.1)
+```
+
+while for 5 we will have approximately `r round(pbinom(5, size=20, prob=0.1),3)`. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.
+
+From the example above, we can take away several important characteristics of Binomial distribution:
+
+1. In each experiment, there are only two outcomes: buy or do not buy;
+2. The probability of success (someone decides to buy a machine) is fixed between the experiments: we assume that the probability that a hospital A decides to buy a machine is the same as for the hospital B;
+3. The experiments are independent: if one hospital buys a machine, this should not impact the decision of another one;
+4. The number of experiments $n$ is limited and known.
 
 
-## Throwing a dice -- Uniform distribution {#distributionUniform}
+
+What if we have more trials?
+
+
+## Rolling a dice -- Uniform distribution {#distributionUniform}
 Another simple distribution, arising from a classical probability theory examples, is the Uniform distribution. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section \@ref(distributionsUniformContinuous)).
 
-The classical example of application of this distribution is dice throwing. The conventional dice has 6 sides and when thrown can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
+The classical example of application of this distribution is dice rolling. The conventional dice has 6 sides and when rolled can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
 \begin{equation}
     f(y, k) = \frac{1}{k},
     (\#eq:BernoulliPMF)
@@ -168,7 +228,7 @@ test <- barplot(rep(1/6,6), ylim=c(0,1),
 axis(side=1,at=test,labels=c(1:6))
 ```
 
-The mean of this distribution is calculated as $\frac{a+b}{2}$, where $a$ is the lowest and $b$ is the highest possible values. So, for the 1d6, the mean is $\frac{1+6}{2}=3.5$. This means that if we throw the dice many times the average score will be 3.5.
+The mean of this distribution is calculated as $\frac{a+b}{2}$, where $a$ is the lowest and $b$ is the highest possible values. So, for the 1d6, the mean is $\frac{1+6}{2}=3.5$. This means that if we roll the dice many times the average score will be 3.5.
 
 The variance of the uniform distribution depends on the number of outcomes and is calculated as:
 \begin{equation}
@@ -190,7 +250,7 @@ test <- barplot(cumsum(rep(1/6,6)), ylim=c(0,1),
 axis(side=1,at=test,labels=c(1:6))
 ```
 
-Given that the probability of each separate outcome in the Uniform distribution is always $\frac{1}{k}$, the CDF demonstrates a linear growth, reaching 1 at the highest point, which can be interpreted as throwing 1d6, we will always get a value up to 6 (less than or equal to 6). The CDF can be used to get probabilities of several events at the same time. For example, we can say that when throwing 1d6 the probability of getting 1 or 2 is $\frac{2-1+1}{6}=\frac{1}{3}$.
+Given that the probability of each separate outcome in the Uniform distribution is always $\frac{1}{k}$, the CDF demonstrates a linear growth, reaching 1 at the highest point, which can be interpreted as rolling 1d6, we will always get a value up to 6 (less than or equal to 6). The CDF can be used to get probabilities of several events at the same time. For example, we can say that when rolling 1d6 the probability of getting 1 or 2 is $\frac{2-1+1}{6}=\frac{1}{3}$.
 
 Bernoulli distribution (Section \@ref(distributionBernoulli)) with $p=0.5$ can be considered as a special case of the Uniform distribution (with only two outcomes).
 
@@ -209,7 +269,7 @@ Inserting the values in the CDF of the Uniform distribution \@ref(eq:BernoulliCD
 \end{equation*}
 :::
 
-<!-- Add a note on multiple dice throws -- Multinomial distribution??? -->
+<!-- Add a note on multiple dice rolls -- Multinomial distribution??? -->
 
 
 <!-- ## Poisson distribution  -->
