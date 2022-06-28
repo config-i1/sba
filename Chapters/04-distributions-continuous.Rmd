@@ -75,9 +75,17 @@ One of the simplest continuous distributions used in statistics is the uniform o
     f(y, b, a) = \left\{\begin{aligned}
                         & \frac{1}{b-a} & \text{ for } y \in (a, b) \\
                         & 0 & \text{ otherwise }
-                    \end{aligned} \right.,
+                    \end{aligned} \right. .
     (\#eq:ContinuousUniformPDF)
 \end{equation}
+It can be represented visually as shown in Figure \@ref(fig:uniformPDF).
+
+```{r uniformPDF, fig.cap="Probability Density Function of Continuous Uniform distribution.", echo=FALSE}
+plot(seq(0,10,by=0.1),dunif(seq(0,10,by=0.1),0,10),
+     ylab="Density",xlab="y", type="l")
+lines(c(0,0), c(0,0.1), lty=2)
+lines(c(10,10), c(0,0.1), lty=2)
+```
 
 
 ## Normal distribution {#distributionsNormal}
