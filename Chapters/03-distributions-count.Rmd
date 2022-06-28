@@ -194,16 +194,21 @@ pbinom(6, size=20, prob=0.1)
 
 while for 5 we will have approximately `r round(pbinom(5, size=20, prob=0.1),3)`. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.
 
+We can get the same result by using Quantile Function, which is implemented in R as `qbinom()`:
+
+```{r eval=FALSE}
+qbinom(0.99, 20, 0.1)
+```
+
 From the example above, we can take away several important characteristics of Binomial distribution:
 
-1. In each experiment, there are only two outcomes: buy or do not buy;
-2. The probability of success (someone decides to buy a machine) is fixed between the experiments: we assume that the probability that a hospital A decides to buy a machine is the same as for the hospital B;
-3. The experiments are independent: if one hospital buys a machine, this should not impact the decision of another one;
-4. The number of experiments $n$ is limited and known.
+1. There are many trials: we have many hospitals, each one of which can be considered as a ``trial'';
+2. In each trial, there are only two outcomes: buy or do not buy;
+3. The probability of success (someone decides to buy the machine) is fixed between the trials: we assume that the probability that a hospital A decides to buy the machine is the same as for the hospital B;
+4. The trials are independent: if one hospital buys a machine, this should not impact the decision of another one;
+5. The number of trials $n$ is fixed and known.
 
-
-
-What if we have more trials?
+Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section \@ref(distributionsNormal).
 
 
 ## Rolling a dice -- Uniform distribution {#distributionUniform}
