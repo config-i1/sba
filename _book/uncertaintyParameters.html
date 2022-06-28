@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-06-27" />
+<meta name="date" content="2022-06-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -348,13 +348,13 @@ Figure 12.2: Speed vs stopping distance of cars
 </p>
 </div>
 <p>While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using <code>coefbootstrap()</code> method from <code>greybox</code> package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1">slmSpeedDistanceBootstrap &lt;-<span class="st"> </span><span class="kw">coefbootstrap</span>(slmSpeedDistance)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">slmSpeedDistanceBootstrap &lt;-<span class="st"> </span><span class="kw">coefbootstrap</span>(slmSpeedDistance)</a></code></pre></div>
 <p>Based on that we can plot the histograms of the estimates of parameters.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1"><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb144-2" title="2"><span class="kw">hist</span>(slmSpeedDistanceBootstrap<span class="op">$</span>coefficients[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb144-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb144-4" title="4"><span class="kw">hist</span>(slmSpeedDistanceBootstrap<span class="op">$</span>coefficients[,<span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb144-5" title="5">     <span class="dt">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb145-2" title="2"><span class="kw">hist</span>(slmSpeedDistanceBootstrap<span class="op">$</span>coefficients[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb145-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb145-4" title="4"><span class="kw">hist</span>(slmSpeedDistanceBootstrap<span class="op">$</span>coefficients[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb145-5" title="5">     <span class="dt">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:slmSpeedDistanceBoot"></span>
 <img src="adam_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">

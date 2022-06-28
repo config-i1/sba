@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-06-27" />
+<meta name="date" content="2022-06-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -354,13 +354,13 @@ will follow standard normal distribution: <span class="math inline">\(z \sim \ma
     z = \frac{176.1 -175.3}{0.5} = 1.6 
 \end{equation*}\]</span>
 and compare it with the critical one. Given that we test the two-sided hypothesis (because the alternative is “inequality”), he critical value should be split into two parts, to have <span class="math inline">\(\frac{\alpha}{2}\)</span> in one tail and <span class="math inline">\(\frac{\alpha}{2}\)</span> in the other one. The critical values can be calculated, for example, in R using the code below:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="co"># I have previously selected significance level of 1%</span></a>
-<a class="sourceLine" id="cb63-2" title="2">alpha &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb63-3" title="3"><span class="kw">qnorm</span>(<span class="kw">c</span>(alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span><span class="dv">2</span>), <span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="co"># I have previously selected significance level of 1%</span></a>
+<a class="sourceLine" id="cb64-2" title="2">alpha &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb64-3" title="3"><span class="kw">qnorm</span>(<span class="kw">c</span>(alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span><span class="dv">2</span>), <span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## [1] -2.575829  2.575829</code></pre>
 <p>We see that the calculated value lies inside the interval, so we fail to reject the null hypothesis on 1% significance level. The simplified version for this procedure is to compare the absolute of the calculated value with the absolute of the critical one. If the calculated is greater than the critical, then we reject H<span class="math inline">\(_0\)</span>. In our case 1.6 &lt; 2.58, so we fail to reject H<span class="math inline">\(_0\)</span>.</p>
 <p>Another way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In R, this can be done using the command:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1">(<span class="dv">1</span><span class="op">-</span><span class="kw">pnorm</span>(<span class="kw">abs</span>(<span class="fl">1.6</span>)))<span class="op">*</span><span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">(<span class="dv">1</span><span class="op">-</span><span class="kw">pnorm</span>(<span class="kw">abs</span>(<span class="fl">1.6</span>)))<span class="op">*</span><span class="dv">2</span></a></code></pre></div>
 <pre><code>## [1] 0.1095986</code></pre>
 <p>In the R code above we are calculating the surface in the tails of distribution. Thus the appearance of the number 2, to add the surfaces in two tails. This procedure is shown in Figure <a href="statisticalTestsOneSampleMean.html#fig:hypothesisTestingZTestPvalue">8.1</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:hypothesisTestingZTestPvalue"></span>
@@ -383,14 +383,14 @@ and <span class="math inline">\(n-1\)</span> is the number of degrees of freedom
     t = \frac{176.1-175.3}{0.4} = 2 ,
 \end{equation*}\]</span>
 while the critical value for the chosen 1% significance level is:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1"><span class="kw">qt</span>(<span class="kw">c</span>(alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span><span class="dv">2</span>), <span class="dv">100-1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="kw">qt</span>(<span class="kw">c</span>(alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span><span class="dv">2</span>), <span class="dv">100-1</span>)</a></code></pre></div>
 <pre><code>## [1] -2.626405  2.626405</code></pre>
 <p>Given that the calculated value of 2 is lower than 2.626, we fail to reject the null hypothesis on 1% significance level. So, we again conclude that we cannot tell the difference between the mean in the data and the assumed population mean.</p>
 <p>In R, the same procedures can be done using the <code>t.test()</code> function from <code>stats</code> package. Here is an example, demonstrating how the test can be done for the generated data:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">175.3</span>, <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb69-2" title="2"><span class="co"># Note that our significance level is 1%,</span></a>
-<a class="sourceLine" id="cb69-3" title="3"><span class="co"># so we ask to produce 99% confidence interval</span></a>
-<a class="sourceLine" id="cb69-4" title="4"><span class="kw">t.test</span>(y, <span class="dt">mu=</span><span class="fl">175.3</span>, <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level=</span><span class="fl">0.99</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">175.3</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="co"># Note that our significance level is 1%,</span></a>
+<a class="sourceLine" id="cb70-3" title="3"><span class="co"># so we ask to produce 99% confidence interval</span></a>
+<a class="sourceLine" id="cb70-4" title="4"><span class="kw">t.test</span>(y, <span class="dt">mu=</span><span class="fl">175.3</span>, <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level=</span><span class="fl">0.99</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -426,7 +426,7 @@ while the critical value for the chosen 1% significance level is:</p>
 If the H<span class="math inline">\(_0\)</span> is true in this case, then it means that the mean will coincide with the centre of distribution, which should be around the tested value. If it is not symmetric, then possibly the centre of distribution is not around the tested value. The test is done on the ranked data, sorting the values of <span class="math inline">\(y\)</span> from the lowest to the highest and assigning the numerical values to them. After that the test values is calculated.</p>
 <p>Given that the test does not rely on distributional assumptions, it is less powerful than the parametric tests on large samples, but it is also more powerful on the small ones.</p>
 <p>In R, the test can be conducted using <code>wilcox.test()</code> function from <code>stats</code> package:</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1"><span class="kw">wilcox.test</span>(y, <span class="dt">mu=</span><span class="fl">175.3</span>, <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1"><span class="kw">wilcox.test</span>(y, <span class="dt">mu=</span><span class="fl">175.3</span>, <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 

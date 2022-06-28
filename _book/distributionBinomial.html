@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-06-27" />
+<meta name="date" content="2022-06-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -392,14 +392,17 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">pbinom</span>(<span class="dv">6</span>, <span class="dt">size=</span><span class="dv">20</span>, <span class="dt">prob=</span><span class="fl">0.1</span>)</a></code></pre></div>
 <pre><code>## [1] 0.9976139</code></pre>
 <p>while for 5 we will have approximately 0.989. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.</p>
+<p>We can get the same result by using Quantile Function, which is implemented in R as <code>qbinom()</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">qbinom</span>(<span class="fl">0.99</span>, <span class="dv">20</span>, <span class="fl">0.1</span>)</a></code></pre></div>
 <p>From the example above, we can take away several important characteristics of Binomial distribution:</p>
 <ol style="list-style-type: decimal">
-<li>In each experiment, there are only two outcomes: buy or do not buy;</li>
-<li>The probability of success (someone decides to buy a machine) is fixed between the experiments: we assume that the probability that a hospital A decides to buy a machine is the same as for the hospital B;</li>
-<li>The experiments are independent: if one hospital buys a machine, this should not impact the decision of another one;</li>
-<li>The number of experiments <span class="math inline">\(n\)</span> is limited and known.</li>
+<li>There are many trials: we have many hospitals, each one of which can be considered as a ``trial’’;</li>
+<li>In each trial, there are only two outcomes: buy or do not buy;</li>
+<li>The probability of success (someone decides to buy the machine) is fixed between the trials: we assume that the probability that a hospital A decides to buy the machine is the same as for the hospital B;</li>
+<li>The trials are independent: if one hospital buys a machine, this should not impact the decision of another one;</li>
+<li>The number of trials <span class="math inline">\(n\)</span> is fixed and known.</li>
 </ol>
-<p>What if we have more trials?</p>
+<p>Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section <a href="distributionsNormal.html#distributionsNormal">4.2</a>.</p>
 </div>
             </section>
 
