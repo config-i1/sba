@@ -69,9 +69,15 @@ The dashed lines in Figure \@ref(fig:dnormPlotIntroQF) show the value of $y$ for
 Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.
 
 
-<!-- ## Uniform distribution {distributionsUniformContinuous} -->
-<!-- One of the simplest continuous distributions used in statistics is the uniform. -->
-
+## Continuous Uniform distribution {distributionsUniformContinuous}
+One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of value, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+\begin{equation}
+    f(y, b, a) = \left\{\begin{aligned}
+                        & \frac{1}{b-a} & \text{ for } y \in (a, b) \\
+                        & 0 & \text{ otherwise }
+                    \end{aligned} \right.,
+    (\#eq:ContinuousUniformPDF)
+\end{equation}
 
 
 ## Normal distribution {#distributionsNormal}
