@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -404,6 +404,7 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 <li>The number of trials <span class="math inline">\(n\)</span> is fixed and known.</li>
 </ol>
 <p>Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section <a href="distributionsNormal.html#distributionsNormal">4.3</a>.</p>
+<p>In R, the Binomial distribution is implemented via <code>dbinom()</code>, <code>pbinom()</code>, <code>qbinom()</code> and <code>rbinom()</code> from <code>stats</code> package. The functions have parameter <code>size</code> which is the number of trials <span class="math inline">\(n\)</span>, and parameter <code>prob</code>, which is a probability of success <span class="math inline">\(p\)</span>. If <code>size=1</code>, the distribution functions revert to the ones from Bernoulli distribution (Section <a href="distributionBernoulli.html#distributionBernoulli">3.2</a>).</p>
 </div>
             </section>
 

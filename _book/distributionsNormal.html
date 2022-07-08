@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="continuous-uniform-distribution-distributionsuniformcontinuous.html"/>
+<link rel="prev" href="distributionsUniformContinuous.html"/>
 <link rel="next" href="distributionsLaplace.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -338,35 +338,35 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Here is the probability density function (PDF) of this distribution:
 <span class="math display" id="eq:Normal">\[\begin{equation}
     f(y_t) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} \right) ,
-    \tag{4.2}
+    \tag{4.5}
 \end{equation}\]</span>
 where <span class="math inline">\(y_t\)</span> is the value of the response variable, <span class="math inline">\(\mu_{y,t}=\mu_{y,t|t-1}\)</span> is the one step ahead conditional expectation on observation <span class="math inline">\(t\)</span>, given the information on <span class="math inline">\(t-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term. The <a href="likelihoodApproach.html#likelihoodApproach">maximum likelihood estimate</a> of <span class="math inline">\(\sigma^2\)</span> is:
 <span class="math display" id="eq:sigmaNormal">\[\begin{equation}
     \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)^2 ,
-    \tag{4.3}
+    \tag{4.6}
 \end{equation}\]</span>
-where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the conditional expecatation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="distributionsNormal.html#eq:sigmaNormal">(4.3)</a> coincides with Mean Squared Error (MSE), discussed in the <a href="#errorMeasures">section 1</a>.</p>
-<p>And here how this distribution looks (Figure <a href="distributionsNormal.html#fig:dnormPlot">4.7</a>).</p>
+where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the conditional expecatation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> coincides with Mean Squared Error (MSE), discussed in the <a href="#errorMeasures">section 1</a>.</p>
+<p>And here how this distribution looks (Figure <a href="distributionsNormal.html#fig:dnormPlot">4.8</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
 <img src="adam_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Normal distribution" width="672" />
 <p class="caption">
-Figure 4.7: Probability Density Function of Normal distribution
+Figure 4.8: Probability Density Function of Normal distribution
 </p>
 </div>
 <p>What we typically assume in the basic time series models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean <span class="math inline">\(mu\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre.</p>
 <p>The Normal distribution has skewness of zero and kurtosis of 3 (and excess kurtosis, being kurtosis minus three, of 0).</p>
 <p>Additionally, if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same parameters as the minimisation of MSE would give.</p>
-<p>The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution <a href="distributionsNormal.html#eq:Normal">(4.2)</a>:
+<p>The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution <a href="distributionsNormal.html#eq:Normal">(4.5)</a>:
 <span class="math display" id="eq:NormalLogLik">\[\begin{equation}
     \ell(\mathbf{Y}| \theta, \sigma^2) = - \frac{T}{2} \log \left(2 \pi \sigma^2\right) - \sum_{t=1}^T \frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} ,
-    \tag{4.4}
+    \tag{4.7}
 \end{equation}\]</span>
-where <span class="math inline">\(\theta\)</span> is the vector of all the estimated parameters in the model, and <span class="math inline">\(\log\)</span> is the natural logarithm. If one takes the derivative of <a href="distributionsNormal.html#eq:NormalLogLik">(4.4)</a> with respect to <span class="math inline">\(\sigma^2\)</span>, then the formula <a href="distributionsNormal.html#eq:sigmaNormal">(4.3)</a> is obtained. Another useful thing to note is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="distributionsNormal.html#eq:sigmaNormal">(4.3)</a> in <a href="distributionsNormal.html#eq:NormalLogLik">(4.4)</a>:
+where <span class="math inline">\(\theta\)</span> is the vector of all the estimated parameters in the model, and <span class="math inline">\(\log\)</span> is the natural logarithm. If one takes the derivative of <a href="distributionsNormal.html#eq:NormalLogLik">(4.7)</a> with respect to <span class="math inline">\(\sigma^2\)</span>, then the formula <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> is obtained. Another useful thing to note is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> in <a href="distributionsNormal.html#eq:NormalLogLik">(4.7)</a>:
 <span class="math display" id="eq:NormalLogLikConcentrated">\[\begin{equation}
     \ell(\mathbf{Y}| \theta, \hat{\sigma}^2) = - \frac{T}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
-    \tag{4.5}
+    \tag{4.8}
 \end{equation}\]</span>
-where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(4.5)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(Burnham and Anderson, <a href="#ref-Burnham2004">2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
+where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(4.8)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(Burnham and Anderson, <a href="#ref-Burnham2004">2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
 <p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -380,7 +380,7 @@ where <span class="math inline">\(e\)</span> is the Euler’s constant. The conc
           </div>
         </div>
       </div>
-<a href="continuous-uniform-distribution-distributionsuniformcontinuous.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionsUniformContinuous.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="distributionsLaplace.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -336,26 +336,26 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Asymmetric Laplace distribution (<span class="math inline">\(\mathcal{AL}\)</span>) can be considered as a two Laplace distributions with different parameters <span class="math inline">\(s\)</span> for left and right sides from the location <span class="math inline">\(\mu_{y,t}\)</span>. There are several ways to summarise the probability density function, the neater one relies on the asymmetry parameter <span class="math inline">\(\alpha\)</span> <span class="citation">(Yu and Zhang, <a href="#ref-Yu2005">2005</a>)</span>:
 <span class="math display" id="eq:ALaplace">\[\begin{equation}
     f(y_t) = \frac{\alpha (1- \alpha)}{s} \exp \left( -\frac{y_t - \mu_{y,t}}{s} (\alpha - I(y_t \leq \mu_{y,t})) \right) ,
-    \tag{4.15}
+    \tag{4.18}
 \end{equation}\]</span>
 where <span class="math inline">\(s\)</span> is the scale parameter, <span class="math inline">\(\alpha\)</span> is the skewness parameter and <span class="math inline">\(I(y_t \leq \mu_{y,t})\)</span> is the indicator function, which is equal to one, when the condition is satisfied and to zero otherwise. The scale parameter <span class="math inline">\(s\)</span> estimated using likelihood is equal to the quantile loss:
 <span class="math display" id="eq:sALaplace">\[\begin{equation}
     \hat{s} = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)(\alpha - I(y_t \leq \hat{\mu}_{y,t})) .
-    \tag{4.16}
+    \tag{4.19}
 \end{equation}\]</span>
-Thus maximising the likelihood <a href="distributionsALaplace.html#eq:ALaplace">(4.15)</a> is equivalent to estimating the model via the minimisation of <span class="math inline">\(\alpha\)</span> quantile, making this equivalent to quantile regression approach. So quantile regression models assume indirectly that the error term in the model is <span class="math inline">\(\epsilon_t \sim \mathcal{AL}(0, s, \alpha)\)</span> <span class="citation">(Geraci and Bottai, <a href="#ref-Geraci2007">2007</a>)</span>.</p>
-<p>Depending on the value of <span class="math inline">\(\alpha\)</span>, the distribution can have different shapes, shown in Figure <a href="distributionsALaplace.html#fig:dALaplacePlot">4.11</a>.</p>
+Thus maximising the likelihood <a href="distributionsALaplace.html#eq:ALaplace">(4.18)</a> is equivalent to estimating the model via the minimisation of <span class="math inline">\(\alpha\)</span> quantile, making this equivalent to quantile regression approach. So quantile regression models assume indirectly that the error term in the model is <span class="math inline">\(\epsilon_t \sim \mathcal{AL}(0, s, \alpha)\)</span> <span class="citation">(Geraci and Bottai, <a href="#ref-Geraci2007">2007</a>)</span>.</p>
+<p>Depending on the value of <span class="math inline">\(\alpha\)</span>, the distribution can have different shapes, shown in Figure <a href="distributionsALaplace.html#fig:dALaplacePlot">4.12</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:dALaplacePlot"></span>
 <img src="adam_files/figure-html/dALaplacePlot-1.png" alt="Probability Density Functions of Asymmetric Laplace distribution" width="672" />
 <p class="caption">
-Figure 4.11: Probability Density Functions of Asymmetric Laplace distribution
+Figure 4.12: Probability Density Functions of Asymmetric Laplace distribution
 </p>
 </div>
 <p>Similarly to <span class="math inline">\(\mathcal{GN}\)</span> distribution, the parameter <span class="math inline">\(\alpha\)</span> can be estimated during the maximisation of the likelihood, although it makes more sense to set it to some specific values in order to obtain the desired quantile of distribution.</p>
 <p>The variance of the random variable following Asymmetric Laplace distribution is equal to:
 <span class="math display" id="eq:varianceALaplace">\[\begin{equation}
     \sigma^2 = s^2\frac{(1-\alpha)^2+\alpha^2}{\alpha^2(1-\alpha)^2}.
-    \tag{4.17}
+    \tag{4.20}
 \end{equation}\]</span></p>
 <p>Functions <code>dalaplace</code>, <code>qalaplace</code>, <code>palaplace</code> and <code>ralaplace</code> from <code>greybox</code> package implement the Asymmetric Laplace distribution.</p>
 </div>

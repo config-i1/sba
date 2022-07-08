@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -337,24 +337,24 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <span class="math display" id="eq:InverseGaussianModel">\[\begin{equation}
     \text{if } (1+\epsilon_t) \sim \mathcal{IG}(1, s) \text{, then }
     y_t = \mu_{y,t} \times (1+\epsilon_t) \sim \mathcal{IG}\left(\mu_{y,t}, \frac{s}{\mu_{y,t}} \right),
-    \tag{4.20}
+    \tag{4.23}
 \end{equation}\]</span>
 implying that the dispersion of the model changes together with the expectation. The PDF of the distribution of <span class="math inline">\(1+\epsilon_t\)</span> is:</p>
 <p><span class="math display" id="eq:InverseGaussian">\[\begin{equation}
     f(1+\epsilon_t) = \frac{1}{\sqrt{2 \pi s (1+\epsilon_t)^3}} \exp \left( -\frac{\epsilon_t^2}{2 s (1+\epsilon_t)} \right) ,
-    \tag{4.21}
+    \tag{4.24}
 \end{equation}\]</span>
 where the dispersion parameter can be estimated via maximising the likelihood and is calculated using:
 <span class="math display" id="eq:InverseGaussianDispersion">\[\begin{equation}
     \hat{s} = \frac{1}{T} \sum_{t=1}^T \frac{e_t^2}{1+e_t} ,
-    \tag{4.22}
+    \tag{4.25}
 \end{equation}\]</span>
 where <span class="math inline">\(e_t\)</span> is the estimate of <span class="math inline">\(\epsilon_t\)</span>. This distribution becomes very useful for multiplicative models, where it is expected that the data can only be positive.</p>
-<p>Figure <a href="IGDistribution.html#fig:dIGPlot">4.12</a> shows how the PDF of <span class="math inline">\(\mathcal{IG}(1,s)\)</span> looks for different values of the dispersion <span class="math inline">\(s\)</span></p>
+<p>Figure <a href="IGDistribution.html#fig:dIGPlot">4.13</a> shows how the PDF of <span class="math inline">\(\mathcal{IG}(1,s)\)</span> looks for different values of the dispersion <span class="math inline">\(s\)</span></p>
 <div class="figure"><span style="display:block;" id="fig:dIGPlot"></span>
 <img src="adam_files/figure-html/dIGPlot-1.png" alt="Probability Density Functions of Inverse Gaussian distribution" width="672" />
 <p class="caption">
-Figure 4.12: Probability Density Functions of Inverse Gaussian distribution
+Figure 4.13: Probability Density Functions of Inverse Gaussian distribution
 </p>
 </div>
 <p><code>statmod</code> package implements density, quantile, cumulative and random number generator functions for the <span class="math inline">\(\mathcal{IG}\)</span>.</p>

@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -337,27 +337,27 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <span class="math display" id="eq:GammaModel">\[\begin{equation}
     \text{if } (1+\epsilon_t) \sim \mathcal{\Gamma}(s^{-1}, s) \text{, then }
     y_t = \mu_{y,t} \times (1+\epsilon_t) \sim \mathcal{\Gamma}\left(s^{-1}, s \mu_{y,t} \right),
-    \tag{4.23}
+    \tag{4.26}
 \end{equation}\]</span>
 implying that the scale of the model changes together with the expectation. The restriction on the shape parameters is needed in order to make the expectation of <span class="math inline">\((1+\epsilon_t)\)</span> equal to one. The PDF of the distribution of <span class="math inline">\(1+\epsilon_t\)</span> is:</p>
 <p><span class="math display" id="eq:Gamma">\[\begin{equation}
     f(1+\epsilon_t) = \frac{1}{\Gamma(s^{-1}) (s)^{s^{-1}}} (1+\epsilon_t)^{s^{-1}-1}\exp \left(-\frac{1+\epsilon_t}{s}\right) .
-    \tag{4.24}
+    \tag{4.27}
 \end{equation}\]</span>
-However, the scale <span class="math inline">\(s\)</span> cannot be estimated via the maximisation of likelihood analytically due to the restriction <a href="GammaDistribution.html#eq:GammaModel">(4.23)</a>. Luckliy, the method of moments can be used instead, where based on the expectation and variance we get:
+However, the scale <span class="math inline">\(s\)</span> cannot be estimated via the maximisation of likelihood analytically due to the restriction <a href="GammaDistribution.html#eq:GammaModel">(4.26)</a>. Luckliy, the method of moments can be used instead, where based on the expectation and variance we get:
 <span class="math display" id="eq:GammaScale">\[\begin{equation}
     \hat{s} = \frac{1}{T} \sum_{t=1}^T e_t^2 ,
-    \tag{4.25}
+    \tag{4.28}
 \end{equation}\]</span>
-where <span class="math inline">\(e_t\)</span> is the estimate of <span class="math inline">\(\epsilon_t\)</span>. So, imposing the restrictions <a href="GammaDistribution.html#eq:GammaModel">(4.23)</a> implies that the scale of <span class="math inline">\(\mathcal{\Gamma}\)</span> is equal to the variance of the error term.</p>
-<p>Figure <a href="GammaDistribution.html#fig:dGammaPlot">4.13</a> demonstrates how the PDF of <span class="math inline">\(\mathcal{\Gamma}(s^{-1},s)\)</span> looks for different values of <span class="math inline">\(s\)</span>:</p>
+where <span class="math inline">\(e_t\)</span> is the estimate of <span class="math inline">\(\epsilon_t\)</span>. So, imposing the restrictions <a href="GammaDistribution.html#eq:GammaModel">(4.26)</a> implies that the scale of <span class="math inline">\(\mathcal{\Gamma}\)</span> is equal to the variance of the error term.</p>
+<p>Figure <a href="GammaDistribution.html#fig:dGammaPlot">4.14</a> demonstrates how the PDF of <span class="math inline">\(\mathcal{\Gamma}(s^{-1},s)\)</span> looks for different values of <span class="math inline">\(s\)</span>:</p>
 <div class="figure"><span style="display:block;" id="fig:dGammaPlot"></span>
 <img src="adam_files/figure-html/dGammaPlot-1.png" alt="Probability Density Functions of Gamma distribution" width="672" />
 <p class="caption">
-Figure 4.13: Probability Density Functions of Gamma distribution
+Figure 4.14: Probability Density Functions of Gamma distribution
 </p>
 </div>
-<p>With the increase of the shape <span class="math inline">\(\xi=s^{-1}\)</span> (in our case this implies the decrease of variance <span class="math inline">\(s\)</span>), <span class="math inline">\(\mathcal{\Gamma}\)</span> distribution converges to the normal one with <span class="math inline">\(\mu=\xi s=1\)</span> and variance <span class="math inline">\(\sigma^2=s\)</span>. This demonstrates indirectly that the estimate of the scale <a href="GammaDistribution.html#eq:GammaScale">(4.25)</a> maximises the likelihood of the function <a href="GammaDistribution.html#eq:Gamma">(4.24)</a>, although I do not have any proper proof of this.</p>
+<p>With the increase of the shape <span class="math inline">\(\xi=s^{-1}\)</span> (in our case this implies the decrease of variance <span class="math inline">\(s\)</span>), <span class="math inline">\(\mathcal{\Gamma}\)</span> distribution converges to the normal one with <span class="math inline">\(\mu=\xi s=1\)</span> and variance <span class="math inline">\(\sigma^2=s\)</span>. This demonstrates indirectly that the estimate of the scale <a href="GammaDistribution.html#eq:GammaScale">(4.28)</a> maximises the likelihood of the function <a href="GammaDistribution.html#eq:Gamma">(4.27)</a>, although I do not have any proper proof of this.</p>
 <!-- ## Beta distribution -->
 
 </div>

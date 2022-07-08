@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>16.1 An example in R | Statistics for Business Analytics</title>
+  <title>4.2 Continuous Uniform distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="16.1 An example in R | Statistics for Business Analytics" />
+  <meta property="og:title" content="4.2 Continuous Uniform distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="16.1 An example in R | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="4.2 Continuous Uniform distribution | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="likelihoodApproach.html"/>
-<link rel="next" href="likelihoodApproachMaths.html"/>
+<link rel="prev" href="what-is-continuous-distribution.html"/>
+<link rel="next" href="distributionsNormal.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -331,113 +331,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="an-example-in-r" class="section level2 hasAnchor">
-<h2><span class="header-section-number">16.1</span> An example in R<a href="an-example-in-r.html#an-example-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We consider a simple example, when we want to estimate the model <span class="math inline">\(y_j = \mu_y + \epsilon_j\)</span> (global average), assuming that the error term follows normal distribution: <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>, which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y}, \sigma^2)\)</span>. In this case we want to estimate two parameters using likelihood: location <span class="math inline">\(\hat{\mu}_y\)</span> and scale <span class="math inline">\(\hat{\sigma}^2\)</span>. First, we generate the random variable in R and plot its distribution:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">100</span>, <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb219-2" title="2"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="adam_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
-<p>As expected, the distribution of this variable (1000 observations) has the bell shape of Normal distribution. In order to estimate the parameters, for the distribution, we will try them one by one and see how the likelihood and the shape of the fitted curve to this histogram change. We start with <span class="math inline">\(\hat{\mu}_y=80\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span> just to see how the probability density function of normal distribution fits the data:</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb220-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">80</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb220-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">80</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample01"></span>
-<img src="adam_files/figure-html/MLENormalExample01-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=80$ and $\hat{\sigma}=10$" width="672" />
+<div id="distributionsUniformContinuous" class="section level2 hasAnchor">
+<h2><span class="header-section-number">4.2</span> Continuous Uniform distribution<a href="distributionsUniformContinuous.html#distributionsUniformContinuous" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section <a href="distributionUniform.html#distributionUniform">3.4</a>, but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+<span class="math display" id="eq:ContinuousUniformPDF">\[\begin{equation}
+    f(y, b, a) = \left\{\begin{aligned}
+                        &amp; \frac{1}{b-a} &amp; \text{ for } y \in [a, b] \\
+                        &amp; 0 &amp; \text{ otherwise }
+                    \end{aligned} \right. .
+    \tag{4.1}
+\end{equation}\]</span>
+It can be represented visually as shown in Figure <a href="distributionsUniformContinuous.html#fig:uniformPDF">4.6</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:uniformPDF"></span>
+<img src="adam_files/figure-html/uniformPDF-1.png" alt="Probability Density Function of Continuous Uniform distribution." width="672" />
 <p class="caption">
-Figure 16.1: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=80\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
+Figure 4.6: Probability Density Function of Continuous Uniform distribution.
 </p>
 </div>
-<p>and we get the following log-likelihood value (we will discuss how this formula can be obtained later):</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1"><span class="kw">sum</span>(<span class="kw">dnorm</span>(y,<span class="dv">80</span>,<span class="dv">10</span>,<span class="dt">log=</span>T))</a></code></pre></div>
-<pre><code>## [1] -5797.487</code></pre>
-<p>In order for the normal distribution on <a href="an-example-in-r.html#fig:MLENormalExample01">16.1</a> to fit the data well, we need to shift the estimate of <span class="math inline">\(\mu_y\)</span> to the right, thus increasing the value to, let’s say, <span class="math inline">\(\hat{\mu}_y=90\)</span>:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb223-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">90</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb223-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">90</span>,<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample02"></span>
-<img src="adam_files/figure-html/MLENormalExample02-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=90$ and $\hat{\sigma}=10$" width="672" />
+<p>According to this distribution, it is equally likely to have 1, 1.1, 1.0001, 9 etc values. The mean of this distribution coincides with the middle of the segment and can be calculated as:
+<span class="math display" id="eq:ContinuousUniformPDFMean">\[\begin{equation}
+    \mathrm{E}(y) = \frac{1}{2}(a+b) ,
+    \tag{4.2}
+\end{equation}\]</span>
+whlie the variance is calculated as:
+<span class="math display" id="eq:ContinuousUniformPDFVariance">\[\begin{equation}
+    \mathrm{V}(y) = \frac{1}{12}(b-a)^2 .
+    \tag{4.3}
+\end{equation}\]</span>
+The CDF of the Uniform distribution corresponds to the straight line going from the point (a,0) to the point (b,1), as shown in Figure <a href="distributionsUniformContinuous.html#fig:uniformCDFContinuous">4.7</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:uniformCDFContinuous"></span>
+<img src="adam_files/figure-html/uniformCDFContinuous-1.png" alt="Cumulative Density Function of Continuous Uniform distribution." width="672" />
 <p class="caption">
-Figure 16.2: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=90\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
+Figure 4.7: Cumulative Density Function of Continuous Uniform distribution.
 </p>
 </div>
-<p>Now, in Figure <a href="an-example-in-r.html#fig:MLENormalExample02">16.2</a>, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4254.441, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting <span class="math inline">\(\hat{\mu}_y=100\)</span>, we get:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb224-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">100</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;green3&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb224-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">100</span>,<span class="dt">col=</span><span class="st">&quot;green3&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample03"></span>
-<img src="adam_files/figure-html/MLENormalExample03-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=100$ and $\hat{\sigma}=10$" width="672" />
-<p class="caption">
-Figure 16.3: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=100\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
-</p>
-</div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample02">16.2</a> demonstrates a much better fit than in the previous cases with the log-likelihood of -3711.394, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb225-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb225-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample04"></span>
-<img src="adam_files/figure-html/MLENormalExample04-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
-<p class="caption">
-Figure 16.4: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
-</p>
-</div>
-<p>So the value of <span class="math inline">\(\hat{\mu}_y=\bar{y}=\)</span> 100.43 (where <span class="math inline">\(\bar{y}\)</span> is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3710.468.</p>
-<p>In a similar fashion we can get the MLE of the scale parameter <span class="math inline">\(\sigma^2\)</span> of the model. In this case, we will be changing the height of the distribution. Here is an example with <span class="math inline">\(\hat{\mu}_y=\)</span> 100.43 and <span class="math inline">\(\hat{\sigma}=15\)</span>:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb226-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">15</span>),<span class="dt">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb226-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample05"></span>
-<img src="adam_files/figure-html/MLENormalExample05-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=15$" width="672" />
-<p class="caption">
-Figure 16.5: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=15\)</span>
-</p>
-</div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample05">16.5</a> demonstrates that the curve is located lower than needed, which implies that the scale parameter <span class="math inline">\(\hat{\sigma}\)</span> is too high. The log-likelihood value in this case is -3844.297. In order to get a better fit of the curve to the data, we need to reduce the <span class="math inline">\(\hat{\sigma}\)</span>. Here how the situation would look for the case of <span class="math inline">\(\hat{\sigma}=10\)</span>:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" title="1"><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb227-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb227-3" title="3"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample06"></span>
-<img src="adam_files/figure-html/MLENormalExample06-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
-<p class="caption">
-Figure 16.6: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
-</p>
-</div>
-<p>The fit on Figure <a href="an-example-in-r.html#fig:MLENormalExample06">16.6</a> is better than on Figure <a href="an-example-in-r.html#fig:MLENormalExample05">16.5</a>, which is also reflected in the log-likelihood value being equal to -3710.468 instead of -3844.297. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula <span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\)</span>, resulting in log-likelihood of -3710.344. Note that if we use the unbiased estimate of the variance <span class="math inline">\(\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\)</span>, the log-likelihood will not reach the maximum and will be equal to -3710.344. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are different, which can be checked in R via the following commands:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" title="1"><span class="co"># The maximum log-likelihood with the biased variance</span></a>
-<a class="sourceLine" id="cb228-2" title="2">logLik01 &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">dnorm</span>(y,<span class="kw">mean</span>(y),<span class="kw">sqrt</span>(<span class="kw">mean</span>((y<span class="op">-</span><span class="kw">mean</span>(y))<span class="op">^</span><span class="dv">2</span>)),<span class="dt">log=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb228-3" title="3"><span class="co"># The log-likelihood value with the unbiased variance</span></a>
-<a class="sourceLine" id="cb228-4" title="4">logLik02 &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">dnorm</span>(y,<span class="kw">mean</span>(y),<span class="kw">sd</span>(y),<span class="dt">log=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb228-5" title="5"><span class="co"># The difference between the two</span></a>
-<a class="sourceLine" id="cb228-6" title="6">logLik01 <span class="op">-</span><span class="st"> </span>logLik02</a></code></pre></div>
-<pre><code>## [1] 0.0002501668</code></pre>
-<p>All of this is great, but so far we have discussed a very special case, when the data follows normal distribution and we fit the respective model. But what if the model is wrong (no kidding!)? In that case the idea stays the same: we need to find the parameters of the normal distribution, that would guarantee the best possible fit to the non-normal data. Here is an example with MLE of parameters of Normal distribution for the data following Log Normal one:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" title="1">y &lt;-<span class="st"> </span><span class="kw">rlnorm</span>(<span class="dv">1000</span>, <span class="kw">log</span>(<span class="dv">80</span>), <span class="fl">0.4</span>)</a>
-<a class="sourceLine" id="cb230-2" title="2"><span class="kw">hist</span>(y, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span>T, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</a>
-<a class="sourceLine" id="cb230-3" title="3"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">mean</span>(y),<span class="kw">sd</span>(y)),<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample07"></span>
-<img src="adam_files/figure-html/MLENormalExample07-1.png" alt="ML example with Normal curve on Log Normal data" width="672" />
-<p class="caption">
-Figure 16.7: ML example with Normal curve on Log Normal data
-</p>
-</div>
-<p>Figure <a href="an-example-in-r.html#fig:MLENormalExample07">16.7</a> shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -5004.791. The much better model would be the Log Normal one:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1"><span class="kw">hist</span>(y, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span>T, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</a>
-<a class="sourceLine" id="cb231-2" title="2"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">dlnorm</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">mean</span>(<span class="kw">log</span>(y)),<span class="kw">sd</span>(<span class="kw">log</span>(y))),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:MLENormalExample08"></span>
-<img src="adam_files/figure-html/MLENormalExample08-1.png" alt="ML example with Log Normal curve on Log Normal data" width="672" />
-<p class="caption">
-Figure 16.8: ML example with Log Normal curve on Log Normal data
-</p>
-</div>
-<p>The model in Figure <a href="an-example-in-r.html#fig:MLENormalExample08">16.8</a> has the log likelihood of -4865.527. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the <a href="#modelSelection">next section</a>.</p>
-<p>As a final word, when it comes to more complicated models with more parameters and dynamic structure, the specific curves and data become more complicated, but the logic of the likelihood approach stays the same.</p>
+<p>Mathematically, the CDF can be represented as:
+<span class="math display" id="eq:ContinuousUniformCDF">\[\begin{equation}
+    f(y, b, a) = \left\{\begin{aligned}
+                        &amp; \frac{y-a}{b-a} &amp; \text{ for } y \in [a, b] \\
+                        &amp; 0 &amp; \text{ otherwise }
+                    \end{aligned} \right. .
+    \tag{4.4}
+\end{equation}\]</span></p>
+<p>Continuous uniform distribution is sometimes used in statistics as a prior, when a researcher does not have grounds to assume any other, more complicated distribution.</p>
+<p>In R, this distribution is implemented in <code>stats</code> package with functions <code>dunif()</code>, <code>punif()</code>, <code>qunif()</code> and <code>runif()</code> for PDF, CDF, QF and random generator respectively.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="likelihoodApproach.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="likelihoodApproachMaths.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="what-is-continuous-distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionsNormal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -468,7 +413,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//16-likelihood.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//04-distributions-continuous.Rmd",
 "text": "Edit"
 },
 "history": {

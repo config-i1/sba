@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
@@ -380,6 +380,7 @@ Figure 3.4: Cumulative Distribution Function of Bernoulli distribution with prob
 So, when Vasiliy throws the next ball in the bin, he will miss with the probability of 0.36.</p>
 <p>The variance is <span class="math inline">\(p \times (1-p) = 0.36 \times 0.64 = 0.2304\)</span>.</p>
 </div>
+<p>In R, this distribution is implemented in <code>stats</code> package via <code>dbinom(size=1)</code>, <code>pbinom(size=1)</code>, <code>qbinom(size=1)</code> and <code>rbinom(size=1)</code> for PDF, CDF, QF and random generator respectively. The important parameter in this case is <code>size=1</code>, which will be discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>.</p>
 </div>
             </section>
 
