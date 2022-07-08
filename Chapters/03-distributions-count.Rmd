@@ -117,6 +117,8 @@ So, when Vasiliy throws the next ball in the bin, he will miss with the probabil
 The variance is $p \times (1-p) = 0.36 \times 0.64 = 0.2304$.
 :::
 
+In R, this distribution is implemented in `stats` package via `dbinom(size=1)`, `pbinom(size=1)`, `qbinom(size=1)` and `rbinom(size=1)` for PDF, CDF, QF and random generator respectively. The important parameter in this case is `size=1`, which will be discussed in Section \@ref(distributionBinomial).
+
 
 ## Multiple coin tosses -- Binomial distribution {#distributionBinomial}
 In the previous example with coin tossing we focused on the experiment that contained only one step: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways: 1. first trial is one and then the rest are zero; 2. second trial is one and the rest are zero, etc. This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?
@@ -210,6 +212,8 @@ From the example above, we can take away several important characteristics of Bi
 
 Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section \@ref(distributionsNormal).
 
+In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbinom()` and `rbinom()` from `stats` package. The functions have parameter `size` which is the number of trials $n$, and parameter `prob`, which is a probability of success $p$. If `size=1`, the distribution functions revert to the ones from Bernoulli distribution (Section \@ref(distributionBernoulli)).
+
 
 ## Rolling a dice -- Discrete Uniform distribution {#distributionUniform}
 Another simple distribution, arising from a classical probability theory examples, is the Uniform distribution. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section \@ref(distributionsUniformContinuous)).
@@ -275,7 +279,7 @@ Inserting the values in the CDF of the Uniform distribution \@ref(eq:BernoulliCD
 :::
 
 ::: remark
-Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While do not discuss it here, we note that this is a distribution, which is used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.
+Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While we do not discuss it here, we note that this is a distribution, which is, for example, used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.
 :::
 
 

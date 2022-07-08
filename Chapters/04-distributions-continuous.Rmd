@@ -69,11 +69,11 @@ The dashed lines in Figure \@ref(fig:dnormPlotIntroQF) show the value of $y$ for
 Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.
 
 
-## Continuous Uniform distribution {distributionsUniformContinuous}
-One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of value, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+## Continuous Uniform distribution {#distributionsUniformContinuous}
+One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
 \begin{equation}
     f(y, b, a) = \left\{\begin{aligned}
-                        & \frac{1}{b-a} & \text{ for } y \in (a, b) \\
+                        & \frac{1}{b-a} & \text{ for } y \in [a, b] \\
                         & 0 & \text{ otherwise }
                     \end{aligned} \right. .
     (\#eq:ContinuousUniformPDF)
@@ -86,6 +86,36 @@ plot(seq(0,10,by=0.1),dunif(seq(0,10,by=0.1),0,10),
 lines(c(0,0), c(0,0.1), lty=2)
 lines(c(10,10), c(0,0.1), lty=2)
 ```
+
+According to this distribution, it is equally likely to have 1, 1.1, 1.0001, 9 etc values. The mean of this distribution coincides with the middle of the segment and can be calculated as:
+\begin{equation}
+    \mathrm{E}(y) = \frac{1}{2}(a+b) ,
+    (\#eq:ContinuousUniformPDFMean)
+\end{equation}
+whlie the variance is calculated as:
+\begin{equation}
+    \mathrm{V}(y) = \frac{1}{12}(b-a)^2 .
+    (\#eq:ContinuousUniformPDFVariance)
+\end{equation}
+The CDF of the Uniform distribution corresponds to the straight line going from the point (a,0) to the point (b,1), as shown in Figure \@ref(fig:uniformCDF).
+
+```{r uniformCDF, fig.cap="Cumulative Density Function of Continuous Uniform distribution.", echo=FALSE}
+plot(seq(0,10,by=0.1),punif(seq(0,10,by=0.1),0,10),
+     ylab="Density",xlab="y", type="l")
+```
+
+Mathematically, the CDF can be represented as:
+\begin{equation}
+    f(y, b, a) = \left\{\begin{aligned}
+                        & \frac{y-a}{b-a} & \text{ for } y \in [a, b] \\
+                        & 0 & \text{ otherwise }
+                    \end{aligned} \right. .
+    (\#eq:ContinuousUniformCDF)
+\end{equation}
+
+Continuous uniform distribution is sometimes used in statistics as a prior, when a researcher does not have grounds to assume any other, more complicated distribution.
+
+In R, this distribution is implemented in `stats` package with functions `dunif()`, `punif()`, `qunif()` and `runif()` for PDF, CDF, QF and random generator respectively.
 
 
 ## Normal distribution {#distributionsNormal}
