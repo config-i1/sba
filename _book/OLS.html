@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-06-28" />
+<meta name="date" content="2022-07-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -172,18 +172,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Uniform distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
-<li class="chapter" data-level="4.2" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.2</b> Normal distribution</a></li>
-<li class="chapter" data-level="4.3" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.3</b> Laplace distribution</a></li>
-<li class="chapter" data-level="4.4" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.4</b> S distribution</a></li>
-<li class="chapter" data-level="4.5" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>4.5</b> Generalised Normal distribution</a></li>
-<li class="chapter" data-level="4.6" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>4.6</b> Asymmetric Laplace distribution</a></li>
-<li class="chapter" data-level="4.7" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>4.7</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
-<li class="chapter" data-level="4.8" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>4.8</b> Inverse Gaussian distribution</a></li>
-<li class="chapter" data-level="4.9" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>4.9</b> Gamma distribution</a></li>
+<li class="chapter" data-level="4.2" data-path="continuous-uniform-distribution-distributionsuniformcontinuous.html"><a href="continuous-uniform-distribution-distributionsuniformcontinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution {distributionsUniformContinuous}</a></li>
+<li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
+<li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
+<li class="chapter" data-level="4.6" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>4.6</b> Generalised Normal distribution</a></li>
+<li class="chapter" data-level="4.7" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>4.7</b> Asymmetric Laplace distribution</a></li>
+<li class="chapter" data-level="4.8" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>4.8</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
+<li class="chapter" data-level="4.9" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>4.9</b> Inverse Gaussian distribution</a></li>
+<li class="chapter" data-level="4.10" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>4.10</b> Gamma distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a><ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
@@ -381,7 +382,7 @@ If we now minimise SSE by changing values of parameters <span class="math inline
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span>.</p>
 <div class="proof">
-<p><span id="unlabeled-div-17" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
+<p><span id="unlabeled-div-18" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -431,7 +432,7 @@ which is the formula <a href="correlationCoefficient.html#eq:measuresAssociation
 </ol>
 <p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
 <div class="proof">
-<p><span id="unlabeled-div-18" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
+<p><span id="unlabeled-div-19" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
 <span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
     \tag{10.8}
@@ -450,7 +451,7 @@ Given that the sum of errors is equal to zero, its mean will be equal to zero as
 </div>
 <p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
 <div class="proof">
-<p><span id="unlabeled-div-19" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
+<p><span id="unlabeled-div-20" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     \tag{10.11}
