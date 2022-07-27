@@ -428,7 +428,18 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 <p>while for 5 we will have approximately 0.989. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.</p>
 <p>We can get the same result by using Quantile Function, which is implemented in R as <code>qbinom()</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="distributionBinomial.html#cb10-1" aria-hidden="true"></a><span class="kw">qbinom</span>(<span class="fl">0.99</span>, <span class="dv">20</span>, <span class="fl">0.1</span>)</span></code></pre></div>
-<p>From the example above, we can take away several important characteristics of Binomial distribution:</p>
+<p>In some cases, we might need to know the mean and variance of the distribution. For the Binomial distribution, they can be calculated via the following formulae:
+<span class="math display" id="eq:BinomialMean">\[\begin{equation}
+    \mathrm{E}(y) = p \times n ,
+    \tag{3.4}
+\end{equation}\]</span>
+and
+<span class="math display" id="eq:BinomialVariance">\[\begin{equation}
+    \mathrm{V}(y) = p \times (1-p) \times n .
+    \tag{3.5}
+\end{equation}\]</span>
+So, in our situation the mean is <span class="math inline">\(20 \times 0.1 = 2\)</span>, while the variance is <span class="math inline">\(20 \times 0.1 \times 0.9 = 1.8\)</span>.</p>
+<p>From the example above, we can take away several important characteristics ofthe Binomial distribution:</p>
 <ol style="list-style-type: decimal">
 <li>There are many trials: we have many hospitals, each one of which can be considered as a ``trial’’;</li>
 <li>In each trial, there are only two outcomes: buy or do not buy;</li>
