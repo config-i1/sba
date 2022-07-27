@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>15.2 Residuals are i.i.d. | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="15.2 Residuals are i.i.d. | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-07-08" />
+<meta name="date" content="2022-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -69,25 +70,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -96,9 +98,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -148,14 +150,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistics for Business Analytics</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a><ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a><ul>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
@@ -164,31 +170,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
 <li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a><ul>
+<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
 <li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a><ul>
+<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
 <li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
+<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
 <li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
-<li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
-<li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
-<li class="chapter" data-level="4.6" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>4.6</b> Generalised Normal distribution</a></li>
-<li class="chapter" data-level="4.7" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>4.7</b> Asymmetric Laplace distribution</a></li>
-<li class="chapter" data-level="4.8" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>4.8</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
-<li class="chapter" data-level="4.9" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>4.9</b> Inverse Gaussian distribution</a></li>
-<li class="chapter" data-level="4.10" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>4.10</b> Gamma distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a><ul>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
-<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a><ul>
+<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-categoricaldiscrete-variable"><i class="fa fa-check"></i><b>5.2.1</b> One categorical/discrete variable</a></li>
 <li class="chapter" data-level="5.2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-categoricaldiscrete-variables"><i class="fa fa-check"></i><b>5.2.2</b> Two categorical/discrete variables</a></li>
 <li class="chapter" data-level="5.2.3" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-numerical-continuous-variable"><i class="fa fa-check"></i><b>5.2.3</b> One numerical continuous variable</a></li>
@@ -197,10 +201,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.6" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#plot-for-several-variables"><i class="fa fa-check"></i><b>5.2.6</b> Plot for several variables</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a><ul>
+<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>6.1</b> Law of Large Numbers</a></li>
 <li class="chapter" data-level="6.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>6.2</b> Central Limit Theorem</a></li>
-<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a><ul>
+<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>6.3.1</b> Bias</a></li>
 <li class="chapter" data-level="6.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>6.3.2</b> Efficiency</a></li>
 <li class="chapter" data-level="6.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>6.3.3</b> Consistency</a></li>
@@ -210,57 +216,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
 <li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a><ul>
+<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<ul>
 <li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
-<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a><ul>
+<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
 <li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a><ul>
-<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a><ul>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a><ul>
+<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a><ul>
-<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a><ul>
+<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>10.1.1</b> Residuals of model estimated via OLS</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.2</b> Quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
 <li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
 <li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a><ul>
+<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<ul>
 <li class="chapter" data-level="12.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
 <li class="chapter" data-level="12.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a><ul>
+<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a><ul>
+<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>14.1</b> Example of application</a></li>
-<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a><ul>
+<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a>
+<ul>
 <li class="chapter" data-level="14.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>14.2.1</b> Linear model</a></li>
 <li class="chapter" data-level="14.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>14.2.2</b> Log-Log model</a></li>
 <li class="chapter" data-level="14.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>14.2.3</b> Log-linear model</a></li>
@@ -273,36 +293,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>14.2.10</b> Summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a><ul>
-<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a><ul>
+<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a>
+<ul>
 <li class="chapter" data-level="15.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted"><i class="fa fa-check"></i><b>15.1.1</b> Omitted variables</a></li>
 <li class="chapter" data-level="15.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant"><i class="fa fa-check"></i><b>15.1.2</b> Redundant variables</a></li>
 <li class="chapter" data-level="15.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations"><i class="fa fa-check"></i><b>15.1.3</b> Transformations</a></li>
 <li class="chapter" data-level="15.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers"><i class="fa fa-check"></i><b>15.1.4</b> Outliers</a></li>
 </ul></li>
-<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a><ul>
+<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a>
+<ul>
 <li class="chapter" data-level="15.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations"><i class="fa fa-check"></i><b>15.2.1</b> No autocorrelations</a></li>
 <li class="chapter" data-level="15.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity"><i class="fa fa-check"></i><b>15.2.2</b> Homoscedastic residuals</a></li>
 <li class="chapter" data-level="15.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean"><i class="fa fa-check"></i><b>15.2.3</b> Mean of residuals</a></li>
 <li class="chapter" data-level="15.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>15.2.4</b> Distributional assumptions</a></li>
 <li class="chapter" data-level="15.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed"><i class="fa fa-check"></i><b>15.2.5</b> Distribution does not change</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a><ul>
+<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
 <li class="chapter" data-level="15.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>15.3.1</b> Multicollinearity</a></li>
 <li class="chapter" data-level="15.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>15.3.2</b> Endogeneity</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a><ul>
+<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a>
+<ul>
 <li class="chapter" data-level="16.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
 <li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
-<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
-<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a><ul>
-<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
-<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
+<li class="chapter" data-level="16.3" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html"><i class="fa fa-check"></i><b>16.3</b> Examples of popular log-likelihood functions</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html#normal-distribution"><i class="fa fa-check"></i><b>16.3.1</b> Normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.4</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.5" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.5</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.5.1</b> The idea</a></li>
+<li class="chapter" data-level="16.5.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.5.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a><ul>
-<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a><ul>
+<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a>
+<ul>
 <li class="chapter" data-level="17.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>17.1.1</b> Graphical explanation</a></li>
 <li class="chapter" data-level="17.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>17.1.2</b> Mathematical explanation</a></li>
 </ul></li>
@@ -331,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="assumptionsResidualsAreIID" class="section level2 hasAnchor">
+<div id="assumptionsResidualsAreIID" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> Residuals are i.i.d.<a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIID" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are five assumptions in this group:</p>
 <ol style="list-style-type: decimal">
@@ -341,23 +373,23 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <li><a href="assumptionsResidualsAreIID.html#assumptionsDistribution">The variable follows the assumed distribution</a>;</li>
 <li><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed">More generally speaking, distribution of residuals does not change over time</a>.</li>
 </ol>
-<div id="assumptionsResidualsAreIIDAutocorrelations" class="section level3 hasAnchor">
+<div id="assumptionsResidualsAreIIDAutocorrelations" class="section level3 hasAnchor" number="15.2.1">
 <h3><span class="header-section-number">15.2.1</span> No autocorrelations<a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This assumption <strong>only applies to time series data</strong>, and in a way comes to capturing correctly the dynamic relations between variables. The term “autocorrelation” refers to the situation, when variable is correlated with itself from the past. If the residuals are autocorrelated, then something is neglected by the applied model. Typically, this leads to <em>inefficient</em> estimates of parameters, which in some cases might also become <em>biased</em>. The model with autocorrelated residuals might produce inaccurate point forecasts and prediction intervals of a wrong width (wider or narrower than needed).</p>
 <p>There are several ways of diagnosing the problem, including visual analysis and statistical tests. In order to show some of them, we consider the <code>Seatbelts</code> data from <code>datasets</code> package for R. We fit a basic model, predicting monthly totals of car drivers in the Great Britain killed or seriously injured in car accidents:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" title="1">SeatbeltsALM01 &lt;-<span class="st"> </span><span class="kw">alm</span>(drivers<span class="op">~</span>PetrolPrice<span class="op">+</span>kms<span class="op">+</span>front<span class="op">+</span>rear<span class="op">+</span>law, Seatbelts)</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="assumptionsResidualsAreIID.html#cb203-1" aria-hidden="true"></a>SeatbeltsALM01 &lt;-<span class="st"> </span><span class="kw">alm</span>(drivers<span class="op">~</span>PetrolPrice<span class="op">+</span>kms<span class="op">+</span>front<span class="op">+</span>rear<span class="op">+</span>law, Seatbelts)</span></code></pre></div>
 <p>In order to do graphical diagnose, we can produce plots of standardised / studentised residuals over time:</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1"><span class="kw">plot</span>(SeatbeltsALM01,<span class="dv">8</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="assumptionsResidualsAreIID.html#cb204-1" aria-hidden="true"></a><span class="kw">plot</span>(SeatbeltsALM01,<span class="dv">8</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics08"></span>
 <img src="adam_files/figure-html/diagnostics08-1.png" alt="Standardised residuals over time." width="672" />
 <p class="caption">
 Figure 15.8: Standardised residuals over time.
 </p>
 </div>
-<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">15.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation">Svetunkov (<a href="#ref-SvetunkovADAM">2021</a><a href="#ref-SvetunkovADAM">b</a>)</span>.</p>
+<p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">15.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation">Svetunkov (<a href="#ref-SvetunkovADAM" role="doc-biblioref">2021</a>)</span>.</p>
 <p>The other instrument for diagnostics is ACF / PACF plots, which are produced in <code>alm()</code> via the following command:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" title="1"><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb205-2" title="2"><span class="kw">plot</span>(SeatbeltsALM01,<span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="assumptionsResidualsAreIID.html#cb205-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb205-2"><a href="assumptionsResidualsAreIID.html#cb205-2" aria-hidden="true"></a><span class="kw">plot</span>(SeatbeltsALM01,<span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics09"></span>
 <img src="adam_files/figure-html/diagnostics09-1.png" alt="ACF and PACF of the residuals of a model." width="672" />
 <p class="caption">
@@ -366,14 +398,14 @@ Figure 15.9: ACF and PACF of the residuals of a model.
 </div>
 <p>These are discussed in more detail in Sections <a href="#ACF"><strong>??</strong></a> and <a href="#PACF"><strong>??</strong></a>.</p>
 </div>
-<div id="assumptionsResidualsAreIIDHomoscedasticity" class="section level3 hasAnchor">
+<div id="assumptionsResidualsAreIIDHomoscedasticity" class="section level3 hasAnchor" number="15.2.2">
 <h3><span class="header-section-number">15.2.2</span> Homoscedastic residuals<a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In general, we assume that the variance of residuals is constant. If this is violated, then we say that there is a <strong>heteroscedasticity</strong> in the model. This means that with a change of a variable, the variance of the residuals will change as well. If the model neglects this, then typically the estimates of parameters become <em>inefficient</em> and prediction intervals are wrong: they are wider than needed in some cases (e.g.m when the volume of data is low) and narrower than needed in the other ones (e.g. on high volume data).</p>
 <p>Typically, this assumption will be violated if the model is not specified correctly. The classic example is the income versus expenditure on meals for different families. If the income is low, then there are not many options for buying, and the variability of expenses would be low. However, with the increase of income, the mean expenditures and their variability would increase because there are more options of what to buy, including both cheap and expensive products. If we constructed a basic linear model on such data, then it would violate the assumption of homoscedasticity and, as a result, will have issues discussed in section <a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIID">15.2</a>. But arguably, this would typically appear because of the misspecification of the model. For example, taking logarithms might resolve the issue in many cases, implying that the effect of one variable on the other should be multiplicative rather than additive. Alternatively, dividing variables by some other variable might (e.g. working with expenses per family member, not per family) resolve the problem as well. Unfortunately, the transformations are not the panacea, so in some cases, the analyst would need to construct a model, taking the changing variance into account (e.g. GARCH or GAMLSS models). This is discussed in Section <a href="#scaleModel"><strong>??</strong></a>.</p>
 <p>While forecasting, we are more interested in the holdout performance of models, in econometrics, the parameters of models are typical of the main interest. And, as we discussed earlier, in the case of a correctly specified model with heteroscedastic residuals, the estimates of parameters will be unbiased but inefficient. So, econometricians would use different approaches to diminish the heteroscedasticity effect on parameters: either a different estimator for a model (such as Weighted Least Squares) or a different method for calculating standard errors of parameters (e.g. Heteroskedasticity-Consistent Standard Errors). This does not resolve the problem but instead corrects the model’s parameters (i.e. does not heal the illness but treats the symptoms). Although these approaches typically suffice for analytical purposes, they do not fix the issues in forecasting.</p>
 <p>The diagnostics of heteroscedasticity can be done via plotting absolute and / or squared residuals against the fitted values.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" title="1"><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb206-2" title="2"><span class="kw">plot</span>(mtcarsALM01,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="assumptionsResidualsAreIID.html#cb206-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb206-2"><a href="assumptionsResidualsAreIID.html#cb206-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics10"></span>
 <img src="adam_files/figure-html/diagnostics10-1.png" alt="Detecting heteroscedasticity. Model 1." width="672" />
 <p class="caption">
@@ -381,8 +413,8 @@ Figure 15.10: Detecting heteroscedasticity. Model 1.
 </p>
 </div>
 <p>If your model assumes that residuals follow a distribution related to the Normal one, then you should focus on the plot of squared residuals vs fitted, as this would be closer related to the variance of the distribution. In the example of mtcars model in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics10">15.10</a> we see that the variance of residuals increases with the increase of Fitted values (the LOWESS line increases and the overall variability around 1200 is lower than the one around 2000). This indicates that the residuals are heteroscedastic. One of the possible solutions of the problem is taking the logarithms, as we have done in the model <code>mtcarsALM02</code>:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1"><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb207-2" title="2"><span class="kw">plot</span>(mtcarsALM02,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="assumptionsResidualsAreIID.html#cb207-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb207-2"><a href="assumptionsResidualsAreIID.html#cb207-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics11"></span>
 <img src="adam_files/figure-html/diagnostics11-1.png" alt="Detecting heteroscedasticity. Model 2." width="672" />
 <p class="caption">
@@ -391,7 +423,7 @@ Figure 15.11: Detecting heteroscedasticity. Model 2.
 </div>
 <p>While the LOWESS lines on plots in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics11">15.11</a> demonstrate some dynamics, the variability of residuals does not change significantly with the increase of fitted value, so non-linear transformation seems to fix the issue in our example. If it would not, then we would need to consider either some other transformations or finding out, which of the variables causes heteroscedasticity and then modelling it explicitly via the scale model (Section <a href="#scaleModel"><strong>??</strong></a>).</p>
 </div>
-<div id="assumptionsResidualsAreIIDMean" class="section level3 hasAnchor">
+<div id="assumptionsResidualsAreIIDMean" class="section level3 hasAnchor" number="15.2.3">
 <h3><span class="header-section-number">15.2.3</span> Mean of residuals<a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>While in sample, this holds automatically in many cases (e.g. when using Least Squares method for regression model estimation), this assumption might be violated in the holdout sample. In this case the point forecasts would be <em>biased</em>, because they typically do not take the non-zero mean of forecast error into account, and the prediction interval might be off as well, because of the wrong estimation of the scale of distribution (e.g. variance is higher than needed). This assumption also implies that the expectation of residuals is zero even conditional on the explanatory variables in the model. If it is not, then this might mean that there is still some important information omitted in the applied model. This implies that the following holds for all <span class="math inline">\(x_i\)</span>:
 <span class="math display">\[\begin{equation*}
@@ -406,11 +438,11 @@ If OLS is used in linear model estimation, then this condition is satisfied in s
 <p>Note that some models assume that the expectation of residuals is equal to one instead of zero (e.g. multiplicative error models). The idea of the assumption stays the same, it is only the value that changes.</p>
 <p>The diagnostics of the problem would be similar to the case of non-linear transformations or autocorrelations: plotting residuals vs fitted or residuals vs time and trying to find patterns. If the mean of residuals changes either with the change of fitted values of with time, then the conditional expectation of residuals is not zero, and something is missing in the model.</p>
 </div>
-<div id="assumptionsDistribution" class="section level3 hasAnchor">
+<div id="assumptionsDistribution" class="section level3 hasAnchor" number="15.2.4">
 <h3><span class="header-section-number">15.2.4</span> Distributional assumptions<a href="assumptionsResidualsAreIID.html#assumptionsDistribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In some cases we are interested in using methods that imply specific distributional assumptions about the model and its residuals. For example, it is assumed in the classical linear model that the error term follows Normal distribution. Estimating this model using MLE with the probability density function of Normal distribution or via minimisation of <a href="#errorMeasures">Mean Squared Error</a> (MSE) would give <em>efficient</em> and <em>consistent</em> estimates of parameters. If the assumption of normality does not hold, then the estimates might be <em>inefficient</em> and in some cases <em>inconsistent</em>. When it comes to forecasting, the main issue in the wrong distributional assumption appears, when prediction intervals are needed: they might rely on a wrong distribution and be narrower or wider than needed. Finally, if we deal with the wrong distribution, then the model selection mechanism might be flawed and would lead to the selection of an inappropriate model.</p>
 <p>The most efficient way of diagnosing this, is constructing QQ-plot of residuals (discussed in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>).</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1"><span class="kw">plot</span>(mtcarsALM02,<span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="assumptionsResidualsAreIID.html#cb208-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">6</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics12"></span>
 <img src="adam_files/figure-html/diagnostics12-1.png" alt="QQ-plot of residuals of model 2 for mtcars dataset." width="672" />
 <p class="caption">
@@ -418,7 +450,7 @@ Figure 15.12: QQ-plot of residuals of model 2 for mtcars dataset.
 </p>
 </div>
 <p>Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a> shows that all the points lie close to the line (with minor fluctuations around it), so we can conclude that the residuals follow the normal distribution. In comparison, Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a> demonstrates how residuals would look in case of a wrong distribution. Although the values lie not too far from ths straight line, there are several observations in the tails that are further away than needed. Comparing the two plots, we would select the on in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a>, as the residuals are better behaved.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1"><span class="kw">plot</span>(mtcarsALM01,<span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="assumptionsResidualsAreIID.html#cb209-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="dv">6</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics13"></span>
 <img src="adam_files/figure-html/diagnostics13-1.png" alt="QQ-plot of residuals of model 1 for mtcars dataset." width="672" />
 <p class="caption">
@@ -426,17 +458,18 @@ Figure 15.13: QQ-plot of residuals of model 1 for mtcars dataset.
 </p>
 </div>
 </div>
-<div id="assumptionsDistributionFixed" class="section level3 hasAnchor">
+<div id="assumptionsDistributionFixed" class="section level3 hasAnchor" number="15.2.5">
 <h3><span class="header-section-number">15.2.5</span> Distribution does not change<a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This assumption aligns with the Subsection <a href="assumptionsResidualsAreIID.html#assumptionsDistribution">15.2.4</a>, but in this specific context implies that all the parameters of distribution stay the same and the shape of distribution does not change. If the former is violated then we might have one of the issues discussed above. If the latter is violated then we might produce <em>biased</em> forecasts and underestimate / overestimate the uncertainty about the future. The diagnosis of this comes to analysing QQ-plots, similar to Subsection <a href="assumptionsResidualsAreIID.html#assumptionsDistribution">15.2.4</a>.</p>
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-SvetunkovADAM">
-<p>• Svetunkov, I., 2021b. Forecasting and analytics with adam. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)</p>
+<p>• Svetunkov, I., 2021. Forecasting and analytics with adam. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)</p>
 </div>
 </div>
+
             </section>
 
           </div>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 11 Multiple Linear Regression | Statistics for Business Analytics</title>
+  <title>16.3 Examples of popular log-likelihood functions | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 11 Multiple Linear Regression | Statistics for Business Analytics" />
+  <meta property="og:title" content="16.3 Examples of popular log-likelihood functions | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 Multiple Linear Regression | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="16.3 Examples of popular log-likelihood functions | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="linearRegressionSimpleQualityOfFit.html"/>
-<link rel="next" href="ols-estimation.html"/>
+<link rel="prev" href="likelihoodApproachMaths.html"/>
+<link rel="next" href="statisticsNumberOfParameters.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -363,31 +363,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="linearRegression" class="section level1 hasAnchor" number="11">
-<h1><span class="header-section-number">Chapter 11</span> Multiple Linear Regression<a href="linearRegression.html#linearRegression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>While simple linear regression provides a basic understanding of the idea of capturing the relations between variables, it is obvious that in reality there are more than one external variable that would impact the response variable. This means that instead of <a href="simpleLinearRegression.html#eq:SLRFormula">(10.1)</a> we should have:
-<span class="math display" id="eq:MLRFormula">\[\begin{equation}
-    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
-    \tag{11.1}
+<div id="examples-of-popular-log-likelihood-functions" class="section level2 hasAnchor" number="16.3">
+<h2><span class="header-section-number">16.3</span> Examples of popular log-likelihood functions<a href="examples-of-popular-log-likelihood-functions.html#examples-of-popular-log-likelihood-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="normal-distribution" class="section level3 hasAnchor" number="16.3.1">
+<h3><span class="header-section-number">16.3.1</span> Normal distribution<a href="examples-of-popular-log-likelihood-functions.html#normal-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution <a href="distributionsNormal.html#eq:Normal">(4.5)</a>:
+<span class="math display" id="eq:NormalLogLik">\[\begin{equation}
+    \ell(\mathbf{Y}| \boldsymbol{\theta}, \sigma^2) = - \frac{n}{2} \log \left(2 \pi \sigma^2\right) - \sum_{j=1}^n \frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} ,
+    \tag{16.11}
 \end{equation}\]</span>
-where <span class="math inline">\(\beta_i\)</span> is a <span class="math inline">\(i\)</span>-th parameter for the respective <span class="math inline">\(i\)</span>-th explanatory variable and there is <span class="math inline">\(k-1\)</span> of them in the model, meaning that when we want to estimate this model, we will have <span class="math inline">\(k\)</span> unknown parameters. The regression line of this model in population (aka expectation conditional on the values of explanatory variables) is:
-<span class="math display" id="eq:MLRExpectation">\[\begin{equation}
-    \mu_{y,j} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} ,
-    \tag{11.2}
+where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of all the estimated parameters in the model, and <span class="math inline">\(\log\)</span> is the natural logarithm. If one takes the derivative of <a href="examples-of-popular-log-likelihood-functions.html#eq:NormalLogLik">(16.11)</a> with respect to <span class="math inline">\(\sigma^2\)</span>, then the formula <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> is obtained:
+<span class="math display" id="eq:sigmaNormal">\[\begin{equation}
+    \hat{\sigma}^2 = \frac{1}{n} \sum_{j=1}^n \left(y_j - \hat{\mu}_{y,j} \right)^2 ,
+    \tag{16.12}
 \end{equation}\]</span>
-while in case of a sample estimation of the model we will use:
-<span class="math display" id="eq:MLRExpectationSample">\[\begin{equation}
-    \hat{y}_j = b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} .
-    \tag{11.3}
+where <span class="math inline">\(\hat{\mu}_{y,j}\)</span> is the estimate of the conditional expectation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> coincides with Mean Squared Error (MSE).</p>
+<p>Another useful thing to note in the context of Normal likelihood is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> in <a href="examples-of-popular-log-likelihood-functions.html#eq:NormalLogLik">(16.11)</a>:
+<span class="math display" id="eq:NormalLogLikConcentrated">\[\begin{equation}
+    \ell(\mathbf{Y}| \boldsymbol{\theta}, \hat{\sigma}^2) = - \frac{n}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
+    \tag{16.13}
 \end{equation}\]</span>
-While the simple linear regression can be represented as a line on the plane with an explanatory variable and a response variable, the multiple linear regression cannot be easily represented in the same way. In case of two explanatory variables the plot becomes three dimensional and the regression line transforms into regression plane.</p>
-<div class="figure"><span style="display:block;" id="fig:scatterplot3dmtcars"></span>
-<img src="adam_files/figure-html/scatterplot3dmtcars-1.png" alt="3D scatterplot of Mileage vs Weight of a car and its Engine Horsepower." width="672" />
-<p class="caption">
-Figure 11.1: 3D scatterplot of Mileage vs Weight of a car and its Engine Horsepower.
-</p>
+where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="examples-of-popular-log-likelihood-functions.html#eq:NormalLogLikConcentrated">(16.13)</a>, because it does not affect any inferences, as long as one works only with Normal distribution. However, it is not recommended to do <span class="citation">(Burnham and Anderson, <a href="#ref-Burnham2004" role="doc-biblioref">2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
 </div>
-<p>Figure <a href="linearRegression.html#fig:scatterplot3dmtcars">11.1</a> demonstrates a three dimensional scatterplot with the regression plane, going through the points, similar to how the regression line went through the two dimensional scatterplot <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">10.1</a>. These sorts of plots are already difficult to read, but the situation becomes even more challenging, when more than two explanatory variables are under consideration: plotting 4D, 5D etc is not a trivial task. Still, what can be said about the parameters of the model even if we cannot plot it in the same way, is that they represent slopes for each variable, in a similar manner as <span class="math inline">\(\beta_1\)</span> did in the <a href="simpleLinearRegression.html#simpleLinearRegression">simple linear regression</a>.</p>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-Burnham2004">
+<p>• Burnham, K.P., Anderson, D.R., 2004. Model Selection and Multimodel Inference.. Springer New York. <a href="https://doi.org/10.1007/b97636">https://doi.org/10.1007/b97636</a></p>
+</div>
 </div>
 
             </section>
@@ -395,8 +398,8 @@ Figure 11.1: 3D scatterplot of Mileage vs Weight of a car and its Engine Horsepo
           </div>
         </div>
       </div>
-<a href="linearRegressionSimpleQualityOfFit.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ols-estimation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="likelihoodApproachMaths.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="statisticsNumberOfParameters.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -427,7 +430,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//11-MLR.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//16-likelihood.Rmd",
 "text": "Edit"
 },
 "history": {

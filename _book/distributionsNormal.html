@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.3 Normal distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.3 Normal distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-07-08" />
+<meta name="date" content="2022-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="distributionsUniformContinuous.html"/>
-<link rel="next" href="distributionsLaplace.html"/>
+<link rel="next" href="dataAnalysis.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -69,25 +70,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -96,9 +98,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -148,14 +150,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistics for Business Analytics</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a><ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a><ul>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
@@ -164,31 +170,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
 <li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a><ul>
+<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
 <li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a><ul>
+<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
 <li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
+<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
 <li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
-<li class="chapter" data-level="4.4" data-path="distributionsLaplace.html"><a href="distributionsLaplace.html"><i class="fa fa-check"></i><b>4.4</b> Laplace distribution</a></li>
-<li class="chapter" data-level="4.5" data-path="s-distribution.html"><a href="s-distribution.html"><i class="fa fa-check"></i><b>4.5</b> S distribution</a></li>
-<li class="chapter" data-level="4.6" data-path="distributionsGeneralisedNormal.html"><a href="distributionsGeneralisedNormal.html"><i class="fa fa-check"></i><b>4.6</b> Generalised Normal distribution</a></li>
-<li class="chapter" data-level="4.7" data-path="distributionsALaplace.html"><a href="distributionsALaplace.html"><i class="fa fa-check"></i><b>4.7</b> Asymmetric Laplace distribution</a></li>
-<li class="chapter" data-level="4.8" data-path="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><a href="log-normal-log-laplace-log-s-and-log-gn-distributions.html"><i class="fa fa-check"></i><b>4.8</b> Log Normal, Log Laplace, Log S and Log GN distributions</a></li>
-<li class="chapter" data-level="4.9" data-path="IGDistribution.html"><a href="IGDistribution.html"><i class="fa fa-check"></i><b>4.9</b> Inverse Gaussian distribution</a></li>
-<li class="chapter" data-level="4.10" data-path="GammaDistribution.html"><a href="GammaDistribution.html"><i class="fa fa-check"></i><b>4.10</b> Gamma distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a><ul>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
-<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a><ul>
+<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-categoricaldiscrete-variable"><i class="fa fa-check"></i><b>5.2.1</b> One categorical/discrete variable</a></li>
 <li class="chapter" data-level="5.2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-categoricaldiscrete-variables"><i class="fa fa-check"></i><b>5.2.2</b> Two categorical/discrete variables</a></li>
 <li class="chapter" data-level="5.2.3" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-numerical-continuous-variable"><i class="fa fa-check"></i><b>5.2.3</b> One numerical continuous variable</a></li>
@@ -197,10 +201,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.6" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#plot-for-several-variables"><i class="fa fa-check"></i><b>5.2.6</b> Plot for several variables</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a><ul>
+<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>6.1</b> Law of Large Numbers</a></li>
 <li class="chapter" data-level="6.2" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>6.2</b> Central Limit Theorem</a></li>
-<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a><ul>
+<li class="chapter" data-level="6.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.3</b> Properties of estimators</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>6.3.1</b> Bias</a></li>
 <li class="chapter" data-level="6.3.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>6.3.2</b> Efficiency</a></li>
 <li class="chapter" data-level="6.3.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>6.3.3</b> Consistency</a></li>
@@ -210,57 +216,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
 <li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a><ul>
+<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<ul>
 <li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
-<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a><ul>
+<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
 <li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a><ul>
-<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a><ul>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
 <li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
 <li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a><ul>
+<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
 <li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
 <li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
 <li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a><ul>
-<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a><ul>
+<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>10.1.1</b> Residuals of model estimated via OLS</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.2</b> Quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
 <li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
 <li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a><ul>
+<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<ul>
 <li class="chapter" data-level="12.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
 <li class="chapter" data-level="12.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a><ul>
+<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a><ul>
+<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>14.1</b> Example of application</a></li>
-<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a><ul>
+<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a>
+<ul>
 <li class="chapter" data-level="14.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>14.2.1</b> Linear model</a></li>
 <li class="chapter" data-level="14.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>14.2.2</b> Log-Log model</a></li>
 <li class="chapter" data-level="14.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>14.2.3</b> Log-linear model</a></li>
@@ -273,36 +293,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>14.2.10</b> Summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a><ul>
-<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a><ul>
+<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a>
+<ul>
 <li class="chapter" data-level="15.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted"><i class="fa fa-check"></i><b>15.1.1</b> Omitted variables</a></li>
 <li class="chapter" data-level="15.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant"><i class="fa fa-check"></i><b>15.1.2</b> Redundant variables</a></li>
 <li class="chapter" data-level="15.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations"><i class="fa fa-check"></i><b>15.1.3</b> Transformations</a></li>
 <li class="chapter" data-level="15.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers"><i class="fa fa-check"></i><b>15.1.4</b> Outliers</a></li>
 </ul></li>
-<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a><ul>
+<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a>
+<ul>
 <li class="chapter" data-level="15.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations"><i class="fa fa-check"></i><b>15.2.1</b> No autocorrelations</a></li>
 <li class="chapter" data-level="15.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity"><i class="fa fa-check"></i><b>15.2.2</b> Homoscedastic residuals</a></li>
 <li class="chapter" data-level="15.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean"><i class="fa fa-check"></i><b>15.2.3</b> Mean of residuals</a></li>
 <li class="chapter" data-level="15.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>15.2.4</b> Distributional assumptions</a></li>
 <li class="chapter" data-level="15.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed"><i class="fa fa-check"></i><b>15.2.5</b> Distribution does not change</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a><ul>
+<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
 <li class="chapter" data-level="15.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>15.3.1</b> Multicollinearity</a></li>
 <li class="chapter" data-level="15.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>15.3.2</b> Endogeneity</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a><ul>
+<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a>
+<ul>
 <li class="chapter" data-level="16.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
 <li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
-<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
-<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a><ul>
-<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
-<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
+<li class="chapter" data-level="16.3" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html"><i class="fa fa-check"></i><b>16.3</b> Examples of popular log-likelihood functions</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html#normal-distribution"><i class="fa fa-check"></i><b>16.3.1</b> Normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.4</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.5" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.5</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.5.1</b> The idea</a></li>
+<li class="chapter" data-level="16.5.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.5.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a><ul>
-<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a><ul>
+<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a>
+<ul>
 <li class="chapter" data-level="17.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>17.1.1</b> Graphical explanation</a></li>
 <li class="chapter" data-level="17.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>17.1.2</b> Mathematical explanation</a></li>
 </ul></li>
@@ -331,57 +363,217 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionsNormal" class="section level2 hasAnchor">
+<div id="distributionsNormal" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Normal distribution<a href="distributionsNormal.html#distributionsNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<!-- + How to connect with the Binomial -->
-<p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">6.2</a>).</p>
-<p>Here is the probability density function (PDF) of this distribution:
+<p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">6.2</a>). For example, consider the the coin tossing example and Binomial distribution discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>. If we toss the coin one time only, we get the Bernoulli distribution with two outcomes. If we do that ten times, the shape of distribution will change and there will be a score with higher probability than the others (that is Binomial distribution with <span class="math inline">\(p=0.5\)</span> and <span class="math inline">\(n=10\)</span>). If we continue tossing the coin and do that for a hundred times, the shape of distribution will start converging to the bell-curve, reminding the Normal distribution. These three cases are shown in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialPMFSeveral"></span>
+<img src="adam_files/figure-html/binomialPMFSeveral-1.png" alt="Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}." width="672" />
+<p class="caption">
+Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}.
+</p>
+</div>
+<p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu, \sigma^2)\)</span>, where <span class="math inline">\(\mu=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance, i.e. <span class="math inline">\(\mathcal{N}(50, 25)\)</span>.</p>
+<p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
 <span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y_t) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} \right) ,
+    f(y) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu \right)^2}{2 \sigma^2} \right) ,
     \tag{4.5}
-\end{equation}\]</span>
-where <span class="math inline">\(y_t\)</span> is the value of the response variable, <span class="math inline">\(\mu_{y,t}=\mu_{y,t|t-1}\)</span> is the one step ahead conditional expectation on observation <span class="math inline">\(t\)</span>, given the information on <span class="math inline">\(t-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term. The <a href="likelihoodApproach.html#likelihoodApproach">maximum likelihood estimate</a> of <span class="math inline">\(\sigma^2\)</span> is:
-<span class="math display" id="eq:sigmaNormal">\[\begin{equation}
-    \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)^2 ,
-    \tag{4.6}
-\end{equation}\]</span>
-where <span class="math inline">\(T\)</span> is the sample size and <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the conditional expecatation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> coincides with Mean Squared Error (MSE), discussed in the <a href="#errorMeasures">section 1</a>.</p>
-<p>And here how this distribution looks (Figure <a href="distributionsNormal.html#fig:dnormPlot">4.8</a>).</p>
+\end{equation}\]</span></p>
+<p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
 <img src="adam_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Normal distribution" width="672" />
 <p class="caption">
-Figure 4.8: Probability Density Function of Normal distribution
+Figure 4.9: Probability Density Function of Normal distribution
 </p>
 </div>
-<p>What we typically assume in the basic time series models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean <span class="math inline">\(mu\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre.</p>
-<p>The Normal distribution has skewness of zero and kurtosis of 3 (and excess kurtosis, being kurtosis minus three, of 0).</p>
+<p>What we typically assume in the basic statistical models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean <span class="math inline">\(mu\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>).</p>
 <p>Additionally, if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same parameters as the minimisation of MSE would give.</p>
-<p>The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution <a href="distributionsNormal.html#eq:Normal">(4.5)</a>:
-<span class="math display" id="eq:NormalLogLik">\[\begin{equation}
-    \ell(\mathbf{Y}| \theta, \sigma^2) = - \frac{T}{2} \log \left(2 \pi \sigma^2\right) - \sum_{t=1}^T \frac{\left(y_t - \mu_{y,t} \right)^2}{2 \sigma^2} ,
-    \tag{4.7}
-\end{equation}\]</span>
-where <span class="math inline">\(\theta\)</span> is the vector of all the estimated parameters in the model, and <span class="math inline">\(\log\)</span> is the natural logarithm. If one takes the derivative of <a href="distributionsNormal.html#eq:NormalLogLik">(4.7)</a> with respect to <span class="math inline">\(\sigma^2\)</span>, then the formula <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> is obtained. Another useful thing to note is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="distributionsNormal.html#eq:sigmaNormal">(4.6)</a> in <a href="distributionsNormal.html#eq:NormalLogLik">(4.7)</a>:
-<span class="math display" id="eq:NormalLogLikConcentrated">\[\begin{equation}
-    \ell(\mathbf{Y}| \theta, \hat{\sigma}^2) = - \frac{T}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
-    \tag{4.8}
-\end{equation}\]</span>
-where <span class="math inline">\(e\)</span> is the Euler’s constant. The concentrated log-likelihood is handy, when estimating the model and calculating <a href="#modelSelection">information criteria</a>. Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="distributionsNormal.html#eq:NormalLogLikConcentrated">(4.8)</a>, because it does not affect any inferences, as long as one works only with Normal distribution (for example, this is what is done in <code>ets()</code> function from <code>forecast</code> package in R). However, it is not recommended to do <span class="citation">(Burnham and Anderson, <a href="#ref-Burnham2004">2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
 <p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
+<!-- ## Laplace distribution {#distributionsLaplace} -->
+<!-- A more exotic distribution is Laplace, which has some similarities with Normal, but has higher excess. It has the following PDF: -->
+<!-- \begin{equation} -->
+<!--     f(y_t) = \frac{1}{2 s} \exp \left( -\frac{\left| y_t - \mu_{y,t} \right|}{s} \right) , -->
+<!--     (\#eq:Laplace) -->
+<!-- \end{equation} -->
+<!-- where $s$ is the scale parameter, which, when estimated using likelihood, is equal to the Mean Absolute Error ([MAE](#errorMeasures)): -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \frac{1}{T} \sum_{t=1}^T \left| y_t - \hat{\mu}_{y,t} \right| . -->
+<!--     (\#eq:sLaplace) -->
+<!-- \end{equation} -->
+<!-- It has the shape shown on Figure \@ref(fig:dlaplacePlot). -->
+<!-- ```{r dlaplacePlot, fig.cap="Probability Density Function of Laplace distribution", echo=FALSE} -->
+<!-- plot(seq(-3,3,0.01),dlaplace(seq(-3,3,0.01)),type="l",ylab="Density",xlab="y",main="PDF of Laplace distribution") -->
+<!-- abline(v=0, col="red") -->
+<!-- ``` -->
+<!-- Similar to the Normal distribution, the skewness of Laplace is equal to zero. However, it has fatter tails - its kurtosis is equal to 6 instead of 3. -->
+<!-- The variance of the random variable following Laplace distribution is equal to: -->
+<!-- \begin{equation} -->
+<!--     \sigma^2 = 2 s^2. -->
+<!--     (\#eq:varianceLaplace) -->
+<!-- \end{equation} -->
+<!-- The `dlaplace`, `qlaplace`, `plaplace` and `rlaplace` functions from `greybox` package implement different sides of Laplace distribution in R. -->
+<!-- ## S distribution -->
+<!-- This is something relatively new, but not ground braking. I have derived S distribution few years ago, but have never written a paper on that. It has the following density function (it is as a special case of [Generalised Normal distribution](distributionsGeneralisedNormal), when $\beta=0.5$): -->
+<!-- \begin{equation} -->
+<!--     f(y_t) = \frac{1}{4 s^2} \exp \left( -\frac{\sqrt{|y_t - \mu_{y,t}|}}{s} \right) , -->
+<!--     (\#eq:S) -->
+<!-- \end{equation} -->
+<!-- where $s$ is the scale parameter. If estimated via maximum likelihood, the scale parameter is equal to: -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \frac{1}{2T} \sum_{t=1}^T \sqrt{\left| y_t - \hat{\mu}_{y,t} \right|} , -->
+<!--     (\#eq:sS) -->
+<!-- \end{equation} -->
+<!-- which corresponds to the minimisation of a half of "Mean Root Absolute Error" or "Half Absolute Moment" (HAM). This is a more exotic type of scale, but the main benefit of this distribution is sever heavy tails - it has kurtosis of 25.2. It might be useful in cases of randomly occurring incidents and extreme values (Black Swans?). -->
+<!-- ```{r dsPlot, fig.cap="Probability Density Function of S distribution", echo=FALSE} -->
+<!-- plot(seq(-3,3,0.01),ds(seq(-3,3,0.01)),type="l",ylab="Density",xlab="y",main="PDF of S distribution") -->
+<!-- abline(v=0, col="red") -->
+<!-- ``` -->
+<!-- The variance of the random variable following S distribution is equal to: -->
+<!-- \begin{equation} -->
+<!--     \sigma^2 = 120 s^4. -->
+<!--     (\#eq:varianceS) -->
+<!-- \end{equation} -->
+<!-- The `ds`, `qs`, `ps` and `rs` from `greybox` package implement the density, quantile, cumulative and random generation functions. -->
+<!-- ## Generalised Normal distribution {#distributionsGeneralisedNormal} -->
+<!-- Generalised Normal ($\mathcal{GN}$) distribution (as the name says) is a generalisation for Normal distribution, which also includes Laplace and S as special cases [@Nadarajah2005]. There are two versions of this distribution: one with a shape and another with a skewness parameter. We are mainly interested in the first one, which has the following PDF: -->
+<!-- \begin{equation} -->
+<!--     f(y_t) = \frac{\beta}{2 s \Gamma(\beta^{-1})} \exp \left( -\left(\frac{|y_t - \mu_{y,t}|}{s}\right)^{\beta} \right), -->
+<!--     (\#eq:GND) -->
+<!-- \end{equation} -->
+<!-- where $\beta$ is the shape parameter, and $s$ is the scale of the distribution, which, when estimated via MLE, is equal to: -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \sqrt[^{\beta}]{\frac{\beta}{T} \sum_{t=1}^T\left| y_t - \hat{\mu}_{y,t} \right|^{\beta}}, -->
+<!--     (\#eq:sGND) -->
+<!-- \end{equation} -->
+<!-- which has MSE, MAE and HAM as special cases, when $\beta$ is equal to 2, 1 and 0.5 respectively. The parameter $\beta$ influences the kurtosis directly, it can be calculated for each special case as $\frac{\Gamma(5/\beta)\Gamma(1/\beta)}{\Gamma(3/\beta)^2}$. The higher $\beta$ is, the lower the kurtosis is. -->
+<!-- The advantage of $\mathcal{GN}$ distribution is its flexibility. In theory, it is possible to model extremely rare events with this distribution, if the shape parameter $\beta$ is fractional and close to zero. Alternatively, when $\beta \rightarrow \infty$, the distribution converges point-wise to the uniform distribution on $(\mu_{y,t} - s, \mu_{y,t} + s)$. -->
+<!-- Note that the estimation of $\beta$ is a difficult task, especially, when it is less than 2 - the MLE of it looses properties of consistency and asymptotic normality. -->
+<!-- Depending on the value of $\beta$, the distribution can have different shapes shown in Figure \@ref(fig:dgnormPlot) -->
+<!-- ```{r dgnormPlot, fig.cap="Probability Density Functions of Generalised Normal distribution", echo=FALSE} -->
+<!-- plot(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,0.5),type="l",ylab="Density",xlab="y",main="PDF of Generalised Normal distribution", -->
+<!--      ylim=c(0,0.6)) -->
+<!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,1),col="darkblue") -->
+<!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,2),col="darkred") -->
+<!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,1000),col="purple") -->
+<!-- abline(v=0, col="red") -->
+<!-- legend("topright",legend=c(TeX("$\\beta =0.5$"),TeX("$\\beta =1$"),TeX("$\\beta =2$"),TeX("$\\beta =1000$")), -->
+<!--        col=c("black","darkblue","darkred","purple"),lwd=1) -->
+<!-- ``` -->
+<!-- Typically, estimating $\beta$ consistently is a tricky thing to do, especially if it is less than one. Still, it is possible to do that by maximising the likelihood function \@ref(eq:GND). -->
+<!-- The variance of the random variable following Generalised Normal distribution is equal to: -->
+<!-- \begin{equation} -->
+<!--     \sigma^2 = s^2\frac{\Gamma(3/\beta)}{\Gamma(1/\beta)}. -->
+<!--     (\#eq:varianceGN) -->
+<!-- \end{equation} -->
+<!-- The working functions for the Generalised Normal distribution are implemented in the `greybox` package for R. -->
+<!-- ## Asymmetric Laplace distribution {#distributionsALaplace} -->
+<!-- Asymmetric Laplace distribution ($\mathcal{AL}$) can be considered as a two Laplace distributions with different parameters $s$ for left and right sides from the location $\mu_{y,t}$. There are several ways to summarise the probability density function, the neater one relies on the asymmetry parameter $\alpha$ [@Yu2005]: -->
+<!-- \begin{equation} -->
+<!--     f(y_t) = \frac{\alpha (1- \alpha)}{s} \exp \left( -\frac{y_t - \mu_{y,t}}{s} (\alpha - I(y_t \leq \mu_{y,t})) \right) , -->
+<!--     (\#eq:ALaplace) -->
+<!-- \end{equation} -->
+<!-- where $s$ is the scale parameter, $\alpha$ is the skewness parameter and $I(y_t \leq \mu_{y,t})$ is the indicator function, which is equal to one, when the condition is satisfied and to zero otherwise. The scale parameter $s$ estimated using likelihood is equal to the quantile loss: -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \frac{1}{T} \sum_{t=1}^T \left(y_t - \hat{\mu}_{y,t} \right)(\alpha - I(y_t \leq \hat{\mu}_{y,t})) . -->
+<!--     (\#eq:sALaplace) -->
+<!-- \end{equation} -->
+<!-- Thus maximising the likelihood \@ref(eq:ALaplace) is equivalent to estimating the model via the minimisation of $\alpha$ quantile, making this equivalent to quantile regression approach. So quantile regression models assume indirectly that the error term in the model is $\epsilon_t \sim \mathcal{AL}(0, s, \alpha)$ [@Geraci2007]. -->
+<!-- Depending on the value of $\alpha$, the distribution can have different shapes, shown in Figure \@ref(fig:dALaplacePlot). -->
+<!-- ```{r dALaplacePlot, fig.cap="Probability Density Functions of Asymmetric Laplace distribution", echo=FALSE} -->
+<!-- plot(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.5),type="l",ylab="Density",xlab="y",main="PDF of Asymmetric Laplace distribution", -->
+<!--      ylim=c(0,0.6)) -->
+<!-- lines(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.2),col="darkblue") -->
+<!-- lines(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.8),col="darkred") -->
+<!-- abline(v=0, col="red") -->
+<!-- legend("topright",legend=c(TeX("$\\alpha =0.5$"),TeX("$\\alpha =0.2$"),TeX("$\\alpha =0.8$")), -->
+<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!-- ``` -->
+<!-- Similarly to $\mathcal{GN}$ distribution, the parameter $\alpha$ can be estimated during the maximisation of the likelihood, although it makes more sense to set it to some specific values in order to obtain the desired quantile of distribution. -->
+<!-- The variance of the random variable following Asymmetric Laplace distribution is equal to: -->
+<!-- \begin{equation} -->
+<!--     \sigma^2 = s^2\frac{(1-\alpha)^2+\alpha^2}{\alpha^2(1-\alpha)^2}. -->
+<!--     (\#eq:varianceALaplace) -->
+<!-- \end{equation} -->
+<!-- Functions `dalaplace`, `qalaplace`, `palaplace` and `ralaplace` from `greybox` package implement the Asymmetric Laplace distribution. -->
+<!-- ## Log Normal, Log Laplace, Log S and Log GN distributions -->
+<!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
+<!-- \begin{equation} -->
+<!--     f_{log}(\log(y_t)) = \frac{1}{y_t} f(\log y_t). -->
+<!--     (\#eq:logDistribution) -->
+<!-- \end{equation} -->
+<!-- They are defined for positive values only and will have different right tail, depending on the location, scale and shape parameters. $\exp(\mu_{\log y,t})$ in this case represents the geometric mean (and median) of distribution rather than the arithmetic one. The conditional expectation in these distributions is typically higher than $\exp(\mu_{\log y,t})$ and depends on the value of the scale parameter. It is known for log$\mathcal{N}$ and is equal to: -->
+<!-- \begin{equation} -->
+<!--     \mathrm{E}(y_t) = \mathrm{exp}\left(\mu_{\log y,t} + \frac{\sigma^2}{2} \right). -->
+<!--     (\#eq:logNMean) -->
+<!-- \end{equation} -->
+<!-- However, it does not have a simple form for the other distributions. -->
+<!-- ## Inverse Gaussian distribution {#IGDistribution} -->
+<!-- An exotic distribution that will be useful for what comes in this textbook is the Inverse Gaussian ($\mathcal{IG}$), which is parameterised using mean value $\mu_{y,t}$ and either the dispersion parameter $s$ or the scale $\lambda$ and is defined for positive values only. This distribution is useful because it is scalable and has some similarities with the Normal one. In our case, the important property is the following: -->
+<!-- \begin{equation} -->
+<!--     \text{if } (1+\epsilon_t) \sim \mathcal{IG}(1, s) \text{, then } -->
+<!--     y_t = \mu_{y,t} \times (1+\epsilon_t) \sim \mathcal{IG}\left(\mu_{y,t}, \frac{s}{\mu_{y,t}} \right), -->
+<!--     (\#eq:InverseGaussianModel) -->
+<!-- \end{equation} -->
+<!-- implying that the dispersion of the model changes together with the expectation. The PDF of the distribution of $1+\epsilon_t$ is: -->
+<!-- \begin{equation} -->
+<!--     f(1+\epsilon_t) = \frac{1}{\sqrt{2 \pi s (1+\epsilon_t)^3}} \exp \left( -\frac{\epsilon_t^2}{2 s (1+\epsilon_t)} \right) , -->
+<!--     (\#eq:InverseGaussian) -->
+<!-- \end{equation} -->
+<!-- where the dispersion parameter can be estimated via maximising the likelihood and is calculated using: -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \frac{1}{T} \sum_{t=1}^T \frac{e_t^2}{1+e_t} , -->
+<!--     (\#eq:InverseGaussianDispersion) -->
+<!-- \end{equation} -->
+<!-- where $e_t$ is the estimate of $\epsilon_t$. This distribution becomes very useful for multiplicative models, where it is expected that the data can only be positive. -->
+<!-- Figure \@ref(fig:dIGPlot) shows how the PDF of $\mathcal{IG}(1,s)$ looks for different values of the dispersion $s$ -->
+<!-- ```{r dIGPlot, fig.cap="Probability Density Functions of Inverse Gaussian distribution", echo=FALSE} -->
+<!-- plot(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=10),type="l",ylab="Density",xlab="y",main="PDF of Inverse Gaussian distribution") -->
+<!-- lines(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=1),col="darkblue") -->
+<!-- lines(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=0.1),col="darkred") -->
+<!-- abline(v=1, col="red") -->
+<!-- legend("topright",legend=c(TeX("$s =10$"),TeX("$s =1$"),TeX("$s =0.1$")), -->
+<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!-- ``` -->
+<!-- `statmod` package implements density, quantile, cumulative and random number generator functions for the $\mathcal{IG}$. -->
+<!-- ## Gamma distribution {#GammaDistribution} -->
+<!-- Finally, another distribution that will be useful for [ETS](#ADAMETSIntroduction) and [ARIMA](#ADAMARIMA) is Gamma ($\mathcal{\Gamma}$), which is parameterised using shape $\xi$ and scale $s$, and is defined for positive values only. This distribution is useful because it is scalable and is as flexible as ($\mathcal{IG}$) in terms of possible shapes. It also has an important scalability property (simila to $\mathcal{IG}$), but the shape needs to be restricted in order to make sense in ETS model: -->
+<!-- \begin{equation} -->
+<!--     \text{if } (1+\epsilon_t) \sim \mathcal{\Gamma}(s^{-1}, s) \text{, then } -->
+<!--     y_t = \mu_{y,t} \times (1+\epsilon_t) \sim \mathcal{\Gamma}\left(s^{-1}, s \mu_{y,t} \right), -->
+<!--     (\#eq:GammaModel) -->
+<!-- \end{equation} -->
+<!-- implying that the scale of the model changes together with the expectation. The restriction on the shape parameters is needed in order to make the expectation of $(1+\epsilon_t)$ equal to one. The PDF of the distribution of $1+\epsilon_t$ is: -->
+<!-- \begin{equation} -->
+<!--     f(1+\epsilon_t) = \frac{1}{\Gamma(s^{-1}) (s)^{s^{-1}}} (1+\epsilon_t)^{s^{-1}-1}\exp \left(-\frac{1+\epsilon_t}{s}\right) . -->
+<!--     (\#eq:Gamma) -->
+<!-- \end{equation} -->
+<!-- However, the scale $s$ cannot be estimated via the maximisation of likelihood analytically due to the restriction \@ref(eq:GammaModel). Luckliy, the method of moments can be used instead, where based on the expectation and variance we get: -->
+<!-- \begin{equation} -->
+<!--     \hat{s} = \frac{1}{T} \sum_{t=1}^T e_t^2 , -->
+<!--     (\#eq:GammaScale) -->
+<!-- \end{equation} -->
+<!-- where $e_t$ is the estimate of $\epsilon_t$. So, imposing the restrictions \@ref(eq:GammaModel) implies that the scale of $\mathcal{\Gamma}$ is equal to the variance of the error term. -->
+<!-- Figure \@ref(fig:dGammaPlot) demonstrates how the PDF of $\mathcal{\Gamma}(s^{-1},s)$ looks for different values of $s$: -->
+<!-- ```{r dGammaPlot, fig.cap="Probability Density Functions of Gamma distribution", echo=FALSE} -->
+<!-- plot(seq(0,6,0.01),dgamma(seq(0,6,0.01),0.1,scale=10),type="l",ylab="Density",xlab="y",main="PDF of Gamma distribution") -->
+<!-- lines(seq(0,6,0.01),dgamma(seq(0,6,0.01),1,scale=1),col="darkblue") -->
+<!-- lines(seq(0,6,0.01),dgamma(seq(0,6,0.01),10,scale=0.1),col="darkred") -->
+<!-- abline(v=1, col="red") -->
+<!-- legend("topright",legend=c(TeX("$s =10$"),TeX("$s =1$"),TeX("$s =0.1$")), -->
+<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!-- ``` -->
+<!-- With the increase of the shape $\xi=s^{-1}$ (in our case this implies the decrease of variance $s$), $\mathcal{\Gamma}$ distribution converges to the normal one with $\mu=\xi s=1$ and variance $\sigma^2=s$. This demonstrates indirectly that the estimate of the scale \@ref(eq:GammaScale) maximises the likelihood of the function \@ref(eq:Gamma), although I do not have any proper proof of this. -->
+<!-- ## Beta distribution -->
+
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-Burnham2004">
-<p>• Burnham, K.P., Anderson, D.R., 2004. Model Selection and Multimodel Inference.. Springer New York. <a href="https://doi.org/10.1007/b97636">https://doi.org/10.1007/b97636</a></p>
-</div>
-</div>
+<!-- </div> -->
+
             </section>
 
           </div>
         </div>
       </div>
 <a href="distributionsUniformContinuous.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="distributionsLaplace.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="dataAnalysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
