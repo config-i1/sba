@@ -152,14 +152,35 @@ The probability density function (PDF) of the Normal distribution with some mean
 This distribution can be represented in Figure \@ref(fig:dnormPlot).
 
 ```{r dnormPlot, fig.cap="Probability Density Function of Normal distribution", echo=FALSE}
-plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="PDF of Normal distribution")
+plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
 abline(v=0, col="red")
 text(0.5,0.05,TeX("$\\mu =0$"))
 ```
 
 What is typically assumed in basic statistical models is that a variable of interest is random and follows Normal distribution, $y \sim \mathcal{N}(\mu_y, \sigma^2)$. This means that there is a central tendency (in our case - the mean $\mu_y$), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
 
+When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure \@ref(fig:pnormPlot).
 
+```{r pnormPlot, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
+# abline(v=0, col="red")
+# text(0.5,0.05,TeX("$\\mu =0$"))
+```
+
+The CDF in Figure \@ref(fig:pnormPlot) has the properties of any other CDF: it converges to one with the increase of the value of $y$ and reaches zero asymptotically with the decrease of the value of $y$. It can be used to solve problems of the style ``what is the probability that $y$ will lie between -1 and 1''. In R, this can be done by entering the values of $y$, $\mu$ and $\sigma$ in the following function:
+```{r}
+pnorm(1, 0, 1) - pnorm(-1, 0, 1)
+```
+which mathematically is typically represented as:
+\begin{equation}
+    \Phi(y_2, \mu, \sigma^2) - \Phi(y_1, \mu, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
+    (\#eq:NormalCDFExample)
+\end{equation}
+The CDF itself is difficult to summarise and involves a complicated integral, which does not have a closed form:
+\begin{equation}
+    \Phi(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{y} e^{-\frac{t^2}{2}} dt .
+    (\#eq:NormalCDFE)
+\end{equation}
 
 
 Normal distribution is available in `stats` package with `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions.
