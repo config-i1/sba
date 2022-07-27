@@ -141,11 +141,11 @@ test <- barplot(dbinom(c(30:70), size=100, prob=0.5),
 axis(side=1,at=test,labels=c(30:70))
 ```
 
-This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials $n$ under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure \@ref(fig:binomialPMFSeveral), the third graph corresponds to the $\mathcal{Bi}(100, 0.5)$, but it can be approximated by the normal distribution $\mathcal{N}(\mu, \sigma^2)$, where $\mu=100 \times 0.5 = 50$ is the mean of the distribution and $\sigma^2 = 100 \times 0.5 \times 0.5 = 25$ is the variance (as discussed in Section \@ref(distributionBinomial)), i.e. $\mathcal{N}(50, 25)$.
+This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials $n$ under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure \@ref(fig:binomialPMFSeveral), the third graph corresponds to the $\mathcal{Bi}(100, 0.5)$, but it can be approximated by the normal distribution $\mathcal{N}(\mu_y, \sigma^2)$, where $\mu_y=100 \times 0.5 = 50$ is the mean of the distribution and $\sigma^2 = 100 \times 0.5 \times 0.5 = 25$ is the variance (as discussed in Section \@ref(distributionBinomial)), i.e. $\mathcal{N}(50, 25)$.
 
-The probability density function (PDF) of the Normal distribution with some mean $\mu$ and variance $\sigma^2$ is:
+The probability density function (PDF) of the Normal distribution with some mean $\mu_y$ and variance $\sigma^2$ is:
 \begin{equation}
-    f(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu \right)^2}{2 \sigma^2} \right) ,
+    f(y, \mu_y, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu_y \right)^2}{2 \sigma^2} \right) ,
     (\#eq:Normal)
 \end{equation}
 
@@ -157,9 +157,10 @@ abline(v=0, col="red")
 text(0.5,0.05,TeX("$\\mu =0$"))
 ```
 
-What we typically assume in the basic statistical models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean $mu$), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
+What is typically assumed in basic statistical models is that a variable of interest is random and follows Normal distribution, $y \sim \mathcal{N}(\mu_y, \sigma^2)$. This means that there is a central tendency (in our case - the mean $\mu_y$), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
 
-Additionally, if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same parameters as the minimisation of MSE would give.
+
+
 
 Normal distribution is available in `stats` package with `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions.
 
