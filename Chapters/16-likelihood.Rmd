@@ -155,6 +155,28 @@ Finally, it permits the [model selection](#modelSelection) via information crite
 Note that the likelihood approach assumes that all parameters of the model are estimated, including location, scale, shape, shift etc of distribution. So typically it has more parameters to estimate than, for example, the OLS does. This is discussed in some detail later in the [next section](#statisticsNumberOfParameters).
 
 
+## Examples of popular log-likelihood functions
+### Normal distribution
+The log-likelihood based on the Normal distribution is derived by taking the sum of logarithms of the PDF of Normal distribution \@ref(eq:Normal):
+\begin{equation}
+    \ell(\mathbf{Y}| \boldsymbol{\theta}, \sigma^2) = - \frac{n}{2} \log \left(2 \pi \sigma^2\right) - \sum_{j=1}^n \frac{\left(y_j - \mu_{y,j} \right)^2}{2 \sigma^2} ,
+    (\#eq:NormalLogLik)
+\end{equation}
+where $\boldsymbol{\theta}$ is the vector of all the estimated parameters in the model, and $\log$ is the natural logarithm. If one takes the derivative of \@ref(eq:NormalLogLik) with respect to $\sigma^2$, then the formula \@ref(eq:sigmaNormal) is obtained:
+\begin{equation}
+    \hat{\sigma}^2 = \frac{1}{n} \sum_{j=1}^n \left(y_j - \hat{\mu}_{y,j} \right)^2 ,
+    (\#eq:sigmaNormal)
+\end{equation}
+where $\hat{\mu}_{y,j}$ is the estimate of the conditional expectation $\mu_{y,t}$. \@ref(eq:sigmaNormal) coincides with Mean Squared Error (MSE).
+
+Another useful thing to note in the context of Normal likelihood is the concentrated log-likelihood, which is obtained by inserting the estimated variance \@ref(eq:sigmaNormal) in \@ref(eq:NormalLogLik):
+\begin{equation}
+    \ell(\mathbf{Y}| \boldsymbol{\theta}, \hat{\sigma}^2) = - \frac{n}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
+    (\#eq:NormalLogLikConcentrated)
+\end{equation}
+where $e$ is the Euler's constant. The concentrated log-likelihood is handy, when estimating the model and calculating [information criteria](#modelSelection). Sometimes, statisticians drop the $2 \pi e$ part from the \@ref(eq:NormalLogLikConcentrated), because it does not affect any inferences, as long as one works only with Normal distribution. However, it is not recommended to do [@Burnham2004], because this makes the comparison with other distributions impossible.
+
+
 ## Calculating number of parameters in models {#statisticsNumberOfParameters}
 When performing model selection and calculating different statistics, it is important to know how many parameters were estimated in the model. While this might seems trivial there are a number of edge cases and wrinkles that are seldom discussed in detail.
 
