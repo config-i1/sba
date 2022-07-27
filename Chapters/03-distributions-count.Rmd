@@ -204,7 +204,19 @@ We can get the same result by using Quantile Function, which is implemented in R
 qbinom(0.99, 20, 0.1)
 ```
 
-From the example above, we can take away several important characteristics of Binomial distribution:
+In some cases, we might need to know the mean and variance of the distribution. For the Binomial distribution, they can be calculated via the following formulae:
+\begin{equation}
+    \mathrm{E}(y) = p \times n ,
+    (\#eq:BinomialMean)
+\end{equation}
+and
+\begin{equation}
+    \mathrm{V}(y) = p \times (1-p) \times n .
+    (\#eq:BinomialVariance)
+\end{equation}
+So, in our situation the mean is $20 \times 0.1 = 2$, while the variance is $20 \times 0.1 \times 0.9 = 1.8$.
+
+From the example above, we can take away several important characteristics ofthe Binomial distribution:
 
 1. There are many trials: we have many hospitals, each one of which can be considered as a ``trial'';
 2. In each trial, there are only two outcomes: buy or do not buy;
