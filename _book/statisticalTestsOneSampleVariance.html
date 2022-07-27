@@ -396,7 +396,7 @@ Given the assumption of normality of the random variable <span class="math inlin
     \chi^2 = (30-1) \times \frac{100}{121} \approx 23.97
 \end{equation*}\]</span>
 Given that the alternative hypothesis in our example is “lower than”, we should compare the obtained value with the critical one from the left tail of the distribution, which on 1% significance level is:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="statisticalTestsOneSampleVariance.html#cb74-1" aria-hidden="true"></a><span class="kw">qchisq</span>(<span class="fl">0.01</span>,<span class="dv">29</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="statisticalTestsOneSampleVariance.html#cb76-1" aria-hidden="true"></a><span class="kw">qchisq</span>(<span class="fl">0.01</span>,<span class="dv">29</span>)</span></code></pre></div>
 <pre><code>## [1] 14.25645</code></pre>
 <p>Comparing the critical and calculated values (<span class="math inline">\(23.97&gt;14.26\)</span>), we conclude that we fail to reject the null hypothesis. This means that the sample variance is not statistically different from the population one. The test of this hypothesis is shown visually in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared">8.2</a>, which shows that the calculated value is not in the tail of the distribution (thus “fail to reject”).</p>
 <div class="figure"><span style="display:block;" id="fig:hypothesisTestingChiSquared"></span>

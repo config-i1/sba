@@ -368,9 +368,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="graphical-explanation" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> Graphical explanation<a href="bias-variance-tradeoff.html#graphical-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the <code>mtcars</code> dataset in R (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance01">17.1</a>):</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="bias-variance-tradeoff.html#cb232-1" aria-hidden="true"></a><span class="kw">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
-<span id="cb232-2"><a href="bias-variance-tradeoff.html#cb232-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>disp, mtcars<span class="op">$</span>mpg,</span>
-<span id="cb232-3"><a href="bias-variance-tradeoff.html#cb232-3" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="bias-variance-tradeoff.html#cb234-1" aria-hidden="true"></a><span class="kw">load</span>(<span class="st">&quot;data/biasVariance.Rdata&quot;</span>)</span>
+<span id="cb234-2"><a href="bias-variance-tradeoff.html#cb234-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>disp, mtcars<span class="op">$</span>mpg,</span>
+<span id="cb234-3"><a href="bias-variance-tradeoff.html#cb234-3" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
 <img src="adam_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">

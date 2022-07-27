@@ -372,10 +372,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}.
 </p>
 </div>
-<p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu, \sigma^2)\)</span>, where <span class="math inline">\(\mu=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance (as discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>), i.e. <span class="math inline">\(\mathcal{N}(50, 25)\)</span>.</p>
-<p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
+<p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu_y, \sigma^2)\)</span>, where <span class="math inline">\(\mu_y=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance (as discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>), i.e. <span class="math inline">\(\mathcal{N}(50, 25)\)</span>.</p>
+<p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu_y\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
 <span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu \right)^2}{2 \sigma^2} \right) ,
+    f(y, \mu_y, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu_y \right)^2}{2 \sigma^2} \right) ,
     \tag{4.5}
 \end{equation}\]</span></p>
 <p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>
@@ -385,8 +385,27 @@ Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and 
 Figure 4.9: Probability Density Function of Normal distribution
 </p>
 </div>
-<p>What we typically assume in the basic statistical models is that a variable is random and follows Normal distribution, meaning that there is a central tendency (in our case - the mean <span class="math inline">\(mu\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>).</p>
-<p>Additionally, if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same parameters as the minimisation of MSE would give.</p>
+<p>What is typically assumed in basic statistical models is that a variable of interest is random and follows Normal distribution, <span class="math inline">\(y \sim \mathcal{N}(\mu_y, \sigma^2)\)</span>. This means that there is a central tendency (in our case - the mean <span class="math inline">\(\mu_y\)</span>), around which the density of values is the highest and there are other potential cases, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from the figures above, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>).</p>
+<p>When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:pnormPlot"></span>
+<img src="adam_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.10: Cumulative Distribution Function of Normal distribution
+</p>
+</div>
+<p>The CDF in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a> has the properties of any other CDF: it converges to one with the increase of the value of <span class="math inline">\(y\)</span> and reaches zero asymptotically with the decrease of the value of <span class="math inline">\(y\)</span>. It can be used to solve problems of the style ``what is the probability that <span class="math inline">\(y\)</span> will lie between -1 and 1’’. In R, this can be done by entering the values of <span class="math inline">\(y\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> in the following function:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="distributionsNormal.html#cb11-1" aria-hidden="true"></a><span class="kw">pnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.6826895</code></pre>
+<p>which mathematically is typically represented as:
+<span class="math display" id="eq:NormalCDFExample">\[\begin{equation}
+    \Phi(y_2, \mu, \sigma^2) - \Phi(y_1, \mu, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
+    \tag{4.6}
+\end{equation}\]</span>
+The CDF itself is difficult to summarise and involves a complicated integral, which does not have a closed form:
+<span class="math display" id="eq:NormalCDFE">\[\begin{equation}
+    \Phi(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{y} e^{-\frac{t^2}{2}} dt .
+    \tag{4.7}
+\end{equation}\]</span></p>
 <p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
 <!-- ## Laplace distribution {#distributionsLaplace} -->
 <!-- A more exotic distribution is Laplace, which has some similarities with Normal, but has higher excess. It has the following PDF: -->

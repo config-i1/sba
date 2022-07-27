@@ -407,8 +407,8 @@ The procedure is the same, the calculated t-value is:
 \end{equation*}\]</span>
 which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is “we do not know”. The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
 <p>In R, if you want to test the hypothesis for parameters, I would recommend using <code>lm()</code> function for regression:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="hypothesis-testing.html#cb152-1" aria-hidden="true"></a>lmSpeedDistance &lt;-<span class="st"> </span><span class="kw">lm</span>(dist<span class="op">~</span>speed,cars)</span>
-<span id="cb152-2"><a href="hypothesis-testing.html#cb152-2" aria-hidden="true"></a><span class="kw">summary</span>(lmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="hypothesis-testing.html#cb154-1" aria-hidden="true"></a>lmSpeedDistance &lt;-<span class="st"> </span><span class="kw">lm</span>(dist<span class="op">~</span>speed,cars)</span>
+<span id="cb154-2"><a href="hypothesis-testing.html#cb154-2" aria-hidden="true"></a><span class="kw">summary</span>(lmSpeedDistance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -453,16 +453,16 @@ Figure 12.5: Graphical presentation of F test for regression model.
 </div>
 <p>What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.</p>
 <p>Here is an example with the speed model discussed above with the significance level of 1%:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="hypothesis-testing.html#cb154-1" aria-hidden="true"></a>lmSpeedDistanceF &lt;-<span class="st"> </span><span class="kw">summary</span>(lmSpeedDistance)<span class="op">$</span>fstatistic</span>
-<span id="cb154-2"><a href="hypothesis-testing.html#cb154-2" aria-hidden="true"></a><span class="co"># F value</span></span>
-<span id="cb154-3"><a href="hypothesis-testing.html#cb154-3" aria-hidden="true"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="hypothesis-testing.html#cb156-1" aria-hidden="true"></a>lmSpeedDistanceF &lt;-<span class="st"> </span><span class="kw">summary</span>(lmSpeedDistance)<span class="op">$</span>fstatistic</span>
+<span id="cb156-2"><a href="hypothesis-testing.html#cb156-2" aria-hidden="true"></a><span class="co"># F value</span></span>
+<span id="cb156-3"><a href="hypothesis-testing.html#cb156-3" aria-hidden="true"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##    value 
 ## 89.56711</code></pre>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="hypothesis-testing.html#cb156-1" aria-hidden="true"></a><span class="co"># F critical</span></span>
-<span id="cb156-2"><a href="hypothesis-testing.html#cb156-2" aria-hidden="true"></a><span class="kw">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="hypothesis-testing.html#cb158-1" aria-hidden="true"></a><span class="co"># F critical</span></span>
+<span id="cb158-2"><a href="hypothesis-testing.html#cb158-2" aria-hidden="true"></a><span class="kw">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>## [1] 7.194218</code></pre>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="hypothesis-testing.html#cb158-1" aria-hidden="true"></a><span class="co"># p-value from the test</span></span>
-<span id="cb158-2"><a href="hypothesis-testing.html#cb158-2" aria-hidden="true"></a><span class="dv">1</span><span class="op">-</span><span class="kw">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="hypothesis-testing.html#cb160-1" aria-hidden="true"></a><span class="co"># p-value from the test</span></span>
+<span id="cb160-2"><a href="hypothesis-testing.html#cb160-2" aria-hidden="true"></a><span class="dv">1</span><span class="op">-</span><span class="kw">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>##        value 
 ## 1.489919e-12</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>

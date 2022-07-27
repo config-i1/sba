@@ -461,10 +461,10 @@ implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealist
 \end{equation*}\]</span>
 meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
 <p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="linearRegressionSimpleQualityOfFit.html#cb124-1" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</span>
-<span id="cb124-2"><a href="linearRegressionSimpleQualityOfFit.html#cb124-2" aria-hidden="true"></a>R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></span>
-<span id="cb124-3"><a href="linearRegressionSimpleQualityOfFit.html#cb124-3" aria-hidden="true"></a><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb124-4"><a href="linearRegressionSimpleQualityOfFit.html#cb124-4" aria-hidden="true"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="linearRegressionSimpleQualityOfFit.html#cb126-1" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</span>
+<span id="cb126-2"><a href="linearRegressionSimpleQualityOfFit.html#cb126-2" aria-hidden="true"></a>R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></span>
+<span id="cb126-3"><a href="linearRegressionSimpleQualityOfFit.html#cb126-3" aria-hidden="true"></a><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb126-4"><a href="linearRegressionSimpleQualityOfFit.html#cb126-4" aria-hidden="true"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.7528328</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -478,10 +478,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.29}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="linearRegressionSimpleQualityOfFit.html#cb126-1" aria-hidden="true"></a><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="linearRegressionSimpleQualityOfFit.html#cb128-1" aria-hidden="true"></a><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##         wt 
 ## -0.8676594</code></pre>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="linearRegressionSimpleQualityOfFit.html#cb128-1" aria-hidden="true"></a><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="linearRegressionSimpleQualityOfFit.html#cb130-1" aria-hidden="true"></a><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</span></code></pre></div>
 <pre><code>## [1] -0.8676594</code></pre>
 <!-- Proof -->
 
