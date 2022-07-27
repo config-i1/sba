@@ -120,7 +120,7 @@ In R, this distribution is implemented in `stats` package with functions `dunif(
 
 
 ## Normal distribution {#distributionsNormal}
-Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of "Central Limit Theorem" in Section \@ref(CLT)). For example, consider the the coin tossing example and Binomial distribution discussed in Section \@ref(distributionBinomial). If we toss the coin one time only, we get the Bernoulli distribution with two outcomes. If we do that ten times, the shape of distribution will change and there will be a score with higher probability than the others (that is Binomial distribution with $p=0.5$ and $n=10$). If we continue tossing the coin and do that for a hundred times, the shape of distribution will start converging to the bell-curve, reminding the Normal distribution. These three cases are shown in Figure \@ref(fig:binomialPMFSeveral).
+Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of "Central Limit Theorem" in Section \@ref(CLT)). For example, consider the the coin tossing example and Binomial distribution discussed in Section \@ref(distributionBinomial). If we toss the coin one time only, we get the Bernoulli distribution with two outcomes. If we do that ten times, the shape of distribution will change and there will be a score with higher probability than the others (that is $\mathcal{Bi}(10, 0.5)$). If we continue tossing the coin and do that for a hundred times, the shape of distribution will start converging to the bell-curve, reminding the Normal distribution. These three cases are shown in Figure \@ref(fig:binomialPMFSeveral).
 
 ```{r binomialPMFSeveral, fig.cap="Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}.", echo=FALSE}
 par(mfcol=c(1,3))
@@ -145,7 +145,7 @@ This is one of the classical examples of a distribution converging to the Normal
 
 The probability density function (PDF) of the Normal distribution with some mean $\mu$ and variance $\sigma^2$ is:
 \begin{equation}
-    f(y) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu \right)^2}{2 \sigma^2} \right) ,
+    f(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu \right)^2}{2 \sigma^2} \right) ,
     (\#eq:Normal)
 \end{equation}
 
