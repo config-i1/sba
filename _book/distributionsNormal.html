@@ -398,14 +398,15 @@ Figure 4.10: Cumulative Distribution Function of Normal distribution
 <pre><code>## [1] 0.6826895</code></pre>
 <p>which mathematically is typically represented as:
 <span class="math display" id="eq:NormalCDFExample">\[\begin{equation}
-    \Phi(y_2, \mu, \sigma^2) - \Phi(y_1, \mu, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
+    \Phi(y_2, \mu_y, \sigma^2) - \Phi(y_1, \mu_y, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
     \tag{4.6}
 \end{equation}\]</span>
-The CDF itself is difficult to summarise and involves a complicated integral, which does not have a closed form:
+The CDF itself is difficult to summarise and involves a complicated integral:
 <span class="math display" id="eq:NormalCDFE">\[\begin{equation}
-    \Phi(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{y} e^{-\frac{t^2}{2}} dt .
+    \Phi(y, \mu_y, \sigma^2) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2 \sigma^2}} \right) \right),
     \tag{4.7}
-\end{equation}\]</span></p>
+\end{equation}\]</span>
+where <span class="math inline">\(\mathrm{erf(x)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-t^2} dt}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations.</p>
 <p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
 <!-- ## Laplace distribution {#distributionsLaplace} -->
 <!-- A more exotic distribution is Laplace, which has some similarities with Normal, but has higher excess. It has the following PDF: -->
