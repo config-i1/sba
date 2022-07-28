@@ -107,7 +107,7 @@ plot(seq(0,10,by=0.1),punif(seq(0,10,by=0.1),0,10),
 Mathematically, the CDF can be represented as:
 \begin{equation}
     F(y, b, a) = \left\{\begin{aligned}
-                        & 0 & \text{ if } y<a
+                        & 0 & \text{ if } y<a \\
                         & \frac{y-a}{b-a} & \text{ for } y \in [a, b] \\
                         & 1 & \text{ if } y>b
                     \end{aligned} \right. .
@@ -181,7 +181,6 @@ The CDF itself is difficult to summarise and involves a complicated integral, wh
     \Phi(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{y} e^{-\frac{t^2}{2}} dt .
     (\#eq:NormalCDFE)
 \end{equation}
-
 
 Normal distribution is available in `stats` package with `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions.
 

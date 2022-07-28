@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-07-27" />
+<meta name="date" content="2022-07-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -377,7 +377,7 @@ where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of 
     \hat{\sigma}^2 = \frac{1}{n} \sum_{j=1}^n \left(y_j - \hat{\mu}_{y,j} \right)^2 ,
     \tag{16.12}
 \end{equation}\]</span>
-where <span class="math inline">\(\hat{\mu}_{y,j}\)</span> is the estimate of the conditional expectation <span class="math inline">\(\mu_{y,t}\)</span>. <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> coincides with Mean Squared Error (MSE). This means that if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same estimates of parameters as the minimisation of MSE (see discussion in Section <a href="OLS.html#OLS">10.1</a>).</p>
+where <span class="math inline">\(\hat{\mu}_{y,j}\)</span> is the estimate of the conditional expectation <span class="math inline">\(\mu_{y,j}\)</span>. <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> coincides with Mean Squared Error (MSE). This means that if Normal distribution is used for the maximum likelihood estimation of a model, it gives the same estimates of parameters as the minimisation of MSE (see discussion in Section <a href="OLS.html#OLS">10.1</a>).</p>
 <p>Another useful thing to note in the context of Normal likelihood is the concentrated log-likelihood, which is obtained by inserting the estimated variance <a href="examples-of-popular-log-likelihood-functions.html#eq:sigmaNormal">(16.12)</a> in <a href="examples-of-popular-log-likelihood-functions.html#eq:NormalLogLik">(16.11)</a>:
 <span class="math display" id="eq:NormalLogLikConcentrated">\[\begin{equation}
     \ell(\mathbf{Y}| \boldsymbol{\theta}, \hat{\sigma}^2) = - \frac{n}{2} \log \left( 2 \pi e \hat{\sigma}^2 \right) ,
