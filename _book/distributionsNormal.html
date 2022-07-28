@@ -389,9 +389,9 @@ Figure 4.9: Probability Density Function of Standard Normal distribution
 <!-- Normal distribution is the most popular assumption for the random variable in conventional statistical models. This is represented as $y \sim \mathcal{N}(\mu_y, \sigma)$. -->
 <p>When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:pnormPlot"></span>
-<img src="adam_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<img src="adam_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Standard Normal distribution" width="672" />
 <p class="caption">
-Figure 4.10: Cumulative Distribution Function of Normal distribution
+Figure 4.10: Cumulative Distribution Function of Standard Normal distribution
 </p>
 </div>
 <p>The CDF in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a> has the properties of any other CDF: it converges to one with the increase of the value of <span class="math inline">\(y\)</span> and reaches zero asymptotically with the decrease of the value of <span class="math inline">\(y\)</span>. It can be used to solve problems of the style “what is the probability that <span class="math inline">\(y\)</span> will lie between 20 and 30 for the <span class="math inline">\(\mathcal{N}(20, 10)\)</span>”. In R, this can be done by entering the values of <span class="math inline">\(y\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> in the following function:</p>
@@ -399,7 +399,7 @@ Figure 4.10: Cumulative Distribution Function of Normal distribution
 <pre><code>## [1] 0.3413447</code></pre>
 <p>which mathematically is typically represented as:
 <span class="math display" id="eq:NormalCDFExample">\[\begin{equation}
-    \Phi(y_2, \mu_y, \sigma) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 10) - \Phi(20, 20, 10) \approx 0.341.
+    \Phi(y_2, \mu_y, \sigma) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 10) - \Phi(20, 20, 10) = 0.841 - 0.5 \approx 0.341.
     \tag{4.6}
 \end{equation}\]</span>
 The CDF itself is difficult to summarise and involves a complicated integral:
@@ -407,8 +407,47 @@ The CDF itself is difficult to summarise and involves a complicated integral:
     \Phi(y, \mu_y, \sigma) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2 \sigma^2}} \right) \right),
     \tag{4.7}
 \end{equation}\]</span>
-where <span class="math inline">\(\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations.</p>
-<p>Normal distribution is available in <code>stats</code> package with <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions.</p>
+where <span class="math inline">\(\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability <a href="distributionsNormal.html#eq:NormalCDFExample">(4.6)</a> corresponds to the difference between the points shown in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:pnormExample"></span>
+<img src="adam_files/figure-html/pnormExample-1.png" alt="Values of CDF for the example with Normal distribution" width="672" />
+<p class="caption">
+Figure 4.11: Values of CDF for the example with Normal distribution
+</p>
+</div>
+<p>The same number also corresponds to the dark area in PDF of the distribution as shown in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:dnormExample"></span>
+<img src="adam_files/figure-html/dnormExample-1.png" alt="Values of PDF for the example with Normal distribution" width="672" />
+<p class="caption">
+Figure 4.12: Values of PDF for the example with Normal distribution
+</p>
+</div>
+<p>The relation between the area in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a> and the difference between the two points in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a> comes directly from the definition of CDF, the latter being the function of cumulative values of the density function.</p>
+<p>Many distributions converge to the Normal one or can be approximated by it under some circumstances. For example, as shown earlier, Binomial distribution can be approximated by the normal in some cases. More specifically, the approximation works when <span class="math inline">\(n&gt;20\)</span>, <span class="math inline">\(n p \geq 5\)</span> and <span class="math inline">\(n(1-p) \geq 5\)</span>. Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a> demonstrates how the normal curve (the solid red line) approximates the barplots of the Binomial distribution.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialNormalApprox"></span>
+<img src="adam_files/figure-html/binomialNormalApprox-1.png" alt="Binomial distribution and its approximation via the Normal one." width="672" />
+<p class="caption">
+Figure 4.13: Binomial distribution and its approximation via the Normal one.
+</p>
+</div>
+<p>As we can see from Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a>, the normal curve fits the bars of the Binomial distribution very well, which means that we can use it, for example, to compute the probability that the variable <span class="math inline">\(y\)</span> will be equal to 41, via the formula:
+<span class="math display" id="eq:BinomialNormalApproximation">\[\begin{equation}
+    \mathrm{P}(y=41) \approx \Phi(41.5, 50, 5) - \Phi(40.5, 50, 5)
+    \tag{4.8}
+\end{equation}\]</span>
+In the equation <a href="distributionsNormal.html#eq:BinomialNormalApproximation">(4.8)</a> by adding and subtraction 0.5, we calculate the surface of the area under the normal curve, corresponding roughly to the area of the respective bin in the barplot. We can see that this method of calculation gives a result very close to the one from the Binomial distribution:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="distributionsNormal.html#cb13-1" aria-hidden="true"></a><span class="kw">c</span>(<span class="kw">dbinom</span>(<span class="dv">41</span>,<span class="dv">100</span>,<span class="fl">0.5</span>),</span>
+<span id="cb13-2"><a href="distributionsNormal.html#cb13-2" aria-hidden="true"></a>  <span class="kw">pnorm</span>(<span class="fl">41.5</span>,<span class="dv">50</span>,<span class="dv">5</span>)<span class="op">-</span><span class="kw">pnorm</span>(<span class="fl">40.5</span>,<span class="dv">50</span>,<span class="dv">5</span>)) <span class="op">|</span><span class="er">&gt;</span></span>
+<span id="cb13-3"><a href="distributionsNormal.html#cb13-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">setNames</span>(<span class="kw">c</span>(<span class="st">&quot;Binomial&quot;</span>, <span class="st">&quot;Normal&quot;</span>))</span></code></pre></div>
+<pre><code>##   Binomial     Normal 
+## 0.01586907 0.01584890</code></pre>
+<p>This calculation based on the approximation is shown visually in Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a>, where the second figure is the zoomed-in area in the first one. As we can see, the area under the curve of the Normal distribution is roughly equal to the area of the bar of the Binomial distribution.</p>
+<div class="figure"><span style="display:block;" id="fig:binomialNormalApproxArea"></span>
+<img src="adam_files/figure-html/binomialNormalApproxArea-1.png" alt="Calculating the probability based on Normal approximation." width="672" />
+<p class="caption">
+Figure 4.14: Calculating the probability based on Normal approximation.
+</p>
+</div>
+<p>Normal distribution is implemented in <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions from <code>stats</code> package in R.</p>
 <!-- ## Laplace distribution {#distributionsLaplace} -->
 <!-- A more exotic distribution is Laplace, which has some similarities with Normal, but has higher excess. It has the following PDF: -->
 <!-- \begin{equation} -->

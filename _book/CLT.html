@@ -366,12 +366,12 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="CLT" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="CLT.html#cb56-1" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb56-2"><a href="CLT.html#cb56-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb56-3"><a href="CLT.html#cb56-3" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nIterations){</span>
-<span id="cb56-4"><a href="CLT.html#cb56-4" aria-hidden="true"></a>    yMean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">sample</span>(y,<span class="dv">1000</span>))</span>
-<span id="cb56-5"><a href="CLT.html#cb56-5" aria-hidden="true"></a>}</span>
-<span id="cb56-6"><a href="CLT.html#cb56-6" aria-hidden="true"></a><span class="kw">hist</span>(yMean, <span class="dt">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="CLT.html#cb58-1" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb58-2"><a href="CLT.html#cb58-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb58-3"><a href="CLT.html#cb58-3" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nIterations){</span>
+<span id="cb58-4"><a href="CLT.html#cb58-4" aria-hidden="true"></a>    yMean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">sample</span>(y,<span class="dv">1000</span>))</span>
+<span id="cb58-5"><a href="CLT.html#cb58-5" aria-hidden="true"></a>}</span>
+<span id="cb58-6"><a href="CLT.html#cb58-6" aria-hidden="true"></a><span class="kw">hist</span>(yMean, <span class="dt">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histyMean"></span>
 <img src="adam_files/figure-html/histyMean-1.png" alt="Histogram of the mean of the variable y." width="672" />
 <p class="caption">
