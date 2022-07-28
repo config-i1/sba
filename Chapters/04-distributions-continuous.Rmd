@@ -9,7 +9,7 @@ The main difference arises from the idea discussed in Section \@ref(whatIsRandom
 set.seed(41)
 yHist <- hist(rnorm(100,100,10), probability=TRUE, main="",
               xlab="Value of variable", ylab="Probability of outcome",
-              axes=FALSE)
+              axes=FALSE, col="grey95")
 axis(side=2)
 axis(side=1, at=yHist$breaks)
 ```
@@ -28,6 +28,8 @@ PDF has similarities with PMF, but does not return the probabilities, but rather
 
 ```{r dnormPlotIntro, fig.cap="Probability Density Function of Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
+polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col="grey95")
 ```
 
 It can be seen from the Figure \@ref(fig:dnormPlotIntro) that the density of the distribution is higher at its centre, around zero, which means that it is more likely to get values around the centre rather than near the tails of the distribution.
@@ -45,6 +47,8 @@ CDF is obtained by calculating the surface of PDF for each specific value of $y$
 ```{r dnormPlotIntroCDFPDF, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
 par(mfcol=c(2,1), mar=c(2,4,1,1))
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
+polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col="grey95")
 polygon(c(seq(-3,-1,0.01),rev(seq(-3,-1,0.01))),
         c(dnorm(seq(-3,-1,0.01)), rep(0,length(seq(-3,-1,0.01)))), col="grey")
 lines(c(-1,-1),c(0,dnorm(-1)),col="darkred",lwd=2,lty=1)
@@ -81,10 +85,12 @@ One of the simplest continuous distributions used in statistics is the uniform o
 It can be represented visually as shown in Figure \@ref(fig:uniformPDF).
 
 ```{r uniformPDF, fig.cap="Probability Density Function of Continuous Uniform distribution.", echo=FALSE}
-plot(seq(0,10,by=0.1),dunif(seq(0,10,by=0.1),0,10),
-     ylab="Density",xlab="y", type="l")
-lines(c(0,0), c(0,0.1), lty=2)
-lines(c(10,10), c(0,0.1), lty=2)
+plot(seq(0,10,0.1),dunif(seq(0,10,0.1),0,10),
+     ylab="Density",xlab="y", type="l", ylim=c(0,0.14))
+polygon(c(seq(0,10,0.1),rev(seq(0,10,0.1))),
+        c(dunif(seq(0,10,0.1),0,10), rep(0,length(seq(0,10,0.1)))), col="grey95")
+lines(c(0,0), c(0,0.1), lwd=2, col="darkred")
+lines(c(10,10), c(0,0.1), lwd=2, col="darkred")
 ```
 
 According to this distribution, it is equally likely to have 1, 1.1, 1.0001, 9 etc values. The mean of this distribution coincides with the middle of the segment and can be calculated as:
@@ -127,17 +133,17 @@ par(mfcol=c(1,3))
 # n=1
 test <- barplot(dbinom(c(0:1), size=1, prob=0.5),
                 ylab="Probability",xlab="y",
-                main="")
+                main="", col="grey95")
 axis(side=1,at=test,labels=c(0:1))
 # n=10
 test <- barplot(dbinom(c(0:10), size=10, prob=0.5),
                 ylab="Probability",xlab="y", ylim=c(0,0.25),
-                main="")
+                main="", col="grey95")
 axis(side=1,at=test,labels=c(0:10))
 # n=100
 test <- barplot(dbinom(c(30:70), size=100, prob=0.5),
                 ylab="Probability",xlab="y", ylim=c(0,0.08),
-                main="")
+                main="", col="grey95")
 axis(side=1,at=test,labels=c(30:70))
 ```
 
@@ -153,8 +159,10 @@ This distribution can be represented in Figure \@ref(fig:dnormPlot).
 
 ```{r dnormPlot, fig.cap="Probability Density Function of Standard Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
-abline(v=0, col="red")
-text(0.5,0.05,TeX("$\\mu =0$"))
+polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col="grey95")
+abline(v=0, col="darkred", lwd=2)
+text(0.3,0,TeX("$\\mu =0$"), pos=3)
 ```
 
 Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning that $\mu_y=0$ and $\sigma=1$. A more general distribution with non-zero $\mu_y$ and a non-unity $\sigma$ will have the same shape, but will have different values on the axes. The shape itself demonstrates that there is a central tendency (in our case - the mean $\mu_y$), around which the density of values is the highest and there are other potential cases, further away from the centre of distribution, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from Figure \@ref(fig:dnormPlot), the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
@@ -163,7 +171,7 @@ Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning
 
 When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure \@ref(fig:pnormPlot).
 
-```{r pnormPlot, fig.cap="Cumulative Distribution Function of Normal distribution", echo=FALSE}
+```{r pnormPlot, fig.cap="Cumulative Distribution Function of Standard Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
 # abline(v=0, col="red")
 # text(0.5,0.05,TeX("$\\mu =0$"))
@@ -175,7 +183,7 @@ pnorm(30, 20, 10) - pnorm(20, 20, 10)
 ```
 which mathematically is typically represented as:
 \begin{equation}
-    \Phi(y_2, \mu_y, \sigma) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 10) - \Phi(20, 20, 10) \approx 0.341.
+    \Phi(y_2, \mu_y, \sigma) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 10) - \Phi(20, 20, 10) = 0.841 - 0.5 \approx 0.341.
     (\#eq:NormalCDFExample)
 \end{equation}
 The CDF itself is difficult to summarise and involves a complicated integral:
@@ -183,9 +191,84 @@ The CDF itself is difficult to summarise and involves a complicated integral:
     \Phi(y, \mu_y, \sigma) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2 \sigma^2}} \right) \right),
     (\#eq:NormalCDFE)
 \end{equation}
-where $\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}$ is the so called ``error function''. This function does not have a closed form and is typically evaluated numerically or using some approximations.
+where $\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}$ is the so called ``error function''. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability \@ref(eq:NormalCDFExample) corresponds to the difference between the points shown in Figure \@ref(fig:pnormExample).
 
-Normal distribution is available in `stats` package with `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions.
+```{r pnormExample, fig.cap="Values of CDF for the example with Normal distribution", echo=FALSE}
+plot(seq(-10,50,0.1),pnorm(seq(-10,50,0.1),20,10),type="l",ylab="Density",xlab="y",main="")
+lines(c(20,20),c(0,pnorm(20,20,10)), lty=2)
+lines(c(-20,20),rep(pnorm(20,20,10),2), lty=2)
+text(-9,pnorm(20,20,10), pnorm(20,20,10), pos=3)
+lines(c(30,30),c(0,pnorm(30,20,10)), lty=2)
+lines(c(-20,30),rep(pnorm(30,20,10),2), lty=2)
+text(-9,pnorm(30,20,10), round(pnorm(30,20,10),3), pos=3)
+```
+
+The same number also corresponds to the dark area in PDF of the distribution as shown in Figure \@ref(fig:dnormExample).
+
+```{r dnormExample, fig.cap="Values of PDF for the example with Normal distribution", echo=FALSE}
+plot(seq(-15,55,0.1),dnorm(seq(-15,55,0.1),20,10),type="l",ylab="Density",xlab="y",main="",
+     ylim=c(0,0.04), xlim=c(-10,50))
+polygon(c(seq(-15,55,0.1),rev(seq(-15,55,0.1))),
+        c(dnorm(seq(-15,55,0.1),20,10), rep(0,length(seq(-15,55,0.1)))), col="grey95")
+polygon(c(seq(20,30,0.1),rev(seq(20,30,0.1))),
+        c(dnorm(seq(20,30,0.1),20,10), rep(0,length(seq(20,30,0.1)))), col="lightgrey")
+lines(c(20,20),c(0,dnorm(20,20,10)), lwd=2, col="darkred")
+lines(c(30,30),c(0,dnorm(30,20,10)), lwd=2, col="darkred")
+text(25,dnorm(25,20,10)/2, round(pnorm(30,20,10)-pnorm(20,20,10),3))
+```
+
+The relation between the area in Figure \@ref(fig:dnormExample) and the difference between the two points in Figure \@ref(fig:pnormExample) comes directly from the definition of CDF, the latter being the function of cumulative values of the density function.
+
+Many distributions converge to the Normal one or can be approximated by it under some circumstances. For example, as shown earlier, Binomial distribution can be approximated by the normal in some cases. More specifically, the approximation works when $n>20$, $n p \geq 5$ and $n(1-p) \geq 5$. Figure \@ref(fig:binomialNormalApprox) demonstrates how the normal curve (the solid red line) approximates the barplots of the Binomial distribution. 
+
+```{r binomialNormalApprox, fig.cap="Binomial distribution and its approximation via the Normal one.", echo=FALSE}
+test <- hist(rbinom(100,100,0.5), breaks=c(0:100), plot=F)
+test$density <- dbinom(c(0:100), 100, 0.5)
+test$breaks <- test$breaks-0.5
+plot(test, xlim=c(30,70), main="", freq=FALSE, ylab="Probability", xlab="y", col="grey95")
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col="darkgreen", lwd=2)
+```
+
+As we can see from Figure \@ref(fig:binomialNormalApprox), the normal curve fits the bars of the Binomial distribution very well, which means that we can use it, for example, to compute the probability that the variable $y$ will be equal to 41, via the formula:
+\begin{equation}
+    \mathrm{P}(y=41) \approx \Phi(41.5, 50, 5) - \Phi(40.5, 50, 5)
+    (\#eq:BinomialNormalApproximation)
+\end{equation}
+In the equation \@ref(eq:BinomialNormalApproximation) by adding and subtraction 0.5, we calculate the surface of the area under the normal curve, corresponding roughly to the area of the respective bin in the barplot. We can see that this method of calculation gives a result very close to the one from the Binomial distribution:
+
+```{r}
+c(dbinom(41,100,0.5),
+  pnorm(41.5,50,5)-pnorm(40.5,50,5)) |>
+    setNames(c("Binomial", "Normal"))
+```
+
+This calculation based on the approximation is shown visually in Figure \@ref(fig:binomialNormalApprox), where the second figure is the zoomed-in area in the first one. As we can see, the area under the curve of the Normal distribution is roughly equal to the area of the bar of the Binomial distribution.
+
+```{r binomialNormalApproxArea, fig.cap="Calculating the probability based on Normal approximation.", echo=FALSE}
+test <- hist(rbinom(100,100,0.5), breaks=c(0:100), plot=F)
+test$breaks <- test$breaks-0.5
+test$density <- dbinom(c(0:100), 100, 0.5)
+par(mfcol=c(1,2))
+# First plot
+plot(test, xlim=c(30,70),
+     main="", freq=FALSE, ylab="Probability", xlab="y", col="grey95")
+polygon(c(seq(40.5,41.5,0.1),rev(seq(40.5,41.5,0.1))),
+        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=rgb(0.8,1,0.8,0.7))
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col="darkgreen", lwd=2)
+lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col="darkred")
+lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col="darkred")
+#Second plot
+plot(test, xlim=c(38,44), ylim=c(0,0.05),
+     main="", freq=FALSE, ylab="Probability", xlab="y", col="grey95")
+polygon(c(seq(40.5,41.5,0.1),rev(seq(40.5,41.5,0.1))),
+        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=rgb(0.8,1,0.8,0.7))
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col="darkgreen", lwd=2)
+lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col="darkred")
+lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col="darkred")
+# lines(c(40.5,41.5)+0.5,rep(dbinom(41,100,0.5),2))
+```
+
+Normal distribution is implemented in `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions from `stats` package in R.
 
 
 
