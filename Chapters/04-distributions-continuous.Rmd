@@ -173,14 +173,15 @@ pnorm(1, 0, 1) - pnorm(-1, 0, 1)
 ```
 which mathematically is typically represented as:
 \begin{equation}
-    \Phi(y_2, \mu, \sigma^2) - \Phi(y_1, \mu, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
+    \Phi(y_2, \mu_y, \sigma^2) - \Phi(y_1, \mu_y, \sigma^2) = \Phi(1, 0, 1) - \Phi(-1, 0, 1) \approx 0.683.
     (\#eq:NormalCDFExample)
 \end{equation}
-The CDF itself is difficult to summarise and involves a complicated integral, which does not have a closed form:
+The CDF itself is difficult to summarise and involves a complicated integral:
 \begin{equation}
-    \Phi(y, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{y} e^{-\frac{t^2}{2}} dt .
+    \Phi(y, \mu_y, \sigma^2) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2 \sigma^2}} \right) \right),
     (\#eq:NormalCDFE)
 \end{equation}
+where $\mathrm{erf(x)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-t^2} dt}$ is the so called ``error function''. This function does not have a closed form and is typically evaluated numerically or using some approximations.
 
 Normal distribution is available in `stats` package with `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions.
 
