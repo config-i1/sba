@@ -375,7 +375,7 @@ Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and 
 <p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu_y, \sigma)\)</span>, where <span class="math inline">\(\mu_y=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance (as discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>), i.e. <span class="math inline">\(\mathcal{N}(50, 5)\)</span>.</p>
 <p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu_y\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
 <span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y, \mu_y, \sigma) = \frac{1}{\sqrt{2 \pi}\sigma} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
+    f(y, \mu_y, \sigma) = \frac{1}{\sigma\sqrt{2 \pi}} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
     \tag{4.5}
 \end{equation}\]</span></p>
 <p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>

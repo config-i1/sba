@@ -149,9 +149,9 @@ axis(side=1,at=test,labels=c(30:70))
 
 This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials $n$ under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure \@ref(fig:binomialPMFSeveral), the third graph corresponds to the $\mathcal{Bi}(100, 0.5)$, but it can be approximated by the normal distribution $\mathcal{N}(\mu_y, \sigma)$, where $\mu_y=100 \times 0.5 = 50$ is the mean of the distribution and $\sigma^2 = 100 \times 0.5 \times 0.5 = 25$ is the variance (as discussed in Section \@ref(distributionBinomial)), i.e. $\mathcal{N}(50, 5)$.
 
-The probability density function (PDF) of the Normal distribution with some mean $\mu_y$ and variance $\sigma^2$ is:
+The probability density function (PDF) of the Normal distribution with some mean $\mu_y$ and standard deviation $\sigma$ is:
 \begin{equation}
-    f(y, \mu_y, \sigma) = \frac{1}{\sqrt{2 \pi}\sigma} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
+    f(y, \mu_y, \sigma) = \frac{1}{\sigma\sqrt{2 \pi}} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
     (\#eq:Normal)
 \end{equation}
 
