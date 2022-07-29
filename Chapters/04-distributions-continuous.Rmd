@@ -147,11 +147,11 @@ test <- barplot(dbinom(c(30:70), size=100, prob=0.5),
 axis(side=1,at=test,labels=c(30:70))
 ```
 
-This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials $n$ under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure \@ref(fig:binomialPMFSeveral), the third graph corresponds to the $\mathcal{Bi}(100, 0.5)$, but it can be approximated by the normal distribution $\mathcal{N}(\mu_y, \sigma)$, where $\mu_y=100 \times 0.5 = 50$ is the mean of the distribution and $\sigma^2 = 100 \times 0.5 \times 0.5 = 25$ is the variance (as discussed in Section \@ref(distributionBinomial)), i.e. $\mathcal{N}(50, 5)$.
+This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials $n$ under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure \@ref(fig:binomialPMFSeveral), the third graph corresponds to the $\mathcal{Bi}(100, 0.5)$, but it can be approximated by the normal distribution $\mathcal{N}(\mu_y, \sigma)$, where $\mu_y=100 \times 0.5 = 50$ is the mean of the distribution and $\sigma^2 = 100 \times 0.5 \times 0.5 = 25$ is the variance (as discussed in Section \@ref(distributionBinomial)), i.e. $\mathcal{N}(50, 25)$.
 
-The probability density function (PDF) of the Normal distribution with some mean $\mu_y$ and standard deviation $\sigma$ is:
+The probability density function (PDF) of the Normal distribution with some mean $\mu_y$ and variance $\sigma^2$ is:
 \begin{equation}
-    f(y, \mu_y, \sigma) = \frac{1}{\sigma\sqrt{2 \pi}} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
+    f(y, \mu_y, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
     (\#eq:Normal)
 \end{equation}
 
@@ -165,7 +165,7 @@ abline(v=0, col="darkred", lwd=2)
 text(0.3,0,TeX("$\\mu =0$"), pos=3)
 ```
 
-Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning that $\mu_y=0$ and $\sigma=1$. A more general distribution with non-zero $\mu_y$ and a non-unity $\sigma$ will have the same shape, but will have different values on the axes. The shape itself demonstrates that there is a central tendency (in our case - the mean $\mu_y$), around which the density of values is the highest and there are other potential cases, further away from the centre of distribution, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from Figure \@ref(fig:dnormPlot), the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
+Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning that $\mu_y=0$ and $\sigma^2=1$. A more general distribution with non-zero $\mu_y$ and a non-unity $\sigma^2$ will have the same shape, but will have different values on the axes. The shape itself demonstrates that there is a central tendency (in our case - the mean $\mu_y$), around which the density of values is the highest and there are other potential cases, further away from the centre of distribution, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from Figure \@ref(fig:dnormPlot), the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section \@ref(dataAnalysisNumerical)).
 
 <!-- Normal distribution is the most popular assumption for the random variable in conventional statistical models. This is represented as $y \sim \mathcal{N}(\mu_y, \sigma)$. -->
 
@@ -177,18 +177,18 @@ plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main=""
 # text(0.5,0.05,TeX("$\\mu =0$"))
 ```
 
-The CDF in Figure \@ref(fig:pnormPlot) has the properties of any other CDF: it converges to one with the increase of the value of $y$ and reaches zero asymptotically with the decrease of the value of $y$. It can be used to solve problems of the style "what is the probability that $y$ will lie between 20 and 30 for the $\mathcal{N}(20, 10)$". In R, this can be done by entering the values of $y$, $\mu$ and $\sigma$ in the following function:
+The CDF in Figure \@ref(fig:pnormPlot) has the properties of any other CDF: it converges to one with the increase of the value of $y$ and reaches zero asymptotically with the decrease of the value of $y$. It can be used to solve problems of the style "what is the probability that $y$ will lie between 20 and 30 for the $\mathcal{N}(20, 10)$". In R, this can be done by entering the values of $y$, $\mu$ and $\sigma^2$ in the following function (note that in R, the scale is the standard deviation $\sigma$, not the variance $\sigma^2$):
 ```{r}
-pnorm(30, 20, 10) - pnorm(20, 20, 10)
+pnorm(q=30, mean=20, sd=10) - pnorm(q=20, mean=20, sd=10)
 ```
 which mathematically is typically represented as:
 \begin{equation}
-    \Phi(y_2, \mu_y, \sigma) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 10) - \Phi(20, 20, 10) = 0.841 - 0.5 \approx 0.341.
+    \Phi(y_2, \mu_y, \sigma^2) - \Phi(y_1, \mu_y, \sigma) = \Phi(30, 20, 100) - \Phi(20, 20, 100) = 0.841 - 0.5 \approx 0.341.
     (\#eq:NormalCDFExample)
 \end{equation}
 The CDF itself is difficult to summarise and involves a complicated integral:
 \begin{equation}
-    \Phi(y, \mu_y, \sigma) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2}\sigma} \right) \right),
+    \Phi(y, \mu_y, \sigma^2) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2\sigma^2}} \right) \right),
     (\#eq:NormalCDFE)
 \end{equation}
 where $\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}$ is the so called ``error function''. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability \@ref(eq:NormalCDFExample) corresponds to the difference between the points shown in Figure \@ref(fig:pnormExample).
@@ -231,7 +231,7 @@ lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col="darkgreen", lwd=2)
 
 As we can see from Figure \@ref(fig:binomialNormalApprox), the normal curve fits the bars of the Binomial distribution very well, which means that we can use it, for example, to compute the probability that the variable $y$ will be equal to 41, via the formula:
 \begin{equation}
-    \mathrm{P}(y=41) \approx \Phi(41.5, 50, 5) - \Phi(40.5, 50, 5)
+    \mathrm{P}(y=41) \approx \Phi(41.5, 50, 25) - \Phi(40.5, 50, 25)
     (\#eq:BinomialNormalApproximation)
 \end{equation}
 In the equation \@ref(eq:BinomialNormalApproximation) by adding and subtraction 0.5, we calculate the surface of the area under the normal curve, corresponding roughly to the area of the respective bin in the barplot. We can see that this method of calculation gives a result very close to the one from the Binomial distribution:
