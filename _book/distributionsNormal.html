@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-07-28" />
+<meta name="date" content="2022-07-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -375,7 +375,7 @@ Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and 
 <p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu_y, \sigma)\)</span>, where <span class="math inline">\(\mu_y=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance (as discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>), i.e. <span class="math inline">\(\mathcal{N}(50, 5)\)</span>.</p>
 <p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu_y\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
 <span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y, \mu_y, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{\left(y - \mu_y \right)^2}{2 \sigma^2} \right) ,
+    f(y, \mu_y, \sigma) = \frac{1}{\sqrt{2 \pi}\sigma} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
     \tag{4.5}
 \end{equation}\]</span></p>
 <p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>
@@ -404,7 +404,7 @@ Figure 4.10: Cumulative Distribution Function of Standard Normal distribution
 \end{equation}\]</span>
 The CDF itself is difficult to summarise and involves a complicated integral:
 <span class="math display" id="eq:NormalCDFE">\[\begin{equation}
-    \Phi(y, \mu_y, \sigma) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2 \sigma^2}} \right) \right),
+    \Phi(y, \mu_y, \sigma) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2}\sigma} \right) \right),
     \tag{4.7}
 \end{equation}\]</span>
 where <span class="math inline">\(\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability <a href="distributionsNormal.html#eq:NormalCDFExample">(4.6)</a> corresponds to the difference between the points shown in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a>.</p>
