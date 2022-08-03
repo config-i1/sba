@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-07-29" />
+<meta name="date" content="2022-08-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -226,7 +226,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
 <ul>
 <li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
-<li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#mathematical-explantion"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
+<li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#PowerMathematical"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
+<li class="chapter" data-level="7.3.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#expected-power-of-a-test"><i class="fa fa-check"></i><b>7.3.3</b> Expected power of a test</a></li>
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
 </ul></li>
@@ -410,8 +411,8 @@ Figure 7.6: Power of the Test based on another hypothetical true value of <span 
 <p>There are other factors, which are not as obvious as the two above. For example, if we did not know the true value of <span class="math inline">\(\sigma\)</span>, we would need to estimate it, and as a result we would need to use a less powerful t-test instead of the z-test. On smaller samples the critical value of the t-test is typically higher than the one from the z-test by absolute value. For example, in case of 36 observations, on 5% significance level it is equal to -1.6896, which is lower than the similar value of -1.6449 from the standard normal distribution. This means that if we used the t-test instead of the z-test in the example above, the vertical line on the plots in Figures <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a> and <a href="powerOfTheTest.html#fig:powerOfTestVisual04">7.6</a> would be firther to the left of the one that we had. As a result, we would conclude that the power of the t-test is lower than the power of the z-test.</p>
 <p>Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section <a href="LLN.html#LLN">6.1</a>) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.</p>
 </div>
-<div id="mathematical-explantion" class="section level3 hasAnchor" number="7.3.2">
-<h3><span class="header-section-number">7.3.2</span> Mathematical explantion<a href="powerOfTheTest.html#mathematical-explantion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="PowerMathematical" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Mathematical explantion<a href="powerOfTheTest.html#PowerMathematical" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Moving from the visual explanation to the mathematical one, we can present the Power of a Test as the following probability:
 <span class="math display" id="eq:powerOfATestConcept">\[\begin{equation}
     \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
@@ -450,7 +451,7 @@ We could do similar calculations for other cases of the true mean and see how po
 <span id="cb67-2"><a href="powerOfTheTest.html#cb67-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="dv">3</span></span>
 <span id="cb67-3"><a href="powerOfTheTest.html#cb67-3" aria-hidden="true"></a>yMeanSD &lt;-<span class="st"> </span><span class="fl">0.18</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">36</span>)</span>
 <span id="cb67-4"><a href="powerOfTheTest.html#cb67-4" aria-hidden="true"></a>levelSignigicance &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb67-5"><a href="powerOfTheTest.html#cb67-5" aria-hidden="true"></a>zValue &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="kw">qnorm</span>(levelSignigicance) <span class="op">*</span><span class="st"> </span>yMeanSD</span>
+<span id="cb67-5"><a href="powerOfTheTest.html#cb67-5" aria-hidden="true"></a>zValue &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(levelSignigicance) <span class="op">*</span><span class="st"> </span>yMeanSD</span>
 <span id="cb67-6"><a href="powerOfTheTest.html#cb67-6" aria-hidden="true"></a><span class="co"># Vector of hypothetical population means</span></span>
 <span id="cb67-7"><a href="powerOfTheTest.html#cb67-7" aria-hidden="true"></a>muValues &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="dt">length.out=</span><span class="dv">100</span>)</span>
 <span id="cb67-8"><a href="powerOfTheTest.html#cb67-8" aria-hidden="true"></a><span class="co"># Vector of values for power curve</span></span>
@@ -495,6 +496,31 @@ Figure 7.8: Power curves with different sample sizes.
 </p>
 </div>
 <p>Finally, the more general point about the “amount of information” applies to the selection between the tests. In the Section <a href="statisticalTests.html#statisticalTests">8</a> we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.</p>
+</div>
+<div id="expected-power-of-a-test" class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Expected power of a test<a href="powerOfTheTest.html#expected-power-of-a-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As discussed in the previous subsections, the power of a test is calculated for each specific value of <span class="math inline">\(\mu\)</span>, measuring the probability of rejecting the wrong hypothesis for the specific parameters. This approach has a limitation, because typically we do not know the true value of <span class="math inline">\(\mu\)</span>, and sometimes selecting the correct one is challenging. One of the solutions in this case is calculating the <strong>expected power of a test</strong> or ``<strong>Assurance</strong>’’ <span class="citation">(O’Hagan et al., <a href="#ref-OHagan2005" role="doc-biblioref">2005</a>)</span>, which is the expectation of the probability <a href="powerOfTheTest.html#eq:powerOfATestConcept">(7.3)</a> for all possible values of <span class="math inline">\(\mu\)</span> for which the hypothesis would be correctly rejected. In a special case, when <span class="math inline">\(\mu\)</span> can only take discrete values, this can be roughly represented as a mean of powers for all values of <span class="math inline">\(\mu\)</span> that are lower than the value <span class="math inline">\(\mu^*\)</span> that corresponds to the critical one (in our example in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a> <span class="math inline">\(\mu^*\)</span> was equal to <span class="math inline">\(2.95\)</span>):
+<span class="math display" id="eq:ExpectedPowerDiscrete">\[\begin{equation}
+    \mathrm{E}(\mathrm{P}(\text{reject wrong }\mathrm{H}_0)) = \sum_{\mu_j&lt;\mu^*} \mathrm{P}(\text{reject }\mathrm{H}_0 | \mu=\mu_j) \times \mathrm{P}(\mu=\mu_j) .
+    \tag{7.7}
+\end{equation}\]</span>
+Note that we sum up all the values up until <span class="math inline">\(\mu^*\)</span>, because the value higher than that would imply that we fail to reject the correct hypothesis. Note that in reality <span class="math inline">\(\mu\)</span> or any other parameter of distribution is typically continuous, which means that a probability density function should be used instead of probabilities and an integral should be used instead of the sum in <a href="powerOfTheTest.html#eq:ExpectedPowerDiscrete">(7.7)</a>, i.e.:
+<span class="math display" id="eq:ExpectedPower">\[\begin{equation}
+    \mathrm{E}(\mathrm{P}(\text{reject wrong }\mathrm{H}_0)) = \int_{-\infty}^{\mu^*} \mathrm{P}(\text{reject }\mathrm{H}_0 | \mu=x) \times f(x)dx .
+    \tag{7.8}
+\end{equation}\]</span></p>
+<div class="remark">
+<p><span id="unlabeled-div-15" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
+</div>
+<p>The calculation of the assurance in some cases can be done analytically. For example, <span class="citation">O’Hagan et al. (<a href="#ref-OHagan2005" role="doc-biblioref">2005</a>)</span> derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
+<!-- For the power curve generated in Figure \@ref(fig:powerCurve), the assurance can be roughly estimated as: --></p>
+<p>Finally, in practice, the assurance is used to determine the sample size for trials. The canonical example of application is deciding how many participants are needed to establish the effectiveness of a medical treatment, by setting the desired assurance to the pre-specified value.</p>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-OHagan2005">
+<p>• O’Hagan, A., Stevens, J.W., Campbell, M.J., 2005. Assurance in clinical trial design. 4, 187–201. <a href="https://doi.org/10.1002/pst.175">https://doi.org/10.1002/pst.175</a></p>
 </div>
 </div>
 
