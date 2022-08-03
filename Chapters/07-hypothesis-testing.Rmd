@@ -291,7 +291,7 @@ There are other factors, which are not as obvious as the two above. For example,
 Furthermore, with the increase of the sample size the distribution of means tends to become narrower due to the Law of Large Numbers (see Section \@ref(LLN)) and thus the power of tests grow, because the critical value moves closer to the centre of distribution.
 
 
-### Mathematical explantion
+### Mathematical explantion {#PowerMathematical}
 Moving from the visual explanation to the mathematical one, we can present the Power of a Test as the following probability:
 \begin{equation}
     \mathrm{P}(\text{reject H}_0 | \mathrm{H}_0 \text{ is wrong}) = 1 - \mathrm{P}(\text{Type II error}) = 1-\beta.
@@ -332,7 +332,7 @@ We could do similar calculations for other cases of the true mean and see how po
 yMean <- 3
 yMeanSD <- 0.18 / sqrt(36)
 levelSignigicance <- 0.05
-zValue <- 3 +qnorm(levelSignigicance) * yMeanSD
+zValue <- 3 + qnorm(levelSignigicance) * yMeanSD
 # Vector of hypothetical population means
 muValues <- seq(2.8,3.1,length.out=100)
 # Vector of values for power curve
@@ -373,18 +373,40 @@ The larger the sample size (element (3)), the more powerful the test becomes in 
 
 
 ```{r powerCurves02, fig.cap="Power curves with different sample sizes.", echo=FALSE}
-muValues <- seq(2.8,3.1,length.out=1000)
-plot(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(1000))), type="l",
+muValuesNew <- seq(2.8,3.1,length.out=1000)
+plot(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(1000))), type="l",
      xlab=TeX("$\\mu$"), ylab="Power of the test")
-lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(300))), col="blue")
-lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(100))), col="purple")
-lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(50))), col="red")
-lines(muValues, pnorm((zValue - muValues)/(yMeanSD*6/sqrt(25))), col="orange")
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(300))), col="blue")
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(100))), col="purple")
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(50))), col="red")
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(25))), col="orange")
 legend("topright", legend=c("n=1000","n=300","n=100","n=50","n=25"),
        col=c("black","blue","purple","red","orange"), lwd=1)
 ```
 
 Finally, the more general point about the "amount of information" applies to the selection between the tests. In the Section \@ref(statisticalTests) we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.
+
+
+### Expected power of a test
+As discussed in the previous subsections, the power of a test is calculated for each specific value of $\mu$, measuring the probability of rejecting the wrong hypothesis for the specific parameters. This approach has a limitation, because typically we do not know the true value of $\mu$, and sometimes selecting the correct one is challenging. One of the solutions in this case is calculating the **expected power of a test** or ``**Assurance**'' [@OHagan2005], which is the expectation of the probability \@ref(eq:powerOfATestConcept) for all possible values of $\mu$ for which the hypothesis would be correctly rejected. In a special case, when $\mu$ can only take discrete values, this can be roughly represented as a mean of powers for all values of $\mu$ that are lower than the value $\mu^*$ that corresponds to the critical one (in our example in Subsection \@ref(PowerMathematical) $\mu^*$ was equal to $2.95$):
+\begin{equation}
+    \mathrm{E}(\mathrm{P}(\text{reject wrong }\mathrm{H}_0)) = \sum_{\mu_j<\mu^*} \mathrm{P}(\text{reject }\mathrm{H}_0 | \mu=\mu_j) \times \mathrm{P}(\mu=\mu_j) .
+    (\#eq:ExpectedPowerDiscrete)
+\end{equation}
+Note that we sum up all the values up until $\mu^*$, because the value higher than that would imply that we fail to reject the correct hypothesis. Note that in reality $\mu$ or any other parameter of distribution is typically continuous, which means that a probability density function should be used instead of probabilities and an integral should be used instead of the sum in \@ref(eq:ExpectedPowerDiscrete), i.e.:
+\begin{equation}
+    \mathrm{E}(\mathrm{P}(\text{reject wrong }\mathrm{H}_0)) = \int_{-\infty}^{\mu^*} \mathrm{P}(\text{reject }\mathrm{H}_0 | \mu=x) \times f(x)dx .
+    (\#eq:ExpectedPower)
+\end{equation}
+
+::: remark
+Note that the integration is done until $\mu^*$, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection \@ref(PowerMathematical), we calculated in equation \@ref(eq:powerOfATest02) that $\mu^*=2.95$. If we had a different null hypothesis, we would do integration differently. For example, in case of $\mathrm{H}_0: \mu \leq 3$, the integration would be done from 2.95 to $\infty$.
+:::
+
+The calculation of the assurance in some cases can be done analytically. For example, @OHagan2005 derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
+<!-- For the power curve generated in Figure \@ref(fig:powerCurve), the assurance can be roughly estimated as: -->
+
+Finally, in practice, the assurance is used to determine the sample size for trials. The canonical example of application is deciding how many participants are needed to establish the effectiveness of a medical treatment, by setting the desired assurance to the pre-specified value.
 
 
 ## Statistical and practical significance {#significance}
