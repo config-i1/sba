@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>16.4 Calculating number of parameters in models | Statistics for Business Analytics</title>
+  <title>3.4 Modelling arrivals – Poisson distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="16.4 Calculating number of parameters in models | Statistics for Business Analytics" />
+  <meta property="og:title" content="3.4 Modelling arrivals – Poisson distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="16.4 Calculating number of parameters in models | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="3.4 Modelling arrivals – Poisson distribution | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="examples-of-popular-log-likelihood-functions.html"/>
-<link rel="next" href="informationCriteria.html"/>
+<link rel="prev" href="distributionBinomial.html"/>
+<link rel="next" href="distributionUniform.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -365,28 +365,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="statisticsNumberOfParameters" class="section level2 hasAnchor" number="16.4">
-<h2><span class="header-section-number">16.4</span> Calculating number of parameters in models<a href="statisticsNumberOfParameters.html#statisticsNumberOfParameters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>When performing model selection and calculating different statistics, it is important to know how many parameters were estimated in the model. While this might seems trivial there are a number of edge cases and wrinkles that are seldom discussed in detail.</p>
-<p>When it comes to inference based on regression models, the general idea is to calculate the number of <strong>all the independent estimated parameters</strong> <span class="math inline">\(k\)</span>. This typically includes all initial components and all coefficients of the model together with the scale, shape and shift parameters of the assumed distribution (e.g. variance in the Normal distribution).</p>
-<div class="example">
-<p><span id="exm:unnamed-chunk-104" class="example"><strong>Example 16.1  </strong></span>In a simple regression model: <span class="math inline">\(y_j = \beta_0 + \beta_1 x_j + \epsilon_j\)</span> - assuming Normal distribution for <span class="math inline">\(\epsilon_j\)</span>, using the MLE will result in the estimation of <span class="math inline">\(k=3\)</span>: the two parameters of the model (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) and the variance of the error term <span class="math inline">\(\sigma^2\)</span>.</p>
+<div id="distributionPoisson" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Modelling arrivals – Poisson distribution<a href="distributionPoisson.html#distributionPoisson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill. All these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
+<span class="math display" id="eq:PoissonTimes">\[\begin{equation}
+    \mathrm{P}(t &gt; \tau_1 + \tau_2) = \mathrm{P}(t &gt; \tau_1)\mathrm{P}(t &gt; \tau_2),
+    \tag{3.6}
+\end{equation}\]</span>
+where <span class="math inline">\(t\)</span> is the waiting time until the next arrival, and <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> are waiting times. The formula <a href="distributionPoisson.html#eq:PoissonTimes">(3.6)</a> shows that the probability that we will wait more than <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> is just equal to the product of probabilities of waiting for more than <span class="math inline">\(\tau_1\)</span> and more than <span class="math inline">\(\tau_2\)</span>. The formula relies on the independence of probabilities (discussed in Section <a href="whatIsProbability.html#whatIsProbability">2.1</a>). From the mathematical point of view, there is a function that supports the property <a href="distributionPoisson.html#eq:PoissonTimes">(3.6)</a> - it is exponent:
+<span class="math display" id="eq:PoissonTimesExp">\[\begin{equation}
+    e^{\tau_1 + \tau_2} = e^{\tau_1} e^{\tau_2} .
+    \tag{3.7}
+\end{equation}\]</span>
+Based on this principle of memorylessness (and based on the Exponential distribution, which we will discuss in Section <a href="#distributionsExponential"><strong>??</strong></a>), Poisson distribution is derived. It is a discrete distribution, which is used for modelling number of patients arriving at specific time intervals, based on the average number of arrivals <span class="math inline">\(\lambda\)</span>. Its PMF has the shape shown in Figure <a href="distributionPoisson.html#fig:poissonPMF">3.8</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:poissonPMF"></span>
+<img src="adam_files/figure-html/poissonPMF-1.png" alt="Probability Mass Function of Poisson distribution with different values of $\lambda$." width="672" />
+<p class="caption">
+Figure 3.8: Probability Mass Function of Poisson distribution with different values of <span class="math inline">\(\lambda\)</span>.
+</p>
 </div>
-<p>If likelihood is not used, then the number of parameters might be different. For example, if we estimate the model via the minimisation of MSE (similar to OLS), then the number of all estimated parameters does not include the variance anymore - it is obtained as a by product of the estimation. This is because the likelihood needs to have all the parameters of distribution in order to be maximised, but with MSE, we just minimise the mean of squared errors, and the variance of the distribution is obtained automatically. While the values of parameters might be the same, the logic is slightly different.</p>
-<div class="example">
-<p><span id="exm:unnamed-chunk-105" class="example"><strong>Example 16.2  </strong></span>This means that for the same simple linear regression, estimated using OLS, the number of parameters is equal to 2: estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
-</div>
-<p>In addition, all the restrictions on the parameters can reduce the number of estimated parameters, when they get to the boundary values.</p>
-<div class="example">
-<p><span id="exm:unnamed-chunk-106" class="example"><strong>Example 16.3  </strong></span>If we know that the parameter <span class="math inline">\(\beta_1\)</span> lies between 0 and 1, and in the estimation process it gets to the value of 1 (due to how the optimiser works), it can be considered as a restriction <span class="math inline">\(\beta_1=1\)</span>. So, when estimated via the minimum of MSE with this restriction, this would imply that <span class="math inline">\(k=1\)</span>.</p>
-</div>
-<p>In general, if a parameter is provided in the model, then it does not count towards the number of all estimated parameters. So, setting <span class="math inline">\(b_1=1\)</span> acts in the same fashion.</p>
-<p>Finally, if a parameter is just a function of another one, then it does not count towards the <span class="math inline">\(k\)</span> as well.</p>
-<div class="example">
-<p><span id="exm:unnamed-chunk-107" class="example"><strong>Example 16.4  </strong></span>If we know that in the same simple linear regression <span class="math inline">\(\beta_1 = \frac{\beta_0}{\sigma^2}\)</span>, then the number of all the estimated parameter via the maximum likelihood is 2: <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
-</div>
-<p>We will come back to the number of parameters later in this textbook, when we discuss specific models.</p>
-<p>A final note: typically, the standard maximum likelihood estimators for the scale, shape and shift parameters are biased in small samples and do not coincide with the OLS estimators. For example, in case of Normal distribution, OLS estimate of variance has <span class="math inline">\(n-k\)</span> in the denominator, while the likelihood one has just <span class="math inline">\(n\)</span>. This needs to be taken into account, when the variance is used in forecasting.</p>
+<p>From the graphs in Figure <a href="distributionPoisson.html#fig:poissonPMF">3.8</a>, we can make several observations:</p>
+<ol style="list-style-type: decimal">
+<li>Zeroes are natural in Poisson distribution. This means that there is a chance that nobody will come in the next hour.</li>
+<li>With the increase of the average number of arrivals <span class="math inline">\(\lambda\)</span>, the chance to have more patients arriving increases. For example, with <span class="math inline">\(\lambda=0.1\)</span>, the probability of having no patients is approximately 0.9, while in case of <span class="math inline">\(\lambda=1\)</span>, it is approximately 0.4.</li>
+<li>With the increase of <span class="math inline">\(\lambda\)</span>, the shape of distribution becomes closer to the Normal one (discuss in Section <a href="distributionsNormal.html#distributionsNormal">4.3</a>).</li>
+</ol>
+<p>Mathematically, the PMF of Poisson distribution is represented as:
+<span class="math display" id="eq:PoissonPMF">\[\begin{equation}
+    f(y, \lambda) = \frac{\lambda^y e^{-\lambda}}{y!} ,
+    \tag{3.8}
+\end{equation}\]</span>
+where <span class="math inline">\(e\)</span> is the Euler’s constant. The part <span class="math inline">\(e^{-\lambda}\)</span> represents the memoryless arrivals of patients. The Poisson distribution is characterised as <span class="math inline">\(\mathcal{Pois}(\lambda)\)</span> and has an additional property that its expectation is equal to variance:
+<span class="math display" id="eq:PoissonMean">\[\begin{equation}
+    \mathrm{E}(y) = \mathrm{V}(y) = \lambda ,
+    \tag{3.9}
+\end{equation}\]</span>
+which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but less than four patients in any specific hour. Assume that based on the available data we estimated that <span class="math inline">\(\hat{\lambda}=2\)</span>. In this situation we need to either use PMF or the CDF to calculate the following probability:
+<span class="math display" id="eq:PoissonProbabilityExample">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{P}(0 &lt; y \leq 4) = &amp; \mathrm{P}(y=1) + \mathrm{P}(y=2) + \mathrm{P}(y=3) + \mathrm{P}(y=4) = \\
+                                   &amp; \mathrm{P}(y \leq 4) - \mathrm{P}(y=0)
+    \end{aligned} .
+    \tag{3.10}
+\end{equation}\]</span></p>
+<p>The first line in <a href="distributionPoisson.html#eq:PoissonProbabilityExample">(3.10)</a> shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="distributionPoisson.html#cb11-1" aria-hidden="true"></a><span class="kw">sum</span>(<span class="kw">dpois</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## [1] 0.8120117</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="distributionPoisson.html#cb13-1" aria-hidden="true"></a><span class="kw">ppois</span>(<span class="dv">4</span>,<span class="dv">2</span>) <span class="op">-</span><span class="st"> </span><span class="kw">ppois</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.8120117</code></pre>
+<p>where <code>dpois()</code> is the PMF and <code>ppois()</code> is the CDF of the Poisson distribution. Mathematically, the CDF of the Poisson distributions is written as:
+<span class="math display" id="eq:PoissonCDF">\[\begin{equation}
+    F(y, \lambda) = e^{-\lambda} \sum_{j=0}^{y} \frac{\lambda^j }{j!} ,
+    \tag{3.11}
+\end{equation}\]</span>
+for integer values of <span class="math inline">\(y\)</span>. Finally, we could get quantiles of the distribution for the specified probability. In R, this is done via the <code>qpois()</code> function. For example, here is the 0.95 quantile for the Poisson distribution with <span class="math inline">\(\hat{\lambda}=2\)</span>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="distributionPoisson.html#cb15-1" aria-hidden="true"></a><span class="kw">qpois</span>(<span class="fl">0.95</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<!-- ::: task -->
+<!-- ::: -->
+<!-- ::: solution -->
+<!-- ::: -->
 </div>
 
             </section>
@@ -394,8 +432,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
           </div>
         </div>
       </div>
-<a href="examples-of-popular-log-likelihood-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="informationCriteria.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributionBinomial.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionUniform.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -426,7 +464,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//16-likelihood.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//03-distributions-count.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-03" />
+<meta name="date" content="2022-08-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,7 +180,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Modelling arrivals – Poisson distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -367,12 +368,12 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="CLT" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="CLT.html#cb58-1" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb58-2"><a href="CLT.html#cb58-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb58-3"><a href="CLT.html#cb58-3" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nIterations){</span>
-<span id="cb58-4"><a href="CLT.html#cb58-4" aria-hidden="true"></a>    yMean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">sample</span>(y,<span class="dv">1000</span>))</span>
-<span id="cb58-5"><a href="CLT.html#cb58-5" aria-hidden="true"></a>}</span>
-<span id="cb58-6"><a href="CLT.html#cb58-6" aria-hidden="true"></a><span class="kw">hist</span>(yMean, <span class="dt">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="CLT.html#cb64-1" aria-hidden="true"></a>nIterations &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb64-2"><a href="CLT.html#cb64-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb64-3"><a href="CLT.html#cb64-3" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nIterations){</span>
+<span id="cb64-4"><a href="CLT.html#cb64-4" aria-hidden="true"></a>    yMean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">sample</span>(y,<span class="dv">1000</span>))</span>
+<span id="cb64-5"><a href="CLT.html#cb64-5" aria-hidden="true"></a>}</span>
+<span id="cb64-6"><a href="CLT.html#cb64-6" aria-hidden="true"></a><span class="kw">hist</span>(yMean, <span class="dt">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histyMean"></span>
 <img src="adam_files/figure-html/histyMean-1.png" alt="Histogram of the mean of the variable y." width="672" />
 <p class="caption">

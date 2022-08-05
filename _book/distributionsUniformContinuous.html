@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-03" />
+<meta name="date" content="2022-08-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,7 +180,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Modelling arrivals – Poisson distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -366,7 +367,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="distributionsUniformContinuous" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Continuous Uniform distribution<a href="distributionsUniformContinuous.html#distributionsUniformContinuous" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section <a href="distributionUniform.html#distributionUniform">3.4</a>, but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+<p>One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section <a href="distributionUniform.html#distributionUniform">3.5</a>, but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
 <span class="math display" id="eq:ContinuousUniformPDF">\[\begin{equation}
     f(y, b, a) = \left\{\begin{aligned}
                         &amp; \frac{1}{b-a} &amp; \text{ for } y \in [a, b] \\

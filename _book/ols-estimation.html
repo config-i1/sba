@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-03" />
+<meta name="date" content="2022-08-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,7 +180,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Modelling arrivals – Poisson distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -396,13 +397,13 @@ Now that we have this compact form of multiple linear regression, we can estimat
     \tag{11.8}
 \end{equation}\]</span>
 The formula <a href="ols-estimation.html#eq:MLROLS">(11.8)</a> is used in all the statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same <code>mtcars</code> dataset:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="ols-estimation.html#cb134-1" aria-hidden="true"></a>mtcarsModel01 &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg<span class="op">~</span>cyl<span class="op">+</span>disp<span class="op">+</span>hp<span class="op">++</span>drat<span class="op">+</span>wt<span class="op">+</span>qsec<span class="op">+</span>gear<span class="op">+</span>carb, mtcars)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="ols-estimation.html#cb140-1" aria-hidden="true"></a>mtcarsModel01 &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg<span class="op">~</span>cyl<span class="op">+</span>disp<span class="op">+</span>hp<span class="op">++</span>drat<span class="op">+</span>wt<span class="op">+</span>qsec<span class="op">+</span>gear<span class="op">+</span>carb, mtcars)</span></code></pre></div>
 <p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ols-estimation.html#cb135-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">fitted</span>(mtcarsModel01),<span class="kw">actuals</span>(mtcarsModel01))</span></code></pre></div>
-<p><img src="adam_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="ols-estimation.html#cb141-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">fitted</span>(mtcarsModel01),<span class="kw">actuals</span>(mtcarsModel01))</span></code></pre></div>
+<p><img src="adam_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="ols-estimation.html#cb136-1" aria-hidden="true"></a>mtcarsModel02 &lt;-<span class="st"> </span><span class="kw">alm</span>(mpg<span class="op">~</span>cyl<span class="op">+</span>disp<span class="op">+</span>hp<span class="op">++</span>drat<span class="op">+</span>wt<span class="op">+</span>qsec<span class="op">+</span>gear<span class="op">+</span>carb, mtcars, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb136-2"><a href="ols-estimation.html#cb136-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="ols-estimation.html#cb142-1" aria-hidden="true"></a>mtcarsModel02 &lt;-<span class="st"> </span><span class="kw">alm</span>(mpg<span class="op">~</span>cyl<span class="op">+</span>disp<span class="op">+</span>hp<span class="op">++</span>drat<span class="op">+</span>wt<span class="op">+</span>qsec<span class="op">+</span>gear<span class="op">+</span>carb, mtcars, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb142-2"><a href="ols-estimation.html#cb142-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsModel02Plot"></span>
 <img src="adam_files/figure-html/mtcarsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">

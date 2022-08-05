@@ -242,7 +242,7 @@ where $t$ is the waiting time until the next arrival, and $\tau_1$ and $\tau_2$ 
 \end{equation}
 Based on this principle of memorylessness (and based on the Exponential distribution, which we will discuss in Section \@ref(distributionsExponential)), Poisson distribution is derived. It is a discrete distribution, which is used for modelling number of patients arriving at specific time intervals, based on the average number of arrivals $\lambda$. Its PMF has the shape shown in Figure \@ref(fig:poissonPMF).
 
-```{r poissonPMF, fig.cap="Probability Mass Function of Poisson distribution with different values of $\lambda$.", echo=FALSE}
+```{r poissonPMF, fig.cap="Probability Mass Function of Poisson distribution with different values of $\\lambda$.", echo=FALSE}
 par(mfrow=c(2,3))
 dpois(c(0:10),lambda=0.1) |> setNames(0:10) |>
 barplot(ylim=c(0,1),

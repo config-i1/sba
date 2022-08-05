@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-03" />
+<meta name="date" content="2022-08-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,7 +180,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
 <li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Tossing a coin – Bernoulli distribution</a></li>
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.4</b> Rolling a dice – Discrete Uniform distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Modelling arrivals – Poisson distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -367,17 +368,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="correlationsMixed" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Mixed scales<a href="correlationsMixed.html#correlationsMixed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Finally, when we have two variables measured in different scales, the general recommendation is to use the measure of association for the lower scale. For example, if we have the nominal variable colour and the ordinal variable size (both related to T-shirts people prefer), we should use Cramer’s V in order to measure the relation between them:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="correlationsMixed.html#cb120-1" aria-hidden="true"></a><span class="kw">cramer</span>(colour,size)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="correlationsMixed.html#cb126-1" aria-hidden="true"></a><span class="kw">cramer</span>(colour,size)</span></code></pre></div>
 <pre><code>## Cramer&#39;s V: 0.2991
 ## Chi^2 statistics = 5.7241, df: 4, p-value: 0.2207</code></pre>
 <p>Similarly, if we have a numerical and ordinal variables, we should use one of the measures for ordinal scales.</p>
 <p>However, in some cases we might be able to use a different measure of association. One of those is called multiple correlation coefficient and can be calculated for variables in numerical vs categorical scales. This coefficient can be calculated using different principles, the simplest of which is constructing a regression model (discussed later in Section <a href="linearRegression.html#linearRegression">11</a>) of numerical variable from the dummy variables (see Section <a href="dummyVariables.html#dummyVariables">13</a>) created from the categorical one and then extracting the square root of coefficient of determination (discussed in Section <a href="#linearRegressionQualityOfFit"><strong>??</strong></a>). The resulting coefficient lies between 0 and 1, where 1 implies perfect linear relation between the two variables and 0 implies no linear relation between them. <code>mcor()</code> function from <code>greybox</code> implements this:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="correlationsMixed.html#cb122-1" aria-hidden="true"></a><span class="kw">mcor</span>(mtcars<span class="op">$</span>am, mtcars<span class="op">$</span>mpg)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="correlationsMixed.html#cb128-1" aria-hidden="true"></a><span class="kw">mcor</span>(mtcars<span class="op">$</span>am, mtcars<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## Multiple correlations value: 0.5998
 ## F-statistics = 16.8603, df: 1, df resid: 30, p-value: 3e-04</code></pre>
 <p>Based on the value above, we can conclude that the type of transmission has a linear relation with the mileage. This aligns with what we have already discovered earlier, in preliminary analysis section (Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) in Figure <a href="dataAnalysisGraphical.html#fig:vioAMMPG">5.14</a>.</p>
 <p>Finally, there is a function <code>assoc()</code> (aka <code>association()</code>) in <code>greybox</code> package, which will automatically select the necessary measure of association based on the type of a variable and produce three matrices: 1. measures of association, 2. p-values for testing H<span class="math inline">\(_0\)</span> that there measure is equal to zero, 3. names of functions used for each pair. Here how it works for the <code>mtcarsData</code> example:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="correlationsMixed.html#cb124-1" aria-hidden="true"></a><span class="kw">assoc</span>(mtcarsData)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="correlationsMixed.html#cb130-1" aria-hidden="true"></a><span class="kw">assoc</span>(mtcarsData)</span></code></pre></div>
 <pre><code>## Associations: 
 ## values:
 ##          mpg    cyl    disp      hp    drat      wt    qsec     vs     am
