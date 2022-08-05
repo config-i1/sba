@@ -164,7 +164,7 @@ These probabilities can be obtained via the PMF of Binomial distribution:
 \end{equation}
 We will denote this distribution as $\mathcal{Bi}(n, p)$. In R, this is implemented in the `dbinom()` function from `stats` package. Note that so far we assumed that $p=0.5$, however in real life this is not necessarily the case.
 
-Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. If we then assume that there is a fixed probability $p=0.1$ that any given hospital decides to by such machine. It is safe to assume that the probability that machine is needed in one hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as $\mathcal{Bi}(20, 0.1)$ and will be an asymmetric distribution, as shown in Figure \@ref(fig:binomialPMF01).
+Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. For demonstration purposes, assume that there is a fixed probability $p=0.1$ that any given hospital decides to bye such machine. It is safe to assume that the probability that machine is needed in a hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as $\mathcal{Bi}(20, 0.1)$ and will be an asymmetric distribution, as shown in Figure \@ref(fig:binomialPMF01).
 
 ```{r binomialPMF01, fig.cap="Probability Mass Function for Binomial distribution with p=0.1 and n=20.", echo=FALSE}
 test <- barplot(dbinom(c(0:20), size=20, prob=0.1),
@@ -227,6 +227,90 @@ From the example above, we can take away several important characteristics ofthe
 Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section \@ref(distributionsNormal).
 
 In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbinom()` and `rbinom()` from `stats` package. The functions have parameter `size` which is the number of trials $n$, and parameter `prob`, which is a probability of success $p$. If `size=1`, the distribution functions revert to the ones from Bernoulli distribution (Section \@ref(distributionBernoulli)).
+
+
+## Modelling arrivals -- Poisson distribution {#distributionPoisson}
+Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill. All these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
+\begin{equation}
+    \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2),
+    (\#eq:PoissonTimes)
+\end{equation}
+where $t$ is the waiting time until the next arrival, and $\tau_1$ and $\tau_2$ are waiting times. The formula \@ref(eq:PoissonTimes) shows that the probability that we will wait more than $\tau_1$ and $\tau_2$ is just equal to the product of probabilities of waiting for more than $\tau_1$ and more than $\tau_2$. The formula relies on the independence of probabilities (discussed in Section \@ref(whatIsProbability)). From the mathematical point of view, there is a function that supports the property \@ref(eq:PoissonTimes) - it is exponent:
+\begin{equation}
+    e^{\tau_1 + \tau_2} = e^{\tau_1} e^{\tau_2} .
+    (\#eq:PoissonTimesExp)
+\end{equation}
+Based on this principle of memorylessness (and based on the Exponential distribution, which we will discuss in Section \@ref(distributionsExponential)), Poisson distribution is derived. It is a discrete distribution, which is used for modelling number of patients arriving at specific time intervals, based on the average number of arrivals $\lambda$. Its PMF has the shape shown in Figure \@ref(fig:poissonPMF).
+
+```{r poissonPMF, fig.cap="Probability Mass Function of Poisson distribution with different values of $\lambda$.", echo=FALSE}
+par(mfrow=c(2,3))
+dpois(c(0:10),lambda=0.1) |> setNames(0:10) |>
+barplot(ylim=c(0,1),
+        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=0.1$"))
+dpois(c(0:10),lambda=0.5) |> setNames(0:10) |>
+barplot(ylim=c(0,1),
+        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=0.5$"))
+dpois(c(0:10),lambda=1) |> setNames(0:10) |>
+barplot(ylim=c(0,1),
+        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=1$"))
+
+dpois(c(0:10),lambda=2) |> setNames(0:10) |>
+barplot(ylim=c(0,1),
+        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=2$"))
+dpois(c(0:10),lambda=3) |> setNames(0:10) |>
+barplot(ylim=c(0,1),
+        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=3$"))
+dpois(c(0:22),lambda=10) |> setNames(0:22) |>
+barplot(ylab="Probability", xlab="y", col="grey95", main=TeX("$\\lambda=10$"))
+```
+
+From the graphs in Figure \@ref(fig:poissonPMF), we can make several observations:
+
+1. Zeroes are natural in Poisson distribution. This means that there is a chance that nobody will come in the next hour.
+2. With the increase of the average number of arrivals $\lambda$, the chance to have more patients arriving increases. For example, with $\lambda=0.1$, the probability of having no patients is approximately 0.9, while in case of $\lambda=1$, it is approximately 0.4.
+3. With the increase of $\lambda$, the shape of distribution becomes closer to the Normal one (discuss in Section \@ref(distributionsNormal)).
+
+Mathematically, the PMF of Poisson distribution is represented as:
+\begin{equation}
+    f(y, \lambda) = \frac{\lambda^y e^{-\lambda}}{y!} ,
+    (\#eq:PoissonPMF)
+\end{equation}
+where $e$ is the Euler's constant. The part $e^{-\lambda}$ represents the memoryless arrivals of patients. The Poisson distribution is characterised as $\mathcal{Pois}(\lambda)$ and has an additional property that its expectation is equal to variance:
+\begin{equation}
+    \mathrm{E}(y) = \mathrm{V}(y) = \lambda ,
+    (\#eq:PoissonMean)
+\end{equation}
+which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but less than four patients in any specific hour. Assume that based on the available data we estimated that $\hat{\lambda}=2$. In this situation we need to either use PMF or the CDF to calculate the following probability:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{P}(0 < y \leq 4) = & \mathrm{P}(y=1) + \mathrm{P}(y=2) + \mathrm{P}(y=3) + \mathrm{P}(y=4) = \\
+                                   & \mathrm{P}(y \leq 4) - \mathrm{P}(y=0)
+    \end{aligned} .
+    (\#eq:PoissonProbabilityExample)
+\end{equation}
+
+The first line in \@ref(eq:PoissonProbabilityExample) shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:
+```{r}
+sum(dpois(1:4,2))
+ppois(4,2) - ppois(0,2)
+```
+
+where `dpois()` is the PMF and `ppois()` is the CDF of the Poisson distribution. Mathematically, the CDF of the Poisson distributions is written as:
+\begin{equation}
+    F(y, \lambda) = e^{-\lambda} \sum_{j=0}^{y} \frac{\lambda^j }{j!} ,
+    (\#eq:PoissonCDF)
+\end{equation}
+for integer values of $y$. Finally, we could get quantiles of the distribution for the specified probability. In R, this is done via the `qpois()` function. For example, here is the 0.95 quantile for the Poisson distribution with $\hat{\lambda}=2$:
+
+```{r}
+qpois(0.95, 2)
+```
+
+<!-- ::: task -->
+<!-- ::: -->
+
+<!-- ::: solution -->
+<!-- ::: -->
 
 
 ## Rolling a dice -- Discrete Uniform distribution {#distributionUniform}
@@ -295,9 +379,6 @@ Inserting the values in the CDF of the Uniform distribution \@ref(eq:BernoulliCD
 ::: remark
 Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While we do not discuss it here, we note that this is a distribution, which is, for example, used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.
 :::
-
-
-<!-- ## Poisson distribution  -->
 
 
 <!-- ## Geometric -->
