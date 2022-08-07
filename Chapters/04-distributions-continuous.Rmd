@@ -107,7 +107,7 @@ The CDF of the Uniform distribution corresponds to the straight line going from 
 
 ```{r uniformCDFContinuous, fig.cap="Cumulative Density Function of Continuous Uniform distribution.", echo=FALSE}
 plot(seq(0,10,by=0.1),punif(seq(0,10,by=0.1),0,10),
-     ylab="Density",xlab="y", type="l")
+     ylab="Probability",xlab="y", type="l")
 ```
 
 Mathematically, the CDF can be represented as:
@@ -172,9 +172,7 @@ Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning
 When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure \@ref(fig:pnormPlot).
 
 ```{r pnormPlot, fig.cap="Cumulative Distribution Function of Standard Normal distribution", echo=FALSE}
-plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
-# abline(v=0, col="red")
-# text(0.5,0.05,TeX("$\\mu =0$"))
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Probability",xlab="y",main="")
 ```
 
 The CDF in Figure \@ref(fig:pnormPlot) has the properties of any other CDF: it converges to one with the increase of the value of $y$ and reaches zero asymptotically with the decrease of the value of $y$. It can be used to solve problems of the style "what is the probability that $y$ will lie between 20 and 30 for the $\mathcal{N}(20, 10)$". In R, this can be done by entering the values of $y$, $\mu$ and $\sigma^2$ in the following function (note that in R, the scale is the standard deviation $\sigma$, not the variance $\sigma^2$):
@@ -270,8 +268,105 @@ lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col="darkred")
 
 Normal distribution is implemented in `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions from `stats` package in R.
 
+Finally, as mentioned earlier, Normal distribution is popular among statisticians to use for the error term in a model of a type:
+\begin{equation}
+    y_j = \mu_j + \epsilon_j,
+    (\#eq:NormalModel)
+\end{equation}
+where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. The main reason for this is the ease of use of the distribution, and because it is described using its mean and variance. For example, based on \@ref(eq:NormalModel), we can say that $y_j \sim \mathcal{N}(\mu_j, \sigma^2)$, because as we remember from Chapter \@ref(probabilityTheory), $\mathrm{E}(y_j)=\mathrm{E}(\mu_j) + \mathrm{E}(\epsilon_j)=\mathrm{E}(\mu_j)$. In reality, the error term of a model might not follow normal distribution, it can be more complicated and sometimes might not follow any theoretical distribution.
 
-<!-- ## Exponential distribution {#distributionsExponential} -->
+
+## Exponential distribution {#distributionsExponential}
+We have already touched upon the Exponential distribution, when we discussed the arrival times (Section \@ref(distributionPoisson)). We mentioned that if a process is memoryless, then the following holds:
+\begin{equation*}
+    \mathrm{P}(y > \tau_1 + \tau_2) = \mathrm{P}(y > \tau_1)\mathrm{P}(y > \tau_2) .
+\end{equation*}
+Exponential distribution is typically used for modelling arrival time, because it relies on this property. Here is its PDF:
+\begin{equation}
+    f(y, \lambda) = \lambda e^{-\lambda y} ,
+    (\#eq:ExponentialPMF)
+\end{equation}
+where $y$ is a positive number and $\lambda$ is the rate parameter. This PDF is shown in Figure \@ref(fig:dexpPlot).
+
+```{r dexpPlot, fig.cap="Probability Density Function of Exponential distribution with several values of rate parameter $\\lambda$.", echo=FALSE}
+plot(seq(0,4,0.1), dexp(seq(0,4,0.1),2), type="l",
+     ylab="Density", xlab="y", main="", lwd=2,
+     xlim=c(0,3))
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),1), col="darkred", lwd=2)
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
+legend("topright", legend=c(TeX("\\lambda=2"),TeX("\\lambda=1"),TeX("\\lambda=0.5")),
+       lwd=2, col=c("black","darkred","darkblue"))
+```
+
+The plot in Figure \@ref(fig:dexpPlot) shows that there is more likely for the variable $y$ to get lower values (closer to zero) than the higher ones. The parameter $\lambda$ controls the steepness of decline of the density curve with increase of $y$: the higher the rate is, the more likely it is that the event will occur earlier and less likely that it will occur later.
+
+The CDF of the distribution is shown in Figure \@ref(fig:pexpPlot).
+
+```{r pexpPlot, fig.cap="Cumulative Distribution Function of Exponential distribution with a variety of rate parameters.", echo=FALSE}
+plot(seq(0,4,0.1), pexp(seq(0,4,0.1),2), type="l",
+     ylab="Probability", xlab="y", main="", lwd=2,
+     xlim=c(0,3))
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),1), col="darkred", lwd=2)
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
+legend("topright", legend=c(TeX("\\lambda=2"),TeX("\\lambda=1"),TeX("\\lambda=0.5")),
+       lwd=2, col=c("black","darkred","darkblue"))
+```
+
+The CDFs show how fast the probability of one is achieved with different rates. Mathematically, it is written as:
+\begin{equation}
+    \mathrm{F}(y, \lambda) = 1 - e^{- \lambda y}.
+    (\#eq:ExponentialCDF)
+\end{equation}
+Based on it, we can say, for example what is the probability that an event will occur in 1.5 seconds if the rate is $\lambda=2$ per second. It is:
+\begin{equation*}
+    \mathrm{F}(y < 1.5, 2) = 1 - e^{- 2 \times 1.5} \approx 0.95 .
+\end{equation*}
+
+This can also be calculated in R:
+
+```{r}
+pexp(1.5, rate=2)
+```
+
+Coming back to the memorylessness property of the distribution, in order to show it visually, consider an example based on the property:
+\begin{equation*}
+    \mathrm{P}(y > 1.5) = \mathrm{P}(y > 0.5) \mathrm{P}(y > 1)
+\end{equation*}
+and $\lambda=2$. Note that $P(y>a)=1-F(a)$ by definition of CDF. In terms of probabilities of Exponential distribution, this means that:
+\begin{equation*}
+    \mathrm{P}(y > 1.5) = (1-\mathrm{F}(1, 2)) (1-\mathrm{F}(0.5, 2)) .
+\end{equation*}
+Now, in order to show this property visually, we take logarithms of the left and right hand sides of the previous equation to get:
+\begin{equation}
+    \log \left( \mathrm{P}(y > 1.5) \right) = \log \left(1-\mathrm{F}(1, 2) \right) + \log \left( 1-\mathrm{F}(0.5, 2)  \right) .
+    (\#eq:ExponentialCDFMemory01)
+\end{equation}
+We take logarithms to linearise relation, because it is easier to work with. If we now insert \@ref(eq:ExponentialCDF) in \@ref(eq:ExponentialCDFMemory01), we will get:
+\begin{equation}
+    \log \left( \mathrm{P}(y > 1.5) \right) = \log \left(1- 1 + e^{- 2 \times 1} \right) + \log \left(1- 1 + e^{- 2 \times 0.5} \right) = -2 - 1 = -3 ,
+    (\#eq:ExponentialCDFMemory02)
+\end{equation}
+which is obtained independently for $\log(1-F(1.5, 2))$
+We can also plot $\log(1-F(y, 2))$ in Figure \@ref(fig:pexpPlotMemory) to show that \@ref(eq:ExponentialCDFMemory02) holds, when the values on y-axis are added.
+
+```{r pexpPlotMemory, fig.cap="Memoryless property of Exponential distibution with $\\lambda=2$.", echo=FALSE}
+plot(seq(0,4,0.1), log(1-pexp(seq(0,4,0.1),2)), type="l",
+     ylab="log(1-F(y,2))", xlab="y", main="", lwd=2,
+     xlim=c(0,3), ylim=c(-5,0))
+# 1.5
+lines(c(1.5,1.5),c(-5,log(1-pexp(1.5,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,1.5),log(rep(1-pexp(1.5,2),2)), lty=2, lwd=2, col="grey")
+# 0.5
+lines(c(0.5,0.5),c(-5,log(1-pexp(0.5,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,0.5),log(rep(1-pexp(0.5,2),2)), lty=2, lwd=2, col="grey")
+# 1
+lines(c(1,1),c(-5,log(1-pexp(1,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,1),log(rep(1-pexp(1,2),2)), lty=2, lwd=2, col="grey")
+```
+
+Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent. Accidentally, $-\log(1-F(y, \lambda))$ is called cumulative hazard function.
+
+<!-- Expectation, Variance, how to use with Poisson -->
 
 
 <!-- ## Laplace distribution {#distributionsLaplace} -->
