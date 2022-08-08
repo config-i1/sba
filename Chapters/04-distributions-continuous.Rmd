@@ -276,6 +276,25 @@ Finally, as mentioned earlier, Normal distribution is popular among statistician
 where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. The main reason for this is the ease of use of the distribution, and because it is described using its mean and variance. For example, based on \@ref(eq:NormalModel), we can say that $y_j \sim \mathcal{N}(\mu_j, \sigma^2)$, because as we remember from Chapter \@ref(probabilityTheory), $\mathrm{E}(y_j)=\mathrm{E}(\mu_j) + \mathrm{E}(\epsilon_j)=\mathrm{E}(\mu_j)$. In reality, the error term of a model might not follow normal distribution, it can be more complicated and sometimes might not follow any theoretical distribution.
 
 
+## Log-Normal distributions {#distributionLogNormal}
+Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable. It is said that $y \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y \sim \mathcal{N}(\mu_y, \sigma^2)$. This can also be written differently if we take $x=\log(y)$: $e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how because of the $y=e^x$ transformation the density changes.
+
+```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions"}
+par(mfrow=c(2,2), mar=c(4,5,1,0))
+plot(0,0,col="white",axes=F, xlab="", ylab="")
+plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
+plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
+plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
+```
+
+The PDF of the Log-Normal distribution is typically skewed with a long right tail. The PDF itself is:
+\begin{equation}
+    f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
+    (\#eq:LogNormalPDF)
+\end{equation}
+
+
+
 ## Exponential distribution {#distributionsExponential}
 We have already touched upon the Exponential distribution, when we discussed the arrival times in Poisson distribution (Section \@ref(distributionPoisson)). Exponential distribution is used in modelling time between arrivals, because it is memoryless. We mentioned earlier that if a process is memoryless, then the following holds:
 \begin{equation*}
@@ -378,8 +397,27 @@ which makes it easy to estimate on a sample of observations -- just take the mea
 \end{equation}
 where $\lambda_P$ is the parameter of the Poisson distribution. The main difference between the distributions is that Poisson explains the number of arrivals over a fixed period of time, while the Exponential represents the time between the arrivals.
 
+Finally, the variance in Exponential distribution is calculated as:
+\begin{equation}
+    \mathrm{V}(t) = \frac{1}{\lambda^2},
+    (\#eq:ExponentialVariance)
+\end{equation}
 
-<!-- Variance -->
+In R, the Exponential distribution is implemented in `dexp()`, `pexp()`, `qexp()` and `rexp()` for PDF, CDF, QF and Random variables respectively.
+
+
+
+<!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
+<!-- \begin{equation} -->
+<!--     f_{log}(\log(y_t)) = \frac{1}{y_t} f(\log y_t). -->
+<!--     (\#eq:logDistribution) -->
+<!-- \end{equation} -->
+<!-- They are defined for positive values only and will have different right tail, depending on the location, scale and shape parameters. $\exp(\mu_{\log y,t})$ in this case represents the geometric mean (and median) of distribution rather than the arithmetic one. The conditional expectation in these distributions is typically higher than $\exp(\mu_{\log y,t})$ and depends on the value of the scale parameter. It is known for log$\mathcal{N}$ and is equal to: -->
+<!-- \begin{equation} -->
+<!--     \mathrm{E}(y_t) = \mathrm{exp}\left(\mu_{\log y,t} + \frac{\sigma^2}{2} \right). -->
+<!--     (\#eq:logNMean) -->
+<!-- \end{equation} -->
+<!-- However, it does not have a simple form for the other distributions. -->
 
 
 <!-- ## Laplace distribution {#distributionsLaplace} -->
@@ -517,8 +555,7 @@ where $\lambda_P$ is the parameter of the Poisson distribution. The main differe
 
 <!-- Functions `dalaplace`, `qalaplace`, `palaplace` and `ralaplace` from `greybox` package implement the Asymmetric Laplace distribution. -->
 
-
-<!-- ## Log Normal, Log Laplace, Log S and Log GN distributions -->
+<!-- ## Log Laplace, Log S and Log GN distributions -->
 
 <!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
 <!-- \begin{equation} -->
@@ -531,7 +568,6 @@ where $\lambda_P$ is the parameter of the Poisson distribution. The main differe
 <!--     (\#eq:logNMean) -->
 <!-- \end{equation} -->
 <!-- However, it does not have a simple form for the other distributions. -->
-
 
 <!-- ## Inverse Gaussian distribution {#IGDistribution} -->
 
