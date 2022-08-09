@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.4 Log-Normal distributions | Statistics for Business Analytics</title>
+  <title>4.4 Log-Normal distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.4 Log-Normal distributions | Statistics for Business Analytics" />
+  <meta property="og:title" content="4.4 Log-Normal distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.4 Log-Normal distributions | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="4.4 Log-Normal distribution | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-08" />
+<meta name="date" content="2022-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
 <li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
-<li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distributions</a></li>
+<li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="distributionsExponential.html"><a href="distributionsExponential.html"><i class="fa fa-check"></i><b>4.5</b> Exponential distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a><ul>
@@ -332,20 +332,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
 <div id="distributionLogNormal" class="section level2 hasAnchor">
-<h2><span class="header-section-number">4.4</span> Log-Normal distributions<a href="distributionLogNormal.html#distributionLogNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">4.4</span> Log-Normal distribution<a href="distributionLogNormal.html#distributionLogNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Log-Normal distribution is closely related to the Normal one and is supported for the positive values of <span class="math inline">\(y\)</span>. It is defined as a distribution arising after a transformation of a variable. It is said that <span class="math inline">\(y \sim \log\mathcal{N}(\mu_y, \sigma^2)\)</span> if <span class="math inline">\(\log y \sim \mathcal{N}(\mu_y, \sigma^2)\)</span>. This can also be written differently if we take <span class="math inline">\(x=\log(y)\)</span>: <span class="math inline">\(e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)\)</span> if <span class="math inline">\(x \sim \mathcal{N}(\mu_y, \sigma^2)\)</span>. Figure <a href="distributionLogNormal.html#fig:normalLogConnection">4.15</a> shows the connection between Normal and Log-Normal distributions. In that plot, we can see how because of the <span class="math inline">\(y=e^x\)</span> transformation the density changes.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="kw">plot</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>,<span class="dt">axes=</span>F, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb21-3" title="3"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>),<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Density&quot;</span>)</a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="kw">plot</span>(<span class="kw">dlnorm</span>(<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)),<span class="dv">0</span>,<span class="fl">0.5</span>),<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Density&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb21-5" title="5"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb21-2" title="2"><span class="kw">plot</span>(<span class="kw">dlnorm</span>(<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)),<span class="dv">0</span>,<span class="fl">0.5</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>),<span class="dv">0</span>,<span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb21-3" title="3">     <span class="dt">col=</span><span class="st">&quot;white&quot;</span>,</a>
+<a class="sourceLine" id="cb21-4" title="4">     <span class="dt">axes=</span>F, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>),<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Density&quot;</span>)</a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="kw">plot</span>(<span class="kw">dlnorm</span>(<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)),<span class="dv">0</span>,<span class="fl">0.5</span>),<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Density&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:normalLogConnection"></span>
 <img src="adam_files/figure-html/normalLogConnection-1.png" alt="Connection between Normal and Log-Normal distributions" width="672" />
 <p class="caption">
 Figure 4.15: Connection between Normal and Log-Normal distributions
 </p>
 </div>
-<p>The PDF of the Log-Normal distribution is typically skewed with a long right tail. The PDF itself is:
+<p>The PDF of the Log-Normal distribution is typically skewed with a long right tail. It is written mathematically as:
 <span class="math display" id="eq:LogNormalPDF">\[\begin{equation}
     f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
     \tag{4.10}
