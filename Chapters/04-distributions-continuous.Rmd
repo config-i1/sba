@@ -277,7 +277,7 @@ where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. 
 
 
 ## Log-Normal distribution {#distributionLogNormal}
-Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable. It is said that $y \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y \sim \mathcal{N}(\mu_y, \sigma^2)$. This can also be written differently if we take $x=\log(y)$: $e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how because of the $y=e^x$ transformation the density changes.
+Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable. It is said that $y \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y \sim \mathcal{N}(\mu_y, \sigma^2)$. This can also be written differently if we take $x=\log(y)$: $e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the $y=e^x$ transformation.
 
 ```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions"}
 par(mfrow=c(2,2), mar=c(4,5,1,0))
@@ -289,12 +289,18 @@ plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xl
 plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
 ```
 
-The PDF of the Log-Normal distribution is typically skewed with a long right tail. It is written mathematically as:
+Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
+
+The PDF of the Log-Normal distribution is written mathematically as:
 \begin{equation}
     f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
     (\#eq:LogNormalPDF)
 \end{equation}
-
+The skewness of distribution depends on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. In fact, the skewness can be calculated as:
+\begin{equation}
+    \mathrm{Sk}(y) = \left(\exp(\sigma^2) + 2\right) \sqrt{\exp(\sigma^2)-1} .
+    (\#eq:LogNormalSkewness)
+\end{equation}
 
 
 ## Exponential distribution {#distributionsExponential}
