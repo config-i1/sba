@@ -285,8 +285,17 @@ plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
      col="white",
      axes=F, xlab="", ylab="",type="l")
 plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
+lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=2, lwd=2, col="grey")
+# lines(c(-2,0.5), rep(dnorm(0.5,0,0.5),2), lty=2, lwd=2, col="grey")
+# polygon()
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
+# lines(c(0,dlnorm(exp(0.5),0,0.5)), rep(exp(0.5),2), lty=2, lwd=2, col="grey")
+abline(h=exp(0.5), lty=2, lwd=2, col="grey")
+# polygon()
 plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
+lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="grey")
+# abline(v=0.5, lty=2, lwd=2, col="grey")
+lines(c(-2,0.5), rep(exp(0.5),2), lty=2, lwd=2, col="grey")
 ```
 
 Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
