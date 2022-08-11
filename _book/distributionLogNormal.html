@@ -341,16 +341,26 @@ Figure 4.15: Connection between Normal and Log-Normal distributions
 </p>
 </div>
 <p>The dark areas on the plots in Figure <a href="distributionLogNormal.html#fig:normalLogConnection">4.15</a> show equal probabilities for the Normal and Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for <span class="math inline">\(y\)</span>, we need to produce a quantile from the Normal one for <span class="math inline">\(x\)</span> and then exponentiate the value.</p>
-<p>Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.</p>
+<p>Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models of the style:
+<span class="math display" id="eq:LogNormalModel">\[\begin{equation}
+    y_j = \mu_j \epsilon_j ,
+    \tag{4.10}
+\end{equation}\]</span>
+which is equivalent to:
+<span class="math display" id="eq:LogNormalModelLogs">\[\begin{equation}
+    \log y_j = \log \mu_j + \log \epsilon_j ,
+    \tag{4.11}
+\end{equation}\]</span>
+where <span class="math inline">\(\epsilon_j \sim \mathrm{log}\mathcal{N}(0, \sigma^2)\)</span> and <span class="math inline">\(\log \epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>. Log-Normal distribution is also used to model, for example, prices or income of households. When talking about the latter, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.</p>
 <p>The PDF of the Log-Normal distribution is written mathematically as:
 <span class="math display" id="eq:LogNormalPDF">\[\begin{equation}
     f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
-    \tag{4.10}
+    \tag{4.12}
 \end{equation}\]</span>
 The skewness of the Log-Normal distribution depends on the value of <span class="math inline">\(\sigma^2\)</span> - the higher it is, the more skewed the distribution is. In fact, the skewness can be calculated as:
 <span class="math display" id="eq:LogNormalSkewness">\[\begin{equation}
     \mathrm{Sk}(y) = \left(e^{\sigma^2} + 2\right) \sqrt{e^{\sigma^2}-1} .
-    \tag{4.11}
+    \tag{4.13}
 \end{equation}\]</span></p>
 </div>
             </section>

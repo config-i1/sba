@@ -340,7 +340,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Exponential distribution relies on this property. Here is its PDF:
 <span class="math display" id="eq:ExponentialPMF">\[\begin{equation}
     f(t, \lambda) = \lambda e^{-\lambda t} ,
-    \tag{4.12}
+    \tag{4.14}
 \end{equation}\]</span>
 where <span class="math inline">\(t\)</span> is a positive number and <span class="math inline">\(\lambda\)</span> is the rate parameter. This PDF is shown in Figure <a href="distributionsExponential.html#fig:dexpPlot">4.16</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:dexpPlot"></span>
@@ -360,7 +360,7 @@ Figure 4.17: Cumulative Distribution Function of Exponential distribution with a
 <p>The CDFs show how fast the probability of one is achieved with different rates. Mathematically, it is written as:
 <span class="math display" id="eq:ExponentialCDF">\[\begin{equation}
     \mathrm{F}(t, \lambda) = 1 - e^{- \lambda t}.
-    \tag{4.13}
+    \tag{4.15}
 \end{equation}\]</span>
 Based on it, we can say, for example what is the probability that an event will occur in 1.5 seconds if the rate is <span class="math inline">\(\lambda=2\)</span> per second. It is:
 <span class="math display">\[\begin{equation*}
@@ -380,15 +380,15 @@ and <span class="math inline">\(\lambda=2\)</span>. Note that <span class="math 
 Now, in order to show this property visually, we take logarithms of the left and right hand sides of the previous equation to get:
 <span class="math display" id="eq:ExponentialCDFMemory01">\[\begin{equation}
     \log \left( \mathrm{P}(t &gt; 1.5) \right) = \log \left(1-\mathrm{F}(1, 2) \right) + \log \left( 1-\mathrm{F}(0.5, 2)  \right) .
-    \tag{4.14}
+    \tag{4.16}
 \end{equation}\]</span>
-We take logarithms to linearise relation, because it is easier to work with. If we now insert <a href="distributionsExponential.html#eq:ExponentialCDF">(4.13)</a> in <a href="distributionsExponential.html#eq:ExponentialCDFMemory01">(4.14)</a>, we will get:
+We take logarithms to linearise relation, because it is easier to work with. If we now insert <a href="distributionsExponential.html#eq:ExponentialCDF">(4.15)</a> in <a href="distributionsExponential.html#eq:ExponentialCDFMemory01">(4.16)</a>, we will get:
 <span class="math display" id="eq:ExponentialCDFMemory02">\[\begin{equation}
     \log \left( \mathrm{P}(t &gt; 1.5) \right) = \log \left(1- 1 + e^{- 2 \times 1} \right) + \log \left(1- 1 + e^{- 2 \times 0.5} \right) = -2 - 1 = -3 ,
-    \tag{4.15}
+    \tag{4.17}
 \end{equation}\]</span>
 which is obtained independently for <span class="math inline">\(\log(1-F(1.5, 2))\)</span>
-We can also plot <span class="math inline">\(\log(1-F(t, 2))\)</span> in Figure <a href="distributionsExponential.html#fig:pexpPlotMemory">4.18</a> to show that <a href="distributionsExponential.html#eq:ExponentialCDFMemory02">(4.15)</a> holds, when the values on y-axis are added.</p>
+We can also plot <span class="math inline">\(\log(1-F(t, 2))\)</span> in Figure <a href="distributionsExponential.html#fig:pexpPlotMemory">4.18</a> to show that <a href="distributionsExponential.html#eq:ExponentialCDFMemory02">(4.17)</a> holds, when the values on y-axis are added.</p>
 <div class="figure"><span style="display:block;" id="fig:pexpPlotMemory"></span>
 <img src="adam_files/figure-html/pexpPlotMemory-1.png" alt="Memoryless property of Exponential distibution with $\lambda=2$." width="672" />
 <p class="caption">
@@ -399,18 +399,18 @@ Figure 4.18: Memoryless property of Exponential distibution with <span class="ma
 <p>When it comes to the mean of the distribution, it is equal to:
 <span class="math display" id="eq:ExponentialMean">\[\begin{equation}
     \mathrm{E}(t) = \frac{1}{\lambda},
-    \tag{4.16}
+    \tag{4.18}
 \end{equation}\]</span>
 which makes it easy to estimate on a sample of observations – just take the mean, and you get an estimate of the rate parameter <span class="math inline">\(\lambda\)</span>. Furthermore, the rate parameter in Exponential distribution is directly related to the one in the Poisson (Section <a href="distributionPoisson.html#distributionPoisson">3.4</a>): the parameter in the latter equals the ratio of time interval <span class="math inline">\(t\)</span> and <span class="math inline">\(\lambda\)</span>:
 <span class="math display" id="eq:ExponentialLambdaPoisson">\[\begin{equation}
     \lambda_P = \frac{t}{\lambda},
-    \tag{4.17}
+    \tag{4.19}
 \end{equation}\]</span>
 where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poisson distribution. The main difference between the distributions is that Poisson explains the number of arrivals over a fixed period of time, while the Exponential represents the time between the arrivals.</p>
 <p>Finally, the variance in Exponential distribution is calculated as:
 <span class="math display" id="eq:ExponentialVariance">\[\begin{equation}
     \mathrm{V}(t) = \frac{1}{\lambda^2},
-    \tag{4.18}
+    \tag{4.20}
 \end{equation}\]</span></p>
 <p>In R, the Exponential distribution is implemented in <code>dexp()</code>, <code>pexp()</code>, <code>qexp()</code> and <code>rexp()</code> for PDF, CDF, QF and Random variables respectively.</p>
 <!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
