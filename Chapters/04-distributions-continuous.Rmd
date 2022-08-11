@@ -313,7 +313,17 @@ text(0.9,3,TeX("$y=e^x$"),pos=3)
 
 The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
 
-Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
+Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models of the style:
+\begin{equation}
+    y_j = \mu_j \epsilon_j ,
+    (\#eq:LogNormalModel)
+\end{equation}
+which is equivalent to:
+\begin{equation}
+    \log y_j = \log \mu_j + \log \epsilon_j ,
+    (\#eq:LogNormalModelLogs)
+\end{equation}
+where $\epsilon_j \sim \mathrm{log}\mathcal{N}(0, \sigma^2)$ and $\log \epsilon_j \sim \mathcal{N}(0, \sigma^2)$. Log-Normal distribution is also used to model, for example, prices or income of households. When talking about the latter, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
 
 The PDF of the Log-Normal distribution is written mathematically as:
 \begin{equation}
