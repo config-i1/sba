@@ -279,24 +279,39 @@ where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. 
 ## Log-Normal distribution {#distributionLogNormal}
 Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable. It is said that $y \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y \sim \mathcal{N}(\mu_y, \sigma^2)$. This can also be written differently if we take $x=\log(y)$: $e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the $y=e^x$ transformation.
 
-```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions"}
+```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions", echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,5,1,0))
+#Empty
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
      col="white",
      axes=F, xlab="", ylab="",type="l")
+# Normal
 plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
-lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=2, lwd=2, col="grey")
+polygon(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01))),
+        c(dnorm(seq(-1.5,1.5,0.01),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
+        col="grey95")
+polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
+        c(dnorm(seq(-1.5,0.5,0.01),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
+        col="lightgrey")
+lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=1, lwd=2, col="darkred")
 # lines(c(-2,0.5), rep(dnorm(0.5,0,0.5),2), lty=2, lwd=2, col="grey")
-# polygon()
+# Log-Normal
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
-# lines(c(0,dlnorm(exp(0.5),0,0.5)), rep(exp(0.5),2), lty=2, lwd=2, col="grey")
-abline(h=exp(0.5), lty=2, lwd=2, col="grey")
-# polygon()
+polygon(c(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
+        exp(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01)))),
+        col="grey95")
+polygon(c(dlnorm(exp(seq(-1.5,0.5,0.01)),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
+        exp(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01)))),
+        col="lightgrey")
+abline(h=exp(0.5), lty=1, lwd=2, col="darkred")
+# exp(x)
 plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
-lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="grey")
-# abline(v=0.5, lty=2, lwd=2, col="grey")
-lines(c(-2,0.5), rep(exp(0.5),2), lty=2, lwd=2, col="grey")
+lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="darkred")
+lines(c(-2,0.5), rep(exp(0.5),2), lty=2, lwd=2, col="darkred")
+text(0.9,3,TeX("$y=e^x$"),pos=3)
 ```
+
+The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
 
 Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
 
@@ -330,7 +345,7 @@ plot(seq(0,4,0.1), dexp(seq(0,4,0.1),2), type="l",
      xlim=c(0,3))
 lines(seq(0,4,0.1), dexp(seq(0,4,0.1),1), col="darkred", lwd=2)
 lines(seq(0,4,0.1), dexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
-legend("topright", legend=c(TeX("\\lambda=2"),TeX("\\lambda=1"),TeX("\\lambda=0.5")),
+legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
        lwd=2, col=c("black","darkred","darkblue"))
 ```
 
@@ -344,7 +359,7 @@ plot(seq(0,4,0.1), pexp(seq(0,4,0.1),2), type="l",
      xlim=c(0,3))
 lines(seq(0,4,0.1), pexp(seq(0,4,0.1),1), col="darkred", lwd=2)
 lines(seq(0,4,0.1), pexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
-legend("topright", legend=c(TeX("\\lambda=2"),TeX("\\lambda=1"),TeX("\\lambda=0.5")),
+legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
        lwd=2, col=c("black","darkred","darkblue"))
 ```
 
