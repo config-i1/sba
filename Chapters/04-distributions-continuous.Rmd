@@ -277,7 +277,7 @@ where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. 
 
 
 ## Log-Normal distribution {#distributionLogNormal}
-Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable. It is said that $y \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y \sim \mathcal{N}(\mu_y, \sigma^2)$. This can also be written differently if we take $x=\log(y)$: $e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the $y=e^x$ transformation.
+Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable $x=\log(y)$ or equivalently $y=e^x$. It is said that $y=e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y = x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the $y=e^x$ transformation.
 
 ```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions", echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,5,1,0))
