@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-10" />
+<meta name="date" content="2022-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -340,14 +340,14 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 \end{equation}\]</span>
 where <span class="math inline">\(\beta_0\)</span> is the intercept (constant term), <span class="math inline">\(\beta_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_j\)</span> is the error term. The regression model is a basic <a href="what-is-model.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_j\)</span> and the response variable <span class="math inline">\(y_j\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
 <p>In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) shown in Figure <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">10.1</a>.</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1">slmMPGWt &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg<span class="op">~</span>wt,mtcarsData)</a>
-<a class="sourceLine" id="cb135-2" title="2"><span class="kw">plot</span>(mtcarsData<span class="op">$</span>wt, mtcarsData<span class="op">$</span>mpg,</a>
-<a class="sourceLine" id="cb135-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Mileage&quot;</span>,</a>
-<a class="sourceLine" id="cb135-4" title="4">     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">6</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">40</span>))</a>
-<a class="sourceLine" id="cb135-5" title="5"><span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a>
-<a class="sourceLine" id="cb135-6" title="6"><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a>
-<a class="sourceLine" id="cb135-7" title="7"><span class="kw">abline</span>(slmMPGWt,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
-<a class="sourceLine" id="cb135-8" title="8"><span class="kw">text</span>(<span class="dv">4</span>,<span class="dv">35</span>,<span class="kw">paste0</span>(<span class="kw">c</span>(<span class="st">&quot;mpg=&quot;</span>,<span class="kw">round</span>(<span class="kw">coef</span>(slmMPGWt),<span class="dv">2</span>),<span class="st">&quot;wt+et&quot;</span>),<span class="dt">collapse=</span><span class="st">&quot;&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1">slmMPGWt &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg<span class="op">~</span>wt,mtcarsData)</a>
+<a class="sourceLine" id="cb134-2" title="2"><span class="kw">plot</span>(mtcarsData<span class="op">$</span>wt, mtcarsData<span class="op">$</span>mpg,</a>
+<a class="sourceLine" id="cb134-3" title="3">     <span class="dt">xlab=</span><span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Mileage&quot;</span>,</a>
+<a class="sourceLine" id="cb134-4" title="4">     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">6</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">40</span>))</a>
+<a class="sourceLine" id="cb134-5" title="5"><span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a>
+<a class="sourceLine" id="cb134-6" title="6"><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</a>
+<a class="sourceLine" id="cb134-7" title="7"><span class="kw">abline</span>(slmMPGWt,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb134-8" title="8"><span class="kw">text</span>(<span class="dv">4</span>,<span class="dv">35</span>,<span class="kw">paste0</span>(<span class="kw">c</span>(<span class="st">&quot;mpg=&quot;</span>,<span class="kw">round</span>(<span class="kw">coef</span>(slmMPGWt),<span class="dv">2</span>),<span class="st">&quot;wt+et&quot;</span>),<span class="dt">collapse=</span><span class="st">&quot;&quot;</span>))</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:scatterWeightMPG2"></span>
 <img src="adam_files/figure-html/scatterWeightMPG2-1.png" alt="Scatterplot diagram between weight and mileage." width="672" />
 <p class="caption">

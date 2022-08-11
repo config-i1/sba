@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-10" />
+<meta name="date" content="2022-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -334,19 +334,13 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="distributionLogNormal" class="section level2 hasAnchor">
 <h2><span class="header-section-number">4.4</span> Log-Normal distribution<a href="distributionLogNormal.html#distributionLogNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Log-Normal distribution is closely related to the Normal one and is supported for the positive values of <span class="math inline">\(y\)</span>. It is defined as a distribution arising after a transformation of a variable. It is said that <span class="math inline">\(y \sim \log\mathcal{N}(\mu_y, \sigma^2)\)</span> if <span class="math inline">\(\log y \sim \mathcal{N}(\mu_y, \sigma^2)\)</span>. This can also be written differently if we take <span class="math inline">\(x=\log(y)\)</span>: <span class="math inline">\(e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)\)</span> if <span class="math inline">\(x \sim \mathcal{N}(\mu_y, \sigma^2)\)</span>. Figure <a href="distributionLogNormal.html#fig:normalLogConnection">4.15</a> shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the <span class="math inline">\(y=e^x\)</span> transformation.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="kw">plot</span>(<span class="kw">dlnorm</span>(<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)),<span class="dv">0</span>,<span class="fl">0.5</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>),<span class="dv">0</span>,<span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb21-3" title="3">     <span class="dt">col=</span><span class="st">&quot;white&quot;</span>,</a>
-<a class="sourceLine" id="cb21-4" title="4">     <span class="dt">axes=</span>F, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a>
-<a class="sourceLine" id="cb21-5" title="5"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>),<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Density&quot;</span>)</a>
-<a class="sourceLine" id="cb21-6" title="6"><span class="kw">plot</span>(<span class="kw">dlnorm</span>(<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)),<span class="dv">0</span>,<span class="fl">0.5</span>),<span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Density&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb21-7" title="7"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>), <span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">0.01</span>)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:normalLogConnection"></span>
 <img src="adam_files/figure-html/normalLogConnection-1.png" alt="Connection between Normal and Log-Normal distributions" width="672" />
 <p class="caption">
 Figure 4.15: Connection between Normal and Log-Normal distributions
 </p>
 </div>
+<p>The dark areas on the plots in Figure <a href="distributionLogNormal.html#fig:normalLogConnection">4.15</a> show equal probabilities for the Normal and Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for <span class="math inline">\(y\)</span>, we need to produce a quantile from the Normal one for <span class="math inline">\(x\)</span> and then exponentiate the value.</p>
 <p>Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models and to model, for example, prices or income. When talking about income of households, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.</p>
 <p>The PDF of the Log-Normal distribution is written mathematically as:
 <span class="math display" id="eq:LogNormalPDF">\[\begin{equation}
@@ -355,7 +349,7 @@ Figure 4.15: Connection between Normal and Log-Normal distributions
 \end{equation}\]</span>
 The skewness of the Log-Normal distribution depends on the value of <span class="math inline">\(\sigma^2\)</span> - the higher it is, the more skewed the distribution is. In fact, the skewness can be calculated as:
 <span class="math display" id="eq:LogNormalSkewness">\[\begin{equation}
-    \mathrm{Sk}(y) = \left(\exp(\sigma^2) + 2\right) \sqrt{\exp(\sigma^2)-1} .
+    \mathrm{Sk}(y) = \left(e^{\sigma^2} + 2\right) \sqrt{e^{\sigma^2}-1} .
     \tag{4.11}
 \end{equation}\]</span></p>
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-10" />
+<meta name="date" content="2022-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -429,10 +429,10 @@ implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealist
 \end{equation*}\]</span>
 meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
 <p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1">n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</a>
-<a class="sourceLine" id="cb137-2" title="2">R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></a>
-<a class="sourceLine" id="cb137-3" title="3"><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</a>
-<a class="sourceLine" id="cb137-4" title="4">R2</a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</a>
+<a class="sourceLine" id="cb136-2" title="2">R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></a>
+<a class="sourceLine" id="cb136-3" title="3"><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</a>
+<a class="sourceLine" id="cb136-4" title="4">R2</a></code></pre></div>
 <pre><code>## [1] 0.7528328</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -446,10 +446,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.29}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1"><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</a></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1"><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</a></code></pre></div>
 <pre><code>##         wt 
 ## -0.8676594</code></pre>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</a></code></pre></div>
 <pre><code>## [1] -0.8676594</code></pre>
 <!-- Proof -->
 

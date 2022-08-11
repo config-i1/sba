@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-10" />
+<meta name="date" content="2022-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -414,30 +414,30 @@ This can be interpreted as “we will fail to reject the null hypothesis in the 
     \tag{7.6}
 \end{equation}\]</span>
 We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a <strong>power curve</strong>, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="co"># Set all the parameters</span></a>
-<a class="sourceLine" id="cb76-2" title="2">yMean &lt;-<span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb76-3" title="3">yMeanSD &lt;-<span class="st"> </span><span class="fl">0.18</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">36</span>)</a>
-<a class="sourceLine" id="cb76-4" title="4">levelSignigicance &lt;-<span class="st"> </span><span class="fl">0.05</span></a>
-<a class="sourceLine" id="cb76-5" title="5">zValue &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(levelSignigicance) <span class="op">*</span><span class="st"> </span>yMeanSD</a>
-<a class="sourceLine" id="cb76-6" title="6"><span class="co"># Vector of hypothetical population means</span></a>
-<a class="sourceLine" id="cb76-7" title="7">muValues &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="dt">length.out=</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb76-8" title="8"><span class="co"># Vector of values for power curve</span></a>
-<a class="sourceLine" id="cb76-9" title="9">powerValues &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb76-10" title="10"></a>
-<a class="sourceLine" id="cb76-11" title="11"><span class="co"># Calculate the power values</span></a>
-<a class="sourceLine" id="cb76-12" title="12">powerValues &lt;-<span class="st"> </span><span class="kw">pnorm</span>((zValue <span class="op">-</span><span class="st"> </span>muValues)<span class="op">/</span>yMeanSD)</a>
-<a class="sourceLine" id="cb76-13" title="13"></a>
-<a class="sourceLine" id="cb76-14" title="14"><span class="co"># Plot the power curve</span></a>
-<a class="sourceLine" id="cb76-15" title="15"><span class="kw">plot</span>(muValues, powerValues, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,</a>
-<a class="sourceLine" id="cb76-16" title="16">     <span class="dt">xlab=</span>latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">mu$&quot;</span>),</a>
-<a class="sourceLine" id="cb76-17" title="17">     <span class="dt">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</a>
-<a class="sourceLine" id="cb76-18" title="18"><span class="co"># Add lines for the case of 1-beta=0.05</span></a>
-<a class="sourceLine" id="cb76-19" title="19"><span class="kw">lines</span>(<span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="dt">lty=</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb76-20" title="20"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="dt">lty=</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb76-21" title="21"><span class="co"># And provide a description</span></a>
-<a class="sourceLine" id="cb76-22" title="22"><span class="kw">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</a>
-<a class="sourceLine" id="cb76-23" title="23">     latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">alpha =1- </span><span class="ch">\\</span><span class="st">beta =0.05$&quot;</span>),</a>
-<a class="sourceLine" id="cb76-24" title="24">     <span class="dt">pos=</span><span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="co"># Set all the parameters</span></a>
+<a class="sourceLine" id="cb75-2" title="2">yMean &lt;-<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb75-3" title="3">yMeanSD &lt;-<span class="st"> </span><span class="fl">0.18</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">36</span>)</a>
+<a class="sourceLine" id="cb75-4" title="4">levelSignigicance &lt;-<span class="st"> </span><span class="fl">0.05</span></a>
+<a class="sourceLine" id="cb75-5" title="5">zValue &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(levelSignigicance) <span class="op">*</span><span class="st"> </span>yMeanSD</a>
+<a class="sourceLine" id="cb75-6" title="6"><span class="co"># Vector of hypothetical population means</span></a>
+<a class="sourceLine" id="cb75-7" title="7">muValues &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="dt">length.out=</span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb75-8" title="8"><span class="co"># Vector of values for power curve</span></a>
+<a class="sourceLine" id="cb75-9" title="9">powerValues &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb75-10" title="10"></a>
+<a class="sourceLine" id="cb75-11" title="11"><span class="co"># Calculate the power values</span></a>
+<a class="sourceLine" id="cb75-12" title="12">powerValues &lt;-<span class="st"> </span><span class="kw">pnorm</span>((zValue <span class="op">-</span><span class="st"> </span>muValues)<span class="op">/</span>yMeanSD)</a>
+<a class="sourceLine" id="cb75-13" title="13"></a>
+<a class="sourceLine" id="cb75-14" title="14"><span class="co"># Plot the power curve</span></a>
+<a class="sourceLine" id="cb75-15" title="15"><span class="kw">plot</span>(muValues, powerValues, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb75-16" title="16">     <span class="dt">xlab=</span>latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">mu$&quot;</span>),</a>
+<a class="sourceLine" id="cb75-17" title="17">     <span class="dt">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</a>
+<a class="sourceLine" id="cb75-18" title="18"><span class="co"># Add lines for the case of 1-beta=0.05</span></a>
+<a class="sourceLine" id="cb75-19" title="19"><span class="kw">lines</span>(<span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="dt">lty=</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb75-20" title="20"><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="dt">lty=</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb75-21" title="21"><span class="co"># And provide a description</span></a>
+<a class="sourceLine" id="cb75-22" title="22"><span class="kw">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</a>
+<a class="sourceLine" id="cb75-23" title="23">     latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">alpha =1- </span><span class="ch">\\</span><span class="st">beta =0.05$&quot;</span>),</a>
+<a class="sourceLine" id="cb75-24" title="24">     <span class="dt">pos=</span><span class="dv">4</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
 <img src="adam_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">

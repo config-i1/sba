@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-10" />
+<meta name="date" content="2022-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -367,7 +367,7 @@ Based on it, we can say, for example what is the probability that an event will 
     \mathrm{F}(t &lt; 1.5, 2) = 1 - e^{- 2 \times 1.5} \approx 0.95 .
 \end{equation*}\]</span></p>
 <p>This can also be calculated in R:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">pexp</span>(<span class="fl">1.5</span>, <span class="dt">rate=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">pexp</span>(<span class="fl">1.5</span>, <span class="dt">rate=</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] 0.9502129</code></pre>
 <p>Coming back to the memorylessness property of the distribution, in order to show it visually, consider an example based on the property:
 <span class="math display">\[\begin{equation*}
