@@ -329,6 +329,20 @@ The PDF of the Log-Normal distribution is written mathematically as:
     f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
     (\#eq:LogNormalPDF)
 \end{equation}
+Several PDFs of Log-Normal distribution are shown in Figure \@ref(fig:dlnormPlot).
+
+```{r dlnormPlot, fig.cap="Probability Density Function of Log-Normal distribution with a variety of parameters.", echo=FALSE}
+plot(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.1), type="l",
+     ylab="Density", xlab="t", main="", lwd=2,
+     xlim=c(0,4))
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.5), col="darkred", lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.1), col="darkblue", lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.5), col="purple", lwd=2)
+legend("topright", legend=c(TeX("$\\mu=0, \\sigma=0.1$"),TeX("$\\mu=0, \\sigma=0.5$"),TeX("$\\mu=0.5, \\sigma=0.1$"),TeX("$\\mu=0.5, \\sigma=0.5$")),
+       lwd=2, col=c("black","darkred","darkblue","purple"))
+```
+
+
 The skewness of the Log-Normal distribution depends on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. In fact, the skewness can be calculated as:
 \begin{equation}
     \mathrm{Sk}(y) = \left(e^{\sigma^2} + 2\right) \sqrt{e^{\sigma^2}-1} .
