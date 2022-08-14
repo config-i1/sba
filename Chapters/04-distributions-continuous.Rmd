@@ -281,10 +281,6 @@ Log-Normal distribution is closely related to the Normal one and is supported fo
 
 ```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions", echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,5,1,0))
-#Empty
-plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
-     col="white",
-     axes=F, xlab="", ylab="",type="l")
 # Normal
 plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
 polygon(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01))),
@@ -294,7 +290,15 @@ polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
         c(dnorm(seq(-1.5,0.5,0.01),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
         col="lightgrey")
 lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=1, lwd=2, col="darkred")
-# lines(c(-2,0.5), rep(dnorm(0.5,0,0.5),2), lty=2, lwd=2, col="grey")
+#Empty
+plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
+     col="white",
+     axes=F, xlab="", ylab="",type="l")
+# exp(x)
+plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
+lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="darkred")
+lines(c(0.5,2), rep(exp(0.5),2), lty=2, lwd=2, col="darkred")
+text(0.9,3,TeX("$y=e^x$"),pos=3)
 # Log-Normal
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
 polygon(c(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
@@ -304,11 +308,6 @@ polygon(c(dlnorm(exp(seq(-1.5,0.5,0.01)),0,0.5),rep(0,length(seq(-1.5,0.5,0.01))
         exp(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01)))),
         col="lightgrey")
 abline(h=exp(0.5), lty=1, lwd=2, col="darkred")
-# exp(x)
-plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
-lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="darkred")
-lines(c(-2,0.5), rep(exp(0.5),2), lty=2, lwd=2, col="darkred")
-text(0.9,3,TeX("$y=e^x$"),pos=3)
 ```
 
 The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
