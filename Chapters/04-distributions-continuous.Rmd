@@ -357,7 +357,7 @@ We have already touched upon the Exponential distribution, when we discussed the
 \begin{equation*}
     \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2) .
 \end{equation*}
-Exponential distribution relies on this property. Here is its PDF:
+Exponential distribution relies on this property. It has only one parameter, the rate $\lambda$ and can be written as $\mathcal{Exp}(\lambda)$. Here is its PDF:
 \begin{equation}
     f(t, \lambda) = \lambda e^{-\lambda t} ,
     (\#eq:ExponentialPMF)
@@ -422,8 +422,7 @@ We take logarithms to linearise relation, because it is easier to work with. If 
     \log \left( \mathrm{P}(t > 1.5) \right) = \log \left(1- 1 + e^{- 2 \times 1} \right) + \log \left(1- 1 + e^{- 2 \times 0.5} \right) = -2 - 1 = -3 ,
     (\#eq:ExponentialCDFMemory02)
 \end{equation}
-which is obtained independently for $\log(1-F(1.5, 2))$
-We can also plot $\log(1-F(t, 2))$ in Figure \@ref(fig:pexpPlotMemory) to show that \@ref(eq:ExponentialCDFMemory02) holds, when the values on y-axis are added.
+which is obtained independently for $\log(1-F(1.5, 2))=\log(e^{-2 \times 1.5})=-3$. We can also plot the function $\log(1-F(t, 2))$ in Figure \@ref(fig:pexpPlotMemory) to show that \@ref(eq:ExponentialCDFMemory02) holds, when the values on y-axis are added.
 
 ```{r pexpPlotMemory, fig.cap="Memoryless property of Exponential distibution with $\\lambda=2$.", echo=FALSE}
 plot(seq(0,4,0.1), log(1-pexp(seq(0,4,0.1),2)), type="l",
@@ -440,7 +439,8 @@ lines(c(1,1),c(-5,log(1-pexp(1,2))), lty=2, lwd=2, col="grey")
 lines(c(-1,1),log(rep(1-pexp(1,2),2)), lty=2, lwd=2, col="grey")
 ```
 
-Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent. Accidentally, $-\log(1-F(t, \lambda))$ is called cumulative hazard function.
+Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent.
+<!-- Accidentally, $-\log(1-F(t, \lambda))$ is called cumulative hazard function. -->
 
 When it comes to the mean of the distribution, it is equal to:
 \begin{equation}
