@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-14" />
+<meta name="date" content="2022-08-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -337,7 +337,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <span class="math display">\[\begin{equation*}
     \mathrm{P}(t &gt; \tau_1 + \tau_2) = \mathrm{P}(t &gt; \tau_1)\mathrm{P}(t &gt; \tau_2) .
 \end{equation*}\]</span>
-Exponential distribution relies on this property. Here is its PDF:
+Exponential distribution relies on this property. It has only one parameter, the rate <span class="math inline">\(\lambda\)</span> and can be written as <span class="math inline">\(\mathcal{Exp}(\lambda)\)</span>. Here is its PDF:
 <span class="math display" id="eq:ExponentialPMF">\[\begin{equation}
     f(t, \lambda) = \lambda e^{-\lambda t} ,
     \tag{4.14}
@@ -387,15 +387,15 @@ We take logarithms to linearise relation, because it is easier to work with. If 
     \log \left( \mathrm{P}(t &gt; 1.5) \right) = \log \left(1- 1 + e^{- 2 \times 1} \right) + \log \left(1- 1 + e^{- 2 \times 0.5} \right) = -2 - 1 = -3 ,
     \tag{4.17}
 \end{equation}\]</span>
-which is obtained independently for <span class="math inline">\(\log(1-F(1.5, 2))\)</span>
-We can also plot <span class="math inline">\(\log(1-F(t, 2))\)</span> in Figure <a href="distributionsExponential.html#fig:pexpPlotMemory">4.19</a> to show that <a href="distributionsExponential.html#eq:ExponentialCDFMemory02">(4.17)</a> holds, when the values on y-axis are added.</p>
+which is obtained independently for <span class="math inline">\(\log(1-F(1.5, 2))=\log(e^{-2 \times 1.5})=-3\)</span>. We can also plot the function <span class="math inline">\(\log(1-F(t, 2))\)</span> in Figure <a href="distributionsExponential.html#fig:pexpPlotMemory">4.19</a> to show that <a href="distributionsExponential.html#eq:ExponentialCDFMemory02">(4.17)</a> holds, when the values on y-axis are added.</p>
 <div class="figure"><span style="display:block;" id="fig:pexpPlotMemory"></span>
 <img src="adam_files/figure-html/pexpPlotMemory-1.png" alt="Memoryless property of Exponential distibution with $\lambda=2$." width="672" />
 <p class="caption">
 Figure 4.19: Memoryless property of Exponential distibution with <span class="math inline">\(\lambda=2\)</span>.
 </p>
 </div>
-<p>Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent. Accidentally, <span class="math inline">\(-\log(1-F(t, \lambda))\)</span> is called cumulative hazard function.</p>
+<p>Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent.
+<!-- Accidentally, $-\log(1-F(t, \lambda))$ is called cumulative hazard function. --></p>
 <p>When it comes to the mean of the distribution, it is equal to:
 <span class="math display" id="eq:ExponentialMean">\[\begin{equation}
     \mathrm{E}(t) = \frac{1}{\lambda},
