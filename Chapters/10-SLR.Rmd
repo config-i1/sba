@@ -118,7 +118,17 @@ which is the formula \@ref(eq:measuresAssociationPearson). This is how the corre
 While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.
 
 
-### Residuals of model estimated via OLS {#OLSResiduals}
+### Gauss-Markov theorem {#GaussMarkov}
+OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (as in formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). It is called "Gauss-Markov theorem". It states that:
+
+::: theorem
+If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.
+:::
+
+The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means the most efficient and the least biased estimates of parameters amongst all estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
+
+
+## Residuals of model estimated via OLS {#OLSResiduals}
 OLS applied to any model guarantees two important properties about its residuals:
 
 1. $\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0$,
@@ -195,7 +205,6 @@ The first thing to notice in \@ref(eq:sumOfResiduals09) is that $\bar{e}=0$ beca
 because the second sum in \@ref(eq:sumOfResiduals10) is equal to zero due to the same property (1).
 
 These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS. The latter means, for example, that there is no point in testing whether the two properties hold, they will be satisfied automatically in case of OLS.
-
 
 
 ## Quality of a fit {#linearRegressionSimpleQualityOfFit}
