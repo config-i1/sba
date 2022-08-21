@@ -289,7 +289,9 @@ polygon(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01))),
 polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
         c(dnorm(seq(-1.5,0.5,0.01),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
         col="lightgrey")
-lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=1, lwd=2, col="darkred")
+lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)-0.01), lty=1, lwd=2, col="white")
+# lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=2, lwd=2, col="darkred")
+abline(v=0.5, lty=2, lwd=2, col="darkred")
 #Empty
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
      col="white",
@@ -308,7 +310,8 @@ polygon(c(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),rep(0,length(seq(-1.5,1.5,0.01))
 polygon(c(dlnorm(exp(seq(-1.5,0.5,0.01)),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
         exp(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01)))),
         col="lightgrey")
-abline(h=exp(0.5), lty=1, lwd=2, col="darkred")
+abline(h=exp(0.5), lty=1, lwd=2, col="white")
+abline(h=exp(0.5), lty=2, lwd=2, col="darkred")
 ```
 
 The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and the Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
@@ -334,7 +337,7 @@ Several PDFs of Log-Normal distribution are shown in Figure \@ref(fig:dlnormPlot
 
 ```{r dlnormPlot, fig.cap="Probability Density Function of Log-Normal distribution with a variety of parameters.", echo=FALSE}
 plot(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.1), type="l",
-     ylab="Density", xlab="t", main="", lwd=2,
+     ylab="Density", xlab="y", main="", lwd=2,
      xlim=c(0,4))
 lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.5), col="darkred", lwd=2)
 lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.1), col="darkblue", lwd=2)
@@ -343,13 +346,13 @@ legend("topright", legend=c(TeX("$\\mu=0, \\sigma=0.1$"),TeX("$\\mu=0, \\sigma=0
        lwd=2, col=c("black","darkred","darkblue","purple"))
 ```
 
-The Figure \@ref(fig:dlnormPlot) shows that with the increase of the location parameter $\mu$, the distribution shifts to the right, while with the increase of the scale parameter $\sigma$ it becomes more asymmetric with a longer right tail and its mode moves closer to zero.
-
-The skewness of the Log-Normal distribution depends on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. In fact, the skewness can be calculated as:
+The Figure \@ref(fig:dlnormPlot) shows that with the increase of the location parameter $\mu$, the distribution shifts to the right, while with the increase of the scale parameter $\sigma$ it becomes more asymmetric with a longer right tail and its mode moves closer to zero. In fact, the skewness of the Log-Normal distribution depends solely on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. It can be calculated as:
 \begin{equation}
     \mathrm{Sk}(y) = \left(e^{\sigma^2} + 2\right) \sqrt{e^{\sigma^2}-1} .
     (\#eq:LogNormalSkewness)
 \end{equation}
+
+Log-Normal distribution is supported by `dlnorm()`, `plnorm()`, `qlnorm()` and `rlnorm()` functions from `stats` package in R.
 
 
 ## Exponential distribution {#distributionsExponential}
