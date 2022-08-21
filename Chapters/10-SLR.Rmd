@@ -115,7 +115,7 @@ We could then extract the slope parameters of the two models via \@ref(eq:OLSSLR
 \end{equation}
 which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived.
 
-While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.
+While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.
 
 
 ### Gauss-Markov theorem {#GaussMarkov}
@@ -125,7 +125,7 @@ OLS is a very popular estimation method for linear regression for a variety of r
 If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.
 :::
 
-The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means the most efficient and the least biased estimates of parameters amongst all estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
+The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
 
 
 ## Residuals of model estimated via OLS {#OLSResiduals}
