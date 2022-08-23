@@ -127,6 +127,8 @@ If regression model is correctly specified then OLS will produce Best Linear Unb
 
 The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
 
+Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.
+
 
 ## Residuals of model estimated via OLS {#OLSResiduals}
 OLS applied to any model guarantees two important properties about its residuals:
