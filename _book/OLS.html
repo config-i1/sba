@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-08-21" />
+<meta name="date" content="2022-08-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="simpleLinearRegression.html"/>
-<link rel="next" href="linearRegressionSimpleQualityOfFit.html"/>
+<link rel="next" href="OLSResiduals.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a><ul>
-<li class="chapter" data-level="4.1" data-path="what-is-continuous-distribution.html"><a href="what-is-continuous-distribution.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
+<li class="chapter" data-level="4.1" data-path="distributionsContinuousWhat.html"><a href="distributionsContinuousWhat.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
 <li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distribution</a></li>
@@ -234,9 +234,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a><ul>
 <li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#OLSResiduals"><i class="fa fa-check"></i><b>10.1.1</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a><ul>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
@@ -290,15 +291,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a><ul>
-<li class="chapter" data-level="16.1" data-path="an-example-in-r.html"><a href="an-example-in-r.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
+<li class="chapter" data-level="16.1" data-path="likelihoodInR.html"><a href="likelihoodInR.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
 <li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
-<li class="chapter" data-level="16.3" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html"><i class="fa fa-check"></i><b>16.3</b> Examples of popular log-likelihood functions</a><ul>
-<li class="chapter" data-level="16.3.1" data-path="examples-of-popular-log-likelihood-functions.html"><a href="examples-of-popular-log-likelihood-functions.html#normal-distribution"><i class="fa fa-check"></i><b>16.3.1</b> Normal distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="16.4" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.4</b> Calculating number of parameters in models</a></li>
-<li class="chapter" data-level="16.5" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.5</b> Information criteria</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.5.1</b> The idea</a></li>
-<li class="chapter" data-level="16.5.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.5.2</b> Common confusions related to information criteria</a></li>
+<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
+<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a><ul>
@@ -422,80 +420,15 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>
     \tag{10.7}
 \end{equation}\]</span>
 which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(9.9)</a>. This is how the correlation coefficient was originally derived.</p>
-<p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the next section.</p>
-<div id="OLSResiduals" class="section level3 hasAnchor">
-<h3><span class="header-section-number">10.1.1</span> Residuals of model estimated via OLS<a href="OLS.html#OLSResiduals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>OLS applied to any model guarantees two important properties about its residuals:</p>
-<ol style="list-style-type: decimal">
-<li><span class="math inline">\(\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
-<li><span class="math inline">\(\mathrm{E}(e_j x_j) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0\)</span> for any <span class="math inline">\(i\)</span>.</li>
-</ol>
-<p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
-<div class="proof">
-<p><span id="unlabeled-div-20" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
-<span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
-    \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
-    \tag{10.8}
-\end{equation}\]</span>
-Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLS.html#eq:sumOfResiduals01">(10.8)</a> we get:
-<span class="math display" id="eq:sumOfResiduals02">\[\begin{equation}
-    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - n \frac{1}{n}\sum_{j=1}^n y_j + n b_1 \frac{1}{n}\sum_{j=1}^n x_j - b_1  \sum_{j=1}^n x_j
-    \tag{10.9}
-\end{equation}\]</span>
-which after some cancelations leads to:
-<span class="math display" id="eq:sumOfResiduals03">\[\begin{equation}
-    \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
-    \tag{10.10}
-\end{equation}\]</span>
-Given that the sum of errors is equal to zero, its mean will be equal to zero as well.</p>
+<p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.</p>
+<div id="GaussMarkov" class="section level3 hasAnchor">
+<h3><span class="header-section-number">10.1.1</span> Gauss-Markov theorem<a href="OLS.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (as in formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>). Furthermore, there is a mathematical proof that the estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). It is called “Gauss-Markov theorem”. It states that:</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-20" class="theorem"><strong>Theorem 10.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
 </div>
-<p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
-<div class="proof">
-<p><span id="unlabeled-div-21" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
-<span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
-    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
-    \tag{10.11}
-\end{equation}\]</span>
-Inserting <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLS.html#eq:sumOfResiduals04">(10.11)</a> leads to:
-<span class="math display" id="eq:sumOfResiduals05">\[\begin{equation}
-    \begin{aligned}
-        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
-                               &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
-    \end{aligned}
-    \tag{10.12}
-\end{equation}\]</span>
-Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLS.html#eq:sumOfResiduals05">(10.12)</a> to get:
-<span class="math display" id="eq:sumOfResiduals06">\[\begin{equation}
-    \begin{aligned}
-        \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \\
-         &amp; \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
-    \end{aligned}
-    \tag{10.13}
-\end{equation}\]</span>
-The ratio in the right-hand side of <a href="OLS.html#eq:sumOfResiduals06">(10.13)</a> can be regrouped and rewritten as:
-<span class="math display" id="eq:sumOfResiduals07">\[\begin{equation}
-        -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) ,
-    \tag{10.14}
-\end{equation}\]</span>
-which after inserting in <a href="OLS.html#eq:sumOfResiduals06">(10.13)</a> and the cancelation of elements leads to:
-<span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
-    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
-    \tag{10.15}
-\end{equation}\]</span>
-Given that the sum <a href="OLS.html#eq:sumOfResiduals08">(10.15)</a> is equal to zero, the mean of <span class="math inline">\(e_j x_j\)</span> will be equal to zero as well.</p>
-</div>
-<p>In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between <span class="math inline">\(e_j\)</span> and <span class="math inline">\(x_j\)</span> (because it is used in correlation coefficient as discussed in Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>):
-<span class="math display" id="eq:sumOfResiduals09">\[\begin{equation}
-    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
-    \tag{10.16}
-\end{equation}\]</span>
-The first thing to notice in <a href="OLS.html#eq:sumOfResiduals09">(10.16)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
-<span class="math display" id="eq:sumOfResiduals10">\[\begin{equation}
-    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
-    \tag{10.17}
-\end{equation}\]</span>
-because the second sum in <a href="OLS.html#eq:sumOfResiduals10">(10.17)</a> is equal to zero due to the same property (1).</p>
-<p>These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS. The latter means, for example, that there is no point in testing whether the two properties hold, they will be satisfied automatically in case of OLS.</p>
+<p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median, see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
+<p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.</p>
 </div>
 </div>
             </section>
@@ -504,7 +437,7 @@ because the second sum in <a href="OLS.html#eq:sumOfResiduals10">(10.17)</a> is 
         </div>
       </div>
 <a href="simpleLinearRegression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linearRegressionSimpleQualityOfFit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="OLSResiduals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

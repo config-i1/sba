@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.1 What is model? | Statistics for Business Analytics</title>
+  <title>4.1 What is continuous distribution? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.1 What is model? | Statistics for Business Analytics" />
+  <meta property="og:title" content="4.1 What is continuous distribution? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.1 What is model? | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="4.1 What is continuous distribution? | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="intro.html"/>
-<link rel="next" href="scales.html"/>
+<link rel="prev" href="distributions.html"/>
+<link rel="next" href="distributionsUniformContinuous.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -329,110 +329,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="what-is-model" class="section level2 hasAnchor">
-<h2><span class="header-section-number">1.1</span> What is model?<a href="what-is-model.html#what-is-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Reality is complex. Everything is connected with everything, and it is difficult to isolate an object or a phenomenon from the other objects or phenomena and their environment. Furthermore, due to this complexity of reality, we cannot work with itself, we need to simplify it, leave only the most important parts and analyse them. This process of simplification implies that we create a model of reality, work with it and make conclusions about the reality based on it.</p>
-<p><span class="citation">Pidd (<a href="#ref-Pidd2010">2010</a>)</span> defines <strong>model</strong> as “<em>an external and explicit representation of part of reality as seen by the people who wish to use that model to understand, to change, to manage and to control that part of reality</em>”. Let us analyse this definition.</p>
-<ul>
-<li>It is <em>external and explicit</em>, because if you only think about something, it is not a model. The unclear view on an object is not a model, it needs to be formulated.</li>
-<li>It is a <em>representation of part of reality</em>, because it is not possible to represent the reality at full - it is too complex, as discussed above.</li>
-<li>Technically speaking, the model without a purpose is still a model, but <span class="citation">Pidd (<a href="#ref-Pidd2010">2010</a>)</span> points out in his definition that without it, the model becomes useless (thus “<em>to understand, to change, to manage and to control</em>”).</li>
-<li>Finally, <em>as seen by people</em> is an important element that shows that models are always subjective. One and the same question can be answered with different models based on preferences of analyst.</li>
-</ul>
-<!-- Some argue that there are models for prediction and the others for interpretation. This does not make sense from my perspective. -->
-<p>This definition is wide and covers different types of models, starting from simple graphical ones and ending with complex imitations. In fact, there are four fundamental types of models (they are ordered by the increase of complexity):</p>
-<ol style="list-style-type: decimal">
-<li>Textual,</li>
-<li>Visual,</li>
-<li>Mathematical,</li>
-<li>Imitation.</li>
-</ol>
-<p><em>Textual</em> model is just a description of an object or a process. An instruction of how to assemble a chair is an example of a textual model. Any classification will be a textual model as well, so the list of four types of models is a textual model.</p>
-<p><em>Visual</em> model is a graphical or a schematic representation of an object or a process. An example of such a model is provided in Figure <a href="what-is-model.html#fig:chairAssembly">1.1</a>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:chairAssembly"></span>
-<img src="images/chairAssembly.jpg" alt="Chair assembly instruction. Found on Reddit." width="60%" />
+<div id="distributionsContinuousWhat" class="section level2 hasAnchor">
+<h2><span class="header-section-number">4.1</span> What is continuous distribution?<a href="distributionsContinuousWhat.html#distributionsContinuousWhat" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The main difference arises from the idea discussed in Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>: the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure <a href="distributionsContinuousWhat.html#fig:distributionContinuousExample">4.1</a> demonstrates an empirical distribution of continuous random variable.</p>
+<div class="figure"><span style="display:block;" id="fig:distributionContinuousExample"></span>
+<img src="adam_files/figure-html/distributionContinuousExample-1.png" alt="Distribution of a continuous random variable." width="672" />
 <p class="caption">
-Figure 1.1: Chair assembly instruction. Found on Reddit.
+Figure 4.1: Distribution of a continuous random variable.
 </p>
 </div>
-<p><em>Mathematical</em> model is a model that is represented using equations. It is more complex than the previous two, because it requires an understanding of mathematics. At the same time it can be more precise than the previous two models in terms of capturing the structure of reality and making predictions about it. The mass-energy equivalence equation is an example of such model:
-<span class="math display">\[\begin{equation*}
-    E = m c^2 .
-\end{equation*}\]</span></p>
-<p>A mathematical model in turn can be either deterministic or stochastic. The former one assumes that there is no randomness in it, while the latter implies that the randomness exists and can be modelled in one way or another. The related classification of models based on the amount of randomness is:</p>
-<ol style="list-style-type: lower-alpha">
-<li>White box - the deterministic model. An example of such model is a linear programming, which assumes that there is no randomness in the data;</li>
-<li>Grey box - the model that assumes some randomness, but for which the structure is known (or assumed). Any statistical model can be considered as a grey box: typically, we have an understanding of how elements in it interact with each other and how the result is obtained;</li>
-<li>Black box - the model with randomness, for which we do not know what is happening inside. An example of such model is an artificial neural network.</li>
-</ol>
-<p>Finally, the <em>imitation</em> model is a simplified reproduction of a real object or a process. This can be, for example, a physical model of a building standing in a room of an architect, or a mental arrangement in psychology.</p>
-<p>In these lecture notes, we will deal with only first three types of models, focusing on the third one.</p>
-<p>When constructing mathematical models, we will inevitably deal with variables, with factors that are potentially related to each other and reflect some aspects of the real object or phenomenon. These variables can be split into two categories:</p>
+<p>Based on Figure <a href="distributionsContinuousWhat.html#fig:distributionContinuousExample">4.1</a>, we can say that the probability of obtaining the value between 100 and 105 is higher than for the variable to get any other interval. It also looks like the variable is continuous on the interval between 75 and 125, and we do not observe any values outside of this interval.</p>
+<p>Almost any continuous distribution can be characterised by several functions:</p>
 <ol style="list-style-type: decimal">
-<li>Input, or external, or exogenous, or explanatory variables - those that are provided to us and are assumed to impact the variable (or several variables) of interest;</li>
-<li>Output, or internal, or endogenous, or response variable(s) - the variable of the main interest, which is assumed to be related by a set of explanatory variables.</li>
+<li>Probability density function (PDF);</li>
+<li>Cumulative distribution function (CDF);</li>
+<li>Quantile function (QF);</li>
+<li>Moment Generation Function (MMF);</li>
+<li>Characteristic function.</li>
 </ol>
-<p>The models that have only one response variable are called “<em>univariate</em>” models. But in some cases, we might have several response variables (for example, sales of several similar products). We would then deal with a <em>multivariate</em> model. In the literature, you might meet a different definition of univariate / multivariate models. For example, some consider a model with several variables multivariate, even if it has only one response and several explanatory ones. But throughout these lecture notes we use the definitions above, focused on response variable.</p>
-<div id="modelsMethods" class="section level3 hasAnchor">
-<h3><span class="header-section-number">1.1.1</span> Models, methods et al. <a href="what-is-model.html#modelsMethods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>There are several other definitions that will be useful throughout these lecture notes:</p>
-<ul>
-<li><strong>Statistical model</strong> (or ‘stochastic model’, or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(Svetunkov and Boylan, <a href="#ref-Svetunkov2019a">2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
-<li><strong>True model</strong> is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.</li>
-<li><strong>Estimated model</strong> (aka ‘applied model’ or ‘used model’) is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully <a href="#statistics">converge to the true ones</a> if the sample size increases.</li>
-<li><strong>Data generating process</strong> (DGP) is an artificial statistical model, showing how the data could be generated in theory. This notion is utopic and can be used in simulation experiments in order to check, how the selected model with the specific estimator behave in a specific setting. In real life, the data is not generated from any process, but is usually based on complex interactions between different agents in a dynamic environment. Note that I make a distinction between DGP and true model, because I do not think that the idea of something being generated using a mathematical formula is helpful. Many statisticians will not agree with me on this distinction.</li>
-<li><strong>Forecasting method</strong> is a mathematical procedure that generates point and / or interval forecasts, with or without a statistical model <span class="citation">(Svetunkov and Boylan, <a href="#ref-Svetunkov2019a">2019</a>)</span>. Very roughly, forecasting method is just a way of producing forecasts that does not explain how the components of time series interact with each other. It might be needed in order to filter out the noise and extrapolate the structure.</li>
-</ul>
-<p>Mathematically in the simplest case the true model can be presented in the form:
-<span class="math display" id="eq:TrueModel">\[\begin{equation}
-    y_t = \mu_{y,t} + \epsilon_t,
-    \tag{1.1}
-\end{equation}\]</span>
-where <span class="math inline">\(y_t\)</span> is the actual observation, <span class="math inline">\(\mu_{y,t}\)</span> is the structure in the data and <span class="math inline">\(\epsilon_t\)</span> is the noise with zero mean, unpredictable element, which arises because of the effect of a lot of small factors and <span class="math inline">\(t\)</span> is the time index. An example would be the daily sales of beer in a pub, which has some seasonality (we see growth in sales every weekends), some other elements of structure plus the white noise (I might go to a different pub, reducing the sales of beer by one pint). So what we typically want to do in forecasting is to capture the structure and also represent the noise with a distribution with some parameters.</p>
-<p>When it comes to applying the chosen model to the data, it can be presented as:
-<span class="math display" id="eq:AppliedModel">\[\begin{equation}
-    y_t = \hat{\mu}_{y,t} + e_t,
-    \tag{1.2}
-\end{equation}\]</span>
-where <span class="math inline">\(\hat{\mu}_{y,t}\)</span> is the estimate of the structure and <span class="math inline">\(e_t\)</span> is the estimate of the white noise (also known as “<strong>residuals</strong>”). As you see even if the structure is correctly captured, the main difference between <a href="what-is-model.html#eq:TrueModel">(1.1)</a> and <a href="what-is-model.html#eq:AppliedModel">(1.2)</a> is that the latter is estimated on a sample, so we can only approximate the true structure with some degree of precision.</p>
-<p>If we generate the data from the model <a href="what-is-model.html#eq:TrueModel">(1.1)</a>, then we can talk about the DGP, keeping in mind that we are talking about an artificial experiment, for which we know the true model and the parameters. This can be useful if we want to see how different models and estimators behave in different conditions.</p>
-<p>The simplest forecasting method can be represented with the equation:
-<span class="math display" id="eq:Method">\[\begin{equation}
-    \hat{y}_t = \hat{\mu}_{y,t},
-    \tag{1.3}
-\end{equation}\]</span>
-where <span class="math inline">\(\hat{y}_t\)</span> is the point forecast. This equation does not explain where the structure and the noise come from, it just shows the way of producing point forecasts.</p>
-<p>In addition, we will discuss in these lecture notes two types of models:</p>
-<ol style="list-style-type: decimal">
-<li>Additive, where (most) components are added to one another;</li>
-<li>Multiplicative, where the components are multiplied.</li>
-</ol>
-<p><a href="what-is-model.html#eq:TrueModel">(1.1)</a> is an example of additive error model. A general example of multiplicative error model is:
-<span class="math display" id="eq:TrueModelMultiplicative">\[\begin{equation}
-    y_t = \mu_{y,t} \varepsilon_t,
-    \tag{1.4}
-\end{equation}\]</span>
-where <span class="math inline">\(\varepsilon_t\)</span> is some noise again, which in the reasonable cases should take only positive values and have mean of one. We will discuss this type of model later in the textbook. We will also see several examples of statistical models, forecasting methods, DGPs and other notions and discuss how they relate to each other.</p>
-<p><strong>Note</strong> that throughout these lecture notes we will use index <span class="math inline">\(t\)</span> to denote the time and index <span class="math inline">\(i\)</span> to denote the cross-sectional elements. So, for example, <span class="math inline">\(y_t\)</span> will mean the response variable changing over time, while <span class="math inline">\(y_i\)</span> will mean the response variable changing from one object to another (for instance, from one person to another).</p>
-<!-- Furthermore, we will be talking about forecasting in these lecture notes, so it is also important to introduce the notation $\hat{y}_{t+h}$, which corresponds to the $h$ steps ahead **point forecast** produced from the observation $t$. Typically, this corresponds to the conditional expectation of the model $\mu_{t+h|t}$, given all the information on observation $t$, although this does not hold all the time for the classical ETS models. When we use notation $\mu_{y,t}$, then this means one step ahead conditional expectation on observation $t$, given the information on the previous observation $t-1$. We will also discuss **prediction interval**, the term which means specific bounds that should include $(1-\alpha)\times100$% of observations in the holdout sample (for example, 95% of observations). Finally, we will also use sometimes the term **confidence interval** usually refers to similar bounds constructed either for parameters of models or for the specific statistics (e.g. conditional mean or variance). -->
+<p>PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntro">4.2</a> demonstrates an example of PDF of Normal distribution (discussed in more detail in Section <a href="distributionsNormal.html#distributionsNormal">4.3</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:dnormPlotIntro"></span>
+<img src="adam_files/figure-html/dnormPlotIntro-1.png" alt="Probability Density Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.2: Probability Density Function of Normal distribution
+</p>
 </div>
+<p>It can be seen from the Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntro">4.2</a> that the density of the distribution is higher at its centre, around zero, which means that it is more likely to get values around the centre rather than near the tails of the distribution.</p>
+<p>If we want to work with probabilities in case of the continuous distribution, we need to use CDF, which is similar to the one discussed in the Chapter <a href="countDistributions.html#countDistributions">3</a>. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroCDF">4.3</a> shows example of CDF of Normal distribution.</p>
+<div class="figure"><span style="display:block;" id="fig:dnormPlotIntroCDF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroCDF-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.3: Cumulative Distribution Function of Normal distribution
+</p>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-Pidd2010">
-<p>• Pidd, M., 2010. Why modelling and model use matter. Journal of the Operational Research Society. 61, 14–24. <a href="https://doi.org/10.1057/jors.2009.141">https://doi.org/10.1057/jors.2009.141</a></p>
+<p>The CDF of continuous variable has the same properties as CDF of the discrete one with the minor differences: in a general case it converges to one with the increase of the value <span class="math inline">\(y\)</span> and converges to zero with the decrease of it. There are some continuous distributions that are restricted with an interval. For those distributions, the CDF reaches boundary values.</p>
+<p>CDF is obtained by calculating the surface of PDF for each specific value of <span class="math inline">\(y\)</span>. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroCDFPDF">4.4</a> shows the connection between them.</p>
+<div class="figure"><span style="display:block;" id="fig:dnormPlotIntroCDFPDF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroCDFPDF-1.png" alt="Cumulative Distribution Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.4: Cumulative Distribution Function of Normal distribution
+</p>
 </div>
-<div id="ref-Svetunkov2019a">
-<p>• Svetunkov, I., Boylan, J.E., 2019. Multiplicative state-space models for intermittent time series. <a href="https://doi.org/10.13140/RG.2.2.35897.06242">https://doi.org/10.13140/RG.2.2.35897.06242</a></p>
+<p>The dark area in the first plot in Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroCDFPDF">4.4</a> is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to 0.16.</p>
+<p>Another important function is the Quantile Function. It returns the value of <span class="math inline">\(y\)</span> for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroQF">4.5</a> demonstrates the quantile function of Normal distribution.</p>
+<div class="figure"><span style="display:block;" id="fig:dnormPlotIntroQF"></span>
+<img src="adam_files/figure-html/dnormPlotIntroQF-1.png" alt="Quantile Function of Normal distribution" width="672" />
+<p class="caption">
+Figure 4.5: Quantile Function of Normal distribution
+</p>
 </div>
+<p>The dashed lines in Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroQF">4.5</a> show the value of <span class="math inline">\(y\)</span> for the probability 0.25 according to the quantile function. In this example <span class="math inline">\(y \approx -0.68\)</span>, meaning that in 25% of the cases the random variable <span class="math inline">\(y\)</span> will lie below this value. The quantiles of distributions are discussed in more detail in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>.</p>
+<p>Finally, we have already mentioned MGF and CF in the context of discrete distributions. They play similar roles to the ones already discussed and can be used to obtain mean, variance, skewness and other statistics.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="scales.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distributionsUniformContinuous.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -463,7 +418,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//01-intro.Rmd",
+"link": "https://github.com/config-i1/adam/tree/master/Chapters//04-distributions-continuous.Rmd",
 "text": "Edit"
 },
 "history": {
