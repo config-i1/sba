@@ -122,7 +122,7 @@ While we can do some inference based on simple linear regression, we know that t
 OLS applied to any model guarantees two important properties about its residuals:
 
 1. $\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0$,
-2. $\mathrm{E}(e_j x_j) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0$ for any $i$.
+2. $\mathrm{E}(e_j x_{i,j}) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0$ for any $i$.
 
 The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.
 

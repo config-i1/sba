@@ -207,15 +207,15 @@ The question related to the data cleaning is what type of data the analyst is wo
 2. Time series;
 3. Panel data.
 
-In the example above the cross-sectional data is the data collected after conducting a survey in a specific location over a fixed period of time. We end up with answers to the questions (and thus values of variables) of different respondents at the fixed time. Mathematically, we denote these observations with index $j$, which separates, for example, one respondent from another, and in this textbook we will use letter $n$ to denote the number of elements (respondents) in our sample. So, the variable $y_j$ would mean the value of a variable for the $j^{\mathrm{th}}$ respondent. 
+In the example above the **cross-sectional data** is the data collected after conducting a survey in a specific location over a fixed period of time. We end up with answers to the questions (and thus values of variables) of different respondents at the fixed time. Mathematically, we denote these observations with index $j$, which separates, for example, one respondent from another, and in this textbook we will use letter $n$ to denote the number of elements (respondents) in our sample. So, the variable $y_j$ would mean the value of a variable for the $j^{\mathrm{th}}$ respondent. 
 
-The time series data is typically measured for one and the same object over time. In the example above, the A&E arrival would imply time series data, where we observe a value (number of patients arriving) over time (daily). Mathematically, we denote the observation over time with index $t$, separating, for example, one day from another. The last available observation in this case will be denoted with the capital letter $T$. In our notations, the variable $y_t$ contains the value at a specific moment of time.
+The **time series data** is typically measured for one and the same object over time. In the example above, the A&E arrival would imply time series data, where we observe a value (number of patients arriving) over time (daily). Mathematically, we denote the observation over time with index $t$, separating, for example, one day from another. The last available observation in this case will be denoted with the capital letter $T$. In our notations, the variable $y_t$ contains the value at a specific moment of time.
 
 ::: remark
 In time series, the observations typically do not happen at random, the number of A&E arrivals will depend on the time of day, day of week and month of year. This is an important characteristic of this specific type of data, and we will come back to it later in this textbook.
 :::
 
-Finally, in some situations we might be able to measure data of several objects over time. For example, we could have daily A&E arrival in several hospitals. This type of data would be called "panel data", and in this situation we would use both indices $j$ and $t$, ending up with a variable $y_{j,t}$, showing, for example, a specific number of patients arriving to a specific hospital at a specific moment of time.
+Finally, in some situations we might be able to measure data of several objects over time. For example, we could have daily A&E arrival in several hospitals. This type of data would be called **panel data**, and in this situation we would use both indices $j$ and $t$, ending up with a variable $y_{j,t}$, showing, for example, a specific number of patients arriving to a specific hospital at a specific moment of time.
 
 In this textbook we will focus on cross-sectional data and then will move to the time series one. We will also briefly discuss panel data models, but we do not discuss them in detail, as they become available to analysts less often than the other two types.
 
@@ -235,7 +235,7 @@ Finally, the model of weight from height could be wrong for different reasons. F
 
 These three sources of uncertainty have been summarised for the first time in @Chatfield1996. Whenever we need to construct any type of model, we will deal with:
 
-1. Uncertainty about the data, e.g. the error term $\epsilon_t$ (see Section \@ref(uncertaintyData));
+1. Uncertainty about the data, e.g. the error term $\epsilon_t$ (see Section \@ref(PopulationSampling));
 2. Uncertainty about estimates of parameters (see Section \@ref(uncertaintyParameters));
 3. Uncertainty about the model form (see Section \@ref(uncertaintyModel)).
 
