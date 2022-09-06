@@ -9,35 +9,55 @@ What we could do in this situation to predict future outcomes is to write down t
 
 1 0 0 1 0 1 1 1 0 1
 
-If we then take the mean of this series, we will see that the expected outcome based on our sample is 0.6. We would call this value the **empirical probability**. If we continue this experiment for many times, this probability (in the case of a fair coin) will be equal to 0.5, meaning that in the 50% of the cases the coin will show heads and in the other 50% it will be tails. Note that this does not tell us anything about each specific outcome, but only demonstrates what happens on average, when we repeat the experiment many times.
+If we then take the mean of this series, we will see that the expected outcome based on our sample is 0.6. We would call this value the **empirical probability**. It shows us that roughly in 60% of the cases we get tails. But this is based on just 10 experiments. If we continue tossing the coin for many more times, this probability (in the case of a fair coin) will be equal to 0.5, meaning that in the 50% of the cases the coin will show heads and in the other 50% it will be tails. In fact, we know that there are only two possible outcomes in this experiment, and that in case of a fair coin, there are no specific forces that could change the outcome and lead to more tails than heads. In this case, we can say that the **theoretical probability** of having tails is 0.5. Note that this does not tell us anything about each specific outcome, but only demonstrates what happens on average, when we repeat the experiment many times.
 
 ::: definition
 Probability is the measure of how likely an event is expected to occur if we observe it many times.
 :::
 
-This definition means that we cannot tell what the next outcome of the experiment will be (whether the coin flip will result in heads or tails). We can rather say what will happen on average if the experiment is repeated many times. By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.
+This definition implies that we cannot tell what the next outcome of the experiment will be (whether the coin toss will result in heads or tails). Instead, we can say what will happen on average if the experiment is repeated many times. By definition, the probability lies between 0 and 1, where 0 means that the event will not occur and 1 implies that it will always occur.
+
+We could do other similar experiments, for example rolling a six-sided dice, and calculating the probability of a specific outcome. In the simple cases with coins, cards, dices etc, we can even tell the probability without running the experiments. All we need to do is calculate the number of outcomes of interests and divide them by all the possible outcomes. For example, the probability of getting 3 on a 6-sided dice is $\frac{1}{6}$, because there are overall six outcomes: 1, 2, 3, 4, 5 and 6, and the probability of getting any one of them is the same for all of them. The probability of getting 5 is $\frac{1}{6}$ as well for the same reason: all the six outcomes are considered equally possible and will happen **on average** every sixth roll.
+
+::: remark
+In some tabletop games, the number of dices and their outcomes are encoded as $a \mathrm{d} b$, where $a$ is the number of dices, $b$ is the number of sides and d stands for the word "dice". In our example, the 10-sided dice can be encoded as 1d10, while the classical 6-sided one is 1d6.
+:::
+
+Mathematically, we will denote probability as $\mathrm{P}(y)$, where $y$ represents a specific outcome. We can write, for example, that the probability of having 3 in the dice roll experiment is:
+\begin{equation}
+    \mathrm{P}(y=3) = \frac{1}{6} .
+    (\#eq:ProbabilityExample01)
+\end{equation}
+We can calculate more complicated probabilities. For example,  what is the probability of having an odd number when rolling a 1d6? We need to calculate the number of events of interest and divide that number by the number of possible outcomes. In our case, the former is 1, 3, and 5 (three numbers), while the latter is any integer number from 1 to 6 (six numbers). This means that:
+\begin{equation}
+    \mathrm{P}(y \text{is odd}) = \frac{3}{6} = \frac{1}{2}.
+    (\#eq:ProbabilityExample02)
+\end{equation}
+
+
+<!-- Definitions of outcome, random event,  -->
 
 
 ## What is random variable? {#whatIsRandomVariable}
-We have already discussed what a variable is in Section \@ref(typesOfData) of this textbook. Just as a reminder, it is a symbol that represents any of a set of potential values. If the value of variable is known in advance, then it can be considered deterministic. However, if the value depends on random events (and thus is not known in advance) then such variable is called **random variable** (or stochastic variable). In Section \@ref(whatIsProbability) we discussed the idea of probability and random events with example of coin tossing. If we continue that example then we could encode the outcome of coin tossing as $y$, expecting it to take value of 0 in case of heads and 1 in case of tails. This variable would be random because the outcome of each coin toss is not known in advance.
+We have already discussed what a variable is in Section \@ref(typesOfData) of this textbook. Just as a reminder, it is a symbol that represents any of a set of potential values. If the value of a variable is known in advance, then it can be considered a deterministic variable. However, if the value depends on random events (and thus is not known in advance) then such variable is called **random variable** (or stochastic variable). In Section \@ref(whatIsProbability) we discussed the idea of probability and random events with example of coin tossing. If we continue that example then we could encode the outcome of coin tossing as $y$, expecting it to take value of 0 in case of heads and 1 in case of tails. This variable would be random because the outcome of each coin toss is not known in advance.
 
-Fundamentally speaking, the randomness appears because of the lack of information about the environment. If we knew the initial state of the coin, the power of toss and could take into account all movements of air around it and somehow control all possible uncertainties around the flight of the coin, then we would be able to predict what the outcome would be. In that case the event would not be random any more, and thus the variable encoding the process would be deterministic. In real life, we do not know all the factors impacting the response variable (the variable of interest) and thus we consider their impact random.
+Fundamentally speaking, the randomness appears because of the lack of information about the environment. If we knew the initial state of the coin, the power of toss and could take into account all movements of air around it and somehow control all possible uncertainties around the flight of the coin, then we would be able to predict the outcome. In that case, the event would not be random any more, and thus the variable encoding the process would be deterministic. In real life, we do not know all the factors impacting the response variable (the variable of interest) and thus we consider their impact random.
 
 ::: remark
 The randomness disappears as soon as we observe the outcome of the event. For example, if we toss the coin for the first time and obtain tails, then the first value of the variable $y$ is $y_1=1$. The variable itself stays random, but the specific outcome for the first trial is not random any more.
 :::
 
-There are two types of random variables:
+Furthermore, there are two types of random variables:
 
 1. Discrete;
 2. Continuous.
 
-The first type represents the variable that takes count values. For example, variable $y$ for the event "coin tossing" is discrete because it can only take values of 0 and 1. Another classical example is the variable encoding the score shown on a conventional game dice, which can take randomly any value from 1 to 6. The dice cannot take a value of 4.123, so the variable encoding it is discrete.
+The first type represents the variable that takes count values. For example, variable $y$ for the event "coin tossing" is discrete because it can only take values of 0 and 1. Another classical example is the variable encoding the score on a 1d6, the experiment with dice roll. We cannot get a value of 4.123 in this experiment, so the variable encoding it is discrete.
 
-The second type represents the variable taking non-count value, such as real number over the whole range of values or on a specific interval of values. An example of a continuous variable is the time on a stopwatch, when a runner crosses the finish line.
+The second type of random variable represents the case, when it takes non-count value, such as real number over the whole range of values or on a specific interval of values. An example of a continuous variable is the time on a stopwatch, when a runner crosses the finish line.
 
 ::: remark
-The discrete variable can be considered as a continuous or approximated by the models for continuous ones when it has many outcomes. For example, the sales of wine can be measured in bottles, which is a discrete variable, but if the sales are measured in thousands of units then it might be easier to consider the variable to be continuous instead.
+The discrete variable can be considered as a continuous or approximated by the models for continuous ones when it has many outcomes. For example, the sales of wine can be measured in bottles, which is a discrete variable. But if the sales are measured in thousands of units then it might be easier to consider the variable to be continuous instead.
 :::
 
 Finally, if we want to measure the probability of random variable taking specific values, then for the discrete variable it can be done by considering the chance of that specific outcome over all possible ones. For example, for the fair dice, the chance of obtaining 3 is $\frac{1}{6}$: it can take values of 1, 2, 3, 4, 5 and 6. However, the probability that a continuous variable takes a specific value is zero, because the number of all possible cases for the continuous variable is infinite. For example, the time of a 100 meter runner can be anything between 9.2 seconds (which comes from the physics of human body) and infinity (if person never finishes). The probability that I will finish a race in 10 seconds is zero not because I am not fit enough, but rather because it is almost impossible to do that precisely on 10.000000 and not, let us say, on 10.000001.
@@ -50,3 +70,10 @@ Finally, if we want to measure the probability of random variable taking specifi
 
 
 <!-- ## Conditional probabilities and independence -->
+
+
+<!-- ## Bayes theorem -->
+
+
+<!-- ## Mean and variance of r.v. -->
+

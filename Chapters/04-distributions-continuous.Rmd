@@ -2,7 +2,7 @@
 After discussing the discrete probability distributions, we can now move to the continuous ones. The idea behind them is similar to the one discussed in Chapter \@ref(countDistributions). In this chapter, we will discuss the main properties of continuous distributions, focusing on several of them, including: Uniform, Normal, Exponential, Laplace, S, Generalised Normal, Asymmetric Laplace, Log Normal, Inverse Gaussian and Gamma.
 
 
-## What is continuous distribution?
+## What is continuous distribution? {#distributionsContinuousWhat}
 The main difference arises from the idea discussed in Section \@ref(whatIsRandomVariable): the probability that a continuous random variable will take a specific value is zero. Because of that we should be discussing the probability of a random variable taking a value in an interval. Figure \@ref(fig:distributionContinuousExample) demonstrates an empirical distribution of continuous random variable.
 
 ```{r distributionContinuousExample, echo=FALSE, fig.cap="Distribution of a continuous random variable."}
@@ -107,7 +107,7 @@ The CDF of the Uniform distribution corresponds to the straight line going from 
 
 ```{r uniformCDFContinuous, fig.cap="Cumulative Density Function of Continuous Uniform distribution.", echo=FALSE}
 plot(seq(0,10,by=0.1),punif(seq(0,10,by=0.1),0,10),
-     ylab="Density",xlab="y", type="l")
+     ylab="Probability",xlab="y", type="l")
 ```
 
 Mathematically, the CDF can be represented as:
@@ -172,9 +172,7 @@ Figure \@ref(fig:dnormPlot) demonstrates a standard normal distribution, meaning
 When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure \@ref(fig:pnormPlot).
 
 ```{r pnormPlot, fig.cap="Cumulative Distribution Function of Standard Normal distribution", echo=FALSE}
-plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
-# abline(v=0, col="red")
-# text(0.5,0.05,TeX("$\\mu =0$"))
+plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Probability",xlab="y",main="")
 ```
 
 The CDF in Figure \@ref(fig:pnormPlot) has the properties of any other CDF: it converges to one with the increase of the value of $y$ and reaches zero asymptotically with the decrease of the value of $y$. It can be used to solve problems of the style "what is the probability that $y$ will lie between 20 and 30 for the $\mathcal{N}(20, 10)$". In R, this can be done by entering the values of $y$, $\mu$ and $\sigma^2$ in the following function (note that in R, the scale is the standard deviation $\sigma$, not the variance $\sigma^2$):
@@ -270,8 +268,216 @@ lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col="darkred")
 
 Normal distribution is implemented in `dnorm()`, `qnorm()`, `pnorm()` and `rnorm()` functions from `stats` package in R.
 
+Finally, as mentioned earlier, Normal distribution is popular among statisticians to use for the error term in a model of a type:
+\begin{equation}
+    y_j = \mu_j + \epsilon_j,
+    (\#eq:NormalModel)
+\end{equation}
+where $\mu_j$ is some structure and $\epsilon_j \sim \mathcal{N}(0, \sigma^2)$. The main reason for this is the ease of use of the distribution, and because it is described using its mean and variance. For example, based on \@ref(eq:NormalModel), we can say that $y_j \sim \mathcal{N}(\mu_j, \sigma^2)$, because as we remember from Chapter \@ref(probabilityTheory), $\mathrm{E}(y_j)=\mathrm{E}(\mu_j) + \mathrm{E}(\epsilon_j)=\mathrm{E}(\mu_j)$. In reality, the error term of a model might not follow normal distribution, it can be more complicated and sometimes might not follow any theoretical distribution.
 
-<!-- ## Exponential distribution {#distributionsExponential} -->
+
+## Log-Normal distribution {#distributionLogNormal}
+Log-Normal distribution is closely related to the Normal one and is supported for the positive values of $y$. It is defined as a distribution arising after a transformation of a variable $x=\log(y)$ or equivalently $y=e^x$. It is said that $y=e^x \sim \log\mathcal{N}(\mu_y, \sigma^2)$ if $\log y = x \sim \mathcal{N}(\mu_y, \sigma^2)$. Figure \@ref(fig:normalLogConnection) shows the connection between Normal and Log-Normal distributions. In that plot, we can see how the density changes because of the $y=e^x$ transformation.
+
+```{r normalLogConnection, fig.cap="Connection between Normal and Log-Normal distributions", echo=FALSE}
+par(mfrow=c(2,2), mar=c(4,5,1,0))
+# Normal
+plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
+polygon(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01))),
+        c(dnorm(seq(-1.5,1.5,0.01),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
+        col="grey95")
+polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
+        c(dnorm(seq(-1.5,0.5,0.01),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
+        col="lightgrey")
+lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)-0.01), lty=1, lwd=2, col="white")
+# lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=2, lwd=2, col="darkred")
+abline(v=0.5, lty=2, lwd=2, col="darkred")
+#Empty
+plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
+     col="white",
+     axes=F, xlab="", ylab="",type="l")
+# exp(x)
+plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
+lines(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)))
+lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col="darkred")
+lines(c(0.5,2), rep(exp(0.5),2), lty=2, lwd=2, col="darkred")
+text(0.9,3,TeX("$y=e^x$"),pos=3)
+# Log-Normal
+plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
+polygon(c(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
+        exp(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01)))),
+        col="grey95")
+polygon(c(dlnorm(exp(seq(-1.5,0.5,0.01)),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
+        exp(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01)))),
+        col="lightgrey")
+abline(h=exp(0.5), lty=1, lwd=2, col="white")
+abline(h=exp(0.5), lty=2, lwd=2, col="darkred")
+```
+
+The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and the Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
+
+Because of its shape and support of positive values only, the Log-Normal distribution is often used in multiplicative models of the style:
+\begin{equation}
+    y_j = \mu_j \epsilon_j ,
+    (\#eq:LogNormalModel)
+\end{equation}
+which is equivalent to:
+\begin{equation}
+    \log y_j = \log \mu_j + \log \epsilon_j ,
+    (\#eq:LogNormalModelLogs)
+\end{equation}
+where $\epsilon_j \sim \mathrm{log}\mathcal{N}(0, \sigma^2)$ and $\log \epsilon_j \sim \mathcal{N}(0, \sigma^2)$. Log-Normal distribution is also used to model, for example, prices or income of households. When talking about the latter, conceptually, we expect it to have asymmetric distribution, because there will be a lot of households with low income and few with very high ones. Log-Normal distribution can be considered as a reasonable model in this case.
+
+The PDF of the Log-Normal distribution is written mathematically as:
+\begin{equation}
+    f(y, \mu_y, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{\log y - \mu_y}{\sigma}\right)^2 \right) .
+    (\#eq:LogNormalPDF)
+\end{equation}
+Several PDFs of Log-Normal distribution are shown in Figure \@ref(fig:dlnormPlot).
+
+```{r dlnormPlot, fig.cap="Probability Density Function of Log-Normal distribution with a variety of parameters.", echo=FALSE}
+plot(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.1), type="l",
+     ylab="Density", xlab="y", main="", lwd=2,
+     xlim=c(0,4))
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.5), col="darkred", lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.1), col="darkblue", lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.5), col="purple", lwd=2)
+legend("topright", legend=c(TeX("$\\mu=0, \\sigma=0.1$"),TeX("$\\mu=0, \\sigma=0.5$"),TeX("$\\mu=0.5, \\sigma=0.1$"),TeX("$\\mu=0.5, \\sigma=0.5$")),
+       lwd=2, col=c("black","darkred","darkblue","purple"))
+```
+
+The Figure \@ref(fig:dlnormPlot) shows that with the increase of the location parameter $\mu$, the distribution shifts to the right, while with the increase of the scale parameter $\sigma$ it becomes more asymmetric with a longer right tail and its mode moves closer to zero. In fact, the skewness of the Log-Normal distribution depends solely on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. It can be calculated as:
+\begin{equation}
+    \mathrm{Sk}(y) = \left(e^{\sigma^2} + 2\right) \sqrt{e^{\sigma^2}-1} .
+    (\#eq:LogNormalSkewness)
+\end{equation}
+
+Log-Normal distribution is supported by `dlnorm()`, `plnorm()`, `qlnorm()` and `rlnorm()` functions from `stats` package in R.
+
+
+## Exponential distribution {#distributionsExponential}
+We have already touched upon the Exponential distribution, when we discussed the arrival times in Poisson distribution (Section \@ref(distributionPoisson)). Exponential distribution is used in modelling time between arrivals, because it is memoryless. We mentioned earlier that if a process is memoryless, then the following holds:
+\begin{equation*}
+    \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2) .
+\end{equation*}
+Exponential distribution relies on this property. It has only one parameter, the rate $\lambda$ and can be written as $\mathcal{Exp}(\lambda)$. Here is its PDF:
+\begin{equation}
+    f(t, \lambda) = \lambda e^{-\lambda t} ,
+    (\#eq:ExponentialPMF)
+\end{equation}
+where $t$ is a positive number and $\lambda$ is the rate parameter. This PDF is shown in Figure \@ref(fig:dexpPlot).
+
+```{r dexpPlot, fig.cap="Probability Density Function of Exponential distribution with several values of rate parameter $\\lambda$.", echo=FALSE}
+plot(seq(0,4,0.1), dexp(seq(0,4,0.1),2), type="l",
+     ylab="Density", xlab="t", main="", lwd=2,
+     xlim=c(0,3))
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),1), col="darkred", lwd=2)
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
+legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
+       lwd=2, col=c("black","darkred","darkblue"))
+```
+
+The plot in Figure \@ref(fig:dexpPlot) shows that there is more likely for the variable $t$ to get lower values (closer to zero) than the higher ones. The parameter $\lambda$ controls the steepness of decline of the density curve with increase of $t$: the higher the rate is, the more likely it is that the event will occur earlier and less likely that it will occur later.
+
+The CDF of the distribution is shown in Figure \@ref(fig:pexpPlot).
+
+```{r pexpPlot, fig.cap="Cumulative Distribution Function of Exponential distribution with a variety of rate parameters.", echo=FALSE}
+plot(seq(0,4,0.1), pexp(seq(0,4,0.1),2), type="l",
+     ylab="Probability", xlab="t", main="", lwd=2,
+     xlim=c(0,3))
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),1), col="darkred", lwd=2)
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),0.5), col="darkblue", lwd=2)
+legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
+       lwd=2, col=c("black","darkred","darkblue"))
+```
+
+The CDFs show how fast the probability of one is achieved with different rates. Mathematically, it is written as:
+\begin{equation}
+    \mathrm{F}(t, \lambda) = 1 - e^{- \lambda t}.
+    (\#eq:ExponentialCDF)
+\end{equation}
+Based on it, we can say, for example what is the probability that an event will occur in 1.5 seconds if the rate is $\lambda=2$ per second. It is:
+\begin{equation*}
+    \mathrm{F}(t < 1.5, 2) = 1 - e^{- 2 \times 1.5} \approx 0.95 .
+\end{equation*}
+
+This can also be calculated in R:
+
+```{r}
+pexp(1.5, rate=2)
+```
+
+Coming back to the memorylessness property of the distribution, in order to show it visually, consider an example based on the property:
+\begin{equation*}
+    \mathrm{P}(t > 1.5) = \mathrm{P}(t > 0.5) \mathrm{P}(t > 1)
+\end{equation*}
+and $\lambda=2$. Note that $P(t>a)=1-F(a)$ by definition of CDF. In terms of probabilities of Exponential distribution, this means that:
+\begin{equation*}
+    \mathrm{P}(t > 1.5) = (1-\mathrm{F}(1, 2)) (1-\mathrm{F}(0.5, 2)) .
+\end{equation*}
+Now, in order to show this property visually, we take logarithms of the left and right hand sides of the previous equation to get:
+\begin{equation}
+    \log \left( \mathrm{P}(t > 1.5) \right) = \log \left(1-\mathrm{F}(1, 2) \right) + \log \left( 1-\mathrm{F}(0.5, 2)  \right) .
+    (\#eq:ExponentialCDFMemory01)
+\end{equation}
+We take logarithms to linearise relation, because it is easier to work with. If we now insert \@ref(eq:ExponentialCDF) in \@ref(eq:ExponentialCDFMemory01), we will get:
+\begin{equation}
+    \log \left( \mathrm{P}(t > 1.5) \right) = \log \left(1- 1 + e^{- 2 \times 1} \right) + \log \left(1- 1 + e^{- 2 \times 0.5} \right) = -2 - 1 = -3 ,
+    (\#eq:ExponentialCDFMemory02)
+\end{equation}
+which is obtained independently for $\log(1-F(1.5, 2))=\log(e^{-2 \times 1.5})=-3$. We can also plot the function $\log(1-F(t, 2))$ in Figure \@ref(fig:pexpPlotMemory) to show that \@ref(eq:ExponentialCDFMemory02) holds, when the values on y-axis are added.
+
+```{r pexpPlotMemory, fig.cap="Memoryless property of Exponential distibution with $\\lambda=2$.", echo=FALSE}
+plot(seq(0,4,0.1), log(1-pexp(seq(0,4,0.1),2)), type="l",
+     ylab="log(1-F(t,2))", xlab="t", main="", lwd=2,
+     xlim=c(0,3), ylim=c(-5,0))
+# 1.5
+lines(c(1.5,1.5),c(-5,log(1-pexp(1.5,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,1.5),log(rep(1-pexp(1.5,2),2)), lty=2, lwd=2, col="grey")
+# 0.5
+lines(c(0.5,0.5),c(-5,log(1-pexp(0.5,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,0.5),log(rep(1-pexp(0.5,2),2)), lty=2, lwd=2, col="grey")
+# 1
+lines(c(1,1),c(-5,log(1-pexp(1,2))), lty=2, lwd=2, col="grey")
+lines(c(-1,1),log(rep(1-pexp(1,2),2)), lty=2, lwd=2, col="grey")
+```
+
+Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent.
+<!-- Accidentally, $-\log(1-F(t, \lambda))$ is called cumulative hazard function. -->
+
+When it comes to the mean of the distribution, it is equal to:
+\begin{equation}
+    \mathrm{E}(t) = \frac{1}{\lambda},
+    (\#eq:ExponentialMean)
+\end{equation}
+which makes it easy to estimate on a sample of observations -- just take the mean, and you get an estimate of the rate parameter $\lambda$. Furthermore, the rate parameter in Exponential distribution is directly related to the one in the Poisson (Section \@ref(distributionPoisson)): the parameter in the latter equals the ratio of time interval $t$ and $\lambda$:
+\begin{equation}
+    \lambda_P = \frac{t}{\lambda},
+    (\#eq:ExponentialLambdaPoisson)
+\end{equation}
+where $\lambda_P$ is the parameter of the Poisson distribution. The main difference between the distributions is that Poisson explains the number of arrivals over a fixed period of time, while the Exponential represents the time between the arrivals.
+
+Finally, the variance in Exponential distribution is calculated as:
+\begin{equation}
+    \mathrm{V}(t) = \frac{1}{\lambda^2},
+    (\#eq:ExponentialVariance)
+\end{equation}
+
+In R, the Exponential distribution is implemented in `dexp()`, `pexp()`, `qexp()` and `rexp()` for PDF, CDF, QF and Random variables respectively.
+
+
+
+<!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
+<!-- \begin{equation} -->
+<!--     f_{log}(\log(y_t)) = \frac{1}{y_t} f(\log y_t). -->
+<!--     (\#eq:logDistribution) -->
+<!-- \end{equation} -->
+<!-- They are defined for positive values only and will have different right tail, depending on the location, scale and shape parameters. $\exp(\mu_{\log y,t})$ in this case represents the geometric mean (and median) of distribution rather than the arithmetic one. The conditional expectation in these distributions is typically higher than $\exp(\mu_{\log y,t})$ and depends on the value of the scale parameter. It is known for log$\mathcal{N}$ and is equal to: -->
+<!-- \begin{equation} -->
+<!--     \mathrm{E}(y_t) = \mathrm{exp}\left(\mu_{\log y,t} + \frac{\sigma^2}{2} \right). -->
+<!--     (\#eq:logNMean) -->
+<!-- \end{equation} -->
+<!-- However, it does not have a simple form for the other distributions. -->
 
 
 <!-- ## Laplace distribution {#distributionsLaplace} -->
@@ -409,8 +615,7 @@ Normal distribution is implemented in `dnorm()`, `qnorm()`, `pnorm()` and `rnorm
 
 <!-- Functions `dalaplace`, `qalaplace`, `palaplace` and `ralaplace` from `greybox` package implement the Asymmetric Laplace distribution. -->
 
-
-<!-- ## Log Normal, Log Laplace, Log S and Log GN distributions -->
+<!-- ## Log Laplace, Log S and Log GN distributions -->
 
 <!-- In addition, it is possible to derive the log-versions of the Normal, $\mathcal{Laplace}$, $\mathcal{S}$, and $\mathcal{GN}$ distributions. The main differences between the original and the log-versions of density functions for these distributions can be summarised as follows: -->
 <!-- \begin{equation} -->
@@ -423,7 +628,6 @@ Normal distribution is implemented in `dnorm()`, `qnorm()`, `pnorm()` and `rnorm
 <!--     (\#eq:logNMean) -->
 <!-- \end{equation} -->
 <!-- However, it does not have a simple form for the other distributions. -->
-
 
 <!-- ## Inverse Gaussian distribution {#IGDistribution} -->
 
