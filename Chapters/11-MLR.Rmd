@@ -83,7 +83,7 @@ The plot on Figure \@ref(fig:mtcarsModel02Plot) can be used for diagnostic purpo
 ## Quality of a fit {#linearRegressionMultipleQualityOfFit}
 Building upon the discussion of the quality of the fit in Section \@ref(linearRegressionSimpleQualityOfFit), we can introduce a measure, based on the OLS criterion, \@ref(eq:OLSCriterion), which is called either "Root Mean Squared Error" (RMSE) or a "standard error" or a "standard deviation of error" of the regression:
 \begin{equation}
-    \hat{sigma}^2 = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
+    \hat{\sigma}^2 = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
     (\#eq:RMSERegression)
 \end{equation}
 The denominator of \@ref(eq:RMSERegression) contains the number of degrees of freedom in the model, $n-k$, not the number of observations $n$, so technically speaking this is not a "mean" any more. This is done to correct the in-sample bias (Section \@ref(estimatesPropertiesBias)) of the measure. Standard error does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data. However, this measure is not aware of the randomness in the true model (Section \@ref(modelsMethods)) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
@@ -116,10 +116,10 @@ Compare it with the previous one:
 ```
 The value in the new model will always be higher than in the previous one (or equal to it in some very special cases), no matter how we generate the random fluctuations. This means that some sort of penalisation of the number of variables in the model is required in order to make the measure more reasonable. This is what adjusted coefficient of determination does:
 \begin{equation}
-    R^2_{adj} = 1 - \frac{\mathrm{MSE}}{\mathrm{V}(y)} = 1 - \frac{(n-1)\mathrm{SSE}}{(n-k)\mathrm{SST}},
+    R^2_{adj} = 1 - \frac{\hat{\sigma}^2}{\mathrm{V}(y)} = 1 - \frac{(n-1)\mathrm{SSE}}{(n-k)\mathrm{SST}} .
     (\#eq:DeterminationAdjusted)
 \end{equation}
-where MSE is the Mean Squared Error (square of RMSE \@ref(eq:RMSERegression)). So, instead of dividing sums of squares, in the adjusted R$^2$ we divide the entities that are based on degrees of freedom. Given the presence of $k$ in the formula \@ref(eq:DeterminationAdjusted), the coefficient will not necessarily increase with the addition of variables -- when the variable does not contribute in the reduction of SSE of model substantially, R$^2$ will not go up. Furthermore, if one model has higher RMSE than the other one, then the R$^2_{adj}$ of that model will be lower, which becomes apparent, given that we have $-MSE$ in the formula \@ref(eq:DeterminationAdjusted).
+So, instead of dividing sums of squares, in the adjusted R$^2$ we divide the entities that are based on degrees of freedom. Given the presence of $k$ in the formula \@ref(eq:DeterminationAdjusted), the coefficient will not necessarily increase with the addition of variables -- when the variable does not contribute in the reduction of SSE of model substantially, R$^2$ will not go up. Furthermore, if one model has higher $\hat{\sigma}^2$ than the other one, then the R$^2_{adj}$ of that model will be lower, which becomes apparent, given that we have $-\hat{\sigma}^2$ in the formula \@ref(eq:DeterminationAdjusted).
 
 Here how the adjusted R$^2$ can be calculated for a model in R:
 ```{r}
