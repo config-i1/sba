@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-09-06" />
+<meta name="date" content="2022-09-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -485,25 +485,31 @@ where <span class="math inline">\(a\)</span> is the value we are comparing our p
 <ul>
 <li>You cannot conclude if something is significant or not without specifying the significance level. Things are only significant if they pass specific test on a specified level <span class="math inline">\(\alpha\)</span>. The correct sentence would be “The parameter in the model is significant on 3%, so we can conclude that…”, where 3% is the selected significance level <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
-<ol start="3" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
+<li>“The parameter in the model is <strong>highly</strong> significant, so we can conclude that…”</li>
+</ol>
+<ul>
+<li>This one is similar to (3), with the only difference being the word “highly”, which is supposed to show that we obtained a very low p-value and thus the hypothesis can be rejected on a very low significance level. However, this is wrong because the outcome of the hypothesis testing is always binary, so the conclusion should be either “reject” (significant) or “fail to reject” (not significant) on the selected level <span class="math inline">\(\alpha\)</span>. The significance level should always be selected prior the hypothesis testing.</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
 <li>“The parameter in the model is significant because p-value&lt;0.0000”</li>
 </ol>
 <ul>
 <li>Indeed, some statistical software will tell you that <code>p-value&lt;0.0000</code>, but this just says that the value is very small and cannot be printed. Even if it is that small, you need to state your significance level and compare it with the p-value. You might wonder, “why bother if it is that low?”. Well, if you change the sample size or change model specification, your p-value will change as well, and in some cases it might all of a sudden become higher than your significance level. So, you always need to keep it in mind and make conclusions based on the significance level, not just based on what software tells you.</li>
 </ul>
-<ol start="5" style="list-style-type: decimal">
+<ol start="6" style="list-style-type: decimal">
 <li>“The parameter is not significant, so we remove the variable from the model”.</li>
 </ol>
 <ul>
 <li>This is one of the worst motivations for removing variables that there is (statistical blasphemy!). There are thousands of reasons, why you might get p-value greater than your significance level (<a href="assumptions.html#assumptions">assumptions</a> do not hold, sample is too small, the test is too weak, the true value is small etc) and only one of them is that the explanatory variable does not impact the response variable and thus you fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. Are you sure that you face exactly this one special case? If yes, then you already have some other (better) reasons to remove the variable. This means that you should not make decisions just based on the results of a statistical test. <em>You always need to have some fundamental reason to include or remove variables in the model</em>. Hypothesis testing just gives you additional information that can be helpful for decision making.</li>
 </ul>
-<ol start="6" style="list-style-type: decimal">
+<ol start="7" style="list-style-type: decimal">
 <li>“The parameter in the new model is more significant than in the old one”.</li>
 </ol>
 <ul>
 <li>There is no such thing as “more significant” or “less significant”. <strong>Significance is binary</strong> and depends on the selected level. The only thing you can conclude is whether the parameter is significant on the chosen level <span class="math inline">\(\alpha\)</span> or not.</li>
 </ul>
-<ol start="7" style="list-style-type: decimal">
+<ol start="8" style="list-style-type: decimal">
 <li>“The p-value of one variables is higher than the p-value of another, so…”.</li>
 </ol>
 <ul>
