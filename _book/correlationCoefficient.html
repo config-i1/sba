@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-09-07" />
+<meta name="date" content="2022-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -388,7 +388,7 @@ Figure 9.2: Scatterplot for dispalcement vs mileage variables in mtcars dataset
 </div>
 <p>Figure <a href="correlationCoefficient.html#fig:mtcarsScatterPlotDispMPG">9.2</a> shows the scatterplot between the two variables and also has the straight line, going through the cloud of points. The closer the points are to the line, the stronger the linear relation between the two variables is. The line corresponds to the formula <span class="math inline">\(\hat{y}=a_0+a_1 x\)</span>, where <span class="math inline">\(x\)</span> is the displacement and <span class="math inline">\(\hat{y}\)</span> is the line value for the Mileage. The same relation can be presented if we swap the axes and draw the line <span class="math inline">\(\hat{x}=b_0+b_1 y\)</span>:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="correlationCoefficient.html#cb112-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsData<span class="op">$</span>mpg,mtcarsData<span class="op">$</span>disp,</span>
-<span id="cb112-2"><a href="correlationCoefficient.html#cb112-2" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Displacement&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Mileage&quot;</span>)</span>
+<span id="cb112-2"><a href="correlationCoefficient.html#cb112-2" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Mileage&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Displacement&quot;</span>)</span>
 <span id="cb112-3"><a href="correlationCoefficient.html#cb112-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="kw">lm</span>(disp<span class="op">~</span>mpg,mtcarsData),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsScatterPlotMPGDisp"></span>
 <img src="adam_files/figure-html/mtcarsScatterPlotMPGDisp-1.png" alt="Scatterplot for mileage vs dispalcement" width="672" />
