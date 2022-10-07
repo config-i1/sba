@@ -45,7 +45,7 @@ In general, the distribution can be characterised with the following PMF:
     f(y, p) = p^y (1-p)^{1-y},
     (\#eq:BernoulliPMF)
 \end{equation}
-where $y$ can only take values of 0 and 1. Figure \@ref(fig:bernoulliPMF) demonstrates how the PMF \@ref(eq:Bernoulli) looks for several probabilities.
+where $y$ can only take values of 0 and 1. Figure \@ref(fig:bernoulliPMF) demonstrates how the PMF \@ref(eq:BernoulliPMF) looks for several probabilities.
 
 ```{r bernoulliPMF, fig.cap="Probability Mass Function of Bernoulli distribution with probabilities of 0.2, 0.5 and 0.8", echo=FALSE}
 par(mfcol=c(1,3))
@@ -160,7 +160,7 @@ round((factorial(10) /
 These probabilities can be obtained via the PMF of Binomial distribution:
 \begin{equation}
     f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
-    (\#eq:BernoulliPMF)
+    (\#eq:BinomialPMF)
 \end{equation}
 We will denote this distribution as $\mathcal{Bi}(n, p)$. In R, this is implemented in the `dbinom()` function from `stats` package. Note that so far we assumed that $p=0.5$, however in real life this is not necessarily the case.
 
@@ -178,7 +178,7 @@ From the Figure \@ref(fig:binomialPMF01), it is clear that there is a high proba
 So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99%. Formally, this can be written as $P(y<k)=0.99$ and we need to find $k$. One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
 \begin{equation}
     F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
-    (\#eq:BernoulliPMF)
+    (\#eq:BinomialCDF)
 \end{equation}
 
 This CDF in our example will have the shape shown in Figure \@ref(fig:binomialCDF01).
@@ -321,7 +321,7 @@ Another simple distribution, arising from a classical probability theory example
 The classical example of application of this distribution is dice rolling. The conventional dice has 6 sides and when rolled can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
 \begin{equation}
     f(y, k) = \frac{1}{k},
-    (\#eq:BernoulliPMF)
+    (\#eq:UniformPMF)
 \end{equation}
 where $k$ is the number of outcomes (sides of the dice). The more outcomes there are, the lower the probability of having a specific outcome is. For example, on a dice with 10 sides, the probability of getting the score 5 is $\frac{1}{10}$, while on the 6-sided version it is $\frac{1}{6}$.
 
@@ -338,14 +338,14 @@ The mean of this distribution is calculated as $\frac{a+b}{2}$, where $a$ is the
 The variance of the uniform distribution depends on the number of outcomes and is calculated as:
 \begin{equation}
     \sigma^2(y, k) = \frac{k^2-1}{12} .
-    (\#eq:BernoulliVariance)
+    (\#eq:UniformVariance)
 \end{equation}
 As can be seen from the formula, the variance of Uniform distribution is proportional to the number of outcomes.
 
 Coming to the CDF of the Uniform distribution, it is calculated as:
 \begin{equation}
     f(y, k) = \frac{y-a+1}{k},
-    (\#eq:BernoulliCDF)
+    (\#eq:UniformCDF)
 \end{equation}
 where $a$ is the lowest possible value and $k$ is the number of outcomes. This CDF can be visualised as shown in Figure \@ref(fig:uniformCDF).
 
@@ -368,7 +368,7 @@ This is the task on Uniform distribution, because serial numbers do not repeat a
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
 \end{equation*}
-Inserting the values in the CDF of the Uniform distribution \@ref(eq:BernoulliCDF) we get:
+Inserting the values in the CDF of the Uniform distribution \@ref(eq:UniformCDF) we get:
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \frac{999}{9990} - \frac{99}{9990} \approx 0.1 - 0.01 = 0.09.
 \end{equation*}

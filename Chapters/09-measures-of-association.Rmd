@@ -152,7 +152,7 @@ where $T$ is the number of observations, and thus in the denominator, we have th
 where $n_x$ and $n_y$ are the number of ties calculated for both variables. This coefficient resolves the problem with ties and can now reach the boundary values in practice. However, this coefficient does not resolve the issue with different scale sizes. And in order to address this problem, we have $\tau_c$ (**Stuart-Kendall's** $\tau_c$):
 \begin{equation}
     \tau_c = \frac{n_c - n_d}{\frac{n^2}{2}\frac{\min(r, c)-1}{\min(r, c)}},
-    (\#eq:measuresAssociationKendallTaub)
+    (\#eq:measuresAssociationKendallTauc)
 \end{equation}
 where $r$ is the number of rows and $c$ is the number of columns. This coefficient works for variables with different lengths of scales (e.g. age with 5 options and t-shirt size with 7 options). But now we are back to the problem with the ties...
 

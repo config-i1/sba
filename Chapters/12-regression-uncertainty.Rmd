@@ -61,7 +61,7 @@ In order to take this uncertainty into account, we could construct confidence in
 This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter $i$ via:
 \begin{equation}
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    (\#eq:MLRcovarianceMatrix)
+    (\#eq:MLRParameterInterval)
 \end{equation}
 where $s_{b_i}$ is the standard error of the parameter $b_i$. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
 
