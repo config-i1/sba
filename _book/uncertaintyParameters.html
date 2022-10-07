@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-05" />
+<meta name="date" content="2022-10-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -368,7 +368,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h1><span class="header-section-number">Chapter 12</span> Uncertainty in regression<a href="uncertaintyParameters.html#uncertaintyParameters" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was mpg=37.29-5.34wt+et. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?</p>
 <div class="figure"><span style="display:block;" id="fig:scatterWeightMPG4"></span>
-<img src="adam_files/figure-html/scatterWeightMPG4-1.png" alt="Weight vs mileage and two regression lines." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/scatterWeightMPG4-1.png" alt="Weight vs mileage and two regression lines." width="672" />
 <p class="caption">
 Figure 12.1: Weight vs mileage and two regression lines.
 </p>
@@ -376,7 +376,7 @@ Figure 12.1: Weight vs mileage and two regression lines.
 <p>Figure <a href="uncertaintyParameters.html#fig:scatterWeightMPG4">12.1</a> shows the two lines: the red one corresponds to the larger sample, while the blue one corresponds to the small one. We can see that these lines have different intercepts and slope parameters. So, which one of them is correct? An amateur analyst would say that the one that has more observations is the correct model. But a more experienced statistician would tell you that none of the two is correct. They are both estimated on a sample of data and they both inevitably inherit the uncertainty of the data, making them both incorrect if we compare them to the hypothetical <a href="what-is-model.html#modelsMethods">true model</a>. This means that whatever regression model we estimate on a sample of data, it will be incorrect as well.</p>
 <p>This uncertainty about the regression line actually comes to the uncertainty of estimates of parameters of the model. In order to see it more clearly, consider the example with Speed and Stopping Distances of Cars dataset from <code>datasets</code> package (<code>?cars</code>):</p>
 <div class="figure"><span style="display:block;" id="fig:scatterSpeedDistance"></span>
-<img src="adam_files/figure-html/scatterSpeedDistance-1.png" alt="Speed vs stopping distance of cars" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/scatterSpeedDistance-1.png" alt="Speed vs stopping distance of cars" width="672" />
 <p class="caption">
 Figure 12.2: Speed vs stopping distance of cars
 </p>
@@ -390,7 +390,7 @@ Figure 12.2: Speed vs stopping distance of cars
 <span id="cb157-4"><a href="uncertaintyParameters.html#cb157-4" aria-hidden="true"></a><span class="kw">hist</span>(slmSpeedDistanceBootstrap<span class="op">$</span>coefficients[,<span class="dv">2</span>],</span>
 <span id="cb157-5"><a href="uncertaintyParameters.html#cb157-5" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Slope&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:slmSpeedDistanceBoot"></span>
-<img src="adam_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/slmSpeedDistanceBoot-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">
 Figure 12.3: Distribution of bootstrapped parameters of a regression model
 </p>
@@ -435,7 +435,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/adam/tree/master/Chapters//12-regression-uncertainty.Rmd",
+"link": "https://github.com/config-i1/sba/tree/master/Chapters//12-regression-uncertainty.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -446,7 +446,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["adam.pdf", "adam.epub"],
+"download": ["Svetunkov - Statistics for Business Analytics.pdf", "Svetunkov - Statistics for Business Analytics.epub"],
 "search": {
 "engine": "fuse",
 "options": null
