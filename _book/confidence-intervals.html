@@ -372,9 +372,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \tag{12.1}
 \end{equation}\]</span>
 This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter <span class="math inline">\(i\)</span> via:
-<span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
+<span class="math display" id="eq:MLRParameterInterval">\[\begin{equation}
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    \tag{12.1}
+    \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="confidence-intervals.html#cb158-1" aria-hidden="true"></a><span class="kw">vcov</span>(slmSpeedDistance)</span></code></pre></div>

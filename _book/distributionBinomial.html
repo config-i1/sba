@@ -398,9 +398,9 @@ which can be calculated in R as:</p>
 <pre><code>##     0     1     2     3     4     5     6     7     8     9    10 
 ## 0.001 0.010 0.044 0.117 0.205 0.246 0.205 0.117 0.044 0.010 0.001</code></pre>
 <p>These probabilities can be obtained via the PMF of Binomial distribution:
-<span class="math display" id="eq:BernoulliPMF">\[\begin{equation}
+<span class="math display" id="eq:BinomialPMF">\[\begin{equation}
     f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
-    \tag{3.1}
+    \tag{3.4}
 \end{equation}\]</span>
 We will denote this distribution as <span class="math inline">\(\mathcal{Bi}(n, p)\)</span>. In R, this is implemented in the <code>dbinom()</code> function from <code>stats</code> package. Note that so far we assumed that <span class="math inline">\(p=0.5\)</span>, however in real life this is not necessarily the case.</p>
 <p>Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. For demonstration purposes, assume that there is a fixed probability <span class="math inline">\(p=0.1\)</span> that any given hospital decides to bye such machine. It is safe to assume that the probability that machine is needed in a hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as <span class="math inline">\(\mathcal{Bi}(20, 0.1)\)</span> and will be an asymmetric distribution, as shown in Figure <a href="distributionBinomial.html#fig:binomialPMF01">3.6</a>.</p>
@@ -412,9 +412,9 @@ Figure 3.6: Probability Mass Function for Binomial distribution with p=0.1 and n
 </div>
 <p>From the Figure <a href="distributionBinomial.html#fig:binomialPMF01">3.6</a>, it is clear that there is a high probability that only a few machines will be bought: 0, 1, 2 or 3. The probability that we will sell 10 is almost zero. We can also say that with the highest probability, the company will sell 2 machines. We could also use mean, saying how much the company will sell on average, which in Binomial distribution is calculated as <span class="math inline">\(n \times p\)</span> and in our case is <span class="math inline">\(20 \times 0.1 = 2\)</span>. However, producing expensive medical equipment typically takes time and should be done in advance. So, if we told the company that they should produce only two, we might then face a situation, when the demand was higher (for example, 6) and they lost the sales.</p>
 <p>So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99%. Formally, this can be written as <span class="math inline">\(P(y&lt;k)=0.99\)</span> and we need to find <span class="math inline">\(k\)</span>. One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
-<span class="math display" id="eq:BernoulliPMF">\[\begin{equation}
+<span class="math display" id="eq:BinomialCDF">\[\begin{equation}
     F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
-    \tag{3.1}
+    \tag{3.5}
 \end{equation}\]</span></p>
 <p>This CDF in our example will have the shape shown in Figure <a href="distributionBinomial.html#fig:binomialCDF01">3.7</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialCDF01"></span>
@@ -432,12 +432,12 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 <p>In some cases, we might need to know the mean and variance of the distribution. For the Binomial distribution, they can be calculated via the following formulae:
 <span class="math display" id="eq:BinomialMean">\[\begin{equation}
     \mathrm{E}(y) = p \times n ,
-    \tag{3.4}
+    \tag{3.6}
 \end{equation}\]</span>
 and
 <span class="math display" id="eq:BinomialVariance">\[\begin{equation}
     \mathrm{V}(y) = p \times (1-p) \times n .
-    \tag{3.5}
+    \tag{3.7}
 \end{equation}\]</span>
 So, in our situation the mean is <span class="math inline">\(20 \times 0.1 = 2\)</span>, while the variance is <span class="math inline">\(20 \times 0.1 \times 0.9 = 1.8\)</span>.</p>
 <p>From the example above, we can take away several important characteristics ofthe Binomial distribution:</p>

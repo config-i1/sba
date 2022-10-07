@@ -370,17 +370,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
 <span class="math display" id="eq:regressionLineUncertaintyVariance01">\[\begin{equation}
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
-    \tag{12.5}
+    \tag{12.6}
 \end{equation}\]</span>
 which after some simplifications leads to:
 <span class="math display" id="eq:regressionLineUncertaintyVariance02">\[\begin{equation}
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
-    \tag{12.6}
+    \tag{12.7}
 \end{equation}\]</span>
 where <span class="math inline">\(x_{0,j}=1\)</span>. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(b_i\)</span> will follow normal distribution with a fixed mean and variance due to <a href="CLT.html#CLT">CLT</a>, the predicted value <span class="math inline">\(\hat{y}_j\)</span> will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>:
 <span class="math display" id="eq:confidenceIntervalRegression">\[\begin{equation}
     \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
-    \tag{12.7}
+    \tag{12.8}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}\)</span>.</p>
 <p>In R, this interval can be constructed via the function <code>predict()</code> with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function:</p>
@@ -413,14 +413,14 @@ Figure 12.7: Actuals vs Fitted and confidence interval for the stopping distance
 <p>If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
 <span class="math display" id="eq:regressionLineUncertaintyVariance03">\[\begin{equation}
     \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
-    \tag{12.8}
+    \tag{12.9}
 \end{equation}\]</span>
 which can be simplified to (if assumptions of regression model hold, see Section <a href="assumptions.html#assumptions">15</a>):
 <span class="math display" id="eq:regressionLineUncertaintyVariance04">\[\begin{equation}
     \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2,
-    \tag{12.9}
+    \tag{12.10}
 \end{equation}\]</span>
-where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the residuals <span class="math inline">\(e_j\)</span>. As we see from the formula <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance04">(12.9)</a>, the variance in this case is larger than <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance02">(12.6)</a>, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to <a href="regression-line-uncertainty.html#eq:confidenceIntervalRegression">(12.7)</a>), as long as we can assume that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0,\sigma^2)\)</span>.</p>
+where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the residuals <span class="math inline">\(e_j\)</span>. As we see from the formula <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance04">(12.10)</a>, the variance in this case is larger than <a href="regression-line-uncertainty.html#eq:regressionLineUncertaintyVariance02">(12.7)</a>, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to <a href="regression-line-uncertainty.html#eq:confidenceIntervalRegression">(12.8)</a>), as long as we can assume that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0,\sigma^2)\)</span>.</p>
 <p>In R, this can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="regression-line-uncertainty.html#cb174-1" aria-hidden="true"></a>slmSpeedDistancePI &lt;-<span class="st"> </span><span class="kw">predict</span>(slmSpeedDistance,<span class="dt">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
 <p>Based on this, we can construct graphs similar to <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceInterval">12.6</a> and <a href="regression-line-uncertainty.html#fig:speedDistanceConfidenceIntervalAvsF">12.7</a>.</p>

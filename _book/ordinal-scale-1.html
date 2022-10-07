@@ -439,9 +439,9 @@ where <span class="math inline">\(T\)</span> is the number of observations, and 
     \tag{9.7}
 \end{equation}\]</span>
 where <span class="math inline">\(n_x\)</span> and <span class="math inline">\(n_y\)</span> are the number of ties calculated for both variables. This coefficient resolves the problem with ties and can now reach the boundary values in practice. However, this coefficient does not resolve the issue with different scale sizes. And in order to address this problem, we have <span class="math inline">\(\tau_c\)</span> (<strong>Stuart-Kendall’s</strong> <span class="math inline">\(\tau_c\)</span>):
-<span class="math display" id="eq:measuresAssociationKendallTaub">\[\begin{equation}
+<span class="math display" id="eq:measuresAssociationKendallTauc">\[\begin{equation}
     \tau_c = \frac{n_c - n_d}{\frac{n^2}{2}\frac{\min(r, c)-1}{\min(r, c)}},
-    \tag{9.7}
+    \tag{9.8}
 \end{equation}\]</span>
 where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns. This coefficient works for variables with different lengths of scales (e.g. age with 5 options and t-shirt size with 7 options). But now we are back to the problem with the ties…</p>
 <p>In R, the <code>cor()</code> function implements Kendall’s <span class="math inline">\(\tau_a\)</span> and <span class="math inline">\(\tau_b\)</span> (the function will select automatically based on the presence of ties). There are also functions <code>KendallTauA()</code>, <code>KendallTauB()</code> and <code>StuartTauC()</code> in <code>DescTools</code> package that implement the three respective measures of association. The main limitation of <code>cor()</code> function is that it only works with numerical variables, so we would need to transform variables before applying the function. The functions from <code>DescTools</code> package, on the other hand, work with factors. Here are the values of the three coefficients for our case:</p>

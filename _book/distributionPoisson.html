@@ -369,12 +369,12 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill. All these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 <span class="math display" id="eq:PoissonTimes">\[\begin{equation}
     \mathrm{P}(t &gt; \tau_1 + \tau_2) = \mathrm{P}(t &gt; \tau_1)\mathrm{P}(t &gt; \tau_2),
-    \tag{3.6}
+    \tag{3.8}
 \end{equation}\]</span>
-where <span class="math inline">\(t\)</span> is the waiting time until the next arrival, and <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> are waiting times. The formula <a href="distributionPoisson.html#eq:PoissonTimes">(3.6)</a> shows that the probability that we will wait more than <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> is just equal to the product of probabilities of waiting for more than <span class="math inline">\(\tau_1\)</span> and more than <span class="math inline">\(\tau_2\)</span>. The formula relies on the independence of probabilities (discussed in Chapter <a href="probabilityTheory.html#probabilityTheory">2</a>). From the mathematical point of view, there is a function that supports the property <a href="distributionPoisson.html#eq:PoissonTimes">(3.6)</a> - it is exponent:
+where <span class="math inline">\(t\)</span> is the waiting time until the next arrival, and <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> are waiting times. The formula <a href="distributionPoisson.html#eq:PoissonTimes">(3.8)</a> shows that the probability that we will wait more than <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> is just equal to the product of probabilities of waiting for more than <span class="math inline">\(\tau_1\)</span> and more than <span class="math inline">\(\tau_2\)</span>. The formula relies on the independence of probabilities (discussed in Chapter <a href="probabilityTheory.html#probabilityTheory">2</a>). From the mathematical point of view, there is a function that supports the property <a href="distributionPoisson.html#eq:PoissonTimes">(3.8)</a> - it is exponent:
 <span class="math display" id="eq:PoissonTimesExp">\[\begin{equation}
     e^{\tau_1 + \tau_2} = e^{\tau_1} e^{\tau_2} .
-    \tag{3.7}
+    \tag{3.9}
 \end{equation}\]</span>
 Based on this principle of memorylessness (and based on the Exponential distribution, which we will discuss in Section <a href="distributionsExponential.html#distributionsExponential">4.5</a>), Poisson distribution is derived. It is a discrete distribution, which is used for modelling number of patients arriving at specific time intervals, based on the average number of arrivals <span class="math inline">\(\lambda\)</span>. Its PMF has the shape shown in Figure <a href="distributionPoisson.html#fig:poissonPMF">3.8</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:poissonPMF"></span>
@@ -392,12 +392,12 @@ Figure 3.8: Probability Mass Function of Poisson distribution with different val
 <p>Mathematically, the PMF of Poisson distribution is represented as:
 <span class="math display" id="eq:PoissonPMF">\[\begin{equation}
     f(y, \lambda) = \frac{\lambda^y e^{-\lambda}}{y!} ,
-    \tag{3.8}
+    \tag{3.10}
 \end{equation}\]</span>
 where <span class="math inline">\(e\)</span> is the Euler’s constant. The part <span class="math inline">\(e^{-\lambda}\)</span> represents the memoryless arrivals of patients. The Poisson distribution is characterised as <span class="math inline">\(\mathcal{Pois}(\lambda)\)</span> and has an additional property that its expectation is equal to variance:
 <span class="math display" id="eq:PoissonMean">\[\begin{equation}
     \mathrm{E}(y) = \mathrm{V}(y) = \lambda ,
-    \tag{3.9}
+    \tag{3.11}
 \end{equation}\]</span>
 which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but less than four patients in any specific hour. Assume that based on the available data we estimated that <span class="math inline">\(\hat{\lambda}=2\)</span>. In this situation we need to either use PMF or the CDF to calculate the following probability:
 <span class="math display" id="eq:PoissonProbabilityExample">\[\begin{equation}
@@ -405,9 +405,9 @@ which makes it convenient to work with and easy to estimate. If we have the para
         \mathrm{P}(0 &lt; y \leq 4) = &amp; \mathrm{P}(y=1) + \mathrm{P}(y=2) + \mathrm{P}(y=3) + \mathrm{P}(y=4) = \\
                                    &amp; \mathrm{P}(y \leq 4) - \mathrm{P}(y=0)
     \end{aligned} .
-    \tag{3.10}
+    \tag{3.12}
 \end{equation}\]</span></p>
-<p>The first line in <a href="distributionPoisson.html#eq:PoissonProbabilityExample">(3.10)</a> shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:</p>
+<p>The first line in <a href="distributionPoisson.html#eq:PoissonProbabilityExample">(3.12)</a> shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="distributionPoisson.html#cb11-1" aria-hidden="true"></a><span class="kw">sum</span>(<span class="kw">dpois</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## [1] 0.8120117</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="distributionPoisson.html#cb13-1" aria-hidden="true"></a><span class="kw">ppois</span>(<span class="dv">4</span>,<span class="dv">2</span>) <span class="op">-</span><span class="st"> </span><span class="kw">ppois</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span></code></pre></div>
@@ -415,7 +415,7 @@ which makes it convenient to work with and easy to estimate. If we have the para
 <p>where <code>dpois()</code> is the PMF and <code>ppois()</code> is the CDF of the Poisson distribution. Mathematically, the CDF of the Poisson distributions is written as:
 <span class="math display" id="eq:PoissonCDF">\[\begin{equation}
     F(y, \lambda) = e^{-\lambda} \sum_{j=0}^{y} \frac{\lambda^j }{j!} ,
-    \tag{3.11}
+    \tag{3.13}
 \end{equation}\]</span>
 for integer values of <span class="math inline">\(y\)</span>. Finally, we could get quantiles of the distribution for the specified probability. In R, this is done via the <code>qpois()</code> function. For example, here is the 0.95 quantile for the Poisson distribution with <span class="math inline">\(\hat{\lambda}=2\)</span>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="distributionPoisson.html#cb15-1" aria-hidden="true"></a><span class="kw">qpois</span>(<span class="fl">0.95</span>, <span class="dv">2</span>)</span></code></pre></div>

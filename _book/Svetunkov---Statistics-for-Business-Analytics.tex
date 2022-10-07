@@ -4,10 +4,10 @@
 %
 \documentclass[
 ]{book}
-\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{iftex}
-\ifPDFTeX
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -33,6 +33,14 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Statistics for Business Analytics},
+  pdfauthor={Ivan Svetunkov},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -73,8 +81,7 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
+\usepackage{longtable,booktabs}
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -125,19 +132,8 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage[]{natbib}
 \bibliographystyle{elsarticle-harv}
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
-\hypersetup{
-  pdftitle={Statistics for Business Analytics},
-  pdfauthor={Ivan Svetunkov},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
 
 \title{Statistics for Business Analytics}
 \author{Ivan Svetunkov}
@@ -179,7 +175,7 @@ These lecture notes relies heavily on the \texttt{greybox} package for R, which 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"greybox"}\NormalTok{)}
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"greybox"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,13 +199,13 @@ If you use LaTeX, the following can be used instead:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\SpecialCharTok{@}\NormalTok{MISC\{SvetunkovSBA,}
-\NormalTok{    title }\OtherTok{=}\NormalTok{ \{Statistics }\ControlFlowTok{for}\NormalTok{ Business Analytics\},}
-\NormalTok{    author }\OtherTok{=}\NormalTok{ \{Ivan Svetunkov\},}
-\NormalTok{    howpublished }\OtherTok{=}\NormalTok{ \{Lecture notes. OpenForecast\},}
-\NormalTok{    note }\OtherTok{=}\NormalTok{ \{(version}\SpecialCharTok{:}\NormalTok{ [current date])\},}
-\NormalTok{    url }\OtherTok{=}\NormalTok{ \{https}\SpecialCharTok{:}\ErrorTok{//}\NormalTok{openforecast.org}\SpecialCharTok{/}\NormalTok{sba}\SpecialCharTok{/}\NormalTok{\},}
-\NormalTok{    year }\OtherTok{=}\NormalTok{ \{}\DecValTok{2022}\NormalTok{\}}
+\OperatorTok{@}\NormalTok{MISC\{SvetunkovSBA,}
+\NormalTok{    title =}\StringTok{ }\NormalTok{\{Statistics }\ControlFlowTok{for}\NormalTok{ Business Analytics\},}
+\NormalTok{    author =}\StringTok{ }\NormalTok{\{Ivan Svetunkov\},}
+\NormalTok{    howpublished =}\StringTok{ }\NormalTok{\{Lecture notes. OpenForecast\},}
+\NormalTok{    note =}\StringTok{ }\NormalTok{\{(version}\OperatorTok{:}\StringTok{ }\NormalTok{[current date])\},}
+\NormalTok{    url =}\StringTok{ }\NormalTok{\{https}\OperatorTok{:}\ErrorTok{//}\NormalTok{openforecast.org}\OperatorTok{/}\NormalTok{sba}\OperatorTok{/}\NormalTok{\},}
+\NormalTok{    year =}\StringTok{ }\NormalTok{\{}\DecValTok{2022}\NormalTok{\}}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -706,7 +702,7 @@ In general, the distribution can be characterised with the following PMF:
     f(y, p) = p^y (1-p)^{1-y},
     \label{eq:BernoulliPMF}
 \end{equation}
-where \(y\) can only take values of 0 and 1. Figure \ref{fig:bernoulliPMF} demonstrates how the PMF \eqref{eq:Bernoulli} looks for several probabilities.
+where \(y\) can only take values of 0 and 1. Figure \ref{fig:bernoulliPMF} demonstrates how the PMF \eqref{eq:BernoulliPMF} looks for several probabilities.
 
 \begin{figure}
 \centering
@@ -787,7 +783,7 @@ which can be calculated in R as:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{factorial}\NormalTok{(}\DecValTok{5}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\KeywordTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\KeywordTok{factorial}\NormalTok{(}\DecValTok{5}\NormalTok{)}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -795,8 +791,8 @@ and is equal to 252. Using this formula, we can calculate other scores for compa
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{factorial}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))}\SpecialCharTok{*}\FunctionTok{factorial}\NormalTok{(}\DecValTok{10}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{setNames}\NormalTok{(}\AttributeTok{nm=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))}
+\KeywordTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\KeywordTok{factorial}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{))}\OperatorTok{*}\KeywordTok{factorial}\NormalTok{(}\DecValTok{10}\OperatorTok{{-}}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{))) }\OperatorTok{|}\ErrorTok{\textgreater{}}
+\StringTok{    }\KeywordTok{setNames}\NormalTok{(}\DataTypeTok{nm=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -809,10 +805,10 @@ Given that we throw the coin 10 times, there are overall \(2^{10}=1024\) theoret
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{round}\NormalTok{((}\FunctionTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{) }\SpecialCharTok{/}
-\NormalTok{           (}\FunctionTok{factorial}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))}\SpecialCharTok{*}\FunctionTok{factorial}\NormalTok{(}\DecValTok{10}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)))) }\SpecialCharTok{/}
-          \DecValTok{1024}\NormalTok{,}\DecValTok{3}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{setNames}\NormalTok{(}\AttributeTok{nm=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))}
+\KeywordTok{round}\NormalTok{((}\KeywordTok{factorial}\NormalTok{(}\DecValTok{10}\NormalTok{) }\OperatorTok{/}
+\StringTok{           }\NormalTok{(}\KeywordTok{factorial}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{))}\OperatorTok{*}\KeywordTok{factorial}\NormalTok{(}\DecValTok{10}\OperatorTok{{-}}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{)))) }\OperatorTok{/}
+\StringTok{          }\DecValTok{1024}\NormalTok{,}\DecValTok{3}\NormalTok{) }\OperatorTok{|}\ErrorTok{\textgreater{}}
+\StringTok{    }\KeywordTok{setNames}\NormalTok{(}\DataTypeTok{nm=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{10}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -824,7 +820,7 @@ Given that we throw the coin 10 times, there are overall \(2^{10}=1024\) theoret
 These probabilities can be obtained via the PMF of Binomial distribution:
 \begin{equation}
     f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
-    \label{eq:BernoulliPMF}
+    \label{eq:BinomialPMF}
 \end{equation}
 We will denote this distribution as \(\mathcal{Bi}(n, p)\). In R, this is implemented in the \texttt{dbinom()} function from \texttt{stats} package. Note that so far we assumed that \(p=0.5\), however in real life this is not necessarily the case.
 
@@ -841,7 +837,7 @@ From the Figure \ref{fig:binomialPMF01}, it is clear that there is a high probab
 So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99\% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99\%. Formally, this can be written as \(P(y<k)=0.99\) and we need to find \(k\). One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
 \begin{equation}
     F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
-    \label{eq:BernoulliPMF}
+    \label{eq:BinomialCDF}
 \end{equation}
 
 This CDF in our example will have the shape shown in Figure \ref{fig:binomialCDF01}.
@@ -856,7 +852,7 @@ We can see from Figure \ref{fig:binomialCDF01} that the cumulative probability r
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pbinom}\NormalTok{(}\DecValTok{6}\NormalTok{, }\AttributeTok{size=}\DecValTok{20}\NormalTok{, }\AttributeTok{prob=}\FloatTok{0.1}\NormalTok{)}
+\KeywordTok{pbinom}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DataTypeTok{size=}\DecValTok{20}\NormalTok{, }\DataTypeTok{prob=}\FloatTok{0.1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -870,7 +866,7 @@ We can get the same result by using Quantile Function, which is implemented in R
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{qbinom}\NormalTok{(}\FloatTok{0.99}\NormalTok{, }\DecValTok{20}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
+\KeywordTok{qbinom}\NormalTok{(}\FloatTok{0.99}\NormalTok{, }\DecValTok{20}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -964,7 +960,7 @@ The first line in \eqref{eq:PoissonProbabilityExample} shows how the probability
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{sum}\NormalTok{(}\FunctionTok{dpois}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{sum}\NormalTok{(}\KeywordTok{dpois}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -974,7 +970,7 @@ The first line in \eqref{eq:PoissonProbabilityExample} shows how the probability
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ppois}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{ppois}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\KeywordTok{ppois}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{ppois}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -991,7 +987,7 @@ for integer values of \(y\). Finally, we could get quantiles of the distribution
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{qpois}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\KeywordTok{qpois}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1007,7 +1003,7 @@ Another simple distribution, arising from a classical probability theory example
 The classical example of application of this distribution is dice rolling. The conventional dice has 6 sides and when rolled can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
 \begin{equation}
     f(y, k) = \frac{1}{k},
-    \label{eq:BernoulliPMF}
+    \label{eq:UniformPMF}
 \end{equation}
 where \(k\) is the number of outcomes (sides of the dice). The more outcomes there are, the lower the probability of having a specific outcome is. For example, on a dice with 10 sides, the probability of getting the score 5 is \(\frac{1}{10}\), while on the 6-sided version it is \(\frac{1}{6}\).
 
@@ -1024,14 +1020,14 @@ The mean of this distribution is calculated as \(\frac{a+b}{2}\), where \(a\) is
 The variance of the uniform distribution depends on the number of outcomes and is calculated as:
 \begin{equation}
     \sigma^2(y, k) = \frac{k^2-1}{12} .
-    \label{eq:BernoulliVariance}
+    \label{eq:UniformVariance}
 \end{equation}
 As can be seen from the formula, the variance of Uniform distribution is proportional to the number of outcomes.
 
 Coming to the CDF of the Uniform distribution, it is calculated as:
 \begin{equation}
     f(y, k) = \frac{y-a+1}{k},
-    \label{eq:BernoulliCDF}
+    \label{eq:UniformCDF}
 \end{equation}
 where \(a\) is the lowest possible value and \(k\) is the number of outcomes. This CDF can be visualised as shown in Figure \ref{fig:uniformCDF}.
 
@@ -1052,7 +1048,7 @@ This is the task on Uniform distribution, because serial numbers do not repeat a
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
 \end{equation*}
-Inserting the values in the CDF of the Uniform distribution \eqref{eq:BernoulliCDF} we get:
+Inserting the values in the CDF of the Uniform distribution \eqref{eq:UniformCDF} we get:
 \begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \frac{999}{9990} - \frac{99}{9990} \approx 0.1 - 0.01 = 0.09.
 \end{equation*}
@@ -1231,7 +1227,7 @@ The CDF in Figure \ref{fig:pnormPlot} has the properties of any other CDF: it co
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pnorm}\NormalTok{(}\AttributeTok{q=}\DecValTok{30}\NormalTok{, }\AttributeTok{mean=}\DecValTok{20}\NormalTok{, }\AttributeTok{sd=}\DecValTok{10}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{pnorm}\NormalTok{(}\AttributeTok{q=}\DecValTok{20}\NormalTok{, }\AttributeTok{mean=}\DecValTok{20}\NormalTok{, }\AttributeTok{sd=}\DecValTok{10}\NormalTok{)}
+\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q=}\DecValTok{30}\NormalTok{, }\DataTypeTok{mean=}\DecValTok{20}\NormalTok{, }\DataTypeTok{sd=}\DecValTok{10}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q=}\DecValTok{20}\NormalTok{, }\DataTypeTok{mean=}\DecValTok{20}\NormalTok{, }\DataTypeTok{sd=}\DecValTok{10}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1284,9 +1280,9 @@ In the equation \eqref{eq:BinomialNormalApproximation} by adding and subtraction
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{c}\NormalTok{(}\FunctionTok{dbinom}\NormalTok{(}\DecValTok{41}\NormalTok{,}\DecValTok{100}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}
-  \FunctionTok{pnorm}\NormalTok{(}\FloatTok{41.5}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{5}\NormalTok{)}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\FloatTok{40.5}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{5}\NormalTok{)) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{setNames}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"Binomial"}\NormalTok{, }\StringTok{"Normal"}\NormalTok{))}
+\KeywordTok{c}\NormalTok{(}\KeywordTok{dbinom}\NormalTok{(}\DecValTok{41}\NormalTok{,}\DecValTok{100}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}
+  \KeywordTok{pnorm}\NormalTok{(}\FloatTok{41.5}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{5}\NormalTok{)}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\FloatTok{40.5}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{5}\NormalTok{)) }\OperatorTok{|}\ErrorTok{\textgreater{}}
+\StringTok{    }\KeywordTok{setNames}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"Binomial"}\NormalTok{, }\StringTok{"Normal"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1402,7 +1398,7 @@ This can also be calculated in R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pexp}\NormalTok{(}\FloatTok{1.5}\NormalTok{, }\AttributeTok{rate=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{pexp}\NormalTok{(}\FloatTok{1.5}\NormalTok{, }\DataTypeTok{rate=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1506,9 +1502,9 @@ Takign this into account, we will create a data frame, encoding the categorical 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsData }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(mtcars)}
-\NormalTok{mtcarsData}\SpecialCharTok{$}\NormalTok{vs }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,}\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"V{-}shaped"}\NormalTok{,}\StringTok{"Straight"}\NormalTok{))}
-\NormalTok{mtcarsData}\SpecialCharTok{$}\NormalTok{am }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{am,}\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"automatic"}\NormalTok{,}\StringTok{"manual"}\NormalTok{))}
+\NormalTok{mtcarsData \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(mtcars)}
+\NormalTok{mtcarsData}\OperatorTok{$}\NormalTok{vs \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,}\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"V{-}shaped"}\NormalTok{,}\StringTok{"Straight"}\NormalTok{))}
+\NormalTok{mtcarsData}\OperatorTok{$}\NormalTok{am \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{am,}\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"automatic"}\NormalTok{,}\StringTok{"manual"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1518,7 +1514,7 @@ We can start with the basic summary statistics. We remember from the scales of i
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs)}
+\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1530,7 +1526,7 @@ We can start with the basic summary statistics. We remember from the scales of i
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{am)}
+\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{am)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1546,7 +1542,7 @@ All of this is purely descriptive information, which does not provide us much. W
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,mtcarsData}\SpecialCharTok{$}\NormalTok{am)}
+\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,mtcarsData}\OperatorTok{$}\NormalTok{am)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1563,7 +1559,7 @@ Next, we can look at the numerical variables. As we recall from Section \ref{sca
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{setNames}\NormalTok{(}\FunctionTok{mean}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg),}\StringTok{"mean"}\NormalTok{)}
+\KeywordTok{setNames}\NormalTok{(}\KeywordTok{mean}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg),}\StringTok{"mean"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1574,7 +1570,7 @@ Next, we can look at the numerical variables. As we recall from Section \ref{sca
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{quantile}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg)}
+\KeywordTok{quantile}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1585,7 +1581,7 @@ Next, we can look at the numerical variables. As we recall from Section \ref{sca
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{setNames}\NormalTok{(}\FunctionTok{median}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg),}\StringTok{"median"}\NormalTok{)}
+\KeywordTok{setNames}\NormalTok{(}\KeywordTok{median}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg),}\StringTok{"median"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1623,7 +1619,7 @@ it has the same scale as the variable \(y_j\). In our example, both can be obtai
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{var}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg)}
+\KeywordTok{var}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1633,7 +1629,7 @@ it has the same scale as the variable \(y_j\). In our example, both can be obtai
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{sd}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg)}
+\KeywordTok{sd}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1645,7 +1641,7 @@ Coming back to the point about the asymmetry of the distribution of a variable i
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{timeDate}\SpecialCharTok{::}\FunctionTok{skewness}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg)}
+\NormalTok{timeDate}\OperatorTok{::}\KeywordTok{skewness}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1657,7 +1653,7 @@ Coming back to the point about the asymmetry of the distribution of a variable i
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{timeDate}\SpecialCharTok{::}\FunctionTok{kurtosis}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg)}
+\NormalTok{timeDate}\OperatorTok{::}\KeywordTok{kurtosis}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1691,7 +1687,7 @@ All the conventional statistics discussed above can be produced using the follow
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(mtcarsData)}
+\KeywordTok{summary}\NormalTok{(mtcarsData)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1729,8 +1725,8 @@ Continuing our example with \texttt{mtcars} dataset, we now investigate what plo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{barplotVS }\OtherTok{\textless{}{-}} \FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs), }\AttributeTok{xlab=}\StringTok{"Type of engine"}\NormalTok{)}
-\FunctionTok{text}\NormalTok{(barplotVS,}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs),}\AttributeTok{cex=}\FloatTok{1.25}\NormalTok{)}
+\NormalTok{barplotVS \textless{}{-}}\StringTok{ }\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs), }\DataTypeTok{xlab=}\StringTok{"Type of engine"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(barplotVS,}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs)}\OperatorTok{/}\DecValTok{2}\NormalTok{,}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs),}\DataTypeTok{cex=}\FloatTok{1.25}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1750,8 +1746,8 @@ Barplots are useful when you deal with either categorical variables or integer n
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{barplotCYL }\OtherTok{\textless{}{-}} \FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{cyl), }\AttributeTok{xlab=}\StringTok{"Number of cylinders"}\NormalTok{)}
-\FunctionTok{text}\NormalTok{(barplotCYL,}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{cyl)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{cyl),}\AttributeTok{cex=}\FloatTok{1.25}\NormalTok{)}
+\NormalTok{barplotCYL \textless{}{-}}\StringTok{ }\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{cyl), }\DataTypeTok{xlab=}\StringTok{"Number of cylinders"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(barplotCYL,}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{cyl)}\OperatorTok{/}\DecValTok{2}\NormalTok{,}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{cyl),}\DataTypeTok{cex=}\FloatTok{1.25}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1765,7 +1761,7 @@ Figure \ref{fig:barplotCYL} shows that there are three types of cars in the data
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{cyl)}
+\KeywordTok{hist}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{cyl)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1784,8 +1780,8 @@ Coming back to categorical variables, we can construct two-dimensional plots to 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,mtcarsData}\SpecialCharTok{$}\NormalTok{am),}
-        \AttributeTok{xlab=}\StringTok{"Type of transmission"}\NormalTok{, }\AttributeTok{legend.text=}\FunctionTok{levels}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs))}
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,mtcarsData}\OperatorTok{$}\NormalTok{am),}
+        \DataTypeTok{xlab=}\StringTok{"Type of transmission"}\NormalTok{, }\DataTypeTok{legend.text=}\KeywordTok{levels}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1799,8 +1795,8 @@ Figure \ref{fig:barplotVSAM} provides some information about the distribution of
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{tableplot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,mtcarsData}\SpecialCharTok{$}\NormalTok{am,}
-          \AttributeTok{xlab=}\StringTok{"Type of engine"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Type of transmission"}\NormalTok{)}
+\KeywordTok{tableplot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,mtcarsData}\OperatorTok{$}\NormalTok{am,}
+          \DataTypeTok{xlab=}\StringTok{"Type of engine"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Type of transmission"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1814,8 +1810,8 @@ The idea of this plot is that the darkness of areas shows the frequency of occur
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{tableplot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{cyl,mtcarsData}\SpecialCharTok{$}\NormalTok{vs,}
-          \AttributeTok{xlab=}\StringTok{"Number of cylinders"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Type of engine"}\NormalTok{)}
+\KeywordTok{tableplot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{cyl,mtcarsData}\OperatorTok{$}\NormalTok{vs,}
+          \DataTypeTok{xlab=}\StringTok{"Number of cylinders"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Type of engine"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1834,8 +1830,8 @@ Next, we can analyse the numerical continuous variables. We can start with the b
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, }\AttributeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{density}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, }\DataTypeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{density}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1851,8 +1847,8 @@ An alternative presentation of the histogram is the boxplot, which graphically p
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{boxplot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, }\AttributeTok{ylab=}\StringTok{"Weight"}\NormalTok{)}
-\FunctionTok{points}\NormalTok{(}\FunctionTok{mean}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{boxplot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, }\DataTypeTok{ylab=}\StringTok{"Weight"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{mean}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1868,8 +1864,8 @@ There is also a way for producing the plots that would combine elements of histo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{vioplot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, }\AttributeTok{ylab=}\StringTok{"Weight"}\NormalTok{)}
-\FunctionTok{points}\NormalTok{(}\FunctionTok{mean}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{vioplot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, }\DataTypeTok{ylab=}\StringTok{"Weight"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{mean}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1885,8 +1881,8 @@ Finally, if we want to compare the distribution of a variable with a known theor
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{qqnorm}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt)}
-\FunctionTok{qqline}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt)}
+\KeywordTok{qqnorm}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt)}
+\KeywordTok{qqline}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1905,8 +1901,8 @@ So far, we have discussed the univariate analysis of numerical variables, but we
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, mtcarsData}\SpecialCharTok{$}\NormalTok{mpg, }\AttributeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{lowess}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, mtcarsData}\SpecialCharTok{$}\NormalTok{mpg), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, mtcarsData}\OperatorTok{$}\NormalTok{mpg, }\DataTypeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{lowess}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, mtcarsData}\OperatorTok{$}\NormalTok{mpg), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1925,7 +1921,7 @@ We could construct similar plots for all the other numerical variables, but not 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{gear, mtcarsData}\SpecialCharTok{$}\NormalTok{mpg, }\AttributeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{gear, mtcarsData}\OperatorTok{$}\NormalTok{mpg, }\DataTypeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1939,8 +1935,8 @@ This is because one of the variables is integer and takes only a handful of valu
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{boxplot}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{gear, mtcarsData, }\AttributeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
-\FunctionTok{points}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg, mtcarsData}\SpecialCharTok{$}\NormalTok{gear, mean), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{boxplot}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{gear, mtcarsData, }\DataTypeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{tapply}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg, mtcarsData}\OperatorTok{$}\NormalTok{gear, mean), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1956,8 +1952,8 @@ Similarly, we can produce violin plots for the same data using the following cod
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{vioplot}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{gear, mtcarsData, }\AttributeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
-\FunctionTok{points}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg, mtcarsData}\SpecialCharTok{$}\NormalTok{gear, mean), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{vioplot}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{gear, mtcarsData, }\DataTypeTok{xlab=}\StringTok{"Number of gears"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{tapply}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg, mtcarsData}\OperatorTok{$}\NormalTok{gear, mean), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1965,8 +1961,8 @@ Finally, using exactly the same idea with boxplots / violin plots, we can analys
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{vioplot}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{am, mtcarsData, }\AttributeTok{xlab=}\StringTok{"Transmission type"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
-\FunctionTok{points}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg, mtcarsData}\SpecialCharTok{$}\NormalTok{am, mean), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{vioplot}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{am, mtcarsData, }\DataTypeTok{xlab=}\StringTok{"Transmission type"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{tapply}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg, mtcarsData}\OperatorTok{$}\NormalTok{am, mean), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1983,7 +1979,7 @@ Finally, producing plots one by one might be a tedious and challenging task, so 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcars)}
+\KeywordTok{plot}\NormalTok{(mtcars)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1997,7 +1993,7 @@ Figure \ref{fig:scatterMatrix} is informative for the variables \texttt{mpg}, \t
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{spread}\NormalTok{(mtcarsData, }\AttributeTok{lowess=}\ConstantTok{TRUE}\NormalTok{)}
+\KeywordTok{spread}\NormalTok{(mtcarsData, }\DataTypeTok{lowess=}\OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2023,17 +2019,17 @@ The first law is called the \textbf{Law of Large Numbers} (LLN). It is the theor
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{obs }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{obs \textless{}{-}}\StringTok{ }\DecValTok{10000}
 \CommentTok{\# Generate data from normal distribution}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(obs,}\DecValTok{100}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(obs,}\DecValTok{100}\NormalTok{,}\DecValTok{100}\NormalTok{)}
 \CommentTok{\# Create sub{-}samples of 50 and 100 observations}
-\NormalTok{y30 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(y, }\DecValTok{30}\NormalTok{)}
-\NormalTok{y1000 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(y, }\DecValTok{1000}\NormalTok{)}
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{hist}\NormalTok{(y30, }\AttributeTok{xlab=}\StringTok{"y"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(y30), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{hist}\NormalTok{(y1000, }\AttributeTok{xlab=}\StringTok{"y"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(y1000), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\NormalTok{y30 \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(y, }\DecValTok{30}\NormalTok{)}
+\NormalTok{y1000 \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(y, }\DecValTok{1000}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(y30, }\DataTypeTok{xlab=}\StringTok{"y"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(y30), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y1000, }\DataTypeTok{xlab=}\StringTok{"y"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(y1000), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2047,11 +2043,11 @@ What we will typically see on the plots above is that the mean (red line) on the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{yMean }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{obs)\{}
-\NormalTok{    yMean[i] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{sample}\NormalTok{(y,i))}
+\NormalTok{yMean \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{obs)\{}
+\NormalTok{    yMean[i] \textless{}{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{sample}\NormalTok{(y,i))}
 \NormalTok{\}}
-\FunctionTok{plot}\NormalTok{(yMean, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Sample size"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Sample mean"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(yMean, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Sample size"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Sample mean"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2074,12 +2070,12 @@ As we have already seen on Figure \ref{fig:statsSampleMean}, the sample mean is 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{nIterations }\OtherTok{\textless{}{-}} \DecValTok{1000}
-\NormalTok{yMean }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,nIterations)}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{nIterations)\{}
-\NormalTok{    yMean[i] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{sample}\NormalTok{(y,}\DecValTok{1000}\NormalTok{))}
+\NormalTok{nIterations \textless{}{-}}\StringTok{ }\DecValTok{1000}
+\NormalTok{yMean \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,nIterations)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nIterations)\{}
+\NormalTok{    yMean[i] \textless{}{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{sample}\NormalTok{(y,}\DecValTok{1000}\NormalTok{))}
 \NormalTok{\}}
-\FunctionTok{hist}\NormalTok{(yMean, }\AttributeTok{xlab=}\StringTok{"Sample mean"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(yMean, }\DataTypeTok{xlab=}\StringTok{"Sample mean"}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2137,18 +2133,18 @@ where \(n\) is the sample size and \(\bar{y} = \frac{1}{n} \sum_{j=1}^n y_j\) is
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mu }\OtherTok{\textless{}{-}} \DecValTok{100}
-\NormalTok{sigma }\OtherTok{\textless{}{-}} \DecValTok{10}
-\NormalTok{nIterations }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\DecValTok{100}
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\DecValTok{10}
+\NormalTok{nIterations \textless{}{-}}\StringTok{ }\DecValTok{1000}
 \CommentTok{\# Generate data from normal distribution, 10,000 observations}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{,mu,sigma)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{,mu,sigma)}
 \CommentTok{\# This is the function, which will calculate the two variances}
-\NormalTok{varFunction }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)\{}
-   \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{var}\NormalTok{(y), }\FunctionTok{mean}\NormalTok{((y}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(y))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)))}
+\NormalTok{varFunction \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(y)\{}
+   \KeywordTok{return}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{var}\NormalTok{(y), }\KeywordTok{mean}\NormalTok{((y}\OperatorTok{{-}}\KeywordTok{mean}\NormalTok{(y))}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)))}
 \NormalTok{\}}
 \CommentTok{\# Calculate biased and unbiased variances for the sample of 30 observations,}
 \CommentTok{\# repeat nIterations times}
-\NormalTok{varValues }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(nIterations, }\FunctionTok{varFunction}\NormalTok{(}\FunctionTok{sample}\NormalTok{(y,}\DecValTok{30}\NormalTok{)))}
+\NormalTok{varValues \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(nIterations, }\KeywordTok{varFunction}\NormalTok{(}\KeywordTok{sample}\NormalTok{(y,}\DecValTok{30}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2156,16 +2152,16 @@ This way we have generated 1000 samples with 30 observations and calculated vari
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \CommentTok{\# Histogram of the biased estimate}
-\FunctionTok{hist}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,], }\AttributeTok{xlab=}\StringTok{"V(y)"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"y"}\NormalTok{, }\AttributeTok{main=}\StringTok{"Biased estimate of V(y)"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,]), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{,}\AttributeTok{legend=}\FunctionTok{TeX}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"E$}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{left(V(y)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{right)$="}\NormalTok{,}\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,]),}\DecValTok{2}\NormalTok{))),}\AttributeTok{lwd=}\DecValTok{1}\NormalTok{,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,], }\DataTypeTok{xlab=}\StringTok{"V(y)"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"y"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Biased estimate of V(y)"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,]), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{,}\DataTypeTok{legend=}\KeywordTok{TeX}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(}\StringTok{"E$}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{left(V(y)}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{right)$="}\NormalTok{,}\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(varValues[}\DecValTok{2}\NormalTok{,]),}\DecValTok{2}\NormalTok{))),}\DataTypeTok{lwd=}\DecValTok{1}\NormalTok{,}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 
 \CommentTok{\# Histogram of unbiased estimate}
-\FunctionTok{hist}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,], }\AttributeTok{xlab=}\StringTok{"V(y)"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"y"}\NormalTok{, }\AttributeTok{main=}\StringTok{"Unbiased estimate of V(y)"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,]), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{,}\AttributeTok{legend=}\FunctionTok{TeX}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"E$}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{left(V(y)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{right)$="}\NormalTok{,}\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,]),}\DecValTok{2}\NormalTok{))),}\AttributeTok{lwd=}\DecValTok{1}\NormalTok{,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,], }\DataTypeTok{xlab=}\StringTok{"V(y)"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"y"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Unbiased estimate of V(y)"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,]), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{,}\DataTypeTok{legend=}\KeywordTok{TeX}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(}\StringTok{"E$}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{left(V(y)}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{right)$="}\NormalTok{,}\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(varValues[}\DecValTok{1}\NormalTok{,]),}\DecValTok{2}\NormalTok{))),}\DataTypeTok{lwd=}\DecValTok{1}\NormalTok{,}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2191,17 +2187,17 @@ Another classical example of not efficient estimator is the median, when used on
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mu }\OtherTok{\textless{}{-}} \DecValTok{100}
-\NormalTok{sigma }\OtherTok{\textless{}{-}} \DecValTok{10}
-\NormalTok{nIterations }\OtherTok{\textless{}{-}} \DecValTok{500}
-\NormalTok{obs }\OtherTok{\textless{}{-}} \DecValTok{100}
-\NormalTok{varMeanValues }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
-\NormalTok{varMedianValues }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100000}\NormalTok{,mu,sigma)}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{obs)\{}
-\NormalTok{    ySample }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(nIterations,}\FunctionTok{sample}\NormalTok{(y,i}\SpecialCharTok{*}\DecValTok{100}\NormalTok{))}
-\NormalTok{    varMeanValues[i] }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(}\FunctionTok{apply}\NormalTok{(ySample,}\DecValTok{2}\NormalTok{,mean))}
-\NormalTok{    varMedianValues[i] }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(}\FunctionTok{apply}\NormalTok{(ySample,}\DecValTok{2}\NormalTok{,median))}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\DecValTok{100}
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\DecValTok{10}
+\NormalTok{nIterations \textless{}{-}}\StringTok{ }\DecValTok{500}
+\NormalTok{obs \textless{}{-}}\StringTok{ }\DecValTok{100}
+\NormalTok{varMeanValues \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
+\NormalTok{varMedianValues \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,obs)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100000}\NormalTok{,mu,sigma)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{obs)\{}
+\NormalTok{    ySample \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(nIterations,}\KeywordTok{sample}\NormalTok{(y,i}\OperatorTok{*}\DecValTok{100}\NormalTok{))}
+\NormalTok{    varMeanValues[i] \textless{}{-}}\StringTok{ }\KeywordTok{var}\NormalTok{(}\KeywordTok{apply}\NormalTok{(ySample,}\DecValTok{2}\NormalTok{,mean))}
+\NormalTok{    varMedianValues[i] \textless{}{-}}\StringTok{ }\KeywordTok{var}\NormalTok{(}\KeywordTok{apply}\NormalTok{(ySample,}\DecValTok{2}\NormalTok{,median))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2210,9 +2206,9 @@ In order to establish the efficiency of the estimators, we will take their varia
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{options}\NormalTok{(}\AttributeTok{scipen=}\DecValTok{6}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\SpecialCharTok{*}\DecValTok{100}\NormalTok{,varMeanValues}\SpecialCharTok{/}\NormalTok{varMedianValues, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Sample size"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Relative efficiency"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{1}\NormalTok{, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen=}\DecValTok{6}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\OperatorTok{*}\DecValTok{100}\NormalTok{,varMeanValues}\OperatorTok{/}\NormalTok{varMedianValues, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Sample size"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Relative efficiency"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{1}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2238,21 +2234,21 @@ Minimising this norm, we can get an estimate \(\hat{y}\) of the location paramet
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{LMax }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)\{}
-\NormalTok{    estimator }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(par)\{}
-        \FunctionTok{return}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\FunctionTok{abs}\NormalTok{(y}\SpecialCharTok{{-}}\NormalTok{par)));}
+\NormalTok{LMax \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(y)\{}
+\NormalTok{    estimator \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(par)\{}
+        \KeywordTok{return}\NormalTok{(}\KeywordTok{max}\NormalTok{(}\KeywordTok{abs}\NormalTok{(y}\OperatorTok{{-}}\NormalTok{par)));}
 \NormalTok{    \}}
     
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{optim}\NormalTok{(}\FunctionTok{mean}\NormalTok{(y), }\AttributeTok{fn=}\NormalTok{estimator, }\AttributeTok{method=}\StringTok{"Brent"}\NormalTok{, }\AttributeTok{lower=}\FunctionTok{min}\NormalTok{(y), }\AttributeTok{upper=}\FunctionTok{max}\NormalTok{(y)));}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{optim}\NormalTok{(}\KeywordTok{mean}\NormalTok{(y), }\DataTypeTok{fn=}\NormalTok{estimator, }\DataTypeTok{method=}\StringTok{"Brent"}\NormalTok{, }\DataTypeTok{lower=}\KeywordTok{min}\NormalTok{(y), }\DataTypeTok{upper=}\KeywordTok{max}\NormalTok{(y)));}
 \NormalTok{\}}
 
-\NormalTok{mu }\OtherTok{\textless{}{-}} \DecValTok{100}
-\NormalTok{sigma }\OtherTok{\textless{}{-}} \DecValTok{10}
-\NormalTok{nIterations }\OtherTok{\textless{}{-}} \DecValTok{1000}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, mu, sigma)}
-\NormalTok{LMaxEstimates }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, nIterations)}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{nIterations)\{}
-\NormalTok{    LMaxEstimates[i] }\OtherTok{\textless{}{-}} \FunctionTok{LMax}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(i}\SpecialCharTok{*}\DecValTok{10}\NormalTok{)])}\SpecialCharTok{$}\NormalTok{par;}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\DecValTok{100}
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\DecValTok{10}
+\NormalTok{nIterations \textless{}{-}}\StringTok{ }\DecValTok{1000}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, mu, sigma)}
+\NormalTok{LMaxEstimates \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, nIterations)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nIterations)\{}
+\NormalTok{    LMaxEstimates[i] \textless{}{-}}\StringTok{ }\KeywordTok{LMax}\NormalTok{(y[}\DecValTok{1}\OperatorTok{:}\NormalTok{(i}\OperatorTok{*}\DecValTok{10}\NormalTok{)])}\OperatorTok{$}\NormalTok{par;}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2261,8 +2257,8 @@ And here how the estimate looks with the increase of sample size:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{nIterations}\SpecialCharTok{*}\DecValTok{10}\NormalTok{, LMaxEstimates, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Sample size"}\NormalTok{,}\AttributeTok{ylab=}\FunctionTok{TeX}\NormalTok{(}\StringTok{"Estimate of $}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{mu$"}\NormalTok{))}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\NormalTok{mu, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{nIterations}\OperatorTok{*}\DecValTok{10}\NormalTok{, LMaxEstimates, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Sample size"}\NormalTok{,}\DataTypeTok{ylab=}\KeywordTok{TeX}\NormalTok{(}\StringTok{"Estimate of $}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{mu$"}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\NormalTok{mu, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2466,7 +2462,7 @@ Finally, there is a third way to test the hypothesis. We could calculate how muc
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pt}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{36{-}1}\NormalTok{)}
+\KeywordTok{pt}\NormalTok{(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{36{-}1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2584,7 +2580,7 @@ Over the years of teaching statistics, I have seen many different mistakes, rela
 \begin{itemize}
 \tightlist
 \item
-  This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the \(\mathrm{H}_0\) being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the ``Black swan in Australia''. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that ``We fail to reject \(\mathrm{H}_0\) that all swans are white''. Uneducated people would be tempted to say that '' \(\mathrm{H}_0\): All swans are white'' is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting \(\mathrm{H}_0\) and showing that ``not all swans are white'', which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting \(\mathrm{H}_0\), collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.
+  This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the \(\mathrm{H}_0\) being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the ``Black swan in Australia''. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that ``We fail to reject \(\mathrm{H}_0\) that all swans are white''. Uneducated people would be tempted to say that " \(\mathrm{H}_0\): All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting \(\mathrm{H}_0\) and showing that ``not all swans are white'', which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting \(\mathrm{H}_0\), collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.
 \end{itemize}
 
 \begin{enumerate}
@@ -2685,7 +2681,7 @@ Over the years of teaching statistics, I have seen many different mistakes, rela
   p-values are not comparable between variables. They only show on what level the hypothesis is rejected and only work together with the chosen significance level. (6) is similar to this mistake.
 \end{itemize}
 
-Remember that the p-value itself is random and will change if you change the sample size or the model specification. Always keep this in mind, when conducting statistical tests. All these mistakes typically arise because of the misuse of p-values and hypothesis testing mechanism. This is one of the reasons, why I prefer \protect\hyperlink{confidenceIntervals}{confidence intervals}, when possible (as discussed above).
+Remember that the p-value itself is random and will change if you change the sample size or the model specification. Always keep this in mind, when conducting statistical tests. All these mistakes typically arise because of the misuse of p-values and hypothesis testing mechanism. This is one of the reasons, why I prefer confidence intervals (see Section \ref{confidenceInterval}), when possible (as discussed above).
 
 \hypertarget{typeErrors}{%
 \section{Errors of types 0, I and II}\label{typeErrors}}
@@ -2837,29 +2833,29 @@ We could do similar calculations for other cases of the true mean and see how po
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Set all the parameters}
-\NormalTok{yMean }\OtherTok{\textless{}{-}} \DecValTok{3}
-\NormalTok{yMeanSD }\OtherTok{\textless{}{-}} \FloatTok{0.18} \SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{36}\NormalTok{)}
-\NormalTok{levelSignigicance }\OtherTok{\textless{}{-}} \FloatTok{0.05}
-\NormalTok{zValue }\OtherTok{\textless{}{-}} \DecValTok{3} \SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(levelSignigicance) }\SpecialCharTok{*}\NormalTok{ yMeanSD}
+\NormalTok{yMean \textless{}{-}}\StringTok{ }\DecValTok{3}
+\NormalTok{yMeanSD \textless{}{-}}\StringTok{ }\FloatTok{0.18} \OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{36}\NormalTok{)}
+\NormalTok{levelSignigicance \textless{}{-}}\StringTok{ }\FloatTok{0.05}
+\NormalTok{zValue \textless{}{-}}\StringTok{ }\DecValTok{3} \OperatorTok{+}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(levelSignigicance) }\OperatorTok{*}\StringTok{ }\NormalTok{yMeanSD}
 \CommentTok{\# Vector of hypothetical population means}
-\NormalTok{muValues }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\FloatTok{2.8}\NormalTok{,}\FloatTok{3.1}\NormalTok{,}\AttributeTok{length.out=}\DecValTok{100}\NormalTok{)}
+\NormalTok{muValues \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{2.8}\NormalTok{,}\FloatTok{3.1}\NormalTok{,}\DataTypeTok{length.out=}\DecValTok{100}\NormalTok{)}
 \CommentTok{\# Vector of values for power curve}
-\NormalTok{powerValues }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{powerValues \textless{}{-}}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{,}\DecValTok{100}\NormalTok{)}
 
 \CommentTok{\# Calculate the power values}
-\NormalTok{powerValues }\OtherTok{\textless{}{-}} \FunctionTok{pnorm}\NormalTok{((zValue }\SpecialCharTok{{-}}\NormalTok{ muValues)}\SpecialCharTok{/}\NormalTok{yMeanSD)}
+\NormalTok{powerValues \textless{}{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{((zValue }\OperatorTok{{-}}\StringTok{ }\NormalTok{muValues)}\OperatorTok{/}\NormalTok{yMeanSD)}
 
 \CommentTok{\# Plot the power curve}
-\FunctionTok{plot}\NormalTok{(muValues, powerValues, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}
-     \AttributeTok{xlab=}\NormalTok{latex2exp}\SpecialCharTok{::}\FunctionTok{TeX}\NormalTok{(}\StringTok{"$}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{mu$"}\NormalTok{),}
-     \AttributeTok{ylab=}\StringTok{"Power of the test"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(muValues, powerValues, }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}
+     \DataTypeTok{xlab=}\NormalTok{latex2exp}\OperatorTok{::}\KeywordTok{TeX}\NormalTok{(}\StringTok{"$}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{mu$"}\NormalTok{),}
+     \DataTypeTok{ylab=}\StringTok{"Power of the test"}\NormalTok{)}
 \CommentTok{\# Add lines for the case of 1{-}beta=0.05}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{0.05}\NormalTok{), }\AttributeTok{lty=}\DecValTok{3}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\DecValTok{2}\NormalTok{), }\AttributeTok{lty=}\DecValTok{3}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{),}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{0.05}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{3}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\DecValTok{2}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{3}\NormalTok{)}
 \CommentTok{\# And provide a description}
-\FunctionTok{text}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{0.05+0.05}\NormalTok{,}
-\NormalTok{     latex2exp}\SpecialCharTok{::}\FunctionTok{TeX}\NormalTok{(}\StringTok{"$}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{alpha =1{-} }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{beta =0.05$"}\NormalTok{),}
-     \AttributeTok{pos=}\DecValTok{4}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{0.05+0.05}\NormalTok{,}
+\NormalTok{     latex2exp}\OperatorTok{::}\KeywordTok{TeX}\NormalTok{(}\StringTok{"$}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{alpha =1{-} }\CharTok{\textbackslash{}\textbackslash{}}\StringTok{beta =0.05$"}\NormalTok{),}
+     \DataTypeTok{pos=}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2996,8 +2992,8 @@ and compare it with the critical one. Given that we test the two-sided hypothesi
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# I have previously selected significance level of 1\%}
-\NormalTok{alpha }\OtherTok{\textless{}{-}} \FloatTok{0.01}
-\FunctionTok{qnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{alpha \textless{}{-}}\StringTok{ }\FloatTok{0.01}
+\KeywordTok{qnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\OperatorTok{{-}}\NormalTok{alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{), }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3011,7 +3007,7 @@ Another way of testing the hypothesis is by calculating the p-value and comparin
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\FunctionTok{abs}\NormalTok{(}\FloatTok{1.6}\NormalTok{)))}\SpecialCharTok{*}\DecValTok{2}
+\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\KeywordTok{abs}\NormalTok{(}\FloatTok{1.6}\NormalTok{)))}\OperatorTok{*}\DecValTok{2}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3045,7 +3041,7 @@ while the critical value for the chosen 1\% significance level is:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{qt}\NormalTok{(}\FunctionTok{c}\NormalTok{(alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\DecValTok{100{-}1}\NormalTok{)}
+\KeywordTok{qt}\NormalTok{(}\KeywordTok{c}\NormalTok{(alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\OperatorTok{{-}}\NormalTok{alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{), }\DecValTok{100{-}1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3059,10 +3055,10 @@ In R, the same procedures can be done using the \texttt{t.test()} function from 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\FloatTok{175.3}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\FloatTok{175.3}\NormalTok{, }\DecValTok{5}\NormalTok{)}
 \CommentTok{\# Note that our significance level is 1\%,}
 \CommentTok{\# so we ask to produce 99\% confidence interval}
-\FunctionTok{t.test}\NormalTok{(y, }\AttributeTok{mu=}\FloatTok{175.3}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"two.sided"}\NormalTok{, }\AttributeTok{conf.level=}\FloatTok{0.99}\NormalTok{)}
+\KeywordTok{t.test}\NormalTok{(y, }\DataTypeTok{mu=}\FloatTok{175.3}\NormalTok{, }\DataTypeTok{alternative=}\StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{conf.level=}\FloatTok{0.99}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3119,7 +3115,7 @@ In R, the test can be conducted using \texttt{wilcox.test()} function from \text
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{wilcox.test}\NormalTok{(y, }\AttributeTok{mu=}\FloatTok{175.3}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"two.sided"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(y, }\DataTypeTok{mu=}\FloatTok{175.3}\NormalTok{, }\DataTypeTok{alternative=}\StringTok{"two.sided"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3172,7 +3168,7 @@ Given that the alternative hypothesis in our example is ``lower than'', we shoul
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\DecValTok{29}\NormalTok{)}
+\KeywordTok{qchisq}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\DecValTok{29}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3220,7 +3216,7 @@ There are several measures of association for the variables in nominal scale. Th
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,mtcarsData}\SpecialCharTok{$}\NormalTok{am)}
+\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,mtcarsData}\OperatorTok{$}\NormalTok{am)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3240,7 +3236,7 @@ where \(n_{i,j}\) is the element of the table on row \(i\) and column \(j\), \(n
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(}\DecValTok{12}\SpecialCharTok{*}\DecValTok{7} \SpecialCharTok{{-}} \DecValTok{6}\SpecialCharTok{*}\DecValTok{7}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{19}\SpecialCharTok{*}\DecValTok{13}\SpecialCharTok{*}\DecValTok{14}\SpecialCharTok{*}\DecValTok{18}\NormalTok{)}
+\NormalTok{(}\DecValTok{12}\OperatorTok{*}\DecValTok{7} \OperatorTok{{-}}\StringTok{ }\DecValTok{6}\OperatorTok{*}\DecValTok{7}\NormalTok{)}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{19}\OperatorTok{*}\DecValTok{13}\OperatorTok{*}\DecValTok{14}\OperatorTok{*}\DecValTok{18}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3263,7 +3259,7 @@ where \(n\) is the sum of elements in the contingency table. The value calculate
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{chisq.test}\NormalTok{(}\FunctionTok{table}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{vs,mtcarsData}\SpecialCharTok{$}\NormalTok{am))}
+\KeywordTok{chisq.test}\NormalTok{(}\KeywordTok{table}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{vs,mtcarsData}\OperatorTok{$}\NormalTok{am))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3281,11 +3277,11 @@ The main limitation of the coefficient \(\phi\) is that it only works for the \(
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{colour }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%*\%} \FunctionTok{rmultinom}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
-                               \FunctionTok{c}\NormalTok{(}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.6}\NormalTok{))}
-\NormalTok{colour }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(colour, }\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{),}
-                 \AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{))}
-\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(colour), }\AttributeTok{xlab=}\StringTok{"Colour"}\NormalTok{)}
+\NormalTok{colour \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{rmultinom}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
+                               \KeywordTok{c}\NormalTok{(}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.6}\NormalTok{))}
+\NormalTok{colour \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(colour, }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{),}
+                 \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{))}
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(colour), }\DataTypeTok{xlab=}\StringTok{"Colour"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3299,7 +3295,7 @@ Cramer's V always lies between 0 and 1, becoming close to one only if there is s
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cramer}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{am,colour)}
+\KeywordTok{cramer}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{am,colour)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3367,14 +3363,14 @@ Here how we can do that in R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{age }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%*\%} \FunctionTok{rmultinom}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
-                               \FunctionTok{c}\NormalTok{(}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.6}\NormalTok{))}
-\NormalTok{age }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(age, }\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{),}
-                 \AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"young"}\NormalTok{,}\StringTok{"adult"}\NormalTok{,}\StringTok{"elderly"}\NormalTok{))}
-\NormalTok{size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%*\%} \FunctionTok{rmultinom}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
-                               \FunctionTok{c}\NormalTok{(}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.7}\NormalTok{))}
-\NormalTok{size }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(size, }\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{),}
-                 \AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"S"}\NormalTok{,}\StringTok{"M"}\NormalTok{,}\StringTok{"L"}\NormalTok{))}
+\NormalTok{age \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{rmultinom}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
+                               \KeywordTok{c}\NormalTok{(}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.6}\NormalTok{))}
+\NormalTok{age \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(age, }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{),}
+                 \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"young"}\NormalTok{,}\StringTok{"adult"}\NormalTok{,}\StringTok{"elderly"}\NormalTok{))}
+\NormalTok{size \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{rmultinom}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(mtcars), }\DecValTok{1}\NormalTok{,}
+                               \KeywordTok{c}\NormalTok{(}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.7}\NormalTok{))}
+\NormalTok{size \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(size, }\DataTypeTok{levels=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{),}
+                 \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"S"}\NormalTok{,}\StringTok{"M"}\NormalTok{,}\StringTok{"L"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3382,7 +3378,7 @@ And here is how the relation between these two artificial variables looks:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{tableplot}\NormalTok{(age,size,}\AttributeTok{xlab=}\StringTok{"Age"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"T{-}shirt size"}\NormalTok{)}
+\KeywordTok{tableplot}\NormalTok{(age,size,}\DataTypeTok{xlab=}\StringTok{"Age"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"T{-}shirt size"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3396,7 +3392,7 @@ The graphical analysis based on Figure \ref{fig:tableplotAgeSize} does not provi
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{DescTools}\SpecialCharTok{::}\FunctionTok{GoodmanKruskalGamma}\NormalTok{(age,size,}\AttributeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
+\NormalTok{DescTools}\OperatorTok{::}\KeywordTok{GoodmanKruskalGamma}\NormalTok{(age,size,}\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3416,7 +3412,7 @@ The main difference from the contingency coefficient is that it assumes that the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(age,size)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\KeywordTok{table}\NormalTok{(age,size)[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3429,7 +3425,7 @@ The main difference from the contingency coefficient is that it assumes that the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\DecValTok{2{-}4}\SpecialCharTok{*}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{+}\DecValTok{4}\SpecialCharTok{*}\DecValTok{2}\NormalTok{)}
+\NormalTok{(}\DecValTok{2}\OperatorTok{*}\DecValTok{2{-}4}\OperatorTok{*}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\DecValTok{2}\OperatorTok{+}\DecValTok{4}\OperatorTok{*}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3454,7 +3450,7 @@ where \(T\) is the number of observations, and thus in the denominator, we have 
 where \(n_x\) and \(n_y\) are the number of ties calculated for both variables. This coefficient resolves the problem with ties and can now reach the boundary values in practice. However, this coefficient does not resolve the issue with different scale sizes. And in order to address this problem, we have \(\tau_c\) (\textbf{Stuart-Kendall's} \(\tau_c\)):
 \begin{equation}
     \tau_c = \frac{n_c - n_d}{\frac{n^2}{2}\frac{\min(r, c)-1}{\min(r, c)}},
-    \label{eq:measuresAssociationKendallTaub}
+    \label{eq:measuresAssociationKendallTauc}
 \end{equation}
 where \(r\) is the number of rows and \(c\) is the number of columns. This coefficient works for variables with different lengths of scales (e.g.~age with 5 options and t-shirt size with 7 options). But now we are back to the problem with the ties\ldots{}
 
@@ -3462,7 +3458,7 @@ In R, the \texttt{cor()} function implements Kendall's \(\tau_a\) and \(\tau_b\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{DescTools}\SpecialCharTok{::}\FunctionTok{KendallTauA}\NormalTok{(age,size,}\AttributeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
+\NormalTok{DescTools}\OperatorTok{::}\KeywordTok{KendallTauA}\NormalTok{(age,size,}\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3473,7 +3469,7 @@ In R, the \texttt{cor()} function implements Kendall's \(\tau_a\) and \(\tau_b\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{DescTools}\SpecialCharTok{::}\FunctionTok{KendallTauB}\NormalTok{(age,size,}\AttributeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
+\NormalTok{DescTools}\OperatorTok{::}\KeywordTok{KendallTauB}\NormalTok{(age,size,}\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3484,7 +3480,7 @@ In R, the \texttt{cor()} function implements Kendall's \(\tau_a\) and \(\tau_b\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{DescTools}\SpecialCharTok{::}\FunctionTok{StuartTauC}\NormalTok{(age,size,}\AttributeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
+\NormalTok{DescTools}\OperatorTok{::}\KeywordTok{StuartTauC}\NormalTok{(age,size,}\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3512,9 +3508,9 @@ where all the values from \eqref{eq:measuresAssociationPearsonPopulation} are su
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{disp,mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,}
-     \AttributeTok{xlab=}\StringTok{"Displacement"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\FunctionTok{lm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{disp,mtcarsData),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{disp,mtcarsData}\OperatorTok{$}\NormalTok{mpg,}
+     \DataTypeTok{xlab=}\StringTok{"Displacement"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{disp,mtcarsData),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3528,9 +3524,9 @@ Figure \ref{fig:mtcarsScatterPlotDispMPG} shows the scatterplot between the two 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,mtcarsData}\SpecialCharTok{$}\NormalTok{disp,}
-     \AttributeTok{xlab=}\StringTok{"Mileage"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Displacement"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\FunctionTok{lm}\NormalTok{(disp}\SpecialCharTok{\textasciitilde{}}\NormalTok{mpg,mtcarsData),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg,mtcarsData}\OperatorTok{$}\NormalTok{disp,}
+     \DataTypeTok{xlab=}\StringTok{"Mileage"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Displacement"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(disp}\OperatorTok{\textasciitilde{}}\NormalTok{mpg,mtcarsData),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3544,7 +3540,7 @@ The slopes for the two lines will in general differ, and will only coincide if t
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,mtcarsData}\SpecialCharTok{$}\NormalTok{disp)}
+\KeywordTok{cor}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg,mtcarsData}\OperatorTok{$}\NormalTok{disp)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3556,7 +3552,7 @@ Which shows strong negative linear relation between the displacement and mileage
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor.test}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,mtcarsData}\SpecialCharTok{$}\NormalTok{disp)}
+\KeywordTok{cor.test}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg,mtcarsData}\OperatorTok{$}\NormalTok{disp)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3580,18 +3576,18 @@ Note that the value of correlation coefficient only depends on the distance of p
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{error }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{)}
-\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{)}
-\NormalTok{y1 }\OtherTok{\textless{}{-}} \DecValTok{10}\FloatTok{+0.5}\SpecialCharTok{*}\NormalTok{x}\FloatTok{+0.5}\SpecialCharTok{*}\NormalTok{error}
-\NormalTok{y2 }\OtherTok{\textless{}{-}} \DecValTok{2}\FloatTok{+1.5}\SpecialCharTok{*}\NormalTok{x}\FloatTok{+1.5}\SpecialCharTok{*}\NormalTok{error}
+\NormalTok{error \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{x \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{)}
+\NormalTok{y1 \textless{}{-}}\StringTok{ }\DecValTok{10}\FloatTok{+0.5}\OperatorTok{*}\NormalTok{x}\FloatTok{+0.5}\OperatorTok{*}\NormalTok{error}
+\NormalTok{y2 \textless{}{-}}\StringTok{ }\DecValTok{2}\FloatTok{+1.5}\OperatorTok{*}\NormalTok{x}\FloatTok{+1.5}\OperatorTok{*}\NormalTok{error}
 \CommentTok{\# Produce the plots}
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(x,y1,}\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{200}\NormalTok{))}
-\FunctionTok{abline}\NormalTok{(}\FunctionTok{lm}\NormalTok{(y1}\SpecialCharTok{\textasciitilde{}}\NormalTok{x),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{text}\NormalTok{(}\DecValTok{30}\NormalTok{,}\DecValTok{150}\NormalTok{,}\FunctionTok{paste0}\NormalTok{(}\StringTok{"r="}\NormalTok{,}\FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(x,y1),}\DecValTok{5}\NormalTok{)))}
-\FunctionTok{plot}\NormalTok{(x,y2,}\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{200}\NormalTok{))}
-\FunctionTok{abline}\NormalTok{(}\FunctionTok{lm}\NormalTok{(y2}\SpecialCharTok{\textasciitilde{}}\NormalTok{x),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{text}\NormalTok{(}\DecValTok{30}\NormalTok{,}\DecValTok{150}\NormalTok{,}\FunctionTok{paste0}\NormalTok{(}\StringTok{"r="}\NormalTok{,}\FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(x,y2),}\DecValTok{5}\NormalTok{)))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(x,y1,}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{200}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(y1}\OperatorTok{\textasciitilde{}}\NormalTok{x),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(}\DecValTok{30}\NormalTok{,}\DecValTok{150}\NormalTok{,}\KeywordTok{paste0}\NormalTok{(}\StringTok{"r="}\NormalTok{,}\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(x,y1),}\DecValTok{5}\NormalTok{)))}
+\KeywordTok{plot}\NormalTok{(x,y2,}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{200}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(y2}\OperatorTok{\textasciitilde{}}\NormalTok{x),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(}\DecValTok{30}\NormalTok{,}\DecValTok{150}\NormalTok{,}\KeywordTok{paste0}\NormalTok{(}\StringTok{"r="}\NormalTok{,}\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(x,y2),}\DecValTok{5}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3607,8 +3603,8 @@ Coming back to the scatterplot in Figure \ref{fig:mtcarsScatterPlotDispMPG}, it 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor.test}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,mtcarsData}\SpecialCharTok{$}\NormalTok{disp,}
-         \AttributeTok{method=}\StringTok{"spearman"}\NormalTok{)}
+\KeywordTok{cor.test}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{mpg,mtcarsData}\OperatorTok{$}\NormalTok{disp,}
+         \DataTypeTok{method=}\StringTok{"spearman"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3635,9 +3631,9 @@ Note that while Spearman's correlation will tell you something about monotonic r
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{)}
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{sin}\NormalTok{(x)}
-\FunctionTok{plot}\NormalTok{(x,y,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{)}
+\NormalTok{x \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{sin}\NormalTok{(x)}
+\KeywordTok{plot}\NormalTok{(x,y,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3647,7 +3643,7 @@ But neither Pearson's nor Spearman's coefficients will be able to capture it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(x,y)}
+\KeywordTok{cor}\NormalTok{(x,y)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3657,7 +3653,7 @@ But neither Pearson's nor Spearman's coefficients will be able to capture it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(x,y,}\AttributeTok{method=}\StringTok{"spearman"}\NormalTok{)}
+\KeywordTok{cor}\NormalTok{(x,y,}\DataTypeTok{method=}\StringTok{"spearman"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3669,7 +3665,7 @@ In order to correctly diagnose such non-linear relation, either one or both vari
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(}\FunctionTok{sin}\NormalTok{(x),y)}
+\KeywordTok{cor}\NormalTok{(}\KeywordTok{sin}\NormalTok{(x),y)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3684,7 +3680,7 @@ Finally, when we have two variables measured in different scales, the general re
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cramer}\NormalTok{(colour,size)}
+\KeywordTok{cramer}\NormalTok{(colour,size)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3699,7 +3695,7 @@ However, in some cases we might be able to use a different measure of associatio
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mcor}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{am, mtcars}\SpecialCharTok{$}\NormalTok{mpg)}
+\KeywordTok{mcor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{am, mtcars}\OperatorTok{$}\NormalTok{mpg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3714,7 +3710,7 @@ Finally, there is a function \texttt{assoc()} (aka \texttt{association()}) in \t
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{assoc}\NormalTok{(mtcarsData)}
+\KeywordTok{assoc}\NormalTok{(mtcarsData)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3813,14 +3809,14 @@ In order to better understand what simple linear regression implies, consider th
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmMPGWt }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{wt,mtcarsData)}
-\FunctionTok{plot}\NormalTok{(mtcarsData}\SpecialCharTok{$}\NormalTok{wt, mtcarsData}\SpecialCharTok{$}\NormalTok{mpg,}
-     \AttributeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Mileage"}\NormalTok{,}
-     \AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{6}\NormalTok{), }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{40}\NormalTok{))}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{0}\NormalTok{, }\AttributeTok{col=}\StringTok{"grey"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{0}\NormalTok{, }\AttributeTok{col=}\StringTok{"grey"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(slmMPGWt,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{text}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{35}\NormalTok{,}\FunctionTok{paste0}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mpg="}\NormalTok{,}\FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(slmMPGWt),}\DecValTok{2}\NormalTok{),}\StringTok{"wt+et"}\NormalTok{),}\AttributeTok{collapse=}\StringTok{""}\NormalTok{))}
+\NormalTok{slmMPGWt \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{wt,mtcarsData)}
+\KeywordTok{plot}\NormalTok{(mtcarsData}\OperatorTok{$}\NormalTok{wt, mtcarsData}\OperatorTok{$}\NormalTok{mpg,}
+     \DataTypeTok{xlab=}\StringTok{"Weight"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Mileage"}\NormalTok{,}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{6}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{40}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col=}\StringTok{"grey"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col=}\StringTok{"grey"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(slmMPGWt,}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{35}\NormalTok{,}\KeywordTok{paste0}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"mpg="}\NormalTok{,}\KeywordTok{round}\NormalTok{(}\KeywordTok{coef}\NormalTok{(slmMPGWt),}\DecValTok{2}\NormalTok{),}\StringTok{"wt+et"}\NormalTok{),}\DataTypeTok{collapse=}\StringTok{""}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4154,9 +4150,9 @@ Here how this measure can be calculated in R based on the model earlier:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nobs}\NormalTok{(slmMPGWt)}
-\NormalTok{R2 }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{resid}\NormalTok{(slmMPGWt)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/}
-\NormalTok{    (}\FunctionTok{var}\NormalTok{(}\FunctionTok{actuals}\NormalTok{(slmMPGWt))}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
+\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{nobs}\NormalTok{(slmMPGWt)}
+\NormalTok{R2 \textless{}{-}}\StringTok{ }\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(slmMPGWt)}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{) }\OperatorTok{/}
+\StringTok{    }\NormalTok{(}\KeywordTok{var}\NormalTok{(}\KeywordTok{actuals}\NormalTok{(slmMPGWt))}\OperatorTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
 \NormalTok{R2}
 \end{Highlighting}
 \end{Shaded}
@@ -4182,7 +4178,7 @@ Here is a demonstration of the formula above in R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{sign}\NormalTok{(}\FunctionTok{coef}\NormalTok{(slmMPGWt)[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(R2)}
+\KeywordTok{sign}\NormalTok{(}\KeywordTok{coef}\NormalTok{(slmMPGWt)[}\DecValTok{2}\NormalTok{]) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(R2)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4193,7 +4189,7 @@ Here is a demonstration of the formula above in R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{mpg,mtcars}\SpecialCharTok{$}\NormalTok{wt)}
+\KeywordTok{cor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{mpg,mtcars}\OperatorTok{$}\NormalTok{wt)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4265,7 +4261,7 @@ The formula \eqref{eq:MLROLS} is used in all the statistical software, including
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsModel01 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{cyl}\SpecialCharTok{+}\NormalTok{disp}\SpecialCharTok{+}\NormalTok{hp}\SpecialCharTok{++}\NormalTok{drat}\SpecialCharTok{+}\NormalTok{wt}\SpecialCharTok{+}\NormalTok{qsec}\SpecialCharTok{+}\NormalTok{gear}\SpecialCharTok{+}\NormalTok{carb, mtcars)}
+\NormalTok{mtcarsModel01 \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{cyl}\OperatorTok{+}\NormalTok{disp}\OperatorTok{+}\NormalTok{hp}\OperatorTok{++}\NormalTok{drat}\OperatorTok{+}\NormalTok{wt}\OperatorTok{+}\NormalTok{qsec}\OperatorTok{+}\NormalTok{gear}\OperatorTok{+}\NormalTok{carb, mtcars)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4273,7 +4269,7 @@ The simplest plot that we can produce from this model is fitted values vs actual
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(mtcarsModel01),}\FunctionTok{actuals}\NormalTok{(mtcarsModel01))}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(mtcarsModel01),}\KeywordTok{actuals}\NormalTok{(mtcarsModel01))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4283,8 +4279,8 @@ The same plot is produced via \texttt{plot()} method if we use \texttt{alm()} fu
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsModel02 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{cyl}\SpecialCharTok{+}\NormalTok{disp}\SpecialCharTok{+}\NormalTok{hp}\SpecialCharTok{++}\NormalTok{drat}\SpecialCharTok{+}\NormalTok{wt}\SpecialCharTok{+}\NormalTok{qsec}\SpecialCharTok{+}\NormalTok{gear}\SpecialCharTok{+}\NormalTok{carb, mtcars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(mtcarsModel02,}\DecValTok{1}\NormalTok{)}
+\NormalTok{mtcarsModel02 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{cyl}\OperatorTok{+}\NormalTok{disp}\OperatorTok{+}\NormalTok{hp}\OperatorTok{++}\NormalTok{drat}\OperatorTok{+}\NormalTok{wt}\OperatorTok{+}\NormalTok{qsec}\OperatorTok{+}\NormalTok{gear}\OperatorTok{+}\NormalTok{carb, mtcars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsModel02,}\DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4312,7 +4308,7 @@ Here is how this can be calculated for our model, estimated using \texttt{alm()}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{sigma}\NormalTok{(mtcarsModel02)}
+\KeywordTok{sigma}\NormalTok{(mtcarsModel02)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4327,12 +4323,12 @@ Similarly to the simple linear regression, we can calculate the R\(^2\) (see Sec
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Record number of observations}
-\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nobs}\NormalTok{(mtcarsModel02)}
+\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{nobs}\NormalTok{(mtcarsModel02)}
 \CommentTok{\# Generate white noise}
-\NormalTok{mtcarsData}\SpecialCharTok{$}\NormalTok{noise }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n,}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{mtcarsData}\OperatorTok{$}\NormalTok{noise \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(n,}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{)}
 \CommentTok{\# Add it to the model}
-\NormalTok{mtcarsModel02WithNoise }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{cyl}\SpecialCharTok{+}\NormalTok{disp}\SpecialCharTok{+}\NormalTok{hp}\SpecialCharTok{++}\NormalTok{drat}\SpecialCharTok{+}\NormalTok{wt}\SpecialCharTok{+}\NormalTok{qsec}\SpecialCharTok{+}\NormalTok{gear}\SpecialCharTok{+}\NormalTok{carb}\SpecialCharTok{+}\NormalTok{noise,}
-\NormalTok{                                   mtcarsData, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{mtcarsModel02WithNoise \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{cyl}\OperatorTok{+}\NormalTok{disp}\OperatorTok{+}\NormalTok{hp}\OperatorTok{++}\NormalTok{drat}\OperatorTok{+}\NormalTok{wt}\OperatorTok{+}\NormalTok{qsec}\OperatorTok{+}\NormalTok{gear}\OperatorTok{+}\NormalTok{carb}\OperatorTok{+}\NormalTok{noise,}
+\NormalTok{                                   mtcarsData, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4340,8 +4336,8 @@ The code above introduces a new variable, \texttt{noise}, which has nothing to d
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mtcarsModel02WithNoise)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/}
-\NormalTok{    (}\FunctionTok{var}\NormalTok{(}\FunctionTok{actuals}\NormalTok{(mtcarsModel02WithNoise))}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
+\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(mtcarsModel02WithNoise)}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{) }\OperatorTok{/}
+\StringTok{    }\NormalTok{(}\KeywordTok{var}\NormalTok{(}\KeywordTok{actuals}\NormalTok{(mtcarsModel02WithNoise))}\OperatorTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4353,8 +4349,8 @@ Compare it with the previous one:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mtcarsModel02)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/}
-\NormalTok{    (}\FunctionTok{var}\NormalTok{(}\FunctionTok{actuals}\NormalTok{(mtcarsModel02))}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
+\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(mtcarsModel02)}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{) }\OperatorTok{/}
+\StringTok{    }\NormalTok{(}\KeywordTok{var}\NormalTok{(}\KeywordTok{actuals}\NormalTok{(mtcarsModel02))}\OperatorTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4373,9 +4369,9 @@ Here how the adjusted R\(^2\) can be calculated for a model in R:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{setNames}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sigma}\NormalTok{(mtcarsModel02)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/} \FunctionTok{var}\NormalTok{(}\FunctionTok{actuals}\NormalTok{(mtcarsModel02)),}
-           \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sigma}\NormalTok{(mtcarsModel02WithNoise)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/} \FunctionTok{var}\NormalTok{(}\FunctionTok{actuals}\NormalTok{(mtcarsModel02WithNoise))),}
-         \FunctionTok{c}\NormalTok{(}\StringTok{"R\^{}2{-}adj"}\NormalTok{,}\StringTok{"R\^{}2{-}adj, Noise"}\NormalTok{))}
+\KeywordTok{setNames}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{sigma}\NormalTok{(mtcarsModel02)}\OperatorTok{\^{}}\DecValTok{2} \OperatorTok{/}\StringTok{ }\KeywordTok{var}\NormalTok{(}\KeywordTok{actuals}\NormalTok{(mtcarsModel02)),}
+           \DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{sigma}\NormalTok{(mtcarsModel02WithNoise)}\OperatorTok{\^{}}\DecValTok{2} \OperatorTok{/}\StringTok{ }\KeywordTok{var}\NormalTok{(}\KeywordTok{actuals}\NormalTok{(mtcarsModel02WithNoise))),}
+         \KeywordTok{c}\NormalTok{(}\StringTok{"R\^{}2{-}adj"}\NormalTok{,}\StringTok{"R\^{}2{-}adj, Noise"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4393,7 +4389,7 @@ Finally, we come to the discussion of parameters of a model. As mentioned earlie
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{coef}\NormalTok{(mtcarsModel02)}
+\KeywordTok{coef}\NormalTok{(mtcarsModel02)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4431,7 +4427,7 @@ While the linear relation between these variables might be not the the most appr
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceBootstrap }\OtherTok{\textless{}{-}} \FunctionTok{coefbootstrap}\NormalTok{(slmSpeedDistance)}
+\NormalTok{slmSpeedDistanceBootstrap \textless{}{-}}\StringTok{ }\KeywordTok{coefbootstrap}\NormalTok{(slmSpeedDistance)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4439,11 +4435,11 @@ Based on that we can plot the histograms of the estimates of parameters.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{1}\NormalTok{],}
-     \AttributeTok{xlab=}\StringTok{"Intercept"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
-\FunctionTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{2}\NormalTok{],}
-     \AttributeTok{xlab=}\StringTok{"Slope"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\OperatorTok{$}\NormalTok{coefficients[,}\DecValTok{1}\NormalTok{],}
+     \DataTypeTok{xlab=}\StringTok{"Intercept"}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\OperatorTok{$}\NormalTok{coefficients[,}\DecValTok{2}\NormalTok{],}
+     \DataTypeTok{xlab=}\StringTok{"Slope"}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4466,13 +4462,13 @@ In order to take this uncertainty into account, we could construct confidence in
 This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter \(i\) via:
 \begin{equation}
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    \label{eq:MLRcovarianceMatrix}
+    \label{eq:MLRParameterInterval}
 \end{equation}
 where \(s_{b_i}\) is the standard error of the parameter \(b_i\). All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{vcov}\NormalTok{(slmSpeedDistance)}
+\KeywordTok{vcov}\NormalTok{(slmSpeedDistance)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4486,7 +4482,7 @@ This is the covariance matrix of parameters, the diagonal elements of which are 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{confint}\NormalTok{(slmSpeedDistance)}
+\KeywordTok{confint}\NormalTok{(slmSpeedDistance)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4500,7 +4496,7 @@ The confidence interval for speed above shows, for example, that if we repeat th
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(slmSpeedDistance)}
+\KeywordTok{summary}\NormalTok{(slmSpeedDistance)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4578,8 +4574,8 @@ In R, if you want to test the hypothesis for parameters, I would recommend using
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{lmSpeedDistance }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(dist}\SpecialCharTok{\textasciitilde{}}\NormalTok{speed,cars)}
-\FunctionTok{summary}\NormalTok{(lmSpeedDistance)}
+\NormalTok{lmSpeedDistance \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(dist}\OperatorTok{\textasciitilde{}}\NormalTok{speed,cars)}
+\KeywordTok{summary}\NormalTok{(lmSpeedDistance)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4637,7 +4633,7 @@ Here is an example with the speed model discussed above with the significance le
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{lmSpeedDistanceF }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(lmSpeedDistance)}\SpecialCharTok{$}\NormalTok{fstatistic}
+\NormalTok{lmSpeedDistanceF \textless{}{-}}\StringTok{ }\KeywordTok{summary}\NormalTok{(lmSpeedDistance)}\OperatorTok{$}\NormalTok{fstatistic}
 \CommentTok{\# F value}
 \NormalTok{lmSpeedDistanceF[}\DecValTok{1}\NormalTok{]}
 \end{Highlighting}
@@ -4651,7 +4647,7 @@ Here is an example with the speed model discussed above with the significance le
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# F critical}
-\FunctionTok{qf}\NormalTok{(}\FloatTok{0.99}\NormalTok{,lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
+\KeywordTok{qf}\NormalTok{(}\FloatTok{0.99}\NormalTok{,lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4662,7 +4658,7 @@ Here is an example with the speed model discussed above with the significance le
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# p{-}value from the test}
-\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pf}\NormalTok{(lmSpeedDistanceF[}\DecValTok{1}\NormalTok{],lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pf}\NormalTok{(lmSpeedDistanceF[}\DecValTok{1}\NormalTok{],lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4699,9 +4695,9 @@ In R, this interval can be constructed via the function \texttt{predict()} with 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceCI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{interval=}\StringTok{"confidence"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(slmSpeedDistanceCI, }\AttributeTok{main=}\StringTok{""}\NormalTok{,}
-     \AttributeTok{xlab=}\StringTok{"Observation"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Distance"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceCI \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(slmSpeedDistance,}\DataTypeTok{interval=}\StringTok{"confidence"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(slmSpeedDistanceCI, }\DataTypeTok{main=}\StringTok{""}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"Observation"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Distance"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4715,15 +4711,15 @@ The same fitted values and interval can be presented differently on the actuals 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance),}\FunctionTok{actuals}\NormalTok{(slmSpeedDistance),}
-     \AttributeTok{xlab=}\StringTok{"Fitted"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Actuals"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{0}\NormalTok{,}\AttributeTok{b=}\DecValTok{1}\NormalTok{,}\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance)),}
-\NormalTok{      slmSpeedDistanceCI}\SpecialCharTok{$}\NormalTok{lower[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance))], }
-      \AttributeTok{col=}\StringTok{"darkred"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance)),}
-\NormalTok{      slmSpeedDistanceCI}\SpecialCharTok{$}\NormalTok{upper[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance))], }
-      \AttributeTok{col=}\StringTok{"darkred"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistance),}\KeywordTok{actuals}\NormalTok{(slmSpeedDistance),}
+     \DataTypeTok{xlab=}\StringTok{"Fitted"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Actuals"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{0}\NormalTok{,}\DataTypeTok{b=}\DecValTok{1}\NormalTok{,}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistance)),}
+\NormalTok{      slmSpeedDistanceCI}\OperatorTok{$}\NormalTok{lower[}\KeywordTok{order}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistance))], }
+      \DataTypeTok{col=}\StringTok{"darkred"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistance)),}
+\NormalTok{      slmSpeedDistanceCI}\OperatorTok{$}\NormalTok{upper[}\KeywordTok{order}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistance))], }
+      \DataTypeTok{col=}\StringTok{"darkred"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4751,7 +4747,7 @@ In R, this can be done via the very same \texttt{predict()} function with \textt
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistancePI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
+\NormalTok{slmSpeedDistancePI \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(slmSpeedDistance,}\DataTypeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4769,9 +4765,9 @@ In forecasting, prediction interval has a bigger importance than the confidence 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceForecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{speed=}\DecValTok{30}\NormalTok{),}
-                                    \AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(slmSpeedDistanceForecast)}
+\NormalTok{slmSpeedDistanceForecast \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(slmSpeedDistance,}\DataTypeTok{newdata=}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{speed=}\DecValTok{30}\NormalTok{),}
+                                    \DataTypeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(slmSpeedDistanceForecast)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4833,12 +4829,12 @@ So, what does the inclusion of dummy variables in the regression model means? We
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirts }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{)}
-\NormalTok{tShirts[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{tShirts[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{tShirts[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\SpecialCharTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{tShirts }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\DecValTok{1000} \SpecialCharTok{+}\NormalTok{ tShirts }\SpecialCharTok{\%*\%} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\DecValTok{30}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{20}\NormalTok{, }\DecValTok{50}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{), tShirts)}
-\FunctionTok{colnames}\NormalTok{(tShirts) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"sales"}\NormalTok{,}\StringTok{"price"}\NormalTok{,}\StringTok{"colourRed"}\NormalTok{,}\StringTok{"colourGreen"}\NormalTok{,}\StringTok{"colourBlue"}\NormalTok{)}
+\NormalTok{tShirts \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{tShirts[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{2}\NormalTok{] \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{tShirts[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{3}\NormalTok{] \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{tShirts[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\OperatorTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{] \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{tShirts \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\NormalTok{tShirts }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{{-}}\FloatTok{2.5}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{{-}20}\NormalTok{, }\DecValTok{50}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{), tShirts)}
+\KeywordTok{colnames}\NormalTok{(tShirts) \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"sales"}\NormalTok{,}\StringTok{"price"}\NormalTok{,}\StringTok{"colourRed"}\NormalTok{,}\StringTok{"colourGreen"}\NormalTok{,}\StringTok{"colourBlue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4846,7 +4842,7 @@ We can produce spread plot to see how the data looks like:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{spread}\NormalTok{(tShirts)}
+\KeywordTok{spread}\NormalTok{(tShirts)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4860,10 +4856,10 @@ Figure @red(fig:tShirtsSpread) demonstrates that the sales differ depending on t
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(tShirts[,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{1}\NormalTok{])}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000}\SpecialCharTok{+}\DecValTok{30}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000{-}20}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000}\SpecialCharTok{+}\DecValTok{50}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(tShirts[,}\DecValTok{2}\OperatorTok{:}\DecValTok{1}\NormalTok{])}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000}\OperatorTok{+}\DecValTok{30}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000{-}20}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5}\NormalTok{, }\DataTypeTok{col=}\StringTok{"green"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000}\OperatorTok{+}\DecValTok{50}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5}\NormalTok{, }\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4877,8 +4873,8 @@ Now, if we want to construct the regression that would take these differences in
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirtsALM }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{price}\SpecialCharTok{+}\NormalTok{colourRed}\SpecialCharTok{+}\NormalTok{colourGreen, tShirts, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
-\FunctionTok{summary}\NormalTok{(tShirtsALM)}
+\NormalTok{tShirtsALM \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(sales}\OperatorTok{\textasciitilde{}}\NormalTok{price}\OperatorTok{+}\NormalTok{colourRed}\OperatorTok{+}\NormalTok{colourGreen, tShirts, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(tShirtsALM)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4921,9 +4917,9 @@ One thing that we can remark is that the estimated parameters differ from the on
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{colourParameters }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{3}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}\SpecialCharTok{+}\FunctionTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{1}\NormalTok{],}\FunctionTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{1}\NormalTok{])}
-\FunctionTok{names}\NormalTok{(colourParameters)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"colourBlue"}\NormalTok{;}
-\NormalTok{colourParameters }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(colourParameters)}
+\NormalTok{colourParameters \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{3}\OperatorTok{:}\DecValTok{4}\NormalTok{]}\OperatorTok{+}\KeywordTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{1}\NormalTok{],}\KeywordTok{coef}\NormalTok{(tShirtsALM)[}\DecValTok{1}\NormalTok{])}
+\KeywordTok{names}\NormalTok{(colourParameters)[}\DecValTok{3}\NormalTok{] \textless{}{-}}\StringTok{ "colourBlue"}\NormalTok{;}
+\NormalTok{colourParameters }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(colourParameters)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4938,9 +4934,9 @@ In R, we can also work with factor variables, without a need to expand variables
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirtsDataFrame }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(tShirts[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{])}
-\NormalTok{tShirtsDataFrame}\SpecialCharTok{$}\NormalTok{colour }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"Red"}\NormalTok{,}\StringTok{"Green"}\NormalTok{,}\StringTok{"Blue"}\NormalTok{)[tShirts[,}\DecValTok{3}\SpecialCharTok{:}\DecValTok{5}\NormalTok{] }\SpecialCharTok{\%*\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)])}
-\FunctionTok{spread}\NormalTok{(tShirtsDataFrame)}
+\NormalTok{tShirtsDataFrame \textless{}{-}}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(tShirts[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{])}
+\NormalTok{tShirtsDataFrame}\OperatorTok{$}\NormalTok{colour \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"Red"}\NormalTok{,}\StringTok{"Green"}\NormalTok{,}\StringTok{"Blue"}\NormalTok{)[tShirts[,}\DecValTok{3}\OperatorTok{:}\DecValTok{5}\NormalTok{] }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{)])}
+\KeywordTok{spread}\NormalTok{(tShirtsDataFrame)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4950,8 +4946,8 @@ Notice that the ``Blue'' was automatically set as the first level, because \text
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirtsDataFrameALM }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{price}\SpecialCharTok{+}\NormalTok{colour, tShirtsDataFrame, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
-\FunctionTok{summary}\NormalTok{(tShirtsDataFrameALM)}
+\NormalTok{tShirtsDataFrameALM \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(sales}\OperatorTok{\textasciitilde{}}\NormalTok{price}\OperatorTok{+}\NormalTok{colour, tShirtsDataFrame, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(tShirtsDataFrameALM)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4984,13 +4980,13 @@ In reality, we can have more complicated situations, when the change of price wo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirtsInteraction }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{)}
-\NormalTok{tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{1}\NormalTok{]}
-\NormalTok{tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{1}\NormalTok{]}
-\NormalTok{tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\SpecialCharTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ tShirtsInteraction[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\SpecialCharTok{+}\DecValTok{50}\SpecialCharTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
-\NormalTok{tShirtsInteraction }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\DecValTok{1000} \SpecialCharTok{+}\NormalTok{ tShirtsInteraction }\SpecialCharTok{\%*\%} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{1.5}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{) }\SpecialCharTok{+}
-                              \FunctionTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{), tShirtsInteraction)}
-\FunctionTok{colnames}\NormalTok{(tShirtsInteraction) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"sales"}\NormalTok{,}\StringTok{"price"}\NormalTok{,}\StringTok{"price:colourRed"}\NormalTok{,}
+\NormalTok{tShirtsInteraction \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{2}\NormalTok{] \textless{}{-}}\StringTok{ }\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{3}\NormalTok{] \textless{}{-}}\StringTok{ }\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\OperatorTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{] \textless{}{-}}\StringTok{ }\NormalTok{tShirtsInteraction[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\OperatorTok{+}\DecValTok{50}\OperatorTok{*}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tShirtsInteraction \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\NormalTok{tShirtsInteraction }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{{-}}\FloatTok{2.5}\NormalTok{, }\FloatTok{{-}1.5}\NormalTok{, }\FloatTok{{-}0.5}\NormalTok{, }\DecValTok{{-}4}\NormalTok{) }\OperatorTok{+}
+\StringTok{                              }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{150}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{), tShirtsInteraction)}
+\KeywordTok{colnames}\NormalTok{(tShirtsInteraction) \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"sales"}\NormalTok{,}\StringTok{"price"}\NormalTok{,}\StringTok{"price:colourRed"}\NormalTok{,}
                                   \StringTok{"price:colourGreen"}\NormalTok{,}\StringTok{"price:colourBlue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4999,10 +4995,10 @@ This artificial data can be plotted in the following way to show the effect:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(tShirtsInteraction[,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{1}\NormalTok{])}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5{-}1.5}\NormalTok{, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5{-}0.5}\NormalTok{, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{1000}\NormalTok{, }\AttributeTok{b=}\SpecialCharTok{{-}}\FloatTok{2.5}\DecValTok{{-}4}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(tShirtsInteraction[,}\DecValTok{2}\OperatorTok{:}\DecValTok{1}\NormalTok{])}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5{-}1.5}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5{-}0.5}\NormalTok{, }\DataTypeTok{col=}\StringTok{"green"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a=}\DecValTok{1000}\NormalTok{, }\DataTypeTok{b=}\OperatorTok{{-}}\FloatTok{2.5}\DecValTok{{-}4}\NormalTok{, }\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5034,12 +5030,12 @@ In R, the interaction effect can be introduced explicitly in the formula via \te
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tShirtsInteractionDataFrame }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(tShirtsInteraction[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{])}
-\NormalTok{tShirtsInteractionDataFrame}\SpecialCharTok{$}\NormalTok{colour }\OtherTok{\textless{}{-}}\NormalTok{ tShirtsDataFrame}\SpecialCharTok{$}\NormalTok{colour}
+\NormalTok{tShirtsInteractionDataFrame \textless{}{-}}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(tShirtsInteraction[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{])}
+\NormalTok{tShirtsInteractionDataFrame}\OperatorTok{$}\NormalTok{colour \textless{}{-}}\StringTok{ }\NormalTok{tShirtsDataFrame}\OperatorTok{$}\NormalTok{colour}
 \CommentTok{\# Fit the model}
-\NormalTok{tShirtsInteractionDataFrameALM }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{price}\SpecialCharTok{+}\NormalTok{price}\SpecialCharTok{:}\NormalTok{colour,}
-\NormalTok{                                      tShirtsInteractionDataFrame, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
-\FunctionTok{summary}\NormalTok{(tShirtsInteractionDataFrameALM)}
+\NormalTok{tShirtsInteractionDataFrameALM \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(sales}\OperatorTok{\textasciitilde{}}\NormalTok{price}\OperatorTok{+}\NormalTok{price}\OperatorTok{:}\NormalTok{colour,}
+\NormalTok{                                      tShirtsInteractionDataFrame, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(tShirtsInteractionDataFrameALM)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5108,7 +5104,7 @@ What we want to see on Figure \ref{fig:speedDistanceLogs} is the linear relation
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceModel01 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(}\FunctionTok{log}\NormalTok{(dist)}\SpecialCharTok{\textasciitilde{}}\FunctionTok{log}\NormalTok{(speed), cars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceModel01 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(}\KeywordTok{log}\NormalTok{(dist)}\OperatorTok{\textasciitilde{}}\KeywordTok{log}\NormalTok{(speed), cars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5116,7 +5112,7 @@ The values of parameters of this model will have a different meaning than the pa
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(slmSpeedDistanceModel01)}
+\KeywordTok{summary}\NormalTok{(slmSpeedDistanceModel01)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5144,8 +5140,8 @@ In order to analyse the fit of the model on the original data, we would need to 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(cars, }\AttributeTok{xlab=}\StringTok{"Speed"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Stopping distance"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(cars}\SpecialCharTok{$}\NormalTok{speed,}\FunctionTok{exp}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistanceModel01)),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(cars, }\DataTypeTok{xlab=}\StringTok{"Speed"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Stopping distance"}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(cars}\OperatorTok{$}\NormalTok{speed,}\KeywordTok{exp}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(slmSpeedDistanceModel01)),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5172,7 +5168,7 @@ Figure \ref{fig:speedDistanceSquare} demonstrates the scatterplot for squared sp
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceModel02 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(dist}\SpecialCharTok{\textasciitilde{}}\FunctionTok{I}\NormalTok{(speed}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), cars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceModel02 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(dist}\OperatorTok{\textasciitilde{}}\KeywordTok{I}\NormalTok{(speed}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{), cars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5180,7 +5176,7 @@ Note that we use \texttt{I()} in the formula to tell R to square the variable - 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceModel03 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(dist}\SpecialCharTok{\textasciitilde{}}\FunctionTok{I}\NormalTok{(speed}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, cars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceModel03 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(dist}\OperatorTok{\textasciitilde{}}\KeywordTok{I}\NormalTok{(speed}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, cars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5222,7 +5218,7 @@ As the plot in Figure \ref{fig:speedDistanceSqrt} demonstrates, the relation has
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceModel04 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(dist)}\SpecialCharTok{\textasciitilde{}}\NormalTok{speed, cars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceModel04 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(dist)}\OperatorTok{\textasciitilde{}}\NormalTok{speed, cars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5230,7 +5226,7 @@ Similar to the Model 2 with squares, we will also consider the model without int
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceModel05 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(dist)}\SpecialCharTok{\textasciitilde{}}\NormalTok{speed}\DecValTok{{-}1}\NormalTok{, cars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{slmSpeedDistanceModel05 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(dist)}\OperatorTok{\textasciitilde{}}\NormalTok{speed}\DecValTok{{-}1}\NormalTok{, cars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5247,7 +5243,7 @@ Subjectively, I would say that Model 5 is the most appropriate from all the mode
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(slmSpeedDistanceModel05)}
+\KeywordTok{summary}\NormalTok{(slmSpeedDistanceModel05)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5340,7 +5336,7 @@ is equivalent to
 The parameter \(\beta_1\) will control the change of speed of growth / decline in the model. If variable \(x\) increases by 1 unit, then the variable \(y\) will change on average by \((\exp(\beta_1)-1)\times 100\)\%. If the value of \(\beta_1\) is small (roughly \(\beta_1 \in (-0.2, 0.2)\)), then due to one of the limits the interpretation can be simplified to: when \(x\) increases by 1 unit, the variable \(y\) will change on average by \(\beta_1\times 100\)\%. The exponent is in general a dangerous function as it exhibits either explosive (when \(\beta_1 > 0\)) or implosive (when \(\beta_1 < 0\)) behaviour. This is shown in Figure \ref{fig:transformationsExamples02}, where the values of \(\beta_1\) are -0.05 and 0.05, and we can see how fast the value of \(y\) changes with the increase of \(x\).
 
 \includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/transformationsExamples02-1.pdf}
-If \(x\) is a \protect\hyperlink{dummyVariables}{dummy variable}, then its interpretation is slightly different: the presence of the effect \(x\) leads on average to the change of variable \(y\) by \(\beta_1 \times 100\)\%. e.g.~``sales of red laptops are on average 15\% higher than sales of blue laptops''.
+If \(x\) is a dummy variable (see Section \ref{dummyVariables}), then its interpretation is slightly different: the presence of the effect \(x\) leads on average to the change of variable \(y\) by \(\beta_1 \times 100\)\%. e.g.~``sales of red laptops are on average 15\% higher than sales of blue laptops''.
 
 \hypertarget{linear-log-model}{%
 \subsection{Linear-Log model}\label{linear-log-model}}
@@ -5488,7 +5484,7 @@ In some cases, it is possible to diagnose the violation of this assumption. In o
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsSLR }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{wt, mtcars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{mtcarsSLR \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{wt, mtcars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5496,8 +5492,8 @@ Based on the preliminary analysis that we have conducted in Sections \ref{dataAn
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsSLR,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsSLR,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5511,7 +5507,7 @@ Figure \ref{fig:diagnostics01} demonstrates actuals vs fitted and fitted vs stan
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{spread}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{residuals=}\FunctionTok{resid}\NormalTok{(mtcarsSLR), mtcars[,}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{6}\NormalTok{)]))}
+\KeywordTok{spread}\NormalTok{(}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{residuals=}\KeywordTok{resid}\NormalTok{(mtcarsSLR), mtcars[,}\OperatorTok{{-}}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{6}\NormalTok{)]))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5537,7 +5533,7 @@ This assumption implies that we have taken all possible non-linearities into acc
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsALM01 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{wt}\SpecialCharTok{+}\NormalTok{qsec}\SpecialCharTok{+}\NormalTok{am, mtcars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{mtcarsALM01 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(mpg}\OperatorTok{\textasciitilde{}}\NormalTok{wt}\OperatorTok{+}\NormalTok{qsec}\OperatorTok{+}\NormalTok{am, mtcars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5545,8 +5541,8 @@ Arguably, the model includes important variables (although there might be some o
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsALM01,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsALM01,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5560,7 +5556,7 @@ Figure \ref{fig:diagnostics03} demonstrates the u-shaped pattern in the residual
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsALM02 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(}\FunctionTok{log}\NormalTok{(mpg)}\SpecialCharTok{\textasciitilde{}}\FunctionTok{log}\NormalTok{(wt)}\SpecialCharTok{+}\FunctionTok{log}\NormalTok{(qsec)}\SpecialCharTok{+}\NormalTok{am, mtcars, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{mtcarsALM02 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(}\KeywordTok{log}\NormalTok{(mpg)}\OperatorTok{\textasciitilde{}}\KeywordTok{log}\NormalTok{(wt)}\OperatorTok{+}\KeywordTok{log}\NormalTok{(qsec)}\OperatorTok{+}\NormalTok{am, mtcars, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5568,8 +5564,8 @@ And see what would happen with the diagnostics of the model in logarithms:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsALM02,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsALM02,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5592,8 +5588,8 @@ As for the Cook's distance, its idea is to calculate measures for each observati
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsALM02,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsALM02,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5607,7 +5603,7 @@ Figure \ref{fig:diagnostics05} demonstrates standardised and studentised residua
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{12}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{12}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5621,8 +5617,8 @@ Finally, we produce Cook's distance over observations in Figure \ref{fig:diagnos
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mtcarsData[}\DecValTok{28}\NormalTok{,}\DecValTok{6}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{4}
-\NormalTok{mtcarsALM03 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(}\FunctionTok{log}\NormalTok{(mpg)}\SpecialCharTok{\textasciitilde{}}\FunctionTok{log}\NormalTok{(wt)}\SpecialCharTok{+}\FunctionTok{log}\NormalTok{(qsec)}\SpecialCharTok{+}\NormalTok{am, mtcarsData, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\NormalTok{mtcarsData[}\DecValTok{28}\NormalTok{,}\DecValTok{6}\NormalTok{] \textless{}{-}}\StringTok{ }\DecValTok{4}
+\NormalTok{mtcarsALM03 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(}\KeywordTok{log}\NormalTok{(mpg)}\OperatorTok{\textasciitilde{}}\KeywordTok{log}\NormalTok{(wt)}\OperatorTok{+}\KeywordTok{log}\NormalTok{(qsec)}\OperatorTok{+}\NormalTok{am, mtcarsData, }\DataTypeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5630,7 +5626,7 @@ This way, we intentionally create an influential outlier (the car should have th
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsALM03, }\DecValTok{12}\NormalTok{, }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{1.5}\NormalTok{), }\AttributeTok{xlab=}\StringTok{"Observations"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsALM03, }\DecValTok{12}\NormalTok{, }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{xlab=}\StringTok{"Observations"}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5644,8 +5640,8 @@ Figure \ref{fig:diagnostics07} shows how Cook's distance will look in this case 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{rbind}\NormalTok{(}\FunctionTok{coef}\NormalTok{(mtcarsALM02),}
-      \FunctionTok{coef}\NormalTok{(mtcarsALM03))}
+\KeywordTok{rbind}\NormalTok{(}\KeywordTok{coef}\NormalTok{(mtcarsALM02),}
+      \KeywordTok{coef}\NormalTok{(mtcarsALM03))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5684,7 +5680,7 @@ There are several ways of diagnosing the problem, including visual analysis and 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{SeatbeltsALM01 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(drivers}\SpecialCharTok{\textasciitilde{}}\NormalTok{PetrolPrice}\SpecialCharTok{+}\NormalTok{kms}\SpecialCharTok{+}\NormalTok{front}\SpecialCharTok{+}\NormalTok{rear}\SpecialCharTok{+}\NormalTok{law, Seatbelts)}
+\NormalTok{SeatbeltsALM01 \textless{}{-}}\StringTok{ }\KeywordTok{alm}\NormalTok{(drivers}\OperatorTok{\textasciitilde{}}\NormalTok{PetrolPrice}\OperatorTok{+}\NormalTok{kms}\OperatorTok{+}\NormalTok{front}\OperatorTok{+}\NormalTok{rear}\OperatorTok{+}\NormalTok{law, Seatbelts)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5692,7 +5688,7 @@ In order to do graphical diagnose, we can produce plots of standardised / studen
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(SeatbeltsALM01,}\DecValTok{8}\NormalTok{,}\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(SeatbeltsALM01,}\DecValTok{8}\NormalTok{,}\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5708,8 +5704,8 @@ The other instrument for diagnostics is ACF / PACF plots, which are produced in 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(SeatbeltsALM01,}\FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{),}\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(SeatbeltsALM01,}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{),}\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5734,8 +5730,8 @@ The diagnostics of heteroscedasticity can be done via plotting absolute and / or
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsALM01,}\DecValTok{4}\SpecialCharTok{:}\DecValTok{5}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsALM01,}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5749,8 +5745,8 @@ If your model assumes that residuals follow a distribution related to the Normal
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{4}\SpecialCharTok{:}\DecValTok{5}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5788,7 +5784,7 @@ The most efficient way of diagnosing this, is constructing QQ-plot of residuals 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{6}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsALM02,}\DecValTok{6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5802,7 +5798,7 @@ Figure \ref{fig:diagnostics12} shows that all the points lie close to the line (
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcarsALM01,}\DecValTok{6}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcarsALM01,}\DecValTok{6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5842,7 +5838,7 @@ First, we can calculate correlation matrix for the available variables. If they 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cor}\NormalTok{(mtcars[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\KeywordTok{cor}\NormalTok{(mtcars[,}\OperatorTok{{-}}\DecValTok{1}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5875,7 +5871,7 @@ This matrix tells us that there are some variables that are highly correlated an
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{assoc}\NormalTok{(mtcars)}
+\KeywordTok{assoc}\NormalTok{(mtcars)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5883,7 +5879,7 @@ In order to cover the second situation with linear combination of variables, we 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{determ}\NormalTok{(mtcars[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\KeywordTok{determ}\NormalTok{(mtcars[,}\OperatorTok{{-}}\DecValTok{1}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5898,7 +5894,7 @@ This function will construct linear regression models for each variable from all
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{determ}\NormalTok{(mtcars[,}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)])}
+\KeywordTok{determ}\NormalTok{(mtcars[,}\OperatorTok{{-}}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5919,7 +5915,7 @@ for each model \(i\). Which in our case can be calculated as:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{1}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{determ}\NormalTok{(mtcars[,}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]))}
+\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\KeywordTok{determ}\NormalTok{(mtcars[,}\OperatorTok{{-}}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5967,8 +5963,8 @@ We consider a simple example, when we want to estimate the model \(y_j = \mu_y +
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{10}\NormalTok{)}
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5978,9 +5974,9 @@ As expected, the distribution of this variable (1000 observations) has the bell 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{80}\NormalTok{,}\DecValTok{10}\NormalTok{),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{80}\NormalTok{,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{80}\NormalTok{,}\DecValTok{10}\NormalTok{),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\DecValTok{80}\NormalTok{,}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5994,7 +5990,7 @@ and we get the following log-likelihood value (we will discuss how this formula 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(y,}\DecValTok{80}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{log=}\NormalTok{T))}
+\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(y,}\DecValTok{80}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DataTypeTok{log=}\NormalTok{T))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6006,9 +6002,9 @@ In order for the normal distribution on \ref{fig:MLENormalExample01} to fit the 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{90}\NormalTok{,}\DecValTok{10}\NormalTok{),}\AttributeTok{col=}\StringTok{"orange"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{90}\NormalTok{,}\AttributeTok{col=}\StringTok{"orange"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{90}\NormalTok{,}\DecValTok{10}\NormalTok{),}\DataTypeTok{col=}\StringTok{"orange"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\DecValTok{90}\NormalTok{,}\DataTypeTok{col=}\StringTok{"orange"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6022,9 +6018,9 @@ Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{100}\NormalTok{,}\DecValTok{10}\NormalTok{),}\AttributeTok{col=}\StringTok{"green3"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{100}\NormalTok{,}\AttributeTok{col=}\StringTok{"green3"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\DecValTok{100}\NormalTok{,}\DecValTok{10}\NormalTok{),}\DataTypeTok{col=}\StringTok{"green3"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\DecValTok{100}\NormalTok{,}\DataTypeTok{col=}\StringTok{"green3"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6038,9 +6034,9 @@ Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the p
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{mean}\NormalTok{(y),}\DecValTok{10}\NormalTok{),}\AttributeTok{col=}\StringTok{"darkgreen"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(y),}\AttributeTok{col=}\StringTok{"darkgreen"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{mean}\NormalTok{(y),}\DecValTok{10}\NormalTok{),}\DataTypeTok{col=}\StringTok{"darkgreen"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(y),}\DataTypeTok{col=}\StringTok{"darkgreen"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6056,9 +6052,9 @@ In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of t
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{mean}\NormalTok{(y),}\DecValTok{15}\NormalTok{),}\AttributeTok{col=}\StringTok{"royalblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(y),}\AttributeTok{col=}\StringTok{"royalblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{mean}\NormalTok{(y),}\DecValTok{15}\NormalTok{),}\DataTypeTok{col=}\StringTok{"royalblue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(y),}\DataTypeTok{col=}\StringTok{"royalblue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6067,9 +6063,9 @@ Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{50}\SpecialCharTok{:}\DecValTok{150}\NormalTok{),}\FunctionTok{mean}\NormalTok{(y),}\DecValTok{10}\NormalTok{),}\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{mean}\NormalTok{(y),}\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{150}\NormalTok{), }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\OperatorTok{:}\DecValTok{150}\NormalTok{),}\KeywordTok{mean}\NormalTok{(y),}\DecValTok{10}\NormalTok{),}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(y),}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6084,11 +6080,11 @@ The fit on Figure \ref{fig:MLENormalExample06} is better than on Figure \ref{fig
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# The maximum log{-}likelihood with the biased variance}
-\NormalTok{logLik01 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(y,}\FunctionTok{mean}\NormalTok{(y),}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((y}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(y))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)),}\AttributeTok{log=}\ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{logLik01 \textless{}{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(y,}\KeywordTok{mean}\NormalTok{(y),}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{mean}\NormalTok{((y}\OperatorTok{{-}}\KeywordTok{mean}\NormalTok{(y))}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)),}\DataTypeTok{log=}\OtherTok{TRUE}\NormalTok{))}
 \CommentTok{\# The log{-}likelihood value with the unbiased variance}
-\NormalTok{logLik02 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(y,}\FunctionTok{mean}\NormalTok{(y),}\FunctionTok{sd}\NormalTok{(y),}\AttributeTok{log=}\ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{logLik02 \textless{}{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(y,}\KeywordTok{mean}\NormalTok{(y),}\KeywordTok{sd}\NormalTok{(y),}\DataTypeTok{log=}\OtherTok{TRUE}\NormalTok{))}
 \CommentTok{\# The difference between the two}
-\NormalTok{logLik01 }\SpecialCharTok{{-}}\NormalTok{ logLik02}
+\NormalTok{logLik01 }\OperatorTok{{-}}\StringTok{ }\NormalTok{logLik02}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6100,9 +6096,9 @@ All of this is great, but so far we have discussed a very special case, when the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rlnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\FunctionTok{log}\NormalTok{(}\DecValTok{80}\NormalTok{), }\FloatTok{0.4}\NormalTok{)}
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\NormalTok{T, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{300}\NormalTok{))}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{300}\NormalTok{),}\FunctionTok{dnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{300}\NormalTok{),}\FunctionTok{mean}\NormalTok{(y),}\FunctionTok{sd}\NormalTok{(y)),}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rlnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\KeywordTok{log}\NormalTok{(}\DecValTok{80}\NormalTok{), }\FloatTok{0.4}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\NormalTok{T, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{300}\NormalTok{))}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{300}\NormalTok{),}\KeywordTok{dnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{300}\NormalTok{),}\KeywordTok{mean}\NormalTok{(y),}\KeywordTok{sd}\NormalTok{(y)),}\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6116,8 +6112,8 @@ Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{main=}\StringTok{""}\NormalTok{, }\AttributeTok{probability=}\NormalTok{T, }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{300}\NormalTok{))}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{300}\NormalTok{),}\FunctionTok{dlnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{300}\NormalTok{),}\FunctionTok{mean}\NormalTok{(}\FunctionTok{log}\NormalTok{(y)),}\FunctionTok{sd}\NormalTok{(}\FunctionTok{log}\NormalTok{(y))),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(y, }\DataTypeTok{main=}\StringTok{""}\NormalTok{, }\DataTypeTok{probability=}\NormalTok{T, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{300}\NormalTok{))}
+\KeywordTok{lines}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{300}\NormalTok{),}\KeywordTok{dlnorm}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{300}\NormalTok{),}\KeywordTok{mean}\NormalTok{(}\KeywordTok{log}\NormalTok{(y)),}\KeywordTok{sd}\NormalTok{(}\KeywordTok{log}\NormalTok{(y))),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6419,9 +6415,9 @@ In order to better understand, why we need to bother with model selection, combi
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{load}\NormalTok{(}\StringTok{"data/biasVariance.Rdata"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{disp, mtcars}\SpecialCharTok{$}\NormalTok{mpg,}
-     \AttributeTok{xlab=}\StringTok{"Engine size"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Miles per galon"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\StringTok{"data/biasVariance.Rdata"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{disp, mtcars}\OperatorTok{$}\NormalTok{mpg,}
+     \DataTypeTok{xlab=}\StringTok{"Engine size"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Miles per galon"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
