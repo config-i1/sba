@@ -375,14 +375,14 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ol>
 <p>What we want to get by doing this is an idea about the population mean <span class="math inline">\(\mu\)</span>. The value <span class="math inline">\(\bar{y}\)</span> does not tell us much on its own due to randomness and if we do not capture its uncertainty, we will not know, where the true value <span class="math inline">\(\mu\)</span> can be. But using LLN and CLT, we know that the sample mean should converge to the true one and should follow normal distribution. So, the distribution of the sample mean would look like this (Figure <a href="confidenceInterval.html#fig:normalCurveBasic">6.8</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:normalCurveBasic"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/normalCurveBasic-1.png" alt="Distribution of the sample mean." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/normalCurveBasic-1.png" alt="Distribution of the sample mean." width="672" />
 <p class="caption">
 Figure 6.8: Distribution of the sample mean.
 </p>
 </div>
 <p>On its own, this distribution just tells us that the variable is random around the true mean <span class="math inline">\(\mu\)</span> and that its density function has a bell-like shape. In order to make this more useful, we can construct the <strong>confidence interval</strong> for it, which would tell us where the true parameter is most likely to lie. We can cut the tails of this distribution to determine the width of the interval, expecting it to cover <span class="math inline">\((1-\alpha)\times 100\)</span>% of cases. In the ideal world, asymptotically, the confidence interval will be constructed based on the true value, like this:</p>
 <div class="figure"><span style="display:block;" id="fig:normalCurveIntervals"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/normalCurveIntervals-1.png" alt="Distribution of the sample mean and the confidence interval based on the population data." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/normalCurveIntervals-1.png" alt="Distribution of the sample mean and the confidence interval based on the population data." width="672" />
 <p class="caption">
 Figure 6.9: Distribution of the sample mean and the confidence interval based on the population data.
 </p>
@@ -390,7 +390,7 @@ Figure 6.9: Distribution of the sample mean and the confidence interval based on
 <p>Figure <a href="confidenceInterval.html#fig:normalCurveIntervals">6.9</a> shows the classical normal distribution curve around the population mean <span class="math inline">\(\mu\)</span>, confidence interval of the level <span class="math inline">\(1-\alpha\)</span> and the cut off tails, the overall surface of which corresponds to <span class="math inline">\(\alpha\)</span>. The value <span class="math inline">\(1-\alpha\)</span> is called <strong>confidence level</strong>, while <span class="math inline">\(\alpha\)</span> is the <strong>significance level</strong>. By constructing the interval this way, we expect that in the <span class="math inline">\((1-\alpha)\times 100\)</span>% of cases the value will be inside the bounds, and in <span class="math inline">\(\alpha\times 100\)</span>% it will not.</p>
 <p>In reality we do not know the true mean <span class="math inline">\(\mu\)</span>, so we do a slightly different thing: we construct a confidence interval based on the sample mean <span class="math inline">\(\bar{y}\)</span> and sample variance <span class="math inline">\(s^2\)</span>, hoping that due to <a href="#LLNandCLT">LLN</a> they will converge to the true values. We use Normal distribution, because we expect <a href="#LLNandCLT">CLT</a> to work. This process looks something like in Figure <a href="confidenceInterval.html#fig:normalCurveIntervalsShades">6.10</a>, with the bell curve in the background representing the true distribution for the sample mean and the curve on the foreground representing the assumed distribution based on our sample:</p>
 <div class="figure"><span style="display:block;" id="fig:normalCurveIntervalsShades"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/normalCurveIntervalsShades-1.png" alt="Distribution of the sample mean and the confidence interval based on a sample." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/normalCurveIntervalsShades-1.png" alt="Distribution of the sample mean and the confidence interval based on a sample." width="672" />
 <p class="caption">
 Figure 6.10: Distribution of the sample mean and the confidence interval based on a sample.
 </p>
@@ -464,7 +464,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov - Statistics for Business Analytics.pdf"],
+"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

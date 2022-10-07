@@ -369,13 +369,13 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>We consider a simple example, when we want to estimate the model <span class="math inline">\(y_j = \mu_y + \epsilon_j\)</span> (global average), assuming that the error term follows normal distribution: <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>, which means that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_{y}, \sigma^2)\)</span>. In this case we want to estimate two parameters using likelihood: location <span class="math inline">\(\hat{\mu}_y\)</span> and scale <span class="math inline">\(\hat{\sigma}^2\)</span>. First, we generate the random variable in R and plot its distribution:</p>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="likelihoodInR.html#cb231-1" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">100</span>, <span class="dv">10</span>)</span>
 <span id="cb231-2"><a href="likelihoodInR.html#cb231-2" aria-hidden="true"></a><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<p><img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>As expected, the distribution of this variable (1000 observations) has the bell shape of Normal distribution. In order to estimate the parameters, for the distribution, we will try them one by one and see how the likelihood and the shape of the fitted curve to this histogram change. We start with <span class="math inline">\(\hat{\mu}_y=80\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span> just to see how the probability density function of normal distribution fits the data:</p>
 <div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="likelihoodInR.html#cb232-1" aria-hidden="true"></a><span class="kw">hist</span>(y, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>), <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span><span class="ot">TRUE</span>)</span>
 <span id="cb232-2"><a href="likelihoodInR.html#cb232-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">80</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb232-3"><a href="likelihoodInR.html#cb232-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">80</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample01"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample01-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=80$ and $\hat{\sigma}=10$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample01-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=80$ and $\hat{\sigma}=10$" width="672" />
 <p class="caption">
 Figure 16.1: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=80\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
@@ -388,7 +388,7 @@ Figure 16.1: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb235-2"><a href="likelihoodInR.html#cb235-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">90</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb235-3"><a href="likelihoodInR.html#cb235-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">90</span>,<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample02-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=90$ and $\hat{\sigma}=10$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample02-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=90$ and $\hat{\sigma}=10$" width="672" />
 <p class="caption">
 Figure 16.2: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=90\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
@@ -398,7 +398,7 @@ Figure 16.2: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb236-2"><a href="likelihoodInR.html#cb236-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="dv">100</span>,<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;green3&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb236-3"><a href="likelihoodInR.html#cb236-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">100</span>,<span class="dt">col=</span><span class="st">&quot;green3&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample03"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample03-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=100$ and $\hat{\sigma}=10$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample03-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=100$ and $\hat{\sigma}=10$" width="672" />
 <p class="caption">
 Figure 16.3: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=100\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
@@ -408,7 +408,7 @@ Figure 16.3: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb237-2"><a href="likelihoodInR.html#cb237-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb237-3"><a href="likelihoodInR.html#cb237-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample04"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample04-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample04-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
 <p class="caption">
 Figure 16.4: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
@@ -419,7 +419,7 @@ Figure 16.4: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb238-2"><a href="likelihoodInR.html#cb238-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">15</span>),<span class="dt">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb238-3"><a href="likelihoodInR.html#cb238-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;royalblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample05"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample05-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=15$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample05-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=15$" width="672" />
 <p class="caption">
 Figure 16.5: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=15\)</span>
 </p>
@@ -429,7 +429,7 @@ Figure 16.5: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb239-2"><a href="likelihoodInR.html#cb239-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">150</span>),<span class="kw">mean</span>(y),<span class="dv">10</span>),<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb239-3"><a href="likelihoodInR.html#cb239-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(y),<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample06"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample06-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample06-1.png" alt="ML example with Normal curve and $\hat{\mu}_y=\bar{y}$ and $\hat{\sigma}=10$" width="672" />
 <p class="caption">
 Figure 16.6: ML example with Normal curve and <span class="math inline">\(\hat{\mu}_y=\bar{y}\)</span> and <span class="math inline">\(\hat{\sigma}=10\)</span>
 </p>
@@ -447,7 +447,7 @@ Figure 16.6: ML example with Normal curve and <span class="math inline">\(\hat{\
 <span id="cb242-2"><a href="likelihoodInR.html#cb242-2" aria-hidden="true"></a><span class="kw">hist</span>(y, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span>T, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</span>
 <span id="cb242-3"><a href="likelihoodInR.html#cb242-3" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">dnorm</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">mean</span>(y),<span class="kw">sd</span>(y)),<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample07"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample07-1.png" alt="ML example with Normal curve on Log Normal data" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample07-1.png" alt="ML example with Normal curve on Log Normal data" width="672" />
 <p class="caption">
 Figure 16.7: ML example with Normal curve on Log Normal data
 </p>
@@ -456,7 +456,7 @@ Figure 16.7: ML example with Normal curve on Log Normal data
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="likelihoodInR.html#cb243-1" aria-hidden="true"></a><span class="kw">hist</span>(y, <span class="dt">main=</span><span class="st">&quot;&quot;</span>, <span class="dt">probability=</span>T, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</span>
 <span id="cb243-2"><a href="likelihoodInR.html#cb243-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">dlnorm</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">300</span>),<span class="kw">mean</span>(<span class="kw">log</span>(y)),<span class="kw">sd</span>(<span class="kw">log</span>(y))),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:MLENormalExample08"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/MLENormalExample08-1.png" alt="ML example with Log Normal curve on Log Normal data" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/MLENormalExample08-1.png" alt="ML example with Log Normal curve on Log Normal data" width="672" />
 <p class="caption">
 Figure 16.8: ML example with Log Normal curve on Log Normal data
 </p>
@@ -513,7 +513,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov - Statistics for Business Analytics.pdf"],
+"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

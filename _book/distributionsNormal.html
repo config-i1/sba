@@ -368,7 +368,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">4.3</span> Normal distribution<a href="distributionsNormal.html#distributionsNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">6.2</a>). For example, consider the the coin tossing example and Binomial distribution discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>. If we toss the coin one time only, we get the Bernoulli distribution with two outcomes. If we do that ten times, the shape of distribution will change and there will be a score with higher probability than the others (that is <span class="math inline">\(\mathcal{Bi}(10, 0.5)\)</span>). If we continue tossing the coin and do that for a hundred times, the shape of distribution will start converging to the bell-curve, reminding the Normal distribution. These three cases are shown in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialPMFSeveral"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialPMFSeveral-1.png" alt="Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/binomialPMFSeveral-1.png" alt="Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}." width="672" />
 <p class="caption">
 Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}.
 </p>
@@ -381,7 +381,7 @@ Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and 
 \end{equation}\]</span></p>
 <p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Standard Normal distribution" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Standard Normal distribution" width="672" />
 <p class="caption">
 Figure 4.9: Probability Density Function of Standard Normal distribution
 </p>
@@ -390,7 +390,7 @@ Figure 4.9: Probability Density Function of Standard Normal distribution
 <!-- Normal distribution is the most popular assumption for the random variable in conventional statistical models. This is represented as $y \sim \mathcal{N}(\mu_y, \sigma)$. -->
 <p>When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:pnormPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Standard Normal distribution" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Standard Normal distribution" width="672" />
 <p class="caption">
 Figure 4.10: Cumulative Distribution Function of Standard Normal distribution
 </p>
@@ -410,14 +410,14 @@ The CDF itself is difficult to summarise and involves a complicated integral:
 \end{equation}\]</span>
 where <span class="math inline">\(\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability <a href="distributionsNormal.html#eq:NormalCDFExample">(4.6)</a> corresponds to the difference between the points shown in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:pnormExample"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/pnormExample-1.png" alt="Values of CDF for the example with Normal distribution" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/pnormExample-1.png" alt="Values of CDF for the example with Normal distribution" width="672" />
 <p class="caption">
 Figure 4.11: Values of CDF for the example with Normal distribution
 </p>
 </div>
 <p>The same number also corresponds to the dark area in PDF of the distribution as shown in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:dnormExample"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dnormExample-1.png" alt="Values of PDF for the example with Normal distribution" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/dnormExample-1.png" alt="Values of PDF for the example with Normal distribution" width="672" />
 <p class="caption">
 Figure 4.12: Values of PDF for the example with Normal distribution
 </p>
@@ -425,7 +425,7 @@ Figure 4.12: Values of PDF for the example with Normal distribution
 <p>The relation between the area in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a> and the difference between the two points in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a> comes directly from the definition of CDF, the latter being the function of cumulative values of the density function.</p>
 <p>Many distributions converge to the Normal one or can be approximated by it under some circumstances. For example, as shown earlier, Binomial distribution can be approximated by the normal in some cases. More specifically, the approximation works when <span class="math inline">\(n&gt;20\)</span>, <span class="math inline">\(n p \geq 5\)</span> and <span class="math inline">\(n(1-p) \geq 5\)</span>. Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a> demonstrates how the normal curve (the solid red line) approximates the barplots of the Binomial distribution.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialNormalApprox"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialNormalApprox-1.png" alt="Binomial distribution and its approximation via the Normal one." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/binomialNormalApprox-1.png" alt="Binomial distribution and its approximation via the Normal one." width="672" />
 <p class="caption">
 Figure 4.13: Binomial distribution and its approximation via the Normal one.
 </p>
@@ -443,7 +443,7 @@ In the equation <a href="distributionsNormal.html#eq:BinomialNormalApproximation
 ## 0.01586907 0.01584890</code></pre>
 <p>This calculation based on the approximation is shown visually in Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a>, where the second figure is the zoomed-in area in the first one. As we can see, the area under the curve of the Normal distribution is roughly equal to the area of the bar of the Binomial distribution.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialNormalApproxArea"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialNormalApproxArea-1.png" alt="Calculating the probability based on Normal approximation." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/binomialNormalApproxArea-1.png" alt="Calculating the probability based on Normal approximation." width="672" />
 <p class="caption">
 Figure 4.14: Calculating the probability based on Normal approximation.
 </p>
@@ -505,7 +505,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov - Statistics for Business Analytics.pdf"],
+"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

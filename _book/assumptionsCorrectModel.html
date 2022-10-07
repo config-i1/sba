@@ -382,7 +382,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="assumptionsCorrectModel.html#cb203-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb203-2"><a href="assumptionsCorrectModel.html#cb203-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsSLR,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics01"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics01-1.png" alt="Diagnostics of omitted variables." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics01-1.png" alt="Diagnostics of omitted variables." width="672" />
 <p class="caption">
 Figure 15.1: Diagnostics of omitted variables.
 </p>
@@ -390,7 +390,7 @@ Figure 15.1: Diagnostics of omitted variables.
 <p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a> demonstrates actuals vs fitted and fitted vs standardised residuals. The standardised residuals are the residuals from the model that are divided by their standard deviation, thus removing the scale. What we want to see on the first plot in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a>, is for all the point lie around the grey line and for the LOWESS line to coincide with the grey line. That would mean that the relations are captured correctly and all the observations are explained by the model. As for the second plot, we want to see the same, but it just presents that information in a different format, which is sometimes easier to analyse. In both plot of Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a>, we can see that there are still some patterns left: the LOWESS line has a u-shaped form, which in general means that something is wrong with model specification. In order to investigate if there are any omitted variables, we construct a spread plot of residuals vs all the variables not included in the model (Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">15.2</a>).</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="assumptionsCorrectModel.html#cb204-1" aria-hidden="true"></a><span class="kw">spread</span>(<span class="kw">data.frame</span>(<span class="dt">residuals=</span><span class="kw">resid</span>(mtcarsSLR), mtcars[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)]))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics02-1.png" alt="Diagnostics of omitted variables." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics02-1.png" alt="Diagnostics of omitted variables." width="672" />
 <p class="caption">
 Figure 15.2: Diagnostics of omitted variables.
 </p>
@@ -410,7 +410,7 @@ Figure 15.2: Diagnostics of omitted variables.
 <div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="assumptionsCorrectModel.html#cb206-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb206-2"><a href="assumptionsCorrectModel.html#cb206-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics03"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics03-1.png" alt="Diagnostics of necessary transformations in linear model." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics03-1.png" alt="Diagnostics of necessary transformations in linear model." width="672" />
 <p class="caption">
 Figure 15.3: Diagnostics of necessary transformations in linear model.
 </p>
@@ -421,7 +421,7 @@ Figure 15.3: Diagnostics of necessary transformations in linear model.
 <div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="assumptionsCorrectModel.html#cb208-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb208-2"><a href="assumptionsCorrectModel.html#cb208-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics04"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics04-1.png" alt="Diagnostics of necessary transformations in log-log model." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics04-1.png" alt="Diagnostics of necessary transformations in log-log model." width="672" />
 <p class="caption">
 Figure 15.4: Diagnostics of necessary transformations in log-log model.
 </p>
@@ -436,7 +436,7 @@ Figure 15.4: Diagnostics of necessary transformations in log-log model.
 <div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="assumptionsCorrectModel.html#cb209-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb209-2"><a href="assumptionsCorrectModel.html#cb209-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics05"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics05-1.png" alt="Diagnostics of outliers." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics05-1.png" alt="Diagnostics of outliers." width="672" />
 <p class="caption">
 Figure 15.5: Diagnostics of outliers.
 </p>
@@ -444,7 +444,7 @@ Figure 15.5: Diagnostics of outliers.
 <p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics05">15.5</a> demonstrates standardised and studentised residuals vs fitted values for the log-log model on mtcars data. We can see that the plots are very similar, which already indicates that there are no strong outliers in the residuals. The bounds produced on the plots correspond to the 95% prediction interval, so by definition it should contain <span class="math inline">\(0.95\times 32 \approx 30\)</span> observations. Indeed, there are only two observations: 15 and 25 - that lie outside the bounds. Technically, we would suspect that they are outliers, but they do not lie far away from the bounds and their number meets our expectations, so we can conclude that there are no outliers in the data.</p>
 <div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="assumptionsCorrectModel.html#cb210-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">12</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics06"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics06-1.png" alt="Cook's distance plot." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics06-1.png" alt="Cook's distance plot." width="672" />
 <p class="caption">
 Figure 15.6: Cook’s distance plot.
 </p>
@@ -455,7 +455,7 @@ Figure 15.6: Cook’s distance plot.
 <p>This way, we intentionally create an influential outlier (the car should have the minimum weight in the dataset, and now it has a very high one).</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="assumptionsCorrectModel.html#cb212-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM03, <span class="dv">12</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>), <span class="dt">xlab=</span><span class="st">&quot;Observations&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics07"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics07-1.png" alt="Cook's distance plot for the data with influential outlier." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/diagnostics07-1.png" alt="Cook's distance plot for the data with influential outlier." width="672" />
 <p class="caption">
 Figure 15.7: Cook’s distance plot for the data with influential outlier.
 </p>
@@ -517,7 +517,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov - Statistics for Business Analytics.pdf"],
+"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

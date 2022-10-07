@@ -373,7 +373,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 \end{equation}\]</span>
 If we use the linear function instead, then we might fail in capturing the relation correctly. Here is how the linear regression looks like, when applied to the data (Figure <a href="example-of-application.html#fig:speedDistanceExtrapolation">14.1</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceExtrapolation"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceExtrapolation-1.png" alt="Speed vs stopping distance and a linear model" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceExtrapolation-1.png" alt="Speed vs stopping distance and a linear model" width="672" />
 <p class="caption">
 Figure 14.1: Speed vs stopping distance and a linear model
 </p>
@@ -390,7 +390,7 @@ The multiplication of speed by the error term is necessary, because the effect o
 \end{equation}\]</span>
 If we substituted every element with <span class="math inline">\(\log\)</span> in <a href="example-of-application.html#eq:speedDistanceModelLogs">(14.3)</a> by other names (e.g. <span class="math inline">\(\log(\beta_0)=\beta^\prime_0\)</span> and <span class="math inline">\(\log(speed)=x\)</span>), it would be easier to see that this is a linear model, which can be estimated via <a href="OLS.html#OLS">OLS</a>. This type of model is called “log-log”, reflecting that it has logarithms on both sides. Even the data will be much better behaved if we use logarithms in this situation (see Figure <a href="example-of-application.html#fig:speedDistanceLogs">14.2</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceLogs"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceLogs-1.png" alt="Speed vs stopping distance in logarithms" width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceLogs-1.png" alt="Speed vs stopping distance in logarithms" width="672" />
 <p class="caption">
 Figure 14.2: Speed vs stopping distance in logarithms
 </p>
@@ -419,7 +419,7 @@ Figure 14.2: Speed vs stopping distance in logarithms
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="example-of-application.html#cb193-1" aria-hidden="true"></a><span class="kw">plot</span>(cars, <span class="dt">xlab=</span><span class="st">&quot;Speed&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Stopping distance&quot;</span>)</span>
 <span id="cb193-2"><a href="example-of-application.html#cb193-2" aria-hidden="true"></a><span class="kw">lines</span>(cars<span class="op">$</span>speed,<span class="kw">exp</span>(<span class="kw">fitted</span>(slmSpeedDistanceModel01)),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceLogExp"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceLogExp-1.png" alt="Speed vs stopping distance and the log-log model fit." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceLogExp-1.png" alt="Speed vs stopping distance and the log-log model fit." width="672" />
 <p class="caption">
 Figure 14.3: Speed vs stopping distance and the log-log model fit.
 </p>
@@ -431,7 +431,7 @@ Figure 14.3: Speed vs stopping distance and the log-log model fit.
 \end{equation}\]</span>
 The issue of this model would be that the error term is additive and thus the model would assume that the variability of the error does not change with the speed, which is not realistic.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceSquare"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceSquare-1.png" alt="Speed squared vs stopping distance." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceSquare-1.png" alt="Speed squared vs stopping distance." width="672" />
 <p class="caption">
 Figure 14.4: Speed squared vs stopping distance.
 </p>
@@ -445,7 +445,7 @@ Figure 14.4: Speed squared vs stopping distance.
 ## that it will work...</code></pre>
 <p><code>alm()</code> function will complain about the exclusion of the intercept, but it should estimate the model nonetheless. The fit of the model to the data would be similar in its shape to the one from the log-log model (see Figure <a href="example-of-application.html#fig:speedDistanceSquare02">14.5</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceSquare02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceSquare02-1.png" alt="Speed squared vs stopping distance with models with speed^2." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceSquare02-1.png" alt="Speed squared vs stopping distance with models with speed^2." width="672" />
 <p class="caption">
 Figure 14.5: Speed squared vs stopping distance with models with speed^2.
 </p>
@@ -463,7 +463,7 @@ which will be equivalent to:
 \end{equation}\]</span>
 The good news is, the error term in this model will change with the change of speed due to the interaction effect, cause by the square of the sum in <a href="example-of-application.html#eq:speedDistanceModelSqrt2">(14.6)</a>. And, similar to the previous models, the parameter <span class="math inline">\(\beta_0\)</span> might not be needed. Graphically, this transformation is present on Figure <a href="example-of-application.html#fig:speedDistanceSqrt">14.6</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceSqrt-1.png" alt="Speed vs square root of stopping distance." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceSqrt-1.png" alt="Speed vs square root of stopping distance." width="672" />
 <p class="caption">
 Figure 14.6: Speed vs square root of stopping distance.
 </p>
@@ -477,7 +477,7 @@ Figure 14.6: Speed vs square root of stopping distance.
 ## that it will work...</code></pre>
 Finally, we can see how both models will fit the original data (squaring the fitted values to get to the original scale):
 <div class="figure"><span style="display:block;" id="fig:speedDistanceSqrt02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceSqrt02-1.png" alt="Speed squared vs stopping distance with Square Root models." width="672" />
+<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/speedDistanceSqrt02-1.png" alt="Speed squared vs stopping distance with Square Root models." width="672" />
 <p class="caption">
 Figure 14.7: Speed squared vs stopping distance with Square Root models.
 </p>
@@ -565,7 +565,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov - Statistics for Business Analytics.pdf"],
+"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
