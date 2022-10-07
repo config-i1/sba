@@ -373,7 +373,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <span id="cb244-2"><a href="bias-variance-tradeoff.html#cb244-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>disp, mtcars<span class="op">$</span>mpg,</span>
 <span id="cb244-3"><a href="bias-variance-tradeoff.html#cb244-3" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Engine size&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Miles per galon&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:biasVariance01"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVariance01-1.png" alt="Fuel consumption vs engine size" width="672" />
 <p class="caption">
 Figure 17.1: Fuel consumption vs engine size
 </p>
@@ -385,14 +385,14 @@ Figure 17.1: Fuel consumption vs engine size
 \end{equation}\]</span>
 where <span class="math inline">\(mpg_j\)</span> is the miles per galon of a car and <span class="math inline">\(disp_j\)</span> is the displacement (size) of engine. We will assume for now that this is the “true model”, which would fit the data in the following way if we knew all the data in the universe (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance02">17.2</a>):</p>
 <div class="figure"><span style="display:block;" id="fig:biasVariance02"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVariance02-1.png" alt="Fuel consumption vs engine size and the true model" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVariance02-1.png" alt="Fuel consumption vs engine size and the true model" width="672" />
 <p class="caption">
 Figure 17.2: Fuel consumption vs engine size and the true model
 </p>
 </div>
 <p>While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">17.3</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:biasVariance03"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVariance03-1.png" alt="Fuel consumption vs engine size, the true and the linear models" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVariance03-1.png" alt="Fuel consumption vs engine size, the true and the linear models" width="672" />
 <p class="caption">
 Figure 17.3: Fuel consumption vs engine size, the true and the linear models
 </p>
@@ -400,14 +400,14 @@ Figure 17.3: Fuel consumption vs engine size, the true and the linear models
 <p>Figure <a href="bias-variance-tradeoff.html#fig:biasVariance03">17.3</a> demonstrates the situation, where the linear model was fit to randomly peaked sub-samples of the original data. We can see that the linear model would exhibit some sort of bias in comparison with the true one: it is consistently above the true model in the region in the middle and is consistently below it in the tails of the sample.</p>
 <p>Alternatively, we could fit a high order polynomial model to approximate the data and repeat the same procedure with sub-samples as before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">17.4</a>):</p>
 <div class="figure"><span style="display:block;" id="fig:biasVariance04"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVariance04-1.png" alt="Fuel consumption vs engine size, the true, the linear and the polynomial models." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVariance04-1.png" alt="Fuel consumption vs engine size, the true, the linear and the polynomial models." width="672" />
 <p class="caption">
 Figure 17.4: Fuel consumption vs engine size, the true, the linear and the polynomial models.
 </p>
 </div>
 <p>The new polynomial model on the plot in Figure <a href="bias-variance-tradeoff.html#fig:biasVariance04">17.4</a> has a lower bias than the linear one, because on average it is closer to the true model in sample, getting closer to the green line (true model) even in the tails. However, it is also apparent that it has higher variability. This is because it is a more complex model than the linear one: it includes more variables (polynomial terms), making it more sensitive to specific observations in the sample. If we were to introduce even more polynomial terms, the model would have even more variance around the true model than before (Figure <a href="bias-variance-tradeoff.html#fig:biasVariance05">17.5</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:biasVariance05"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVariance05-1.png" alt="Fuel consumption vs engine size, the true and the polynomial (7th order) models" width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVariance05-1.png" alt="Fuel consumption vs engine size, the true and the polynomial (7th order) models" width="672" />
 <p class="caption">
 Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th order) models
 </p>
@@ -490,7 +490,7 @@ So, this means that the last three terms in <a href="bias-variance-tradeoff.html
 </div>
 <p>The similar mathematical formula holds for any other estimate, for example for an estimate of parameter. What this formula tells us is that there are two forces in the MSE of estimate that impact its value. Minimisation MSE does not imply that we reduce both of them, but most probably we are reducing one at the cost of another. The classical plot based on this looks as shown in Figure <a href="bias-variance-tradeoff.html#fig:biasVarianceMSE">17.6</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:biasVarianceMSE"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/biasVarianceMSE-1.png" alt="Bias, Variance and MSE as functions of model complexity." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/biasVarianceMSE-1.png" alt="Bias, Variance and MSE as functions of model complexity." width="672" />
 <p class="caption">
 Figure 17.6: Bias, Variance and MSE as functions of model complexity.
 </p>
@@ -565,7 +565,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
+"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

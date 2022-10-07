@@ -377,28 +377,28 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 \end{equation}\]</span>
 In this example we will test the hypothesis on 5% significance level. The general process of hypothesis testing can be visualised as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">7.3</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:powerOfTestVisual01"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual01-1.png" alt="The process of hypothesis testing of one sided hypothesis \@ref(eq:powerOfATestHypothesis)." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual01-1.png" alt="The process of hypothesis testing of one sided hypothesis \@ref(eq:powerOfATestHypothesis)." width="672" />
 <p class="caption">
 Figure 7.3: The process of hypothesis testing of one sided hypothesis <a href="powerOfTheTest.html#eq:powerOfATestHypothesis">(7.2)</a>.
 </p>
 </div>
 <p>The plot in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual01">7.3</a> shows the theoretical distribution of z-values, the 5% critical value and the calculated one. On the plot, we see that the calculated value lies in the tail of the distribution, which means that we can reject the null hypothesis on 5% significance level. The situation, when we correctly reject H<span class="math inline">\(_0\)</span> in our example corresponds to the case, when the true distribution lies to the left of the assumed one as shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">7.4</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:powerOfTestVisual02"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual02-1.png" alt="Hypothetical &quot;true&quot; and the assumed distributions." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual02-1.png" alt="Hypothetical &quot;true&quot; and the assumed distributions." width="672" />
 <p class="caption">
 Figure 7.4: Hypothetical “true” and the assumed distributions.
 </p>
 </div>
 <p>In the example of Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual02">7.4</a> we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and the probability of this case is the “Power of a Test”. Visually, it corresponds to the surface of the “true” distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H<span class="math inline">\(_0\)</span> and thus to the correct decision. This is shown visually in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:powerOfTestVisual03"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual03-1.png" alt="Power of the Test based on the hypothetical true value of $\mu$." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual03-1.png" alt="Power of the Test based on the hypothetical true value of $\mu$." width="672" />
 <p class="caption">
 Figure 7.5: Power of the Test based on the hypothetical true value of <span class="math inline">\(\mu\)</span>.
 </p>
 </div>
 <p>The surface to the left of the critical value in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a> is the Power of the Test for the example of a specific value of assumed <span class="math inline">\(\mu\)</span>. Given that we never know the true value, we could try other values, which would shift the distribution to the left or to the right, meaning either the increase or the decrease in power of the test. For example, the situation shown in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual04">7.6</a> corresponds to the smaller Power of the Test (because the surface of the distribution to the left is smaller than the surface of the distribution in Figure <a href="powerOfTheTest.html#fig:powerOfTestVisual03">7.5</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:powerOfTestVisual04"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual04-1.png" alt="Power of the Test based on another hypothetical true value of $\mu$." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerOfTestVisual04-1.png" alt="Power of the Test based on another hypothetical true value of $\mu$." width="672" />
 <p class="caption">
 Figure 7.6: Power of the Test based on another hypothetical true value of <span class="math inline">\(\mu\)</span>.
 </p>
@@ -472,7 +472,7 @@ We could do similar calculations for other cases of the true mean and see how po
 <span id="cb75-23"><a href="powerOfTheTest.html#cb75-23" aria-hidden="true"></a>     latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">alpha =1- </span><span class="ch">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
 <span id="cb75-24"><a href="powerOfTheTest.html#cb75-24" aria-hidden="true"></a>     <span class="dt">pos=</span><span class="dv">4</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
 Figure 7.7: Power curve for the z-test in the example.
 </p>
@@ -490,7 +490,7 @@ Figure 7.7: Power curve for the z-test in the example.
 <p>The element (2) will define the critical value of a statistical test, and in general the smaller the significance level is, the less powerful the test will be, as we will not be able to spot small discrepancies from the true mean.</p>
 <p>The larger the sample size (element (3)), the more powerful the test becomes in general. In our example, we can see that from the equation <a href="powerOfTheTest.html#eq:powerOfATest01">(7.4)</a>, where the sample size <span class="math inline">\(n\)</span> is in the denominator of the denominator. The higher values of <span class="math inline">\(n\)</span> will lead to the higher values of <span class="math inline">\(z\)</span> and as a result, the higher chance of rejecting the H<span class="math inline">\(_0\)</span> if it is wrong. Figure <a href="powerOfTheTest.html#fig:powerCurves02">7.8</a> demonstrates how the power curve changes with the increase of the sample size. we see that the power of the test increases much faster with the decrease of the hypothetical value of <span class="math inline">\(\mu\)</span>, when the sample size is large (for example, <span class="math inline">\(n=1000\)</span>) than in the case of small samples (e.g., <span class="math inline">\(n=25\)</span>).</p>
 <div class="figure"><span style="display:block;" id="fig:powerCurves02"></span>
-<img src="Svetunkov--2022--Statistics-for-Business-Analytics_files/figure-html/powerCurves02-1.png" alt="Power curves with different sample sizes." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerCurves02-1.png" alt="Power curves with different sample sizes." width="672" />
 <p class="caption">
 Figure 7.8: Power curves with different sample sizes.
 </p>
@@ -572,7 +572,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Svetunkov-(2022)-Statistics-for-Business-Analytics.pdf"],
+"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
