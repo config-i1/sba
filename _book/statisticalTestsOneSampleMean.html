@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8.1 One-sample tests about mean | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8.1 One-sample tests about mean | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-07" />
+<meta name="date" content="2022-10-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -376,7 +376,7 @@ Next, we select the significance level. If the level is not given to us, then we
 <h3><span class="header-section-number">8.1.1</span> z-test<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consider the situation, where we know from NHS that the population standard deviation of height is <span class="math inline">\(\sigma=5\)</span>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-17" class="remark"><em>Remark</em>. </span>As shown in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, if the standard deviation of <span class="math inline">\(y\)</span> is <span class="math inline">\(\sigma\)</span>, then the standard deviation of <span class="math inline">\(\bar{y}\)</span> is <span class="math inline">\(\frac{1}{\sqrt{n}} \sigma\)</span>. This means that in our case <span class="math inline">\(\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5\)</span>.</p>
+<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>As shown in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, if the standard deviation of <span class="math inline">\(y\)</span> is <span class="math inline">\(\sigma\)</span>, then the standard deviation of <span class="math inline">\(\bar{y}\)</span> is <span class="math inline">\(\frac{1}{\sqrt{n}} \sigma\)</span>. This means that in our case <span class="math inline">\(\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5\)</span>.</p>
 </div>
 <p>If we assume that the mean follows Normal distribution and know the population standard deviation, i.e. <span class="math inline">\(\bar{y} \sim \mathcal{N}\left(\mu, \sigma^2_{\bar{y}}\right)\)</span>, then the standardised value z:
 <span class="math display" id="eq:zTestFormula">\[\begin{equation}
@@ -437,7 +437,7 @@ while the critical value for the chosen 1% significance level is:</p>
 ## mean of x 
 ##  176.2516</code></pre>
 <div class="remark">
-<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>If we were to test a one-sided hypothesis (e.g. <span class="math inline">\(\mathrm{H}_0: \mu &lt; 175.3, \mathrm{H}_1: \mu \geq 175.3\)</span>), then we would need to change the <code>alternative</code> parameters in the <code>t.test()</code> function to correspond to the formulated H<span class="math inline">\(_1\)</span>.</p>
+<p><span id="unlabeled-div-19" class="remark"><em>Remark</em>. </span>If we were to test a one-sided hypothesis (e.g. <span class="math inline">\(\mathrm{H}_0: \mu &lt; 175.3, \mathrm{H}_1: \mu \geq 175.3\)</span>), then we would need to change the <code>alternative</code> parameters in the <code>t.test()</code> function to correspond to the formulated H<span class="math inline">\(_1\)</span>.</p>
 </div>
 <p>The output above shows the calculated t (1.8509), the number of degrees of freedom and the p-value. It also constructs the 99% confidence interval (174.9013, 177.6018). The conclusions can be made using one of the three approaches, discussed above and in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>:</p>
 <ol style="list-style-type: decimal">
@@ -537,7 +537,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

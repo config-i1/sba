@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.3 Power of a test | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.3 Power of a test | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-07" />
+<meta name="date" content="2022-10-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -510,7 +510,7 @@ Note that we sum up all the values up until <span class="math inline">\(\mu^*\)<
     \tag{7.8}
 \end{equation}\]</span></p>
 <div class="remark">
-<p><span id="unlabeled-div-16" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
+<p><span id="unlabeled-div-17" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
 </div>
 <p>The calculation of the assurance in some cases can be done analytically. For example, <span class="citation">O’Hagan et al. (<a href="#ref-OHagan2005" role="doc-biblioref">2005</a>)</span> derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
 <!-- For the power curve generated in Figure \@ref(fig:powerCurve), the assurance can be roughly estimated as: --></p>
@@ -590,7 +590,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
