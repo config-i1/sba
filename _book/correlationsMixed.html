@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.4 Mixed scales | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.4 Mixed scales | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-25" />
+<meta name="date" content="2022-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -368,7 +368,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">9.4</span> Mixed scales<a href="correlationsMixed.html#correlationsMixed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Finally, when we have two variables measured in different scales, the general recommendation is to use the measure of association for the lower scale. For example, if we have the nominal variable colour and the ordinal variable size (both related to T-shirts people prefer), we should use Cramer’s V in order to measure the relation between them:</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="correlationsMixed.html#cb128-1" aria-hidden="true"></a><span class="kw">cramer</span>(colour,size)</span></code></pre></div>
-<pre><code>## Cramer&#39;s V: 0.2991
+<pre><code>## Cramer&#39;s V: 0.1632
 ## Chi^2 statistics = 5.7241, df: 4, p-value: 0.2207</code></pre>
 <p>Similarly, if we have a numerical and ordinal variables, we should use one of the measures for ordinal scales.</p>
 <p>However, in some cases we might be able to use a different measure of association. One of those is called multiple correlation coefficient and can be calculated for variables in numerical vs categorical scales. This coefficient can be calculated using different principles, the simplest of which is constructing a regression model (discussed later in Section <a href="linearRegression.html#linearRegression">11</a>) of numerical variable from the dummy variables (see Section <a href="dummyVariables.html#dummyVariables">13</a>) created from the categorical one and then extracting the square root of coefficient of determination (discussed in Section <a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit">10.3</a>). The resulting coefficient lies between 0 and 1, where 1 implies perfect linear relation between the two variables and 0 implies no linear relation between them. <code>mcor()</code> function from <code>greybox</code> implements this:</p>
@@ -382,28 +382,28 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 ## values:
 ##          mpg    cyl    disp      hp    drat      wt    qsec     vs     am
 ## mpg   1.0000 0.8558 -0.8476 -0.7762  0.6812 -0.8677  0.4187 0.6640 0.5998
-## cyl   0.8558 1.0000  0.9152  0.8449  0.7018  0.7826  0.5913 0.8166 0.5226
+## cyl   0.8558 1.0000  0.9152  0.8449  0.7018  0.7826  0.5913 0.7889 0.4643
 ## disp -0.8476 0.9152  1.0000  0.7909 -0.7102  0.8880 -0.4337 0.7104 0.5912
 ## hp   -0.7762 0.8449  0.7909  1.0000 -0.4488  0.6587 -0.7082 0.7231 0.2432
 ## drat  0.6812 0.7018 -0.7102 -0.4488  1.0000 -0.7124  0.0912 0.4403 0.7127
 ## wt   -0.8677 0.7826  0.8880  0.6587 -0.7124  1.0000 -0.1747 0.5549 0.6925
 ## qsec  0.4187 0.5913 -0.4337 -0.7082  0.0912 -0.1747  1.0000 0.7445 0.2299
-## vs    0.6640 0.8166  0.7104  0.7231  0.4403  0.5549  0.7445 1.0000 0.1042
-## am    0.5998 0.5226  0.5912  0.2432  0.7127  0.6925  0.2299 0.1042 1.0000
-## gear  0.6551 0.5309  0.7671  0.6638  0.8319  0.6587  0.6334 0.6181 0.8090
-## carb  0.6667 0.6173  0.5605  0.7873  0.3344  0.6129  0.6695 0.6924 0.4415
+## vs    0.6640 0.7889  0.7104  0.7231  0.4403  0.5549  0.7445 1.0000 0.0000
+## am    0.5998 0.4643  0.5912  0.2432  0.7127  0.6925  0.2299 0.0000 1.0000
+## gear  0.6551 0.4820  0.7671  0.6638  0.8319  0.6587  0.6334 0.5728 0.7808
+## carb  0.6667 0.4847  0.5605  0.7873  0.3344  0.6129  0.6695 0.5733 0.1864
 ##        gear   carb
 ## mpg  0.6551 0.6667
-## cyl  0.5309 0.6173
+## cyl  0.4820 0.4847
 ## disp 0.7671 0.5605
 ## hp   0.6638 0.7873
 ## drat 0.8319 0.3344
 ## wt   0.6587 0.6129
 ## qsec 0.6334 0.6695
-## vs   0.6181 0.6924
-## am   0.8090 0.4415
-## gear 1.0000 0.5080
-## carb 0.5080 1.0000
+## vs   0.5728 0.5733
+## am   0.7808 0.1864
+## gear 1.0000 0.3217
+## carb 0.3217 1.0000
 ## 
 ## p-values:
 ##         mpg    cyl   disp     hp   drat     wt   qsec     vs     am   gear
@@ -526,7 +526,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
