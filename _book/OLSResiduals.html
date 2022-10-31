@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-26" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -373,7 +373,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ol>
 <p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
 <div class="proof">
-<p><span id="unlabeled-div-23" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
+<p><span id="unlabeled-div-24" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
 <span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
     \tag{10.8}
@@ -392,7 +392,7 @@ Given that the sum of errors is equal to zero, its mean will be equal to zero as
 </div>
 <p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
 <div class="proof">
-<p><span id="unlabeled-div-24" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
+<p><span id="unlabeled-div-25" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     \tag{10.11}

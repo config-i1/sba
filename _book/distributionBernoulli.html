@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-26" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -414,6 +414,23 @@ So, when Vasiliy throws the next ball in the bin, he will miss with the probabil
 <p>The variance is <span class="math inline">\(p \times (1-p) = 0.36 \times 0.64 = 0.2304\)</span>.</p>
 </div>
 <p>In R, this distribution is implemented in <code>stats</code> package via <code>dbinom(size=1)</code>, <code>pbinom(size=1)</code>, <code>qbinom(size=1)</code> and <code>rbinom(size=1)</code> for PDF, CDF, QF and random generator respectively. The important parameter in this case is <code>size=1</code>, which will be discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>.</p>
+<div class="remark">
+<p><span id="unlabeled-div-8" class="remark"><em>Remark</em>. </span>A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox <span class="citation">(Kotz et al., <a href="#ref-Kotz2005" role="doc-biblioref">2005</a>, p. 8318)</span>. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £<span class="math inline">\(2^2=4\)</span>. In general, I will pay £<span class="math inline">\(2^n\)</span> if I toss consecutively <span class="math inline">\(n\)</span> tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e. what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty 2^{j} \left(\frac{1}{2}\right)^{j+1} 
+\end{equation*}\]</span>
+The logic behind this formula is that mathematically, we assume that we can have infinite number of experiments, and each prize has its outcome. For example, the probability to get just £2 is <span class="math inline">\(\frac{1}{2}\)</span>, while the probability to get £4 is <span class="math inline">\(\frac{1}{4}\)</span> etc. But the values cancel each other out in this formula leaving us with:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty \frac{1}{2} = \infty .
+\end{equation*}\]</span>
+So, although it is unrealistic to expect in real life that the streak of tails will continue indefinitely, the statistics theory tells us that the fair price for the game is infinity. Practically speaking, the infinite amount of tails will never happen, so we should have a finite number for the price. But mathematics assumes that the experiment can be repeated infinite amount of times, and in this case it is entirely possible that we will observe an infinite streak of tails. This is the Saint Petersburg paradox, which demonstrates how sometimes the asymptotic properties relate to reality. I think that it provides a good demonstration of what statistics typically works with.</p>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references hanging-indent">
+<div id="ref-Kotz2005">
+<p>• Kotz, S., Balakrishnan, N., Read, C.B., Vidakovic, B., 2005. Encyclopedia of statistical sciences.. John Wiley &amp; Sons, Inc., Hoboken, New Jersey.</p>
+</div>
 </div>
 
             </section>

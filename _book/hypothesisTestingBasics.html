@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-26" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -455,7 +455,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(Wasserstein and Lazar, <a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
 <p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation">Cohen (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
 <div class="remark">
-<p><span id="unlabeled-div-15" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
+<p><span id="unlabeled-div-16" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu \approx a, \mathrm{H}_1: \mu \not\approx a ,
 \end{equation*}\]</span>

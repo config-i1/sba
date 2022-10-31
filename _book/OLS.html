@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-10-26" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -415,7 +415,7 @@ If we now minimise SSE by changing values of parameters <span class="math inline
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span>.</p>
 <div class="proof">
-<p><span id="unlabeled-div-21" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
+<p><span id="unlabeled-div-22" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -460,7 +460,7 @@ which is the formula <a href="correlationCoefficient.html#eq:measuresAssociation
 <h3><span class="header-section-number">10.1.1</span> Gauss-Markov theorem<a href="OLS.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (as in formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>). Furthermore, there is a mathematical proof that the estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). It is called “Gauss-Markov theorem”. It states that:</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-22" class="theorem"><strong>Theorem 10.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
+<p><span id="thm:unlabeled-div-23" class="theorem"><strong>Theorem 10.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
 </div>
 <p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median, see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
 <p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.</p>
