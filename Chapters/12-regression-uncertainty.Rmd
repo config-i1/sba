@@ -244,9 +244,11 @@ Based on this, we can construct graphs similar to \@ref(fig:speedDistanceConfide
 
 ```{r speedDistancePI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
-plot(slmSpeedDistancePI, ylab="Values", xlab="Observations")
+plot(slmSpeedDistancePI, ylab="Values", xlab="Observations",
+     main="Actuals and Fitted over observations")
 plot(fitted(slmSpeedDistance),actuals(slmSpeedDistance),
-     xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted for the variable dist")
+     xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted",
+     ylim=range(slmSpeedDistancePI$lower,slmSpeedDistancePI$upper))
 abline(a=0,b=1,col="darkblue",lwd=2)
 lines(sort(fitted(slmSpeedDistance)),
       slmSpeedDistancePI$lower[order(fitted(slmSpeedDistance))], 
