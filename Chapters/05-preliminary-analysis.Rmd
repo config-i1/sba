@@ -85,12 +85,13 @@ sd(mtcarsData$mpg)
 Visually, standard deviation can be represented as a straight line, depicting the overall variability of the data (Figure \@ref(fig:varianceVisual)).
 
 ```{r varianceVisual, fig.cap="Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram.", echo=FALSE}
-hist(mtcarsData$mpg, xlab="Miles per galon", main="", ylim=c(0,14))
+hist(mtcarsData$mpg, xlab="Miles per galon", main="", ylim=c(0,15))
 lines(rep(mean(mtcarsData$mpg),2), c(0,13), col="darkred", lwd=2, lty=2)
 lines(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
       col="darkred", lwd=2)
 points(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
        pch=15, col="darkred", lwd=2)
+text(20, 14, TeX("$\\sigma$"))
 ```
 
 In Figure \@ref(fig:varianceVisual), we depict the distribution of the variable `mpg` using histogram (see Section \@ref(dataAnalysisGraphical)) and show how the standard deviation relates to it -- it is equal to the length of the segment above the histogram.
@@ -140,6 +141,13 @@ All the conventional statistics discussed above can be produced using the follow
 ```{r}
 summary(mtcarsData)
 ```
+
+Finally, one other moment that is often used in statistics is called "covariance". It measures the joint variability of two variables and is calculated as:
+\begin{equation}
+    \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
+    (\#eq:Covariance)
+\end{equation}
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \@ref(SLRCovariance).
 
 
 ## Graphical analysis {#dataAnalysisGraphical}
