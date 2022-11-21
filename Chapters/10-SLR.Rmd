@@ -103,18 +103,6 @@ In the system of equations \@ref(eq:OLSSLREstimatesProof), we have the following
 
 Note that if for some reason ${b}_1=0$ in \@ref(eq:OLSSLREstimates) (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data would be the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
 
-Another thing to note is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
-
-1. Model \@ref(eq:SLRFormulaEstimated);
-2. The inverse model $x_j = \hat{b}_0 + \hat{b}_1 y_j + u_j$.
-
-We could then extract the slope parameters of the two models via \@ref(eq:OLSSLREstimates) and get the value of correlation coefficient as a geometric mean of the two:
-\begin{equation}
-    r_{x,y} = \mathrm{sign}(\hat{b}_1) \sqrt{{b}_1 \hat{b}_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
-    (\#eq:correlationDerivationPearson)
-\end{equation}
-which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived.
-
 While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.
 
 
@@ -128,6 +116,128 @@ If regression model is correctly specified then OLS will produce Best Linear Unb
 The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
 
 Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.
+
+
+## Covariance, correlation and SLR {#SLRCovariance}
+Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it.
+
+### Covariance
+One of the most complicated things to explain is covariance. Coming back to the formula \@ref(eq:OLSSLREstimates), where $b_1$ is calculated as:
+\begin{equation*}
+    {b}_1 = \frac{\mathrm{cov}(x,y)}{\hat{\sigma}_x^2} ,
+\end{equation*}
+where $\hat{\sigma}_x$ is the in-sample estimate of standard deviation, we can express cov$(x,y)$ as:
+\begin{equation*}
+    \mathrm{cov}(x,y) = {b}_1 \hat{\sigma}_x \hat{\sigma}_x .
+\end{equation*}
+Visually, this can be represented as the areas of a rectangular shown on right pane in Figure \@ref(fig:covarianceVisual).
+
+```{r covarianceVisual, fig.cap="Visualisation of covariance between two random variables, $x$ and $y$.", fig.width=10, fig.height=5, echo=FALSE}
+xr <- rnorm(1000,100,10)
+xi <- 1.5*xr + rnorm(1000,0,10)
+b1 <- cov(xr,xi) / var(xr)
+b0 <- mean(xi) - b1 * mean(xr)
+
+par(mfcol=c(1,2), mar=c(4,4,2,1))
+plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y")
+abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
+abline(h=0, col="darkgrey", lwd=2, lty=1)
+abline(v=0, col="darkgrey", lwd=2, lty=1)
+draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
+text(8, 5, TeX("$\\arctan (b_1)$"), pos=4)
+
+plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y")
+abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
+polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
+        density=10, lwd=2)
+text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1)
+text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4)
+```
+
+In Figure \@ref(fig:covarianceVisual), the data is centred around the means of $x$ and $y$. We draw a regression line with the angle $\arctan (b_1)$ through the cloud of points and then draw a segment of the length $\hat{\sigma}_x$ parallel to the x-axis. The multiplication of $b_1$ by $\hat{\sigma}_x$ gives the side denoted as $b_1 \hat{\sigma}_x$ (because $b_1$ equals to tangent of the angle of the line to the x-axis). And finally, the $b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)$ is the area of the rectangular in Figure \@ref(fig:covarianceVisual). The higher the standard deviation of $x$ is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of $\hat{\sigma}_x$, the higher $b_1$ is, the larger the area becomes, increasing the covariance. In this interpretation the covariance becomes equal to zero either in one of the two cases:
+\begin{equation*}
+    \begin{aligned}
+        & {b}_1 = 0 \\
+        & \hat{\sigma}_x =0 ,
+    \end{aligned}
+\end{equation*}
+which implies that either there is no variability in the variable $x$ or that the angle of the regression line is zero, i.e. there is no linear relation between $x$ and $y$.
+
+Similar visualisations can be done if the axes are swapped and the regression $x = a_0 + a_1 y + u$ is constructed. The logic would be similar, only changing the value of the slope parameter $b_1$ by $a_1$ and substituting $\hat{\sigma}_x$ with $\hat{\sigma}_y$.
+
+### Correlation
+Another thing to note is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
+
+1. Model \@ref(eq:SLRFormulaEstimated) $y_j = a_0 + a_1 x_j + e_j$;
+2. The inverse model $x_j = a_0 + a_1 y_j + u_j$.
+
+We could then extract the slope parameters of the two models via \@ref(eq:OLSSLREstimates) and get the value of correlation coefficient as a geometric mean of the two:
+\begin{equation}
+    r_{x,y} = \mathrm{sign}(b_1) \sqrt{{b}_1 a_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
+    (\#eq:correlationDerivationPearson)
+\end{equation}
+which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived. Visually this is shown in Figure \@ref(fig:correlationVisual), where the two lines are drawn for the simple linear regressions mentioned above. 
+```{r correlationVisual, fig.cap="Visualisation of correlation between two random variables, $x$ and $y$.", fig.width=8, fig.height=8, echo=FALSE}
+xr <- rnorm(1000,100,10)
+xi <- 1.5*xr + rnorm(1000,0,10)
+b1 <- cov(xr,xi) / var(xr)
+a1 <- cov(xr,xi) / var(xi)
+
+par(mfrow=c(2,2), mar=c(4,4,4,1))
+
+plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y", main="Positive correlation")
+abline(h=0, col="darkgrey", lwd=2, lty=1)
+abline(v=0, col="darkgrey", lwd=2, lty=1)
+abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
+draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
+text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
+abline(a=0, b=1/a1, col="darkblue", lwd=2, lty=2)
+draw.arc(0,0,8,atan(1/a1),pi/2, lwd=2, col="darkblue")
+text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+
+xi <- -xi
+b1 <- cov(xr,xi) / var(xr)
+a1 <- cov(xr,xi) / var(xi)
+plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y", main="Negative correlation")
+abline(h=0, col="darkgrey", lwd=2, lty=1)
+abline(v=0, col="darkgrey", lwd=2, lty=1)
+abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
+draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
+text(8, -5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
+abline(a=0, b=1/a1, col="darkblue", lwd=2, lty=2)
+draw.arc(0,0,8,atan(1/a1)+pi,pi/2, lwd=2, col="darkblue")
+text(9, 14, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+
+plot(xr-mean(xr),xr-mean(xr), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y", main="Perfect correlation")
+abline(h=0, col="darkgrey", lwd=2, lty=1)
+abline(v=0, col="darkgrey", lwd=2, lty=1)
+abline(a=0, b=1, col="darkred", lwd=2, lty=2)
+draw.arc(0,0,8,0,pi/4, lwd=2, col="darkred")
+text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
+abline(a=0, b=1, col="darkblue", lwd=2, lty=2)
+draw.arc(0,0,8,pi/4,pi/2, lwd=2, col="darkblue")
+text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+
+plot(xr-mean(xr),rnorm(1000,0,10), col="lightblue",
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y", main="Zero correlation")
+abline(h=0, col="darkgrey", lwd=2, lty=1)
+abline(v=0, col="darkgrey", lwd=2, lty=1)
+abline(a=0, b=0, col="darkred", lwd=2, lty=2)
+abline(v=0, col="darkblue", lwd=2, lty=2)
+```
+
+If the lines have positive slope (as shown in the left top pane in Figure \@ref(fig:correlationVisual)) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure \@ref(fig:correlationVisual)). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure \@ref(fig:correlationVisual)). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing $a_1=b_1=0$ and thus leading to the zero correlation coefficient (right bottom pane in Figure \@ref(fig:correlationVisual)).
 
 
 ## Residuals of model estimated via OLS {#OLSResiduals}
