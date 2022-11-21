@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,8 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -430,7 +435,7 @@ for each model <span class="math inline">\(i\)</span>. Which in our case can be 
 <div id="assumptionsXregEndogeneity" class="section level3 hasAnchor" number="15.3.2">
 <h3><span class="header-section-number">15.3.2</span> Endogeneity<a href="assumptionsXreg.html#assumptionsXregEndogeneity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Endogeneity</strong> applies to the situation, when the dependent variable <span class="math inline">\(y_j\)</span> influences the explanatory variable <span class="math inline">\(x_j\)</span> in the model on the same observation. The relation in this case becomes bi-directional, meaning that the basic model is not appropriate in this situation any more. The parameters and forecasts will typically be <em>biased</em>, and a different estimation method would be needed (for example, instrumental variables) or maybe a different model would need to be constructed in order to fix this.</p>
-<p>In econometrics, one of the definitions of the endogeneity is that the correlation between the error term and an explanatory variable is not zero, i.e. <span class="math inline">\(\mathrm{E}(\epsilon_j, x_{i,j}) \neq 0\)</span> for at least some variable <span class="math inline">\(x_i\)</span>. In my personal opinion, this is a very confusing definition. First, if this applies to the “true” model then this is absurd, because by definition the error term in the true model is not related with anything (because the true model is correctly specified). Second, if this applies to the applied model, then this condition does not hold in sample if OLS is used for the estimation of parameters (this was discussed in Subsection <a href="OLSResiduals.html#OLSResiduals">10.2</a>). Third, even if we are talking about working with an incorrect model on the population data, the OLS will guarantee that <span class="math inline">\(\mathrm{E}(e_j, x_{i,j}) = 0\)</span>. So, the only case when this makes sense is for the relation between the explanatory variables and the forecast errors from the model generated on the holdout sample of data. This is why I think that this definition is not useful.</p>
+<p>In econometrics, one of the definitions of the endogeneity is that the correlation between the error term and an explanatory variable is not zero, i.e. <span class="math inline">\(\mathrm{E}(\epsilon_j, x_{i,j}) \neq 0\)</span> for at least some variable <span class="math inline">\(x_i\)</span>. In my personal opinion, this is a very confusing definition. First, if this applies to the “true” model then this is absurd, because by definition the error term in the true model is not related with anything (because the true model is correctly specified). Second, if this applies to the applied model, then this condition does not hold in sample if OLS is used for the estimation of parameters (this was discussed in Subsection <a href="OLSResiduals.html#OLSResiduals">10.3</a>). Third, even if we are talking about working with an incorrect model on the population data, the OLS will guarantee that <span class="math inline">\(\mathrm{E}(e_j, x_{i,j}) = 0\)</span>. So, the only case when this makes sense is for the relation between the explanatory variables and the forecast errors from the model generated on the holdout sample of data. This is why I think that this definition is not useful.</p>
 <p>To make things even more complicated, endogeneity cannot be properly diagnosed and comes to the judgment of analyst: do we expect the relation between variables to be one directional or bi-directional? From the true model perspective, the latter might imply that we need to consider a system of equations of the style:
 <span class="math display" id="eq:endogeneitySystemEquations">\[\begin{equation}
     \begin{aligned}

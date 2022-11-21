@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,8 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -408,20 +413,20 @@ Notice that we still include only two dummy variables out of three in order to a
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       991.0804     3.9524   983.2690    998.8917 *
-## price              -6.0415     0.1976    -6.4320     -5.6511 *
-## price:colourGreen   3.4479     0.0471     3.3548      3.5410 *
-## price:colourRed     2.4651     0.0471     2.3720      2.5581 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1001.3191     3.9183   993.5752   1009.0630 *
+## price               -6.5112     0.1968    -6.9001     -6.1223 *
+## price:colourGreen    3.4769     0.0467     3.3846      3.5691 *
+## price:colourRed      2.3698     0.0470     2.2769      2.4628 *
 ## 
-## Error standard deviation: 4.7582
+## Error standard deviation: 4.7197
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 897.5853 897.8612 909.6279 910.3190</code></pre>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.58 units.</p>
+## 895.1500 895.4259 907.1926 907.8837</code></pre>
+<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.14 units.</p>
 
 </div>
 <!-- </div> -->

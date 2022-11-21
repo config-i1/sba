@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.2 Residuals of model estimated via OLS | Statistics for Business Analytics</title>
+  <title>10.3 Residuals of model estimated via OLS | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.2 Residuals of model estimated via OLS | Statistics for Business Analytics" />
+  <meta property="og:title" content="10.3 Residuals of model estimated via OLS | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.2 Residuals of model estimated via OLS | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="10.3 Residuals of model estimated via OLS | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="OLS.html"/>
+<link rel="prev" href="SLRCovariance.html"/>
 <link rel="next" href="linearRegressionSimpleQualityOfFit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -257,8 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -364,8 +369,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="OLSResiduals" class="section level2 hasAnchor" number="10.2">
-<h2><span class="header-section-number">10.2</span> Residuals of model estimated via OLS<a href="OLSResiduals.html#OLSResiduals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="OLSResiduals" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Residuals of model estimated via OLS<a href="OLSResiduals.html#OLSResiduals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>OLS applied to any model guarantees two important properties about its residuals:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
@@ -444,7 +449,7 @@ because the second sum in <a href="OLSResiduals.html#eq:sumOfResiduals10">(10.17
           </div>
         </div>
       </div>
-<a href="OLS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="SLRCovariance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="linearRegressionSimpleQualityOfFit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>15.1 Model is correctly specified | Statistics for Business Analytics</title>
+  <title>10.2 Covariance, correlation and SLR | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="15.1 Model is correctly specified | Statistics for Business Analytics" />
+  <meta property="og:title" content="10.2 Covariance, correlation and SLR | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="15.1 Model is correctly specified | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="10.2 Covariance, correlation and SLR | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="assumptions.html"/>
-<link rel="next" href="assumptionsResidualsAreIID.html"/>
+<link rel="prev" href="OLS.html"/>
+<link rel="next" href="OLSResiduals.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -369,108 +369,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="assumptionsCorrectModel" class="section level2 hasAnchor" number="15.1">
-<h2><span class="header-section-number">15.1</span> Model is correctly specified<a href="assumptionsCorrectModel.html#assumptionsCorrectModel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This is one of the fundamental group of assumptions, which can be summarised as “we have included everything necessary in the model in the correct form”. It implies that:</p>
+<div id="SLRCovariance" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Covariance, correlation and SLR<a href="SLRCovariance.html#SLRCovariance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it.</p>
+<div id="covariance" class="section level3 hasAnchor" number="10.2.1">
+<h3><span class="header-section-number">10.2.1</span> Covariance<a href="SLRCovariance.html#covariance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One of the most complicated things to explain is covariance. Coming back to the formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, where <span class="math inline">\(b_1\)</span> is calculated as:
+<span class="math display">\[\begin{equation*}
+    {b}_1 = \frac{\mathrm{cov}(x,y)}{\hat{\sigma}_x^2} ,
+\end{equation*}\]</span>
+where <span class="math inline">\(\hat{\sigma}_x\)</span> is the in-sample estimate of standard deviation, we can express cov<span class="math inline">\((x,y)\)</span> as:
+<span class="math display">\[\begin{equation*}
+    \mathrm{cov}(x,y) = {b}_1 \hat{\sigma}_x \hat{\sigma}_x .
+\end{equation*}\]</span>
+Visually, this can be represented as the areas of a rectangular shown on right pane in Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:covarianceVisual"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/covarianceVisual-1.png" alt="Visualisation of covariance between two random variables, $x$ and $y$." width="960" />
+<p class="caption">
+Figure 10.3: Visualisation of covariance between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+</p>
+</div>
+<p>In Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>, the data is centred around the means of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We draw a regression line with the angle <span class="math inline">\(\arctan (b_1)\)</span> through the cloud of points and then draw a segment of the length <span class="math inline">\(\hat{\sigma}_x\)</span> parallel to the x-axis. The multiplication of <span class="math inline">\(b_1\)</span> by <span class="math inline">\(\hat{\sigma}_x\)</span> gives the side denoted as <span class="math inline">\(b_1 \hat{\sigma}_x\)</span> (because <span class="math inline">\(b_1\)</span> equals to tangent of the angle of the line to the x-axis). And finally, the <span class="math inline">\(b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)\)</span> is the area of the rectangular in Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>. The higher the standard deviation of <span class="math inline">\(x\)</span> is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of <span class="math inline">\(\hat{\sigma}_x\)</span>, the higher <span class="math inline">\(b_1\)</span> is, the larger the area becomes, increasing the covariance. In this interpretation the covariance becomes equal to zero either in one of the two cases:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        &amp; {b}_1 = 0 \\
+        &amp; \hat{\sigma}_x =0 ,
+    \end{aligned}
+\end{equation*}\]</span>
+which implies that either there is no variability in the variable <span class="math inline">\(x\)</span> or that the angle of the regression line is zero, i.e. there is no linear relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>Similar visualisations can be done if the axes are swapped and the regression <span class="math inline">\(x = a_0 + a_1 y + u\)</span> is constructed. The logic would be similar, only changing the value of the slope parameter <span class="math inline">\(b_1\)</span> by <span class="math inline">\(a_1\)</span> and substituting <span class="math inline">\(\hat{\sigma}_x\)</span> with <span class="math inline">\(\hat{\sigma}_y\)</span>.</p>
+</div>
+<div id="correlation" class="section level3 hasAnchor" number="10.2.2">
+<h3><span class="header-section-number">10.2.2</span> Correlation<a href="SLRCovariance.html#correlation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another thing to note is the connection between the parameter <span class="math inline">\({b}_1\)</span> and the correlation coefficient. We have already briefly discussed this in Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>, we could estimate two models given the pair of variable <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
 <ol style="list-style-type: decimal">
-<li><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted">We have not omitted important variables in the model (underfitting the data)</a>;</li>
-<li><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant">We do not have redundant variables in the model (overfitting the data)</a>;</li>
-<li><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations">The necessary transformations of the variables are applied</a>;</li>
-<li><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers">We do not have outliers in the residuals of the model</a>.</li>
+<li>Model <a href="OLS.html#eq:SLRFormulaEstimated">(10.2)</a> <span class="math inline">\(y_j = a_0 + a_1 x_j + e_j\)</span>;</li>
+<li>The inverse model <span class="math inline">\(x_j = a_0 + a_1 y_j + u_j\)</span>.</li>
 </ol>
-<div id="assumptionsCorrectModelOmitted" class="section level3 hasAnchor" number="15.1.1">
-<h3><span class="header-section-number">15.1.1</span> Omitted variables<a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If there are some important variables that we did not include in the model, then the estimates of the parameters might be <em>biased</em> and in some cases quite seriously (e.g. positive sign instead of the negative one). A classical example of model with omitted important variables is <a href="simpleLinearRegression.html#simpleLinearRegression">simple linear regression</a>, which by definition includes only one explanatory variable. Making decisions based on such model might not be wise, as it might mislead about the significance and sign of effects. Yes, we use simple linear regression for educational purposes, to understand how the model works and what it implies, but it is not sufficient on its own. Finally, when it comes to forecasting, omitting important variables is equivalent to underfitting the data, ignoring significant aspects of the model. This means that the point forecasts from the model might be <em>biased</em> (systematic under or over forecasting), the variance of the error term will be higher than needed, which will result in wider than necessary <a href="confidenceIntervalsPrediction.html#confidenceIntervalsPrediction">prediction interval</a>.</p>
-<p>In some cases, it is possible to diagnose the violation of this assumption. In order to do that an analyst needs to analyse a variety of plots of residuals vs fitted, vs time (if we deal with time series), and vs omitted variables. Consider an example with <code>mtcars</code> data and a simple linear regression:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="assumptionsCorrectModel.html#cb202-1" aria-hidden="true"></a>mtcarsSLR &lt;-<span class="st"> </span><span class="kw">alm</span>(mpg<span class="op">~</span>wt, mtcars, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
-<p>Based on the preliminary analysis that we have conducted in Sections <a href="dataAnalysis.html#dataAnalysis">5</a> and <a href="correlations.html#correlations">9</a>, this model omits important variables. And there are several basic plots that might allow us diagnosing the violation of this assumption.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="assumptionsCorrectModel.html#cb203-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb203-2"><a href="assumptionsCorrectModel.html#cb203-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsSLR,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics01"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics01-1.png" alt="Diagnostics of omitted variables." width="672" />
+We could then extract the slope parameters of the two models via <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> and get the value of correlation coefficient as a geometric mean of the two:
+<span class="math display" id="eq:correlationDerivationPearson">\[\begin{equation}
+    r_{x,y} = \mathrm{sign}(b_1) \sqrt{{b}_1 a_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
+    \tag{10.7}
+\end{equation}\]</span>
+which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(9.10)</a>. This is how the correlation coefficient was originally derived. Visually this is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>, where the two lines are drawn for the simple linear regressions mentioned above.
+<div class="figure"><span style="display:block;" id="fig:correlationVisual"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual-1.png" alt="Visualisation of correlation between two random variables, $x$ and $y$." width="768" />
 <p class="caption">
-Figure 15.1: Diagnostics of omitted variables.
+Figure 10.4: Visualisation of correlation between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
 </p>
 </div>
-<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a> demonstrates actuals vs fitted and fitted vs standardised residuals. The standardised residuals are the residuals from the model that are divided by their standard deviation, thus removing the scale. What we want to see on the first plot in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a>, is for all the point lie around the grey line and for the LOWESS line to coincide with the grey line. That would mean that the relations are captured correctly and all the observations are explained by the model. As for the second plot, we want to see the same, but it just presents that information in a different format, which is sometimes easier to analyse. In both plot of Figure <a href="assumptionsCorrectModel.html#fig:diagnostics01">15.1</a>, we can see that there are still some patterns left: the LOWESS line has a u-shaped form, which in general means that something is wrong with model specification. In order to investigate if there are any omitted variables, we construct a spread plot of residuals vs all the variables not included in the model (Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">15.2</a>).</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="assumptionsCorrectModel.html#cb204-1" aria-hidden="true"></a><span class="kw">spread</span>(<span class="kw">data.frame</span>(<span class="dt">residuals=</span><span class="kw">resid</span>(mtcarsSLR), mtcars[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)]))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics02-1.png" alt="Diagnostics of omitted variables." width="672" />
-<p class="caption">
-Figure 15.2: Diagnostics of omitted variables.
-</p>
-</div>
-<p>What we want to see in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics02">15.2</a> is the absence of any patterns in plots of residuals vs variables. However, we can see that there are still many relations. For example, with the increase of the number of cylinders, the mean of residuals decreases. This might indicate that the variable is needed in the model. And indeed, we can imagine a situation, where mileage of a car (the response variable in our model) would depend on the number of cylinders because the bigger engines will have more cylinders and consume more fuel, so it makes sense to include this variable in the model as well.</p>
-<p><strong>Note that we do not suggest to start modelling from simple linear relation!</strong> You should construct a model that you think is suitable for the problem, and the example above is provided only for illustrative purposes.</p>
-</div>
-<div id="assumptionsCorrectModelRedundant" class="section level3 hasAnchor" number="15.1.2">
-<h3><span class="header-section-number">15.1.2</span> Redundant variables<a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If there are redundant variables that are not needed in the model, then the estimates of parameters and point forecasts might be <em>unbiased</em>, but <em>inefficient</em>. This implies that the variance of parameters can be lower than needed and thus the prediction intervals will be narrower than needed. There are no good instruments for diagnosing this issue, so judgment is needed, when deciding what to include in the model.</p>
-</div>
-<div id="assumptionsCorrectModelTransformations" class="section level3 hasAnchor" number="15.1.3">
-<h3><span class="header-section-number">15.1.3</span> Transformations<a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This assumption implies that we have taken all possible non-linearities into account. If, for example, instead of using a multiplicative model, we apply an additive one, the estimates of parameters and the point forecasts might be <em>biased</em>. This is because the model will produce linear trajectory of the forecast, when a non-linear one is needed. This was discussed in detail in Section <a href="variablesTransformations.html#variablesTransformations">14</a>. The diagnostics of this assumption is similar to the diagnostics shown above for the omitted variables: construct actuals vs fitted and residuals vs fitted in order to see if there are any patterns in the plots. Take the multiple regression model for mtcars, which includes several variables, but is additive in its form:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="assumptionsCorrectModel.html#cb205-1" aria-hidden="true"></a>mtcarsALM01 &lt;-<span class="st"> </span><span class="kw">alm</span>(mpg<span class="op">~</span>wt<span class="op">+</span>qsec<span class="op">+</span>am, mtcars, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
-<p>Arguably, the model includes important variables (although there might be some others that could improve it), but the residuals will show some patterns, because the model should be multiplicative (see Figure <a href="assumptionsCorrectModel.html#fig:diagnostics03">15.3</a>), because mileage should not reduce linearly with increase of those variables. In order to understand that, ask yourself, whether the mileage can be negative and whether weight and other variables can be non-positive (a car with <span class="math inline">\(wt=0\)</span> just does not exist).</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="assumptionsCorrectModel.html#cb206-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb206-2"><a href="assumptionsCorrectModel.html#cb206-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics03"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics03-1.png" alt="Diagnostics of necessary transformations in linear model." width="672" />
-<p class="caption">
-Figure 15.3: Diagnostics of necessary transformations in linear model.
-</p>
-</div>
-<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics03">15.3</a> demonstrates the u-shaped pattern in the residuals, which is one of the indicators of a wrong model specification, calling for a non-linear transformation. We can try a model in logarithms:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="assumptionsCorrectModel.html#cb207-1" aria-hidden="true"></a>mtcarsALM02 &lt;-<span class="st"> </span><span class="kw">alm</span>(<span class="kw">log</span>(mpg)<span class="op">~</span><span class="kw">log</span>(wt)<span class="op">+</span><span class="kw">log</span>(qsec)<span class="op">+</span>am, mtcars, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
-<p>And see what would happen with the diagnostics of the model in logarithms:</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="assumptionsCorrectModel.html#cb208-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb208-2"><a href="assumptionsCorrectModel.html#cb208-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics04"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics04-1.png" alt="Diagnostics of necessary transformations in log-log model." width="672" />
-<p class="caption">
-Figure 15.4: Diagnostics of necessary transformations in log-log model.
-</p>
-</div>
-<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics04">15.4</a> demonstrates that while the LOWESS lines do not coincide with the grey lines, the residuals do not have obvious patterns. The fact that the LOWESS line starts from below, when fitted values are low in our case only shows that we do not have enough observations with low actual values. As a result, LOWESS is impacted by 2 observations that lie below the grey line. This demonstrates that LOWESS lines should be taken with a pinch of salt and we should abstain from finding patterns in randomness, when possible. Overall, the log-log model is more appropriate to this data than the linear one.</p>
-</div>
-<div id="assumptionsCorrectModelOutliers" class="section level3 hasAnchor" number="15.1.4">
-<h3><span class="header-section-number">15.1.4</span> Outliers<a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In a way, this assumption is similar to the first one with omitted variables. The presence of outliers might mean that we have missed some important information, implying that the estimates of parameters and forecasts would be <em>biased</em>. There can be other reasons for outliers as well. For example, we might be using a wrong distributional assumption. If so, this would imply that the prediction interval from the model is narrower than necessary. The diagnostics of outliers comes to producing standardised residuals vs fitted, to studentised vs fitted and to Cook’s distance plot. While we are already familiar with the first one, the other two need to be explained in more detail.</p>
-<p>Studentised residuals are the residuals that are calculated in the same way as the standardised ones, but removing the value of each residual. For example, the studentised residual on observation 25 would be calculated as the raw residual divided by standard deviation of residuals, calculated without this 25th observation. This way we diminish the impact of potential serious outliers on the standard deviation, making it easier to spot the outliers.</p>
-<p>As for the Cook’s distance, its idea is to calculate measures for each observation showing how influential they are in terms of impact on the estimates of parameters of the model. If there is an influential outlier, then it would distort the values of parameters, causing bias.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="assumptionsCorrectModel.html#cb209-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb209-2"><a href="assumptionsCorrectModel.html#cb209-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics05"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics05-1.png" alt="Diagnostics of outliers." width="672" />
-<p class="caption">
-Figure 15.5: Diagnostics of outliers.
-</p>
-</div>
-<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics05">15.5</a> demonstrates standardised and studentised residuals vs fitted values for the log-log model on mtcars data. We can see that the plots are very similar, which already indicates that there are no strong outliers in the residuals. The bounds produced on the plots correspond to the 95% prediction interval, so by definition it should contain <span class="math inline">\(0.95\times 32 \approx 30\)</span> observations. Indeed, there are only two observations: 15 and 25 - that lie outside the bounds. Technically, we would suspect that they are outliers, but they do not lie far away from the bounds and their number meets our expectations, so we can conclude that there are no outliers in the data.</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="assumptionsCorrectModel.html#cb210-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">12</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics06"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics06-1.png" alt="Cook's distance plot." width="672" />
-<p class="caption">
-Figure 15.6: Cook’s distance plot.
-</p>
-</div>
-<p>Finally, we produce Cook’s distance over observations in Figure <a href="assumptionsCorrectModel.html#fig:diagnostics06">15.6</a>. The x-axis says “Time”, because <code>alm()</code> function is tailored for time series data, but this can be renamed into “observations”. The plot shows how influential the outliers are. If there were some significantly influential outliers in the data, then the plot would draw red lines, corresponding to 0.5, 0.75 and 0.95 quantiles of Fisher’s distribution, and the line of those outliers would be above the red lines. Consider the following example for demonstration purposes:</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="assumptionsCorrectModel.html#cb211-1" aria-hidden="true"></a>mtcarsData[<span class="dv">28</span>,<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="dv">4</span></span>
-<span id="cb211-2"><a href="assumptionsCorrectModel.html#cb211-2" aria-hidden="true"></a>mtcarsALM03 &lt;-<span class="st"> </span><span class="kw">alm</span>(<span class="kw">log</span>(mpg)<span class="op">~</span><span class="kw">log</span>(wt)<span class="op">+</span><span class="kw">log</span>(qsec)<span class="op">+</span>am, mtcarsData, <span class="dt">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
-<p>This way, we intentionally create an influential outlier (the car should have the minimum weight in the dataset, and now it has a very high one).</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="assumptionsCorrectModel.html#cb212-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM03, <span class="dv">12</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>), <span class="dt">xlab=</span><span class="st">&quot;Observations&quot;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:diagnostics07"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics07-1.png" alt="Cook's distance plot for the data with influential outlier." width="672" />
-<p class="caption">
-Figure 15.7: Cook’s distance plot for the data with influential outlier.
-</p>
-</div>
-<p>Figure <a href="assumptionsCorrectModel.html#fig:diagnostics07">15.7</a> shows how Cook’s distance will look in this case - it detects that there is an influential outlier, which is above the norm. We can compare the parameters of the new and the old models to see how the introduction of one outlier leads to bias in the estimates of parameters:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="assumptionsCorrectModel.html#cb213-1" aria-hidden="true"></a><span class="kw">rbind</span>(<span class="kw">coef</span>(mtcarsALM02),</span>
-<span id="cb213-2"><a href="assumptionsCorrectModel.html#cb213-2" aria-hidden="true"></a>      <span class="kw">coef</span>(mtcarsALM03))</span></code></pre></div>
-<pre><code>##      (Intercept)    log(wt) log(qsec)         am
-## [1,]   1.2095788 -0.7325269 0.8857779 0.05205307
-## [2,]   0.1382442 -0.4852647 1.1439862 0.21406331</code></pre>
+<p>If the lines have positive slope (as shown in the left top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing <span class="math inline">\(a_1=b_1=0\)</span> and thus leading to the zero correlation coefficient (right bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>).</p>
 </div>
 </div>
 
@@ -479,8 +427,8 @@ Figure 15.7: Cook’s distance plot for the data with influential outlier.
           </div>
         </div>
       </div>
-<a href="assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="assumptionsResidualsAreIID.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="OLS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="OLSResiduals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -511,7 +459,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//15-assumptions.Rmd",
+"link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,8 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -425,7 +430,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     \tag{5.1}
 \end{equation}\]</span>
-Note that the division in <a href="dataAnalysisNumerical.html#eq:Variance">(5.1)</a> is done by <span class="math inline">\(n-1\)</span>, and not by <span class="math inline">\(n\)</span>. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences. It is called <strong>standard deviation</strong>:
+Note that the division in <a href="dataAnalysisNumerical.html#eq:Variance">(5.1)</a> is done by <span class="math inline">\(n-1\)</span>, and not by <span class="math inline">\(n\)</span>. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called <strong>standard deviation</strong>:
 <span class="math display" id="eq:StdDev">\[\begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
     \tag{5.2}
@@ -435,6 +440,14 @@ it has the same scale as the variable <span class="math inline">\(y_j\)</span>. 
 <pre><code>## [1] 36.3241</code></pre>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="dataAnalysisNumerical.html#cb39-1" aria-hidden="true"></a><span class="kw">sd</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] 6.026948</code></pre>
+<p>Visually, standard deviation can be represented as a straight line, depicting the overall variability of the data (Figure <a href="dataAnalysisNumerical.html#fig:varianceVisual">5.1</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:varianceVisual"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/varianceVisual-1.png" alt="Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram." width="672" />
+<p class="caption">
+Figure 5.1: Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram.
+</p>
+</div>
+<p>In Figure <a href="dataAnalysisNumerical.html#fig:varianceVisual">5.1</a>, we depict the distribution of the variable <code>mpg</code> using histogram (see Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) and show how the standard deviation relates to it – it is equal to the length of the segment above the histogram.</p>
 <p>Coming back to the point about the asymmetry of the distribution of a variable in our example, we can investigate it further using skewness and kurtosis from <code>timeDate</code> package:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="dataAnalysisNumerical.html#cb41-1" aria-hidden="true"></a>timeDate<span class="op">::</span><span class="kw">skewness</span>(mtcarsData<span class="op">$</span>mpg)</span></code></pre></div>
 <pre><code>## [1] 0.610655
@@ -493,6 +506,12 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
 ##  Mean   :3.688   Mean   :2.812  
 ##  3rd Qu.:4.000   3rd Qu.:4.000  
 ##  Max.   :5.000   Max.   :8.000</code></pre>
+<p>Finally, one other moment that is often used in statistics is called “covariance”. It measures the joint variability of two variables and is calculated as:
+<span class="math display" id="eq:Covariance">\[\begin{equation}
+    \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
+    \tag{5.6}
+\end{equation}\]</span>
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section <a href="SLRCovariance.html#SLRCovariance">10.2</a>.</p>
 </div>
 
             </section>

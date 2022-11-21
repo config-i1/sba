@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,8 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.2</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.3" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.3</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -371,7 +376,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \rho_{x,y} = \frac{\sigma_{x,y}}{\sigma_x \sigma_y},
     \tag{9.9}
 \end{equation}\]</span>
-where <span class="math inline">\(\sigma_{x,y}\)</span> is the covariance between variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, while <span class="math inline">\(\sigma_x\)</span> and <span class="math inline">\(\sigma_y\)</span> are standard deviations of these variables. Typically, we do not know the population values, so this coefficient can be estimated in sample via:
+where <span class="math inline">\(\sigma_{x,y}\)</span> is the covariance between variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (see discussions in Sections <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a> and <a href="SLRCovariance.html#SLRCovariance">10.2</a>), while <span class="math inline">\(\sigma_x\)</span> and <span class="math inline">\(\sigma_y\)</span> are standard deviations of these variables. Typically, we do not know the population values, so this coefficient can be estimated in sample via:
 <span class="math display" id="eq:measuresAssociationPearson">\[\begin{equation}
     r_{x,y} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}},
     \tag{9.10}
