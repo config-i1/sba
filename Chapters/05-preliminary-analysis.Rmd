@@ -70,7 +70,7 @@ Making a step back, we also need to mention the **variance**, which shows the ov
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     (\#eq:Variance)
 \end{equation}
-Note that the division in \@ref(eq:Variance) is done by $n-1$, and not by $n$. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \@ref(estimatesPropertiesBias)). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences. It is called **standard deviation**:
+Note that the division in \@ref(eq:Variance) is done by $n-1$, and not by $n$. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \@ref(estimatesPropertiesBias)). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called **standard deviation**:
 \begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
     (\#eq:StdDev)
@@ -81,6 +81,20 @@ it has the same scale as the variable $y_j$. In our example, both can be obtaine
 var(mtcarsData$mpg)
 sd(mtcarsData$mpg)
 ```
+
+Visually, standard deviation can be represented as a straight line, depicting the overall variability of the data (Figure \@ref(fig:varianceVisual)).
+
+```{r varianceVisual, fig.cap="Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram.", echo=FALSE}
+hist(mtcarsData$mpg, xlab="Miles per galon", main="", ylim=c(0,14))
+lines(rep(mean(mtcarsData$mpg),2), c(0,13), col="darkred", lwd=2, lty=2)
+lines(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
+      col="darkred", lwd=2)
+points(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
+       pch=15, col="darkred", lwd=2)
+```
+
+In Figure \@ref(fig:varianceVisual), we depict the distribution of the variable `mpg` using histogram (see Section \@ref(dataAnalysisGraphical)) and show how the standard deviation relates to it -- it is equal to the length of the segment above the histogram.
+
 Coming back to the point about the asymmetry of the distribution of a variable in our example, we can investigate it further using skewness and kurtosis from `timeDate` package:
 
 ```{r}
