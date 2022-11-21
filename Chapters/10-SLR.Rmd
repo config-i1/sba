@@ -98,7 +98,14 @@ Solving this system of equations for $b_0$ and $b_1$ we get:
     \end{aligned}
     (\#eq:OLSSLREstimatesProof)
 \end{equation}
-In the system of equations \@ref(eq:OLSSLREstimatesProof), we have the following elements: $\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j$,  $\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j$, $\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j$ and  $\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2$, which after inserting in \@ref(eq:OLSSLREstimatesProof) leads to \@ref(eq:OLSSLREstimates).
+In the system of equations \@ref(eq:OLSSLREstimatesProof), we have the following elements:
+
+1. $\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j$,
+2. $\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j$,
+3. $\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j$,
+4. $\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2$,
+
+which after inserting in \@ref(eq:OLSSLREstimatesProof) lead to \@ref(eq:OLSSLREstimates).
 :::
 
 Note that if for some reason ${b}_1=0$ in \@ref(eq:OLSSLREstimates) (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data would be the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.

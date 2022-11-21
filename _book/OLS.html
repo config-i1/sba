@@ -446,7 +446,14 @@ Given that we need to find the values of parameters <span class="math inline">\(
     \end{aligned}
     \tag{10.6}
 \end{equation}\]</span>
-In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>, we have the following elements: <span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\)</span>, <span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\)</span>, <span class="math inline">\(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\)</span> and <span class="math inline">\(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\)</span>, which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> leads to <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>.</p>
+In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>, we have the following elements:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\)</span>,</li>
+<li><span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\)</span>,</li>
+<li><span class="math inline">\(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\)</span>,</li>
+<li><span class="math inline">\(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\)</span>,</li>
+</ol>
+<p>which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> lead to <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>.</p>
 </div>
 <p>Note that if for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>. This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares”. It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.</p>
 <p>While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.</p>
