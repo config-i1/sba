@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-21" />
+<meta name="date" content="2022-11-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -419,6 +419,14 @@ Figure 10.4: Visualisation of correlation between two random variables, <span cl
 </p>
 </div>
 <p>If the lines have positive slope (as shown in the left top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing <span class="math inline">\(a_1=b_1=0\)</span> and thus leading to the zero correlation coefficient (right bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>).</p>
+<p>Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a> and to expand it to the correlation coefficient, for which the area <span class="math inline">\(\hat{\sigma}_x \times \hat{\sigma}_y\)</span> is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.5</a> as a red area.</p>
+<div class="figure"><span style="display:block;" id="fig:correlationVisual2"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual2-1.png" alt="Visualisation of correlation between two random variables, $x$ and $y$." width="480" />
+<p class="caption">
+Figure 10.5: Visualisation of correlation between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+</p>
+</div>
+<p>The correlation in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.5</a>, corresponds to the ratio of the two areas blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which <span class="math inline">\(\hat{\sigma}_y = b_1 \hat{\sigma}_x\)</span>.</p>
 </div>
 </div>
 
