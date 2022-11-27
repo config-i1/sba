@@ -275,10 +275,10 @@ The correlation in Figure \@ref(fig:correlationVisual2), corresponds to the rati
 \end{equation}
 which leads to the following equality for the standard deviation of $y$:
 \begin{equation}
-    \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e}^2 ,
+    \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e^2} ,
     (\#eq:sdForCorrelation)
 \end{equation}
-where $\hat{\sigma}_e$ is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term $\hat{\sigma}_e}^2$. If it is equal to zero, we get the equality: $\hat{\sigma}_y = b_1 \hat{\sigma}_x$, for which the areas in Figure \@ref(fig:correlationVisual2) will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of $b_1$ does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure \@ref(fig:correlationVisual3)
+where $\hat{\sigma}_e$ is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term $\hat{\sigma}_e^2$. If it is equal to zero, we get the equality: $\hat{\sigma}_y = b_1 \hat{\sigma}_x$, for which the areas in Figure \@ref(fig:correlationVisual2) will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of $b_1$ does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure \@ref(fig:correlationVisual3)
 
 ```{r correlationVisual3, fig.cap="Visualisation of several correlation coefficients.", fig.width=10, fig.height=10, echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,4,4,1))
