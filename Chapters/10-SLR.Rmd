@@ -249,7 +249,7 @@ xi <- -xi
 
 If the lines have positive slope (as shown in the left top pane in Figure \@ref(fig:correlationVisual)) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure \@ref(fig:correlationVisual)). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure \@ref(fig:correlationVisual)). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing $a_1=b_1=0$ and thus leading to the zero correlation coefficient (right bottom pane in Figure \@ref(fig:correlationVisual)).
 
-Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure \@ref(fig:covarianceVisual) and to expand it to the correlation coefficient, for which the area $\hat{\sigma}_x \times \hat{\sigma}_y$ is shown in Figure \@ref(fig:correlationVisual2) as a red area.
+Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure \@ref(fig:covarianceVisual) and to expand it to the correlation coefficient, for which the area $\hat{\sigma}_x \times \hat{\sigma}_y$, corresponding to the denominator of the formula \@ref(eq:correlationDerivationPearson) is shown in Figure \@ref(fig:correlationVisual2) as a red area.
 
 ```{r correlationVisual2, fig.cap="Visualisation of correlation between two random variables, $x$ and $y$.", fig.width=5, fig.height=5, echo=FALSE}
 b1 <- cov(xr,xi) / var(xr)
