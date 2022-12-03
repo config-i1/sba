@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-27" />
+<meta name="date" content="2022-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -73,6 +72,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -383,9 +405,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h3><span class="header-section-number">15.2.1</span> No autocorrelations<a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This assumption <strong>only applies to time series data</strong>, and in a way comes to capturing correctly the dynamic relations between variables. The term “autocorrelation” refers to the situation, when variable is correlated with itself from the past. If the residuals are autocorrelated, then something is neglected by the applied model. Typically, this leads to <em>inefficient</em> estimates of parameters, which in some cases might also become <em>biased</em>. The model with autocorrelated residuals might produce inaccurate point forecasts and prediction intervals of a wrong width (wider or narrower than needed).</p>
 <p>There are several ways of diagnosing the problem, including visual analysis and statistical tests. In order to show some of them, we consider the <code>Seatbelts</code> data from <code>datasets</code> package for R. We fit a basic model, predicting monthly totals of car drivers in the Great Britain killed or seriously injured in car accidents:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="assumptionsResidualsAreIID.html#cb215-1" aria-hidden="true"></a>SeatbeltsALM01 &lt;-<span class="st"> </span><span class="kw">alm</span>(drivers<span class="op">~</span>PetrolPrice<span class="op">+</span>kms<span class="op">+</span>front<span class="op">+</span>rear<span class="op">+</span>law, Seatbelts)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="assumptionsResidualsAreIID.html#cb215-1" aria-hidden="true" tabindex="-1"></a>SeatbeltsALM01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(drivers<span class="sc">~</span>PetrolPrice<span class="sc">+</span>kms<span class="sc">+</span>front<span class="sc">+</span>rear<span class="sc">+</span>law, Seatbelts)</span></code></pre></div>
 <p>In order to do graphical diagnose, we can produce plots of standardised / studentised residuals over time:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="assumptionsResidualsAreIID.html#cb216-1" aria-hidden="true"></a><span class="kw">plot</span>(SeatbeltsALM01,<span class="dv">8</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="assumptionsResidualsAreIID.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(SeatbeltsALM01,<span class="dv">8</span>,<span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics08"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics08-1.png" alt="Standardised residuals over time." width="672" />
 <p class="caption">
@@ -394,8 +416,8 @@ Figure 15.8: Standardised residuals over time.
 </div>
 <p>If the assumption is not violated, then the plot in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics08">15.8</a> would not contain any patterns. However, we can see that, first, there is a seasonality in the residuals and second, the expectation (captured by the red LOWESS line) changes over time. This indicates that there might be some autocorrelation in residuals caused by omitted components. We do not aim to resolve the issue now, it is discussed in more detail in Section 14.5 of <span class="citation">Svetunkov (<a href="#ref-SvetunkovADAM" role="doc-biblioref">2021</a>)</span>.</p>
 <p>The other instrument for diagnostics is ACF / PACF plots, which are produced in <code>alm()</code> via the following command:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="assumptionsResidualsAreIID.html#cb217-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb217-2"><a href="assumptionsResidualsAreIID.html#cb217-2" aria-hidden="true"></a><span class="kw">plot</span>(SeatbeltsALM01,<span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="dt">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="assumptionsResidualsAreIID.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb217-2"><a href="assumptionsResidualsAreIID.html#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(SeatbeltsALM01,<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>),<span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics09"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics09-1.png" alt="ACF and PACF of the residuals of a model." width="672" />
 <p class="caption">
@@ -410,8 +432,8 @@ Figure 15.9: ACF and PACF of the residuals of a model.
 <p>Typically, this assumption will be violated if the model is not specified correctly. The classic example is the income versus expenditure on meals for different families. If the income is low, then there are not many options for buying, and the variability of expenses would be low. However, with the increase of income, the mean expenditures and their variability would increase because there are more options of what to buy, including both cheap and expensive products. If we constructed a basic linear model on such data, then it would violate the assumption of homoscedasticity and, as a result, will have issues discussed in section <a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIID">15.2</a>. But arguably, this would typically appear because of the misspecification of the model. For example, taking logarithms might resolve the issue in many cases, implying that the effect of one variable on the other should be multiplicative rather than additive. Alternatively, dividing variables by some other variable might (e.g. working with expenses per family member, not per family) resolve the problem as well. Unfortunately, the transformations are not the panacea, so in some cases, the analyst would need to construct a model, taking the changing variance into account (e.g. GARCH or GAMLSS models). This is discussed in Section <a href="#scaleModel"><strong>??</strong></a>.</p>
 <p>While forecasting, we are more interested in the holdout performance of models, in econometrics, the parameters of models are typical of the main interest. And, as we discussed earlier, in the case of a correctly specified model with heteroscedastic residuals, the estimates of parameters will be unbiased but inefficient. So, econometricians would use different approaches to diminish the heteroscedasticity effect on parameters: either a different estimator for a model (such as Weighted Least Squares) or a different method for calculating standard errors of parameters (e.g. Heteroskedasticity-Consistent Standard Errors). This does not resolve the problem but instead corrects the model’s parameters (i.e. does not heal the illness but treats the symptoms). Although these approaches typically suffice for analytical purposes, they do not fix the issues in forecasting.</p>
 <p>The diagnostics of heteroscedasticity can be done via plotting absolute and / or squared residuals against the fitted values.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="assumptionsResidualsAreIID.html#cb218-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb218-2"><a href="assumptionsResidualsAreIID.html#cb218-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="assumptionsResidualsAreIID.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb218-2"><a href="assumptionsResidualsAreIID.html#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics10"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics10-1.png" alt="Detecting heteroscedasticity. Model 1." width="672" />
 <p class="caption">
@@ -419,8 +441,8 @@ Figure 15.10: Detecting heteroscedasticity. Model 1.
 </p>
 </div>
 <p>If your model assumes that residuals follow a distribution related to the Normal one, then you should focus on the plot of squared residuals vs fitted, as this would be closer related to the variance of the distribution. In the example of mtcars model in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics10">15.10</a> we see that the variance of residuals increases with the increase of Fitted values (the LOWESS line increases and the overall variability around 1200 is lower than the one around 2000). This indicates that the residuals are heteroscedastic. One of the possible solutions of the problem is taking the logarithms, as we have done in the model <code>mtcarsALM02</code>:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="assumptionsResidualsAreIID.html#cb219-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb219-2"><a href="assumptionsResidualsAreIID.html#cb219-2" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="assumptionsResidualsAreIID.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb219-2"><a href="assumptionsResidualsAreIID.html#cb219-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics11"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics11-1.png" alt="Detecting heteroscedasticity. Model 2." width="672" />
 <p class="caption">
@@ -448,7 +470,7 @@ If OLS is used in linear model estimation, then this condition is satisfied in s
 <h3><span class="header-section-number">15.2.4</span> Distributional assumptions<a href="assumptionsResidualsAreIID.html#assumptionsDistribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In some cases we are interested in using methods that imply specific distributional assumptions about the model and its residuals. For example, it is assumed in the classical linear model that the error term follows Normal distribution. Estimating this model using MLE with the probability density function of Normal distribution or via minimisation of <a href="#errorMeasures">Mean Squared Error</a> (MSE) would give <em>efficient</em> and <em>consistent</em> estimates of parameters. If the assumption of normality does not hold, then the estimates might be <em>inefficient</em> and in some cases <em>inconsistent</em>. When it comes to forecasting, the main issue in the wrong distributional assumption appears, when prediction intervals are needed: they might rely on a wrong distribution and be narrower or wider than needed. Finally, if we deal with the wrong distribution, then the model selection mechanism might be flawed and would lead to the selection of an inappropriate model.</p>
 <p>The most efficient way of diagnosing this, is constructing QQ-plot of residuals (discussed in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>).</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="assumptionsResidualsAreIID.html#cb220-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM02,<span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="assumptionsResidualsAreIID.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM02,<span class="dv">6</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics12"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics12-1.png" alt="QQ-plot of residuals of model 2 for mtcars dataset." width="672" />
 <p class="caption">
@@ -456,7 +478,7 @@ Figure 15.12: QQ-plot of residuals of model 2 for mtcars dataset.
 </p>
 </div>
 <p>Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a> shows that all the points lie close to the line (with minor fluctuations around it), so we can conclude that the residuals follow the normal distribution. In comparison, Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a> demonstrates how residuals would look in case of a wrong distribution. Although the values lie not too far from ths straight line, there are several observations in the tails that are further away than needed. Comparing the two plots, we would select the on in Figure <a href="assumptionsResidualsAreIID.html#fig:diagnostics12">15.12</a>, as the residuals are better behaved.</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="assumptionsResidualsAreIID.html#cb221-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsALM01,<span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="assumptionsResidualsAreIID.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcarsALM01,<span class="dv">6</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:diagnostics13"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/diagnostics13-1.png" alt="QQ-plot of residuals of model 1 for mtcars dataset." width="672" />
 <p class="caption">
@@ -470,9 +492,9 @@ Figure 15.13: QQ-plot of residuals of model 1 for mtcars dataset.
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-SvetunkovADAM">
-<p>• Svetunkov, I., 2021. Forecasting and analytics with adam. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-SvetunkovADAM" class="csl-entry">
+• Svetunkov, I., 2021. Forecasting and analytics with ADAM. <a href="https://openforecast.org/adam/">https://openforecast.org/adam/</a> (version: 2021-07-30)
 </div>
 </div>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-27" />
+<meta name="date" content="2022-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -73,6 +72,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -414,7 +436,7 @@ We can then substitute <span class="math inline">\(y_j=\hat{y}_j+e_j\)</span> in
         \mathrm{SST} &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} (\hat{y}_j+e_j) + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 (\hat{y}_j+e_j) \hat{y}_j \right) \\
         &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} \hat{y}_j + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j \bar{y} - 2 \hat{y}_j\hat{y}_j -2 e_j \hat{y}_j \right) \\
         &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j + 2 \hat{y}_j^2 - 2 \hat{y}_j^2 -2 e_j \hat{y}_j \right) \\
-        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j - 2 e_j \hat{y}_j \right) 
+        &amp;= \sum_{j=1}^n \left((\bar{y} - y_j)^2 + 2 \bar{y} e_j - 2 e_j \hat{y}_j \right)
     \end{aligned} .
     \tag{10.25}
 \end{equation}\]</span>
@@ -467,10 +489,10 @@ implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealist
 \end{equation*}\]</span>
 meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
 <p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="linearRegressionSimpleQualityOfFit.html#cb136-1" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="kw">nobs</span>(slmMPGWt)</span>
-<span id="cb136-2"><a href="linearRegressionSimpleQualityOfFit.html#cb136-2" aria-hidden="true"></a>R2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">resid</span>(slmMPGWt)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span></span>
-<span id="cb136-3"><a href="linearRegressionSimpleQualityOfFit.html#cb136-3" aria-hidden="true"></a><span class="st">    </span>(<span class="kw">var</span>(<span class="kw">actuals</span>(slmMPGWt))<span class="op">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb136-4"><a href="linearRegressionSimpleQualityOfFit.html#cb136-4" aria-hidden="true"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="linearRegressionSimpleQualityOfFit.html#cb136-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
+<span id="cb136-2"><a href="linearRegressionSimpleQualityOfFit.html#cb136-2" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb136-3"><a href="linearRegressionSimpleQualityOfFit.html#cb136-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb136-4"><a href="linearRegressionSimpleQualityOfFit.html#cb136-4" aria-hidden="true" tabindex="-1"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.7528328</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -484,10 +506,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.31}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="linearRegressionSimpleQualityOfFit.html#cb138-1" aria-hidden="true"></a><span class="kw">sign</span>(<span class="kw">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="linearRegressionSimpleQualityOfFit.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##         wt 
 ## -0.8676594</code></pre>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="linearRegressionSimpleQualityOfFit.html#cb140-1" aria-hidden="true"></a><span class="kw">cor</span>(mtcars<span class="op">$</span>mpg,mtcars<span class="op">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="linearRegressionSimpleQualityOfFit.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg,mtcars<span class="sc">$</span>wt)</span></code></pre></div>
 <pre><code>## [1] -0.8676594</code></pre>
 <!-- Proof -->
 

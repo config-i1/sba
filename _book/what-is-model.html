@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2022-11-27" />
+<meta name="date" content="2022-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -73,6 +72,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -417,11 +439,11 @@ Figure 1.1: Chair assembly instruction. Found on Reddit.
 <h3><span class="header-section-number">1.1.1</span> Models, methods et al. <a href="what-is-model.html#modelsMethods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are several other definitions that will be useful throughout these lecture notes:</p>
 <ul>
-<li><strong>Statistical model</strong> (or ‘stochastic model’, or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(Svetunkov and Boylan, <a href="#ref-Svetunkov2019a" role="doc-biblioref">2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
+<li><strong>Statistical model</strong> (or ‘stochastic model’, or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(<a href="#ref-Svetunkov2019a" role="doc-biblioref">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
 <li><strong>True model</strong> is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.</li>
 <li><strong>Estimated model</strong> (aka ‘applied model’ or ‘used model’) is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully <a href="#statistics">converge to the true ones</a> if the sample size increases.</li>
 <li><strong>Data generating process</strong> (DGP) is an artificial statistical model, showing how the data could be generated in theory. This notion is utopic and can be used in simulation experiments in order to check, how the selected model with the specific estimator behave in a specific setting. In real life, the data is not generated from any process, but is usually based on complex interactions between different agents in a dynamic environment. Note that I make a distinction between DGP and true model, because I do not think that the idea of something being generated using a mathematical formula is helpful. Many statisticians will not agree with me on this distinction.</li>
-<li><strong>Forecasting method</strong> is a mathematical procedure that generates point and / or interval forecasts, with or without a statistical model <span class="citation">(Svetunkov and Boylan, <a href="#ref-Svetunkov2019a" role="doc-biblioref">2019</a>)</span>. Very roughly, forecasting method is just a way of producing forecasts that does not explain how the components of time series interact with each other. It might be needed in order to filter out the noise and extrapolate the structure.</li>
+<li><strong>Forecasting method</strong> is a mathematical procedure that generates point and / or interval forecasts, with or without a statistical model <span class="citation">(<a href="#ref-Svetunkov2019a" role="doc-biblioref">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, forecasting method is just a way of producing forecasts that does not explain how the components of time series interact with each other. It might be needed in order to filter out the noise and extrapolate the structure.</li>
 </ul>
 <p>Mathematically in the simplest case the true model can be presented in the form:
 <span class="math display" id="eq:TrueModel">\[\begin{equation}
@@ -460,12 +482,12 @@ where <span class="math inline">\(\varepsilon_t\)</span> is some noise again, wh
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-Pidd2010">
-<p>• Pidd, M., 2010. Why modelling and model use matter. Journal of the Operational Research Society. 61, 14–24. <a href="https://doi.org/10.1057/jors.2009.141">https://doi.org/10.1057/jors.2009.141</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Pidd2010" class="csl-entry">
+• Pidd, M., 2010. <span class="nocase">Why modelling and model use matter</span>. Journal of the Operational Research Society. 61, 14–24. <a href="https://doi.org/10.1057/jors.2009.141">https://doi.org/10.1057/jors.2009.141</a>
 </div>
-<div id="ref-Svetunkov2019a">
-<p>• Svetunkov, I., Boylan, J.E., 2019. Multiplicative state-space models for intermittent time series. <a href="https://doi.org/10.13140/RG.2.2.35897.06242">https://doi.org/10.13140/RG.2.2.35897.06242</a></p>
+<div id="ref-Svetunkov2019a" class="csl-entry">
+• Svetunkov, I., Boylan, J.E., 2019. <span class="nocase">Multiplicative state-space models for intermittent time series</span>. <a href="https://doi.org/10.13140/RG.2.2.35897.06242">https://doi.org/10.13140/RG.2.2.35897.06242</a>
 </div>
 </div>
 

@@ -137,7 +137,7 @@
 
 \title{Statistics for Business Analytics}
 \author{Ivan Svetunkov}
-\date{2022-10-07}
+\date{2022-12-03}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -757,6 +757,18 @@ The variance is \(p \times (1-p) = 0.36 \times 0.64 = 0.2304\).
 
 In R, this distribution is implemented in \texttt{stats} package via \texttt{dbinom(size=1)}, \texttt{pbinom(size=1)}, \texttt{qbinom(size=1)} and \texttt{rbinom(size=1)} for PDF, CDF, QF and random generator respectively. The important parameter in this case is \texttt{size=1}, which will be discussed in Section \ref{distributionBinomial}.
 
+\begin{remark}
+A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox \citep[page 8318]{Kotz2005}. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £\(2^2=4\). In general, I will pay £\(2^n\) if I toss consecutively \(n\) tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e.~what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
+\begin{equation*}
+    \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty 2^{j} \left(\frac{1}{2}\right)^{j+1} 
+\end{equation*}
+The logic behind this formula is that mathematically, we assume that we can have infinite number of experiments, and each prize has its outcome. For example, the probability to get just £2 is \(\frac{1}{2}\), while the probability to get £4 is \(\frac{1}{4}\) etc. But the values cancel each other out in this formula leaving us with:
+\begin{equation*}
+    \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty \frac{1}{2} = \infty .
+\end{equation*}
+So, although it is unrealistic to expect in real life that the streak of tails will continue indefinitely, the statistics theory tells us that the fair price for the game is infinity. Practically speaking, the infinite amount of tails will never happen, so we should have a finite number for the price. But mathematics assumes that the experiment can be repeated infinite amount of times, and in this case it is entirely possible that we will observe an infinite streak of tails. This is the Saint Petersburg paradox, which demonstrates how sometimes the asymptotic properties relate to reality. I think that it provides a good demonstration of what statistics typically works with.
+\end{remark}
+
 \hypertarget{distributionBinomial}{%
 \section{Multiple coin tosses -- Binomial distribution}\label{distributionBinomial}}
 
@@ -906,7 +918,7 @@ In R, the Binomial distribution is implemented via \texttt{dbinom()}, \texttt{pb
 \hypertarget{distributionPoisson}{%
 \section{Modelling arrivals -- Poisson distribution}\label{distributionPoisson}}
 
-Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill.~All these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
+Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill.~There is potentially a lot of people that could come to the hospital, but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 \begin{equation}
     \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2),
     \label{eq:PoissonTimes}
@@ -947,7 +959,7 @@ where \(e\) is the Euler's constant. The part \(e^{-\lambda}\) represents the me
     \mathrm{E}(y) = \mathrm{V}(y) = \lambda ,
     \label{eq:PoissonMean}
 \end{equation}
-which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but less than four patients in any specific hour. Assume that based on the available data we estimated that \(\hat{\lambda}=2\). In this situation we need to either use PMF or the CDF to calculate the following probability:
+which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but up to four patients in any specific hour. Assume that based on the available data we estimated that \(\hat{\lambda}=2\). In this situation we need to either use PMF or the CDF to calculate the following probability:
 \begin{equation}
     \begin{aligned}
         \mathrm{P}(0 < y \leq 4) = & \mathrm{P}(y=1) + \mathrm{P}(y=2) + \mathrm{P}(y=3) + \mathrm{P}(y=4) = \\
@@ -994,6 +1006,23 @@ for integer values of \(y\). Finally, we could get quantiles of the distribution
 \begin{verbatim}
 ## [1] 5
 \end{verbatim}
+
+\begin{remark}
+When identifying a suitable distribution, Poisson has several distinct characteristics:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  There are many trials (in our example with the hospital, many people live in the area).
+\item
+  There is a small chance that each specific patient will arrive in a specific hour (number of patients arriving at the hospital each hour is small in comparison with the population).
+\item
+  Each specific event is independent of the others (memorylessness property: a patient arrives independent of another one).
+\end{enumerate}
+
+These three criteria can be used to identify Poisson distribution in practice.
+\end{remark}
 
 \hypertarget{distributionUniform}{%
 \section{Rolling a dice -- Discrete Uniform distribution}\label{distributionUniform}}
@@ -1610,7 +1639,7 @@ Making a step back, we also need to mention the \textbf{variance}, which shows t
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     \label{eq:Variance}
 \end{equation}
-Note that the division in \eqref{eq:Variance} is done by \(n-1\), and not by \(n\). This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \ref{estimatesPropertiesBias}). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences. It is called \textbf{standard deviation}:
+Note that the division in \eqref{eq:Variance} is done by \(n-1\), and not by \(n\). This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \ref{estimatesPropertiesBias}). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called \textbf{standard deviation}:
 \begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
     \label{eq:StdDev}
@@ -1636,6 +1665,16 @@ it has the same scale as the variable \(y_j\). In our example, both can be obtai
 \begin{verbatim}
 ## [1] 6.026948
 \end{verbatim}
+
+Visually, standard deviation can be represented as a straight line, depicting the overall variability of the data (Figure \ref{fig:varianceVisual}).
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/varianceVisual-1.pdf}
+\caption{\label{fig:varianceVisual}Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram.}
+\end{figure}
+
+In Figure \ref{fig:varianceVisual}, we depict the distribution of the variable \texttt{mpg} using histogram (see Section \ref{dataAnalysisGraphical}) and show how the standard deviation relates to it -- it is equal to the length of the segment above the histogram.
 
 Coming back to the point about the asymmetry of the distribution of a variable in our example, we can investigate it further using skewness and kurtosis from \texttt{timeDate} package:
 
@@ -1714,6 +1753,13 @@ All the conventional statistics discussed above can be produced using the follow
 ##  3rd Qu.:4.000   3rd Qu.:4.000  
 ##  Max.   :5.000   Max.   :8.000
 \end{verbatim}
+
+Finally, one other moment that is often used in statistics is called ``covariance''. It measures the joint variability of two variables and is calculated as:
+\begin{equation}
+    \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
+    \label{eq:Covariance}
+\end{equation}
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \ref{SLRCovariance}.
 
 \hypertarget{dataAnalysisGraphical}{%
 \section{Graphical analysis}\label{dataAnalysisGraphical}}
@@ -3499,7 +3545,7 @@ Finally we come to the discussion of relations between variables measured in num
     \rho_{x,y} = \frac{\sigma_{x,y}}{\sigma_x \sigma_y},
     \label{eq:measuresAssociationPearsonPopulation}
 \end{equation}
-where \(\sigma_{x,y}\) is the covariance between variables \(x\) and \(y\), while \(\sigma_x\) and \(\sigma_y\) are standard deviations of these variables. Typically, we do not know the population values, so this coefficient can be estimated in sample via:
+where \(\sigma_{x,y}\) is the covariance between variables \(x\) and \(y\) (see discussions in Sections \ref{dataAnalysisNumerical} and \ref{SLRCovariance}), while \(\sigma_x\) and \(\sigma_y\) are standard deviations of these variables. Typically, we do not know the population values, so this coefficient can be estimated in sample via:
 \begin{equation}
     r_{x,y} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}},
     \label{eq:measuresAssociationPearson}
@@ -3913,28 +3959,25 @@ Solving this system of equations for \(b_0\) and \(b_1\) we get:
     \end{aligned}
     \label{eq:OLSSLREstimatesProof}
 \end{equation}
-In the system of equations \eqref{eq:OLSSLREstimatesProof}, we have the following elements: \(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\), \(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\), \(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\) and \(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\), which after inserting in \eqref{eq:OLSSLREstimatesProof} leads to \eqref{eq:OLSSLREstimates}.
-\end{proof}
-
-Note that if for some reason \({b}_1=0\) in \eqref{eq:OLSSLREstimates} (for example, because the covariance between \(x\) and \(y\) is zero, implying that they are not correlated), then the intercept \({b}_0 = \bar{y}\), meaning that the global average of the data would be the best predictor of the variable \(y_j\). This method of estimation of parameters based on the minimisation of SSE, is called ``Ordinary Least Squares''. It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
-
-Another thing to note is the connection between the parameter \({b}_1\) and the correlation coefficient. We have already briefly discussed this in Section \ref{correlationCoefficient}, we could estimate two models given the pair of variable \(x\) and \(y\):
+In the system of equations \eqref{eq:OLSSLREstimatesProof}, we have the following elements:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Model \eqref{eq:SLRFormulaEstimated};
+  \(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\),
 \item
-  The inverse model \(x_j = \hat{b}_0 + \hat{b}_1 y_j + u_j\).
+  \(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\),
+\item
+  \(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\),
+\item
+  \(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\),
 \end{enumerate}
 
-We could then extract the slope parameters of the two models via \eqref{eq:OLSSLREstimates} and get the value of correlation coefficient as a geometric mean of the two:
-\begin{equation}
-    r_{x,y} = \mathrm{sign}(\hat{b}_1) \sqrt{{b}_1 \hat{b}_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
-    \label{eq:correlationDerivationPearson}
-\end{equation}
-which is the formula \eqref{eq:measuresAssociationPearson}. This is how the correlation coefficient was originally derived.
+which after inserting in \eqref{eq:OLSSLREstimatesProof} lead to \eqref{eq:OLSSLREstimates}.
+\end{proof}
+
+Note that if for some reason \({b}_1=0\) in \eqref{eq:OLSSLREstimates} (for example, because the covariance between \(x\) and \(y\) is zero, implying that they are not correlated), then the intercept \({b}_0 = \bar{y}\), meaning that the global average of the data would be the best predictor of the variable \(y_j\). This method of estimation of parameters based on the minimisation of SSE, is called ``Ordinary Least Squares''. It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
 
 While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.
 
@@ -3950,6 +3993,91 @@ If regression model is correctly specified then OLS will produce Best Linear Unb
 The term ``correctly specified'' implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \ref{assumptions}). The ``BLUE'' part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives ``mean'' estimates, while the minimum of MAE corresponds to the median, see Subsection \ref{estimatesPropertiesEfficiency}).
 
 Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.
+
+\hypertarget{SLRCovariance}{%
+\section{Covariance, correlation and SLR}\label{SLRCovariance}}
+
+Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it.
+
+\hypertarget{covariance}{%
+\subsection{Covariance}\label{covariance}}
+
+One of the most complicated things to explain is covariance. Coming back to the formula \eqref{eq:OLSSLREstimates}, where \(b_1\) is calculated as:
+\begin{equation*}
+    {b}_1 = \frac{\mathrm{cov}(x,y)}{\hat{\sigma}_x^2} ,
+\end{equation*}
+where \(\hat{\sigma}_x\) is the in-sample estimate of standard deviation, we can express cov\((x,y)\) as:
+\begin{equation*}
+    \mathrm{cov}(x,y) = {b}_1 \hat{\sigma}_x \hat{\sigma}_x .
+\end{equation*}
+Visually, this can be represented as the areas of a rectangular shown on right pane in Figure \ref{fig:covarianceVisual}.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/covarianceVisual-1.pdf}
+\caption{\label{fig:covarianceVisual}Visualisation of covariance between two random variables, \(x\) and \(y\).}
+\end{figure}
+
+In Figure \ref{fig:covarianceVisual}, the data is centred around the means of \(x\) and \(y\). We draw a regression line with the angle \(\arctan (b_1)\) through the cloud of points and then draw a segment of the length \(\hat{\sigma}_x\) parallel to the x-axis. The multiplication of \(b_1\) by \(\hat{\sigma}_x\) gives the side denoted as \(b_1 \hat{\sigma}_x\) (because \(b_1\) equals to tangent of the angle of the line to the x-axis). And finally, the \(b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)\) is the area of the rectangular in Figure \ref{fig:covarianceVisual}. The higher the standard deviation of \(x\) is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of \(\hat{\sigma}_x\), the higher \(b_1\) is, the larger the area becomes, increasing the covariance. In this interpretation the covariance becomes equal to zero either in one of the two cases:
+\begin{equation*}
+    \begin{aligned}
+        & {b}_1 = 0 \\
+        & \hat{\sigma}_x =0 ,
+    \end{aligned}
+\end{equation*}
+which implies that either there is no variability in the variable \(x\) or that the angle of the regression line is zero, i.e.~there is no linear relation between \(x\) and \(y\).
+
+Similar visualisations can be done if the axes are swapped and the regression \(x = a_0 + a_1 y + u\) is constructed. The logic would be similar, only changing the value of the slope parameter \(b_1\) by \(a_1\) and substituting \(\hat{\sigma}_x\) with \(\hat{\sigma}_y\). Finally, in case of negative relation between the variables, the rectangular area will be drawn below the zero line and thus could be considered as being negative (although the surface of the area itself cannot be negative). Still, the logic explained for the positive case above could be transferred on the negative case as well.
+
+\hypertarget{correlation}{%
+\subsection{Correlation}\label{correlation}}
+
+Another thing to note is the connection between the parameter \({b}_1\) and the correlation coefficient. We have already briefly discussed this in Section \ref{correlationCoefficient}, we could estimate two models given the pair of variable \(x\) and \(y\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Model \eqref{eq:SLRFormulaEstimated} \(y_j = a_0 + a_1 x_j + e_j\);
+\item
+  The inverse model \(x_j = a_0 + a_1 y_j + u_j\).
+\end{enumerate}
+
+We could then extract the slope parameters of the two models via \eqref{eq:OLSSLREstimates} and get the value of correlation coefficient as a geometric mean of the two:
+\begin{equation}
+    r_{x,y} = \mathrm{sign}(b_1) \sqrt{{b}_1 a_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
+    \label{eq:correlationDerivationPearson}
+\end{equation}
+which is the formula \eqref{eq:measuresAssociationPearson}. This is how the correlation coefficient was originally derived. Visually this is shown in Figure \ref{fig:correlationVisual}, where the two lines are drawn for the simple linear regressions mentioned above.
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/correlationVisual-1.pdf}
+
+If the lines have positive slope (as shown in the left top pane in Figure \ref{fig:correlationVisual}) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure \ref{fig:correlationVisual}). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure \ref{fig:correlationVisual}). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing \(a_1=b_1=0\) and thus leading to the zero correlation coefficient (right bottom pane in Figure \ref{fig:correlationVisual}).
+
+Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure \ref{fig:covarianceVisual} and to expand it to the correlation coefficient, for which the area \(\hat{\sigma}_x \times \hat{\sigma}_y\), corresponding to the denominator of the formula \eqref{eq:correlationDerivationPearson} is shown in Figure \ref{fig:correlationVisual2} as a red area.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/correlationVisual2-1.pdf}
+\caption{\label{fig:correlationVisual2}Visualisation of correlation between two random variables, \(x\) and \(y\).}
+\end{figure}
+
+The correlation in Figure \ref{fig:correlationVisual2}, corresponds to the ratio of the two areas blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which \(\hat{\sigma}_y = b_1 \hat{\sigma}_x\). Mathematically, this can be seen if we take the variance of the response variable conditional on the slope parameter:
+\begin{equation}
+    \mathrm{V}(y | b_1) = b_1^2 \mathrm{V}(x) + V(e),
+    \label{eq:varianceForCorrelation}
+\end{equation}
+which leads to the following equality for the standard deviation of \(y\):
+\begin{equation}
+    \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e^2} ,
+    \label{eq:sdForCorrelation}
+\end{equation}
+where \(\hat{\sigma}_e\) is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term \(\hat{\sigma}_e^2\). If it is equal to zero, we get the equality: \(\hat{\sigma}_y = b_1 \hat{\sigma}_x\), for which the areas in Figure \ref{fig:correlationVisual2} will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of \(b_1\) does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure \ref{fig:correlationVisual3}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/correlationVisual3-1.pdf}
+\caption{\label{fig:correlationVisual3}Visualisation of several correlation coefficients.}
+\end{figure}
 
 \hypertarget{OLSResiduals}{%
 \section{Residuals of model estimated via OLS}\label{OLSResiduals}}
@@ -4342,7 +4470,7 @@ The code above introduces a new variable, \texttt{noise}, which has nothing to d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8607473
+## [1] 0.8662316
 \end{verbatim}
 
 Compare it with the previous one:
@@ -4377,7 +4505,7 @@ Here how the adjusted R\(^2\) can be calculated for a model in R:
 
 \begin{verbatim}
 ##        R^2-adj R^2-adj, Noise 
-##      0.8107333      0.8037802
+##      0.8107333      0.8115082
 \end{verbatim}
 
 What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R\(^2\) than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter. So, you should not fully trust R\(^2_{adj}\) either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inaccurate forecasts and inefficient estimates of parameters (see Section \ref{assumptions} for details).
@@ -4884,36 +5012,36 @@ Now, if we want to construct the regression that would take these differences in
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1052.0448     3.6871  1044.7577   1059.3318 *
-## price         -2.5728     0.1786    -2.9258     -2.2199 *
-## colourRed    -20.1551     0.9380   -22.0090    -18.3013 *
-## colourGreen  -71.0719     0.9395   -72.9286    -69.2152 *
+## (Intercept) 1053.2382     3.6831  1045.9591   1060.5172 *
+## price         -2.6339     0.1848    -2.9991     -2.2688 *
+## colourRed    -21.1964     0.9266   -23.0276    -19.3652 *
+## colourGreen  -70.5322     0.9315   -72.3731    -68.6913 *
 ## 
-## Error standard deviation: 4.6679
+## Error standard deviation: 4.6257
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 891.8407 892.1166 903.8833 904.5744
+## 889.1176 889.3934 901.1601 901.8512
 \end{verbatim}
 
-Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1052. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that \emph{the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units}. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:
+Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1053. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that \emph{the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 21 units}. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  For the blue t-shirt, our model is: sales=1052.04-2.57price+et. This is because both \texttt{colourRed} and \texttt{colourGreen} are zero in this case;
+  For the blue t-shirt, our model is: sales=1053.24-2.63price+et. This is because both \texttt{colourRed} and \texttt{colourGreen} are zero in this case;
 \item
-  For the red t-shirt the model is: sales=1052.04+-20.16-2.57price+et or sales=1031.88-2.57price+et;
+  For the red t-shirt the model is: sales=1053.24+-21.2-2.63price+et or sales=1032.04-2.63price+et;
 \item
-  Finally, for the green one, the model is: sales=1052.04+-71.07-2.57price+et or sales=980.97-2.57price+et.
+  Finally, for the green one, the model is: sales=1053.24+-70.53-2.63price+et or sales=982.71-2.63price+et.
 \end{enumerate}
 
 In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model \texttt{tShirtsALM}.
 
-One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1052.04, 1031.88 and 980.97 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):
+One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1053.24, 1032.04 and 982.71 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4925,10 +5053,10 @@ One thing that we can remark is that the estimated parameters differ from the on
 
 \begin{verbatim}
 ##   colourRed colourGreen  colourBlue 
-##    10.25389   -40.66288    30.40900
+##    9.379792  -39.955991   30.576199
 \end{verbatim}
 
-The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 10 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.
+The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 9 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.
 
 In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable \texttt{colour}:
 
@@ -4957,18 +5085,18 @@ Notice that the ``Blue'' was automatically set as the first level, because \text
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1052.0448     3.6871  1044.7577   1059.3318 *
-## price         -2.5728     0.1786    -2.9258     -2.2199 *
-## colourGreen  -71.0719     0.9395   -72.9286    -69.2152 *
-## colourRed    -20.1551     0.9380   -22.0090    -18.3013 *
+## (Intercept) 1053.2382     3.6831  1045.9591   1060.5172 *
+## price         -2.6339     0.1848    -2.9991     -2.2688 *
+## colourGreen  -70.5322     0.9315   -72.3731    -68.6913 *
+## colourRed    -21.1964     0.9266   -23.0276    -19.3652 *
 ## 
-## Error standard deviation: 4.6679
+## Error standard deviation: 4.6257
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 891.8407 892.1166 903.8833 904.5744
+## 889.1176 889.3934 901.1601 901.8512
 \end{verbatim}
 
 Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include \texttt{colourRed} and only have the model with \texttt{colourGreen}, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.
@@ -5044,22 +5172,22 @@ In R, the interaction effect can be introduced explicitly in the formula via \te
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       991.0804     3.9524   983.2690    998.8917 *
-## price              -6.0415     0.1976    -6.4320     -5.6511 *
-## price:colourGreen   3.4479     0.0471     3.3548      3.5410 *
-## price:colourRed     2.4651     0.0471     2.3720      2.5581 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1000.4951     4.5501   991.5025   1009.4877 *
+## price               -6.5345     0.2304    -6.9900     -6.0791 *
+## price:colourGreen    3.5241     0.0503     3.4247      3.6235 *
+## price:colourRed      2.4998     0.0498     2.4013      2.5982 *
 ## 
-## Error standard deviation: 4.7582
+## Error standard deviation: 4.9576
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 897.5853 897.8612 909.6279 910.3190
+## 909.9033 910.1791 921.9458 922.6369
 \end{verbatim}
 
-Note that the interpretation of parameters in such model will be different, because now the \texttt{price} shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for \texttt{price} and \texttt{price:colourRed}. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.58 units.
+Note that the interpretation of parameters in such model will be different, because now the \texttt{price} shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for \texttt{price} and \texttt{price:colourRed}. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.03 units.
 
 \hypertarget{variablesTransformations}{%
 \chapter{Variables transformations}\label{variablesTransformations}}
@@ -5995,7 +6123,7 @@ and we get the following log-likelihood value (we will discuss how this formula 
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -5797.487
+## [1] -5751.48
 \end{verbatim}
 
 In order for the normal distribution on \ref{fig:MLENormalExample01} to fit the data well, we need to shift the estimate of \(\mu_y\) to the right, thus increasing the value to, let's say, \(\hat{\mu}_y=90\):
@@ -6014,7 +6142,7 @@ In order for the normal distribution on \ref{fig:MLENormalExample01} to fit the 
 \caption{\label{fig:MLENormalExample02}ML example with Normal curve and \(\hat{\mu}_y=90\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4254.441, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting \(\hat{\mu}_y=100\), we get:
+Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4226.734, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting \(\hat{\mu}_y=100\), we get:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6030,7 +6158,7 @@ Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to 
 \caption{\label{fig:MLENormalExample03}ML example with Normal curve and \(\hat{\mu}_y=100\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the previous cases with the log-likelihood of -3711.394, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:
+Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the previous cases with the log-likelihood of -3701.988, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6046,9 +6174,9 @@ Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the p
 \caption{\label{fig:MLENormalExample04}ML example with Normal curve and \(\hat{\mu}_y=\bar{y}\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-So the value of \(\hat{\mu}_y=\bar{y}=\) 100.43 (where \(\bar{y}\) is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3710.468.
+So the value of \(\hat{\mu}_y=\bar{y}=\) 100.247 (where \(\bar{y}\) is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3701.681.
 
-In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of the model. In this case, we will be changing the height of the distribution. Here is an example with \(\hat{\mu}_y=\) 100.43 and \(\hat{\sigma}=15\):
+In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of the model. In this case, we will be changing the height of the distribution. Here is an example with \(\hat{\mu}_y=\) 100.247 and \(\hat{\sigma}=15\):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6059,7 +6187,7 @@ In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of t
 \end{Shaded}
 
 \includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/MLENormalExample05-1.pdf}
-Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower than needed, which implies that the scale parameter \(\hat{\sigma}\) is too high. The log-likelihood value in this case is -3844.297. In order to get a better fit of the curve to the data, we need to reduce the \(\hat{\sigma}\). Here how the situation would look for the case of \(\hat{\sigma}=10\):
+Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower than needed, which implies that the scale parameter \(\hat{\sigma}\) is too high. The log-likelihood value in this case is -3840.392. In order to get a better fit of the curve to the data, we need to reduce the \(\hat{\sigma}\). Here how the situation would look for the case of \(\hat{\sigma}=10\):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6075,7 +6203,7 @@ Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower
 \caption{\label{fig:MLENormalExample06}ML example with Normal curve and \(\hat{\mu}_y=\bar{y}\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-The fit on Figure \ref{fig:MLENormalExample06} is better than on Figure \ref{fig:MLENormalExample05}, which is also reflected in the log-likelihood value being equal to -3710.468 instead of -3844.297. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula \(\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), resulting in log-likelihood of -3710.344. Note that if we use the unbiased estimate of the variance \(\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), the log-likelihood will not reach the maximum and will be equal to -3710.344. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are different, which can be checked in R via the following commands:
+The fit on Figure \ref{fig:MLENormalExample06} is better than on Figure \ref{fig:MLENormalExample05}, which is also reflected in the log-likelihood value being equal to -3701.681 instead of -3840.392. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula \(\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), resulting in log-likelihood of -3701.277. Note that if we use the unbiased estimate of the variance \(\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), the log-likelihood will not reach the maximum and will be equal to -3701.277. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are different, which can be checked in R via the following commands:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6108,7 +6236,7 @@ All of this is great, but so far we have discussed a very special case, when the
 \caption{\label{fig:MLENormalExample07}ML example with Normal curve on Log Normal data}
 \end{figure}
 
-Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -5004.791. The much better model would be the Log Normal one:
+Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -4986.474. The much better model would be the Log Normal one:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6123,7 +6251,7 @@ Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the
 \caption{\label{fig:MLENormalExample08}ML example with Log Normal curve on Log Normal data}
 \end{figure}
 
-The model in Figure \ref{fig:MLENormalExample08} has the log likelihood of -4865.527. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the \protect\hyperlink{modelSelection}{next section}.
+The model in Figure \ref{fig:MLENormalExample08} has the log likelihood of -4871.149. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the \protect\hyperlink{modelSelection}{next section}.
 
 As a final word, when it comes to more complicated models with more parameters and dynamic structure, the specific curves and data become more complicated, but the logic of the likelihood approach stays the same.
 
