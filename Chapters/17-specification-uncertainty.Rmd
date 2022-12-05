@@ -188,14 +188,15 @@ The similar mathematical formula holds for any other estimate, for example for a
 
 ```{r biasVarianceMSE, fig.cap="Bias, Variance and MSE as functions of model complexity.", echo=FALSE}
 layout(matrix(c(1,2),1,2), widths=c(0.73,0.27))
-plot(seq(1,20,0.1),400/(21-seq(1,20,0.1)),
+# plot(seq(1,20,0.1),400/(21-seq(1,20,0.1)),
+plot(seq(1,20,0.1),400/(21-1.5*seq(1,20,0.1)),
      type="l", ylab="Error", xlab="Complexity",
-     col="darkblue", lwd=2, ylim=c(0,300))
+     col="darkblue", lwd=2, ylim=c(0,400), xlim=c(0,15))
 lines(seq(1,25,0.1),400/(seq(1,25,0.1)),
       col="darkred", lwd=2)
-lines(seq(1,20,0.1),400/(seq(1,20,0.1))+400/(21-seq(1,20,0.1))+75,
+lines(seq(1,20,0.1),400/(seq(1,20,0.1))+400/(21-1.5*seq(1,20,0.1))+75,
       col="darkgreen", lwd=2)
-abline(v=10.455, lwd=2, lty=3)
+abline(v=7.75, lwd=2, lty=3)
 # The plot for the legend
 par(mar=c(0.1,0.1,4.1,0.1), bty="n", xaxt="n", yaxt="n")
 plot(0, 0, col="white")
