@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-01-03" />
+<meta name="date" content="2023-11-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -408,7 +408,15 @@ This is a very simple method that allows us to get to the model closest to the t
     d_j = k_j - \ell_j
     \tag{16.13},
 \end{equation}\]</span>
-where <span class="math inline">\(k_j\)</span> is the number of estimated parameters in model <span class="math inline">\(j\)</span> (this typically includes scale parameters when dealing with Maximum Likelihood Estimates). <span class="citation">Akaike (<a href="#ref-Akaike1974" role="doc-biblioref">1974</a>)</span> suggests “An Information Criterion” which multiplies both parts of the right-hand side of <a href="informationCriteria.html#eq:AICNormal">(16.13)</a> by 2 so that there is a correspondence between the criterion and the well-known likelihood ratio test <span class="citation">(Wikipedia, <a href="#ref-WikipediaLikelihoodRatioTest2020" role="doc-biblioref">2020</a><a href="#ref-WikipediaLikelihoodRatioTest2020" role="doc-biblioref">c</a>)</span>:
+where <span class="math inline">\(k_j\)</span> is the number of estimated parameters in model <span class="math inline">\(j\)</span> (this typically includes scale parameters when dealing with Maximum Likelihood Estimates).</p>
+<div class="remark">
+<p><span id="unlabeled-div-31" class="remark"><em>Remark</em>. </span>If your model is estimated using OLS then you can use the idea that the maximum of the likelihood of the normal distribution is achieved by the minimum of the MSE (OLS criterion). In that case you can jump from one thing to another and calculate AIC by inserting the estimates of parameters to the likelihood formula. However, there are two things to consider:</p>
+<ol style="list-style-type: decimal">
+<li>The scale of distribution used in likelihood needs to be based on <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(16.9)</a>, i.e. without the bias correction, because it maximises the likelihood;</li>
+<li>The number of parameters <span class="math inline">\(k_j\)</span> should also include the scale of distribution. So, if you had a linear regression model, which estimated 3 parameters (intercept and two coefficients for explanatory variables) then <span class="math inline">\(k_j=3+1 = 4\)</span>.</li>
+</ol>
+</div>
+<p><span class="citation">Akaike (<a href="#ref-Akaike1974" role="doc-biblioref">1974</a>)</span> suggests “An Information Criterion” which multiplies both parts of the right-hand side of <a href="informationCriteria.html#eq:AICNormal">(16.13)</a> by 2 so that there is a correspondence between the criterion and the well-known likelihood ratio test <span class="citation">(Wikipedia, <a href="#ref-WikipediaLikelihoodRatioTest2020" role="doc-biblioref">2020</a><a href="#ref-WikipediaLikelihoodRatioTest2020" role="doc-biblioref">c</a>)</span>:
 <span class="math display" id="eq:AIC">\[\begin{equation}
     \mathrm{AIC}_j = 2 k_j - 2 \ell_j
     \tag{16.14}.
