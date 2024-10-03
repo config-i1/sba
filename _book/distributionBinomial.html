@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.3 Multiple coin tosses – Binomial distribution | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.3 Multiple coin tosses – Binomial distribution | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -389,17 +415,17 @@ where <span class="math inline">\(k\)</span> is the score of interest, <span cla
     \begin{pmatrix} 10 \\ 5 \end{pmatrix} = \frac{10!}{5!(10-5)!} ,
 \end{equation*}\]</span>
 which can be calculated in R as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="distributionBinomial.html#cb3-1" aria-hidden="true"></a><span class="kw">factorial</span>(<span class="dv">10</span>)<span class="op">/</span>(<span class="kw">factorial</span>(<span class="dv">5</span>)<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="distributionBinomial.html#cb3-1" tabindex="-1"></a><span class="fu">factorial</span>(<span class="dv">10</span>)<span class="sc">/</span>(<span class="fu">factorial</span>(<span class="dv">5</span>)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <p>and is equal to 252. Using this formula, we can calculate other scores for comparison:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="distributionBinomial.html#cb4-1" aria-hidden="true"></a><span class="kw">factorial</span>(<span class="dv">10</span>)<span class="op">/</span>(<span class="kw">factorial</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))<span class="op">*</span><span class="kw">factorial</span>(<span class="dv">10</span><span class="op">-</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb4-2"><a href="distributionBinomial.html#cb4-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">setNames</span>(<span class="dt">nm=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="distributionBinomial.html#cb4-1" tabindex="-1"></a><span class="fu">factorial</span>(<span class="dv">10</span>)<span class="sc">/</span>(<span class="fu">factorial</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))<span class="sc">*</span><span class="fu">factorial</span>(<span class="dv">10</span><span class="sc">-</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="distributionBinomial.html#cb4-2" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="at">nm=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
 <pre><code>##   0   1   2   3   4   5   6   7   8   9  10 
 ##   1  10  45 120 210 252 210 120  45  10   1</code></pre>
 <p>Given that we throw the coin 10 times, there are overall <span class="math inline">\(2^{10}=1024\)</span> theoretical of outcomes of this experiment, which allows calculating the probability of each outcome:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="distributionBinomial.html#cb6-1" aria-hidden="true"></a><span class="kw">round</span>((<span class="kw">factorial</span>(<span class="dv">10</span>) <span class="op">/</span></span>
-<span id="cb6-2"><a href="distributionBinomial.html#cb6-2" aria-hidden="true"></a><span class="st">           </span>(<span class="kw">factorial</span>(<span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))<span class="op">*</span><span class="kw">factorial</span>(<span class="dv">10</span><span class="op">-</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)))) <span class="op">/</span></span>
-<span id="cb6-3"><a href="distributionBinomial.html#cb6-3" aria-hidden="true"></a><span class="st">          </span><span class="dv">1024</span>,<span class="dv">3</span>) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb6-4"><a href="distributionBinomial.html#cb6-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">setNames</span>(<span class="dt">nm=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="distributionBinomial.html#cb6-1" tabindex="-1"></a><span class="fu">round</span>((<span class="fu">factorial</span>(<span class="dv">10</span>) <span class="sc">/</span></span>
+<span id="cb6-2"><a href="distributionBinomial.html#cb6-2" tabindex="-1"></a>           (<span class="fu">factorial</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))<span class="sc">*</span><span class="fu">factorial</span>(<span class="dv">10</span><span class="sc">-</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)))) <span class="sc">/</span></span>
+<span id="cb6-3"><a href="distributionBinomial.html#cb6-3" tabindex="-1"></a>          <span class="dv">1024</span>,<span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="distributionBinomial.html#cb6-4" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="at">nm=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
 <pre><code>##     0     1     2     3     4     5     6     7     8     9    10 
 ## 0.001 0.010 0.044 0.117 0.205 0.246 0.205 0.117 0.044 0.010 0.001</code></pre>
 <p>These probabilities can be obtained via the PMF of Binomial distribution:
@@ -429,11 +455,11 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 </p>
 </div>
 <p>We can see from Figure <a href="distributionBinomial.html#fig:binomialCDF01">3.7</a> that the cumulative probability reaches value close to 1 after the outcome of 6. Numerically, for the <span class="math inline">\(y=6\)</span>, we have probability:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="distributionBinomial.html#cb8-1" aria-hidden="true"></a><span class="kw">pbinom</span>(<span class="dv">6</span>, <span class="dt">size=</span><span class="dv">20</span>, <span class="dt">prob=</span><span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="distributionBinomial.html#cb8-1" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">6</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.9976139</code></pre>
 <p>while for 5 we will have approximately 0.989. So, for our example, we should recommend the company to produce 6 machines - in this case in 99% of the cases the company will not loose the demand. Yes, in some cases, only 2 or 3 machines will be bought instead of 6, but at least the company will avoid a scenario, when their product is unavailable for clients.</p>
 <p>We can get the same result by using Quantile Function, which is implemented in R as <code>qbinom()</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="distributionBinomial.html#cb10-1" aria-hidden="true"></a><span class="kw">qbinom</span>(<span class="fl">0.99</span>, <span class="dv">20</span>, <span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="distributionBinomial.html#cb10-1" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="fl">0.99</span>, <span class="dv">20</span>, <span class="fl">0.1</span>)</span></code></pre></div>
 <p>In some cases, we might need to know the mean and variance of the distribution. For the Binomial distribution, they can be calculated via the following formulae:
 <span class="math display" id="eq:BinomialMean">\[\begin{equation}
     \mathrm{E}(y) = p \times n ,

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.1 Basic idea | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.1 Basic idea | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -419,7 +445,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <p>Note that the positioning of the blue line has changed in the case of confidence interval, which happens because of the transition from <a href="hypothesisTestingBasics.html#eq:ttestFormula">(7.1)</a> to <a href="confidenceInterval.html#eq:confidenceInterval">(6.4)</a>. The idea and the message, however, stay the same: if the value is not inside the light grey area, then we reject <span class="math inline">\(\mathrm{H}_0\)</span> on the selected significance level.</p>
 <p>Also <strong>note</strong> that we never say that we accept <span class="math inline">\(\mathrm{H}_0\)</span>, because this is not what we do in hypothesis testing: if the value would lie inside the interval, then this would only mean that our sample shows that the tested value is covered by the region - the true value can be any of the numbers between the bounds.</p>
 <p>Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure <a href="hypothesisTestingBasics.html#fig:hypothesisTesting01">7.1</a> (calculated value). In R this can be done using the <code>pt()</code> function:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="hypothesisTestingBasics.html#cb73-1" aria-hidden="true"></a><span class="kw">pt</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="hypothesisTestingBasics.html#cb73-1" tabindex="-1"></a><span class="fu">pt</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">36-1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.002474416</code></pre>
 <p>Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately 0.0049. This is the significance level, for which the switch from “reject” to “do not reject” happens. We could compare this value with the pre-selected significance level directly, rejecting <span class="math inline">\(\mathrm{H}_0\)</span> if it is lower than <span class="math inline">\(\alpha\)</span>. This value is called “p-value” and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: <strong>p-value</strong> is the smallest significance level at which a null hypothesis can be rejected.</p>
 <p>Despite this simplification, we still need to follow the procedure and select <span class="math inline">\(\alpha\)</span> <em>before conducting the test</em>! We should not change the significance level after observing the p-values, otherwise we might end up bending reality for our needs. Also <em>note</em> that if in one case p-value is 0.2, while in the other it is 0.3, it does not mean that the the first case is more significant than the second! P-values are not comparable with each other and they do not tell you about the size of significance. <em>This is still a binary process</em>: we either reject, or fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>, depending on whether p-value is smaller or greater than the selected significance level.</p>
@@ -436,7 +462,7 @@ Figure 7.2: Confidence interval for for the population mean example.
 <li>The confidence interval for the mean is <span class="math inline">\(\mu \in (-0.84, -0.16)\)</span>. It includes -0.6, so we fail to reject <span class="math inline">\(\mathrm{H}_0\)</span>. <em>This does not mean that the true mean is indeed equal to -0.6</em>, but it means that the region will cover this number in 95% of cases if we do resampling many times.</li>
 </ol>
 <p>In my opinion, the third approach is more informative and saves from making wrong conclusions about the tested hypothesis, making you work a bit more (you cannot change the confidence level on the fly, you would need to reconstruct the interval). Having said that, either of the three is fine, as long as you understand what they really imply.</p>
-<p>Furthermore, if you do hypothesis testing and use p-values, it is worth mentioning the statement of American Statistical Association about p-values <span class="citation">(Wasserstein and Lazar, <a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span>. Among the different aspects discussed in this statement, there is a list of principles related to p-values, which I cite below:</p>
+<p>Furthermore, if you do hypothesis testing and use p-values, it is worth mentioning the statement of American Statistical Association about p-values <span class="citation">(<a href="#ref-Wasserstein2016">Wasserstein and Lazar, 2016</a>)</span>. Among the different aspects discussed in this statement, there is a list of principles related to p-values, which I cite below:</p>
 <ol style="list-style-type: decimal">
 <li>P-values can indicate how incompatible the data are with a specified statistical model;</li>
 <li>P-values do not measure:</li>
@@ -457,8 +483,8 @@ Figure 7.2: Confidence interval for for the population mean example.
 <ol start="6" style="list-style-type: decimal">
 <li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
 </ol>
-<p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(Wasserstein and Lazar, <a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
-<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation">Cohen (<a href="#ref-Cohen1994" role="doc-biblioref">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
+<p>The statement provides more details about that, but summarising, whatever hypothesis you test and however you test it, you should have apriori understanding of the problem. Diving in the data and trying to see what floats (i.e. which of the p-values is higher than <span class="math inline">\(\alpha\)</span>) is not a good idea <span class="citation">(<a href="#ref-Wasserstein2016">Wasserstein and Lazar, 2016</a>)</span>. Follow the proper procedure if you want to test the hypothesis.</p>
+<p>Furthermore, the hypothesis testing mechanism has been criticised by many scientists over the years. For example, <span class="citation">Cohen (<a href="#ref-Cohen1994">1994</a>)</span> discussed issues with the procedure, making several important points, some of which are outlined above. He also points out at the fundamental problem with hypothesis testing, which is typically neglected by proponents of the procedure: in practice, null hypothesis is always wrong. In reality, it is not possible for a value to be equal, for example, to zero. Even an unimportant effect of one variable on another would be close to zero, but not equal to it. This means that with the increase of the sample size, <span class="math inline">\(\mathrm{H}_0\)</span> will inevitably be rejected.</p>
 <div class="remark">
 <p><span id="unlabeled-div-16" class="remark"><em>Remark</em>. </span>When formulating the null hypothesis as equality, it is in fact almost always wrong, because it is close to impossible for a parameter to be equal to a specific value. In the light of this, we should understand that the null hypothesis really means that the true value of parameter is in a proximity of the tested value. So, the hypotheses in this case should be understood as:
 <span class="math display">\[\begin{equation*}
@@ -476,7 +502,7 @@ where <span class="math inline">\(a\)</span> is the value we are comparing our p
 <li>“Calculated value is lower than the critical one, so the null hypothesis is true”.</li>
 </ol>
 <ul>
-<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the <span class="math inline">\(\mathrm{H}_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia”. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> that all swans are white”. Uneducated people would be tempted to say that " <span class="math inline">\(\mathrm{H}_0\)</span>: All swans are white" is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting <span class="math inline">\(\mathrm{H}_0\)</span> and showing that “not all swans are white”, which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting <span class="math inline">\(\mathrm{H}_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
+<li>This is wrong on so many level, that I do not even know where to start. We can never know if the hypothesis is true or wrong. All the evidence might point towards the <span class="math inline">\(\mathrm{H}_0\)</span> being correct, but it still can be wrong and at some point in future one observation might reject it. The classical example is the “Black swan in Australia”. Up until the discover of Australia, the Europeans thought that there only exist white swans. This was supported by all the observations they had. Wise people would say that “We fail to reject <span class="math inline">\(\mathrm{H}_0\)</span> that all swans are white”. Uneducated people would be tempted to say that ” <span class="math inline">\(\mathrm{H}_0\)</span>: All swans are white” is true. After discovering Australia in 1606, Europeans have collected evidence of existence of black swans, thus rejecting <span class="math inline">\(\mathrm{H}_0\)</span> and showing that “not all swans are white”, which implies that actually the alternative hypothesis is true. This is the essence of scientific method: we always try rejecting <span class="math inline">\(\mathrm{H}_0\)</span>, collecting some evidence. If we fail to reject it, it might just mean that we have not collected enough evidence or have not modelled it correctly.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>“Calculated value is lower than the critical one, so we accept the null hypothesis”.</li>
@@ -524,12 +550,12 @@ where <span class="math inline">\(a\)</span> is the value we are comparing our p
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-Cohen1994">
-<p>• Cohen, J., 1994. The earth is round (p &lt; .05). American Psychologist. 49, 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Cohen1994" class="csl-entry">
+• Cohen, J., 1994. <span class="nocase">The earth is round (p <span>&lt;</span> .05).</span> American Psychologist. 49, 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a>
 </div>
-<div id="ref-Wasserstein2016">
-<p>• Wasserstein, R.L., Lazar, N.A., 2016. The ASA’s Statement on p-Values: Context, Process, and Purpose. American Statistician. 70, 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a></p>
+<div id="ref-Wasserstein2016" class="csl-entry">
+• Wasserstein, R.L., Lazar, N.A., 2016. <span class="nocase">The ASA’s Statement on p-Values: Context, Process, and Purpose</span>. American Statistician. 70, 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>
 </div>
 </div>
 

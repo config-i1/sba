@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7.3 Power of a test | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7.3 Power of a test | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -452,30 +478,30 @@ This can be interpreted as “we will fail to reject the null hypothesis in the 
     \tag{7.6}
 \end{equation}\]</span>
 We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a <strong>power curve</strong>, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="powerOfTheTest.html#cb75-1" aria-hidden="true"></a><span class="co"># Set all the parameters</span></span>
-<span id="cb75-2"><a href="powerOfTheTest.html#cb75-2" aria-hidden="true"></a>yMean &lt;-<span class="st"> </span><span class="dv">3</span></span>
-<span id="cb75-3"><a href="powerOfTheTest.html#cb75-3" aria-hidden="true"></a>yMeanSD &lt;-<span class="st"> </span><span class="fl">0.18</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb75-4"><a href="powerOfTheTest.html#cb75-4" aria-hidden="true"></a>levelSignigicance &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb75-5"><a href="powerOfTheTest.html#cb75-5" aria-hidden="true"></a>zValue &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(levelSignigicance) <span class="op">*</span><span class="st"> </span>yMeanSD</span>
-<span id="cb75-6"><a href="powerOfTheTest.html#cb75-6" aria-hidden="true"></a><span class="co"># Vector of hypothetical population means</span></span>
-<span id="cb75-7"><a href="powerOfTheTest.html#cb75-7" aria-hidden="true"></a>muValues &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="dt">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb75-8"><a href="powerOfTheTest.html#cb75-8" aria-hidden="true"></a><span class="co"># Vector of values for power curve</span></span>
-<span id="cb75-9"><a href="powerOfTheTest.html#cb75-9" aria-hidden="true"></a>powerValues &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</span>
-<span id="cb75-10"><a href="powerOfTheTest.html#cb75-10" aria-hidden="true"></a></span>
-<span id="cb75-11"><a href="powerOfTheTest.html#cb75-11" aria-hidden="true"></a><span class="co"># Calculate the power values</span></span>
-<span id="cb75-12"><a href="powerOfTheTest.html#cb75-12" aria-hidden="true"></a>powerValues &lt;-<span class="st"> </span><span class="kw">pnorm</span>((zValue <span class="op">-</span><span class="st"> </span>muValues)<span class="op">/</span>yMeanSD)</span>
-<span id="cb75-13"><a href="powerOfTheTest.html#cb75-13" aria-hidden="true"></a></span>
-<span id="cb75-14"><a href="powerOfTheTest.html#cb75-14" aria-hidden="true"></a><span class="co"># Plot the power curve</span></span>
-<span id="cb75-15"><a href="powerOfTheTest.html#cb75-15" aria-hidden="true"></a><span class="kw">plot</span>(muValues, powerValues, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,</span>
-<span id="cb75-16"><a href="powerOfTheTest.html#cb75-16" aria-hidden="true"></a>     <span class="dt">xlab=</span>latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">mu$&quot;</span>),</span>
-<span id="cb75-17"><a href="powerOfTheTest.html#cb75-17" aria-hidden="true"></a>     <span class="dt">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</span>
-<span id="cb75-18"><a href="powerOfTheTest.html#cb75-18" aria-hidden="true"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
-<span id="cb75-19"><a href="powerOfTheTest.html#cb75-19" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="dt">lty=</span><span class="dv">3</span>)</span>
-<span id="cb75-20"><a href="powerOfTheTest.html#cb75-20" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="dt">lty=</span><span class="dv">3</span>)</span>
-<span id="cb75-21"><a href="powerOfTheTest.html#cb75-21" aria-hidden="true"></a><span class="co"># And provide a description</span></span>
-<span id="cb75-22"><a href="powerOfTheTest.html#cb75-22" aria-hidden="true"></a><span class="kw">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
-<span id="cb75-23"><a href="powerOfTheTest.html#cb75-23" aria-hidden="true"></a>     latex2exp<span class="op">::</span><span class="kw">TeX</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">alpha =1- </span><span class="ch">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
-<span id="cb75-24"><a href="powerOfTheTest.html#cb75-24" aria-hidden="true"></a>     <span class="dt">pos=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="powerOfTheTest.html#cb75-1" tabindex="-1"></a><span class="co"># Set all the parameters</span></span>
+<span id="cb75-2"><a href="powerOfTheTest.html#cb75-2" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb75-3"><a href="powerOfTheTest.html#cb75-3" tabindex="-1"></a>yMeanSD <span class="ot">&lt;-</span> <span class="fl">0.18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb75-4"><a href="powerOfTheTest.html#cb75-4" tabindex="-1"></a>levelSignigicance <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb75-5"><a href="powerOfTheTest.html#cb75-5" tabindex="-1"></a>zValue <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="fu">qnorm</span>(levelSignigicance) <span class="sc">*</span> yMeanSD</span>
+<span id="cb75-6"><a href="powerOfTheTest.html#cb75-6" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
+<span id="cb75-7"><a href="powerOfTheTest.html#cb75-7" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb75-8"><a href="powerOfTheTest.html#cb75-8" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
+<span id="cb75-9"><a href="powerOfTheTest.html#cb75-9" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</span>
+<span id="cb75-10"><a href="powerOfTheTest.html#cb75-10" tabindex="-1"></a></span>
+<span id="cb75-11"><a href="powerOfTheTest.html#cb75-11" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
+<span id="cb75-12"><a href="powerOfTheTest.html#cb75-12" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues)<span class="sc">/</span>yMeanSD)</span>
+<span id="cb75-13"><a href="powerOfTheTest.html#cb75-13" tabindex="-1"></a></span>
+<span id="cb75-14"><a href="powerOfTheTest.html#cb75-14" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
+<span id="cb75-15"><a href="powerOfTheTest.html#cb75-15" tabindex="-1"></a><span class="fu">plot</span>(muValues, powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
+<span id="cb75-16"><a href="powerOfTheTest.html#cb75-16" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
+<span id="cb75-17"><a href="powerOfTheTest.html#cb75-17" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</span>
+<span id="cb75-18"><a href="powerOfTheTest.html#cb75-18" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
+<span id="cb75-19"><a href="powerOfTheTest.html#cb75-19" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb75-20"><a href="powerOfTheTest.html#cb75-20" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb75-21"><a href="powerOfTheTest.html#cb75-21" tabindex="-1"></a><span class="co"># And provide a description</span></span>
+<span id="cb75-22"><a href="powerOfTheTest.html#cb75-22" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
+<span id="cb75-23"><a href="powerOfTheTest.html#cb75-23" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha =1- </span><span class="sc">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
+<span id="cb75-24"><a href="powerOfTheTest.html#cb75-24" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
@@ -504,7 +530,7 @@ Figure 7.8: Power curves with different sample sizes.
 </div>
 <div id="expected-power-of-a-test" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> Expected power of a test<a href="powerOfTheTest.html#expected-power-of-a-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>As discussed in the previous subsections, the power of a test is calculated for each specific value of <span class="math inline">\(\mu\)</span>, measuring the probability of rejecting the wrong hypothesis for the specific parameters. This approach has a limitation, because typically we do not know the true value of <span class="math inline">\(\mu\)</span>, and sometimes selecting the correct one is challenging. One of the solutions in this case is calculating the <strong>expected power of a test</strong> or <strong>Assurance</strong> <span class="citation">(O’Hagan et al., <a href="#ref-OHagan2005" role="doc-biblioref">2005</a>)</span>, which is the expectation of the probability <a href="powerOfTheTest.html#eq:powerOfATestConcept">(7.3)</a> for all possible values of <span class="math inline">\(\mu\)</span> for which the hypothesis would be correctly rejected. In a special case, when <span class="math inline">\(\mu\)</span> can only take discrete values, this can be roughly represented as a mean of powers for all values of <span class="math inline">\(\mu\)</span> that are lower than the value <span class="math inline">\(\mu^*\)</span> that corresponds to the critical one (in our example in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a> <span class="math inline">\(\mu^*\)</span> was equal to <span class="math inline">\(2.95\)</span>):
+<p>As discussed in the previous subsections, the power of a test is calculated for each specific value of <span class="math inline">\(\mu\)</span>, measuring the probability of rejecting the wrong hypothesis for the specific parameters. This approach has a limitation, because typically we do not know the true value of <span class="math inline">\(\mu\)</span>, and sometimes selecting the correct one is challenging. One of the solutions in this case is calculating the <strong>expected power of a test</strong> or <strong>Assurance</strong> <span class="citation">(<a href="#ref-OHagan2005">O’Hagan et al., 2005</a>)</span>, which is the expectation of the probability <a href="powerOfTheTest.html#eq:powerOfATestConcept">(7.3)</a> for all possible values of <span class="math inline">\(\mu\)</span> for which the hypothesis would be correctly rejected. In a special case, when <span class="math inline">\(\mu\)</span> can only take discrete values, this can be roughly represented as a mean of powers for all values of <span class="math inline">\(\mu\)</span> that are lower than the value <span class="math inline">\(\mu^*\)</span> that corresponds to the critical one (in our example in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a> <span class="math inline">\(\mu^*\)</span> was equal to <span class="math inline">\(2.95\)</span>):
 <span class="math display" id="eq:ExpectedPowerDiscrete">\[\begin{equation}
     \mathrm{E}(\mathrm{P}(\text{reject wrong }\mathrm{H}_0)) = \sum_{\mu_j&lt;\mu^*} \mathrm{P}(\text{reject }\mathrm{H}_0 | \mu=\mu_j) \times \mathrm{P}(\mu=\mu_j) .
     \tag{7.7}
@@ -517,15 +543,15 @@ Note that we sum up all the values up until <span class="math inline">\(\mu^*\)<
 <div class="remark">
 <p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
 </div>
-<p>The calculation of the assurance in some cases can be done analytically. For example, <span class="citation">O’Hagan et al. (<a href="#ref-OHagan2005" role="doc-biblioref">2005</a>)</span> derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
+<p>The calculation of the assurance in some cases can be done analytically. For example, <span class="citation">O’Hagan et al. (<a href="#ref-OHagan2005">2005</a>)</span> derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
 <!-- For the power curve generated in Figure \@ref(fig:powerCurve), the assurance can be roughly estimated as: --></p>
 <p>Finally, in practice, the assurance is used to determine the sample size for trials. The canonical example of application is deciding how many participants are needed to establish the effectiveness of a medical treatment, by setting the desired assurance to the pre-specified value.</p>
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-OHagan2005">
-<p>• O’Hagan, A., Stevens, J.W., Campbell, M.J., 2005. Assurance in clinical trial design. 4, 187–201. <a href="https://doi.org/10.1002/pst.175">https://doi.org/10.1002/pst.175</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-OHagan2005" class="csl-entry">
+• O’Hagan, A., Stevens, J.W., Campbell, M.J., 2005. <span class="nocase">Assurance in clinical trial design</span>. 4, 187–201. <a href="https://doi.org/10.1002/pst.175">https://doi.org/10.1002/pst.175</a>
 </div>
 </div>
 

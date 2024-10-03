@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.3 Numerical scale | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.3 Numerical scale | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -382,9 +408,9 @@ where <span class="math inline">\(\sigma_{x,y}\)</span> is the covariance betwee
     \tag{9.10}
 \end{equation}\]</span>
 where all the values from <a href="correlationCoefficient.html#eq:measuresAssociationPearsonPopulation">(9.9)</a> are substituted by their in-sample estimates. This coefficient measures the <strong>strength of linear relation</strong> between variables and lies between -1 and 1, where the boundary values correspond to perfect linear relation and 0 implies that there is no <strong>linear</strong> relation between the variables. In some textbooks the authors claim that this coefficient relies on Normal distribution of variables, but nothing in the formula assumes that. It was originally derived based on the simple linear regression (see Section <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>) and its rough idea is to get information about the angle of the straight line drawn on the scatterplot. It might be easier to explain this on an example:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="correlationCoefficient.html#cb111-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsData<span class="op">$</span>disp,mtcarsData<span class="op">$</span>mpg,</span>
-<span id="cb111-2"><a href="correlationCoefficient.html#cb111-2" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Displacement&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Mileage&quot;</span>)</span>
-<span id="cb111-3"><a href="correlationCoefficient.html#cb111-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="kw">lm</span>(mpg<span class="op">~</span>disp,mtcarsData),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="correlationCoefficient.html#cb111-1" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>disp,mtcarsData<span class="sc">$</span>mpg,</span>
+<span id="cb111-2"><a href="correlationCoefficient.html#cb111-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Displacement&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Mileage&quot;</span>)</span>
+<span id="cb111-3"><a href="correlationCoefficient.html#cb111-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(mpg<span class="sc">~</span>disp,mtcarsData),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsScatterPlotDispMPG"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/mtcarsScatterPlotDispMPG-1.png" alt="Scatterplot for dispalcement vs mileage variables in mtcars dataset" width="672" />
 <p class="caption">
@@ -392,9 +418,9 @@ Figure 9.2: Scatterplot for dispalcement vs mileage variables in mtcars dataset
 </p>
 </div>
 <p>Figure <a href="correlationCoefficient.html#fig:mtcarsScatterPlotDispMPG">9.2</a> shows the scatterplot between the two variables and also has the straight line, going through the cloud of points. The closer the points are to the line, the stronger the linear relation between the two variables is. The line corresponds to the formula <span class="math inline">\(\hat{y}=a_0+a_1 x\)</span>, where <span class="math inline">\(x\)</span> is the displacement and <span class="math inline">\(\hat{y}\)</span> is the line value for the Mileage. The same relation can be presented if we swap the axes and draw the line <span class="math inline">\(\hat{x}=b_0+b_1 y\)</span>:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="correlationCoefficient.html#cb112-1" aria-hidden="true"></a><span class="kw">plot</span>(mtcarsData<span class="op">$</span>mpg,mtcarsData<span class="op">$</span>disp,</span>
-<span id="cb112-2"><a href="correlationCoefficient.html#cb112-2" aria-hidden="true"></a>     <span class="dt">xlab=</span><span class="st">&quot;Mileage&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Displacement&quot;</span>)</span>
-<span id="cb112-3"><a href="correlationCoefficient.html#cb112-3" aria-hidden="true"></a><span class="kw">abline</span>(<span class="kw">lm</span>(disp<span class="op">~</span>mpg,mtcarsData),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="correlationCoefficient.html#cb112-1" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>mpg,mtcarsData<span class="sc">$</span>disp,</span>
+<span id="cb112-2"><a href="correlationCoefficient.html#cb112-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Mileage&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Displacement&quot;</span>)</span>
+<span id="cb112-3"><a href="correlationCoefficient.html#cb112-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(disp<span class="sc">~</span>mpg,mtcarsData),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsScatterPlotMPGDisp"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/mtcarsScatterPlotMPGDisp-1.png" alt="Scatterplot for mileage vs dispalcement" width="672" />
 <p class="caption">
@@ -402,10 +428,10 @@ Figure 9.3: Scatterplot for mileage vs dispalcement
 </p>
 </div>
 <p>The slopes for the two lines will in general differ, and will only coincide if the two variables have functional relations (all the point lie on the line). Based on this property, the correlation coefficient was originally constructed, as a geometric mean of the two parameters of slopes: <span class="math inline">\(r_{x,y}=\sqrt{a_1 b_1}\)</span>. We will come back to this specific formula later in Section <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>. But this idea provides an explanation why the correlation coefficient measures the strength of linear relation. For the two variables of interest it will be:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="correlationCoefficient.html#cb113-1" aria-hidden="true"></a><span class="kw">cor</span>(mtcarsData<span class="op">$</span>mpg,mtcarsData<span class="op">$</span>disp)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="correlationCoefficient.html#cb113-1" tabindex="-1"></a><span class="fu">cor</span>(mtcarsData<span class="sc">$</span>mpg,mtcarsData<span class="sc">$</span>disp)</span></code></pre></div>
 <pre><code>## [1] -0.8475514</code></pre>
 <p>Which shows strong negative linear relation between the displacement and mileage. This makes sense, because in general the cars with bigger engines will have bigger consumption and thus will make less miles per gallon of fuel. The more detailed information about the correlation is provided by the <code>cor.test()</code> function:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="correlationCoefficient.html#cb115-1" aria-hidden="true"></a><span class="kw">cor.test</span>(mtcarsData<span class="op">$</span>mpg,mtcarsData<span class="op">$</span>disp)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="correlationCoefficient.html#cb115-1" tabindex="-1"></a><span class="fu">cor.test</span>(mtcarsData<span class="sc">$</span>mpg,mtcarsData<span class="sc">$</span>disp)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -419,28 +445,28 @@ Figure 9.3: Scatterplot for mileage vs dispalcement
 ## -0.8475514</code></pre>
 <p>In addition to the value, we now have results of the hypothesis testing (where null hypothesis is <span class="math inline">\(\rho_{x,y}=0\)</span>) and the confidence interval for the parameter. Given that the value of the parameter is close to its bound, we could conclude that the linear relation between the two variables is strong and statistically significant on 1% level.</p>
 <p>Note that the value of correlation coefficient only depends on the distance of points from the straight line, it does not depend on the slope (excluding case, when slope is equal to zero and thus the coefficient is equal to zero as well). So the following two cases will have exactly the same correlation coefficients:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="correlationCoefficient.html#cb117-1" aria-hidden="true"></a>error &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="dv">10</span>)</span>
-<span id="cb117-2"><a href="correlationCoefficient.html#cb117-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)</span>
-<span id="cb117-3"><a href="correlationCoefficient.html#cb117-3" aria-hidden="true"></a>y1 &lt;-<span class="st"> </span><span class="dv">10</span><span class="fl">+0.5</span><span class="op">*</span>x<span class="fl">+0.5</span><span class="op">*</span>error</span>
-<span id="cb117-4"><a href="correlationCoefficient.html#cb117-4" aria-hidden="true"></a>y2 &lt;-<span class="st"> </span><span class="dv">2</span><span class="fl">+1.5</span><span class="op">*</span>x<span class="fl">+1.5</span><span class="op">*</span>error</span>
-<span id="cb117-5"><a href="correlationCoefficient.html#cb117-5" aria-hidden="true"></a><span class="co"># Produce the plots</span></span>
-<span id="cb117-6"><a href="correlationCoefficient.html#cb117-6" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfcol=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb117-7"><a href="correlationCoefficient.html#cb117-7" aria-hidden="true"></a><span class="kw">plot</span>(x,y1,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
-<span id="cb117-8"><a href="correlationCoefficient.html#cb117-8" aria-hidden="true"></a><span class="kw">abline</span>(<span class="kw">lm</span>(y1<span class="op">~</span>x),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb117-9"><a href="correlationCoefficient.html#cb117-9" aria-hidden="true"></a><span class="kw">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="kw">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(x,y1),<span class="dv">5</span>)))</span>
-<span id="cb117-10"><a href="correlationCoefficient.html#cb117-10" aria-hidden="true"></a><span class="kw">plot</span>(x,y2,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
-<span id="cb117-11"><a href="correlationCoefficient.html#cb117-11" aria-hidden="true"></a><span class="kw">abline</span>(<span class="kw">lm</span>(y2<span class="op">~</span>x),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb117-12"><a href="correlationCoefficient.html#cb117-12" aria-hidden="true"></a><span class="kw">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="kw">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(x,y2),<span class="dv">5</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="correlationCoefficient.html#cb117-1" tabindex="-1"></a>error <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="dv">10</span>)</span>
+<span id="cb117-2"><a href="correlationCoefficient.html#cb117-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb117-3"><a href="correlationCoefficient.html#cb117-3" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="dv">10</span><span class="fl">+0.5</span><span class="sc">*</span>x<span class="fl">+0.5</span><span class="sc">*</span>error</span>
+<span id="cb117-4"><a href="correlationCoefficient.html#cb117-4" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="dv">2</span><span class="fl">+1.5</span><span class="sc">*</span>x<span class="fl">+1.5</span><span class="sc">*</span>error</span>
+<span id="cb117-5"><a href="correlationCoefficient.html#cb117-5" tabindex="-1"></a><span class="co"># Produce the plots</span></span>
+<span id="cb117-6"><a href="correlationCoefficient.html#cb117-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb117-7"><a href="correlationCoefficient.html#cb117-7" tabindex="-1"></a><span class="fu">plot</span>(x,y1,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
+<span id="cb117-8"><a href="correlationCoefficient.html#cb117-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y1<span class="sc">~</span>x),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb117-9"><a href="correlationCoefficient.html#cb117-9" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="fu">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x,y1),<span class="dv">5</span>)))</span>
+<span id="cb117-10"><a href="correlationCoefficient.html#cb117-10" tabindex="-1"></a><span class="fu">plot</span>(x,y2,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
+<span id="cb117-11"><a href="correlationCoefficient.html#cb117-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y2<span class="sc">~</span>x),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb117-12"><a href="correlationCoefficient.html#cb117-12" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="fu">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x,y2),<span class="dv">5</span>)))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:correlationsScatterplotExample"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationsScatterplotExample-1.png" alt="Example of relations with exactly the same correlations, but different slopes." width="672" />
 <p class="caption">
 Figure 9.4: Example of relations with exactly the same correlations, but different slopes.
 </p>
 </div>
-<p>There are other examples of cases, when correlation coefficient would be misleading or not provide the necessary information. One of the canonical examples is the Anscombe’s quartet <span class="citation">(Wikipedia, <a href="#ref-WikipediaAnscombeQuartet" role="doc-biblioref">2021</a>)</span>, which shows very different types of relations, for which the Pearson’s correlation coefficient would be exactly the same. An important lesson from this is to always do graphical analysis (see Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) of your data, when possible - this way misleading situations can be avoided.</p>
+<p>There are other examples of cases, when correlation coefficient would be misleading or not provide the necessary information. One of the canonical examples is the Anscombe’s quartet <span class="citation">(<a href="#ref-WikipediaAnscombeQuartet">Wikipedia, 2021</a>)</span>, which shows very different types of relations, for which the Pearson’s correlation coefficient would be exactly the same. An important lesson from this is to always do graphical analysis (see Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) of your data, when possible - this way misleading situations can be avoided.</p>
 <p>Coming back to the scatterplot in Figure <a href="correlationCoefficient.html#fig:mtcarsScatterPlotDispMPG">9.2</a>, it demonstrates some non-linearity in the relation between the two variables. So, it would make sense to have a different measure that could take it into account. This is where <strong>Spearman’s correlation coefficient</strong> becomes useful. It is calculated using exactly the same formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(9.10)</a>, but applied to the data in ranks. By using ranks, we loose information about the natural zero and distances between values of the variable, but at the same time we linearise possible non-linear relations. So, Spearman’s coefficient shows the strength of monotonic relation between the two variables:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="correlationCoefficient.html#cb118-1" aria-hidden="true"></a><span class="kw">cor.test</span>(mtcarsData<span class="op">$</span>mpg,mtcarsData<span class="op">$</span>disp,</span>
-<span id="cb118-2"><a href="correlationCoefficient.html#cb118-2" aria-hidden="true"></a>         <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="correlationCoefficient.html#cb118-1" tabindex="-1"></a><span class="fu">cor.test</span>(mtcarsData<span class="sc">$</span>mpg,mtcarsData<span class="sc">$</span>disp,</span>
+<span id="cb118-2"><a href="correlationCoefficient.html#cb118-2" tabindex="-1"></a>         <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning in cor.test.default(mtcarsData$mpg, mtcarsData$disp, method =
 ## &quot;spearman&quot;): Cannot compute exact p-value with ties</code></pre>
 <pre><code>## 
@@ -454,23 +480,23 @@ Figure 9.4: Example of relations with exactly the same correlations, but differe
 ## -0.9088824</code></pre>
 <p>We can notice that the value of the Spearman’s coefficient in our case is higher than the value of the Pearson’s correlation, which implies that there is indeed non-linear relation between variables. The two variables have a strong monotonic relation, which makes sense for the reasons discussed earlier. The non-linearity makes sense as well because the car with super powerful engines would still be able to do several miles on a gallon of fuel, no matter what. The relation will never be zero or even negative.</p>
 <p>Note that while Spearman’s correlation will tell you something about monotonic relations, it will fail to capture all other non-linear relations between variables. For example, in the following case the true relation is trigonometric:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="correlationCoefficient.html#cb121-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)</span>
-<span id="cb121-2"><a href="correlationCoefficient.html#cb121-2" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">sin</span>(x)</span>
-<span id="cb121-3"><a href="correlationCoefficient.html#cb121-3" aria-hidden="true"></a><span class="kw">plot</span>(x,y,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="correlationCoefficient.html#cb121-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb121-2"><a href="correlationCoefficient.html#cb121-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x)</span>
+<span id="cb121-3"><a href="correlationCoefficient.html#cb121-3" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <p>But neither Pearson’s nor Spearman’s coefficients will be able to capture it:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="correlationCoefficient.html#cb122-1" aria-hidden="true"></a><span class="kw">cor</span>(x,y)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="correlationCoefficient.html#cb122-1" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
 <pre><code>## [1] -0.04806497</code></pre>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="correlationCoefficient.html#cb124-1" aria-hidden="true"></a><span class="kw">cor</span>(x,y,<span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="correlationCoefficient.html#cb124-1" tabindex="-1"></a><span class="fu">cor</span>(x,y,<span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] -0.04649265</code></pre>
 <p>In order to correctly diagnose such non-linear relation, either one or both variables need to be transformed to linearise the relation. In our case this implies measuring the relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(\sin(x)\)</span> instead of <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="correlationCoefficient.html#cb126-1" aria-hidden="true"></a><span class="kw">cor</span>(<span class="kw">sin</span>(x),y)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="correlationCoefficient.html#cb126-1" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">sin</span>(x),y)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-WikipediaAnscombeQuartet">
-<p>• Wikipedia, 2021. Anscombe’s quartet. <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">https://en.wikipedia.org/wiki/Anscombe%27s_quartet</a> (version: 2021-06-23)</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-WikipediaAnscombeQuartet" class="csl-entry">
+• Wikipedia, 2021. <span class="nocase">Anscombe’s quartet</span>. <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">https://en.wikipedia.org/wiki/Anscombe%27s_quartet</a> (version: 2021-06-23)
 </div>
 </div>
 

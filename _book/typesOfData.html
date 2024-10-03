@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.3 Types of data | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.3 Types of data | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -371,7 +397,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="typesOfData" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Types of data<a href="typesOfData.html#typesOfData" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>After doing measurement (e.g. measuring temperature of patients), an analyst typically obtains data. According to Cambridge dictionary, <strong>data is “information, especially facts or numbers, collected to be examined and considered and used to help decision-making”</strong> <span class="citation">(“Data,” <a href="#ref-CambridgeData" role="doc-biblioref">2022</a>)</span>. Data can be <em>unprocessed</em> (or raw data), containing an disorganised array of recordings about a process under consideration, or it can be <em>cleaned</em>, having a proper structure with correctly encoded variables, without obvious mistakes or missing values. When first dealing with data, an analyst needs to clean it and transform it into a usable format in order to be able to extract useful information from it or apply models.</p>
+<p>After doing measurement (e.g. measuring temperature of patients), an analyst typically obtains data. According to Cambridge dictionary, <strong>data is “information, especially facts or numbers, collected to be examined and considered and used to help decision-making”</strong> <span class="citation">(<a href="#ref-CambridgeData"><span>“Data,”</span> 2022</a>)</span>. Data can be <em>unprocessed</em> (or raw data), containing an disorganised array of recordings about a process under consideration, or it can be <em>cleaned</em>, having a proper structure with correctly encoded variables, without obvious mistakes or missing values. When first dealing with data, an analyst needs to clean it and transform it into a usable format in order to be able to extract useful information from it or apply models.</p>
 <p>The process of data cleaning itself depends on a variety of factors, and most importantly on what the analyst wants to do. For example, if an analyst is interested in getting insights about daily A&amp;E attendance, and they have records of every patient arriving to A&amp;E, the first step would be to aggregate those values into daily buckets, obtaining the information about the number of A&amp;E arrivals per day. As another example, if an analyst conducts a survey, aiming to find brand preferences of citizens of Lancaster, then after collecting the survey data, they need to transform some of the questions into appropriate variables to be able to work with them (e.g. if there were multiple choice questions with several options, they need to be transformed into a set of variables equal to the number of that options).</p>
 <p>The question related to the data cleaning is what type of data the analyst is working with. There are three fundamental types:</p>
 <ol style="list-style-type: decimal">
@@ -393,9 +419,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 where <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are parameters of the model. This model is discussed in more detail in Chapter <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>.</p>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references hanging-indent">
-<div id="ref-CambridgeData">
-<p>• Data, 2022.. Cambridge Dictionary. <a href="https://dictionary.cambridge.org/dictionary/english/data">https://dictionary.cambridge.org/dictionary/english/data</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-CambridgeData" class="csl-entry">
+• Data, 2022. <span>Cambridge Dictionary</span>. <a href="https://dictionary.cambridge.org/dictionary/english/data">https://dictionary.cambridge.org/dictionary/english/data</a>
 </div>
 </div>
 

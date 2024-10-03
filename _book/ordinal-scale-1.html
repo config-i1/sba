@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.2 Ordinal scale | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.2 Ordinal scale | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -397,16 +423,16 @@ where <span class="math inline">\(n_c\)</span> is the number of concordant pairs
 <li>Size of t-shirt they wear: S, M or L.</li>
 </ol>
 <p>Here how we can do that in R:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ordinal-scale-1.html#cb97-1" aria-hidden="true"></a>age &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) <span class="op">%*%</span><span class="st"> </span><span class="kw">rmultinom</span>(<span class="kw">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb97-2"><a href="ordinal-scale-1.html#cb97-2" aria-hidden="true"></a>                               <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
-<span id="cb97-3"><a href="ordinal-scale-1.html#cb97-3" aria-hidden="true"></a>age &lt;-<span class="st"> </span><span class="kw">factor</span>(age, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),</span>
-<span id="cb97-4"><a href="ordinal-scale-1.html#cb97-4" aria-hidden="true"></a>                 <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;young&quot;</span>,<span class="st">&quot;adult&quot;</span>,<span class="st">&quot;elderly&quot;</span>))</span>
-<span id="cb97-5"><a href="ordinal-scale-1.html#cb97-5" aria-hidden="true"></a>size &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) <span class="op">%*%</span><span class="st"> </span><span class="kw">rmultinom</span>(<span class="kw">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb97-6"><a href="ordinal-scale-1.html#cb97-6" aria-hidden="true"></a>                               <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="fl">0.5</span>,<span class="fl">0.7</span>))</span>
-<span id="cb97-7"><a href="ordinal-scale-1.html#cb97-7" aria-hidden="true"></a>size &lt;-<span class="st"> </span><span class="kw">factor</span>(size, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),</span>
-<span id="cb97-8"><a href="ordinal-scale-1.html#cb97-8" aria-hidden="true"></a>                 <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;S&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;L&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ordinal-scale-1.html#cb97-1" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
+<span id="cb97-2"><a href="ordinal-scale-1.html#cb97-2" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
+<span id="cb97-3"><a href="ordinal-scale-1.html#cb97-3" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">factor</span>(age, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
+<span id="cb97-4"><a href="ordinal-scale-1.html#cb97-4" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;young&quot;</span>,<span class="st">&quot;adult&quot;</span>,<span class="st">&quot;elderly&quot;</span>))</span>
+<span id="cb97-5"><a href="ordinal-scale-1.html#cb97-5" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
+<span id="cb97-6"><a href="ordinal-scale-1.html#cb97-6" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">0.5</span>,<span class="fl">0.7</span>))</span>
+<span id="cb97-7"><a href="ordinal-scale-1.html#cb97-7" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">factor</span>(size, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
+<span id="cb97-8"><a href="ordinal-scale-1.html#cb97-8" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;S&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;L&quot;</span>))</span></code></pre></div>
 <p>And here is how the relation between these two artificial variables looks:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="ordinal-scale-1.html#cb98-1" aria-hidden="true"></a><span class="kw">tableplot</span>(age,size,<span class="dt">xlab=</span><span class="st">&quot;Age&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;T-shirt size&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="ordinal-scale-1.html#cb98-1" tabindex="-1"></a><span class="fu">tableplot</span>(age,size,<span class="at">xlab=</span><span class="st">&quot;Age&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;T-shirt size&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:tableplotAgeSize"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tableplotAgeSize-1.png" alt="Heat map for age of a respondent and the size of their t-shirt." width="672" />
 <p class="caption">
@@ -414,7 +440,7 @@ Figure 9.1: Heat map for age of a respondent and the size of their t-shirt.
 </p>
 </div>
 <p>The graphical analysis based on Figure <a href="ordinal-scale-1.html#fig:tableplotAgeSize">9.1</a> does not provide a clear information about the relation between the two variables. But this is where the Goodman-Kruskal’s <span class="math inline">\(\gamma\)</span> becomes useful. We will use <code>GoodmanKruskalGamma()</code> function from <code>DescTools</code> package for R for this:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="ordinal-scale-1.html#cb99-1" aria-hidden="true"></a>DescTools<span class="op">::</span><span class="kw">GoodmanKruskalGamma</span>(age,size,<span class="dt">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="ordinal-scale-1.html#cb99-1" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">GoodmanKruskalGamma</span>(age,size,<span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##       gamma      lwr.ci      upr.ci 
 ## -0.03846154 -0.51302449  0.43610141</code></pre>
 <p>This function returns three values: the <span class="math inline">\(\gamma\)</span>, which is close to zero in our case, implying that there is no relation between the variables, lower and upper bounds of the 95% <a href="#confidenceIntervals">confidence interval</a>. Note that the interval shows us how big the uncertainty about the parameter is: the true value in the population can be anywhere between -0.51 and 0.44. But based on all these values we can conclude that we do not see any relation between the variables in our sample.</p>
@@ -424,12 +450,12 @@ Figure 9.1: Heat map for age of a respondent and the size of their t-shirt.
     \tag{9.5}
 \end{equation}\]</span>
 The main difference from the contingency coefficient is that it assumes that the data has ordering, it implicitly relies on the number of concordant (on the diagonal) and discordant (on the off diagonal) pairs. In our case we could calculate it if we had two simplified variables based on age and size (in real life we would need to recode them to “young”, “older” and “S”, “Bigger than S” respectively):</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="ordinal-scale-1.html#cb101-1" aria-hidden="true"></a><span class="kw">table</span>(age,size)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="ordinal-scale-1.html#cb101-1" tabindex="-1"></a><span class="fu">table</span>(age,size)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>##        size
 ## age     S M
 ##   young 2 4
 ##   adult 2 2</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ordinal-scale-1.html#cb103-1" aria-hidden="true"></a>(<span class="dv">2</span><span class="op">*</span><span class="dv">2-4</span><span class="op">*</span><span class="dv">2</span>)<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="dv">2</span><span class="op">+</span><span class="dv">4</span><span class="op">*</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ordinal-scale-1.html#cb103-1" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">*</span><span class="dv">2-4</span><span class="sc">*</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="dv">2</span><span class="sc">+</span><span class="dv">4</span><span class="sc">*</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] -0.3333333</code></pre>
 <p>In our toy example, the measure shows that there is a weak negative relation between the trimmed age and size variables. We do not make any conclusions based on this, because this is not meaningful and is shown here just for purposes of demonstration.</p>
 <p>Finally, there is <strong>Kendall’s</strong> <span class="math inline">\(\tau\)</span>. In fact, there are three different coefficients, which have the same name, so in the literature they are known as <span class="math inline">\(\tau_a\)</span>, <span class="math inline">\(\tau_b\)</span> and <span class="math inline">\(\tau_c\)</span>.</p>
@@ -450,13 +476,13 @@ where <span class="math inline">\(n_x\)</span> and <span class="math inline">\(n
 \end{equation}\]</span>
 where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns. This coefficient works for variables with different lengths of scales (e.g. age with 5 options and t-shirt size with 7 options). But now we are back to the problem with the ties…</p>
 <p>In R, the <code>cor()</code> function implements Kendall’s <span class="math inline">\(\tau_a\)</span> and <span class="math inline">\(\tau_b\)</span> (the function will select automatically based on the presence of ties). There are also functions <code>KendallTauA()</code>, <code>KendallTauB()</code> and <code>StuartTauC()</code> in <code>DescTools</code> package that implement the three respective measures of association. The main limitation of <code>cor()</code> function is that it only works with numerical variables, so we would need to transform variables before applying the function. The functions from <code>DescTools</code> package, on the other hand, work with factors. Here are the values of the three coefficients for our case:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ordinal-scale-1.html#cb105-1" aria-hidden="true"></a>DescTools<span class="op">::</span><span class="kw">KendallTauA</span>(age,size,<span class="dt">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ordinal-scale-1.html#cb105-1" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">KendallTauA</span>(age,size,<span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##       tau_a      lwr.ci      upr.ci 
 ## -0.01612903 -0.15347726  0.12121920</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ordinal-scale-1.html#cb107-1" aria-hidden="true"></a>DescTools<span class="op">::</span><span class="kw">KendallTauB</span>(age,size,<span class="dt">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ordinal-scale-1.html#cb107-1" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">KendallTauB</span>(age,size,<span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##       tau_b      lwr.ci      upr.ci 
 ## -0.02469136 -0.32938991  0.28000720</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ordinal-scale-1.html#cb109-1" aria-hidden="true"></a>DescTools<span class="op">::</span><span class="kw">StuartTauC</span>(age,size,<span class="dt">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ordinal-scale-1.html#cb109-1" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">StuartTauC</span>(age,size,<span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##       tauc     lwr.ci     upr.ci 
 ## -0.0234375 -0.3126014  0.2657264</code></pre>
 <p>Given that both variables have the same scale sizes, we should use either <span class="math inline">\(\tau_a\)</span> or <span class="math inline">\(\tau_b\)</span> for the analysis. However, we do not know if there are any ties in the data, so the safer option would be to use <span class="math inline">\(\tau_b\)</span> coefficient. The value of the coefficient and its confidence interval tell us that there is no obvious association between the two variables in our sample. This is expected, because the two variables were generated independently of each other.</p>

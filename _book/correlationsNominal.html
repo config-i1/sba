@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.1 Nominal scale | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.1 Nominal scale | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -71,8 +70,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -106,7 +106,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -119,7 +119,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -133,6 +133,32 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -373,7 +399,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">9.1</span> Nominal scale<a href="correlationsNominal.html#correlationsNominal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As discussed in Section <a href="scales.html#scales">1.2</a>, not all scales support the more advanced operations (such as taking mean in ordinal scale). This means that if we want to analyse relations between variables, we need to use appropriate instrument. The coefficients that show relations between variables are called “<strong>measures of association</strong>”. We start their discussions with the simplest scale - nominal.</p>
 <p>There are several measures of association for the variables in nominal scale. They are all based on calculating the number of specific values of variables, but use different formulae. The first one is called <strong>contingency coefficient <span class="math inline">\(\phi\)</span></strong> and can only be calculated between variables that have only two values. As the name says, this measure is based on the contingency table. Here is an example:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="correlationsNominal.html#cb88-1" aria-hidden="true"></a><span class="kw">table</span>(mtcarsData<span class="op">$</span>vs,mtcarsData<span class="op">$</span>am)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="correlationsNominal.html#cb88-1" tabindex="-1"></a><span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am)</span></code></pre></div>
 <pre><code>##           
 ##            automatic manual
 ##   V-shaped        12      6
@@ -384,7 +410,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \tag{9.1}
 \end{equation}\]</span>
 where <span class="math inline">\(n_{i,j}\)</span> is the element of the table on row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, <span class="math inline">\(n_{i,\cdot}=\sum_{j}n_{i,j}\)</span> - is the sum in row <span class="math inline">\(i\)</span> and <span class="math inline">\(n_{\cdot,j}=\sum_{i} n_{i,j}\)</span> - is the sum in column <span class="math inline">\(j\)</span>. This coefficient lies between -1 and 1 and has a simple interpretation: if will be close to 1, when the elements on diagonal are greater than the off-diagonal ones, implying that there is a relation between variables. The value of -1 can only be obtained, when off-diagonal elements are non-zero, while the diagonal ones are zero. Finally, if the values in the contingency table are distributed evenly, the coefficient will be equal to zero. In our case the value of <span class="math inline">\(\phi\)</span> is:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="correlationsNominal.html#cb90-1" aria-hidden="true"></a>(<span class="dv">12</span><span class="op">*</span><span class="dv">7</span> <span class="op">-</span><span class="st"> </span><span class="dv">6</span><span class="op">*</span><span class="dv">7</span>)<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">19</span><span class="op">*</span><span class="dv">13</span><span class="op">*</span><span class="dv">14</span><span class="op">*</span><span class="dv">18</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="correlationsNominal.html#cb90-1" tabindex="-1"></a>(<span class="dv">12</span><span class="sc">*</span><span class="dv">7</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="dv">7</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">19</span><span class="sc">*</span><span class="dv">13</span><span class="sc">*</span><span class="dv">14</span><span class="sc">*</span><span class="dv">18</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1683451</code></pre>
 <p>This is a very low value, so even if the two variables are related, the relation is not well pronounced. In order to see, whether this value is statistically significantly different from zero, we could test a statistical hypothesis (hypothesis testing was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>):</p>
 <p><span class="math inline">\(H_0\)</span>: there is no relation between variables</p>
@@ -395,7 +421,7 @@ where <span class="math inline">\(n_{i,j}\)</span> is the element of the table o
     \tag{9.2}
 \end{equation}\]</span>
 where <span class="math inline">\(n\)</span> is the sum of elements in the contingency table. The value calculated based on <a href="correlationsNominal.html#eq:measuresAssociationChi">(9.2)</a> will follow <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom, where <span class="math inline">\(r\)</span> is the number of rows and <span class="math inline">\(c\)</span> is the number of columns in contingency table. This is a proper statistical test, so it should be treated as one. We select my favourite significance level, 1% and can now conduct the test:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="correlationsNominal.html#cb92-1" aria-hidden="true"></a><span class="kw">chisq.test</span>(<span class="kw">table</span>(mtcarsData<span class="op">$</span>vs,mtcarsData<span class="op">$</span>am))</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="correlationsNominal.html#cb92-1" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>vs,mtcarsData<span class="sc">$</span>am))</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
 ## 
@@ -403,19 +429,19 @@ where <span class="math inline">\(n\)</span> is the sum of elements in the conti
 ## X-squared = 0.34754, df = 1, p-value = 0.5555</code></pre>
 <p>Given that p-value is greater than 1%, we fail to reject the null hypothesis and can conclude that the relation does not seem to be different from zero - we do not find a relation between the variables in our data.</p>
 <p>The main limitation of the coefficient <span class="math inline">\(\phi\)</span> is that it only works for the <span class="math inline">\(2\times 2\)</span> tables. In reality we can have variables in nominal scale that take several values and it might be useful to know relations between them. For example, we can have a variable <code>colour</code>, which takes values <code>red</code>, <code>green</code> and <code>blue</code> and we would want to know if it is related to the transmission type. We do not have this variable in the data, so just for this example, we will create one (using multinomial distribution):</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="correlationsNominal.html#cb94-1" aria-hidden="true"></a>colour &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) <span class="op">%*%</span><span class="st"> </span><span class="kw">rmultinom</span>(<span class="kw">nrow</span>(mtcars), <span class="dv">1</span>,</span>
-<span id="cb94-2"><a href="correlationsNominal.html#cb94-2" aria-hidden="true"></a>                               <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
-<span id="cb94-3"><a href="correlationsNominal.html#cb94-3" aria-hidden="true"></a>colour &lt;-<span class="st"> </span><span class="kw">factor</span>(colour, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),</span>
-<span id="cb94-4"><a href="correlationsNominal.html#cb94-4" aria-hidden="true"></a>                 <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
-<span id="cb94-5"><a href="correlationsNominal.html#cb94-5" aria-hidden="true"></a><span class="kw">barplot</span>(<span class="kw">table</span>(colour), <span class="dt">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="correlationsNominal.html#cb94-1" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%*%</span> <span class="fu">rmultinom</span>(<span class="fu">nrow</span>(mtcars), <span class="dv">1</span>,</span>
+<span id="cb94-2"><a href="correlationsNominal.html#cb94-2" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.5</span>,<span class="fl">0.6</span>))</span>
+<span id="cb94-3"><a href="correlationsNominal.html#cb94-3" tabindex="-1"></a>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(colour, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
+<span id="cb94-4"><a href="correlationsNominal.html#cb94-4" tabindex="-1"></a>                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>))</span>
+<span id="cb94-5"><a href="correlationsNominal.html#cb94-5" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(colour), <span class="at">xlab=</span><span class="st">&quot;Colour&quot;</span>)</span></code></pre></div>
 <p>In order to measure relation between the new variable and the <code>am</code>, we can use Cramer’s V coefficient, which relies on the formula of <span class="math inline">\(\chi^2\)</span> test <a href="correlationsNominal.html#eq:measuresAssociationChi">(9.2)</a>:
 <span class="math display" id="eq:measuresAssociationCramer">\[\begin{equation}
     V = \sqrt{\frac{\chi^2}{n\times \min(r-1, c-1)}} .
     \tag{9.3}
 \end{equation}\]</span></p>
 <p>Cramer’s V always lies between 0 and 1, becoming close to one only if there is some relation between the two categorical variables. <code>greybox</code> package implements this coefficient in <code>cramer()</code> function:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="correlationsNominal.html#cb95-1" aria-hidden="true"></a><span class="kw">cramer</span>(mtcarsData<span class="op">$</span>am,colour)</span></code></pre></div>
-<pre><code>## Cramer&#39;s V: 0.1003
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="correlationsNominal.html#cb95-1" tabindex="-1"></a><span class="fu">cramer</span>(mtcarsData<span class="sc">$</span>am,colour)</span></code></pre></div>
+<pre><code>## Cramer&#39;s V: 0
 ## Chi^2 statistics = 0.3222, df: 2, p-value: 0.8512</code></pre>
 <p>The output above shows that the value of the coefficient is approximately 0.1, which is low, implying that the relation between the two variables is very weak. In addition, the p-value tells us that we fail to reject the null hypothesis on 1% level in the <span class="math inline">\(\chi^2\)</span> test <a href="correlationsNominal.html#eq:measuresAssociationChi">(9.2)</a>, and the relation does not look statistically significant. So we can conclude that according to our data, the two variables are not related (no wonder, we have generated one of them).</p>
 <p>The main limitation of Cramer’s V is that it is difficult to interpret beyond “there is a relation”. Imagine a situation, where the colour would be related to the variable “class” of a car, that can take 5 values. What could we say more than to state the fact that the two are related? After all, in that case you end up with a contingency table of <span class="math inline">\(3\times 5\)</span>, and it might not be possible to say how specifically one variable changes with the change of another one. Still, Cramer’s V at least provides some information about the relation of two categorical variables.</p>
