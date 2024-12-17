@@ -1,11 +1,11 @@
 # Statistical tests {#statisticalTests}
-Having discussed the idea of hypothesis testing, we can now move to the discussion of specific tests. In this chapter, we will start the discussion from the tests for the means of random variables, then move towards the variance and to the comparison of several variables. The tests in this chapter are introduced based on the needs of an analyst. We finish the chapter with a discussion of how to select the appropriate statistical test for your problem.
+Having discussed the idea of hypothesis testing, we can now move to the discussion of specific tests. In this chapter, we will start the discussion with the tests for the means of random variables, then move towards the variance and to the comparison of several variables. The tests in this chapter are introduced based on the needs of an analyst. We finish the chapter with a discussion of how to select the appropriate statistical test for your problem.
 
-Before we proceed, we need to define two terms, which will be used in this chapter. **Parametric statistical test** is the test that fully relies on distributional assumptions about the random variable. For example, we can assume that the variable follows Normal distribution and thus we can use a parametric test. **Non-parametric statistical test** is the test that does not rely on distributional assumptions. These types of test are typically conducted on ranked data rather than on the original one, reducing the scale of information to the ordinal one (see Section \@ref(scales)).
+Before we proceed, we need to define two terms, which will be used in this chapter. **Parametric statistical test** is the test that fully relies on distributional assumptions about the random variable. For example, we can assume that the variable follows Normal distribution and thus we can use a parametric test. **Non-parametric statistical test** is the test that does not rely on distributional assumptions. These types of test are typically conducted on ranked data rather than on the original one, reducing the scale of information to the ordinal one (see Section \@ref(scales)). The parametric ones are typically more powerful than their non-parametric counterparts if the assumptions hold. If they do not, the non-parametric ones become more powerful.
 
 
 ## One-sample tests about mean {#statisticalTestsOneSampleMean}
-Consider an example, where we collected the data of height of 100 males in across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS in 2012. Based on our sample, we found that the mean height was 176.1 cm. How do we formulate and test such hypothesis? We need to follow the procedure described in Section \@ref(hypothesisTestingBasics). We start by formulating null and alternative hypotheses:
+Consider an example, where we collected the data of height of 100 males across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS back in 2012. Based on our sample, we found that the mean height was 176.1 cm. Can we say that the height has increased or did we get this value just because of the pure randomness? How do we formulate and test such hypothesis? We need to follow the procedure described in Section \@ref(hypothesisTestingBasics). We start by formulating null and alternative hypotheses:
 \begin{equation*}
     \mathrm{H}_0: \mu = 175.3, \mathrm{H}_1: \mu \neq 175.3 .
 \end{equation*}
@@ -15,7 +15,7 @@ After that, we select the appropriate test. The task described above focuses on 
 
 
 ### z-test {#statisticalTestsOneSampleMeanZ}
-Consider the situation, where we know from NHS that the population standard deviation of height is $\sigma=5$.
+Consider the situation, where we know from NHS that the population standard deviation of height is $\sigma=5$ (typically, we do not know it, except for some very rare cases, when this is given by design, e.g. due to how some machine is calibrated).
 
 ::: remark
 As shown in Section \@ref(confidenceInterval), if the standard deviation of $y$ is $\sigma$, then the standard deviation of $\bar{y}$ is $\frac{1}{\sqrt{n}} \sigma$. This means that in our case $\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5$.
@@ -247,6 +247,10 @@ Finally, there are non-parametric analogues of the Chi-squared test, but their d
 <!-- ### Kruskal-Wallis -->
 <!-- ### Friedman -->
 <!-- ### Nemenyi / MCB -->
+
+<!-- ## Test to check the distribution -->
+<!-- ### Shapiro-Wilk -->
+<!-- ### Kolmogorov-Smirnov -->
 
 
 <!-- The group of tests united by the term "Parametric statistical tests" includes those of them that have some distributional assumptions and typically rely on moments of distributions. These tests are typically more powerful than their non-parametrical counterparts, because they rely on more assumptions. In this Section we discuss the most popular tests that are used in practice. -->
