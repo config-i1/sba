@@ -74,7 +74,9 @@ Finally, we have already mentioned MGF and CF in the context of discrete distrib
 
 
 ## Continuous Uniform distribution {#distributionsUniformContinuous}
-One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+Consider an example with elevator. You press the button to call it, and it arrives after some time. This time of arrival can be 0 seconds if the elevator is at your floor, or 1 minute if it is already moving and delivering people to a different floor. From our perspective, we do not know what the state of the elevator is, and we consider each of the possible scenarios equally probable. So, the elevator arriving in 0 seconds has the same probability as it arriving in 5, 15, 30, 55 or 60 seconds. In this case, we could use the continuous uniform distribution to model the lift arrival and to understand, for example, how much time we would need to wait on average.
+
+The contiunuous uniform distribution has similarities to the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
 \begin{equation}
     f(y, b, a) = \left\{\begin{aligned}
                         & \frac{1}{b-a} & \text{ for } y \in [a, b] \\
