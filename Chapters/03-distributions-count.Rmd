@@ -406,17 +406,15 @@ Inserting the values in the CDF of the Uniform distribution \@ref(eq:UniformCDF)
 Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While we do not discuss it here, we note that this is a distribution, which is, for example, used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.
 :::
 
-Coming back to the example with the German tanks, this problem was solved by estimating the maximum of the uniform distribution, i.e. getting the estimate of $b$. @Goodman1954 provides a solution. He showed how to find the maximum for a set of serial numbers: 83, 135, 274, 380, 668, 895, 955, 964, 1113, 1174, 1210, 1344, 1387, 1414, 1610, 1668, 1689, 1756, 1865, 1874, 1880, 1936, 2005, 2006, 2065, 2157, 2220, 2224, 2396, 2543 and 2787. An estimate of the maximum value can be calculated using the formula [@Goodman1954]:
+Coming back to the example with the German tanks, this problem was solved by estimating the maximum of the uniform distribution, i.e. getting the estimate of $b$. @Goodman1952 provides a solution. He showed how to find the maximum for a set of serial numbers. An unbiased and efficient estimate of the maximum value can be calculated using the following formula:
 \begin{equation*}
-    % \hat{b} = m + \frac{m}{k}-1,
-    \hat{b} = (\mathrm{max} - \mathrm{min}) \frac{k+1}{k-1}
+    \hat{b} = m + \frac{m}{k}-1,
 \end{equation*}
-which in our example gives
+where $m$ is the maximum number observed in the sample, and $k$ is the number of the observed values. For the sequence of serial numbers [from @Goodman1954] 83, 135, 274, 380, 668, 895, 955, 964, 1113, 1174, 1210, 1344, 1387, 1414, 1610, 1668, 1689, 1756, 1865, 1874, 1880, 1936, 2005, 2006, 2065, 2157, 2220, 2224, 2396, 2543 and 2787, we have:
 \begin{equation*}
-    %\hat{b} = 2787 + \frac{2787}{31}-1 \approx 2876,
-    \hat{b} = (2787-83) \frac{32}{30} \approx 2884.
+    \hat{b} = 2787 + \frac{2787}{31}-1 \approx 2876 .
 \end{equation*}
-The real maximum number in that example was 2885, making the estimate above quite accurate. There are several solutions to this problem, and in the Second World War, statistical estimates were shown to be much more accurate than the ones obtained via intel.
+The real maximum number in that example was 2885, making the estimate above quite accurate. There are several solutions to this problem, and in the Second World War, statistical estimates were [shown to be much more accurate than the ones obtained via intelligence](https://www.theguardian.com/world/2006/jul/20/secondworldwar.tvandradio).
 
 
 <!-- ## Geometric -->
