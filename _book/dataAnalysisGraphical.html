@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -410,7 +411,7 @@ Figure 5.2: Barplot for the engine type.
 </div>
 <p>This is just a graphical presentation of the contingency table we have already discussed earlier.</p>
 <div class="remark">
-<p><span id="unlabeled-div-12" class="remark"><em>Remark</em>. </span>Histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous (see Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>) - they will split the values of a variable in the bins, based on the idea that the variable can take any of the values in each bin.</p>
+<p><span id="unlabeled-div-13" class="remark"><em>Remark</em>. </span>Histograms do not make sense in case of categorical variables, because they assume that variables are numerical and continuous (see Section <a href="whatIsRandomVariable.html#whatIsRandomVariable">2.2</a>) - they will split the values of a variable in the bins, based on the idea that the variable can take any of the values in each bin.</p>
 </div>
 <p>Barplots are useful when you deal with either categorical variables or integer numerical ones. Here is what we can produce in case of the integer variable <code>cyl</code>:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="dataAnalysisGraphical.html#cb48-1" tabindex="-1"></a>barplotCYL <span class="ot">&lt;-</span> <span class="fu">barplot</span>(<span class="fu">table</span>(mtcarsData<span class="sc">$</span>cyl), <span class="at">xlab=</span><span class="st">&quot;Number of cylinders&quot;</span>)</span>

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -397,7 +398,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="distributionsUniformContinuous" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Continuous Uniform distribution<a href="distributionsUniformContinuous.html#distributionsUniformContinuous" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>One of the simplest continuous distributions used in statistics is the uniform one. It has similarities with the discrete one, which was discussed in Section <a href="distributionUniform.html#distributionUniform">3.5</a>, but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
+<p>Consider an example with elevator. You press the button to call it, and it arrives after some time. This time of arrival can be 0 seconds if the elevator is at your floor, or 1 minute if it is already moving and delivering people to a different floor. From our perspective, we do not know what the state of the elevator is, and we consider each of the possible scenarios equally probable. So, the elevator arriving in 0 seconds has the same probability as it arriving in 5, 15, 30, 55 or 60 seconds. In this case, we could use the continuous uniform distribution to model the lift arrival and to understand, for example, how much time we would need to wait on average.</p>
+<p>The contiunuous uniform distribution has similarities to the discrete one, which was discussed in Section <a href="distributionUniform.html#distributionUniform">3.5</a>, but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
 <span class="math display" id="eq:ContinuousUniformPDF">\[\begin{equation}
     f(y, b, a) = \left\{\begin{aligned}
                         &amp; \frac{1}{b-a} &amp; \text{ for } y \in [a, b] \\

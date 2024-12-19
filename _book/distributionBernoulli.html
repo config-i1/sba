@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -397,7 +398,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="distributionBernoulli" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Tossing a coin – Bernoulli distribution<a href="distributionBernoulli.html#distributionBernoulli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The simplest distribution that arises from one of the commonly used example in probability theory is Bernoulli distribution. It can be used to characterise the outcomes of coin tossing for many times. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to <span class="math inline">\(p=0.5\)</span>. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability <span class="math inline">\(p\)</span>. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase <span class="math inline">\(p\)</span>.</p>
+<p>Consider a case when we track whether it rains at Lancaster or not and want to understand based on this information whether it will rain today or not. In this example, we have two values for a random variable (1 - it rains, 0 - it does not), and if we do not have any additional information, we assume that the probability that it rains is fixed. This situation can be modelled using the Bernoulli distribution.</p>
+<p>It is one of the simplest distributions. It can be used to characterise the situation, when there are only two outcomes of event, like the classical example with coin tossing. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to <span class="math inline">\(p=0.5\)</span>. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability <span class="math inline">\(p\)</span>. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase <span class="math inline">\(p\)</span>.</p>
 <p>In general, the distribution can be characterised with the following PMF:
 <span class="math display" id="eq:BernoulliPMF">\[\begin{equation}
     f(y, p) = p^y (1-p)^{1-y},
@@ -436,7 +438,7 @@ Figure 3.4: Cumulative Distribution Function of Bernoulli distribution with prob
 </ol>
 </div>
 <div class="solution">
-<p><span id="unlabeled-div-7" class="solution"><em>Solution</em>. </span>This is an example of Bernoulli distribution: it has two outcomes and a probability of success.</p>
+<p><span id="unlabeled-div-8" class="solution"><em>Solution</em>. </span>This is an example of Bernoulli distribution: it has two outcomes and a probability of success.</p>
 <p>We will encode the miss as zero and the score as one. Based on that, taking the mean of the outcomes, we can estimate the mean of Bernoulli probability of miss:
 <span class="math display">\[\begin{equation*}
     \bar{y} = \hat{p} = \frac{36}{100} = 0.36.
@@ -446,7 +448,7 @@ So, when Vasiliy throws the next ball in the bin, he will miss with the probabil
 </div>
 <p>In R, this distribution is implemented in <code>stats</code> package via <code>dbinom(size=1)</code>, <code>pbinom(size=1)</code>, <code>qbinom(size=1)</code> and <code>rbinom(size=1)</code> for PDF, CDF, QF and random generator respectively. The important parameter in this case is <code>size=1</code>, which will be discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-8" class="remark"><em>Remark</em>. </span>A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox <span class="citation">(<a href="#ref-Kotz2005">Kotz et al., 2005, p. 8318</a>)</span>. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £<span class="math inline">\(2^2=4\)</span>. In general, I will pay £<span class="math inline">\(2^n\)</span> if I toss consecutively <span class="math inline">\(n\)</span> tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e. what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
+<p><span id="unlabeled-div-9" class="remark"><em>Remark</em>. </span>A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox <span class="citation">(<a href="#ref-Kotz2005">Kotz et al., 2005, p. 8318</a>)</span>. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £<span class="math inline">\(2^2=4\)</span>. In general, I will pay £<span class="math inline">\(2^n\)</span> if I toss consecutively <span class="math inline">\(n\)</span> tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e. what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
 <span class="math display">\[\begin{equation*}
     \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty 2^{j} \left(\frac{1}{2}\right)^{j+1}
 \end{equation*}\]</span>
@@ -456,9 +458,10 @@ The logic behind this formula is that mathematically, we assume that we can have
 \end{equation*}\]</span>
 So, although it is unrealistic to expect in real life that the streak of tails will continue indefinitely, the statistics theory tells us that the fair price for the game is infinity. Practically speaking, the infinite amount of tails will never happen, so we should have a finite number for the price. But mathematics assumes that the experiment can be repeated infinite amount of times, and in this case it is entirely possible that we will observe an infinite streak of tails. This is the Saint Petersburg paradox, which demonstrates how sometimes the asymptotic properties relate to reality. I think that it provides a good demonstration of what statistics typically works with.</p>
 </div>
+<p>Finally, coming back to the rain example, we cannot say for sure whether it will rain tomorrow or not, but based on the collected sample, we can calculate the probability of that event. But remember that even if the probability is low, it does not mean that you do not need to bring an umbrella with you.</p>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Kotz2005" class="csl-entry">
 • Kotz, S., Balakrishnan, N., Read, C.B., Vidakovic, B., 2005. Encyclopedia of statistical sciences. John Wiley &amp; Sons, Inc., Hoboken, New Jersey.
 </div>

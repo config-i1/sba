@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -397,7 +398,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="powerOfTheTest" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Power of a test<a href="powerOfTheTest.html#powerOfTheTest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Power of a test is one of the important theoretical ideas related to hypothesis testing. It is <strong>the probability of correctly rejecting the wrong hypothesis</strong>. By definition, it is equal to <span class="math inline">\(1-\beta\)</span> in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.</p>
+<p>Consider a situation when we want to know average income of people living in a country across two regions, and we want to find out whether those averages are similar or not. We could ask “what’s your yearly income” for ten people in each of the regions, calculate means and compare them using some statistical test (these will be discussed in Chapter <a href="statisticalTests.html#statisticalTests">8</a>). If the average incomes are in reality indeed different, we would expect the test to tell us that. However, having such a small sample, we might not be able to detect the difference correctly. For example, although the averages of 25000 and 27000 could look very different, the specific values could have happened at random, and if we asked another ten people in the regions, the samples could well be 28000 and 24000 respectively. This happens because of the small sample inefficiency of the averages (discussed in Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>). In this situation of testing a hypothesis on a small sample, we would say that the <em>power of the test is low</em>.</p>
+<p>If we were to collect larger samples, say 100 in each region, the estimates of the average income will be more reliable (efficient, less biased), and thus the same statistical test will find it easier to detect the differences between them. In that situation we would say that its power has increased in comparison with the small sample case.</p>
+<!-- Another aspect to keep in mind is that with the increase of the sample size, the power will always increase and thus statistical tests will be able to detect even tiny deviations between values. -->
+<p>This idea of the power of the test is important to understand what test to use in different circumstances. Its definition is as follows: <strong>power of the test is the probability of correctly rejecting the wrong hypothesis</strong>. By definition, it is equal to <span class="math inline">\(1-\beta\)</span> in Table <a href="typeErrors.html#tab:typeErrorsTable">7.1</a> and thus lies between 0 and 1, where the higher number reflects the higher power. While it is possible to calculate the power of a test, when the true value is known, in practice this does not make sense, because in reality we never know it. But the idea itself is useful because it allows comparing the theoretical properties of different statistical tests.</p>
 <p>Given that the power of the test is a probability, it can be calculated for a specific test with specific parameters, assuming that a specific hypothesis is true. In this section, we will explain how to do that.</p>
 <div id="visual-explanation" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Visual explanation<a href="powerOfTheTest.html#visual-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -541,7 +545,7 @@ Note that we sum up all the values up until <span class="math inline">\(\mu^*\)<
     \tag{7.8}
 \end{equation}\]</span></p>
 <div class="remark">
-<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
+<p><span id="unlabeled-div-19" class="remark"><em>Remark</em>. </span>Note that the integration is done until <span class="math inline">\(\mu^*\)</span>, covering the values, where the hypothesis would be correctly rejected. In the example discussed in Subsection <a href="powerOfTheTest.html#PowerMathematical">7.3.2</a>, we calculated in equation <a href="powerOfTheTest.html#eq:powerOfATest02">(7.5)</a> that <span class="math inline">\(\mu^*=2.95\)</span>. If we had a different null hypothesis, we would do integration differently. For example, in case of <span class="math inline">\(\mathrm{H}_0: \mu \leq 3\)</span>, the integration would be done from 2.95 to <span class="math inline">\(\infty\)</span>.</p>
 </div>
 <p>The calculation of the assurance in some cases can be done analytically. For example, <span class="citation">O’Hagan et al. (<a href="#ref-OHagan2005">2005</a>)</span> derive formulae for normal distribution for several tests. However, the analytical solution in some cases might be either too complicated, or unavailable. In these situations, the integration can be done numerically, for example, using Monte-Carlo simulations.
 <!-- For the power curve generated in Figure \@ref(fig:powerCurve), the assurance can be roughly estimated as: --></p>
@@ -549,7 +553,7 @@ Note that we sum up all the values up until <span class="math inline">\(\mu^*\)<
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-OHagan2005" class="csl-entry">
 • O’Hagan, A., Stevens, J.W., Campbell, M.J., 2005. <span class="nocase">Assurance in clinical trial design</span>. 4, 187–201. <a href="https://doi.org/10.1002/pst.175">https://doi.org/10.1002/pst.175</a>
 </div>

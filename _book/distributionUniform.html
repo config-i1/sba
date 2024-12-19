@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -397,7 +398,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="distributionUniform" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Rolling a dice – Discrete Uniform distribution<a href="distributionUniform.html#distributionUniform" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Another simple distribution, arising from a classical probability theory examples, is the Uniform distribution. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section <a href="distributionsUniformContinuous.html#distributionsUniformContinuous">4.2</a>).</p>
+<p>In the second world war, the UK faced a problem of understanding how many tanks Nazi Germany had. Some tank components had serial numbers, and when some of tanks were captured or destroyed, it was possible to track these numbers. But was it possible to say how many enemy tanks there were overall? As it appears, it was. From the stand point of the UK, it was equally possible to have a serial number 0001, 0042, 0500 or, say, 1984. The distribution of these serial numbers could be assumed uniform, which was then used to get an estimate of the maximum number of tanks that the enemy had. We will come back to the solution of this problem at the end of this section.</p>
+<p>This distribution is one of the basic ones in the probability theory. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section <a href="distributionsUniformContinuous.html#distributionsUniformContinuous">4.2</a>).</p>
 <p>The classical example of application of this distribution is dice rolling. The conventional dice has 6 sides and when rolled can give a value of 1 to 6. If the dice is fair then the probability of getting a score on it is the same for all the sides. This means that the PMF of the distribution can be written as:
 <span class="math display" id="eq:UniformPMF">\[\begin{equation}
     f(y, k) = \frac{1}{k},
@@ -436,7 +438,7 @@ Figure 3.10: Cumulative Distribution Function of Uniform distribution for 1d6.
 <p>A company produces headphones, putting serial numbers on them. So far, it has produced 9,990 of them. If a customer buys headphones, what is the probability that they will get a serial number with three digits?</p>
 </div>
 <div class="solution">
-<p><span id="unlabeled-div-10" class="solution"><em>Solution</em>. </span>This is the task on Uniform distribution, because serial numbers do not repeat and we can assume that the probability of getting any of them is the same. In terms of parameters, <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=9990\)</span>. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
+<p><span id="unlabeled-div-11" class="solution"><em>Solution</em>. </span>This is the task on Uniform distribution, because serial numbers do not repeat and we can assume that the probability of getting any of them is the same. In terms of parameters, <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=9990\)</span>. To get a serial number with three digits, a customer needs to have anything between 100 and 999. This can be formulated as:
 <span class="math display">\[\begin{equation*}
     \mathrm{P}(100 \leq y \leq 999) = \mathrm{P}(y \leq 999) - \mathrm{P}(y \leq 99).
 \end{equation*}\]</span>
@@ -446,14 +448,32 @@ Inserting the values in the CDF of the Uniform distribution <a href="distributio
 \end{equation*}\]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-11" class="remark"><em>Remark</em>. </span>Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While we do not discuss it here, we note that this is a distribution, which is, for example, used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.</p>
+<p><span id="unlabeled-div-12" class="remark"><em>Remark</em>. </span>Similarly how Binomial distribution is a generalisation of the Bernoulli, there is distribution describing the multiple dice rolls. It is called the Multinomial distribution. While we do not discuss it here, we note that this is a distribution, which is, for example, used to model respondents choices in survey, when the variable of interest is in a categorical scale and the probabilities for different options are not equal.</p>
 </div>
+<p>Coming back to the example with the German tanks, this problem was solved by estimating the maximum of the uniform distribution, i.e. getting the estimate of <span class="math inline">\(b\)</span>. <span class="citation">Goodman (<a href="#ref-Goodman1952">1952</a>)</span> provides a solution. He showed how to find the maximum for a set of serial numbers. An unbiased and efficient estimate of the maximum value can be calculated using the following formula:
+<span class="math display">\[\begin{equation*}
+    \hat{b} = m + \frac{m}{k}-1,
+\end{equation*}\]</span>
+where <span class="math inline">\(m\)</span> is the maximum number observed in the sample, and <span class="math inline">\(k\)</span> is the number of the observed values. For the sequence of serial numbers <span class="citation">(from <a href="#ref-Goodman1954">Goodman, 1954</a>)</span> 83, 135, 274, 380, 668, 895, 955, 964, 1113, 1174, 1210, 1344, 1387, 1414, 1610, 1668, 1689, 1756, 1865, 1874, 1880, 1936, 2005, 2006, 2065, 2157, 2220, 2224, 2396, 2543 and 2787, we have:
+<span class="math display">\[\begin{equation*}
+    \hat{b} = 2787 + \frac{2787}{31}-1 \approx 2876 .
+\end{equation*}\]</span>
+The real maximum number in that example was 2885, making the estimate above quite accurate. There are several solutions to this problem, and in the Second World War, statistical estimates were <a href="https://www.theguardian.com/world/2006/jul/20/secondworldwar.tvandradio">shown to be much more accurate than the ones obtained via intelligence</a>.</p>
 <!-- ## Geometric -->
 <!-- ## Negative Binomial -->
 <!-- Read Boylan & Syntetos -->
 
 </div>
 <!-- </div> -->
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Goodman1954" class="csl-entry">
+• Goodman, L.A., 1954. Some practical techniques in serial number analysis. Journal of the American Statistical Association. 49, 97–112. <a href="https://doi.org/10.1080/01621459.1954.10501218">https://doi.org/10.1080/01621459.1954.10501218</a>
+</div>
+<div id="ref-Goodman1952" class="csl-entry">
+• Goodman, L.A., 1952. Serial <span>Number Analysis</span>. Journal of the American Statistical Association. 47, 622–634. <a href="https://doi.org/10.1080/01621459.1952.10483442">https://doi.org/10.1080/01621459.1952.10483442</a>
+</div>
+</div>
 
             </section>
 

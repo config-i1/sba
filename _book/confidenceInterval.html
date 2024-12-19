@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -434,7 +435,7 @@ Figure 6.10: Distribution of the sample mean and the confidence interval based o
 \end{equation}\]</span>
 where <span class="math inline">\(t_{\alpha/2}(df)\)</span> is Student’s t-statistics for <span class="math inline">\(df=n-k\)</span> degrees of freedom (<span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(k\)</span> is the number of estimated parameters, e.g. <span class="math inline">\(k=1\)</span> in our case) and level <span class="math inline">\(\alpha/2\)</span>, and <span class="math inline">\(s_{\bar{y}}=\frac{1}{\sqrt{n}}s\)</span> is the estimate of the standard deviation of the sample mean (see proof below). If we knew for some reason the true variance <span class="math inline">\(\sigma^2\)</span>, then we could use z-statistics instead of t, but we typically do not, so we need to take the uncertainty about the variance into account as well, thus the use of t-statistics (see discussion of sample mean tests in Section <a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMean">8.1</a>).</p>
 <div class="proof">
-<p><span id="unlabeled-div-15" class="proof"><em>Proof</em>. </span>We are interested in calculating the variance of <span class="math inline">\(\bar{y}=\frac{1}{n} \sum_{j=1}^n y_j\)</span>. If <span class="math inline">\(s\)</span> is the standard deviation of the random variable <span class="math inline">\(y\)</span>, then <span class="math inline">\(\mathrm{V}(y_j) = s^2\)</span>. The following derivations assume that <span class="math inline">\(y_j\)</span> is i.i.d. (specifically, not correlated with each other).
+<p><span id="unlabeled-div-16" class="proof"><em>Proof</em>. </span>We are interested in calculating the variance of <span class="math inline">\(\bar{y}=\frac{1}{n} \sum_{j=1}^n y_j\)</span>. If <span class="math inline">\(s\)</span> is the standard deviation of the random variable <span class="math inline">\(y\)</span>, then <span class="math inline">\(\mathrm{V}(y_j) = s^2\)</span>. The following derivations assume that <span class="math inline">\(y_j\)</span> is i.i.d. (specifically, not correlated with each other).
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
     \mathrm{V}(\bar{y}) = &amp; \mathrm{V}\left(\frac{1}{n} \sum_{j=1}^n y_j \right) = \frac{1}{n^2} \mathrm{V} \left(\sum_{j=1}^n y_j \right) = \\

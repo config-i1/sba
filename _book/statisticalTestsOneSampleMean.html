@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-10-03" />
+<meta name="date" content="2024-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -397,7 +398,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="statisticalTestsOneSampleMean" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> One-sample tests about mean<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Consider an example, where we collected the data of height of 100 males in across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS in 2012. Based on our sample, we found that the mean height was 176.1 cm. How do we formulate and test such hypothesis? We need to follow the procedure described in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>. We start by formulating null and alternative hypotheses:
+<p>Consider an example, where we collected the data of height of 100 males across England for the 2021. Based on that sample we want to see if the average height is 175.3 cm, as it was claimed by NHS back in 2012. Based on our sample, we found that the mean height was 176.1 cm. Can we say that the height has increased or did we get this value just because of the pure randomness? How do we formulate and test such hypothesis? We need to follow the procedure described in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>. We start by formulating null and alternative hypotheses:
 <span class="math display">\[\begin{equation*}
     \mathrm{H}_0: \mu = 175.3, \mathrm{H}_1: \mu \neq 175.3 .
 \end{equation*}\]</span>
@@ -405,9 +406,9 @@ Next, we select the significance level. If the level is not given to us, then we
 <p>After that, we select the appropriate test. The task described above focuses on investigating the hypothesis about the mean. If we can assume that the CLT holds (see Section <a href="CLT.html#CLT">6.2</a>), then we can use a parametric statistical test, because we know that the sample mean will follow Normal distribution in that case. In our example, we can indeed assume that it holds, because we deal with a sample of 100 observations, and we can also assume that the distribution of height across England is symmetric (we do not expect people to have extreme heights of, let’s say, 5 meters or 0.5 meters). The next thing to consider is whether the population standard deviation of the mean height is known or not. Based on that, we would choose either z-test or t-test.</p>
 <div id="statisticalTestsOneSampleMeanZ" class="section level3 hasAnchor" number="8.1.1">
 <h3><span class="header-section-number">8.1.1</span> z-test<a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consider the situation, where we know from NHS that the population standard deviation of height is <span class="math inline">\(\sigma=5\)</span>.</p>
+<p>Consider the situation, where we know from NHS that the population standard deviation of height is <span class="math inline">\(\sigma=5\)</span> (typically, we do not know it, except for some very rare cases, when this is given by design, e.g. due to how some machine is calibrated).</p>
 <div class="remark">
-<p><span id="unlabeled-div-19" class="remark"><em>Remark</em>. </span>As shown in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, if the standard deviation of <span class="math inline">\(y\)</span> is <span class="math inline">\(\sigma\)</span>, then the standard deviation of <span class="math inline">\(\bar{y}\)</span> is <span class="math inline">\(\frac{1}{\sqrt{n}} \sigma\)</span>. This means that in our case <span class="math inline">\(\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5\)</span>.</p>
+<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>As shown in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, if the standard deviation of <span class="math inline">\(y\)</span> is <span class="math inline">\(\sigma\)</span>, then the standard deviation of <span class="math inline">\(\bar{y}\)</span> is <span class="math inline">\(\frac{1}{\sqrt{n}} \sigma\)</span>. This means that in our case <span class="math inline">\(\sigma_{\bar{y}}=\frac{1}{\sqrt{100}} \times 5 =0.5\)</span>.</p>
 </div>
 <p>If we assume that the mean follows Normal distribution and know the population standard deviation, i.e. <span class="math inline">\(\bar{y} \sim \mathcal{N}\left(\mu, \sigma^2_{\bar{y}}\right)\)</span>, then the standardised value z:
 <span class="math display" id="eq:zTestFormula">\[\begin{equation}
@@ -468,7 +469,7 @@ while the critical value for the chosen 1% significance level is:</p>
 ## mean of x 
 ##  176.2516</code></pre>
 <div class="remark">
-<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>If we were to test a one-sided hypothesis (e.g. <span class="math inline">\(\mathrm{H}_0: \mu &lt; 175.3, \mathrm{H}_1: \mu \geq 175.3\)</span>), then we would need to change the <code>alternative</code> parameters in the <code>t.test()</code> function to correspond to the formulated H<span class="math inline">\(_1\)</span>.</p>
+<p><span id="unlabeled-div-21" class="remark"><em>Remark</em>. </span>If we were to test a one-sided hypothesis (e.g. <span class="math inline">\(\mathrm{H}_0: \mu &lt; 175.3, \mathrm{H}_1: \mu \geq 175.3\)</span>), then we would need to change the <code>alternative</code> parameters in the <code>t.test()</code> function to correspond to the formulated H<span class="math inline">\(_1\)</span>.</p>
 </div>
 <p>The output above shows the calculated t (1.8509), the number of degrees of freedom and the p-value. It also constructs the 99% confidence interval (174.9013, 177.6018). The conclusions can be made using one of the three approaches, discussed above and in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>:</p>
 <ol style="list-style-type: decimal">
