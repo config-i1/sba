@@ -252,6 +252,13 @@ Final thing to note about the Binomial distribution is that with the growth of t
 In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbinom()` and `rbinom()` from `stats` package. The functions have parameter `size` which is the number of trials $n$, and parameter `prob`, which is a probability of success $p$. If `size=1`, the distribution functions revert to the ones from Bernoulli distribution (Section \@ref(distributionBernoulli)).
 
 
+## Negative Binomial distribution
+Imagine that you have a situation when you sell a luxury expensive product and you track its sales. On Monday nobody came to buy it. On Tuesday, you had a client who bought it. On Wednesday, Thursday and Friday nobody bought it again. But on Saturday two different people came and bought it. Can we somehow model this process and maybe forecast how many products we can sell over the next week?
+
+Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment before some defined number of successes occurs. In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in our example above, we could say that a success is when someone buys our product, and we could imagine that people are thinking  
+
+
+
 ## Modelling arrivals -- Poisson distribution {#distributionPoisson}
 Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some come because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital (the whole population living in the area), but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people, such as a big pub fight) and arrive at random. In this example, we could argue that the process of arrival is memoryless, because the arrivals of different patients are not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 \begin{equation}
