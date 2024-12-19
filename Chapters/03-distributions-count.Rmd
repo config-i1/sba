@@ -436,23 +436,29 @@ par(mfcol=c(2,2))
 xValues <- seq(0,20,1)
 dnbinom(xValues, 1, 0.2) |>
     barplot(main="p=0.2, k=1",
-            ylab="Probability", xlab="m", col="grey95") -> test
+            ylab="Probability", xlab="m",
+            col="grey95", ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 dnbinom(xValues, 2, 0.2) |>
     barplot(main="p=0.2, k=2",
-            ylab="Probability", xlab="m", col="grey95") -> test
-axis(side=1,at=test,labels=xValues)
-dnbinom(xValues, 1, 0.5) |>
-    barplot(main="p=0.5, k=1",
-            ylab="Probability", xlab="m", col="grey95") -> test
+            ylab="Probability", xlab="m",
+            col="grey95", ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 dnbinom(xValues, 4, 0.2) |>
     barplot(main="p=0.2, k=4",
-            ylab="Probability", xlab="m", col="grey95") -> test
+            ylab="Probability", xlab="m",
+            col="grey95", ylim=c(0,0.2)) -> test
+axis(side=1,at=test,labels=xValues)
+dnbinom(xValues, 1, 0.1) |>
+    barplot(main="p=0.1, k=1",
+            ylab="Probability", xlab="m",
+            col="grey95", ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 ```
 
-The PMF of this distribution is:
+Figure \@ref(fig:NegBinPMF) shows that, for example, if p=0.2, and we want to have one success (k=1), we have the probability of 0.2 that we will succeed without having any failures. To make this easier to understand, if we have a 1d5 (five-sided dice), and we define success as rolling 5 on it, the probability that we will have it is 0.2 (this is one out of five possible outcomes), which corresponds to the first bar in the first plot in Figure \@ref(fig:NegBinPMF). The probability that we will roll 5 in the second trial is $0.2 \times (1-0.2) = 0.16$, which corresponds to the second bar in the first plot in Figure \@ref(fig:NegBinPMF), etc. With $k=2$, we model a situation when we need to get five two times in an experiment (not necessarily sequentially).
+
+The PMF of this distribution is written as:
 \begin{equation}
     f(m, k, p) = \begin{pmatrix} k+m-1 \\ m \end{pmatrix} p^k (1-p)^m ,
     (\#eq:NegBinPMF)
