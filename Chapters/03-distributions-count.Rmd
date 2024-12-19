@@ -252,13 +252,6 @@ Final thing to note about the Binomial distribution is that with the growth of t
 In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbinom()` and `rbinom()` from `stats` package. The functions have parameter `size` which is the number of trials $n$, and parameter `prob`, which is a probability of success $p$. If `size=1`, the distribution functions revert to the ones from Bernoulli distribution (Section \@ref(distributionBernoulli)).
 
 
-## Negative Binomial distribution
-Imagine that you have a situation when you sell a luxury expensive product and you track its sales. On Monday nobody came to buy it. On Tuesday, you had a client who bought it. On Wednesday, Thursday and Friday nobody bought it again. But on Saturday two different people came and bought it. Can we somehow model this process and maybe forecast how many products we can sell over the next week?
-
-Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment before some defined number of successes occurs. In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in our example above, we could say that a success is when someone buys our product, and we could imagine that people are thinking  
-
-
-
 ## Modelling arrivals -- Poisson distribution {#distributionPoisson}
 Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some come because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital (the whole population living in the area), but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people, such as a big pub fight) and arrive at random. In this example, we could argue that the process of arrival is memoryless, because the arrivals of different patients are not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 \begin{equation}
@@ -429,6 +422,43 @@ where $m$ is the maximum number observed in the sample, and $k$ is the number of
     \hat{b} = 2787 + \frac{2787}{31}-1 \approx 2876 .
 \end{equation*}
 The real maximum number in that example was 2885, making the estimate above quite accurate. There are several solutions to this problem, and in the Second World War, statistical estimates were [shown to be much more accurate than the ones obtained via intelligence](https://www.theguardian.com/world/2006/jul/20/secondworldwar.tvandradio).
+
+
+## Negative Binomial distribution  {#distributionNegBin}
+Imagine that you have a situation when you sell a luxury expensive product and you track its sales. On Monday nobody came to buy it. On Tuesday, you had a client who bought it once. On Wednesday, Thursday and Friday nobody bought it again. But on Saturday two different people came and bought one each. Can we somehow model this process and maybe forecast how many products we can sell over the next week?
+
+Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment (e.g. no sales) before some defined number of successes occurs (sale). In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in the example above, we could say that a success is when someone buys our product, and we could imagine that people are thinking of buying, they toss an imaginary coin and either do or do not make this decision based on some probability.
+
+Visually, the PMF of the NegBin can be represented in the following way (Figure \@ref(fig:NegBinPMF)) with $p$ being the probability of success, $k$ being the number of successes before the experiment stops, and $m$ being the number of failures.
+
+```{r NegBinPMF, fig.cap="PMF of the Negative Binomial distribution with different probabilities and number of successes $k$.", echo=FALSE}
+par(mfcol=c(2,2))
+xValues <- seq(0,20,1)
+dnbinom(xValues, 1, 0.2) |>
+    barplot(main="p=0.2, k=1",
+            ylab="Probability", xlab="m", col="grey95") -> test
+axis(side=1,at=test,labels=xValues)
+dnbinom(xValues, 2, 0.2) |>
+    barplot(main="p=0.2, k=2",
+            ylab="Probability", xlab="m", col="grey95") -> test
+axis(side=1,at=test,labels=xValues)
+dnbinom(xValues, 1, 0.5) |>
+    barplot(main="p=0.5, k=1",
+            ylab="Probability", xlab="m", col="grey95") -> test
+axis(side=1,at=test,labels=xValues)
+dnbinom(xValues, 4, 0.2) |>
+    barplot(main="p=0.2, k=4",
+            ylab="Probability", xlab="m", col="grey95") -> test
+axis(side=1,at=test,labels=xValues)
+```
+
+The PMF of this distribution is:
+\begin{equation}
+    f(m, k, p) = \begin{pmatrix} k+m-1 \\ m \end{pmatrix} p^k (1-p)^m ,
+    (\#eq:NegBinPMF)
+\end{equation}
+where $k$ is the number of successes and $m$ is the number of failures. This PMF is very similar to the one of the Binomial distribution, but it is parametrised differently, which makes it useful in some contexts (like the one mentioned in the beginning of this section).
+
 
 
 <!-- ## Geometric -->
