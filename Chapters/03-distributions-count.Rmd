@@ -138,9 +138,15 @@ Finally, coming back to the rain example, we cannot say for sure whether it will
 
 
 ## Multiple coin tosses -- Binomial distribution {#distributionBinomial}
-In the previous example with coin tossing we focused on the experiment that contained only one step: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways: 1. first trial is one and then the rest are zero; 2. second trial is one and the rest are zero, etc. This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?
+In the previous example with coin tossing we focused on the experiment that contained only one trial: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways:
 
-Yes, we can. The distribution that underlies this situation is called "Binomial". For the coin tossing experiment with 10 trials and $p=0.5$ it looks like one shown in Figure \@ref(fig:binomialPMF05).
+1. first trial is one and then the rest are zero;
+2. second trial is one and the rest are zero;
+3. etc.
+
+This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?
+
+Yes, we can. The distribution that underlies this experiment is called "Binomial". For the coin tossing experiment with 10 trials and $p=0.5$ it looks like one shown in Figure \@ref(fig:binomialPMF05).
 
 ```{r binomialPMF05, fig.cap="Probability Mass Function for Binomial distribution with p=0.5 and n=10.", echo=FALSE}
 test <- barplot(dbinom(c(0:10), size=10, prob=0.5), ylim=c(0,1),
@@ -247,7 +253,7 @@ In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbin
 
 
 ## Modelling arrivals -- Poisson distribution {#distributionPoisson}
-Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some came because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital, but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people) and arrive at random. If we consider this example of arrival of patients to the hospital, then we could argue that this process is memoryless, because the arrival of different patients is not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
+Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some come because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital (the whole population living in the area), but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people, such as a big pub fight) and arrive at random. In this example, we could argue that the process of arrival is memoryless, because the arrivals of different patients are not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 \begin{equation}
     \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2),
     (\#eq:PoissonTimes)
