@@ -38,7 +38,9 @@ Because we considered the discrete random variable, the distribution shown in Fi
 
 
 ## Tossing a coin -- Bernoulli distribution {#distributionBernoulli}
-The simplest distribution that arises from one of the commonly used example in probability theory is Bernoulli distribution. It can be used to characterise the outcomes of coin tossing for many times. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
+Consider a case when we track whether it rains at Lancaster or not and want to understand based on this information whether it will rain today or not. In this example, we have two values for a random variable (1 - it rains, 0 - it does not), and if we do not have any additional information, we assume that the probability that it rains is fixed. This situation can be modelled using the Bernoulli distribution.
+
+It is one of the simplest distributions. It can be used to characterise the situation, when there are only two outcomes of event, like the classical example with coin tossing. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
 
 In general, the distribution can be characterised with the following PMF:
 \begin{equation}
@@ -131,6 +133,7 @@ The logic behind this formula is that mathematically, we assume that we can have
 \end{equation*}
 So, although it is unrealistic to expect in real life that the streak of tails will continue indefinitely, the statistics theory tells us that the fair price for the game is infinity. Practically speaking, the infinite amount of tails will never happen, so we should have a finite number for the price. But mathematics assumes that the experiment can be repeated infinite amount of times, and in this case it is entirely possible that we will observe an infinite streak of tails. This is the Saint Petersburg paradox, which demonstrates how sometimes the asymptotic properties relate to reality. I think that it provides a good demonstration of what statistics typically works with.
 :::
+Finally, coming back to the rain example, we cannot say for sure whether it will rain tomorrow or not, but based on the collected sample, we can calculate the probability of that event. But remember that even if the probability is low, it does not mean that you do not need to bring an umbrella with you.
 
 
 ## Multiple coin tosses -- Binomial distribution {#distributionBinomial}
