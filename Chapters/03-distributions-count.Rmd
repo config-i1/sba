@@ -425,9 +425,9 @@ The real maximum number in that example was 2885, making the estimate above quit
 
 
 ## Negative Binomial distribution  {#distributionNegBin}
-Imagine that you have a situation when you sell a luxury expensive product and you track its sales. On Monday nobody came to buy it. On Tuesday, you had a client who bought it once. On Wednesday, Thursday and Friday nobody bought it again. But on Saturday two different people came and bought one each. Can we somehow model this process and maybe forecast how many products we can sell over the next week?
+One of the tasks in manufacturing is to understand how many days it might take for a machine to break. In this case, everyday when it works we could encode as a "failure to break", and when it breaks, we would encode it as "success". Assuming that there are many small unpredictable factors impacting the possibility to break, we can safely assume that there is a fixed probability that this will happen. Can we somehow model this process to make adequate decisions about the work of the machine?
 
-Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment (e.g. no sales) before some defined number of successes occurs (sale). In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in the example above, we could say that a success is when someone buys our product, and we could imagine that people are thinking of buying, they toss an imaginary coin and either do or do not make this decision based on some probability.
+Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment (e.g. no breaks) before some defined number of successes occurs (a break). In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in the example above, we could say that a success is when the machine stops working.
 
 Visually, the PMF of the NegBin can be represented in the following way (Figure \@ref(fig:NegBinPMF)) with $p$ being the probability of success, $k$ being the number of successes before the experiment stops, and $m$ being the number of failures.
 
