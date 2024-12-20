@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-19" />
+<meta name="date" content="2024-12-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -209,6 +209,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Multiple coin tosses – Binomial distribution</a></li>
 <li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Modelling arrivals – Poisson distribution</a></li>
 <li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Rolling a dice – Discrete Uniform distribution</a></li>
+<li class="chapter" data-level="3.6" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.6</b> Negative Binomial distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -398,8 +399,14 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="distributionBinomial" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Multiple coin tosses – Binomial distribution<a href="distributionBinomial.html#distributionBinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the previous example with coin tossing we focused on the experiment that contained only one step: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways: 1. first trial is one and then the rest are zero; 2. second trial is one and the rest are zero, etc. This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?</p>
-<p>Yes, we can. The distribution that underlies this situation is called “Binomial”. For the coin tossing experiment with 10 trials and <span class="math inline">\(p=0.5\)</span> it looks like one shown in Figure <a href="distributionBinomial.html#fig:binomialPMF05">3.5</a>.</p>
+<p>In the previous example with coin tossing we focused on the experiment that contained only one trial: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways:</p>
+<ol style="list-style-type: decimal">
+<li>first trial is one and then the rest are zero;</li>
+<li>second trial is one and the rest are zero;</li>
+<li>etc.</li>
+</ol>
+<p>This means that the score in this experiment will have a distribution of its own. But can we describe it somehow?</p>
+<p>Yes, we can. The distribution that underlies this experiment is called “Binomial”. For the coin tossing experiment with 10 trials and <span class="math inline">\(p=0.5\)</span> it looks like one shown in Figure <a href="distributionBinomial.html#fig:binomialPMF05">3.5</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialPMF05"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialPMF05-1.png" alt="Probability Mass Function for Binomial distribution with p=0.5 and n=10." width="672" />
 <p class="caption">
