@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-20" />
+<meta name="date" content="2024-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -400,7 +400,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="distributionNegBin" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Negative Binomial distribution<a href="distributionNegBin.html#distributionNegBin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One of the tasks in manufacturing is to understand how many days it might take for a machine to break. In this case, everyday when it works we could encode as a “failure to break”, and when it breaks, we would encode it as “success”. Assuming that there are many small unpredictable factors impacting the possibility to break, we can safely assume that there is a fixed probability that this will happen. Can we somehow model this process to make adequate decisions about the work of the machine?</p>
-<p>Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment (e.g. no breaks) before some defined number of successes occurs (a break). In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in the example above, we could say that a success is when the machine stops working.</p>
+<p>Yes. The Negative Binomial distribution is one of the appropriate tools here. It models the number of failures in an experiment (no breaks in our example) before some defined number of successes occurs. In contrast with the Binomial distribution, in the NegBin, the number of the total trials is unknown. And in the example above, we could say that a success is when the machine stops working.</p>
 <p>Visually, the PMF of the NegBin can be represented in the following way (Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a>) with <span class="math inline">\(p\)</span> being the probability of success, <span class="math inline">\(k\)</span> being the number of successes before the experiment stops, and <span class="math inline">\(m\)</span> being the number of failures.</p>
 <div class="figure"><span style="display:block;" id="fig:NegBinPMF"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/NegBinPMF-1.png" alt="PMF of the Negative Binomial distribution with different probabilities and number of successes $k$." width="672" />
@@ -408,13 +408,47 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Figure 3.11: PMF of the Negative Binomial distribution with different probabilities and number of successes <span class="math inline">\(k\)</span>.
 </p>
 </div>
-<p>Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a> shows that, for example, if p=0.2, and we want to have one success (k=1), we have the probability of 0.2 that we will succeed without having any failures. To make this easier to understand, if we have a 1d5 (five-sided dice), and we define success as rolling 5 on it, the probability that we will have it is 0.2 (this is one out of five possible outcomes), which corresponds to the first bar in the first plot in Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a>. The probability that we will roll 5 in the second trial is <span class="math inline">\(0.2 \times (1-0.2) = 0.16\)</span>, which corresponds to the second bar in the first plot in Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a>, etc. With <span class="math inline">\(k=2\)</span>, we model a situation when we need to get five two times in an experiment (not necessarily sequentially).</p>
-<p>The PMF of this distribution is written as:
+<p>Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a> shows that, for example, if p=0.2, and we want to have one success (k=1), we have the probability of 0.2 that we will succeed without having any failures. To make this easier to understand, if we have a 1d5 (five-sided dice), and we define success as rolling 5 on it, the probability that we will have it in the first roll is 0.2 (this is one out of five possible outcomes), which corresponds to the first bar in the first plot in Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a>. The probability that we will roll 5 in the second trial is <span class="math inline">\(0.2 \times (1-0.2) = 0.16\)</span>, which corresponds to the second bar in the first plot in Figure <a href="distributionNegBin.html#fig:NegBinPMF">3.11</a>, and so on. With <span class="math inline">\(k=2\)</span>, a situation is modelled when we need to get five on a dice two times in an experiment (not necessarily sequentially). The calculation of the specific probability becomes more complicated with the incrase of <span class="math inline">\(k\)</span>. But in general, the PMF of the Negative Binomial distribution is written as:
 <span class="math display" id="eq:NegBinPMF">\[\begin{equation}
     f(m, k, p) = \begin{pmatrix} k+m-1 \\ m \end{pmatrix} p^k (1-p)^m ,
     \tag{3.17}
 \end{equation}\]</span>
 where <span class="math inline">\(k\)</span> is the number of successes and <span class="math inline">\(m\)</span> is the number of failures. This PMF is very similar to the one of the Binomial distribution, but it is parametrised differently, which makes it useful in some contexts (like the one mentioned in the beginning of this section).</p>
+<p>The characteristics of the Negative Binomial distribution are similar to the Binomial one, discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>, except for the last (fifth) element: the number of overall trials in the NegBin is unknown.</p>
+<p>The mean and standard deviations of the distribution are defined as:
+<span class="math display" id="eq:NegBinMean">\[\begin{equation}
+    \mathrm{E}(y) = k \frac{1-p}{p}
+    \tag{3.18}
+\end{equation}\]</span>
+and
+<span class="math display" id="eq:NegBinVar">\[\begin{equation}
+    \mathrm{V}(y) = k \frac{1-p}{p^2}
+    \tag{3.19}
+\end{equation}\]</span>
+respectively.</p>
+<div class="task">
+<p>A machine in a factory works only when at least one of the three independent components works. The probability of a break of each component is estimated to be 0.1. How many days would it take on average for the machine to stop working? What is the probability that the machine will work exactly for a month (30 days)?</p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-13" class="solution"><em>Solution</em>. </span>In this task, we use the Negative Binomial distribution because:</p>
+<ol style="list-style-type: decimal">
+<li>There are many potential trials;</li>
+<li>In each trial, there are only two outcomes: components work or fail;</li>
+<li>The probability of success (a component breaks) is fixed between the trials;</li>
+<li>The trials are independent: if one component fails, this should not impact the work of the other one;</li>
+<li>The number of trials <span class="math inline">\(n\)</span> is unknown.</li>
+</ol>
+<p>The probability of failure (success in the terms of NegBin) is <span class="math inline">\(p=0.1\)</span>. The number of components, <span class="math inline">\(k=3\)</span>. This is all we need to know to use the distribution and answer the questions.</p>
+<p>The average number of days until the machine stops working is calculated using <a href="distributionNegBin.html#eq:NegBinMean">(3.18)</a>:
+<span class="math display" id="eq:NegBinMean">\[\begin{equation}
+    \mathrm{E}(y) = 3 \frac{1-0.1}{0.1} = 27
+    \tag{3.18}
+\end{equation}\]</span>
+As for the answer to the second question, working for exactly 30 days means that the machine will break on the 31st day. We can use the PMF, specifying <span class="math inline">\(m=30\)</span>:
+<span class="math display">\[\begin{equation*}
+    f(30, 3, 0.1) = \begin{pmatrix} 30+3-1 \\ 3 \end{pmatrix} 0.1^3 (1-0.1)^30 \approx 0.021 .
+\end{equation*}\]</span></p>
+</div>
 <!-- ## Geometric -->
 
 </div>
