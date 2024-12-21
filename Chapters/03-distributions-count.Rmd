@@ -37,7 +37,7 @@ Finally, MGF and CF are the functions that allow obtaining the moments of distri
 Because we considered the discrete random variable, the distribution shown in Figure \@ref(fig:distributionDice12) is discrete as well.
 
 
-## Tossing a coin -- Bernoulli distribution {#distributionBernoulli}
+## Bernoulli distribution (Tossing a coin) {#distributionBernoulli}
 Consider a case when we track whether it rains at Lancaster or not and want to understand based on this information whether it will rain today or not. In this example, we have two values for a random variable (1 - it rains, 0 - it does not), and if we do not have any additional information, we assume that the probability that it rains is fixed. This situation can be modelled using the Bernoulli distribution.
 
 It is one of the simplest distributions. It can be used to characterise the situation, when there are only two outcomes of event, like the classical example with coin tossing. In this special case, according to this distribution, the random variable can only take two values: zero (e.g. for heads) and one (e.g. tails) with a probability of having tails equal to $p=0.5$. It is a useful distribution not only for the coin experiment, but for any other experiment with two outcomes and some probability $p$. For example, consumers behaviour when making a choice whether to buy a product or not can be modelled using Bernoulli distribution: we do not know what a consumer will choose and why, so based on some external information we can assign them a probability of purchase $p$.
@@ -137,7 +137,7 @@ So, although it is unrealistic to expect in real life that the streak of tails w
 Finally, coming back to the rain example, we cannot say for sure whether it will rain tomorrow or not, but based on the collected sample, we can calculate the probability of that event. But remember that even if the probability is low, it does not mean that you do not need to bring an umbrella with you.
 
 
-## Multiple coin tosses -- Binomial distribution {#distributionBinomial}
+## Binomial distribution (Multiple coin tosses) {#distributionBinomial}
 In the previous example with coin tossing we focused on the experiment that contained only one trial: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways:
 
 1. first trial is one and then the rest are zero;
@@ -252,7 +252,7 @@ Final thing to note about the Binomial distribution is that with the growth of t
 In R, the Binomial distribution is implemented via `dbinom()`, `pbinom()`, `qbinom()` and `rbinom()` from `stats` package. The functions have parameter `size` which is the number of trials $n$, and parameter `prob`, which is a probability of success $p$. If `size=1`, the distribution functions revert to the ones from Bernoulli distribution (Section \@ref(distributionBernoulli)).
 
 
-## Modelling arrivals -- Poisson distribution {#distributionPoisson}
+## Poisson distribution (Modelling arrivals) {#distributionPoisson}
 Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some come because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital (the whole population living in the area), but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people, such as a big pub fight) and arrive at random. In this example, we could argue that the process of arrival is memoryless, because the arrivals of different patients are not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 \begin{equation}
     \mathrm{P}(t > \tau_1 + \tau_2) = \mathrm{P}(t > \tau_1)\mathrm{P}(t > \tau_2),
@@ -348,7 +348,7 @@ These three criteria can be used to identify Poisson distribution in practice.
 <!-- Connection with Binomial -->
 
 
-## Rolling a dice -- Discrete Uniform distribution {#distributionUniform}
+## Discrete Uniform distribution (Rolling a dice) {#distributionUniform}
 In the second world war, the UK faced a problem of understanding how many tanks Nazi Germany had. Some tank components had serial numbers, and when some of tanks were captured or destroyed, it was possible to track these numbers. But was it possible to say how many enemy tanks there were overall? As it appears, it was. From the stand point of the UK, it was equally possible to have a serial number 0001, 0042, 0500 or, say, 1984. The distribution of these serial numbers could be assumed uniform, which was then used to get an estimate of the maximum number of tanks that the enemy had. We will come back to the solution of this problem at the end of this section.
 
 This distribution is one of the basic ones in the probability theory. For now we focus on the discrete version of it, keeping in mind that there also exists the continuous one (see Section \@ref(distributionsUniformContinuous)).
