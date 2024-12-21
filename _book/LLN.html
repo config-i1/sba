@@ -400,17 +400,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="LLN" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Law of Large Numbers<a href="LLN.html#LLN" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The first law is called the <strong>Law of Large Numbers</strong> (LLN). It is the theorem saying that (under wide conditions) the average of a variable obtained over the large number of trials will be close to its expected value and will get closer to it with the increase of the sample size. This can be demonstrated with the following example:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="LLN.html#cb64-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb64-2"><a href="LLN.html#cb64-2" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
-<span id="cb64-3"><a href="LLN.html#cb64-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
-<span id="cb64-4"><a href="LLN.html#cb64-4" tabindex="-1"></a><span class="co"># Create sub-samples of 50 and 100 observations</span></span>
-<span id="cb64-5"><a href="LLN.html#cb64-5" tabindex="-1"></a>y30 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">30</span>)</span>
-<span id="cb64-6"><a href="LLN.html#cb64-6" tabindex="-1"></a>y1000 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">1000</span>)</span>
-<span id="cb64-7"><a href="LLN.html#cb64-7" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb64-8"><a href="LLN.html#cb64-8" tabindex="-1"></a><span class="fu">hist</span>(y30, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
-<span id="cb64-9"><a href="LLN.html#cb64-9" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y30), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb64-10"><a href="LLN.html#cb64-10" tabindex="-1"></a><span class="fu">hist</span>(y1000, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
-<span id="cb64-11"><a href="LLN.html#cb64-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y1000), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="LLN.html#cb66-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb66-2"><a href="LLN.html#cb66-2" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
+<span id="cb66-3"><a href="LLN.html#cb66-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
+<span id="cb66-4"><a href="LLN.html#cb66-4" tabindex="-1"></a><span class="co"># Create sub-samples of 50 and 100 observations</span></span>
+<span id="cb66-5"><a href="LLN.html#cb66-5" tabindex="-1"></a>y30 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">30</span>)</span>
+<span id="cb66-6"><a href="LLN.html#cb66-6" tabindex="-1"></a>y1000 <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="dv">1000</span>)</span>
+<span id="cb66-7"><a href="LLN.html#cb66-7" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb66-8"><a href="LLN.html#cb66-8" tabindex="-1"></a><span class="fu">hist</span>(y30, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
+<span id="cb66-9"><a href="LLN.html#cb66-9" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y30), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb66-10"><a href="LLN.html#cb66-10" tabindex="-1"></a><span class="fu">hist</span>(y1000, <span class="at">xlab=</span><span class="st">&quot;y&quot;</span>)</span>
+<span id="cb66-11"><a href="LLN.html#cb66-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(y1000), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histY30Y1000"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histY30Y1000-1.png" alt="Histograms of samples of data from variable y." width="672" />
 <p class="caption">
@@ -418,11 +418,11 @@ Figure 6.1: Histograms of samples of data from variable y.
 </p>
 </div>
 <p>What we will typically see on the plots above is that the mean (red line) on the left plot will be further away from the true mean of 100 than in the case of the right plot. Given that this is randomly generated, the situation might differ, but the idea would be that with the increase of the sample size the estimated sample mean will converge to the true one. We can even produce a plot showing how this happens:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="LLN.html#cb65-1" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
-<span id="cb65-2"><a href="LLN.html#cb65-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>obs){</span>
-<span id="cb65-3"><a href="LLN.html#cb65-3" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,i))</span>
-<span id="cb65-4"><a href="LLN.html#cb65-4" tabindex="-1"></a>}</span>
-<span id="cb65-5"><a href="LLN.html#cb65-5" tabindex="-1"></a><span class="fu">plot</span>(yMean, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sample mean&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="LLN.html#cb67-1" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,obs)</span>
+<span id="cb67-2"><a href="LLN.html#cb67-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>obs){</span>
+<span id="cb67-3"><a href="LLN.html#cb67-3" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,i))</span>
+<span id="cb67-4"><a href="LLN.html#cb67-4" tabindex="-1"></a>}</span>
+<span id="cb67-5"><a href="LLN.html#cb67-5" tabindex="-1"></a><span class="fu">plot</span>(yMean, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sample mean&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:statsSampleMean"></span>
 <img src="images/02-statistics-LLN.png" alt="Demonstration of Law of Large Numbers." width="350" />
 <p class="caption">

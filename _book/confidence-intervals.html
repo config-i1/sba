@@ -410,17 +410,17 @@ This matrix will contain variances of parameters on the diagonal and covariances
     \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="confidence-intervals.html#cb158-1" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="confidence-intervals.html#cb160-1" tabindex="-1"></a><span class="fu">vcov</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##             (Intercept)      speed
 ## (Intercept)   45.676514 -2.6588234
 ## speed         -2.658823  0.1726509</code></pre>
 <p>This is the covariance matrix of parameters, the diagonal elements of which are then used in the <code>confint()</code> method:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="confidence-intervals.html#cb160-1" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="confidence-intervals.html#cb162-1" tabindex="-1"></a><span class="fu">confint</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>##                  S.E.       2.5%     97.5%
 ## (Intercept) 6.7584402 -31.167850 -3.990340
 ## speed       0.4155128   3.096964  4.767853</code></pre>
 <p>The confidence interval for speed above shows, for example, that if we repeat the construction of interval many times, the true value of parameter speed will lie in 95% of cases between 3.08 and 4.78. This gives an idea about the real effect in the population. We can also present all of this in the following summary (this is based on the <code>alm()</code> model, the other functions will produce different summaries):</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="confidence-intervals.html#cb162-1" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="confidence-intervals.html#cb164-1" tabindex="-1"></a><span class="fu">summary</span>(slmSpeedDistance)</span></code></pre></div>
 <pre><code>## Response variable: dist
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE

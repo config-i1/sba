@@ -426,6 +426,7 @@ and
     \tag{3.19}
 \end{equation}\]</span>
 respectively.</p>
+<p>We do not provide the formula for the CDF here, because it is quite complicated.</p>
 <div class="task">
 <p>A machine in a factory works only when at least one of the three independent components works. The probability of a break of each component is estimated to be 0.1. How many days would it take on average for the machine to stop working? What is the probability that the machine will work exactly for a month (30 days)?</p>
 </div>
@@ -449,6 +450,9 @@ As for the answer to the second question, working for exactly 30 days means that
     f(30, 3, 0.1) = \begin{pmatrix} 30+3-1 \\ 3 \end{pmatrix} 0.1^3 (1-0.1)^30 \approx 0.021 .
 \end{equation*}\]</span></p>
 </div>
+<p>In R, the Negative Binomial distribution is implemented in the functions <code>rnbinom()</code>, <code>dnbinom()</code>, <code>pnbinom()</code>, and <code>qnbinom()</code>, implementing the random function, the PMF, the CDF and the QF respectively. Here how the PMF can be used to get the answer to the question in the previous task:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="distributionNegBin.html#cb17-1" tabindex="-1"></a><span class="fu">dnbinom</span>(<span class="at">x=</span><span class="dv">30</span>,<span class="at">size=</span><span class="dv">3</span>,<span class="at">prob=</span><span class="fl">0.1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02102601</code></pre>
 <!-- ## Geometric -->
 
 </div>

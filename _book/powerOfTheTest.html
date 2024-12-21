@@ -483,30 +483,30 @@ This can be interpreted as “we will fail to reject the null hypothesis in the 
     \tag{7.6}
 \end{equation}\]</span>
 We could do similar calculations for other cases of the true mean and see how powerful the test is in those situations. In fact, we could create a <strong>power curve</strong>, showing how the power of the test changes in a variety of cases of hypothetical true mean. In R, this can be construct in the following way:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="powerOfTheTest.html#cb75-1" tabindex="-1"></a><span class="co"># Set all the parameters</span></span>
-<span id="cb75-2"><a href="powerOfTheTest.html#cb75-2" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb75-3"><a href="powerOfTheTest.html#cb75-3" tabindex="-1"></a>yMeanSD <span class="ot">&lt;-</span> <span class="fl">0.18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb75-4"><a href="powerOfTheTest.html#cb75-4" tabindex="-1"></a>levelSignigicance <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb75-5"><a href="powerOfTheTest.html#cb75-5" tabindex="-1"></a>zValue <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="fu">qnorm</span>(levelSignigicance) <span class="sc">*</span> yMeanSD</span>
-<span id="cb75-6"><a href="powerOfTheTest.html#cb75-6" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
-<span id="cb75-7"><a href="powerOfTheTest.html#cb75-7" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb75-8"><a href="powerOfTheTest.html#cb75-8" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
-<span id="cb75-9"><a href="powerOfTheTest.html#cb75-9" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</span>
-<span id="cb75-10"><a href="powerOfTheTest.html#cb75-10" tabindex="-1"></a></span>
-<span id="cb75-11"><a href="powerOfTheTest.html#cb75-11" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
-<span id="cb75-12"><a href="powerOfTheTest.html#cb75-12" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues)<span class="sc">/</span>yMeanSD)</span>
-<span id="cb75-13"><a href="powerOfTheTest.html#cb75-13" tabindex="-1"></a></span>
-<span id="cb75-14"><a href="powerOfTheTest.html#cb75-14" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
-<span id="cb75-15"><a href="powerOfTheTest.html#cb75-15" tabindex="-1"></a><span class="fu">plot</span>(muValues, powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
-<span id="cb75-16"><a href="powerOfTheTest.html#cb75-16" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
-<span id="cb75-17"><a href="powerOfTheTest.html#cb75-17" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</span>
-<span id="cb75-18"><a href="powerOfTheTest.html#cb75-18" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
-<span id="cb75-19"><a href="powerOfTheTest.html#cb75-19" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
-<span id="cb75-20"><a href="powerOfTheTest.html#cb75-20" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
-<span id="cb75-21"><a href="powerOfTheTest.html#cb75-21" tabindex="-1"></a><span class="co"># And provide a description</span></span>
-<span id="cb75-22"><a href="powerOfTheTest.html#cb75-22" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
-<span id="cb75-23"><a href="powerOfTheTest.html#cb75-23" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha =1- </span><span class="sc">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
-<span id="cb75-24"><a href="powerOfTheTest.html#cb75-24" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="powerOfTheTest.html#cb77-1" tabindex="-1"></a><span class="co"># Set all the parameters</span></span>
+<span id="cb77-2"><a href="powerOfTheTest.html#cb77-2" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb77-3"><a href="powerOfTheTest.html#cb77-3" tabindex="-1"></a>yMeanSD <span class="ot">&lt;-</span> <span class="fl">0.18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb77-4"><a href="powerOfTheTest.html#cb77-4" tabindex="-1"></a>levelSignigicance <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb77-5"><a href="powerOfTheTest.html#cb77-5" tabindex="-1"></a>zValue <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="fu">qnorm</span>(levelSignigicance) <span class="sc">*</span> yMeanSD</span>
+<span id="cb77-6"><a href="powerOfTheTest.html#cb77-6" tabindex="-1"></a><span class="co"># Vector of hypothetical population means</span></span>
+<span id="cb77-7"><a href="powerOfTheTest.html#cb77-7" tabindex="-1"></a>muValues <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">2.8</span>,<span class="fl">3.1</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb77-8"><a href="powerOfTheTest.html#cb77-8" tabindex="-1"></a><span class="co"># Vector of values for power curve</span></span>
+<span id="cb77-9"><a href="powerOfTheTest.html#cb77-9" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">100</span>)</span>
+<span id="cb77-10"><a href="powerOfTheTest.html#cb77-10" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="powerOfTheTest.html#cb77-11" tabindex="-1"></a><span class="co"># Calculate the power values</span></span>
+<span id="cb77-12"><a href="powerOfTheTest.html#cb77-12" tabindex="-1"></a>powerValues <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((zValue <span class="sc">-</span> muValues)<span class="sc">/</span>yMeanSD)</span>
+<span id="cb77-13"><a href="powerOfTheTest.html#cb77-13" tabindex="-1"></a></span>
+<span id="cb77-14"><a href="powerOfTheTest.html#cb77-14" tabindex="-1"></a><span class="co"># Plot the power curve</span></span>
+<span id="cb77-15"><a href="powerOfTheTest.html#cb77-15" tabindex="-1"></a><span class="fu">plot</span>(muValues, powerValues, <span class="at">type=</span><span class="st">&quot;l&quot;</span>,</span>
+<span id="cb77-16"><a href="powerOfTheTest.html#cb77-16" tabindex="-1"></a>     <span class="at">xlab=</span>latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">mu$&quot;</span>),</span>
+<span id="cb77-17"><a href="powerOfTheTest.html#cb77-17" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Power of the test&quot;</span>)</span>
+<span id="cb77-18"><a href="powerOfTheTest.html#cb77-18" tabindex="-1"></a><span class="co"># Add lines for the case of 1-beta=0.05</span></span>
+<span id="cb77-19"><a href="powerOfTheTest.html#cb77-19" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb77-20"><a href="powerOfTheTest.html#cb77-20" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fl">0.05</span>,<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb77-21"><a href="powerOfTheTest.html#cb77-21" tabindex="-1"></a><span class="co"># And provide a description</span></span>
+<span id="cb77-22"><a href="powerOfTheTest.html#cb77-22" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.05+0.05</span>,</span>
+<span id="cb77-23"><a href="powerOfTheTest.html#cb77-23" tabindex="-1"></a>     latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha =1- </span><span class="sc">\\</span><span class="st">beta =0.05$&quot;</span>),</span>
+<span id="cb77-24"><a href="powerOfTheTest.html#cb77-24" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:powerCurve"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/powerCurve-1.png" alt="Power curve for the z-test in the example." width="672" />
 <p class="caption">
