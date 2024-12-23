@@ -210,7 +210,7 @@ Next, we can analyse the numerical continuous variables. We can start with the b
 
 ```{r histWeight, fig.cap="Distribution of the weights of cars."}
 hist(mtcarsData$wt, xlab="Weight", main="", probability=TRUE)
-lines(density(mtcarsData$wt), col="red")
+lines(density(mtcarsData$wt), col="red3")
 ```
 
 The histogram \@ref(fig:histWeight) shows that there is a slight skewness in the data: the cars with weight from 3 to 4 thousands pounds are met more often than the cars with more than 5. The left tail of this distribution is slightly longer than the right one. Note that I have produced the probabilities on the y-axis of the plot in order to add the density curve, which smooths out the frequencies and shows how the distribution looks like.
@@ -219,7 +219,7 @@ An alternative presentation of the histogram is the boxplot, which graphically p
 
 ```{r boxWeight, fig.cap="Boxplot of the variable weight."}
 boxplot(mtcarsData$wt, ylab="Weight")
-points(mean(mtcarsData$wt),col="red", pch=16)
+points(mean(mtcarsData$wt),col="red3", pch=16)
 ```
 
 This plot has the box in the middle, the whiskers on the sides, points at the top and the red point at the centre. The box shows 1st, 2nd and 3rd quartiles of distribution, thus the black line in the middle is the median. The distance between the 1st and the 3rd quartiles is called "Interquartile range" (IQR) and is used for the calculation of the interval (1st / 3rd quartile $\pm 1.5 \times$IQR), which corresponds roughly to the 99.3% interval (read more about this in Section \@ref(confidenceIntervals)) from Normal distribution and is graphically drawn as the furthest observation in the interval. So, the lower whisker on our plot corresponds to the minimum value in the data, which is still in the interval, while the upper whisker corresponds to the bound of the interval. All the observations that lie beyond the interval are marked as potential outliers. Note that *this does not mean that the values are indeed outliers*, they just lie outside the 99.3% interval of Normal distribution. Finally, the red dot was added by me to show where the mean is. It is lower than median, this implies that there is a slight skewness in the distribution of weight.
@@ -228,7 +228,7 @@ There is also a way for producing the plots that would combine elements of histo
 
 ```{r vioWeight, fig.cap="Violin plot together with boxplot of the variable weight."}
 vioplot(mtcarsData$wt, ylab="Weight")
-points(mean(mtcarsData$wt),col="red", pch=16)
+points(mean(mtcarsData$wt),col="red3", pch=16)
 ```
 
 Figure \@ref(fig:vioWeight) unites the boxplot and the density curve from the plots above, providing not only information about the quantiles, but also about the shape of the distribution.
@@ -248,7 +248,7 @@ So far, we have discussed the univariate analysis of numerical variables, but we
 
 ```{r scatterWeightMPG, fig.cap="Scatterplot diagram between weight and mileage."}
 plot(mtcarsData$wt, mtcarsData$mpg, xlab="Weight", ylab="Mileage")
-lines(lowess(mtcarsData$wt, mtcarsData$mpg), col="red")
+lines(lowess(mtcarsData$wt, mtcarsData$mpg), col="red3")
 ```
 
 The plot on Figure \@ref(fig:scatterWeightMPG) shows the observations that have specific weight and mileage. Based on this, we can see if there is a relation between variables or not and what sort of relation this is. In order to simplify analysis, I have added the lowess line to the plot. It smooths the relation between variables, drawing the smooth line through the points and helps in understanding the existing relations in the data. Judging by Figure \@ref(fig:scatterWeightMPG), there is a negative, slightly non-linear relation between the variables: the mileage decreases with reduced speed, when weight of a car increases. This relation makes sense, because heavier cars will consume more fuel and thus drive less on a gallon of petrol.
@@ -265,7 +265,7 @@ This is because one of the variables is integer and takes only a handful of valu
 
 ```{r boxGearMPG, fig.cap="Boxplot of mileage vs number of gears."}
 boxplot(mpg~gear, mtcarsData, xlab="Number of gears", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red", pch=16)
+points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red3", pch=16)
 ```
 
 The plot on Figure \@ref(fig:boxGearMPG) is more informative than the one on Figure \@ref(fig:scatterGearMPG): it shows how the distribution of mileage changes with the increase of the numeric variable number of gears. We can also see that the mean value first increases and then goes down slightly. I do not have any good explanation of this phenomenon, but it might be related with how efficient the cars become with the increase fo the number of gears, or this could happen due to some latent, unobserved factors. So, the data tells us that there is a non-linear relation between number of gears and mileage.
@@ -274,14 +274,14 @@ Similarly, we can produce violin plots for the same data using the following cod
 
 ```{r vioGearMPG, fig.cap="Violin plot of mileage vs number of gears.", eval=FALSE}
 vioplot(mpg~gear, mtcarsData, xlab="Number of gears", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red", pch=16)
+points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red3", pch=16)
 ```
 
 Finally, using exactly the same idea with boxplots / violin plots, we can analyse relations between categorical and numerical variables. Figure \@ref(fig:vioAMMPG) shows the relation between transmission type and mileage. We can conclude that the cars with manual transmission tend to have a higher mileage than the ones with the automatic one in our dataset.
 
 ```{r vioAMMPG, fig.cap="Violin plot of mileage vs transmission type."}
 vioplot(mpg~am, mtcarsData, xlab="Transmission type", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$am, mean), col="red", pch=16)
+points(tapply(mtcarsData$mpg, mtcarsData$am, mean), col="red3", pch=16)
 ```
 
 
