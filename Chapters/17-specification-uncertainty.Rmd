@@ -5,8 +5,9 @@ In this Chapter, we discuss more advanced topics related to regression modelling
 ### Graphical explanation
 In order to better understand, why we need to bother with model selection, combinations and advanced estimators, we need to understand the principle of bias-variance tradeoff. Consider a simple example of relation between fuel consumption of a car and the engine size based on the `mtcars` dataset in R (Figure \@ref(fig:biasVariance01)):
 
-```{r biasVariance01, fig.cap="Fuel consumption vs engine size"}
+```{r biasVariance01, fig.cap="Fuel consumption vs engine size", echo=FALSE}
 load("data/biasVariance.Rdata")
+palette(ourPalette)
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 ```
