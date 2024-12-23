@@ -23,7 +23,7 @@ plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon")
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2,lty=2)
+      col=4,lwd=2,lty=2)
 ```
 
 While being wrong, we could still use the linear model to capture some relations in some parts of the data. It would not be a perfect fit (and would have some issues in the tails of our data), but it would be an acceptable approximation of the true model in some situations. If we vary the sample, we will see how the model would behave, which would help us in understanding of the uncertainty associated with it (Figure \@ref(fig:biasVariance03)).
@@ -62,11 +62,11 @@ plot(mtcars$disp, mtcars$mpg,
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgLinALMFitted[,i],
-          col=rgb(.6,.7,1,0.5),lwd=1)
+          col=11,lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2,lty=2)
+      col=4,lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
@@ -81,11 +81,11 @@ plot(mtcars$disp, mtcars$mpg,
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgPolyALMFitted[,i],
-          col=rgb(1,0.65,0.4,0.5),lwd=1)
+          col=14, lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2,lty=2)
+      col=4,lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
@@ -98,11 +98,11 @@ plot(mtcars$disp, mtcars$mpg,
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgPolyALM2Fitted[,i],
-          col=rgb(1,0.5,0.5,0.5),lwd=1)
+          col=9, lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
-      col="darkgreen",lwd=2,lty=2)
+      col=4,lwd=2,lty=2)
 points(mtcars$disp, mtcars$mpg)
 ```
 
