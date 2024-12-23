@@ -58,11 +58,11 @@ save(mpgLogsALMFitted, mpgLinALMFitted, mpgPolyALMFitted, mpgPolyALM2Fitted, fil
 ```{r biasVariance03, fig.cap="Fuel consumption vs engine size, the true and the linear models", echo=FALSE}
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon",
-     col="white")
+     col=0)
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgLinALMFitted[,i],
-          col=11,lwd=1)
+          col=9,lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
@@ -77,11 +77,11 @@ Alternatively, we could fit a high order polynomial model to approximate the dat
 ```{r biasVariance04, fig.cap="Fuel consumption vs engine size, the true, the linear and the polynomial models.", echo=FALSE}
 plot(mtcars$disp, mtcars$mpg,
      xlab="Engine size", ylab="Miles per galon",
-     col="white")
+     col=0)
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgPolyALMFitted[,i],
-          col=14, lwd=1)
+          col=13, lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
@@ -98,7 +98,7 @@ plot(mtcars$disp, mtcars$mpg,
 for(i in 1:nIterations){
     lines(seq(1,500,1),
           mpgPolyALM2Fitted[,i],
-          col=9, lwd=1)
+          col=8, lwd=1)
 }
 lines(seq(1,500,1),
       mpgLogsALMFitted,
