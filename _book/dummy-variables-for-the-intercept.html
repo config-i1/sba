@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -422,14 +427,14 @@ Notice that I have only included two dummy variables out of the three. This is b
 \end{equation}\]</span>
 This is a general rule: if you have created a set of dummy variables from a categorical one, then one of them needs to be dropped, in order not to have the dummy variables trap.</p>
 <p>So, what does the inclusion of dummy variables in the regression model means? We can see that on the following example of artificial data:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="dummy-variables-for-the-intercept.html#cb178-1" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb178-2"><a href="dummy-variables-for-the-intercept.html#cb178-2" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb178-3"><a href="dummy-variables-for-the-intercept.html#cb178-3" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb178-4"><a href="dummy-variables-for-the-intercept.html#cb178-4" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb178-5"><a href="dummy-variables-for-the-intercept.html#cb178-5" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirts <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="dv">30</span>, <span class="sc">-</span><span class="dv">20</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirts)</span>
-<span id="cb178-6"><a href="dummy-variables-for-the-intercept.html#cb178-6" tabindex="-1"></a><span class="fu">colnames</span>(tShirts) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;colourRed&quot;</span>,<span class="st">&quot;colourGreen&quot;</span>,<span class="st">&quot;colourBlue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="dummy-variables-for-the-intercept.html#cb185-1" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb185-2"><a href="dummy-variables-for-the-intercept.html#cb185-2" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb185-3"><a href="dummy-variables-for-the-intercept.html#cb185-3" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb185-4"><a href="dummy-variables-for-the-intercept.html#cb185-4" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb185-5"><a href="dummy-variables-for-the-intercept.html#cb185-5" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirts <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="dv">30</span>, <span class="sc">-</span><span class="dv">20</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirts)</span>
+<span id="cb185-6"><a href="dummy-variables-for-the-intercept.html#cb185-6" tabindex="-1"></a><span class="fu">colnames</span>(tShirts) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;colourRed&quot;</span>,<span class="st">&quot;colourGreen&quot;</span>,<span class="st">&quot;colourBlue&quot;</span>)</span></code></pre></div>
 <p>We can produce spread plot to see how the data looks like:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="dummy-variables-for-the-intercept.html#cb179-1" tabindex="-1"></a><span class="fu">spread</span>(tShirts)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="dummy-variables-for-the-intercept.html#cb186-1" tabindex="-1"></a><span class="fu">spread</span>(tShirts)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:tShirtsSpread"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsSpread-1.png" alt="Spread plot of t-shirts data." width="672" />
 <p class="caption">
@@ -437,10 +442,10 @@ Figure 13.1: Spread plot of t-shirts data.
 </p>
 </div>
 <p>Figure @red(fig:tShirtsSpread) demonstrates that the sales differ depending on the type of colour (the boxplots). The scatterplot between sales and price is not very clear, but there are actually three theoretical lines on that plot. We can enlarge the plot and draw them:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="dummy-variables-for-the-intercept.html#cb180-1" tabindex="-1"></a><span class="fu">plot</span>(tShirts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb180-2"><a href="dummy-variables-for-the-intercept.html#cb180-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">30</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb180-3"><a href="dummy-variables-for-the-intercept.html#cb180-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000-20</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb180-4"><a href="dummy-variables-for-the-intercept.html#cb180-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">50</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="dummy-variables-for-the-intercept.html#cb187-1" tabindex="-1"></a><span class="fu">plot</span>(tShirts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
+<span id="cb187-2"><a href="dummy-variables-for-the-intercept.html#cb187-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">30</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb187-3"><a href="dummy-variables-for-the-intercept.html#cb187-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000-20</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
+<span id="cb187-4"><a href="dummy-variables-for-the-intercept.html#cb187-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">50</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:tShirtsScatterPlot"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour." width="672" />
 <p class="caption">
@@ -448,64 +453,64 @@ Figure 13.2: Scatterplot of Sales vs Price of t-shirts of different colour.
 </p>
 </div>
 <p>Now, if we want to construct the regression that would take these differences into account, we need to estimate the model <a href="dummy-variables-for-the-intercept.html#eq:regressionDummies01">(13.1)</a>:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="dummy-variables-for-the-intercept.html#cb181-1" tabindex="-1"></a>tShirtsALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colourRed<span class="sc">+</span>colourGreen, tShirts, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb181-2"><a href="dummy-variables-for-the-intercept.html#cb181-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsALM)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="dummy-variables-for-the-intercept.html#cb188-1" tabindex="-1"></a>tShirtsALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colourRed<span class="sc">+</span>colourGreen, tShirts, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb188-2"><a href="dummy-variables-for-the-intercept.html#cb188-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsALM)</span></code></pre></div>
 <pre><code>## Response variable: sales
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1053.2382     3.6831  1045.9591   1060.5172 *
-## price         -2.6339     0.1848    -2.9991     -2.2688 *
-## colourRed    -21.1964     0.9266   -23.0276    -19.3652 *
-## colourGreen  -70.5322     0.9315   -72.3731    -68.6913 *
+## (Intercept) 1057.6026     4.2466  1049.2098   1065.9954 *
+## price         -2.8572     0.2109    -3.2740     -2.4404 *
+## colourRed    -19.8573     1.0146   -21.8625    -17.8522 *
+## colourGreen  -70.6427     1.0134   -72.6455    -68.6400 *
 ## 
-## Error standard deviation: 4.6257
+## Error standard deviation: 5.0514
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 891.1176 889.3934 906.1708 901.8512</code></pre>
-<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1053. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 21 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
+## 917.5269 915.8027 932.5800 928.2605</code></pre>
+<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1058. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
 <ol style="list-style-type: decimal">
-<li>For the blue t-shirt, our model is: sales=1053.24-2.63price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
-<li>For the red t-shirt the model is: sales=1053.24+-21.2-2.63price+et or sales=1032.04-2.63price+et;</li>
-<li>Finally, for the green one, the model is: sales=1053.24+-70.53-2.63price+et or sales=982.71-2.63price+et.</li>
+<li>For the blue t-shirt, our model is: sales=1057.6-2.86price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
+<li>For the red t-shirt the model is: sales=1057.6+-19.86-2.86price+et or sales=1037.74-2.86price+et;</li>
+<li>Finally, for the green one, the model is: sales=1057.6+-70.64-2.86price+et or sales=986.96-2.86price+et.</li>
 </ol>
 <p>In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model <code>tShirtsALM</code>.</p>
-<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1053.24, 1032.04 and 982.71 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="dummy-variables-for-the-intercept.html#cb183-1" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
-<span id="cb183-2"><a href="dummy-variables-for-the-intercept.html#cb183-2" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
-<span id="cb183-3"><a href="dummy-variables-for-the-intercept.html#cb183-3" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
+<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1057.6, 1037.74 and 986.96 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="dummy-variables-for-the-intercept.html#cb190-1" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
+<span id="cb190-2"><a href="dummy-variables-for-the-intercept.html#cb190-2" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
+<span id="cb190-3"><a href="dummy-variables-for-the-intercept.html#cb190-3" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
 <pre><code>##   colourRed colourGreen  colourBlue 
-##    9.379792  -39.955991   30.576199</code></pre>
-<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 9 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
+##    10.30936   -40.47603    30.16668</code></pre>
+<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 10 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
 <p>In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable <code>colour</code>:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="dummy-variables-for-the-intercept.html#cb185-1" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb185-2"><a href="dummy-variables-for-the-intercept.html#cb185-2" tabindex="-1"></a>tShirtsDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Green&quot;</span>,<span class="st">&quot;Blue&quot;</span>)[tShirts[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="sc">%*%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
-<span id="cb185-3"><a href="dummy-variables-for-the-intercept.html#cb185-3" tabindex="-1"></a><span class="fu">spread</span>(tShirtsDataFrame)</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="dummy-variables-for-the-intercept.html#cb192-1" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb192-2"><a href="dummy-variables-for-the-intercept.html#cb192-2" tabindex="-1"></a>tShirtsDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Green&quot;</span>,<span class="st">&quot;Blue&quot;</span>)[tShirts[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="sc">%*%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
+<span id="cb192-3"><a href="dummy-variables-for-the-intercept.html#cb192-3" tabindex="-1"></a><span class="fu">spread</span>(tShirtsDataFrame)</span></code></pre></div>
+<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 <p>Notice that the “Blue” was automatically set as the first level, because <code>factor()</code> function would sort labels alphabetically unless the levels are provided explicitly. The estimated model in this case will be exactly the same as the <code>tShirts</code> model above:</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="dummy-variables-for-the-intercept.html#cb186-1" tabindex="-1"></a>tShirtsDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colour, tShirtsDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb186-2"><a href="dummy-variables-for-the-intercept.html#cb186-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsDataFrameALM)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="dummy-variables-for-the-intercept.html#cb193-1" tabindex="-1"></a>tShirtsDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colour, tShirtsDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb193-2"><a href="dummy-variables-for-the-intercept.html#cb193-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsDataFrameALM)</span></code></pre></div>
 <pre><code>## Response variable: sales
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1053.2382     3.6831  1045.9591   1060.5172 *
-## price         -2.6339     0.1848    -2.9991     -2.2688 *
-## colourGreen  -70.5322     0.9315   -72.3731    -68.6913 *
-## colourRed    -21.1964     0.9266   -23.0276    -19.3652 *
+## (Intercept) 1057.6026     4.2466  1049.2098   1065.9954 *
+## price         -2.8572     0.2109    -3.2740     -2.4404 *
+## colourGreen  -70.6427     1.0134   -72.6455    -68.6400 *
+## colourRed    -19.8573     1.0146   -21.8625    -17.8522 *
 ## 
-## Error standard deviation: 4.6257
+## Error standard deviation: 5.0514
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 891.1176 889.3934 906.1708 901.8512</code></pre>
+## 917.5269 915.8027 932.5800 928.2605</code></pre>
 <p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>colourRed</code> and only have the model with <code>colourGreen</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.</p>
 </div>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -399,13 +404,13 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="header">
 <h1 class="title">Statistics for Business Analytics</h1>
 <p class="author"><em>Ivan Svetunkov</em></p>
-<p class="date"><em>2024-12-23</em></p>
+<p class="date"><em>2025-02-20</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered hasAnchor">
 <h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="images/sba.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>Have you encountered the term “Business Analytics” in your life? If not, then you are probably wondering what it means. If yes, then again, you are probably wondering what it means. It is a term that is used nowadays instead of such terms as “Operations Research” and “Management Science”. It is a discipline that covers a variety of qualitative and quantitative methods that can be used in practice for real life decisions. It uses methods and approaches from different scientific areas, including statistics, forecasting, optimisation, operations management etc. These lecture notes are focused on the core of quantitative side of the discipline - statistics. While there are many books on statistics, the author failed to find one that would be focused on the application of statistics both for analysis and forecasting and would rely on modern statistical approaches.</p>
-<p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox">Svetunkov, 2024</a>)</span>:</p>
+<p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox">Svetunkov, 2025</a>)</span>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;greybox&quot;</span>)</span></code></pre></div>
 <p>A very important thing to note is that these lecture notes <strong>do not use <code>tidyverse</code> packages</strong>. I like base R, and, to be honest, I am sure that <code>tidyverse</code> packages are great, but I have never needed them in my research. So, I will not use pipeline operators, <code>tibble</code> or <code>tsibble</code> objects and <code>ggplot2</code>. It is assumed throughout the lecture notes that you can do all those nice tricks on your own if you want to.</p>
 <p>If you want to get in touch with me, there are lots of ways to do that: comments section on any page of <a href="https://forecasting.svetunkov.ru/">my website</a>, <a href="https://ivan.svetunkov.ru/">my Russian website</a>, <a href="https://vk.com/isvetunkov">vk.com</a>, <a href="https://www.facebook.com/isvetunkov">Facebook</a>, <a href="https://www.linkedin.com/in/isvetunkov">Linkedin</a>, <a href="https://twitter.com/iSvetunkov">Twitter</a>.</p>
@@ -435,7 +440,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-greybox" class="csl-entry">
-• Svetunkov, I., 2024. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 2.0.4.41002
+• Svetunkov, I., 2025. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 2.0.4.41003
 </div>
 </div>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="OLSResiduals.html"/>
-<link rel="next" href="linearRegression.html"/>
+<link rel="next" href="what-about-the-timber-lend-company.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -399,6 +404,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="linearRegressionSimpleQualityOfFit" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Quality of a fit<a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.</p>
+<div id="sums-of-squares" class="section level3 hasAnchor" number="10.4.1">
+<h3><span class="header-section-number">10.4.1</span> Sums of squares<a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(10.4)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 <span class="math display" id="eq:SSE">\[\begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
@@ -409,22 +416,22 @@ This sum of squares is related to another two, the first being the Sum of Square
     \mathrm{SST}=\sum_{j=1}^n (y_j - \bar{y})^2,
     \tag{10.21}
 \end{equation}\]</span>
-where <span class="math inline">\(\bar{y}\)</span> is the in-sample mean. If we divide the value <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(10.21)</a> by <span class="math inline">\(n-1\)</span>, then we will get the in-sample variance (introduced in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
+where <span class="math inline">\(\bar{y}\)</span> is the in-sample mean. If we divide the value <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(10.21)</a> by <span class="math inline">\(n-1\)</span>, we get the in-sample variance (introduced in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
 <span class="math display">\[\begin{equation*}
     \mathrm{V}(y)=\frac{\mathrm{SST}}{n-1}=\frac{1}{n-1} \sum_{j=1}^n (y_j - \bar{y})^2 .
 \end{equation*}\]</span>
-The last sum of squares is Sum of Squared of Regression:
+The last sum of squares is Sum of Squares of Regression:
 <span class="math display" id="eq:SSR">\[\begin{equation}
     \mathrm{SSR} = \sum_{j=1}^n (\bar{y} - \hat{y}_j)^2 ,
     \tag{10.22}
 \end{equation}\]</span>
-which shows the variability of the regression line. It is possible to show that in <em>the linear regression</em> (this is important! This property might be violated in other models), the three sums are related to each other via the following equation:
+which shows the variability of the regression line. It is possible to show that in <em>the linear regression</em> (<strong>this is important</strong>, this property might be violated in other models), the three sums are related to each other via the following equation:
 <span class="math display" id="eq:SSTSum">\[\begin{equation}
     \mathrm{SST} = \mathrm{SSE} + \mathrm{SSR} .
     \tag{10.23}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-28" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward:
+<p><span id="unlabeled-div-33" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -453,7 +460,7 @@ Now if we split the sum into three elements, we will get:
     \end{aligned} .
     \tag{10.26}
 \end{equation}\]</span>
-The second sum in <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof03">(10.26)</a> is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection <a href="OLSResiduals.html#OLSResiduals">10.3</a>). The second one can be expanded to:
+The second sum in <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTProof03">(10.26)</a> is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection <a href="OLSResiduals.html#OLSResiduals">10.3</a>). The third one can be expanded to:
 <span class="math display" id="eq:SSTProof04">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
@@ -467,59 +474,62 @@ We see the sum of errors in the first sum of <a href="linearRegressionSimpleQual
 \end{equation}\]</span>
 which is the formula of SST <a href="linearRegressionSimpleQualityOfFit.html#eq:SST">(10.21)</a>.</p>
 </div>
-<p>The relation between SSE, SSR and SST is shown in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.7</a>. If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.</p>
+<p>The relation between SSE, SSR and SST can be visualised and is shown in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.11</a>. If we take any observation in that figure, we will see how the deviations from the regression line and from the mean are related.</p>
 <div class="figure"><span style="display:block;" id="fig:sumsSquaredRelation"></span>
 <img src="images/09-SLR-SSE-white.png" alt="Relation between different sums of squares." width="605" />
 <p class="caption">
-Figure 10.7: Relation between different sums of squares.
+Figure 10.11: Relation between different sums of squares.
 </p>
 </div>
-<p>Building upon that, there is a measure called “Coefficient of Determination”, which is calculated based on the sums of squares discussed above:
+</div>
+<div id="coefficient-of-determination-r2" class="section level3 hasAnchor" number="10.4.2">
+<h3><span class="header-section-number">10.4.2</span> Coefficient of determination, R<span class="math inline">\(^2\)</span><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>While the sums of squares do not have a nice interpretation and are hard to use for diagnostics, they can be used in calculating the measure called “Coefficient of Determination”. It is calculated in the following way:
 <span class="math display" id="eq:Determination">\[\begin{equation}
     \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
     \tag{10.29}
 \end{equation}\]</span>
-Given the meaning of the sums of squares, we can imagine the following situations to interpret the values of <span class="math inline">\(\mathrm{R}^2\)</span>:</p>
+Given the fundamental property <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTSum">(10.23)</a>, we can see that R<span class="math inline">\(^2\)</span> will always lie between zero and one. To better understand its meaning, imagine the following two extreme situations:</p>
 <ol style="list-style-type: decimal">
-<li>The model fits the data in the same way as the mean line (grey line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.7</a>). In this case SSE would be equal to SST and SSR would be equal to zero (because <span class="math inline">\(\hat{y}_j=\bar{y}\)</span>) and as a result the R<span class="math inline">\(^2\)</span> would be equal to zero.</li>
-<li>The model fits the data perfectly, without any errors (all points lie on the black line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.7</a>). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. <span class="math inline">\(\hat{y}_j=y_j\)</span>). This would make R<span class="math inline">\(^2\)</span> equal to one.</li>
+<li>The model fits the data in the same way as the mean line (black line coincides with the grey line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.11</a>). In this case SSE would be equal to SST and SSR would be equal to zero (because <span class="math inline">\(\hat{y}_j=\bar{y}\)</span>) and as a result the R<span class="math inline">\(^2\)</span> would be equal to zero.</li>
+<li>The model fits the data perfectly, without any errors (all points lie on the black line in Figure <a href="linearRegressionSimpleQualityOfFit.html#fig:sumsSquaredRelation">10.11</a>). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. <span class="math inline">\(\hat{y}_j=y_j\)</span>). This would make R<span class="math inline">\(^2\)</span> equal to one.</li>
 </ol>
-<p>In the linear regression model due to <a href="linearRegressionSimpleQualityOfFit.html#eq:SSTSum">(10.23)</a>, the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> corresponds to:
+<p>So, the zero value of the coefficient of determination means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model.</p>
+<div class="remark">
+<p><span id="unlabeled-div-34" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}\]</span>
-implying that all <span class="math inline">\(e_j=0\)</span>, which is unrealistic and is only possible if there is a functional relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> (no need for statistical inference then). So, in practice we should not maximise R<span class="math inline">\(^2\)</span> and should be careful with models that have very high values of it. At the same time, too low values of R<span class="math inline">\(^2\)</span> are also alarming, as they tell us that the model becomes:
+which means that all <span class="math inline">\(e_j=0\)</span>, being unrealistic and only possible if there is a functional relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> (no need for statistical inference then). So, in practice we should not maximise R<span class="math inline">\(^2\)</span> and should be careful with models that have very high values of it. At the same time, too low values of R<span class="math inline">\(^2\)</span> are also alarming, as they tell us that the model becomes:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + e_j,
 \end{equation*}\]</span>
-meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be made based on it.</p>
-<p>Here how this measure can be calculated in R based on the model earlier:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="linearRegressionSimpleQualityOfFit.html#cb138-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmMPGWt)</span>
-<span id="cb138-2"><a href="linearRegressionSimpleQualityOfFit.html#cb138-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmMPGWt)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
-<span id="cb138-3"><a href="linearRegressionSimpleQualityOfFit.html#cb138-3" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(slmMPGWt))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb138-4"><a href="linearRegressionSimpleQualityOfFit.html#cb138-4" tabindex="-1"></a>R2</span></code></pre></div>
-<pre><code>## [1] 0.7528328</code></pre>
-<p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 75.3% deviations in the data.</p>
+meaning that it is not different from the simple mean of the data, because in that case <span class="math inline">\(b_0=\bar{y}\)</span>. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be solely based on it.</p>
+</div>
+<p>Here how this measure can be calculated in R based on the model that we estimated in Section <a href="OLS.html#OLS">10.1</a>:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="linearRegressionSimpleQualityOfFit.html#cb140-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTrees)</span>
+<span id="cb140-2"><a href="linearRegressionSimpleQualityOfFit.html#cb140-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTrees)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTrees))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb140-3"><a href="linearRegressionSimpleQualityOfFit.html#cb140-3" tabindex="-1"></a>R2</span></code></pre></div>
+<pre><code>## [1] 0.357975</code></pre>
+<p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 35.8% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
 <span class="math display" id="eq:multipleCorrelation">\[\begin{equation}
     R = \sqrt{R^2} = \sqrt{\frac{\mathrm{SSR}}{\mathrm{SST}}} .
     \tag{10.30}
 \end{equation}\]</span>
-It shows the closeness of relation between the response variable <span class="math inline">\(y_j\)</span> and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>) with the sign equal to the sign of the coefficient of the slop <span class="math inline">\(b_1\)</span>:
+It shows the closeness of relation between the response variable <span class="math inline">\(y_j\)</span> and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>) with the sign equal to the sign of the coefficient of the slop <span class="math inline">\(b_1\)</span> (this was discussed in Subsection <a href="SLRCovariance.html#SLRCovarianceCor">10.2.2</a>):
 <span class="math display" id="eq:correlationInRegression">\[\begin{equation}
     r_{x,y} = \mathrm{sign} (b_1) R .
     \tag{10.31}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="linearRegressionSimpleQualityOfFit.html#cb140-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmMPGWt)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
-<pre><code>##         wt 
-## -0.8676594</code></pre>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="linearRegressionSimpleQualityOfFit.html#cb142-1" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg,mtcars<span class="sc">$</span>wt)</span></code></pre></div>
-<pre><code>## [1] -0.8676594</code></pre>
-<!-- Proof -->
-
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="linearRegressionSimpleQualityOfFit.html#cb142-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmTrees)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
+<pre><code>##    height 
+## 0.5983101</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="linearRegressionSimpleQualityOfFit.html#cb144-1" tabindex="-1"></a><span class="fu">cor</span>(SBA_Chapter_10_Trees<span class="sc">$</span>height,SBA_Chapter_10_Trees<span class="sc">$</span>volume)</span></code></pre></div>
+<pre><code>## [1] 0.5983101</code></pre>
 </div>
-<!-- </div> -->
+</div>
 
             </section>
 
@@ -527,7 +537,7 @@ It shows the closeness of relation between the response variable <span class="ma
         </div>
       </div>
 <a href="OLSResiduals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linearRegression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="what-about-the-timber-lend-company.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -403,9 +408,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <li><span class="math inline">\(\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0\)</span>,</li>
 <li><span class="math inline">\(\mathrm{E}(e_j x_{i,j}) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0\)</span> for any <span class="math inline">\(i\)</span>.</li>
 </ol>
-<p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.</p>
+<p>The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. These two conditions happen automatically, and there is no point in testing them or trying to see whether they have been violated or not. On the other hand, if a model was estimated using some other method, these properties might not hold anymore, and it might be the case that the mean of the in-sample residuals and/or the correlation between the error and explanatory variables would not be equal to zero. We will come back to these properties in Chapter <a href="assumptions.html#assumptions">15</a>, when we discuss the standard assumptions of statistical models.</p>
+<p>It is possible to prove mathematically that these two conditions hold. Here is a proof of the first one:</p>
 <div class="proof">
-<p><span id="unlabeled-div-26" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
+<p><span id="unlabeled-div-31" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
 <span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
     \tag{10.10}
@@ -420,16 +426,16 @@ which after some cancelations leads to:
     \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
     \tag{10.12}
 \end{equation}\]</span>
-Given that the sum of errors is equal to zero, its mean will be equal to zero as well.</p>
+Given that the sum of errors is equal to zero, their mean will be equal to zero as well.</p>
 </div>
 <p>The second property is less straightforward, but it can be proven as well, using similar logic:</p>
 <div class="proof">
-<p><span id="unlabeled-div-27" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
+<p><span id="unlabeled-div-32" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     \tag{10.13}
 \end{equation}\]</span>
-Inserting <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals04">(10.13)</a> leads to:
+Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals04">(10.13)</a> leads to:
 <span class="math display" id="eq:sumOfResiduals05">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
@@ -447,10 +453,13 @@ Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a h
 \end{equation}\]</span>
 The ratio in the right-hand side of <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.15)</a> can be regrouped and rewritten as:
 <span class="math display" id="eq:sumOfResiduals07">\[\begin{equation}
-        -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) ,
+    \begin{aligned}
+        &amp; -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) =
+        &amp; - \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j,
+    \end{aligned}
     \tag{10.16}
 \end{equation}\]</span>
-which after inserting in <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.15)</a> and the cancelation of elements leads to:
+which after inserting it back in <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.15)</a> leads to:
 <span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
     \tag{10.17}
@@ -462,7 +471,7 @@ Given that the sum <a href="OLSResiduals.html#eq:sumOfResiduals08">(10.17)</a> i
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
     \tag{10.18}
 \end{equation}\]</span>
-The first thing to notice in <a href="OLSResiduals.html#eq:sumOfResiduals09">(10.18)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
+The first thing to notice in <a href="OLSResiduals.html#eq:sumOfResiduals09">(10.18)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this section. This simplifies the formula and leads to:
 <span class="math display" id="eq:sumOfResiduals10">\[\begin{equation}
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
     \tag{10.19}

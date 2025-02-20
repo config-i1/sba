@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -398,28 +403,54 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="simpleLinearRegression" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Simple Linear Regression<a href="simpleLinearRegression.html#simpleLinearRegression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>When we want to analyse some relations between variables, we can do <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">graphical</a> and <a href="correlations.html#correlations">correlations</a> analysis. But this will not provide us sufficient information about what happens with the response variable with the change of explanatory variable. So it makes sense to consider the possible relations between variables, and the basis for this is Simple Linear Regression, which can be represented in the form:
-<span class="math display" id="eq:SLRFormula">\[\begin{equation}
-    y_j = \beta_0 + \beta_1 x_j + \epsilon_j ,
-    \tag{10.1}
-\end{equation}\]</span>
-where <span class="math inline">\(\beta_0\)</span> is the intercept (constant term), <span class="math inline">\(\beta_1\)</span> is the coefficient for the slope parameter and <span class="math inline">\(\epsilon_j\)</span> is the error term. The regression model is a basic <a href="what-is-model.html#modelsMethods">statistical model</a> that captures the relation between an explanatory variable <span class="math inline">\(x_j\)</span> and the response variable <span class="math inline">\(y_j\)</span>. The parameters of the models are typically denoted as <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> in econometrics literature, but we use <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> because we will use <span class="math inline">\(\beta\)</span> for other purposes later in this textbook.</p>
-<p>In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) shown in Figure <a href="simpleLinearRegression.html#fig:scatterWeightMPG2">10.1</a>.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="simpleLinearRegression.html#cb136-1" tabindex="-1"></a>slmMPGWt <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>wt,mtcarsData)</span>
-<span id="cb136-2"><a href="simpleLinearRegression.html#cb136-2" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>wt, mtcarsData<span class="sc">$</span>mpg,</span>
-<span id="cb136-3"><a href="simpleLinearRegression.html#cb136-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Weight&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Mileage&quot;</span>,</span>
-<span id="cb136-4"><a href="simpleLinearRegression.html#cb136-4" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">6</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>))</span>
-<span id="cb136-5"><a href="simpleLinearRegression.html#cb136-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb136-6"><a href="simpleLinearRegression.html#cb136-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb136-7"><a href="simpleLinearRegression.html#cb136-7" tabindex="-1"></a><span class="fu">abline</span>(slmMPGWt,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb136-8"><a href="simpleLinearRegression.html#cb136-8" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,<span class="dv">35</span>,<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;mpg=&quot;</span>,<span class="fu">round</span>(<span class="fu">coef</span>(slmMPGWt),<span class="dv">2</span>),<span class="st">&quot;wt+et&quot;</span>),<span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:scatterWeightMPG2"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/scatterWeightMPG2-1.png" alt="Scatterplot diagram between weight and mileage." width="672" />
+<div class="example">
+<p><span id="exm:unlabeled-div-24" class="example"><strong>Example 10.1  </strong></span>A timber harvesting company “Timber Lend” needs to measure the volume of trees they cut. While they could measure the volume using physics principles, this is time consuming and they want to speed up the process. They have collected data of 31 trees, which includes:</p>
+<ol style="list-style-type: decimal">
+<li><code>volume</code> measured manually by a special group of tree surgeon,</li>
+<li><code>height</code> of the tree, measured from the bottom to the top of the cut trunk,</li>
+<li><code>diameter</code> of the trunk, measured at the bottom.</li>
+</ol>
+<p>They want to improve their timber harvesting process by speeding up the volume measurement. How can they do that based on the available data?</p>
+</div>
+<p>The data in this example is available online from <a href="">here</a> and can be loaded in R the following way:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="simpleLinearRegression.html#cb136-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/SBA_Chapter_10_Trees.Rdata&quot;</span>)</span></code></pre></div>
+<p>To answer the question of the company “Timber Lend”, we need to understand how we can capture relations between different variables numerically, so that we would be able to say what volume the company can expect based on the height and/or diameter of each trunk. Yes, we already know how to do <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">graphical</a> and <a href="correlations.html#correlations">correlations</a> analysis. But this will not provide us sufficient information to answer the question in the beginning of this chapter. Still, the first thing to do is to plot the relation between the variables. We start with analysing the relation between height and volume, which is plotted in Figure <a href="simpleLinearRegression.html#fig:TreesLine">10.1</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:TreesLine"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/TreesLine-1.png" alt="Scatterplot matrix of the trees volume and height." width="672" />
 <p class="caption">
-Figure 10.1: Scatterplot diagram between weight and mileage.
+Figure 10.1: Scatterplot matrix of the trees volume and height.
 </p>
 </div>
-<p>The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept <span class="math inline">\({b}_0\)</span>=37.29, meaning that this is where the red line crosses the y-axis, while the parameter of slope <span class="math inline">\({b}_1\)</span>=-5.34 shows how fast the values change (how steep the line is). Note that we use <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> for the parameters that were estimated on a sample of data. If we had all the data in the universe (population) and estimated the correct model on it, we would use <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>. In simple linear regression, the red line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as “with the increase of weight, on average the mileage of cars goes down”. Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest points to the left show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.</p>
+<p>We can see that there is a relation between the height and volume (Figure <a href="simpleLinearRegression.html#fig:TreesLine">10.1</a>), which is mildly linear: with the increase of the height, volume of trees tends to increase on average. In addition to that, we can spot that there is a higher variability in the volume of trees with larger height in comparison with the ones with the lower one. This effect is called “heteroscedasticity” and we will come back to it in Section <a href="assumptions.html#assumptions">15</a>. But the important question for us now is whether we can quantify this relation between the variables, so that we could say, for example, that a tree that has a height of 75 is expected to have some specific volume?</p>
+<p>To answer this question, we need to mathematically describe this relation. This can be done by finding coefficients of the line going through the cloud of points in Figure <a href="simpleLinearRegression.html#fig:TreesLine">10.1</a>. The general mathematical form of this line (called “regression line”) is:
+<span class="math display" id="eq:SLRLineFormula">\[\begin{equation}
+    \hat{y}_j = \beta_0 + \beta_1 x_j,
+    \tag{10.1}
+\end{equation}\]</span>
+where <span class="math inline">\(\hat{y}_j\)</span> is the expected value of the response variable (expected volume in the example above), <span class="math inline">\(\beta_0\)</span> is the intercept (constant term), showing where the line intersects the y-ays, and <span class="math inline">\(\beta_1\)</span> is the coefficient for the slope parameter, which regulates how fast the expected volume increases with the increase of height. If <span class="math inline">\(\beta_1\)</span> is negative, the line would go down, showing that with the increase of one variable, the other tends to decrease. <span class="math inline">\(\beta_1\)</span> is also the tangent of the angle <span class="math inline">\(\phi\)</span> between the line drawn through the cloud of points and the x-ays. The two parameters are visualised in Figure <a href="simpleLinearRegression.html#fig:regressionVisuals">10.2</a> for an example of some artificial data.</p>
+<div class="figure"><span style="display:block;" id="fig:regressionVisuals"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/regressionVisuals-1.png" alt="Visualisation of regression line drawn for some artificial data." width="576" />
+<p class="caption">
+Figure 10.2: Visualisation of regression line drawn for some artificial data.
+</p>
+</div>
+<p>Based on this regression line, we could explain every observation in sample as:
+<span class="math display" id="eq:SLRFormula">\[\begin{equation}
+    {y}_j = \hat{y}_j + \epsilon_j = \beta_0 + \beta_1 x_j + \epsilon_j,
+    \tag{10.2}
+\end{equation}\]</span>
+where <span class="math inline">\(\epsilon_j\)</span> is the deviation of each specific point from the line. This variable is also called the “error term” and can be shown visually as in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a>, where each error corresponds to the size of each vertical line. In that figure, we only showed three errors for observations 17, 18 and 31, which all have large heights of 85, 86 and 87 respectively. But we could calculate such errors for all the other points in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:TreesModel"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/TreesModel-1.png" alt="Scatterplot diagram between height and volume, together with an error term" width="672" />
+<p class="caption">
+Figure 10.3: Scatterplot diagram between height and volume, together with an error term
+</p>
+</div>
+<p>The mathematical formula <a href="simpleLinearRegression.html#eq:SLRFormula">(10.2)</a> is called “simple regression model”, and is one of the basic <em>statistical model</em> (discussed in Subsection <a href="what-is-model.html#modelsMethods">1.1.1</a>) that captures the relation between an explanatory variable <span class="math inline">\(x_j\)</span> and the response variable <span class="math inline">\(y_j\)</span> and explains what composes the response variable. In our example, the volume is impacted by the height and some individual errors that happen due to randomness.</p>
+<div class="remark">
+<p><span id="unlabeled-div-25" class="remark"><em>Remark</em>. </span>The line in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a> captures the averaged-our relation between the height and the volume. We might find some specific points, where the increase of height would not increase volume (e.g. switch from the observation 17 to 18 at the right-hand side of the image), but this can be considered as a random fluctuation. But overall, the average tendency is described by the increasing line.</p>
+</div>
+<p>Now the question is how to capture and quantify this relation correctly, so that we could help the “Timber Lend” company with its problem. One of the simplest techniques for this is called “Ordinary Least Squares”.</p>
 </div>
 
             </section>

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -398,39 +403,39 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="SLRCovariance" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Covariance, correlation and SLR<a href="SLRCovariance.html#SLRCovariance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it.</p>
+<p>Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it, which we discussed in previous chapters.</p>
 <div id="covariance" class="section level3 hasAnchor" number="10.2.1">
 <h3><span class="header-section-number">10.2.1</span> Covariance<a href="SLRCovariance.html#covariance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One of the most complicated things to explain is covariance. Coming back to the formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, where <span class="math inline">\(b_1\)</span> is calculated as:
+<p>Covariance is one of the most complicated things to explain to general audience. We will need to use a bit of mathematics that we introduced in Section <a href="OLS.html#OLS">10.1</a>, specifically the formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, where <span class="math inline">\(b_1\)</span> is calculated as:
 <span class="math display">\[\begin{equation*}
     {b}_1 = \frac{\mathrm{cov}(x,y)}{\hat{\sigma}_x^2} ,
 \end{equation*}\]</span>
-where <span class="math inline">\(\hat{\sigma}_x\)</span> is the in-sample estimate of standard deviation, we can express cov<span class="math inline">\((x,y)\)</span> as:
+where <span class="math inline">\(\hat{\sigma}_x\)</span> is the in-sample estimate of standard deviation. Using a simple manipulation, we can express cov<span class="math inline">\((x,y)\)</span> as:
 <span class="math display">\[\begin{equation*}
     \mathrm{cov}(x,y) = {b}_1 \hat{\sigma}_x \hat{\sigma}_x .
 \end{equation*}\]</span>
-Visually, this can be represented as the areas of a rectangular shown on right pane in Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>.</p>
+Visually, this can be represented as the areas of a rectangular shown on right pane in Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.7</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:covarianceVisual"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/covarianceVisual-1.png" alt="Visualisation of covariance between two random variables, $x$ and $y$." width="960" />
 <p class="caption">
-Figure 10.3: Visualisation of covariance between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+Figure 10.7: Visualisation of covariance between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
 </p>
 </div>
-<p>In Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>, the data is centred around the means of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We draw a regression line with the angle <span class="math inline">\(\arctan (b_1)\)</span> through the cloud of points and then draw a segment of the length <span class="math inline">\(\hat{\sigma}_x\)</span> parallel to the x-axis. The multiplication of <span class="math inline">\(b_1\)</span> by <span class="math inline">\(\hat{\sigma}_x\)</span> gives the side denoted as <span class="math inline">\(b_1 \hat{\sigma}_x\)</span> (because <span class="math inline">\(b_1\)</span> equals to tangent of the angle of the line to the x-axis). And finally, the <span class="math inline">\(b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)\)</span> is the area of the rectangular in Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a>. The higher the standard deviation of <span class="math inline">\(x\)</span> is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of <span class="math inline">\(\hat{\sigma}_x\)</span>, the higher <span class="math inline">\(b_1\)</span> is, the larger the area becomes, increasing the covariance. In this interpretation the covariance becomes equal to zero either in one of the two cases:
+<p>In Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.7</a>, the data is centred around the means of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We draw a regression line with the angle <span class="math inline">\(\arctan (b_1)\)</span> through the cloud of points (the left-hand side image). After that we draw a segment of the length <span class="math inline">\(\hat{\sigma}_x\)</span> parallel to the x-ays (righ-hand side image). The multiplication of <span class="math inline">\(b_1\)</span> by <span class="math inline">\(\hat{\sigma}_x\)</span> gives the side denoted as <span class="math inline">\(b_1 \hat{\sigma}_x\)</span> (because <span class="math inline">\(b_1\)</span> equals to tangent of the angle of the line to the x-ays). And finally, the <span class="math inline">\(b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)\)</span> is the area of the rectangular in the right-hand side image of Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.7</a>. The higher the standard deviation of <span class="math inline">\(x\)</span> is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of <span class="math inline">\(\hat{\sigma}_x\)</span>, the higher <span class="math inline">\(b_1\)</span> is, the larger the area becomes, increasing the covariance as well. In this interpretation the covariance becomes equal to zero in one of the two cases:
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
         &amp; {b}_1 = 0 \\
         &amp; \hat{\sigma}_x =0 ,
     \end{aligned}
 \end{equation*}\]</span>
-which implies that either there is no variability in the variable <span class="math inline">\(x\)</span> or that the angle of the regression line is zero, i.e. there is no linear relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+which implies that either the angle of the regression line is zero, i.e. there is no linear relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, or there is no variability in the variable <span class="math inline">\(x\)</span>.</p>
 <p>Similar visualisations can be done if the axes are swapped and the regression <span class="math inline">\(x = a_0 + a_1 y + u\)</span> is constructed. The logic would be similar, only changing the value of the slope parameter <span class="math inline">\(b_1\)</span> by <span class="math inline">\(a_1\)</span> and substituting <span class="math inline">\(\hat{\sigma}_x\)</span> with <span class="math inline">\(\hat{\sigma}_y\)</span>. Finally, in case of negative relation between the variables, the rectangular area will be drawn below the zero line and thus could be considered as being negative (although the surface of the area itself cannot be negative). Still, the logic explained for the positive case above could be transferred on the negative case as well.</p>
 </div>
-<div id="correlation" class="section level3 hasAnchor" number="10.2.2">
-<h3><span class="header-section-number">10.2.2</span> Correlation<a href="SLRCovariance.html#correlation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Another thing to note is the connection between the parameter <span class="math inline">\({b}_1\)</span> and the correlation coefficient. We have already briefly discussed this in Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>, we could estimate two models given the pair of variable <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
+<div id="SLRCovarianceCor" class="section level3 hasAnchor" number="10.2.2">
+<h3><span class="header-section-number">10.2.2</span> Correlation<a href="SLRCovariance.html#SLRCovarianceCor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another thing to discuss is the connection between the parameter <span class="math inline">\({b}_1\)</span> and the correlation coefficient. We have already briefly mentioned that in Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>, but here we can now spend more time on it. First, we could estimate two models given the pair of variable <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
 <ol style="list-style-type: decimal">
-<li>Model <a href="OLS.html#eq:SLRFormulaEstimated">(10.2)</a> <span class="math inline">\(y_j = a_0 + a_1 x_j + e_j\)</span>;</li>
+<li>Model <a href="#eq:SLRFormulaEstimated">(<strong>??</strong>)</a> <span class="math inline">\(y_j = b_0 + b_1 x_j + e_j\)</span>;</li>
 <li>The inverse model <span class="math inline">\(x_j = a_0 + a_1 y_j + u_j\)</span>.</li>
 </ol>
 We could then extract the slope parameters of the two models via <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> and get the value of correlation coefficient as a geometric mean of the two:
@@ -438,36 +443,36 @@ We could then extract the slope parameters of the two models via <a href="OLS.ht
     r_{x,y} = \mathrm{sign}(b_1) \sqrt{{b}_1 a_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
     \tag{10.7}
 \end{equation}\]</span>
-which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(9.10)</a>. This is how the correlation coefficient was originally derived. Visually this is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>, where the two lines are drawn for the simple linear regressions mentioned above.
+which is the formula <a href="correlationCoefficient.html#eq:measuresAssociationPearson">(9.10)</a>. This is how the correlation coefficient was originally derived by Karl Pearson <span class="citation">(<a href="#ref-PearsonPaper"><strong>PearsonPaper?</strong></a>)</span>. Visually this is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.8</a>, where the two lines are drawn for several examples of artificial data.
 <div class="figure"><span style="display:block;" id="fig:correlationVisual"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual-1.png" alt="Visualisation of correlation between two random variables, $x$ and $y$." width="768" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual-1.png" alt="Visualisation of correlations between two random variables, $x$ and $y$ for four cases: positive, negative, perfect and zero correlation." width="768" />
 <p class="caption">
-Figure 10.4: Visualisation of correlation between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+Figure 10.8: Visualisation of correlations between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> for four cases: positive, negative, perfect and zero correlation.
 </p>
 </div>
-<p>If the lines have positive slope (as shown in the left top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing <span class="math inline">\(a_1=b_1=0\)</span> and thus leading to the zero correlation coefficient (right bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.4</a>).</p>
-<p>Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.3</a> and to expand it to the correlation coefficient, for which the area <span class="math inline">\(\hat{\sigma}_x \times \hat{\sigma}_y\)</span>, corresponding to the denominator of the formula <a href="SLRCovariance.html#eq:correlationDerivationPearson">(10.7)</a> is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.5</a> as a red area.</p>
+<p>If the lines have positive slopes (as shown in the left top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.8</a>) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.8</a>). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.8</a>). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing <span class="math inline">\(a_1=b_1=0\)</span> and thus leading to the zero correlation coefficient (right bottom pane in Figure <a href="SLRCovariance.html#fig:correlationVisual">10.8</a>).</p>
+<p>Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure <a href="SLRCovariance.html#fig:covarianceVisual">10.7</a> and to expand it to the correlation coefficient, for which the part <span class="math inline">\(\hat{\sigma}_x \times \hat{\sigma}_y\)</span>, corresponds to the denominator in the formula <a href="SLRCovariance.html#eq:correlationDerivationPearson">(10.7)</a>, and is shown in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.9</a> as a red area.</p>
 <div class="figure"><span style="display:block;" id="fig:correlationVisual2"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual2-1.png" alt="Visualisation of correlation between two random variables, $x$ and $y$." width="480" />
 <p class="caption">
-Figure 10.5: Visualisation of correlation between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+Figure 10.9: Visualisation of correlation between two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
 </p>
 </div>
-<p>The correlation in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.5</a>, corresponds to the ratio of the two areas blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which <span class="math inline">\(\hat{\sigma}_y = b_1 \hat{\sigma}_x\)</span>. Mathematically, this can be seen if we take the variance of the response variable conditional on the slope parameter:
+<p>The correlation in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.9</a>, corresponds to the ratio of the two areas: blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which <span class="math inline">\(\hat{\sigma}_y = b_1 \hat{\sigma}_x\)</span>. Mathematically, this can be seen if we take the variance of the response variable conditional on the slope parameter:
 <span class="math display" id="eq:varianceForCorrelation">\[\begin{equation}
     \mathrm{V}(y | b_1) = b_1^2 \mathrm{V}(x) + V(e),
     \tag{10.8}
 \end{equation}\]</span>
-which leads to the following equality for the standard deviation of <span class="math inline">\(y\)</span>:
+which leads to the following equality for the conditional standard deviation of <span class="math inline">\(y\)</span>:
 <span class="math display" id="eq:sdForCorrelation">\[\begin{equation}
     \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e^2} ,
     \tag{10.9}
 \end{equation}\]</span>
-where <span class="math inline">\(\hat{\sigma}_e\)</span> is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term <span class="math inline">\(\hat{\sigma}_e^2\)</span>. If it is equal to zero, we get the equality: <span class="math inline">\(\hat{\sigma}_y = b_1 \hat{\sigma}_x\)</span>, for which the areas in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.5</a> will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of <span class="math inline">\(b_1\)</span> does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure <a href="SLRCovariance.html#fig:correlationVisual3">10.6</a></p>
+where <span class="math inline">\(\hat{\sigma}_e\)</span> is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term <span class="math inline">\(\hat{\sigma}_e^2\)</span>. If it is equal to zero, we get the equality: <span class="math inline">\(\hat{\sigma}_y = b_1 \hat{\sigma}_x\)</span>, for which the areas in Figure <a href="SLRCovariance.html#fig:correlationVisual2">10.9</a> will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of <span class="math inline">\(b_1\)</span> does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure <a href="SLRCovariance.html#fig:correlationVisual3">10.10</a></p>
 <div class="figure"><span style="display:block;" id="fig:correlationVisual3"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationVisual3-1.png" alt="Visualisation of several correlation coefficients." width="960" />
 <p class="caption">
-Figure 10.6: Visualisation of several correlation coefficients.
+Figure 10.10: Visualisation of several correlation coefficients.
 </p>
 </div>
 </div>

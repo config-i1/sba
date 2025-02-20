@@ -780,7 +780,11 @@ n <- nobs(slmTreesCyl)
 1 - sum(resid(slmTreesCyl)^2) / (var(actuals(slmTreesCyl))*(n-1))
 ```
 
-While in general, we should not compare models based on R$^2$, in this specific case we can because the number of explanatory variables in the two models is exactly the same. As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:
+::: remark
+While in general, we should not compare models based on R$^2$, in this specific case we can because the number of explanatory variables in the two models is exactly the same.
+:::
+
+As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:
 
 ```{r}
 coef(slmTreesCyl)

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2024-12-23" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,10 +287,15 @@ div.csl-indent {
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
-<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#correlation"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
-<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
@@ -440,8 +445,8 @@ The procedure is the same, the calculated t-value is:
 \end{equation*}\]</span>
 which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is “we do not know”. The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
 <p>In R, if you want to test the hypothesis for parameters, I would recommend using <code>lm()</code> function for regression:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="hypothesis-testing.html#cb166-1" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
-<span id="cb166-2"><a href="hypothesis-testing.html#cb166-2" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="hypothesis-testing.html#cb173-1" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
+<span id="cb173-2"><a href="hypothesis-testing.html#cb173-2" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -486,16 +491,16 @@ Figure 12.5: Graphical presentation of F test for regression model.
 </div>
 <p>What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.</p>
 <p>Here is an example with the speed model discussed above with the significance level of 1%:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="hypothesis-testing.html#cb168-1" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
-<span id="cb168-2"><a href="hypothesis-testing.html#cb168-2" tabindex="-1"></a><span class="co"># F value</span></span>
-<span id="cb168-3"><a href="hypothesis-testing.html#cb168-3" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="hypothesis-testing.html#cb175-1" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
+<span id="cb175-2"><a href="hypothesis-testing.html#cb175-2" tabindex="-1"></a><span class="co"># F value</span></span>
+<span id="cb175-3"><a href="hypothesis-testing.html#cb175-3" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##    value 
 ## 89.56711</code></pre>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="hypothesis-testing.html#cb170-1" tabindex="-1"></a><span class="co"># F critical</span></span>
-<span id="cb170-2"><a href="hypothesis-testing.html#cb170-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="hypothesis-testing.html#cb177-1" tabindex="-1"></a><span class="co"># F critical</span></span>
+<span id="cb177-2"><a href="hypothesis-testing.html#cb177-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>## [1] 7.194218</code></pre>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="hypothesis-testing.html#cb172-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
-<span id="cb172-2"><a href="hypothesis-testing.html#cb172-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="hypothesis-testing.html#cb179-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
+<span id="cb179-2"><a href="hypothesis-testing.html#cb179-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>##        value 
 ## 1.489919e-12</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>
