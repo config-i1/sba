@@ -36,7 +36,7 @@ To answer this question, we need to mathematically describe this relation. This 
     \hat{y}_j = \beta_0 + \beta_1 x_j,
     (\#eq:SLRLineFormula)
 \end{equation}
-where $\hat{y}_j$ is the expected value of the response variable (expected volume in the example above), $\beta_0$ is the intercept (constant term), showing where the line intersects the y-axis, and $\beta_1$ is the coefficient for the slope parameter, which regulates how fast the expected volume increases with the increase of height. If $\beta_1$ is negative, the line would go down, showing that with the increase of one variable, the other tends to decrease. $\beta_1$ is also the tangent of the angle $\phi$ between the line drawn through the cloud of points and the x-axis. The two parameters are visualised in Figure \@ref(fig:regressionVisuals) for an example of some artificial data.
+where $\hat{y}_j$ is the expected value of the response variable (expected volume in the example above), $\beta_0$ is the intercept (constant term), showing where the line intersects the y-ays, and $\beta_1$ is the coefficient for the slope parameter, which regulates how fast the expected volume increases with the increase of height. If $\beta_1$ is negative, the line would go down, showing that with the increase of one variable, the other tends to decrease. $\beta_1$ is also the tangent of the angle $\phi$ between the line drawn through the cloud of points and the x-ays. The two parameters are visualised in Figure \@ref(fig:regressionVisuals) for an example of some artificial data.
 
 ```{r regressionVisuals, fig.cap="Visualisation of regression line drawn for some artificial data.", fig.width=6, fig.height=6, echo=FALSE}
 # Generate the data
@@ -99,7 +99,7 @@ Now the question is how to capture and quantify this relation correctly, so that
 
 
 ## Ordinary Least Squares (OLS) {#OLS}
-For obvious reasons, we do not have the values of parameters from the population: it would be simply impossible to measure heights, diameters and volumes of all existing trees in the world. This means that we will never know what the true intercept and slope are. But we can get some estimates of these parameters based on the sample of data we have. There are different ways of doing that, and the most popular one is called "Ordinary Least Squares" method. This is the method that was used in the estimation of the model in Figure \@ref(fig:TreesModel). So, how does it work?
+For obvious reasons, we do not have the values of parameters from the population: it would be simply impossible to measure heights, diameters and volumes of all eysting trees in the world. This means that we will never know what the true intercept and slope are. But we can get some estimates of these parameters based on the sample of data we have. There are different ways of doing that, and the most popular one is called "Ordinary Least Squares" method. This is the method that was used in the estimation of the model in Figure \@ref(fig:TreesModel). So, how does it work?
 
 Having the sample of data, we can draw a line through the cloud of points and then change the parameters for the intercept and slope until we are satisfied with how the line looks like. This would not be a reliable approach, but what we would be doing in this case is probably just making sure that the line goes somehow in the middle of data. To make this more rigorous, we could use the following simple method:
 
@@ -299,26 +299,30 @@ b0 <- 0
 y <- b0 + b1*x + error
 
 par(mfcol=c(1,2), mar=c(4,4,2,1))
-plot(x,y, col=11,
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y")
-abline(a=0, b=b1, col=3, lwd=2, lty=2)
-abline(h=0, col=15, lwd=2, lty=1)
-abline(v=0, col=15, lwd=2, lty=1)
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
 draw.arc(0,0,8,0,atan(b1), lwd=2, col=3)
 text(8, 5, TeX("$\\arctan (b_1)$"), pos=4)
 
-plot(x,y, col=11,
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y")
-abline(a=0, b=b1, col=3, lwd=2, lty=2)
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
 polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
         density=10, lwd=2)
 text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1)
 text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4)
 ```
 
-In Figure \@ref(fig:covarianceVisual), the data is centred around the means of $x$ and $y$. We draw a regression line with the angle $\arctan (b_1)$ through the cloud of points (the left-hand side image). After that we draw a segment of the length $\hat{\sigma}_x$ parallel to the x-axis (righ-hand side image). The multiplication of $b_1$ by $\hat{\sigma}_x$ gives the side denoted as $b_1 \hat{\sigma}_x$ (because $b_1$ equals to tangent of the angle of the line to the x-axis). And finally, the $b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)$ is the area of the rectangular in the right-hand side image of Figure \@ref(fig:covarianceVisual). The higher the standard deviation of $x$ is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of $\hat{\sigma}_x$, the higher $b_1$ is, the larger the area becomes, increasing the covariance as well. In this interpretation the covariance becomes equal to zero in one of the two cases:
+In Figure \@ref(fig:covarianceVisual), the data is centred around the means of $x$ and $y$. We draw a regression line with the angle $\arctan (b_1)$ through the cloud of points (the left-hand side image). After that we draw a segment of the length $\hat{\sigma}_x$ parallel to the x-ays (righ-hand side image). The multiplication of $b_1$ by $\hat{\sigma}_x$ gives the side denoted as $b_1 \hat{\sigma}_x$ (because $b_1$ equals to tangent of the angle of the line to the x-ays). And finally, the $b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)$ is the area of the rectangular in the right-hand side image of Figure \@ref(fig:covarianceVisual). The higher the standard deviation of $x$ is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of $\hat{\sigma}_x$, the higher $b_1$ is, the larger the area becomes, increasing the covariance as well. In this interpretation the covariance becomes equal to zero in one of the two cases:
 \begin{equation*}
     \begin{aligned}
         & {b}_1 = 0 \\
@@ -330,10 +334,10 @@ which implies that either the angle of the regression line is zero, i.e. there i
 Similar visualisations can be done if the axes are swapped and the regression $x = a_0 + a_1 y + u$ is constructed. The logic would be similar, only changing the value of the slope parameter $b_1$ by $a_1$ and substituting $\hat{\sigma}_x$ with $\hat{\sigma}_y$. Finally, in case of negative relation between the variables, the rectangular area will be drawn below the zero line and thus could be considered as being negative (although the surface of the area itself cannot be negative). Still, the logic explained for the positive case above could be transferred on the negative case as well.
 
 
-### Correlation
-Another thing to note is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly discussed this in Section \@ref(correlationCoefficient), we could estimate two models given the pair of variable $x$ and $y$:
+### Correlation {#SLRCovarianceCor}
+Another thing to discuss is the connection between the parameter ${b}_1$ and the correlation coefficient. We have already briefly mentioned that in Section \@ref(correlationCoefficient), but here we can now spend more time on it. First, we could estimate two models given the pair of variable $x$ and $y$:
 
-1. Model \@ref(eq:SLRFormulaEstimated) $y_j = a_0 + a_1 x_j + e_j$;
+1. Model \@ref(eq:SLRFormulaEstimated) $y_j = b_0 + b_1 x_j + e_j$;
 2. The inverse model $x_j = a_0 + a_1 y_j + u_j$.
 
 We could then extract the slope parameters of the two models via \@ref(eq:OLSSLREstimates) and get the value of correlation coefficient as a geometric mean of the two:
@@ -341,91 +345,95 @@ We could then extract the slope parameters of the two models via \@ref(eq:OLSSLR
     r_{x,y} = \mathrm{sign}(b_1) \sqrt{{b}_1 a_1} = \mathrm{sign}(\mathrm{cov}(x,y)) \sqrt{\frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \frac{\mathrm{cov}(x,y)}{\mathrm{V}(y)}} = \frac{\mathrm{cov}(x,y)}{\sqrt{V(x)V(y)}} ,
     (\#eq:correlationDerivationPearson)
 \end{equation}
-which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived. Visually this is shown in Figure \@ref(fig:correlationVisual), where the two lines are drawn for the simple linear regressions mentioned above. 
-```{r correlationVisual, fig.cap="Visualisation of correlation between two random variables, $x$ and $y$.", fig.width=8, fig.height=8, echo=FALSE}
-# xr <- rnorm(1000,100,10)
-# xi <- 1.5*xr + rnorm(1000,0,10)
-# b1 <- cov(xr,xi) / var(xr)
-a1 <- cov(xr,xi) / var(xi)
+which is the formula \@ref(eq:measuresAssociationPearson). This is how the correlation coefficient was originally derived by Karl Pearson [@PearsonPaper]. Visually this is shown in Figure \@ref(fig:correlationVisual), where the two lines are drawn for several examples of artificial data. 
+```{r correlationVisual, fig.cap="Visualisation of correlations between two random variables, $x$ and $y$ for four cases: positive, negative, perfect and zero correlation.", fig.width=8, fig.height=8, echo=FALSE}
+b1 <- cov(x,y) / var(x)
+a1 <- cov(x,y) / var(y)
 
 par(mfrow=c(2,2), mar=c(4,4,4,1))
 
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y", main="Positive correlation")
-abline(h=0, col="darkgrey", lwd=2, lty=1)
-abline(v=0, col="darkgrey", lwd=2, lty=1)
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
-text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
-abline(a=0, b=1/a1, col="darkblue", lwd=2, lty=2)
-draw.arc(0,0,8,atan(1/a1),pi/2, lwd=2, col="darkblue")
-text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
 
-xi <- -xi
-b1 <- cov(xr,xi) / var(xr)
-a1 <- cov(xr,xi) / var(xi)
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+draw.arc(1,0,7,0,atan(b1), lwd=2, col=3)
+text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col=3)
+abline(a=0, b=1/a1, col=5, lwd=2, lty=2)
+draw.arc(0,0,8,atan(1/a1),pi/2, lwd=2, col=5)
+text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col=5)
+
+y <- -y
+b1 <- cov(x,y) / var(x)
+a1 <- cov(x,y) / var(y)
+plot(x-mean(x),y-mean(y), col=11,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y", main="Negative correlation")
-abline(h=0, col="darkgrey", lwd=2, lty=1)
-abline(v=0, col="darkgrey", lwd=2, lty=1)
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
-text(8, -5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
-abline(a=0, b=1/a1, col="darkblue", lwd=2, lty=2)
-draw.arc(0,0,8,atan(1/a1)+pi,pi/2, lwd=2, col="darkblue")
-text(9, 14, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+abline(a=0, b=b1, col=3, lwd=2, lty=2)
+draw.arc(1,0,7,0,atan(b1), lwd=2, col=3)
+text(8, -5, TeX("$\\arctan (b_1)$"), pos=4, col=3)
+abline(a=0, b=1/a1, col=5, lwd=2, lty=2)
+draw.arc(0,0,8,atan(1/a1)+pi,pi/2, lwd=2, col=5)
+text(9, 14, TeX("$\\arctan (a_1)$"), pos=2, col=5)
 
-plot(xr-mean(xr),xr-mean(xr), col="lightblue",
+plot(x-mean(x),x-mean(x), col=11,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y", main="Perfect correlation")
-abline(h=0, col="darkgrey", lwd=2, lty=1)
-abline(v=0, col="darkgrey", lwd=2, lty=1)
-abline(a=0, b=1, col="darkred", lwd=2, lty=2)
-draw.arc(0,0,8,0,pi/4, lwd=2, col="darkred")
-text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col="darkred")
-abline(a=0, b=1, col="darkblue", lwd=2, lty=2)
-draw.arc(0,0,8,pi/4,pi/2, lwd=2, col="darkblue")
-text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col="darkblue")
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+abline(a=0, b=1, col=3, lwd=2, lty=2)
+draw.arc(0,0,8,0,pi/4, lwd=2, col=3)
+text(8, 5, TeX("$\\arctan (b_1)$"), pos=4, col=3)
+abline(a=0, b=1, col=5, lwd=2, lty=2)
+draw.arc(0,0,8,pi/4,pi/2, lwd=2, col=5)
+text(6, 12, TeX("$\\arctan (a_1)$"), pos=2, col=5)
 
-plot(xr-mean(xr),rnorm(1000,0,10), col="lightblue",
+plot(x-mean(x),rnorm(1000,0,10), col=11,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y", main="Zero correlation")
-abline(h=0, col="darkgrey", lwd=2, lty=1)
-abline(v=0, col="darkgrey", lwd=2, lty=1)
-abline(a=0, b=0, col="darkred", lwd=2, lty=2)
-abline(v=0, col="darkblue", lwd=2, lty=2)
-xi <- -xi
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+abline(a=0, b=0, col=3, lwd=2, lty=2)
+abline(v=0, col=5, lwd=2, lty=2)
+y <- -y
 ```
 
-If the lines have positive slope (as shown in the left top pane in Figure \@ref(fig:correlationVisual)) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure \@ref(fig:correlationVisual)). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure \@ref(fig:correlationVisual)). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing $a_1=b_1=0$ and thus leading to the zero correlation coefficient (right bottom pane in Figure \@ref(fig:correlationVisual)).
+If the lines have positive slopes (as shown in the left top pane in Figure \@ref(fig:correlationVisual)) then the resulting coefficient of correlation will be positive. If they are both negative, the correlation will be negative as well (right top pane in Figure \@ref(fig:correlationVisual)). If the lines coincide then the product of tangents of their angles will be equal to 1 (thus we would have a perfect correlation of 1, left bottom pane in Figure \@ref(fig:correlationVisual)). Finally, in the case, when there is no linear relation between variables, the lines will coincide with the x- and y- axes respectively, producing $a_1=b_1=0$ and thus leading to the zero correlation coefficient (right bottom pane in Figure \@ref(fig:correlationVisual)).
 
-Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure \@ref(fig:covarianceVisual) and to expand it to the correlation coefficient, for which the area $\hat{\sigma}_x \times \hat{\sigma}_y$, corresponding to the denominator of the formula \@ref(eq:correlationDerivationPearson) is shown in Figure \@ref(fig:correlationVisual2) as a red area.
+Finally, another way to look at the correlation is to consider the visualisation of covariance from Figure \@ref(fig:covarianceVisual) and to expand it to the correlation coefficient, for which the part $\hat{\sigma}_x \times \hat{\sigma}_y$, corresponds to the denominator in the formula \@ref(eq:correlationDerivationPearson), and is shown in Figure \@ref(fig:correlationVisual2) as a red area.
 
 ```{r correlationVisual2, fig.cap="Visualisation of correlation between two random variables, $x$ and $y$.", fig.width=5, fig.height=5, echo=FALSE}
-b1 <- cov(xr,xi) / var(xr)
+b1 <- cov(x,y) / var(x)
 
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y")
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
-        density=10, lwd=2, col=rgb(0.2,0.2,0.8,1))
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(sd(xi),2)),
-        density=10, lwd=2, col=rgb(0.8,0.2,0.2,1), angle=-45)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=rgb(0.2,0.2,0.8,1))
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=rgb(0.2,0.2,0.8,1))
-text(0, sd(xi)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=rgb(0.8,0.2,0.2,1))
-text(sd(xr)/2, 20, TeX("$\\hat{\\sigma}_x$"), pos=3, col=rgb(0.8,0.2,0.2,1))
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
+        density=10, lwd=2, col=5)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(sd(y),2)),
+        density=10, lwd=2, col=3, angle=-45)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=5)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=5)
+text(0, sd(y)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=3)
+text(sd(x)/2, 20, TeX("$\\hat{\\sigma}_x$"), pos=3, col=3)
 ```
 
-The correlation in Figure \@ref(fig:correlationVisual2), corresponds to the ratio of the two areas blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which $\hat{\sigma}_y = b_1 \hat{\sigma}_x$. Mathematically, this can be seen if we take the variance of the response variable conditional on the slope parameter:
+The correlation in Figure \@ref(fig:correlationVisual2), corresponds to the ratio of the two areas: blue one (covariance) to the red one (the product of standard deviations). If the areas coincide, the correlation is equal to one. This would only happen if all the observations lie on the straight line, the case for which $\hat{\sigma}_y = b_1 \hat{\sigma}_x$. Mathematically, this can be seen if we take the variance of the response variable conditional on the slope parameter:
 \begin{equation}
     \mathrm{V}(y | b_1) = b_1^2 \mathrm{V}(x) + V(e),
     (\#eq:varianceForCorrelation)
 \end{equation}
-which leads to the following equality for the standard deviation of $y$:
+which leads to the following equality for the conditional standard deviation of $y$:
 \begin{equation}
     \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e^2} ,
     (\#eq:sdForCorrelation)
@@ -435,65 +443,81 @@ where $\hat{\sigma}_e$ is the standard deviation of the residuals. In this case,
 ```{r correlationVisual3, fig.cap="Visualisation of several correlation coefficients.", fig.width=10, fig.height=10, echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,4,4,1))
 
-xi <- 1.5*xr + error*2
-b1 <- cov(xr,xi) / var(xr)
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+y <- 1.5*x + error*2
+# b1 <- cov(x,y) / var(x)
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
-     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(xr,xi),3)))
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
-        density=10, lwd=2, col=rgb(0.2,0.2,0.8,1))
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(sd(xi),2)),
-        density=10, lwd=2, col=rgb(0.8,0.2,0.2,1), angle=-45)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=rgb(0.2,0.2,0.8,1))
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=rgb(0.2,0.2,0.8,1))
-text(0, sd(xi)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=rgb(0.8,0.2,0.2,1))
-text(sd(xr)/2, sd(xi), TeX("$\\hat{\\sigma}_x$"), pos=3, col=rgb(0.8,0.2,0.2,1))
+     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(x,y),3)))
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
 
-xi <- 1.5*xr + error
-b1 <- cov(xr,xi) / var(xr)
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
-     xlim=c(-30,30), ylim=c(-30,30),
-     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(xr,xi),3)))
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
-        density=10, lwd=2, col=rgb(0.2,0.2,0.8,1))
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(sd(xi),2)),
-        density=10, lwd=2, col=rgb(0.8,0.2,0.2,1), angle=-45)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=rgb(0.2,0.2,0.8,1))
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=rgb(0.2,0.2,0.8,1))
-text(0, sd(xi)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=rgb(0.8,0.2,0.2,1))
-text(sd(xr)/2, sd(xi), TeX("$\\hat{\\sigma}_x$"), pos=3, col=rgb(0.8,0.2,0.2,1))
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
+        density=10, lwd=2, col=5)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(sd(y),2)),
+        density=10, lwd=2, col=3, angle=-45)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=5)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=5)
+text(0, sd(y)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=3)
+text(sd(x)/2, sd(y), TeX("$\\hat{\\sigma}_x$"), pos=3, col=3)
 
-xi <- 1.5*xr
-b1 <- cov(xr,xi) / var(xr)
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+y <- 1.5*x + error
+# b1 <- cov(x,y) / var(x)
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
-     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(xr,xi),3)))
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
-        density=10, lwd=2, col=rgb(0.2,0.2,0.8,1))
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(sd(xi),2)),
-        density=10, lwd=2, col=rgb(0.8,0.2,0.2,1), angle=-45)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=rgb(0.2,0.2,0.8,1))
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=rgb(0.2,0.2,0.8,1))
-text(0, sd(xi)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=rgb(0.8,0.2,0.2,1))
-text(sd(xr)/2, sd(xi), TeX("$\\hat{\\sigma}_x$"), pos=3, col=rgb(0.8,0.2,0.2,1))
+     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(x,y),3)))
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
 
-xi <- error
-b1 <- cov(xr,xi) / var(xr)
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
+        density=10, lwd=2, col=5)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(sd(y),2)),
+        density=10, lwd=2, col=3, angle=-45)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=5)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=5)
+text(0, sd(y)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=3)
+text(sd(x)/2, sd(y), TeX("$\\hat{\\sigma}_x$"), pos=3, col=3)
+
+y <- 1.5*x
+# b1 <- cov(x,y) / var(x)
+plot(0, 0, col=1,
      xlim=c(-30,30), ylim=c(-30,30),
-     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(xr,xi),3)))
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
-        density=10, lwd=2, col=rgb(0.2,0.2,0.8,1))
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(sd(xi),2)),
-        density=10, lwd=2, col=rgb(0.8,0.2,0.2,1), angle=-45)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=rgb(0.2,0.2,0.8,1))
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=rgb(0.2,0.2,0.8,1))
-text(0, sd(xi)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=rgb(0.8,0.2,0.2,1))
-text(sd(xr)/2, sd(xi), TeX("$\\hat{\\sigma}_x$"), pos=3, col=rgb(0.8,0.2,0.2,1))
+     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(x,y),3)))
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
+        density=10, lwd=2, col=5)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(sd(y),2)),
+        density=10, lwd=2, col=3, angle=-45)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=5)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=5)
+text(0, sd(y)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=3)
+text(sd(x)/2, sd(y), TeX("$\\hat{\\sigma}_x$"), pos=3, col=3)
+
+y <- error
+b1 <- cov(x,y) / var(x)
+plot(0, 0, col=1,
+     xlim=c(-30,30), ylim=c(-30,30),
+     xlab="x", ylab="y", main=paste0("Correlation of ", round(cor(x,y),3)))
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
+        density=10, lwd=2, col=5)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(sd(y),2)),
+        density=10, lwd=2, col=3, angle=-45)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4, col=5)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1, col=5)
+text(0, sd(y)/2, TeX("$\\hat{\\sigma}_y$"), pos=2, col=3)
+text(sd(x)/2, sd(y), TeX("$\\hat{\\sigma}_x$"), pos=3, col=3)
 ```
 
 
@@ -503,7 +527,9 @@ OLS applied to any model guarantees two important properties about its residuals
 1. $\mathrm{E}(e_j) = \frac{1}{n} \sum_{j=1}^n e_j = 0$,
 2. $\mathrm{E}(e_j x_{i,j}) = \frac{1}{n} \sum_{j=1}^n e_j x_{i,j} = 0$ for any $i$.
 
-The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. We start by proving the first property.
+The first property means that the in-sample mean of residuals is always equal to zero, while the second implies that the estimation is done in a way that the in-sample correlation between the residuals and any explanatory variable in the model is equal to zero. These two conditions happen automatically, and there is no point in testing them or trying to see whether they have been violated or not. On the other hand, if a model was estimated using some other method, these properties might not hold anymore, and it might be the case that the mean of the in-sample residuals and/or the correlation between the error and explanatory variables would not be equal to zero. We will come back to these properties in Chapter \@ref(assumptions), when we discuss the standard assumptions of statistical models.
+
+It is possible to prove mathematically that these two conditions hold. Here is a proof of the first one:
 
 ::: proof
 Consider the sum of residuals of a simple linear regression model estimated using OLS:
@@ -521,7 +547,7 @@ which after some cancelations leads to:
     \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
     (\#eq:sumOfResiduals03)
 \end{equation}
-Given that the sum of errors is equal to zero, its mean will be equal to zero as well.
+Given that the sum of errors is equal to zero, their mean will be equal to zero as well.
 :::
 
 The second property is less straightforward, but it can be proven as well, using similar logic:
@@ -532,7 +558,7 @@ For the same simple linear regression, estimated using OLS, consider:
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
     (\#eq:sumOfResiduals04)
 \end{equation}
-Inserting \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals04) leads to:
+Inserting the formula for $b_0$ from \@ref(eq:OLSSLREstimatesProof) in \@ref(eq:sumOfResiduals04) leads to:
 \begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = & \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
@@ -550,10 +576,13 @@ Now we insert the formula for $b_1$ from \@ref(eq:OLSSLREstimatesProof) in \@ref
 \end{equation}
 The ratio in the right-hand side of \@ref(eq:sumOfResiduals06) can be regrouped and rewritten as:
 \begin{equation}
-        -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) ,
+    \begin{aligned}
+        & -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) =
+        & - \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j,
+    \end{aligned}
     (\#eq:sumOfResiduals07)
 \end{equation}
-which after inserting in \@ref(eq:sumOfResiduals06) and the cancelation of elements leads to:
+which after inserting it back in \@ref(eq:sumOfResiduals06) leads to:
 \begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
     (\#eq:sumOfResiduals08)
@@ -566,7 +595,7 @@ In order to see that the second property implies that the correlation between th
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
     (\#eq:sumOfResiduals09)
 \end{equation}
-The first thing to notice in \@ref(eq:sumOfResiduals09) is that $\bar{e}=0$ because of the property (1) discussed in the beginning of this subsection. This simplifies the formula and leads to:
+The first thing to notice in \@ref(eq:sumOfResiduals09) is that $\bar{e}=0$ because of the property (1) discussed in the beginning of this section. This simplifies the formula and leads to:
 \begin{equation}
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
     (\#eq:sumOfResiduals10)
@@ -579,6 +608,8 @@ These two basic properties on one hand are useful for further derivations and on
 ## Quality of a fit {#linearRegressionSimpleQualityOfFit}
 In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.
 
+### Sums of squares
+
 The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion \@ref(eq:OLSCriterion). It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 \begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
@@ -589,23 +620,23 @@ This sum of squares is related to another two, the first being the Sum of Square
     \mathrm{SST}=\sum_{j=1}^n (y_j - \bar{y})^2,
     (\#eq:SST)
 \end{equation}
-where $\bar{y}$ is the in-sample mean. If we divide the value \@ref(eq:SST) by $n-1$, then we will get the in-sample variance (introduced in Section \@ref(dataAnalysisNumerical)):
+where $\bar{y}$ is the in-sample mean. If we divide the value \@ref(eq:SST) by $n-1$, we get the in-sample variance (introduced in Section \@ref(dataAnalysisNumerical)):
 \begin{equation*}
     \mathrm{V}(y)=\frac{\mathrm{SST}}{n-1}=\frac{1}{n-1} \sum_{j=1}^n (y_j - \bar{y})^2 .
 \end{equation*}
-The last sum of squares is Sum of Squared of Regression:
+The last sum of squares is Sum of Squares of Regression:
 \begin{equation}
     \mathrm{SSR} = \sum_{j=1}^n (\bar{y} - \hat{y}_j)^2 ,
     (\#eq:SSR)
 \end{equation}
-which shows the variability of the regression line. It is possible to show that in *the linear regression* (this is important! This property might be violated in other models), the three sums are related to each other via the following equation:
+which shows the variability of the regression line. It is possible to show that in *the linear regression* (**this is important**, this property might be violated in other models), the three sums are related to each other via the following equation:
 \begin{equation}
     \mathrm{SST} = \mathrm{SSE} + \mathrm{SSR} .
     (\#eq:SSTSum)
 \end{equation}
 
 ::: proof
-This involves manipulations, some of which are not straightforward:
+This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
 \begin{equation}
     \begin{aligned}
         \mathrm{SST} &= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -634,7 +665,7 @@ Now if we split the sum into three elements, we will get:
     \end{aligned} .
     (\#eq:SSTProof03)
 \end{equation}
-The second sum in \@ref(eq:SSTProof03) is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection \@ref(OLSResiduals)). The second one can be expanded to:
+The second sum in \@ref(eq:SSTProof03) is equal to zero, because OLS guarantees that the in-sample mean of error term is equal to zero (see proof in Subsection \@ref(OLSResiduals)). The third one can be expanded to:
 \begin{equation}
     \begin{aligned}
         \sum_{j=1}^n \left(e_j \hat{y}_j \right) = \sum_{j=1}^n \left(e_j b_0 + b_1 e_j x_j \right)
@@ -649,47 +680,52 @@ We see the sum of errors in the first sum of \@ref(eq:SSTProof04), so the first 
 which is the formula of SST \@ref(eq:SST).
 :::
 
-The relation between SSE, SSR and SST is shown in Figure \@ref(fig:sumsSquaredRelation). If we take any observation in that Figure, we will see how the deviations from the regression line and from the mean are related.
+The relation between SSE, SSR and SST can be visualised and is shown in Figure \@ref(fig:sumsSquaredRelation). If we take any observation in that figure, we will see how the deviations from the regression line and from the mean are related.
 
 ```{r sumsSquaredRelation, fig.cap="Relation between different sums of squares.", echo=FALSE}
 knitr::include_graphics("images/09-SLR-SSE-white.png")
 ```
 
-Building upon that, there is a measure called "Coefficient of Determination", which is calculated based on the sums of squares discussed above:
+
+### Coefficient of determination, R$^2$
+While the sums of squares do not have a nice interpretation and are hard to use for diagnostics, they can be used in calculating the measure called "Coefficient of Determination". It is calculated in the following way:
 \begin{equation}
     \mathrm{R}^2 = 1 - \frac{\mathrm{SSE}}{\mathrm{SST}} = \frac{\mathrm{SSR}}{\mathrm{SST}} .
     (\#eq:Determination)
 \end{equation}
-Given the meaning of the sums of squares, we can imagine the following situations to interpret the values of $\mathrm{R}^2$:
+Given the fundamental property \@ref(eq:SSTSum), we can see that R$^2$ will always lie between zero and one. To better understand its meaning, imagine the following two extreme situations:
 
-1. The model fits the data in the same way as the mean line (grey line in Figure \@ref(fig:sumsSquaredRelation)). In this case SSE would be equal to SST and SSR would be equal to zero (because $\hat{y}_j=\bar{y}$) and as a result the R$^2$ would be equal to zero.
+1. The model fits the data in the same way as the mean line (black line coincides with the grey line in Figure \@ref(fig:sumsSquaredRelation)). In this case SSE would be equal to SST and SSR would be equal to zero (because $\hat{y}_j=\bar{y}$) and as a result the R$^2$ would be equal to zero.
 2. The model fits the data perfectly, without any errors (all points lie on the black line in Figure \@ref(fig:sumsSquaredRelation)). In this situation SSE would be equal to zero and SSR would be equal to SST, because the regression would go through all points (i.e. $\hat{y}_j=y_j$). This would make R$^2$ equal to one.
 
-In the linear regression model due to \@ref(eq:SSTSum), the coefficient of determination would always lie between zero and one, where zero means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model. This definition above provides us an important point about the coefficient of determination: it should not be equal to one, and it is alarming if it is very close to one - because in this situation we are implying that there is no randomness in the data, but this contradicts our definition of the statistical model (see Section \@ref(modelsMethods)). The adequate statistical model should always have some randomness in it. The situation of $\mathrm{R}^2=1$ corresponds to:
+So, the zero value of the coefficient of determination means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model.
+
+::: remark
+The properties above provide us an important point about the coefficient of determination: *it should not be equal to one, and it is alarming if it is very close to one*. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section \@ref(modelsMethods)). The adequate statistical model should always have some randomness in it. The situation of $\mathrm{R}^2=1$ implies mathematically:
 \begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}
-implying that all $e_j=0$, which is unrealistic and is only possible if there is a functional relation between $y$ and $x$ (no need for statistical inference then). So, in practice we should not maximise R$^2$ and should be careful with models that have very high values of it. At the same time, too low values of R$^2$ are also alarming, as they tell us that the model becomes:
+which means that all $e_j=0$, being unrealistic and only possible if there is a functional relation between $y$ and $x$ (no need for statistical inference then). So, in practice we should not maximise R$^2$ and should be careful with models that have very high values of it. At the same time, too low values of R$^2$ are also alarming, as they tell us that the model becomes:
 \begin{equation*}
     y_j = b_0 + e_j,
 \end{equation*}
-meaning that it is not different from the global mean. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R$^2$ close to 1) or underfits (R$^2$ close to 0) the data. But no serious conclusions should be made based on it.
+meaning that it is not different from the simple mean of the data, because in that case $b_0=\bar{y}$. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R$^2$ close to 1) or underfits (R$^2$ close to 0) the data. But no serious conclusions should be solely based on it.
+:::
 
-Here how this measure can be calculated in R based on the model earlier:
+Here how this measure can be calculated in R based on the model that we estimated in Section \@ref(OLS):
 ```{r}
-n <- nobs(slmMPGWt)
-R2 <- 1 - sum(resid(slmMPGWt)^2) /
-    (var(actuals(slmMPGWt))*(n-1))
+n <- nobs(slmTrees)
+R2 <- 1 - sum(resid(slmTrees)^2) / (var(actuals(slmTrees))*(n-1))
 R2
 ```
-Note that in this formula we used the relation between SST and V$(y)$, multiplying the value by $n-1$ to get rid of the denominator. The resulting value tells us that the model has explained `r round(1 - sum(resid(slmMPGWt)^2) / (var(actuals(slmMPGWt))*(n-1)),3)*100`% deviations in the data.
+Note that in this formula we used the relation between SST and V$(y)$, multiplying the value by $n-1$ to get rid of the denominator. The resulting value tells us that the model has explained `r round(1 - sum(resid(slmTrees)^2) / (var(actuals(slmTrees))*(n-1)),3)*100`% deviations in the data.
 
 Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section \@ref(correlationsMixed):
 \begin{equation}
     R = \sqrt{R^2} = \sqrt{\frac{\mathrm{SSR}}{\mathrm{SST}}} .
     (\#eq:multipleCorrelation)
 \end{equation}
-It shows the closeness of relation between the response variable $y_j$ and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section \@ref(correlationCoefficient)) with the sign equal to the sign of the coefficient of the slop $b_1$:
+It shows the closeness of relation between the response variable $y_j$ and the explanatory variables to the linear one. The coefficient has a positive sign, no matter what the relation between the variables is. In case of the simple linear regression, it is equal to the correlation coefficient (from Section \@ref(correlationCoefficient)) with the sign equal to the sign of the coefficient of the slop $b_1$ (this was discussed in Subsection \@ref(SLRCovarianceCor)):
 \begin{equation}
     r_{x,y} = \mathrm{sign} (b_1) R .
     (\#eq:correlationInRegression)
@@ -697,8 +733,62 @@ It shows the closeness of relation between the response variable $y_j$ and the e
 
 Here is a demonstration of the formula above in R:
 ```{r}
-sign(coef(slmMPGWt)[2]) * sqrt(R2)
-cor(mtcars$mpg,mtcars$wt)
+sign(coef(slmTrees)[2]) * sqrt(R2)
+cor(SBA_Chapter_10_Trees$height,SBA_Chapter_10_Trees$volume)
 ```
 
-<!-- Proof -->
+
+
+## What about the "Timber Lend" company?
+Coming back to the example that motivated this chapter, there is a way we can improve the model for the company and help them in making better decisions. After all, the determination coefficient of the model of volume from height was just `r round(R2, 4)`.
+
+First, we check how the relation between the diameter and the volume looks (Figure \@ref(fig:TreesLineDiameter))
+
+```{r TreesLineDiameter, fig.cap="Scatterplot matrix of the trees volume and dimeter.", echo=FALSE}
+slmTreesDiam <- lm(volume~diameter, SBA_Chapter_10_Trees)
+
+plot(SBA_Chapter_10_Trees$diameter, SBA_Chapter_10_Trees$volume,
+     xlab="Diameter", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+abline(slmTreesDiam, col=5, lwd=2, lty=2)
+```
+
+It might not be apparent for an inexperienced analyst, but the relation between the diameter and volume is non-linear, because the points for the lowest and highest diameters lie consistently above the straight line. Even if this relation is not apparent visually, there is a fundamental reason for its existence: trunks of trees have a shape close to cylinder. Some of you might remember from geometry that the volume of a cylinder is calculated as:
+
+\begin{equation*}
+    V = h \pi r^2 ,
+\end{equation*}
+where $V$ is the volume, $h$ is the height, $r$ is the radius and $\pi$ is the constant number. The diameters that we have in the data equal to $d=2 \times r$. Having this fundamental formula, implies that the relation between the diameter and volume should be indeed non-linear. Based on that, we can create a new variable, which could be called `cylinder`:
+
+```{r}
+SBA_Chapter_10_Trees$cylinder <- SBA_Chapter_10_Trees$height * SBA_Chapter_10_Trees$diameter^2
+```
+
+Furthermore, because trunks of trees are not exactly cylinders, our model can be represented as:
+\begin{equation*}
+    volume = \beta_0 + \beta_1 cylinder + \epsilon_j.
+\end{equation*}
+
+This model in R gives is much more reasonable than either the model of volume from height or volume from diameter. We can fit it and see how much variability it explains:
+
+```{r}
+# Fit the model
+slmTreesCyl <- lm(volume~cylinder, SBA_Chapter_10_Trees)
+# Get the number of observations
+n <- nobs(slmTreesCyl)
+# Calculate R^2
+1 - sum(resid(slmTreesCyl)^2) / (var(actuals(slmTreesCyl))*(n-1))
+```
+
+While in general, we should not compare models based on R$^2$, in this specific case we can because the number of explanatory variables in the two models is exactly the same. As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:
+
+```{r}
+coef(slmTreesCyl)
+```
+
+Using some specific measurements of a tree, we can get its expected volume. For example, if a tree has the height of 80 and diameter of 10.7, our new variable cylinder would be $80 \times 11.1^2 = 9856.8$. Inserting this value in the equation, we get the expected volume:
+
+\begin{equation*}
+    volume = -2.44 + 0.02 \times 9856.8 \approx 207.00 ,
+\end{equation*}
+which is not too far from the real volume of 226.5 that we have in the data (observation number 9). While this is not a perfect estimate of volume, it allows improving the operational process for the "Timber Lend" company, hopefully reducing some costs.
