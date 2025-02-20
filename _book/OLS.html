@@ -513,8 +513,8 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>
 <p>This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares”, because by using this method we get the least possible squares of errors for the data. The word “ordinary” means that this is one of the basic estimation techniques. There are other least squares techniques, which we are not yet discussing in this book. The method is simple and does not require any specific assumptions: we just minimise the overall distance between the line and the points by changing the values of parameters.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-29" class="example"><strong>Example 10.2  </strong></span>For the problem with trees, we can use the <code>lm()</code> function from the <code>stats</code> package in R to get the OLS estimates of parameters. This is done in the following way:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="OLS.html#cb138-1" tabindex="-1"></a>slmTrees <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>height, SBA_Chapter_10_Trees)</span>
-<span id="cb138-2"><a href="OLS.html#cb138-2" tabindex="-1"></a>slmTrees</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="OLS.html#cb139-1" tabindex="-1"></a>slmTrees <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>height, SBA_Chapter_10_Trees)</span>
+<span id="cb139-2"><a href="OLS.html#cb139-2" tabindex="-1"></a>slmTrees</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = volume ~ height, data = SBA_Chapter_10_Trees)

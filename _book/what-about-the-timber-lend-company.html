@@ -416,24 +416,24 @@ Figure 10.12: Scatterplot matrix of the trees volume and dimeter.
     V = h \pi r^2 ,
 \end{equation*}\]</span>
 where <span class="math inline">\(V\)</span> is the volume, <span class="math inline">\(h\)</span> is the height, <span class="math inline">\(r\)</span> is the radius and <span class="math inline">\(\pi\)</span> is the constant number. The diameters that we have in the data equal to <span class="math inline">\(d=2 \times r\)</span>. Having this fundamental formula, implies that the relation between the diameter and volume should be indeed non-linear. Based on that, we can create a new variable, which could be called <code>cylinder</code>:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="what-about-the-timber-lend-company.html#cb146-1" tabindex="-1"></a>SBA_Chapter_10_Trees<span class="sc">$</span>cylinder <span class="ot">&lt;-</span> SBA_Chapter_10_Trees<span class="sc">$</span>height <span class="sc">*</span> SBA_Chapter_10_Trees<span class="sc">$</span>diameter<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="what-about-the-timber-lend-company.html#cb147-1" tabindex="-1"></a>SBA_Chapter_10_Trees<span class="sc">$</span>cylinder <span class="ot">&lt;-</span> SBA_Chapter_10_Trees<span class="sc">$</span>height <span class="sc">*</span> SBA_Chapter_10_Trees<span class="sc">$</span>diameter<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
 <p>Furthermore, because trunks of trees are not exactly cylinders, our model can be represented as:
 <span class="math display">\[\begin{equation*}
     volume = \beta_0 + \beta_1 cylinder + \epsilon_j.
 \end{equation*}\]</span></p>
 <p>This model in R gives is much more reasonable than either the model of volume from height or volume from diameter. We can fit it and see how much variability it explains:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="what-about-the-timber-lend-company.html#cb147-1" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb147-2"><a href="what-about-the-timber-lend-company.html#cb147-2" tabindex="-1"></a>slmTreesCyl <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>cylinder, SBA_Chapter_10_Trees)</span>
-<span id="cb147-3"><a href="what-about-the-timber-lend-company.html#cb147-3" tabindex="-1"></a><span class="co"># Get the number of observations</span></span>
-<span id="cb147-4"><a href="what-about-the-timber-lend-company.html#cb147-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTreesCyl)</span>
-<span id="cb147-5"><a href="what-about-the-timber-lend-company.html#cb147-5" tabindex="-1"></a><span class="co"># Calculate R^2</span></span>
-<span id="cb147-6"><a href="what-about-the-timber-lend-company.html#cb147-6" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTreesCyl)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTreesCyl))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="what-about-the-timber-lend-company.html#cb148-1" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb148-2"><a href="what-about-the-timber-lend-company.html#cb148-2" tabindex="-1"></a>slmTreesCyl <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>cylinder, SBA_Chapter_10_Trees)</span>
+<span id="cb148-3"><a href="what-about-the-timber-lend-company.html#cb148-3" tabindex="-1"></a><span class="co"># Get the number of observations</span></span>
+<span id="cb148-4"><a href="what-about-the-timber-lend-company.html#cb148-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTreesCyl)</span>
+<span id="cb148-5"><a href="what-about-the-timber-lend-company.html#cb148-5" tabindex="-1"></a><span class="co"># Calculate R^2</span></span>
+<span id="cb148-6"><a href="what-about-the-timber-lend-company.html#cb148-6" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTreesCyl)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTreesCyl))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
 <pre><code>## [1] 0.9777898</code></pre>
 <div class="remark">
 <p><span id="unlabeled-div-35" class="remark"><em>Remark</em>. </span>While in general, we should not compare models based on R<span class="math inline">\(^2\)</span>, in this specific case we can because the number of explanatory variables in the two models is exactly the same.</p>
 </div>
 <p>As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="what-about-the-timber-lend-company.html#cb149-1" tabindex="-1"></a><span class="fu">coef</span>(slmTreesCyl)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="what-about-the-timber-lend-company.html#cb150-1" tabindex="-1"></a><span class="fu">coef</span>(slmTreesCyl)</span></code></pre></div>
 <pre><code>## (Intercept)    cylinder 
 ## -2.43730518  0.02124751</code></pre>
 <p>Using some specific measurements of a tree, we can get its expected volume. For example, if a tree has the height of 80 and diameter of 10.7, our new variable cylinder would be <span class="math inline">\(80 \times 11.1^2 = 9856.8\)</span>. Inserting this value in the equation, we get the expected volume:</p>

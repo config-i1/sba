@@ -9,10 +9,14 @@ A timber harvesting company "Timber Lend" needs to measure the volume of trees t
 They want to improve their timber harvesting process by speeding up the volume measurement. How can they do that based on the available data?
 :::
 
-The data in this example is available online from [here]() and can be loaded in R the following way:
-
 ```{r}
 load("data/SBA_Chapter_10_Trees.Rdata")
+```
+
+The data in this example is available online from [here](https://github.com/config-i1/sba/blob/master/data/SBA_Chapter_10_Trees.Rdata) and can be loaded in R the following way:
+
+```{r eval=FALSE}
+load(url("https://github.com/config-i1/sba/raw/refs/heads/master/data/SBA_Chapter_10_Trees.Rdata"))
 ```
 
 To answer the question of the company "Timber Lend", we need to understand how we can capture relations between different variables numerically, so that we would be able to say what volume the company can expect based on the height and/or diameter of each trunk. Yes, we already know how to do [graphical](#dataAnalysisGraphical) and [correlations](#correlations) analysis. But this will not provide us sufficient information to answer the question in the beginning of this chapter. Still, the first thing to do is to plot the relation between the variables. We start with analysing the relation between height and volume, which is plotted in Figure \@ref(fig:TreesLine).
