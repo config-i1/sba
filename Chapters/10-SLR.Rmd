@@ -174,7 +174,7 @@ for(i in 1:31){
 
 The problem is that some errors are positive, while the others are negative (see the middle image in Figure \@ref(fig:TreesModelOLSResid)). If we just sum them up, they will cancel each other out, and we would loose the information about the distance. The simplest way to get rid of sign and keep the distance is by taking squares of each error, as shown in the bottom image in Figure \@ref(fig:TreesModelOLSResid).
 
-```{r TreesModelOLSResid, fig.cap="Volume, residuals and their squared values plotted agains the height of trees.", echo=FALSE}
+```{r TreesModelOLSResid, fig.cap="Volume, residuals and their squared values plotted agains the height of trees.", fig.width=10, fig.height=10, echo=FALSE}
 par(mfcol=c(3,1), mar=c(4,4,1,1))
 plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
      xlab="Height", ylab="Volume",
