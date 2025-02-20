@@ -1,66 +1,203 @@
 # Simple Linear Regression {#simpleLinearRegression}
-When we want to analyse some relations between variables, we can do [graphical](#dataAnalysisGraphical) and [correlations](#correlations) analysis. But this will not provide us sufficient information about what happens with the response variable with the change of explanatory variable. So it makes sense to consider the possible relations between variables, and the basis for this is Simple Linear Regression, which can be represented in the form:
-\begin{equation}
-    y_j = \beta_0 + \beta_1 x_j + \epsilon_j ,
-    (\#eq:SLRFormula)
-\end{equation}
-where $\beta_0$ is the intercept (constant term), $\beta_1$ is the coefficient for the slope parameter and $\epsilon_j$ is the error term. The regression model is a basic [statistical model](#modelsMethods) that captures the relation between an explanatory variable $x_j$ and the response variable $y_j$. The parameters of the models are typically denoted as $\beta_0$ and $\beta_1$ in econometrics literature, but we use $\beta_0$ and $\beta_1$ because we will use $\beta$ for other purposes later in this textbook.
+::: example
+A timber harvesting company "Timber Lend" needs to measure the volume of trees they cut. While they could measure the volume using physics principles, this is time consuming and they want to speed up the process. They have collected data of 31 trees, which includes:
 
-In order to better understand what simple linear regression implies, consider the scatterplot (we discussed it earlier in Section \@ref(dataAnalysisGraphical)) shown in Figure \@ref(fig:scatterWeightMPG2).
+1. `volume` measured manually by a special group of tree surgeon,
+2. `height` of the tree, measured from the bottom to the top of the cut trunk,
+3. `diameter` of the trunk, measured at the bottom.
 
-```{r scatterWeightMPG2, fig.cap="Scatterplot diagram between weight and mileage."}
-slmMPGWt <- lm(mpg~wt,mtcarsData)
-plot(mtcarsData$wt, mtcarsData$mpg,
-     xlab="Weight", ylab="Mileage",
-     xlim=c(0,6), ylim=c(0,40))
-abline(h=0, col="grey")
-abline(v=0, col="grey")
-abline(slmMPGWt,col="red")
-text(4,35,paste0(c("mpg=",round(coef(slmMPGWt),2),"wt+et"),collapse=""))
+They want to improve their timber harvesting process by speeding up the volume measurement. How can they do that based on the available data?
+:::
+
+The data in this example is available online from [here]() and can be loaded in R the following way:
+
+```{r}
+load("data/SBA_Chapter_10_Trees.Rdata")
 ```
 
-The line drawn on the plot is the regression line, parameters of which were estimated based on the available data. In this case the intercept ${b}_0$=`r round(coef(slmMPGWt)[1],2)`, meaning that this is where the red line crosses the y-axis, while the parameter of slope ${b}_1$=`r round(coef(slmMPGWt)[2],2)` shows how fast the values change (how steep the line is). Note that we use $b_0$ and $b_1$ for the parameters that were estimated on a sample of data. If we had all the data in the universe (population) and estimated the correct model on it, we would use $\beta_0$ and $\beta_1$. In simple linear regression, the red line will always go through the cloud of points, showing the averaged out tendencies. The one that we observe above can be summarise as "with the increase of weight, on average the mileage of cars goes down". Note that we might find some specific points, where the increase of weight would not decrease mileage (e.g. the two furthest points to the left show this), but this can be considered as a random fluctuation, so overall, the average tendency is as described above.
+To answer the question of the company "Timber Lend", we need to understand how we can capture relations between different variables numerically, so that we would be able to say what volume the company can expect based on the height and/or diameter of each trunk. Yes, we already know how to do [graphical](#dataAnalysisGraphical) and [correlations](#correlations) analysis. But this will not provide us sufficient information to answer the question in the beginning of this chapter. Still, the first thing to do is to plot the relation between the variables. We start with analysing the relation between height and volume, which is plotted in Figure \@ref(fig:TreesLine).
+
+```{r TreesLine, fig.cap="Scatterplot matrix of the trees volume and height.", echo=FALSE}
+slmTrees <- lm(volume~height, SBA_Chapter_10_Trees)
+
+plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
+     xlab="Height", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+abline(slmTrees, col=5, lwd=2, lty=2)
+# text(14,700,paste0(c("volume = ",round(coef(slmTrees)[1],2), " + ",
+#                      round(coef(slmTrees)[2],2)," height + e"),
+#                    collapse=""))
+```
+
+We can see that there is a relation between the height and volume (Figure \@ref(fig:TreesLine)), which is mildly linear: with the increase of the height, volume of trees tends to increase on average. In addition to that, we can spot that there is a higher variability in the volume of trees with larger height in comparison with the ones with the lower one. This effect is called "heteroscedasticity" and we will come back to it in Section \@ref(assumptions). But the important question for us now is whether we can quantify this relation between the variables, so that we could say, for example, that a tree that has a height of 75 is expected to have some specific volume?
+
+To answer this question, we need to mathematically describe this relation. This can be done by finding coefficients of the line going through the cloud of points in Figure \@ref(fig:TreesLine). The general mathematical form of this line (called "regression line") is:
+\begin{equation}
+    \hat{y}_j = \beta_0 + \beta_1 x_j,
+    (\#eq:SLRLineFormula)
+\end{equation}
+where $\hat{y}_j$ is the expected value of the response variable (expected volume in the example above), $\beta_0$ is the intercept (constant term), showing where the line intersects the y-axis, and $\beta_1$ is the coefficient for the slope parameter, which regulates how fast the expected volume increases with the increase of height. If $\beta_1$ is negative, the line would go down, showing that with the increase of one variable, the other tends to decrease. $\beta_1$ is also the tangent of the angle $\phi$ between the line drawn through the cloud of points and the x-axis. The two parameters are visualised in Figure \@ref(fig:regressionVisuals) for an example of some artificial data.
+
+```{r regressionVisuals, fig.cap="Visualisation of regression line drawn for some artificial data.", fig.width=6, fig.height=6, echo=FALSE}
+# Generate the data
+set.seed(41)
+x <- rnorm(1000,5,10)
+error <- rnorm(1000,0,10)
+b1 <- 1.5
+b0 <- 5
+y <- b0 + b1*x + error
+
+plot(0, 0, col=1,
+     xlim=c(-20,20), ylim=c(-20,20),
+     xlab="x", ylab="y")
+abline(h=0, col=15, lwd=2, lty=2)
+abline(v=0, col=15, lwd=2, lty=2)
+points(x,y, col=11)
+abline(a=b0, b=b1, col=3, lwd=2, lty=2)
+draw.arc(-2.5,0,10,0,atan(b1), lwd=2, col=3)
+text(8, 5, TeX("$\\phi=\\arctan (\\beta_1)$"), pos=4, col=3)
+arrows(-7, b0, -0.1, b0, col=3, lty=1, lwd=2, angle=10)
+text(-8, b0, TeX("$\\beta_0$"), pos=NULL, col=3)
+```
+
+Based on this regression line, we could explain every observation in sample as:
+\begin{equation}
+    {y}_j = \hat{y}_j + \epsilon_j = \beta_0 + \beta_1 x_j + \epsilon_j,
+    (\#eq:SLRFormula)
+\end{equation}
+where $\epsilon_j$ is the deviation of each specific point from the line. This variable is also called the "error term" and can be shown visually as in Figure \@ref(fig:TreesModel), where each error corresponds to the size of each vertical line. In that figure, we only showed three errors for observations 17, 18 and 31, which all have large heights of 85, 86 and 87 respectively. But we could calculate such errors for all the other points in Figure \@ref(fig:TreesModel).
+
+```{r TreesModel, fig.cap="Scatterplot diagram between height and volume, together with an error term", echo=FALSE}
+pointsFunction <- function(id, pos=NULL, error="\\epsilon", text=TRUE){
+    lines(rep(SBA_Chapter_10_Trees$height[id],2),c(fitted(slmTrees)[id],SBA_Chapter_10_Trees$volume[id]), lty=2)
+    if(text){
+        text(SBA_Chapter_10_Trees$height[id]+0.15,mean(c(fitted(slmTrees)[id],SBA_Chapter_10_Trees$volume[id])),
+             TeX(paste0("$",error,"_{",id,"}$")), pos=pos)
+    }
+    points(SBA_Chapter_10_Trees$height[id],SBA_Chapter_10_Trees$volume[id], pch=16)
+    points(SBA_Chapter_10_Trees$height[id],fitted(slmTrees)[id], pch=3)
+}
+
+plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
+     xlab="Height", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+abline(slmTrees, col=5, lwd=2, lty=2)
+
+# Error on the last obs
+pointsFunction(31, 2)
+pointsFunction(18, 4)
+pointsFunction(17, 2)
+```
+
+The mathematical formula \@ref(eq:SLRFormula) is called "simple regression model", and is one of the basic *statistical model* (discussed in Subsection \@ref(modelsMethods)) that captures the relation between an explanatory variable $x_j$ and the response variable $y_j$ and explains what composes the response variable. In our example, the volume is impacted by the height and some individual errors that happen due to randomness.
+
+::: remark
+The line in Figure \@ref(fig:TreesModel) captures the averaged-our relation between the height and the volume. We might find some specific points, where the increase of height would not increase volume (e.g. switch from the observation 17 to 18 at the right-hand side of the image), but this can be considered as a random fluctuation. But overall, the average tendency is described by the increasing line.
+:::
+
+Now the question is how to capture and quantify this relation correctly, so that we could help the "Timber Lend" company with its problem. One of the simplest techniques for this is called "Ordinary Least Squares".
 
 
 ## Ordinary Least Squares (OLS) {#OLS}
-For obvious reasons, we do not have the values of parameters from the population. This means that we will never know what the true intercept and slope are. Luckily, we can estimate them based on the sample of data. There are different ways of doing that, and the most popular one is called "Ordinary Least Squares" method. This is the method that was used in the estimation of the model in Figure \@ref(fig:scatterWeightMPG2). So, how does it work?
+For obvious reasons, we do not have the values of parameters from the population: it would be simply impossible to measure heights, diameters and volumes of all existing trees in the world. This means that we will never know what the true intercept and slope are. But we can get some estimates of these parameters based on the sample of data we have. There are different ways of doing that, and the most popular one is called "Ordinary Least Squares" method. This is the method that was used in the estimation of the model in Figure \@ref(fig:TreesModel). So, how does it work?
 
-```{r scatterWeightMPG3, fig.cap="Scatterplot diagram between weight and mileage.", echo=FALSE}
-slmMPGWt <- lm(mpg~wt,mtcarsData)
-plot(mtcarsData$wt, mtcarsData$mpg,
-     xlab="Weight", ylab="Mileage",
-     xlim=c(0,6), ylim=c(0,40))
-abline(h=0, col="grey")
-abline(v=0, col="grey")
-abline(slmMPGWt,col="red")
-lines(rep(mtcarsData$wt[20],2),c(fitted(slmMPGWt)[20],mtcarsData$mpg[20]), lty=2)
-text(mtcarsData$wt[20]+0.15,mean(c(fitted(slmMPGWt)[20],mtcarsData$mpg[20])),TeX("$e_j$"))
-points(mtcarsData$wt[20],mtcarsData$mpg[20], pch=16)
-points(mtcarsData$wt[20],fitted(slmMPGWt)[20], pch=3)
+Having the sample of data, we can draw a line through the cloud of points and then change the parameters for the intercept and slope until we are satisfied with how the line looks like. This would not be a reliable approach, but what we would be doing in this case is probably just making sure that the line goes somehow in the middle of data. To make this more rigorous, we could use the following simple method:
+
+1. Sort all values in ascending order;
+2. Split the sample in two halves based on the middle of the explanatory variable (in our case that would be `height=76`);
+3. Calculate mean height and volume in the first half of the data;
+4. Calculate mean height and volume of the second half;
+5. Draw the line through the points on the plane.
+
+The resulting line is shown in Figure \@ref(fig:TreesModelSegments)
+
+```{r TreesModelSegments, fig.cap="Scatterplot diagram between height and volume and the line drawn through two middle points of the data.", echo=FALSE}
+x1 <- mean(SBA_Chapter_10_Trees$height[SBA_Chapter_10_Trees$height<76])
+x2 <- mean(SBA_Chapter_10_Trees$height[SBA_Chapter_10_Trees$height>=76])
+y1 <- mean(SBA_Chapter_10_Trees$volume[SBA_Chapter_10_Trees$height<76])
+y2 <- mean(SBA_Chapter_10_Trees$volume[SBA_Chapter_10_Trees$height>=76])
+b <- (y2-y1)/(x2-x1)
+a <- y1-b*x1
+
+plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
+     xlab="Height", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+
+abline(v=mean(SBA_Chapter_10_Trees$height), lty=5, col=6)
+abline(a=a, b=b, col=5, lwd=2, lty=2)
+
+points(x1, y1, col=3, pch=4, lwd=2)
+points(x2, y2, col=3, pch=4, lwd=2)
+lines(c(x1,x1), c(0,y1), lty=3, col=15, lwd=2)
+lines(c(0,x1), c(y1,y1), lty=3, col=15, lwd=2)
+lines(c(x2,x2), c(0,y2), lty=3, col=15, lwd=2)
+lines(c(0,x2), c(y2,y2), lty=3, col=15, lwd=2)
 ```
 
-When we estimate the simple linear regression model, the model \@ref(eq:SLRFormula) transforms into:
-\begin{equation}
-    y_j = {b}_0 + {b}_1 x_j + e_j ,
-    (\#eq:SLRFormulaEstimated)
-\end{equation}
-where $b_0$ is the estimate of $\beta_0$, $b_1$ is the estimate of $\beta_1$ and $e_j$ is the estimate of $\epsilon_j$. This is because we do not know the true values of parameters and thus they are substituted by their estimates. This also applies to the error term for which in general $e_j \neq \epsilon_j$ because of the sample estimation. Now consider the same situation with weight vs mileage in Figure \@ref(fig:scatterWeightMPG3) but with some arbitrary line with unknown parameters. Each point on the plot will typically lie above or below the line, and we would be able to calculate the distances from those points to the line. They would correspond to $e_j = y_j - \hat{y}_j$, where $\hat{y}_j$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. For example, for the weight of car of `r mtcarsData$wt[20]` tones, the actual mileage is `r mtcarsData$mpg[20]`, while the fitted value is `r round(fitted(slmMPGWt)[20],3)`. The resulting error (or residual of model) is `r round(residuals(slmMPGWt)[20],3)`. We could collect all these errors of the model for all available cars based on their weights and this would result in a vector of positive and negative values like this:
+The line in the figure represents the average change of volume with the increase of height of trunks. The red crosses show the middle points, the vertical line in the middle shows where the sample is split into two halves. We could improve this method by splitting each half into two halves again, and calculating points for them, or even further splitting each resulting half in halves etc. This method might not be reasonable for the specific sample, but if we had the population data, eventually we would be able to get a collection of points, each one of them representing the mean volume of trees given specific height.
+
+But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters $b_0$ and $b_1$.
+
+::: remark
+We never know the true values of $\beta_0$ and $\beta_1$, which is why when we estimate a model, we should substitute them with $b_0$ and $b_1$. This way we show that we deal with just some estimates of the true parameters.
+:::
+
+After that we  can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as $e_j$ instead of $\epsilon_j$, which in general they can be calculated as $e_j = y_j - \hat{y}_j$, where $\hat{y}_j$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. 
+
+For example, for the height of tree of `r SBA_Chapter_10_Trees$height[20]` meters, the actual volume is `r SBA_Chapter_10_Trees$volume[20]`, while the fitted value would be `r round(fitted(slmTrees)[20],3)`. The resulting error (or residual of model) is `r SBA_Chapter_10_Trees$volume[20]` - `r round(fitted(slmTrees)[20],3)` = `r round(residuals(slmTrees)[20],3)`. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:
 
 ```{r echo=FALSE}
-residuals(slmMPGWt)
+residuals(slmTrees)
 ```
 
-This corresponds to the formula:
+These residuals are obtained from the following mathematical formula, given some values of $b_0$ and $b_1$:
 \begin{equation}
     e_j = y_j - {b}_0 - {b}_1 x_j.
     (\#eq:SLRFormulaEstimatedError)
 \end{equation}
-If we needed to estimate parameters ${b}_0$ and ${b}_1$ of the model, we would need to minimise those distances by changing the parameters of the model. The problem is that some errors are positive, while the others are negative. If we just sum them up, they will cancel each other out, and we would loose the information about the distance. The simplest way to get rid of sign and keep the distance is by taking squares of each error and calculating Sum of Squared Errors for the whole sample $T$:
+If we needed to estimate parameters ${b}_0$ and ${b}_1$ of the model, we would want to minimise those distances by changing the parameters of the model. This would correspond to drawing a line going through the middle of the series, in a way connecting all the possible mean points in the data. Visually this is shown in Figure \@ref(fig:TreesModelOLS), where the line somehow goes through the data, and we calculate errors from it.
+
+```{r TreesModelOLS, fig.cap="Scatterplot diagram between height and volume and the OLS line.", echo=FALSE}
+plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
+     xlab="Height", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+abline(slmTrees, col=3, lwd=2, lty=2)
+
+for(i in 1:31){
+    pointsFunction(i, 2, error="e")
+}
+```
+
+The problem is that some errors are positive, while the others are negative (see the middle image in Figure \@ref(fig:TreesModelOLSResid)). If we just sum them up, they will cancel each other out, and we would loose the information about the distance. The simplest way to get rid of sign and keep the distance is by taking squares of each error, as shown in the bottom image in Figure \@ref(fig:TreesModelOLSResid).
+
+```{r TreesModelOLSResid, fig.cap="Volume, residuals and their squared values plotted agains the height of trees.", echo=FALSE}
+par(mfcol=c(3,1), mar=c(4,4,1,1))
+plot(SBA_Chapter_10_Trees$height, SBA_Chapter_10_Trees$volume,
+     xlab="Height", ylab="Volume",
+     ylim=c(0,max(SBA_Chapter_10_Trees$volume)))
+abline(slmTrees, col=3, lwd=2, lty=2)
+
+for(i in 1:31){
+    pointsFunction(i, 2, error="e", text=FALSE)
+}
+
+plot(SBA_Chapter_10_Trees$height, residuals(slmTrees), type="h",
+     xlab="Height", ylab="Residuals", lty=2)
+points(SBA_Chapter_10_Trees$height, residuals(slmTrees), pch=16)
+abline(h=0, col=17, lty=2, lwd=2)
+
+plot(SBA_Chapter_10_Trees$height, residuals(slmTrees)^2, type="h",
+     xlab="Height", ylab="Squared residuals", lty=2)
+points(SBA_Chapter_10_Trees$height, residuals(slmTrees)^2, pch=16)
+abline(h=0, col=17, lty=2, lwd=2)
+```
+
+If we then sum up all the squared residuals, we will end up with something called "Sum of Squared Errors":
 \begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n e_j^2 .
     (\#eq:OLSCriterion)
 \end{equation}
-If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we will find those parameters that would guarantee that the line goes somehow through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as there is an analytical solution to this:
+If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we will find the parameters that would guarantee that the line goes through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as there is an analytical solution to this:
 \begin{equation}
     \begin{aligned}
         {b}_1 = & \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
@@ -68,7 +205,7 @@ If we now minimise SSE by changing values of parameters ${b}_0$ and ${b}_1$, we 
     \end{aligned} ,
     (\#eq:OLSSLREstimates)
 \end{equation}
-where $\bar{x}$ is the mean of the explanatory variable $x_j$ and $\bar{y}$ is the mean of the response variables $y_j$.
+where $\bar{x}$ is the mean of the explanatory variable $x_j$ (height in our example) and $\bar{y}$ is the mean of the response variables $y_j$ (volume).
 
 ::: proof
 In order to get \@ref(eq:OLSSLREstimates), we should first insert \@ref(eq:SLRFormulaEstimatedError) in \@ref(eq:OLSCriterion) to get:
@@ -108,72 +245,87 @@ In the system of equations \@ref(eq:OLSSLREstimatesProof), we have the following
 which after inserting in \@ref(eq:OLSSLREstimatesProof) lead to \@ref(eq:OLSSLREstimates).
 :::
 
-Note that if for some reason ${b}_1=0$ in \@ref(eq:OLSSLREstimates) (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data would be the best predictor of the variable $y_j$. This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares". It is simple and does not require any specific assumptions: we just minimise the overall distance by changing the values of parameters.
+::: remark
+If for some reason ${b}_1=0$ in \@ref(eq:OLSSLREstimates) (for example, because the covariance between $x$ and $y$ is zero, implying that they are not correlated), then the intercept ${b}_0 = \bar{y}$, meaning that the global average of the data would be the best predictor of the variable $y_j$.
+:::
 
-While we can do some inference based on simple linear regression, we know that the bivariate relations are not often met in practice: typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we will discuss inference in the following sections.
+This method of estimation of parameters based on the minimisation of SSE, is called "Ordinary Least Squares", because by using this method we get the least possible squares of errors for the data. The word "ordinary" means that this is one of the basic estimation techniques. There are other least squares techniques, which we are not yet discussing in this book. The method is simple and does not require any specific assumptions: we just minimise the overall distance between the line and the points by changing the values of parameters.
+
+::: example
+For the problem with trees, we can use the `lm()` function from the `stats` package in R to get the OLS estimates of parameters. This is done in the following way:
+```{r}
+slmTrees <- lm(volume~height, SBA_Chapter_10_Trees)
+slmTrees
+```
+
+The syntax of the function implies that we use volume as the response variable and height as the explanatory one. The resulting model in our notations has $b_0=$`r round(coef(slmTrees)[1],2)` and $b_1=$`r round(coef(slmTrees)[2],2)`, its equation can be written as: $volume_j=$`r round(coef(slmTrees)[1],2)`$+$`r round(coef(slmTrees)[2],2)`$height_j+e_j$.
+:::
+
+While we can make some conclusions based on the simple linear regression, we know that in real life we rarely see bivariate relations - typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we only discuss the simple linear regression for educational purpose and generally, do not recommend to use it in real life situations.
 
 
 ### Gauss-Markov theorem {#GaussMarkov}
-OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (as in formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). It is called "Gauss-Markov theorem". It states that:
+OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). It is called "Gauss-Markov theorem", and it states that:
 
 ::: theorem
 If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.
 :::
 
-The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in the case of OLS (this is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median, see Subsection \@ref(estimatesPropertiesEfficiency)).
+The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median (see Subsection \@ref(estimatesPropertiesEfficiency)).
 
-Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained by other estimators.
+Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.
 
 
 ## Covariance, correlation and SLR {#SLRCovariance}
-Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it.
+Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it, which we discussed in previous chapters.
 
 ### Covariance
-One of the most complicated things to explain is covariance. Coming back to the formula \@ref(eq:OLSSLREstimates), where $b_1$ is calculated as:
+Covariance is one of the most complicated things to explain to general audience. We will need to use a bit of mathematics that we introduced in Section \@ref(OLS), specifically the formula \@ref(eq:OLSSLREstimates), where $b_1$ is calculated as:
 \begin{equation*}
     {b}_1 = \frac{\mathrm{cov}(x,y)}{\hat{\sigma}_x^2} ,
 \end{equation*}
-where $\hat{\sigma}_x$ is the in-sample estimate of standard deviation, we can express cov$(x,y)$ as:
+where $\hat{\sigma}_x$ is the in-sample estimate of standard deviation. Using a simple manipulation, we can express cov$(x,y)$ as:
 \begin{equation*}
     \mathrm{cov}(x,y) = {b}_1 \hat{\sigma}_x \hat{\sigma}_x .
 \end{equation*}
 Visually, this can be represented as the areas of a rectangular shown on right pane in Figure \@ref(fig:covarianceVisual).
 
 ```{r covarianceVisual, fig.cap="Visualisation of covariance between two random variables, $x$ and $y$.", fig.width=10, fig.height=5, echo=FALSE}
-xr <- rnorm(1000,100,10)
+set.seed(41)
+x <- rnorm(1000,5,10)
 error <- rnorm(1000,0,10)
-xi <- 1.5*xr + error
-b1 <- cov(xr,xi) / var(xr)
-b0 <- mean(xi) - b1 * mean(xr)
+b1 <- 1.5
+b0 <- 0
+y <- b0 + b1*x + error
 
 par(mfcol=c(1,2), mar=c(4,4,2,1))
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+plot(x,y, col=11,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y")
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-abline(h=0, col="darkgrey", lwd=2, lty=1)
-abline(v=0, col="darkgrey", lwd=2, lty=1)
-draw.arc(0,0,8,0,atan(b1), lwd=2, col="darkred")
+abline(a=0, b=b1, col=3, lwd=2, lty=2)
+abline(h=0, col=15, lwd=2, lty=1)
+abline(v=0, col=15, lwd=2, lty=1)
+draw.arc(0,0,8,0,atan(b1), lwd=2, col=3)
 text(8, 5, TeX("$\\arctan (b_1)$"), pos=4)
 
-plot(xr-mean(xr),xi-mean(xi), col="lightblue",
+plot(x,y, col=11,
      xlim=c(-30,30), ylim=c(-30,30),
      xlab="x", ylab="y")
-abline(a=0, b=b1, col="darkred", lwd=2, lty=2)
-polygon(c(0,sd(xr),sd(xr),0), c(0,0,rep(b1*sd(xr),2)),
+abline(a=0, b=b1, col=3, lwd=2, lty=2)
+polygon(c(0,sd(x),sd(x),0), c(0,0,rep(b1*sd(x),2)),
         density=10, lwd=2)
-text(sd(xr)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1)
-text(10, b1*sd(xr)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4)
+text(sd(x)/2, 0, TeX("$\\hat{\\sigma}_x$"), pos=1)
+text(10, b1*sd(x)/2, TeX("$b_1 \\hat{\\sigma}_x$"), pos=4)
 ```
 
-In Figure \@ref(fig:covarianceVisual), the data is centred around the means of $x$ and $y$. We draw a regression line with the angle $\arctan (b_1)$ through the cloud of points and then draw a segment of the length $\hat{\sigma}_x$ parallel to the x-axis. The multiplication of $b_1$ by $\hat{\sigma}_x$ gives the side denoted as $b_1 \hat{\sigma}_x$ (because $b_1$ equals to tangent of the angle of the line to the x-axis). And finally, the $b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)$ is the area of the rectangular in Figure \@ref(fig:covarianceVisual). The higher the standard deviation of $x$ is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of $\hat{\sigma}_x$, the higher $b_1$ is, the larger the area becomes, increasing the covariance. In this interpretation the covariance becomes equal to zero either in one of the two cases:
+In Figure \@ref(fig:covarianceVisual), the data is centred around the means of $x$ and $y$. We draw a regression line with the angle $\arctan (b_1)$ through the cloud of points (the left-hand side image). After that we draw a segment of the length $\hat{\sigma}_x$ parallel to the x-axis (righ-hand side image). The multiplication of $b_1$ by $\hat{\sigma}_x$ gives the side denoted as $b_1 \hat{\sigma}_x$ (because $b_1$ equals to tangent of the angle of the line to the x-axis). And finally, the $b_1 \hat{\sigma}_x \times \hat{\sigma}_x = \mathrm{cov}(x,y)$ is the area of the rectangular in the right-hand side image of Figure \@ref(fig:covarianceVisual). The higher the standard deviation of $x$ is, the bigger the area will be, implying that the covariance becomes larger. At the same time, for the same values of $\hat{\sigma}_x$, the higher $b_1$ is, the larger the area becomes, increasing the covariance as well. In this interpretation the covariance becomes equal to zero in one of the two cases:
 \begin{equation*}
     \begin{aligned}
         & {b}_1 = 0 \\
         & \hat{\sigma}_x =0 ,
     \end{aligned}
 \end{equation*}
-which implies that either there is no variability in the variable $x$ or that the angle of the regression line is zero, i.e. there is no linear relation between $x$ and $y$.
+which implies that either the angle of the regression line is zero, i.e. there is no linear relation between $x$ and $y$, or there is no variability in the variable $x$.
 
 Similar visualisations can be done if the axes are swapped and the regression $x = a_0 + a_1 y + u$ is constructed. The logic would be similar, only changing the value of the slope parameter $b_1$ by $a_1$ and substituting $\hat{\sigma}_x$ with $\hat{\sigma}_y$. Finally, in case of negative relation between the variables, the rectangular area will be drawn below the zero line and thus could be considered as being negative (although the surface of the area itself cannot be negative). Still, the logic explained for the positive case above could be transferred on the negative case as well.
 
