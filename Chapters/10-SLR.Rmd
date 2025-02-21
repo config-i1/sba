@@ -442,9 +442,9 @@ which leads to the following equality for the conditional standard deviation of 
     \hat{\sigma}_y = \sqrt{b_1^2 \hat{\sigma}_x^2 + \hat{\sigma}_e^2} ,
     (\#eq:sdForCorrelation)
 \end{equation}
-where $\hat{\sigma}_e$ is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term $\hat{\sigma}_e^2$. If it is equal to zero, we get the equality: $\hat{\sigma}_y = b_1 \hat{\sigma}_x$, for which the areas in Figure \@ref(fig:correlationVisual2) will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of $b_1$ does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure \@ref(fig:correlationVisual3)
+where $\hat{\sigma}_e$ is the standard deviation of the residuals. In this case, it becomes clear that the correlation is impacted by the variance of the error term $\hat{\sigma}_e^2$. If it is equal to zero, we get the equality: $\hat{\sigma}_y = b_1 \hat{\sigma}_x$, for which the areas in Figure \@ref(fig:correlationVisual2) will coincide and correlation becomes equal to one. The bigger the variance of residuals is, the lower the correlation coefficient becomes. Note that the value of $b_1$ does not impact the strength of correlation, it only regulates, whether the correlation is positive, negative or zero. Several correlation coefficients and respective rectangular areas are shown in Figure \@ref(fig:correlationVisual3).
 
-```{r correlationVisual3, fig.cap="Visualisation of several correlation coefficients.", fig.width=10, fig.height=10, echo=FALSE}
+```{r correlationVisual3, fig.cap="Visualisation of several correlation coefficients.", fig.width=8, fig.height=8, echo=FALSE}
 par(mfrow=c(2,2), mar=c(4,4,4,1))
 
 y <- 1.5*x + error*2
@@ -759,9 +759,10 @@ abline(slmTreesDiam, col=5, lwd=2, lty=2)
 
 It might not be apparent for an inexperienced analyst, but the relation between the diameter and volume is non-linear, because the points for the lowest and highest diameters lie consistently above the straight line. Even if this relation is not apparent visually, there is a fundamental reason for its existence: trunks of trees have a shape close to cylinder. Some of you might remember from geometry that the volume of a cylinder is calculated as:
 
-\begin{equation*}
+\begin{equation}
     V = h \pi r^2 ,
-\end{equation*}
+    (\#eq:cylinderFormula)
+\end{equation}
 where $V$ is the volume, $h$ is the height, $r$ is the radius and $\pi$ is the constant number. The diameters that we have in the data equal to $d=2 \times r$. Having this fundamental formula, implies that the relation between the diameter and volume should be indeed non-linear. Based on that, we can create a new variable, which could be called `cylinder`:
 
 ```{r}
@@ -788,7 +789,18 @@ n <- nobs(slmTreesCyl)
 While in general, we should not compare models based on R$^2$, in this specific case we can because the number of explanatory variables in the two models is exactly the same.
 :::
 
-As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:
+As we see the model of volume from cylinders explains the data much better than the previous one.
+
+::: question
+In the formula of the cylinder \@ref(eq:cylinderFormula), we do not have any error term. Why do we expect it to be in the model that we fit? Shouldn't R$^2$ be equal to one in our example?
+:::
+
+::: answer
+We do not expect to have zero error in this case, because the trunks of trees are not perfect cylinders: the diameter at the top of the tree is smaller than the diameter at the bottom, and trees have some curvature, deviating in shape from the perfect cylinder. Due to these factors, the formula \@ref(eq:cylinderFormula) does not perfectly describe the volume of the tree, but instead is a good approximation of it.
+:::
+
+
+As for the coefficients of the model, based on our sample, they were:
 
 ```{r}
 coef(slmTreesCyl)
