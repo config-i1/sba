@@ -766,7 +766,8 @@ It might not be apparent for an inexperienced analyst, but the relation between 
 where $V$ is the volume, $h$ is the height, $r$ is the radius and $\pi$ is the constant number. The diameters that we have in the data equal to $d=2 \times r$. Having this fundamental formula, implies that the relation between the diameter and volume should be indeed non-linear. Based on that, we can create a new variable, which could be called `cylinder`:
 
 ```{r}
-SBA_Chapter_10_Trees$cylinder <- SBA_Chapter_10_Trees$height * SBA_Chapter_10_Trees$diameter^2
+SBA_Chapter_10_Trees$cylinder <- (SBA_Chapter_10_Trees$height *
+                                      SBA_Chapter_10_Trees$diameter^2)
 ```
 
 Furthermore, because trunks of trees are not exactly cylinders, our model can be represented as:

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-20" />
+<meta name="date" content="2025-02-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -412,9 +412,10 @@ Figure 10.12: Scatterplot matrix of the trees volume and dimeter.
 </p>
 </div>
 <p>It might not be apparent for an inexperienced analyst, but the relation between the diameter and volume is non-linear, because the points for the lowest and highest diameters lie consistently above the straight line. Even if this relation is not apparent visually, there is a fundamental reason for its existence: trunks of trees have a shape close to cylinder. Some of you might remember from geometry that the volume of a cylinder is calculated as:</p>
-<p><span class="math display">\[\begin{equation*}
+<p><span class="math display" id="eq:cylinderFormula">\[\begin{equation}
     V = h \pi r^2 ,
-\end{equation*}\]</span>
+    \tag{10.32}
+\end{equation}\]</span>
 where <span class="math inline">\(V\)</span> is the volume, <span class="math inline">\(h\)</span> is the height, <span class="math inline">\(r\)</span> is the radius and <span class="math inline">\(\pi\)</span> is the constant number. The diameters that we have in the data equal to <span class="math inline">\(d=2 \times r\)</span>. Having this fundamental formula, implies that the relation between the diameter and volume should be indeed non-linear. Based on that, we can create a new variable, which could be called <code>cylinder</code>:</p>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="what-about-the-timber-lend-company.html#cb147-1" tabindex="-1"></a>SBA_Chapter_10_Trees<span class="sc">$</span>cylinder <span class="ot">&lt;-</span> SBA_Chapter_10_Trees<span class="sc">$</span>height <span class="sc">*</span> SBA_Chapter_10_Trees<span class="sc">$</span>diameter<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
 <p>Furthermore, because trunks of trees are not exactly cylinders, our model can be represented as:
@@ -432,7 +433,14 @@ where <span class="math inline">\(V\)</span> is the volume, <span class="math in
 <div class="remark">
 <p><span id="unlabeled-div-35" class="remark"><em>Remark</em>. </span>While in general, we should not compare models based on R<span class="math inline">\(^2\)</span>, in this specific case we can because the number of explanatory variables in the two models is exactly the same.</p>
 </div>
-<p>As we see the model of volume from cylinders explains the data much better. As for the coefficients of the model, based on our sample, they were:</p>
+<p>As we see the model of volume from cylinders explains the data much better than the previous one.</p>
+<div class="question">
+<p>In the formula of the cylinder <a href="what-about-the-timber-lend-company.html#eq:cylinderFormula">(10.32)</a>, we do not have any error term. Why do we expect it to be in the model that we fit? Shouldn’t R<span class="math inline">\(^2\)</span> be equal to one in our example?</p>
+</div>
+<div class="answer">
+<p>We do not expect to have zero error in this case, because the trunks of trees are not perfect cylinders: the diameter at the top of the tree is smaller than the diameter at the bottom, and trees have some curvature, deviating in shape from the perfect cylinder. Due to these factors, the formula <a href="what-about-the-timber-lend-company.html#eq:cylinderFormula">(10.32)</a> does not perfectly describe the volume of the tree, but instead is a good approximation of it.</p>
+</div>
+<p>As for the coefficients of the model, based on our sample, they were:</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="what-about-the-timber-lend-company.html#cb150-1" tabindex="-1"></a><span class="fu">coef</span>(slmTreesCyl)</span></code></pre></div>
 <pre><code>## (Intercept)    cylinder 
 ## -2.43730518  0.02124751</code></pre>
