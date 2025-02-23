@@ -1,4 +1,21 @@
 # Multiple Linear Regression {#linearRegression}
+::: example
+One of the problems that construction companies face is getting a good estimate of the budget needed to build something. Many companies tend to underestimate the costs and time the project will take. To address this, a mid-size company called "Eden city" decided to take a more analytical approach to the problem. They have collected the data of their previous projects and need help in building a model that would explain what forms the costs for different types of buildings. Their idea is to use this model during the business plan write-up phase to get an estimate of the future project, which they hope will be better than the ones they used before based on their pure judgment.
+:::
+
+In this example, we are interested in the overall costs of construction, which can be impacted by:
+
+- The size of the project,
+- The cost of materials,
+- The experience of the crew delivering the project.
+
+::: question
+What else do you think impacts such costs in theory?
+:::
+
+
+
+
 While simple linear regression provides a basic understanding of the idea of capturing the relations between variables, it is obvious that in reality there are more than one external variable that would impact the response variable. This means that instead of \@ref(eq:SLRFormula) we should have:
 \begin{equation}
     y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
