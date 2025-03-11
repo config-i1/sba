@@ -9,7 +9,7 @@ A timber harvesting company "Timber Lend" needs to measure the volume of trees t
 They want to improve their timber harvesting process by speeding up the volume measurement. How can they do that based on the available data?
 :::
 
-```{r}
+```{r echo=FALSE}
 load("data/SBA_Chapter_10_Trees.Rdata")
 ```
 
@@ -262,7 +262,7 @@ slmTrees <- lm(volume~height, SBA_Chapter_10_Trees)
 slmTrees
 ```
 
-The syntax of the function implies that we use volume as the response variable and height as the explanatory one. The resulting model in our notations has $b_0=$`r round(coef(slmTrees)[1],2)` and $b_1=$`r round(coef(slmTrees)[2],2)`, its equation can be written as: $volume_j=$`r round(coef(slmTrees)[1],2)`$+$`r round(coef(slmTrees)[2],2)`$height_j+e_j$.
+The syntax of the function implies that we use volume as the response variable and height as the explanatory one. The resulting model in our notations has $b_0=$ `r round(coef(slmTrees)[1],2)` and $b_1=$ `r round(coef(slmTrees)[2],2)`, its equation can be written as: $volume_j=$ `r round(coef(slmTrees)[1],2)` $+$ `r round(coef(slmTrees)[2],2)` $height_j+e_j$.
 :::
 
 While we can make some conclusions based on the simple linear regression, we know that in real life we rarely see bivariate relations - typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we only discuss the simple linear regression for educational purpose and generally, do not recommend to use it in real life situations.
