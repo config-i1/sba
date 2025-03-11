@@ -107,6 +107,10 @@ For obvious reasons, we do not have the values of parameters from the population
 
 Having the sample of data, we can draw a line through the cloud of points and then change the parameters for the intercept and slope until we are satisfied with how the line looks like. This would not be a reliable approach, but what we would be doing in this case is probably just making sure that the line goes somehow in the middle of data. To make this more rigorous, we could use the following simple method:
 
+::: remark
+This is not how OLS works, but this gives an idea what it implies.
+:::
+
 1. Sort all values in ascending order;
 2. Split the sample in two halves based on the middle of the explanatory variable (in our case that would be `height=76`);
 3. Calculate mean height and volume in the first half of the data;
@@ -223,7 +227,7 @@ This can be expanded to:
                        & n b_0^2 + 2 b_0 b_1 \sum_{j=1}^n x_j + b_1^2 \sum_{j=1}^n x_j^2
     \end{aligned}
 \end{equation*}
-Given that we need to find the values of parameters $b_0$ and $b_1$ minimising SSE, we can take a derivative of SSE with respect to $b_0$ and $b_1$, equating them to zero to get the following system of equations:
+Given that we need to find the values of parameters $b_0$ and $b_1$ minimising SSE, we can take a derivative of SSE with respect to $b_0$ and $b_1$, equating them to zero to get the following **System of Normal Equations**:
 \begin{equation*}
     \begin{aligned}
         & \frac{d \mathrm{SSE}}{d b_0} = -2 \sum_{j=1}^n y_j + 2 n b_0 + 2 b_1 \sum_{j=1}^n x_j = 0 \\

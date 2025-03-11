@@ -78,7 +78,25 @@ Similar to the Simple Linear Regression, each parameter in equation \@ref{eq:MLR
 
 
 ## OLS estimation
-In order to show how the estimation of multiple linear regression is done, we need to present it in a more compact form. In order to do that we will introduce the following vectors:
+We have already discussed the idea of the OLS in Section \@ref(OLS) on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.
+
+There are several ways how we can get the formula for the OLS of the Multiple Linear Regression. We could start with the same SSE value, expanding it based on the equation of the regression \@ref(eq:MLRExpectationSample):
+\begin{equation*}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 = \sum_{j=1}^n (y_j - b_0 - b_1 x_{1,j} - b_2 x_{2,j} - \dots - b_{k-1} x_{k-1,j})^2 .
+\end{equation*}
+Taking derivatives of SSE with respect to $b_0$, $b_1$, $b_2$, $\dots$, $b_{k-1}$ and then equating them to zero, we would get a so-called **System of Normal Equations** (we have discussed it when providing a proof in Section \@ref(OLS)), which in general case has form: 
+\begin{equation*}
+    \begin{aligned}
+        & \sum_{j=1}^n y_j - n b_0 - b_1 \sum_{j=1}^n x_{1,j} - b_2 \sum_{j=1}^n x_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} = 0 \\
+        & \sum_{j=1}^n y_j x_{1,j} - b_0 \sum_{j=1}^n x_{1,j} - b_1 \sum_{j=1}^n x^2_{1,j} - b_2 \sum_{j=1}^n x_{2,j} x_{1,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{1,j} = 0 \\
+        & \sum_{j=1}^n y_j x_{2,j} - b_0 \sum_{j=1}^n x_{2,j} - b_1 \sum_{j=1}^n x_{1,j} x_{2,j} - b_2 \sum_{j=1}^n x^2_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{2,j} = 0 \\
+        \vdots
+        & \sum_{j=1}^n y_j x_{k-1,j} - b_0 \sum_{j=1}^n x_{k-1,j} - b_1 \sum_{j=1}^n x_{1,j} x_{k-1,j} - b_2 \sum_{j=1}^n x^2_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x^2_{k-1,j} = 0
+    \end{aligned}
+\end{equation*}
+Solving this system of equations gives us formulae for parameters $b_0$, $b_1$, $b_2$, $\dots$, $b_{k-1}$, that guarantee that the SSE is minimal.
+
+However, there is a more compact and easier in logic way of getting the formulae, but it requires some basic knowledge of linear algebra. To explain it, we need to present the multiple linear regression in a more compact form. In order to do that we will introduce the following vectors:
 \begin{equation}
     \mathbf{x}'_j = \begin{pmatrix}1 & x_{1,j} & \dots & x_{k-1,j} \end{pmatrix},
     \boldsymbol{\beta} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
@@ -89,7 +107,9 @@ where $'$ symbol is the transposition. This can then be substituted in \@ref(eq:
     y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
     (\#eq:MLRFormulaCompacter)
 \end{equation}
-But this is not over yet, we can make it even more compact, if we pack all those values with index $t$ in vectors and matrices:
+This form is just convenient, but it denotes exactly the same model as in equation \@ref(eq:MLRFormula). All we need to remember in case of the equation \@ref(eq:MLRFormulaCompacter) is that it represents the sum of products of variables by their coefficients, just in a compact way.
+
+But this is not over yet, we can make it even more compact, if we pack all those values with index $j$ in vectors and matrices:
 \begin{equation}
     \mathbf{X} = \begin{pmatrix} \mathbf{x}'_1 \\ \mathbf{x}'_2 \\ \vdots \\ \mathbf{x}'_n \end{pmatrix} = 
     \begin{pmatrix} 1 & x_{1,1} & \dots & x_{k-1,1} \\ 1 & x_{1,2} & \dots & x_{k-1,2} \\ \vdots \\ 1 & x_{1,n} & \dots & x_{k-1,n} \end{pmatrix}, 
@@ -97,38 +117,75 @@ But this is not over yet, we can make it even more compact, if we pack all those
     \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
     (\#eq:MLRMatrices)
 \end{equation}
-where $T$ is the sample size. This leads to the following compact form of multiple linear regression:
+where $n$ is the sample size. This leads to the following even more compact form of the multiple linear regression:
 \begin{equation}
     \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} .
     (\#eq:MLRFormulaCompactest)
 \end{equation}
-Now that we have this compact form of multiple linear regression, we can estimate it using linear algebra. Many statistical textbooks explain how the following result is obtained (this involves taking derivative of SSE \@ref(eq:OLSCriterion) with respect to $\boldsymbol{\beta}$ and equating it to zero):
+If you compare \@ref(eq:MLRFormulaCompactest) with the original one \@ref(eq:MLRFormula):
+\begin{equation*}
+    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
+\end{equation*}
+you will probably see the connection. But the form \@ref(eq:MLRFormulaCompactest) is just more abstract. This abstraction, however, allows us getting an analytical formula for the calculation of the estimates of parameters of the model (remember, we substitute the true values $\beta_j$ by their sample estimates $b_j$):
 \begin{equation}
-    \hat{\boldsymbol{\beta}} = \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
+    \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
     (\#eq:MLROLS)
 \end{equation}
-The formula \@ref(eq:MLROLS) is used in all the statistical software, including `lm()` function from `stats` package for R. Here is an example with the same `mtcars` dataset:
+
+::: proof
+Sum of squared errors based on the model \@ref(eq:MLRFormulaCompactest) applied to the data can be expressed as:
+\begin{equation*}
+    \mathrm{SSE} = \mathbf{e}' \mathbf{e} = (\mathbf{y} - \mathbf{X} \mathbf{b})' (\mathbf{y} - \mathbf{X} \mathbf{b}) ,
+\end{equation*}
+where $\mathbf{e}$ is the estimate of $\boldsymbol{\epsilon}$ and $\mathbf{b}$ is the estimate of $\boldsymbol{\beta}$. This can be expanded by opening brackets to:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{SSE} = & \mathbf{y}'\mathbf{y} - \mathbf{y}' \mathbf{X} \mathbf{b} - \mathbf{b}' \mathbf{X}' \mathbf{y} + \mathbf{b}' \mathbf{X}' \mathbf{X} \mathbf{b} = \\
+        & \mathbf{y}'\mathbf{y} - 2 \mathbf{b}' \mathbf{X}' \mathbf{y} + \mathbf{b}' \mathbf{X}' \mathbf{X} \mathbf{b}
+    \end{aligned} ,
+    (\#eq:MLROLS02)
+\end{equation}
+which can be done because $\mathbf{y}' \mathbf{X} \mathbf{b}$ is a scalar and $\mathbf{y}' \mathbf{X} \mathbf{b} = (\mathbf{y}' \mathbf{X} \mathbf{b})' = \mathbf{b}' \mathbf{X}' \mathbf{y}$. Now we need to minimise \@ref(eq:MLROLS02) with respect to parameters to find their estimates. This can be done by taking derivative of \@ref(eq:MLROLS02) with respect to $\mathbf{b}$ and equating it to zero:
+\begin{equation}
+    \frac{\delta \mathrm{SSE}}{\delta \mathbf{b}} = - 2 \mathbf{X}' \mathbf{y} + 2 \mathbf{X}' \mathbf{X} \mathbf{b} = 0.
+    (\#eq:MLROLS03)
+\end{equation}
+After that, we can regroup the elements in \@ref(eq:MLROLS03) to get:
+\begin{equation*}
+    \mathbf{X}' \mathbf{X} \mathbf{b} = \mathbf{X}' \mathbf{y}.
+\end{equation*}
+And then, we can multiply both parts of the equation by the inverse of $\mathbf{X}' \mathbf{X}$ to get rid of that part in the left-hand side of the equation:
+\begin{equation*}
+    (\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}' \mathbf{X} \mathbf{b} = (\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}' \mathbf{y},
+\end{equation*}
+which then leads to the final formula:
+\begin{equation*}
+    \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
+\end{equation*}
+:::
+
+Luckily, you do not need to remember the formula \@ref(eq:MLROLS) and should not need to use it in real life, because it is used in all statistical software, including `lm()` function from `stats` package for R. Here is an example with the same dataset:
 
 ```{r}
-mtcarsModel01 <- lm(mpg~cyl+disp+hp++drat+wt+qsec+gear+carb, mtcars)
+costsModel01 <- lm(overall~size+materials+projects+year, SBA_Chapter_11_Costs)
 ```
 
-The simplest plot that we can produce from this model is fitted values vs actuals, plotting $\hat{y}_j$ on x-axis and $y_j$ on the y-axis:
+To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with $\hat{y}_j$ on x-axis and $y_j$ on the y-axis:
 
 ```{r}
-plot(fitted(mtcarsModel01),actuals(mtcarsModel01))
+plot(fitted(costsModel01),actuals(costsModel01))
 ```
 
 The same plot is produced via `plot()` method if we use `alm()` function from `greybox` instead:
 
-```{r mtcarsModel02Plot, fig.cap="Actuals vs fitted values for multiple linear regression model on mtcars data."}
-mtcarsModel02 <- alm(mpg~cyl+disp+hp++drat+wt+qsec+gear+carb, mtcars, loss="MSE")
-plot(mtcarsModel02,1)
+```{r costsModel02Plot, fig.cap="Actuals vs fitted values for multiple linear regression model on mtcars data."}
+costsModel02 <- alm(overall~size+materials+projects+year, SBA_Chapter_11_Costs, loss="MSE")
+plot(costsModel02,1)
 ```
 
 We use `loss="MSE"` in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in `alm()`, likelihood, in Section \@ref(likelihoodApproach).
 
-The plot on Figure \@ref(fig:mtcarsModel02Plot) can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Section \@ref(assumptions)). 
+The plot on Figure \@ref(fig:mtcarsModel02Plot) can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter \@ref(assumptions)). 
 
 
 ## Quality of a fit {#linearRegressionMultipleQualityOfFit}
