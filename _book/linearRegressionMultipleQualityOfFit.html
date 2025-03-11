@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.2 Quality of a fit | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.2 Quality of a fit | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -406,41 +407,41 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Building upon the discussion of the quality of the fit in Section <a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit">10.4</a>, we can introduce a measure, based on the OLS criterion, <a href="OLS.html#eq:OLSCriterion">(10.4)</a>, which is called either “Root Mean Squared Error” (RMSE) or a “standard error” or a “standard deviation of error” of the regression:
 <span class="math display" id="eq:RMSERegression">\[\begin{equation}
     \hat{\sigma}^2 = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
-    \tag{11.9}
+    \tag{11.12}
 \end{equation}\]</span>
-The denominator of <a href="linearRegressionMultipleQualityOfFit.html#eq:RMSERegression">(11.9)</a> contains the number of degrees of freedom in the model, <span class="math inline">\(n-k\)</span>, not the number of observations <span class="math inline">\(n\)</span>, so technically speaking this is not a “mean” any more. This is done to correct the in-sample bias (Section <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>) of the measure. Standard error does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data. However, this measure is not aware of the randomness in the true model (Section <a href="what-is-model.html#modelsMethods">1.1.1</a>) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.</p>
+The denominator of <a href="linearRegressionMultipleQualityOfFit.html#eq:RMSERegression">(11.12)</a> contains the number of degrees of freedom in the model, <span class="math inline">\(n-k\)</span>, not the number of observations <span class="math inline">\(n\)</span>, so technically speaking this is not a “mean” any more. This is done to correct the in-sample bias (Section <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>) of the measure. Standard error does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data. However, this measure is not aware of the randomness in the true model (Section <a href="what-is-model.html#modelsMethods">1.1.1</a>) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.</p>
 <p>Here is how this can be calculated for our model, estimated using <code>alm()</code> function:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="linearRegressionMultipleQualityOfFit.html#cb155-1" tabindex="-1"></a><span class="fu">sigma</span>(mtcarsModel02)</span></code></pre></div>
-<pre><code>## [1] 2.622011</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="linearRegressionMultipleQualityOfFit.html#cb156-1" tabindex="-1"></a><span class="fu">sigma</span>(costsModel02)</span></code></pre></div>
+<pre><code>## [1] 30.56428</code></pre>
 <p>The value of RMSE does not provide any important insights on its own, but it can be compared to the RMSE of another model to decide, which one of the two fits the data better.</p>
 <p>Similarly to the simple linear regression, we can calculate the R<span class="math inline">\(^2\)</span> (see Section <a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit">10.4</a>). The problem is that the value of coefficient of determination would always increase with the increase of number of variables included in the model. This is because every variable will explain some proportion of the data due to randomness. So, if we add redundant variables, the fit will improve, but the quality of model will deteriorate. Here is an example:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="linearRegressionMultipleQualityOfFit.html#cb157-1" tabindex="-1"></a><span class="co"># Record number of observations</span></span>
-<span id="cb157-2"><a href="linearRegressionMultipleQualityOfFit.html#cb157-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(mtcarsModel02)</span>
-<span id="cb157-3"><a href="linearRegressionMultipleQualityOfFit.html#cb157-3" tabindex="-1"></a><span class="co"># Generate white noise</span></span>
-<span id="cb157-4"><a href="linearRegressionMultipleQualityOfFit.html#cb157-4" tabindex="-1"></a>mtcarsData<span class="sc">$</span>noise <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="dv">10</span>)</span>
-<span id="cb157-5"><a href="linearRegressionMultipleQualityOfFit.html#cb157-5" tabindex="-1"></a><span class="co"># Add it to the model</span></span>
-<span id="cb157-6"><a href="linearRegressionMultipleQualityOfFit.html#cb157-6" tabindex="-1"></a>mtcarsModel02WithNoise <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb<span class="sc">+</span>noise,</span>
-<span id="cb157-7"><a href="linearRegressionMultipleQualityOfFit.html#cb157-7" tabindex="-1"></a>                                   mtcarsData, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="linearRegressionMultipleQualityOfFit.html#cb158-1" tabindex="-1"></a><span class="co"># Record number of observations</span></span>
+<span id="cb158-2"><a href="linearRegressionMultipleQualityOfFit.html#cb158-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(costsModel02)</span>
+<span id="cb158-3"><a href="linearRegressionMultipleQualityOfFit.html#cb158-3" tabindex="-1"></a><span class="co"># Generate white noise</span></span>
+<span id="cb158-4"><a href="linearRegressionMultipleQualityOfFit.html#cb158-4" tabindex="-1"></a>SBA_Chapter_11_Costs<span class="sc">$</span>noise <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="dv">10</span>)</span>
+<span id="cb158-5"><a href="linearRegressionMultipleQualityOfFit.html#cb158-5" tabindex="-1"></a><span class="co"># Add it to the model</span></span>
+<span id="cb158-6"><a href="linearRegressionMultipleQualityOfFit.html#cb158-6" tabindex="-1"></a>costsModel02WithNoise <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year<span class="sc">+</span>noise,</span>
+<span id="cb158-7"><a href="linearRegressionMultipleQualityOfFit.html#cb158-7" tabindex="-1"></a>                             SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
 <p>The code above introduces a new variable, <code>noise</code>, which has nothing to do with the <code>mpg</code>. We would expect that this variable would not bring value to the model. And here is the value of determination coefficient of the new model:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="linearRegressionMultipleQualityOfFit.html#cb158-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
-<span id="cb158-2"><a href="linearRegressionMultipleQualityOfFit.html#cb158-2" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.8651618</code></pre>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="linearRegressionMultipleQualityOfFit.html#cb159-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(costsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb159-2"><a href="linearRegressionMultipleQualityOfFit.html#cb159-2" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(costsModel02WithNoise))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<pre><code>## [1] 0.8029458</code></pre>
 <p>Compare it with the previous one:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="linearRegressionMultipleQualityOfFit.html#cb160-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(mtcarsModel02)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
-<span id="cb160-2"><a href="linearRegressionMultipleQualityOfFit.html#cb160-2" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.8595764</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="linearRegressionMultipleQualityOfFit.html#cb161-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(costsModel02)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb161-2"><a href="linearRegressionMultipleQualityOfFit.html#cb161-2" tabindex="-1"></a>    (<span class="fu">var</span>(<span class="fu">actuals</span>(costsModel02))<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<pre><code>## [1] 0.8016625</code></pre>
 <p>The value in the new model will always be higher than in the previous one (or equal to it in some very special cases), no matter how we generate the random fluctuations. This means that some sort of penalisation of the number of variables in the model is required in order to make the measure more reasonable. This is what adjusted coefficient of determination does:
 <span class="math display" id="eq:DeterminationAdjusted">\[\begin{equation}
     R^2_{adj} = 1 - \frac{\hat{\sigma}^2}{\mathrm{V}(y)} = 1 - \frac{(n-1)\mathrm{SSE}}{(n-k)\mathrm{SST}} .
-    \tag{11.10}
+    \tag{11.13}
 \end{equation}\]</span>
-So, instead of dividing sums of squares, in the adjusted R<span class="math inline">\(^2\)</span> we divide the entities that are based on degrees of freedom. Given the presence of <span class="math inline">\(k\)</span> in the formula <a href="linearRegressionMultipleQualityOfFit.html#eq:DeterminationAdjusted">(11.10)</a>, the coefficient will not necessarily increase with the addition of variables – when the variable does not contribute in the reduction of SSE of model substantially, R<span class="math inline">\(^2\)</span> will not go up. Furthermore, if one model has higher <span class="math inline">\(\hat{\sigma}^2\)</span> than the other one, then the R<span class="math inline">\(^2_{adj}\)</span> of that model will be lower, which becomes apparent, given that we have <span class="math inline">\(-\hat{\sigma}^2\)</span> in the formula <a href="linearRegressionMultipleQualityOfFit.html#eq:DeterminationAdjusted">(11.10)</a>.</p>
+So, instead of dividing sums of squares, in the adjusted R<span class="math inline">\(^2\)</span> we divide the entities that are based on degrees of freedom. Given the presence of <span class="math inline">\(k\)</span> in the formula <a href="linearRegressionMultipleQualityOfFit.html#eq:DeterminationAdjusted">(11.13)</a>, the coefficient will not necessarily increase with the addition of variables – when the variable does not contribute in the reduction of SSE of model substantially, R<span class="math inline">\(^2\)</span> will not go up. Furthermore, if one model has higher <span class="math inline">\(\hat{\sigma}^2\)</span> than the other one, then the R<span class="math inline">\(^2_{adj}\)</span> of that model will be lower, which becomes apparent, given that we have <span class="math inline">\(-\hat{\sigma}^2\)</span> in the formula <a href="linearRegressionMultipleQualityOfFit.html#eq:DeterminationAdjusted">(11.13)</a>.</p>
 <p>Here how the adjusted R<span class="math inline">\(^2\)</span> can be calculated for a model in R:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="linearRegressionMultipleQualityOfFit.html#cb162-1" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">c</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(mtcarsModel02)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02)),</span>
-<span id="cb162-2"><a href="linearRegressionMultipleQualityOfFit.html#cb162-2" tabindex="-1"></a>           <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(mtcarsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(mtcarsModel02WithNoise))),</span>
-<span id="cb162-3"><a href="linearRegressionMultipleQualityOfFit.html#cb162-3" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;R^2-adj&quot;</span>,<span class="st">&quot;R^2-adj, Noise&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="linearRegressionMultipleQualityOfFit.html#cb163-1" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">c</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(costsModel02)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(costsModel02)),</span>
+<span id="cb163-2"><a href="linearRegressionMultipleQualityOfFit.html#cb163-2" tabindex="-1"></a>           <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sigma</span>(costsModel02WithNoise)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">var</span>(<span class="fu">actuals</span>(costsModel02WithNoise))),</span>
+<span id="cb163-3"><a href="linearRegressionMultipleQualityOfFit.html#cb163-3" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;R^2-adj&quot;</span>,<span class="st">&quot;R^2-adj, Noise&quot;</span>))</span></code></pre></div>
 <pre><code>##        R^2-adj R^2-adj, Noise 
-##      0.8107333      0.8100008</code></pre>
+##      0.7874955      0.7850317</code></pre>
 <p>What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R<span class="math inline">\(^2\)</span> than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter. So, you should not fully trust R<span class="math inline">\(^2_{adj}\)</span> either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inaccurate forecasts and inefficient estimates of parameters (see Section <a href="assumptions.html#assumptions">15</a> for details).</p>
 </div>
 
@@ -464,42 +465,42 @@ So, instead of dividing sums of squares, in the adjusted R<span class="math inli
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

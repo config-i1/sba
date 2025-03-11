@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Simple Linear Regression | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Simple Linear Regression | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -412,9 +413,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ol>
 <p>They want to improve their timber harvesting process by speeding up the volume measurement. How can they do that based on the available data?</p>
 </div>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="simpleLinearRegression.html#cb136-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/SBA_Chapter_10_Trees.Rdata&quot;</span>)</span></code></pre></div>
 <p>The data in this example is available online from <a href="https://github.com/config-i1/sba/blob/master/data/SBA_Chapter_10_Trees.Rdata">here</a> and can be loaded in R the following way:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="simpleLinearRegression.html#cb137-1" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/config-i1/sba/raw/refs/heads/master/data/SBA_Chapter_10_Trees.Rdata&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="simpleLinearRegression.html#cb136-1" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/config-i1/sba/raw/refs/heads/master/data/SBA_Chapter_10_Trees.Rdata&quot;</span>))</span></code></pre></div>
 <p>To answer the question of the company “Timber Lend”, we need to understand how we can capture relations between different variables numerically, so that we would be able to say what volume the company can expect based on the height and/or diameter of each trunk. Yes, we already know how to do <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">graphical</a> and <a href="correlations.html#correlations">correlations</a> analysis. But this will not provide us sufficient information to answer the question in the beginning of this chapter. Still, the first thing to do is to plot the relation between the variables. We start with analysing the relation between height and volume, which is plotted in Figure <a href="simpleLinearRegression.html#fig:TreesLine">10.1</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:TreesLine"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/TreesLine-1.png" alt="Scatterplot matrix of the trees volume and height." width="672" />
@@ -474,42 +474,42 @@ Figure 10.3: Scatterplot diagram between height and volume, together with an err
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

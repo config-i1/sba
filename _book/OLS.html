@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10.1 Ordinary Least Squares (OLS) | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10.1 Ordinary Least Squares (OLS) | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -405,6 +406,9 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">10.1</span> Ordinary Least Squares (OLS)<a href="OLS.html#OLS" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For obvious reasons, we do not have the values of parameters from the population: it would be simply impossible to measure heights, diameters and volumes of all eysting trees in the world. This means that we will never know what the true intercept and slope are. But we can get some estimates of these parameters based on the sample of data we have. There are different ways of doing that, and the most popular one is called “Ordinary Least Squares” method. This is the method that was used in the estimation of the model in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a>. So, how does it work?</p>
 <p>Having the sample of data, we can draw a line through the cloud of points and then change the parameters for the intercept and slope until we are satisfied with how the line looks like. This would not be a reliable approach, but what we would be doing in this case is probably just making sure that the line goes somehow in the middle of data. To make this more rigorous, we could use the following simple method:</p>
+<div class="remark">
+<p><span id="unlabeled-div-26" class="remark"><em>Remark</em>. </span>This is not how OLS works, but this gives an idea what it implies.</p>
+</div>
 <ol style="list-style-type: decimal">
 <li>Sort all values in ascending order;</li>
 <li>Split the sample in two halves based on the middle of the explanatory variable (in our case that would be <code>height=76</code>);</li>
@@ -422,7 +426,7 @@ Figure 10.4: Scatterplot diagram between height and volume and the line drawn th
 <p>The line in the figure represents the average change of volume with the increase of height of trunks. The red crosses show the middle points, the vertical line in the middle shows where the sample is split into two halves. We could improve this method by splitting each half into two halves again, and calculating points for them, or even further splitting each resulting half in halves etc. This method might not be reasonable for the specific sample, but if we had the population data, eventually we would be able to get a collection of points, each one of them representing the mean volume of trees given specific height.</p>
 <p>But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-26" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just some estimates of the true parameters.</p>
+<p><span id="unlabeled-div-27" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just some estimates of the true parameters.</p>
 </div>
 <p>After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as <span class="math inline">\(e_j\)</span> instead of <span class="math inline">\(\epsilon_j\)</span>, which in general they can be calculated as <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable.</p>
 <p>For example, for the height of tree of 64 meters, the actual volume is 249.2, while the fitted value would be 117.052. The resulting error (or residual of model) is 249.2 - 117.052 = 132.148. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:</p>
@@ -472,7 +476,7 @@ If we now minimise SSE by changing values of parameters <span class="math inline
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> (height in our example) and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span> (volume).</p>
 <div class="proof">
-<p><span id="unlabeled-div-27" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
+<p><span id="unlabeled-div-28" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -483,7 +487,7 @@ This can be expanded to:
                        &amp; n b_0^2 + 2 b_0 b_1 \sum_{j=1}^n x_j + b_1^2 \sum_{j=1}^n x_j^2
     \end{aligned}
 \end{equation*}\]</span>
-Given that we need to find the values of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> minimising SSE, we can take a derivative of SSE with respect to <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>, equating them to zero to get the following system of equations:
+Given that we need to find the values of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> minimising SSE, we can take a derivative of SSE with respect to <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>, equating them to zero to get the following <strong>System of Normal Equations</strong>:
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
         &amp; \frac{d \mathrm{SSE}}{d b_0} = -2 \sum_{j=1}^n y_j + 2 n b_0 + 2 b_1 \sum_{j=1}^n x_j = 0 \\
@@ -508,13 +512,13 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>
 <p>which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> lead to <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-28" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
+<p><span id="unlabeled-div-29" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
 </div>
 <p>This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares”, because by using this method we get the least possible squares of errors for the data. The word “ordinary” means that this is one of the basic estimation techniques. There are other least squares techniques, which we are not yet discussing in this book. The method is simple and does not require any specific assumptions: we just minimise the overall distance between the line and the points by changing the values of parameters.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-29" class="example"><strong>Example 10.2  </strong></span>For the problem with trees, we can use the <code>lm()</code> function from the <code>stats</code> package in R to get the OLS estimates of parameters. This is done in the following way:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="OLS.html#cb139-1" tabindex="-1"></a>slmTrees <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>height, SBA_Chapter_10_Trees)</span>
-<span id="cb139-2"><a href="OLS.html#cb139-2" tabindex="-1"></a>slmTrees</span></code></pre></div>
+<p><span id="exm:unlabeled-div-30" class="example"><strong>Example 10.2  </strong></span>For the problem with trees, we can use the <code>lm()</code> function from the <code>stats</code> package in R to get the OLS estimates of parameters. This is done in the following way:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="OLS.html#cb138-1" tabindex="-1"></a>slmTrees <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>height, SBA_Chapter_10_Trees)</span>
+<span id="cb138-2"><a href="OLS.html#cb138-2" tabindex="-1"></a>slmTrees</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = volume ~ height, data = SBA_Chapter_10_Trees)
@@ -522,14 +526,14 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>
 ## Coefficients:
 ## (Intercept)       height  
 ##     -870.95        15.44</code></pre>
-<p>The syntax of the function implies that we use volume as the response variable and height as the explanatory one. The resulting model in our notations has <span class="math inline">\(b_0=\)</span>-870.95 and $b_1=$15.44, its equation can be written as: <span class="math inline">\(volume_j=\)</span>-870.95$+<span class="math inline">\(15.44\)</span>height_j+e_j$.</p>
+<p>The syntax of the function implies that we use volume as the response variable and height as the explanatory one. The resulting model in our notations has <span class="math inline">\(b_0=\)</span> -870.95 and <span class="math inline">\(b_1=\)</span> 15.44, its equation can be written as: <span class="math inline">\(volume_j=\)</span> -870.95 <span class="math inline">\(+\)</span> 15.44 <span class="math inline">\(height_j+e_j\)</span>.</p>
 </div>
 <p>While we can make some conclusions based on the simple linear regression, we know that in real life we rarely see bivariate relations - typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we only discuss the simple linear regression for educational purpose and generally, do not recommend to use it in real life situations.</p>
 <div id="GaussMarkov" class="section level3 hasAnchor" number="10.1.1">
 <h3><span class="header-section-number">10.1.1</span> Gauss-Markov theorem<a href="OLS.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). It is called “Gauss-Markov theorem”, and it states that:</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-30" class="theorem"><strong>Theorem 10.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
+<p><span id="thm:unlabeled-div-31" class="theorem"><strong>Theorem 10.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
 </div>
 <p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median (see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
 <p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.</p>
@@ -556,42 +560,42 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

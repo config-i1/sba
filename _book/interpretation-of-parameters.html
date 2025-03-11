@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.3 Interpretation of parameters | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.3 Interpretation of parameters | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -404,12 +405,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="interpretation-of-parameters" class="section level2 hasAnchor" number="11.3">
 <h2><span class="header-section-number">11.3</span> Interpretation of parameters<a href="interpretation-of-parameters.html#interpretation-of-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Finally, we come to the discussion of parameters of a model. As mentioned earlier, each one of them represents the slope of the model. But there is more to the meaning of parameters of the model. Consider the coefficients of the previously estimated model:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="interpretation-of-parameters.html#cb164-1" tabindex="-1"></a><span class="fu">coef</span>(mtcarsModel02)</span></code></pre></div>
-<pre><code>## (Intercept)         cyl        disp          hp        drat          wt 
-## 17.88963741 -0.41459575  0.01293240 -0.02084886  1.10109551 -3.92064847 
-##        qsec        gear        carb 
-##  0.54145693  1.23321026 -0.25509911</code></pre>
-<p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the mileage. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant. For example, the parameter for <code>wt</code> (weight) shows that with the increase of weight of a car by 1000 pounds, the mileage would decrease <strong>on average</strong> by 3.921 miles per gallon, if all the other variables do not change. I have made the word “average” boldface three times in this paragraph for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. They do not show how it will change for each point. The regression model capture average tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of weight by 1 will lead to different decreases (and even increases in some cases). But if we take the arithmetic mean of those individual effects, it will be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="interpretation-of-parameters.html#cb165-1" tabindex="-1"></a><span class="fu">coef</span>(costsModel02)</span></code></pre></div>
+<pre><code>##   (Intercept)          size     materials      projects          year 
+## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555</code></pre>
+<p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the mileage. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant. For example, the parameter for <code>wt</code> (weight) shows that with the increase of weight of a car by 1000 pounds, the mileage would decrease <strong>on average</strong> by NA miles per gallon, if all the other variables do not change. I have made the word “average” boldface three times in this paragraph for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. They do not show how it will change for each point. The regression model capture average tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of weight by 1 will lead to different decreases (and even increases in some cases). But if we take the arithmetic mean of those individual effects, it will be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
 
 </div>
 <!-- </div> -->
@@ -434,42 +433,42 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

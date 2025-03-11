@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>17.1 Bias-variance tradeoff | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="17.1 Bias-variance tradeoff | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -457,7 +458,7 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-42" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-45" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{17.3}
@@ -571,42 +572,42 @@ Figure 17.6: Bias, Variance and MSE as functions of model complexity.
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//17-specification-uncertainty.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//17-specification-uncertainty.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

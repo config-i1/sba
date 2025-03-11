@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10.4 Quality of a fit | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10.4 Quality of a fit | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -431,7 +432,7 @@ which shows the variability of the regression line. It is possible to show that 
     \tag{10.23}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-33" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
+<p><span id="unlabeled-div-34" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -496,7 +497,7 @@ Given the fundamental property <a href="linearRegressionSimpleQualityOfFit.html#
 </ol>
 <p>So, the zero value of the coefficient of determination means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model.</p>
 <div class="remark">
-<p><span id="unlabeled-div-34" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
+<p><span id="unlabeled-div-35" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}\]</span>
@@ -507,9 +508,9 @@ which means that all <span class="math inline">\(e_j=0\)</span>, being unrealist
 meaning that it is not different from the simple mean of the data, because in that case <span class="math inline">\(b_0=\bar{y}\)</span>. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be solely based on it.</p>
 </div>
 <p>Here how this measure can be calculated in R based on the model that we estimated in Section <a href="OLS.html#OLS">10.1</a>:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="linearRegressionSimpleQualityOfFit.html#cb141-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTrees)</span>
-<span id="cb141-2"><a href="linearRegressionSimpleQualityOfFit.html#cb141-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTrees)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTrees))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb141-3"><a href="linearRegressionSimpleQualityOfFit.html#cb141-3" tabindex="-1"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="linearRegressionSimpleQualityOfFit.html#cb140-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTrees)</span>
+<span id="cb140-2"><a href="linearRegressionSimpleQualityOfFit.html#cb140-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTrees)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTrees))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb140-3"><a href="linearRegressionSimpleQualityOfFit.html#cb140-3" tabindex="-1"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.357975</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 35.8% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -523,10 +524,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.31}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="linearRegressionSimpleQualityOfFit.html#cb143-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmTrees)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="linearRegressionSimpleQualityOfFit.html#cb142-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmTrees)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##    height 
 ## 0.5983101</code></pre>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="linearRegressionSimpleQualityOfFit.html#cb145-1" tabindex="-1"></a><span class="fu">cor</span>(SBA_Chapter_10_Trees<span class="sc">$</span>height,SBA_Chapter_10_Trees<span class="sc">$</span>volume)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="linearRegressionSimpleQualityOfFit.html#cb144-1" tabindex="-1"></a><span class="fu">cor</span>(SBA_Chapter_10_Trees<span class="sc">$</span>height,SBA_Chapter_10_Trees<span class="sc">$</span>volume)</span></code></pre></div>
 <pre><code>## [1] 0.5983101</code></pre>
 </div>
 </div>
@@ -551,42 +552,42 @@ It shows the closeness of relation between the response variable <span class="ma
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//10-SLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

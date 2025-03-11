@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.1 OLS estimation | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.1 OLS estimation | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -403,51 +404,103 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="ols-estimation" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> OLS estimation<a href="ols-estimation.html#ols-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In order to show how the estimation of multiple linear regression is done, we need to present it in a more compact form. In order to do that we will introduce the following vectors:
+<p>We have already discussed the idea of the OLS in Section <a href="OLS.html#OLS">10.1</a> on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.</p>
+<p>There are several ways how we can get the formula for the OLS of the Multiple Linear Regression. We could start with the same SSE value, expanding it based on the equation of the regression <a href="linearRegression.html#eq:MLRExpectationSample">(11.4)</a>:
+<span class="math display">\[\begin{equation*}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 = \sum_{j=1}^n (y_j - b_0 - b_1 x_{1,j} - b_2 x_{2,j} - \dots - b_{k-1} x_{k-1,j})^2 .
+\end{equation*}\]</span>
+Taking derivatives of SSE with respect to <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(b_{k-1}\)</span> and then equating them to zero, we would get a so-called <strong>System of Normal Equations</strong> (we have discussed it when providing a proof in Section <a href="OLS.html#OLS">10.1</a>), which in general case has form:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        &amp; \sum_{j=1}^n y_j - n b_0 - b_1 \sum_{j=1}^n x_{1,j} - b_2 \sum_{j=1}^n x_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} = 0 \\
+        &amp; \sum_{j=1}^n y_j x_{1,j} - b_0 \sum_{j=1}^n x_{1,j} - b_1 \sum_{j=1}^n x^2_{1,j} - b_2 \sum_{j=1}^n x_{2,j} x_{1,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{1,j} = 0 \\
+        &amp; \sum_{j=1}^n y_j x_{2,j} - b_0 \sum_{j=1}^n x_{2,j} - b_1 \sum_{j=1}^n x_{1,j} x_{2,j} - b_2 \sum_{j=1}^n x^2_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{2,j} = 0 \\
+        \vdots
+        &amp; \sum_{j=1}^n y_j x_{k-1,j} - b_0 \sum_{j=1}^n x_{k-1,j} - b_1 \sum_{j=1}^n x_{1,j} x_{k-1,j} - b_2 \sum_{j=1}^n x^2_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x^2_{k-1,j} = 0
+    \end{aligned}
+\end{equation*}\]</span>
+Solving this system of equations gives us formulae for parameters <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(b_{k-1}\)</span>, that guarantee that the SSE is minimal.</p>
+<p>However, there is a more compact and easier in logic way of getting the formulae, but it requires some basic knowledge of linear algebra. To explain it, we need to present the multiple linear regression in a more compact form. In order to do that we will introduce the following vectors:
 <span class="math display" id="eq:MLRVectors">\[\begin{equation}
     \mathbf{x}&#39;_j = \begin{pmatrix}1 &amp; x_{1,j} &amp; \dots &amp; x_{k-1,j} \end{pmatrix},
     \boldsymbol{\beta} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
-    \tag{11.4}
-\end{equation}\]</span>
-where <span class="math inline">\(&#39;\)</span> symbol is the transposition. This can then be substituted in <a href="linearRegression.html#eq:MLRFormula">(11.1)</a> to get:
-<span class="math display" id="eq:MLRFormulaCompacter">\[\begin{equation}
-    y_j = \mathbf{x}&#39;_j \boldsymbol{\beta} + \epsilon_j .
     \tag{11.5}
 \end{equation}\]</span>
-But this is not over yet, we can make it even more compact, if we pack all those values with index <span class="math inline">\(t\)</span> in vectors and matrices:
+where <span class="math inline">\(&#39;\)</span> symbol is the transposition. This can then be substituted in <a href="linearRegression.html#eq:MLRFormula">(11.2)</a> to get:
+<span class="math display" id="eq:MLRFormulaCompacter">\[\begin{equation}
+    y_j = \mathbf{x}&#39;_j \boldsymbol{\beta} + \epsilon_j .
+    \tag{11.6}
+\end{equation}\]</span>
+This form is just convenient, but it denotes exactly the same model as in equation <a href="linearRegression.html#eq:MLRFormula">(11.2)</a>. All we need to remember in case of the equation <a href="ols-estimation.html#eq:MLRFormulaCompacter">(11.6)</a> is that it represents the sum of products of variables by their coefficients, just in a compact way.</p>
+<p>But this is not over yet, we can make it even more compact, if we pack all those values with index <span class="math inline">\(j\)</span> in vectors and matrices:
 <span class="math display" id="eq:MLRMatrices">\[\begin{equation}
     \mathbf{X} = \begin{pmatrix} \mathbf{x}&#39;_1 \\ \mathbf{x}&#39;_2 \\ \vdots \\ \mathbf{x}&#39;_n \end{pmatrix} =
     \begin{pmatrix} 1 &amp; x_{1,1} &amp; \dots &amp; x_{k-1,1} \\ 1 &amp; x_{1,2} &amp; \dots &amp; x_{k-1,2} \\ \vdots \\ 1 &amp; x_{1,n} &amp; \dots &amp; x_{k-1,n} \end{pmatrix},
     \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix},
     \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
-    \tag{11.6}
-\end{equation}\]</span>
-where <span class="math inline">\(T\)</span> is the sample size. This leads to the following compact form of multiple linear regression:
-<span class="math display" id="eq:MLRFormulaCompactest">\[\begin{equation}
-    \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} .
     \tag{11.7}
 \end{equation}\]</span>
-Now that we have this compact form of multiple linear regression, we can estimate it using linear algebra. Many statistical textbooks explain how the following result is obtained (this involves taking derivative of SSE <a href="OLS.html#eq:OLSCriterion">(10.4)</a> with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span> and equating it to zero):
-<span class="math display" id="eq:MLROLS">\[\begin{equation}
-    \hat{\boldsymbol{\beta}} = \mathbf{b} = \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1} \mathbf{X}&#39; \mathbf{y} .
+where <span class="math inline">\(n\)</span> is the sample size. This leads to the following even more compact form of the multiple linear regression:
+<span class="math display" id="eq:MLRFormulaCompactest">\[\begin{equation}
+    \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} .
     \tag{11.8}
 \end{equation}\]</span>
-The formula <a href="ols-estimation.html#eq:MLROLS">(11.8)</a> is used in all the statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same <code>mtcars</code> dataset:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ols-estimation.html#cb152-1" tabindex="-1"></a>mtcarsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars)</span></code></pre></div>
-<p>The simplest plot that we can produce from this model is fitted values vs actuals, plotting <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ols-estimation.html#cb153-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(mtcarsModel01),<span class="fu">actuals</span>(mtcarsModel01))</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+If you compare <a href="ols-estimation.html#eq:MLRFormulaCompactest">(11.8)</a> with the original one <a href="linearRegression.html#eq:MLRFormula">(11.2)</a>:
+<span class="math display">\[\begin{equation*}
+    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
+\end{equation*}\]</span>
+you will probably see the connection. But the form <a href="ols-estimation.html#eq:MLRFormulaCompactest">(11.8)</a> is just more abstract. This abstraction, however, allows us getting an analytical formula for the calculation of the estimates of parameters of the model (remember, we substitute the true values <span class="math inline">\(\beta_j\)</span> by their sample estimates <span class="math inline">\(b_j\)</span>):
+<span class="math display" id="eq:MLROLS">\[\begin{equation}
+    \mathbf{b} = \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1} \mathbf{X}&#39; \mathbf{y} .
+    \tag{11.9}
+\end{equation}\]</span></p>
+<div class="proof">
+<p><span id="unlabeled-div-38" class="proof"><em>Proof</em>. </span>Sum of squared errors based on the model <a href="ols-estimation.html#eq:MLRFormulaCompactest">(11.8)</a> applied to the data can be expressed as:
+<span class="math display">\[\begin{equation*}
+    \mathrm{SSE} = \mathbf{e}&#39; \mathbf{e} = (\mathbf{y} - \mathbf{X} \mathbf{b})&#39; (\mathbf{y} - \mathbf{X} \mathbf{b}) ,
+\end{equation*}\]</span>
+where <span class="math inline">\(\mathbf{e}\)</span> is the estimate of <span class="math inline">\(\boldsymbol{\epsilon}\)</span> and <span class="math inline">\(\mathbf{b}\)</span> is the estimate of <span class="math inline">\(\boldsymbol{\beta}\)</span>. This can be expanded by opening brackets to:
+<span class="math display" id="eq:MLROLS02">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{SSE} = &amp; \mathbf{y}&#39;\mathbf{y} - \mathbf{y}&#39; \mathbf{X} \mathbf{b} - \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y} + \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{X} \mathbf{b} = \\
+        &amp; \mathbf{y}&#39;\mathbf{y} - 2 \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y} + \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{X} \mathbf{b}
+    \end{aligned} ,
+    \tag{11.10}
+\end{equation}\]</span>
+which can be done because <span class="math inline">\(\mathbf{y}&#39; \mathbf{X} \mathbf{b}\)</span> is a scalar and <span class="math inline">\(\mathbf{y}&#39; \mathbf{X} \mathbf{b} = (\mathbf{y}&#39; \mathbf{X} \mathbf{b})&#39; = \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y}\)</span>. Now we need to minimise <a href="ols-estimation.html#eq:MLROLS02">(11.10)</a> with respect to parameters to find their estimates. This can be done by taking derivative of <a href="ols-estimation.html#eq:MLROLS02">(11.10)</a> with respect to <span class="math inline">\(\mathbf{b}\)</span> and equating it to zero:
+<span class="math display" id="eq:MLROLS03">\[\begin{equation}
+    \frac{\delta \mathrm{SSE}}{\delta \mathbf{b}} = - 2 \mathbf{X}&#39; \mathbf{y} + 2 \mathbf{X}&#39; \mathbf{X} \mathbf{b} = 0.
+    \tag{11.11}
+\end{equation}\]</span>
+After that, we can regroup the elements in <a href="ols-estimation.html#eq:MLROLS03">(11.11)</a> to get:
+<span class="math display">\[\begin{equation*}
+    \mathbf{X}&#39; \mathbf{X} \mathbf{b} = \mathbf{X}&#39; \mathbf{y}.
+\end{equation*}\]</span>
+And then, we can multiply both parts of the equation by the inverse of <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> to get rid of that part in the left-hand side of the equation:
+<span class="math display">\[\begin{equation*}
+    (\mathbf{X}&#39; \mathbf{X})^{-1} \mathbf{X}&#39; \mathbf{X} \mathbf{b} = (\mathbf{X}&#39; \mathbf{X})^{-1} \mathbf{X}&#39; \mathbf{y},
+\end{equation*}\]</span>
+which then leads to the final formula:
+<span class="math display">\[\begin{equation*}
+    \mathbf{b} = \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1} \mathbf{X}&#39; \mathbf{y} .
+\end{equation*}\]</span></p>
+</div>
+<p>Luckily, you do not need to remember the formula <a href="ols-estimation.html#eq:MLROLS">(11.9)</a> and should not need to use it in real life, because it is used in all statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same dataset:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ols-estimation.html#cb153-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span></code></pre></div>
+<p>To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ols-estimation.html#cb154-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModel01),<span class="fu">actuals</span>(costsModel01))</span></code></pre></div>
+<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ols-estimation.html#cb154-1" tabindex="-1"></a>mtcarsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(mpg<span class="sc">~</span>cyl<span class="sc">+</span>disp<span class="sc">+</span>hp<span class="sc">++</span>drat<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>gear<span class="sc">+</span>carb, mtcars, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb154-2"><a href="ols-estimation.html#cb154-2" tabindex="-1"></a><span class="fu">plot</span>(mtcarsModel02,<span class="dv">1</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:mtcarsModel02Plot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/mtcarsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="ols-estimation.html#cb155-1" tabindex="-1"></a>costsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb155-2"><a href="ols-estimation.html#cb155-2" tabindex="-1"></a><span class="fu">plot</span>(costsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:costsModel02Plot"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">
 Figure 11.2: Actuals vs fitted values for multiple linear regression model on mtcars data.
 </p>
 </div>
 <p>We use <code>loss="MSE"</code> in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in <code>alm()</code>, likelihood, in Section <a href="likelihoodApproach.html#likelihoodApproach">16</a>.</p>
-<p>The plot on Figure <a href="ols-estimation.html#fig:mtcarsModel02Plot">11.2</a> can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Section <a href="assumptions.html#assumptions">15</a>).</p>
+<p>The plot on Figure <a href="ols-estimation.html#fig:costsModel02Plot">11.2</a> can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter <a href="assumptions.html#assumptions">15</a>).</p>
 </div>
 
             </section>
@@ -470,42 +523,42 @@ Figure 11.2: Actuals vs fitted values for multiple linear regression model on mt
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
