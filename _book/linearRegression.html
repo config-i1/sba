@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-11" />
+<meta name="date" content="2025-03-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -281,10 +281,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="OLS.html"><a href="OLS.html#GaussMarkov"><i class="fa fa-check"></i><b>10.1.1</b> Gauss-Markov theorem</a></li>
-</ul></li>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a></li>
 <li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
@@ -300,7 +297,13 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a></li>
+<li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
+<li class="chapter" data-level="11.1.2" data-path="ols-estimation.html"><a href="ols-estimation.html#application"><i class="fa fa-check"></i><b>11.1.2</b> Application</a></li>
+<li class="chapter" data-level="11.1.3" data-path="ols-estimation.html"><a href="ols-estimation.html#properties-of-the-ols-estimators"><i class="fa fa-check"></i><b>11.1.3</b> Properties of the OLS Estimators</a></li>
+<li class="chapter" data-level="11.1.4" data-path="ols-estimation.html"><a href="ols-estimation.html#GaussMarkov"><i class="fa fa-check"></i><b>11.1.4</b> Gauss-Markov theorem</a></li>
+</ul></li>
 <li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
 <li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
 </ul></li>
@@ -405,7 +408,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="linearRegression" class="section level1 hasAnchor" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Multiple Linear Regression<a href="linearRegression.html#linearRegression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div class="example">
-<p><span id="exm:unlabeled-div-37" class="example"><strong>Example 11.1  </strong></span>One of the problems that construction companies face is getting a good estimate of the budget needed to build something. Many companies tend to underestimate the costs and time the project will take. To address this, a mid-size company called “Eden city”, which specialises on construction of residential buildings, decided to take a more analytical approach to the problem. They have collected the data of their previous projects and needs help in building a model that would explain what forms the costs for different types of buildings. Their idea is to use this model during the business plan write-up phase to get an estimate of the future project, which they hope will be better than the ones they used before based on their pure judgment.</p>
+<p><span id="exm:unlabeled-div-36" class="example"><strong>Example 11.1  </strong></span>One of the problems that construction companies face is getting a good estimate of the budget needed to build something. Many companies tend to underestimate the costs and time the project will take. To address this, a mid-size company called “Eden city”, which specialises on construction of residential buildings, decided to take a more analytical approach to the problem. They have collected the data of their previous projects and needs help in building a model that would explain what forms the costs for different types of buildings. Their idea is to use this model during the business plan write-up phase to get an estimate of the future project, which they hope will be better than the ones they used before based on their pure judgment.</p>
 </div>
 <p>In this example, we are interested in the overall costs of construction, which can be impacted by:</p>
 <ul>
@@ -421,15 +424,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>This data is available online:</p>
 <div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="linearRegression.html#cb151-1" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/config-i1/sba/raw/refs/heads/master/data/SBA_Chapter_11_Costs.Rdata&quot;</span>))</span></code></pre></div>
 <p>Based on what we have discussed before, we can do analysis of measures of association and even build simple regression model (or several of them), but we acknowledge that in many real life situations, there are many factors that impact the variable of interest. In the example above, we have listed five explanatory variables that can be connected to the overall costs. This means that a basic bi-variate analysis (one variable vs the other) might not be sufficient. Furthermore, the relations between variables are typically complicated. So analysing, for example, only the relation between the cost of project and the size of building without considering the cost of materials might be misleading.</p>
-<p>Here how the bi-variate relations between the variables in our dataset look like (Figure @ref(fig:SBA_Chapter_11_CostsSpread)):</p>
+<p>Here is how the bi-variate relations between the variables in our dataset look like (Figure <a href="linearRegression.html#fig:CostsSpread">11.1</a>):</p>
 <div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="linearRegression.html#cb152-1" tabindex="-1"></a><span class="fu">spread</span>(SBA_Chapter_11_Costs)</span></code></pre></div>
-<div class="figure">
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/SBA_Chapter_11_CostsSpread-1.png" alt="Spread plot between variables in the building costs dataset." width="672" />
+<div class="figure"><span style="display:block;" id="fig:CostsSpread"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/CostsSpread-1.png" alt="Spread plot between variables in the building costs dataset." width="672" />
 <p class="caption">
-(#fig:SBA_Chapter_11_CostsSpread)Spread plot between variables in the building costs dataset.
+Figure 11.1: Spread plot between variables in the building costs dataset.
 </p>
 </div>
-<p>While the plot in Figure @ref(fig:SBA_Chapter_11_CostsSpread) gives a good idea about the relations, for example, between the size of property and the overall costs (it seems to be linear positive) or between material and the overall costs (linear positive again), it does not tell us much about the complex relation between one variable (overall costs) and several others.</p>
+<p>While the plot in Figure <a href="linearRegression.html#fig:CostsSpread">11.1</a> gives a good idea about the relations, for example, between the size of property and the overall costs (it seems to be linear positive) or between material and the overall costs (linear positive again), it does not tell us much about the complex relation between one variable (overall costs) and several others.</p>
 <p>All of this gives a motivation to having a so called “Multiple Linear Regression”, the model that expresses the relation between one variable and several of others. Mathematically, this is a straight forward extension of the simple linear regression model from Chapter <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>, where we just add variables to the right-hand side of the equation. For example, if we had two variables impacting one (e.g. <span class="math inline">\(size\)</span> of project and cost of <span class="math inline">\(materials\)</span> vs <span class="math inline">\(overall\)</span> cost of the project), we could write:
 <span class="math display" id="eq:MLRFormulaExample">\[\begin{equation}
     overall_j = \beta_0 + \beta_1 size_{j} + \beta_2 material_{j} + \epsilon_j ,
@@ -439,14 +442,14 @@ where <span class="math inline">\(beta_0\)</span> is the intercept, and <span cl
 <span class="math display">\[\begin{equation*}
     \widehat{overall}_j = \beta_0 + \beta_1 size_{j} + \beta_2 material_{j}.
 \end{equation*}\]</span>
-While in the example with the Simple Linear Regression the predicted (or fitted) values implied drawing a line through the cloud of dots on the plane of the two variables, now we are talking about drawing a plane through the point in the three-dimensional space. It can be visualised in the following way (Figure <a href="linearRegression.html#fig:scatterplot3dProjectCosts">11.1</a>):</p>
+While in the example with the Simple Linear Regression the predicted (or fitted) values implied drawing a line through the cloud of dots on the plane of the two variables, now we are talking about drawing a plane through the point in the three-dimensional space. It can be visualised in the following way (Figure <a href="linearRegression.html#fig:scatterplot3dProjectCosts">11.2</a>):</p>
 <div class="figure"><span style="display:block;" id="fig:scatterplot3dProjectCosts"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/scatterplot3dProjectCosts-1.png" alt="3D scatterplot of Overall costs vs size of project and costs of materials." width="672" />
 <p class="caption">
-Figure 11.1: 3D scatterplot of Overall costs vs size of project and costs of materials.
+Figure 11.2: 3D scatterplot of Overall costs vs size of project and costs of materials.
 </p>
 </div>
-<p>The 3d image in Figure <a href="linearRegression.html#fig:scatterplot3dProjectCosts">11.1</a> is already hard to analyse, but at least it gives an idea of how the overall costs change with the change of materials costs and size of buildings. However, it would be impossible to produce a meaningful plot of overall costs from more than two variables. What the figure above gives us is the connection between the simple linear regression (which is just a straight line in the two-dimensional plane) and the multiple one (which is a plane in a multi-dimensional space).</p>
+<p>The 3d image in Figure <a href="linearRegression.html#fig:scatterplot3dProjectCosts">11.2</a> is already hard to analyse, but at least it gives an idea of how the overall costs change with the change of materials costs and size of buildings. However, it would be impossible to produce a meaningful plot of overall costs from more than two variables. What the figure above gives us is the connection between the simple linear regression (which is just a straight line in the two-dimensional plane) and the multiple one (which is a plane in a multi-dimensional space).</p>
 <p>In a more general way, the multiple linear regression can be written as:
 <span class="math display" id="eq:MLRFormula">\[\begin{equation}
     y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
@@ -462,7 +465,7 @@ Furthermore, similar to how we discussed it in Chapter <a href="simpleLinearRegr
     \hat{y}_j = b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} .
     \tag{11.4}
 \end{equation}\]</span>
-Similar to the Simple Linear Regression, each parameter in equation @ref{eq:MLRExpectationSample} represents the slope for the respective variable, showing how on average the value of the response variable (overall costs in our example) changes with the change of each variable.</p>
+Similar to the Simple Linear Regression, each parameter in equation <a href="linearRegression.html#eq:MLRExpectationSample">(11.4)</a> represents the slope for the respective variable, showing how on average the value of the response variable (overall costs in our example) changes with the change of each variable.</p>
 </div>
 
             </section>

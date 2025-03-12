@@ -272,18 +272,6 @@ The syntax of the function implies that we use volume as the response variable a
 While we can make some conclusions based on the simple linear regression, we know that in real life we rarely see bivariate relations - typically a variable is influenced by a set of variables, not just by one. This implies that the correct model would typically include many explanatory variables. This is why we only discuss the simple linear regression for educational purpose and generally, do not recommend to use it in real life situations.
 
 
-### Gauss-Markov theorem {#GaussMarkov}
-OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). It is called "Gauss-Markov theorem", and it states that:
-
-::: theorem
-If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.
-:::
-
-The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median (see Subsection \@ref(estimatesPropertiesEfficiency)).
-
-Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.
-
-
 ## Covariance, correlation and SLR {#SLRCovariance}
 Now that we have introduced a simple linear regression, we can take a step back to better understand some statistics related to it, which we discussed in previous chapters.
 
