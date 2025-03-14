@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-12" />
+<meta name="date" content="2025-03-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -512,12 +512,61 @@ Figure 11.3: Actuals vs fitted values for multiple linear regression model on mt
 </div>
 <div id="properties-of-the-ols-estimators" class="section level3 hasAnchor" number="11.1.3">
 <h3><span class="header-section-number">11.1.3</span> Properties of the OLS Estimators<a href="ols-estimation.html#properties-of-the-ols-estimators" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are several important properties of the OLS estimated regression that are worth keeping in mind:</p>
+<ol style="list-style-type: decimal">
+<li>The mean of residuals of the model is always equal to zero as long as it contains intercept.</li>
+<li>The explanatory variables in the model are not correlated with the residuals of the model.</li>
+<li>The mean of the fitted values coincides with the mean of the actual values.</li>
+</ol>
+<p>They all follow directly from the derivation of the OLS formula.</p>
+<div class="proof">
+<p><span id="unlabeled-div-38" class="proof"><em>Proof</em>. </span>Consider the system of normal equations
+<span class="math display" id="eq:MLROLSProp01">\[\begin{equation}
+    \left(\mathbf{X}&#39; \mathbf{X}\right) \mathbf{b} = \mathbf{X}&#39; \mathbf{y} .
+    \tag{11.12}
+\end{equation}\]</span>
+Given that we estimated the model in sample, we can rewrite the multiple linear regression as:
+<span class="math display">\[\begin{equation*}
+    \mathbf{y} = \mathbf{X} \boldsymbol{b} + \boldsymbol{e}
+\end{equation*}\]</span>
+and substitute it in <a href="ols-estimation.html#eq:MLROLSProp01">(11.12)</a> to get:
+<span class="math display" id="eq:MLROLSProp02">\[\begin{equation}
+    \left(\mathbf{X}&#39; \mathbf{X}\right) \mathbf{b} = \mathbf{X}&#39; \mathbf{X} \boldsymbol{b} + \mathbf{X}&#39; \boldsymbol{e} .
+    \tag{11.13}
+\end{equation}\]</span>
+Equation <a href="ols-estimation.html#eq:MLROLSProp02">(11.13)</a> implies that <span class="math inline">\(\mathbf{X}&#39; \boldsymbol{e}=0\)</span>, which given how the matrix <span class="math inline">\(\mathbf{X}\)</span> is formed prooves the first two properties:</p>
+<ol style="list-style-type: decimal">
+<li>The first column of the matrix (which contains ones) corresponds to the intercept and the multiplication of it by the error implies that <span class="math inline">\(\sum_{j=1}^n e_j =0\)</span>, which also means that the mean of the residuals is zero as well: <span class="math inline">\(\bar{e}=0\)</span>;</li>
+<li>All the other columns contain the explanatory variables and for each one of them this comes to the equation: <span class="math inline">\(\sum_{j=1}^n x_{i,j} e_j\)</span> for all <span class="math inline">\(i=\{1, \dots, k-1\}\)</span>. Given that the first property holds, the same equation can be rewritten to:
+<span class="math display">\[\begin{equation*}
+\begin{aligned}
+&amp; \sum_{j=1}^n x_{i,j} (e_j - \bar{e}) = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) =
+&amp; \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) + \bar{x}_i \sum_{j=1}^n (e_j - \bar{e})
+\end{aligned}
+\end{equation*}\]</span>
+The right hand side of this equation equals to zero due to the first property, which implies that:
+<span class="math display" id="eq:MLROLSProp03">\[\begin{equation}
+\sum_{j=1}^n x_{i,j} e_j = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}),
+\tag{11.14}
+\end{equation}\]</span>
+which is the covariance between the residuals and the explanatory variable <span class="math inline">\(x_i\)</span>. And because the equation <a href="ols-estimation.html#eq:MLROLSProp02">(11.13)</a> implies that <span class="math inline">\(\sum_{j=1}^n x_{i,j} e_j=0\)</span>, the covariance <a href="ols-estimation.html#eq:MLROLSProp03">(11.14)</a> should be equal to zero as well.</li>
+</ol>
+<p>Finally, it is easy to show the third property. All we need to do is to take the mean of the response variable:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b} + \boldsymbol{e}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) + \mathrm{E}(\boldsymbol{e}) ,
+\end{equation*}\]</span>
+where the expectation of the error term equals to zero, implying that:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) = \mathrm{E}(\hat{\mathbf{y}}) .
+\end{equation*}\]</span></p>
+</div>
+<p>These three properties are useful because, first, they show that it does not make sense to test whether they hold or not, with OLS they will be satisfied automatically, and second they allow measuring quality of the fit via the squares of regression, which will be discussed in Section <a href="linearRegressionMultipleQualityOfFit.html#linearRegressionMultipleQualityOfFit">11.2</a>.</p>
 </div>
 <div id="GaussMarkov" class="section level3 hasAnchor" number="11.1.4">
 <h3><span class="header-section-number">11.1.4</span> Gauss-Markov theorem<a href="ols-estimation.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). It is called “Gauss-Markov theorem”, and it states that:</p>
+<p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The theorem that states that is called “Gauss-Markov theorem”, here is one of versions of it:</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-38" class="theorem"><strong>Theorem 11.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.</p>
+<p><span id="thm:unlabeled-div-39" class="theorem"><strong>Theorem 11.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of parameters.</p>
 </div>
 <p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median (see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
 <p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.</p>

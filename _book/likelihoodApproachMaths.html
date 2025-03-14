@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-12" />
+<meta name="date" content="2025-03-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -434,7 +434,7 @@ Very roughly, what the value <a href="likelihoodApproachMaths.html#eq:MLEPointLi
 \end{equation}\]</span>
 where <span class="math inline">\(\boldsymbol{\theta}\)</span> is the vector of all parameters in the model (in our example, it is <span class="math inline">\(k+1\)</span> of them: all the coefficients of the model and the scale <span class="math inline">\(\sigma^2\)</span>). We take the product of likelihoods in <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> because we need to get the joint likelihood for all observations and because we can typically assume that the point likelihoods are independent of each other (for example, the value on observation <span class="math inline">\(j\)</span> will not be influenced by the value on <span class="math inline">\(j-1\)</span>). The value <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> shows roughly how likely on average it is that the data comes from the assumed model with specified parameters.</p>
 <div class="remark">
-<p><span id="unlabeled-div-41" class="remark"><em>Remark</em>. </span>Technically speaking, the “on average” element will be achieved if we divide <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> by the number of observations <span class="math inline">\(n\)</span>.</p>
+<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Technically speaking, the “on average” element will be achieved if we divide <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> by the number of observations <span class="math inline">\(n\)</span>.</p>
 </div>
 <p>Having this value, we can change the values of parameters of the model, getting different value of <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> (as we did in the example in Section <a href="likelihoodInR.html#likelihoodInR">16.1</a>). Using an iterative procedure, we can get such estimates of parameters that would maximise the likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a>. These estimates of parameters are called ``Maximum Likelihood Estimates’’ (MLE). However, working with the products in formula <a href="likelihoodApproachMaths.html#eq:MLEFullLik">(16.5)</a> is challenging, so typically we linearise it using natural logarithm, obtaining log-likelihood. For the normal distribution, it can be written as:
 <span class="math display" id="eq:MLEFullLogLik">\[\begin{equation}
@@ -462,7 +462,7 @@ The value <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(16.9)</a
     \tag{16.10}
 \end{equation}\]</span></p>
 <div class="remark">
-<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikConcentrated">(16.10)</a>, because it does not affect any inferences, as long as one works only with Normal distribution. However, in general, it is not recommended to do <span class="citation">(<a href="#ref-Burnham2004">Burnham and Anderson, 2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
+<p><span id="unlabeled-div-43" class="remark"><em>Remark</em>. </span>Sometimes, statisticians drop the <span class="math inline">\(2 \pi e\)</span> part from the <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikConcentrated">(16.10)</a>, because it does not affect any inferences, as long as one works only with Normal distribution. However, in general, it is not recommended to do <span class="citation">(<a href="#ref-Burnham2004">Burnham and Anderson, 2004</a>)</span>, because this makes the comparison with other distributions impossible.</p>
 </div>
 <p>This function is useful because it simplifies some calculations and also demonstrates the condition, for which the likelihood is maximised: the first part on the right hand side of the formula does not depend on the parameters of the model, it is only the <span class="math inline">\(\log \hat{\sigma}^2\)</span> that does. So, the maximum of the concentrated log-likelihood <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikConcentrated">(16.10)</a> is obtained, when <span class="math inline">\(\hat{\sigma}^2\)</span> is minimised, implying the minimisation of MSE, which is the mechanism behind the “Ordinary Least Squares” (OLS from Section <a href="OLS.html#OLS">10.1</a>) estimation method. By doing this, we have just demonstrated that if we assume normality in the model, then the estimates of its parameters obtained via the maximisation of the likelihood coincide with the values obtained from OLS. So, why bother with MLE, when we have OLS?</p>
 <p>First, the finding above holds for the Normal distribution only. If we assume a different distribution, we would get different estimates of parameters. In some cases, it might not be possible or reasonable to use OLS, but MLE would be a plausible option (for example, logistic, Poisson and any other non-standard model).</p>

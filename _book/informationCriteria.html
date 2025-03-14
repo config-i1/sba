@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-12" />
+<meta name="date" content="2025-03-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -446,7 +446,7 @@ This is a very simple method that allows us to get to the model closest to the t
 \end{equation}\]</span>
 where <span class="math inline">\(k_j\)</span> is the number of estimated parameters in model <span class="math inline">\(j\)</span> (this typically includes scale parameters when dealing with Maximum Likelihood Estimates).</p>
 <div class="remark">
-<p><span id="unlabeled-div-44" class="remark"><em>Remark</em>. </span>If your model is estimated using OLS then you can use the idea that the maximum of the likelihood of the normal distribution is achieved by the minimum of the MSE (OLS criterion). In that case you can jump from one thing to another and calculate AIC by inserting the estimates of parameters to the likelihood formula. However, there are two things to consider:</p>
+<p><span id="unlabeled-div-45" class="remark"><em>Remark</em>. </span>If your model is estimated using OLS then you can use the idea that the maximum of the likelihood of the normal distribution is achieved by the minimum of the MSE (OLS criterion). In that case you can jump from one thing to another and calculate AIC by inserting the estimates of parameters to the likelihood formula. However, there are two things to consider:</p>
 <ol style="list-style-type: decimal">
 <li>The scale of distribution used in likelihood needs to be based on <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(16.9)</a>, i.e. without the bias correction, because it maximises the likelihood;</li>
 <li>The number of parameters <span class="math inline">\(k_j\)</span> should also include the scale of distribution. So, if you had a linear regression model, which estimated 3 parameters (intercept and two coefficients for explanatory variables) then <span class="math inline">\(k_j=3+1 = 4\)</span>.</li>

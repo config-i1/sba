@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-12" />
+<meta name="date" content="2025-03-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -411,7 +411,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="interpretation-of-parameters.html#cb165-1" tabindex="-1"></a><span class="fu">coef</span>(costsModel02)</span></code></pre></div>
 <pre><code>##   (Intercept)          size     materials      projects          year 
 ## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555</code></pre>
-<p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the mileage. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant. For example, the parameter for <code>wt</code> (weight) shows that with the increase of weight of a car by 1000 pounds, the mileage would decrease <strong>on average</strong> by NA miles per gallon, if all the other variables do not change. I have made the word “average” boldface three times in this paragraph for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. They do not show how it will change for each point. The regression model capture average tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of weight by 1 will lead to different decreases (and even increases in some cases). But if we take the arithmetic mean of those individual effects, it will be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
+<p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the overall costs. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant.</p>
+<p>For example, the parameter for <code>size</code> shows that with the increase of size of the building by on squared meter, the overall cost tends to increase <strong>on average</strong> by 0.897 thousand pounds, if all the other variables do not change.</p>
+<p>I have made the word “average” boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
+<p>Finally, it is worth discussing what the interpretation of the intercept in the model is. If we set all the explanatory variables to zero, the overall costs will be equal to the value of the intercept. In our example, where we fitted the basic linear model, the interpretation is meaningless: there is no such thing as a house with no costs, size of zero, and it definitely cannot have negative overall costs. In this case, intercept plays purely technical role, showing where the regression line intersects the y-axis. However, if we were to build a different model, the value might have a meaning. Still, we personally prefer avoiding interpreting the intercept.</p>
 
 </div>
 <!-- </div> -->
