@@ -305,6 +305,20 @@ setNames(c(1 - sigma(costsModel02)^2 / var(actuals(costsModel02)),
 ```
 What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R$^2$ than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter just due to pure chance. So, you should not fully trust R$^2_{adj}$ either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inefficient estimates of parameters (see Section \@ref(assumptions) for details) and inaccurate forecasts.
 
+### Common mistakes related to quality of a fit
+There are several common mistakes that arise when people measure quality of a fit of regression. We have seen these mistakes done by students, but they also appear on social media and sometimes even in scientific papers. Here they are:
+
+1. "Model is good because R$^2$/Adjusted R$^2$ is 0.9876/greater than some arbitrary threshold"
+- Neither R$^2$, nor Adjusted R$^2$ tells anything about the quality of the model. They only tell us how well it fits the data. In case of the former, it shows the "percentage of the explained variance in the response variable", but they both do not know that any model has an irreducible error, and thus a high value of R$^2$ does not mean that the model is good. R$^2$ should not be used for model selection and provides little to no useful diagnostic information. R$^2$ adjusted can be used for model comparison, but on its own does not provide useful information either.
+
+2. "Although R$^2$/Adjusted R$^2$ is very low (e.g. 0.05), the model is statistically significant and thus makes sense"
+- This argument relates to what we will discuss in Section \@ref(uncertaintyHypothesis), but we can say now that the low value of the coefficient of determination indicates that the model does not differ much from the straight line (global mean). To that extent, its low value could be alarming.
+
+In general, we think that both R$^2$ close to one and close to zero are alarming, the former implies that the model might overfit the data, while the latter means that it underfits it. But there is no proper threshold value, with which you should compare your coefficient of determination.
+
+3. "Model A is better than model B because its R$^2$ value is higher"
+- As discussed in this section, R$^2$ will increase with the increase of the number of parameters, so this statement is in general wrong. It only works if you have two models with exactly the same number of parameters. But usually, we see such statements in the context of variable selection, when models have different number of parameters. If you want to use basic statistics for model selection then at least use RMSE or the adjusted R$^2$. But there is a better way, which we will discuss in Section \@ref(informationCriteria).
+
 
 ## Interpretation of parameters
 Finally, we come to the discussion of parameters of a model. As mentioned earlier, each one of them represents the slope of the model. But there is more to the meaning of parameters of the model. Consider the coefficients of the previously estimated model:
