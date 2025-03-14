@@ -3,10 +3,10 @@
 One of the problems that construction companies face is getting a good estimate of the budget needed to build something. Many companies tend to underestimate the costs and time the project will take. To address this, a mid-size company called "Eden city", which specialises on construction of residential buildings, decided to take a more analytical approach to the problem. They have collected the data of their previous projects and needs help in building a model that would explain what forms the costs for different types of buildings. Their idea is to use this model during the business plan write-up phase to get an estimate of the future project, which they hope will be better than the ones they used before based on their pure judgment.
 :::
 
-In this example, we are interested in the overall costs of construction, which can be impacted by:
+In this example, we are interested in the overall costs of construction (in thousands of pounds), which can be impacted by:
 
 - The size of a building in squared meters,
-- The cost of materials,
+- The cost of materials (in thousands of pounds),
 - Type of building (detached, semi-detached, bungalow etc),
 - How many projects the specific crew did before,
 - Year when the project was started.
@@ -191,20 +191,69 @@ The plot on Figure \@ref(fig:costsModel02Plot) can be used for diagnostic purpos
 
 
 ### Properties of the OLS Estimators
+There are several important properties of the OLS estimated regression that are worth keeping in mind:
 
+1. The mean of residuals of the model is always equal to zero as long as it contains intercept.
+2. The explanatory variables in the model are not correlated with the residuals of the model.
+3. The mean of the fitted values coincides with the mean of the actual values.
+
+They all follow directly from the derivation of the OLS formula. 
+
+::: proof
+Consider the system of normal equations
+\begin{equation}
+    \left(\mathbf{X}' \mathbf{X}\right) \mathbf{b} = \mathbf{X}' \mathbf{y} .
+    (\#eq:MLROLSProp01)
+\end{equation}
+Given that we estimated the model in sample, we can rewrite the multiple linear regression as:
+\begin{equation*}
+    \mathbf{y} = \mathbf{X} \boldsymbol{b} + \boldsymbol{e} 
+\end{equation*}
+and substitute it in \@ref(eq:MLROLSProp01) to get:
+\begin{equation}
+    \left(\mathbf{X}' \mathbf{X}\right) \mathbf{b} = \mathbf{X}' \mathbf{X} \boldsymbol{b} + \mathbf{X}' \boldsymbol{e} .
+    (\#eq:MLROLSProp02)
+\end{equation}
+Equation \@ref(eq:MLROLSProp02) implies that $\mathbf{X}' \boldsymbol{e}=0$, which given how the matrix $\mathbf{X}$ is formed prooves the first two properties:
+
+1. The first column of the matrix (which contains ones) corresponds to the intercept and the multiplication of it by the error implies that $\sum_{j=1}^n e_j =0$, which also means that the mean of the residuals is zero as well: $\bar{e}=0$;
+2. All the other columns contain the explanatory variables and for each one of them this comes to the equation: $\sum_{j=1}^n x_{i,j} e_j$ for all $i=\{1, \dots, k-1\}$. Given that the first property holds, the same equation can be rewritten to:
+\begin{equation*}
+    \begin{aligned}
+    & \sum_{j=1}^n x_{i,j} (e_j - \bar{e}) = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) =
+    & \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) + \bar{x}_i \sum_{j=1}^n (e_j - \bar{e})
+    \end{aligned}
+\end{equation*}
+The right hand side of this equation equals to zero due to the first property, which implies that:
+\begin{equation}
+    \sum_{j=1}^n x_{i,j} e_j = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}),
+    (\#eq:MLROLSProp03)
+\end{equation}
+which is the covariance between the residuals and the explanatory variable $x_i$. And because the equation \@ref(eq:MLROLSProp02) implies that $\sum_{j=1}^n x_{i,j} e_j=0$, the covariance \@ref(eq:MLROLSProp03) should be equal to zero as well.
+
+Finally, it is easy to show the third property. All we need to do is to take the mean of the response variable:
+\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b} + \boldsymbol{e}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) + \mathrm{E}(\boldsymbol{e}) ,
+\end{equation*}
+where the expectation of the error term equals to zero, implying that:
+\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) = \mathrm{E}(\hat{\mathbf{y}}) .
+\end{equation*}
+:::
+
+These three properties are useful because, first, they show that it does not make sense to test whether they hold or not, with OLS they will be satisfied automatically, and second they allow measuring quality of the fit via the squares of regression, which will be discussed in Section \@ref(linearRegressionMultipleQualityOfFit).
 
 
 ### Gauss-Markov theorem {#GaussMarkov}
-OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). It is called "Gauss-Markov theorem", and it states that:
+OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula \@ref(eq:OLSSLREstimates)). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection \@ref(estimatesPropertiesEfficiency)), consistent (Subsection \@ref(estimatesPropertiesConsistency)) and unbiased (Subsection \@ref(estimatesPropertiesBias)). The theorem that states that is called "Gauss-Markov theorem", here is one of versions of it:
 
 ::: theorem
-If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of its parameters.
+If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of parameters.
 :::
 
 The term "correctly specified" implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter \@ref(assumptions)). The "BLUE" part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives "mean" estimates, while the minimum of MAE corresponds to the median (see Subsection \@ref(estimatesPropertiesEfficiency)).
 
 Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.
-
 
 
 ## Quality of a fit {#linearRegressionMultipleQualityOfFit}
@@ -213,7 +262,7 @@ Building upon the discussion of the quality of the fit in Section \@ref(linearRe
     \hat{\sigma}^2 = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
     (\#eq:RMSERegression)
 \end{equation}
-The denominator of \@ref(eq:RMSERegression) contains the number of degrees of freedom in the model, $n-k$, not the number of observations $n$, so technically speaking this is not a "mean" any more. This is done to correct the in-sample bias (Section \@ref(estimatesPropertiesBias)) of the measure. Standard error does not tell us about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data. However, this measure is not aware of the randomness in the true model (Section \@ref(modelsMethods)) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
+The denominator of \@ref(eq:RMSERegression) contains the number of degrees of freedom in the model, $n-k$, not the number of observations $n$, so technically speaking this is not a "mean" any more. This is done to correct the in-sample bias (Section \@ref(estimatesPropertiesBias)) of the measure. Standard error does not tell us much about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data, given the number of estimated parameters. However, this measure is not aware of the randomness in the true model (Section \@ref(modelsMethods)) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
 
 Here is how this can be calculated for our model, estimated using `alm()` function:
 ```{r}
@@ -231,17 +280,17 @@ SBA_Chapter_11_Costs$noise <- rnorm(n,0,10)
 costsModel02WithNoise <- alm(overall~size+materials+projects+year+noise,
                              SBA_Chapter_11_Costs, loss="MSE")
 ```
-The code above introduces a new variable, `noise`, which has nothing to do with the `mpg`. We would expect that this variable would not bring value to the model. And here is the value of determination coefficient of the new model:
+The code above introduces a new variable, `noise`, which has nothing to do with the `overall` costs. We would expect that this variable would not bring value to the model. And here is the value of determination coefficient of the new model:
 ```{r}
 1 - sum(resid(costsModel02WithNoise)^2) /
     (var(actuals(costsModel02WithNoise))*(n-1))
 ```
-Compare it with the previous one: 
+Compare it with the previous one:
 ```{r}
 1 - sum(resid(costsModel02)^2) /
     (var(actuals(costsModel02))*(n-1))
 ```
-The value in the new model will always be higher than in the previous one (or equal to it in some very special cases), no matter how we generate the random fluctuations. This means that some sort of penalisation of the number of variables in the model is required in order to make the measure more reasonable. This is what adjusted coefficient of determination does:
+The value in the new model will always be higher than in the previous one (or equal to it in some very special cases), no matter how we generate the random fluctuations. This means that some sort of penalisation of the number of estimated parameters is required to make the measure more reasonable. This is what adjusted coefficient of determination does:
 \begin{equation}
     R^2_{adj} = 1 - \frac{\hat{\sigma}^2}{\mathrm{V}(y)} = 1 - \frac{(n-1)\mathrm{SSE}}{(n-k)\mathrm{SST}} .
     (\#eq:DeterminationAdjusted)
@@ -254,7 +303,7 @@ setNames(c(1 - sigma(costsModel02)^2 / var(actuals(costsModel02)),
            1 - sigma(costsModel02WithNoise)^2 / var(actuals(costsModel02WithNoise))),
          c("R^2-adj","R^2-adj, Noise"))
 ```
-What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R$^2$ than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter. So, you should not fully trust R$^2_{adj}$ either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inaccurate forecasts and inefficient estimates of parameters (see Section \@ref(assumptions) for details).
+What we will typically see in the output above is that the model with the noise will have a lower value of adjusted R$^2$ than the model without it. However, given that we deal with randomness, if you reproduce this example many times, you will see different situation, including those, where introducing noise still increases the value of the parameter just due to pure chance. So, you should not fully trust R$^2_{adj}$ either. When constructing a model or deciding what to include in it, you should always use your judgement - make sure that the variables included in the model are meaningful. Otherwise you can easily overfit the data, which would lead to inefficient estimates of parameters (see Section \@ref(assumptions) for details) and inaccurate forecasts.
 
 
 ## Interpretation of parameters
@@ -263,4 +312,10 @@ Finally, we come to the discussion of parameters of a model. As mentioned earlie
 coef(costsModel02)
 ```
 
-Each of the parameters of this model shows an **average** effect of each variable on the mileage. They have a simple interpretation and show how the response variable will change **on average** with the increase of a variable by 1 unit, keeping all the other variables constant. For example, the parameter for `wt` (weight) shows that with the increase of weight of a car by 1000 pounds, the mileage would decrease **on average** by `r round(abs(coef(costsModel02)["wt"]),3)` miles per gallon, if all the other variables do not change. I have made the word "average" boldface three times in this paragraph for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. They do not show how it will change for each point. The regression model capture average tendencies and thus the word "average" is very important in the interpretation. In each specific case, the increase of weight by 1 will lead to different decreases (and even increases in some cases). But if we take the arithmetic mean of those individual effects, it will be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section \@ref(assumptions)).
+Each of the parameters of this model shows an **average** effect of each variable on the overall costs. They have a simple interpretation and show how the response variable will change **on average** with the increase of a variable by 1 unit, keeping all the other variables constant.
+
+For example, the parameter for `size` shows that with the increase of size of the building by on squared meter, the overall cost tends to increase **on average** by `r round(abs(coef(costsModel02)["size"]),3)` thousand pounds, if all the other variables do not change.
+
+I have made the word "average" boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word "average" is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section \@ref(assumptions)).
+
+Finally, it is worth discussing what the interpretation of the intercept in the model is. If we set all the explanatory variables to zero, the overall costs will be equal to the value of the intercept. In our example, where we fitted the basic linear model, the interpretation is meaningless: there is no such thing as a house with no costs, size of zero, and it definitely cannot have negative overall costs. In this case, intercept plays purely technical role, showing where the regression line intersects the y-axis. However, if we were to build a different model, the value might have a meaning. Still, we personally prefer avoiding interpreting the intercept.
