@@ -304,16 +304,19 @@ div.csl-indent {
 <li class="chapter" data-level="11.1.3" data-path="ols-estimation.html"><a href="ols-estimation.html#properties-of-the-ols-estimators"><i class="fa fa-check"></i><b>11.1.3</b> Properties of the OLS Estimators</a></li>
 <li class="chapter" data-level="11.1.4" data-path="ols-estimation.html"><a href="ols-estimation.html#GaussMarkov"><i class="fa fa-check"></i><b>11.1.4</b> Gauss-Markov theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a></li>
+<li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
+</ul></li>
 <li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.2" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.2.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.2.1" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.2.2" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
 </ul></li>
@@ -407,7 +410,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="linearRegressionSimpleQualityOfFit" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Quality of a fit<a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In order to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the fit of the model.</p>
+<p>The term “Quality of a fit” is used often in statistics to outline approaches that provide some information about how the applied models fit the data. We find it misleading, because the word “quality” is not appropriate here. The measures discussed in this section only show how well the actual values are approximated by the model, but their values do not tell us whether a model is good or bad. Still, to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the approximating properties of the model.</p>
 <div id="sums-of-squares" class="section level3 hasAnchor" number="10.4.1">
 <h3><span class="header-section-number">10.4.1</span> Sums of squares<a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(10.4)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
