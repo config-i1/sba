@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-14" />
+<meta name="date" content="2025-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -421,17 +420,17 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p><span id="unlabeled-div-31" class="proof"><em>Proof</em>. </span>Consider the sum of residuals of a simple linear regression model estimated using OLS:
 <span class="math display" id="eq:sumOfResiduals01">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n (y_j - b_0 - b_1 x_j) = \sum_{j=1}^n y_j - n b_0 - b_1  \sum_{j=1}^n x_j
-    \tag{10.10}
+    \tag{10.11}
 \end{equation}\]</span>
-Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals01">(10.10)</a> we get:
+Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals01">(10.11)</a> we get:
 <span class="math display" id="eq:sumOfResiduals02">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - n \frac{1}{n}\sum_{j=1}^n y_j + n b_1 \frac{1}{n}\sum_{j=1}^n x_j - b_1  \sum_{j=1}^n x_j
-    \tag{10.11}
+    \tag{10.12}
 \end{equation}\]</span>
 which after some cancelations leads to:
 <span class="math display" id="eq:sumOfResiduals03">\[\begin{equation}
     \sum_{j=1}^n e_j = \sum_{j=1}^n y_j - \sum_{j=1}^n y_j + b_1 \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j = 0
-    \tag{10.12}
+    \tag{10.13}
 \end{equation}\]</span>
 Given that the sum of errors is equal to zero, their mean will be equal to zero as well.</p>
 </div>
@@ -440,50 +439,50 @@ Given that the sum of errors is equal to zero, their mean will be equal to zero 
 <p><span id="unlabeled-div-32" class="proof"><em>Proof</em>. </span>For the same simple linear regression, estimated using OLS, consider:
 <span class="math display" id="eq:sumOfResiduals04">\[\begin{equation}
     \sum_{j=1}^n e_j x_j = \sum_{j=1}^n (y_j x_j -b_0 x_j -b_1 x_j^2) = \sum_{j=1}^n y_j x_j -b_0 \sum_{j=1}^n x_j -b_1 \sum_{j=1}^n x_j^2 .
-    \tag{10.13}
+    \tag{10.14}
 \end{equation}\]</span>
-Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals04">(10.13)</a> leads to:
+Inserting the formula for <span class="math inline">\(b_0\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals04">(10.14)</a> leads to:
 <span class="math display" id="eq:sumOfResiduals05">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \frac{1}{n}\sum_{j=1}^n x_j \sum_{j=1}^n x_j - b_1 \sum_{j=1}^n x_j^2 = \\
                                &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + b_1 \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
-    \tag{10.14}
+    \tag{10.15}
 \end{equation}\]</span>
-Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals05">(10.14)</a> to get:
+Now we insert the formula for <span class="math inline">\(b_1\)</span> from <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a> in <a href="OLSResiduals.html#eq:sumOfResiduals05">(10.15)</a> to get:
 <span class="math display" id="eq:sumOfResiduals06">\[\begin{equation}
     \begin{aligned}
         \sum_{j=1}^n e_j x_j = &amp; \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j + \\
          &amp; \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2} \left( \frac{1}{n} \left(\sum_{j=1}^n x_j \right)^2 - \sum_{j=1}^n x_j^2 \right) .
     \end{aligned}
-    \tag{10.15}
+    \tag{10.16}
 \end{equation}\]</span>
-The ratio in the right-hand side of <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.15)</a> can be regrouped and rewritten as:
+The ratio in the right-hand side of <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.16)</a> can be regrouped and rewritten as:
 <span class="math display" id="eq:sumOfResiduals07">\[\begin{equation}
     \begin{aligned}
         &amp; -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) =
         &amp; - \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j,
     \end{aligned}
-    \tag{10.16}
-\end{equation}\]</span>
-which after inserting it back in <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.15)</a> leads to:
-<span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
-    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
     \tag{10.17}
 \end{equation}\]</span>
-Given that the sum <a href="OLSResiduals.html#eq:sumOfResiduals08">(10.17)</a> is equal to zero, the mean of <span class="math inline">\(e_j x_j\)</span> will be equal to zero as well.</p>
+which after inserting it back in <a href="OLSResiduals.html#eq:sumOfResiduals06">(10.16)</a> leads to:
+<span class="math display" id="eq:sumOfResiduals08">\[\begin{equation}
+    \sum_{j=1}^n e_j x_j = \sum_{j=1}^n y_j x_j - \frac{1}{n}\sum_{j=1}^n y_j \sum_{j=1}^n x_j - \sum_{j=1}^n y_j x_j + \frac{1}{n} \sum_{j=1}^n y_j \sum_{j=1}^n x_j = 0
+    \tag{10.18}
+\end{equation}\]</span>
+Given that the sum <a href="OLSResiduals.html#eq:sumOfResiduals08">(10.18)</a> is equal to zero, the mean of <span class="math inline">\(e_j x_j\)</span> will be equal to zero as well.</p>
 </div>
 <p>In order to see that the second property implies that the correlation between the residuals and regressors is equal to zero, we need to take a step back and consider the covariance between <span class="math inline">\(e_j\)</span> and <span class="math inline">\(x_j\)</span> (because it is used in correlation coefficient as discussed in Section <a href="correlationCoefficient.html#correlationCoefficient">9.3</a>):
 <span class="math display" id="eq:sumOfResiduals09">\[\begin{equation}
     \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n (e_j - \bar{e})(x_j - \bar{x})
-    \tag{10.18}
-\end{equation}\]</span>
-The first thing to notice in <a href="OLSResiduals.html#eq:sumOfResiduals09">(10.18)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this section. This simplifies the formula and leads to:
-<span class="math display" id="eq:sumOfResiduals10">\[\begin{equation}
-    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
     \tag{10.19}
 \end{equation}\]</span>
-because the second sum in <a href="OLSResiduals.html#eq:sumOfResiduals10">(10.19)</a> is equal to zero due to the same property (1).</p>
+The first thing to notice in <a href="OLSResiduals.html#eq:sumOfResiduals09">(10.19)</a> is that <span class="math inline">\(\bar{e}=0\)</span> because of the property (1) discussed in the beginning of this section. This simplifies the formula and leads to:
+<span class="math display" id="eq:sumOfResiduals10">\[\begin{equation}
+    \mathrm{cov}(e_j,x_j) = \sum_{j=1}^n e_j (x_j - \bar{x}) = \sum_{j=1}^n e_j x_j - \bar{x} \sum_{j=1}^n e_j = \sum_{j=1}^n e_j x_j ,
+    \tag{10.20}
+\end{equation}\]</span>
+because the second sum in <a href="OLSResiduals.html#eq:sumOfResiduals10">(10.20)</a> is equal to zero due to the same property (1).</p>
 <p>These two basic properties on one hand are useful for further derivations and on the other one show what to expect from the residuals of a regression model estimated via the OLS. The latter means, for example, that there is no point in testing whether the two properties hold, they will be satisfied automatically in case of OLS.</p>
 </div>
 

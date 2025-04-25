@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-03-14" />
+<meta name="date" content="2025-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -430,11 +429,16 @@ Figure 10.4: Scatterplot diagram between height and volume and the line drawn th
 </p>
 </div>
 <p>The line in the figure represents the average change of volume with the increase of height of trunks. The red crosses show the middle points, the vertical line in the middle shows where the sample is split into two halves. We could improve this method by splitting each half into two halves again, and calculating points for them, or even further splitting each resulting half in halves etc. This method might not be reasonable for the specific sample, but if we had the population data, eventually we would be able to get a collection of points, each one of them representing the mean volume of trees given specific height.</p>
-<p>But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>.</p>
+<p>But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> and ending up with an approximation of the true model:</p>
+<p><span class="math display" id="eq:SLRFormulaEstimated">\[\begin{equation}
+    {y}_j = b_0 + b_1 x_j + e_j,
+    \tag{10.3}
+\end{equation}\]</span>
+where <span class="math inline">\(b_0\)</span> is the estimate of the true intercept, <span class="math inline">\(b_1\)</span> is the estimate of the true slope and <span class="math inline">\(e_j\)</span> is the estimate of the true error term, which we usually call “residuals”.</p>
 <div class="remark">
-<p><span id="unlabeled-div-27" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just some estimates of the true parameters.</p>
+<p><span id="unlabeled-div-27" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just an approximation of the true model.</p>
 </div>
-<p>After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as <span class="math inline">\(e_j\)</span> instead of <span class="math inline">\(\epsilon_j\)</span>, which in general they can be calculated as <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable.</p>
+<p>After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as <span class="math inline">\(e_j\)</span> instead of <span class="math inline">\(\epsilon_j\)</span>, which in general can be calculated as <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable.</p>
 <p>For example, for the height of tree of 64 meters, the actual volume is 249.2, while the fitted value would be 117.052. The resulting error (or residual of model) is 249.2 - 117.052 = 132.148. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:</p>
 <pre><code>##           1           2           3           4           5           6 
 ## -106.477610  -28.789597    1.185608  -76.452815 -191.191239 -212.466444 
@@ -451,7 +455,7 @@ Figure 10.4: Scatterplot diagram between height and volume and the line drawn th
 <p>These residuals are obtained from the following mathematical formula, given some values of <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>:
 <span class="math display" id="eq:SLRFormulaEstimatedError">\[\begin{equation}
     e_j = y_j - {b}_0 - {b}_1 x_j.
-    \tag{10.3}
+    \tag{10.4}
 \end{equation}\]</span>
 If we needed to estimate parameters <span class="math inline">\({b}_0\)</span> and <span class="math inline">\({b}_1\)</span> of the model, we would want to minimise those distances by changing the parameters of the model. This would correspond to drawing a line going through the middle of the series, in a way connecting all the possible mean points in the data. Visually this is shown in Figure <a href="OLS.html#fig:TreesModelOLS">10.5</a>, where the line somehow goes through the data, and we calculate errors from it.</p>
 <div class="figure"><span style="display:block;" id="fig:TreesModelOLS"></span>
@@ -470,7 +474,7 @@ Figure 10.6: Volume, residuals and their squared values plotted agains the heigh
 <p>If we then sum up all the squared residuals, we will end up with something called “Sum of Squared Errors”:
 <span class="math display" id="eq:OLSCriterion">\[\begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n e_j^2 .
-    \tag{10.4}
+    \tag{10.5}
 \end{equation}\]</span>
 If we now minimise SSE by changing values of parameters <span class="math inline">\({b}_0\)</span> and <span class="math inline">\({b}_1\)</span>, we will find the parameters that would guarantee that the line goes through the cloud of points. Luckily, we do not need to use any fancy optimisers for this, as there is an analytical solution to this:
 <span class="math display" id="eq:OLSSLREstimates">\[\begin{equation}
@@ -478,11 +482,11 @@ If we now minimise SSE by changing values of parameters <span class="math inline
         {b}_1 = &amp; \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} \\
         {b}_0 = &amp; \bar{y} - {b}_1 \bar{x}
     \end{aligned} ,
-    \tag{10.5}
+    \tag{10.6}
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> (height in our example) and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span> (volume).</p>
 <div class="proof">
-<p><span id="unlabeled-div-28" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.3)</a> in <a href="OLS.html#eq:OLSCriterion">(10.4)</a> to get:
+<p><span id="unlabeled-div-28" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.4)</a> in <a href="OLS.html#eq:OLSCriterion">(10.5)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -506,19 +510,19 @@ Given that we need to find the values of parameters <span class="math inline">\(
         &amp; b_0 = \frac{1}{n}\sum_{j=1}^n y_j - b_1 \frac{1}{n}\sum_{j=1}^n x_j \\
         &amp; b_1 = \frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \sum_{j=1}^n x_j^2 - \left(\sum_{j=1}^n x_j \right)^2}
     \end{aligned}
-    \tag{10.6}
+    \tag{10.7}
 \end{equation}\]</span>
-In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a>, we have the following elements:</p>
+In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a>, we have the following elements:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j\)</span>,</li>
 <li><span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{j=1}^n x_j\)</span>,</li>
 <li><span class="math inline">\(\mathrm{cov}(x,y) = \frac{1}{n}\sum_{j=1}^n y_j x_j - \frac{1}{n^2}\sum_{j=1}^n y_j \sum_{j=1}^n x_j\)</span>,</li>
 <li><span class="math inline">\(\mathrm{V}(x) = \frac{1}{n}\sum_{j=1}^n x_j^2 - \left(\frac{1}{n} \sum_{j=1}^n x_j \right)^2\)</span>,</li>
 </ol>
-<p>which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.6)</a> lead to <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a>.</p>
+<p>which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a> lead to <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-29" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.5)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
+<p><span id="unlabeled-div-29" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
 </div>
 <p>This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares”, because by using this method we get the least possible squares of errors for the data. The word “ordinary” means that this is one of the basic estimation techniques. There are other least squares techniques, which we are not yet discussing in this book. The method is simple and does not require any specific assumptions: we just minimise the overall distance between the line and the points by changing the values of parameters.</p>
 <div class="example">
