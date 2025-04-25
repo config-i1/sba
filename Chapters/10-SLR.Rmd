@@ -144,13 +144,19 @@ lines(c(0,x2), c(y2,y2), lty=3, col=15, lwd=2)
 
 The line in the figure represents the average change of volume with the increase of height of trunks. The red crosses show the middle points, the vertical line in the middle shows where the sample is split into two halves. We could improve this method by splitting each half into two halves again, and calculating points for them, or even further splitting each resulting half in halves etc. This method might not be reasonable for the specific sample, but if we had the population data, eventually we would be able to get a collection of points, each one of them representing the mean volume of trees given specific height.
 
-But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters $b_0$ and $b_1$.
+But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters $b_0$ and $b_1$ and ending up with an approximation of the true model:
+
+\begin{equation}
+    {y}_j = b_0 + b_1 x_j + e_j,
+    (\#eq:SLRFormulaEstimated)
+\end{equation}
+where $b_0$ is the estimate of the true intercept, $b_1$ is the estimate of the true slope and $e_j$ is the estimate of the true error term, which we usually call "residuals".
 
 ::: remark
-We never know the true values of $\beta_0$ and $\beta_1$, which is why when we estimate a model, we should substitute them with $b_0$ and $b_1$. This way we show that we deal with just some estimates of the true parameters.
+We never know the true values of $\beta_0$ and $\beta_1$, which is why when we estimate a model, we should substitute them with $b_0$ and $b_1$. This way we show that we deal with just an approximation of the true model.
 :::
 
-After that we  can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as $e_j$ instead of $\epsilon_j$, which in general they can be calculated as $e_j = y_j - \hat{y}_j$, where $\hat{y}_j$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. 
+After that we  can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as $e_j$ instead of $\epsilon_j$, which in general can be calculated as $e_j = y_j - \hat{y}_j$, where $\hat{y}_j$ is the value of the regression line (aka "fitted" value) for each specific value of explanatory variable. 
 
 For example, for the height of tree of `r SBA_Chapter_10_Trees$height[20]` meters, the actual volume is `r SBA_Chapter_10_Trees$volume[20]`, while the fitted value would be `r round(fitted(slmTrees)[20],3)`. The resulting error (or residual of model) is `r SBA_Chapter_10_Trees$volume[20]` - `r round(fitted(slmTrees)[20],3)` = `r round(residuals(slmTrees)[20],3)`. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:
 
