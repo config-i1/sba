@@ -1,59 +1,64 @@
 # Uncertainty in regression {#uncertaintyParameters}
-```{r echo=FALSE}
-slmMPGWt <- lm(mpg~wt,mtcarsData)
-```
 
-Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was `r paste0(c("mpg=",round(coef(slmMPGWt),2),"wt+et"),collapse="")`. But what would happen if we estimate the same model on a different sample of data (e.g. 15 first observations instead of 32)?
+Coming back to the example of properties costs from Chapter \@ref(linearRegression), consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure \@ref(fig:scatterCostsUncertainty) depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).
 
-```{r scatterWeightMPG4, fig.cap="Weight vs mileage and two regression lines.", echo=FALSE}
-slmMPGWt <- lm(mpg~wt,mtcarsData)
-slmMPGWt2 <- lm(mpg~wt,mtcarsData,subset=c(1:15))
-plot(mtcarsData$wt, mtcarsData$mpg,
-     xlab="Weight", ylab="Mileage",
-     xlim=c(0,6), ylim=c(0,40),col="darkred", pch=1)
-points(mtcarsData$wt[1:15], mtcarsData$mpg[1:15],
-       col="darkblue", pch=20)
+```{r scatterCostsUncertainty, fig.cap="Material vs overall costs and two regression lines.", echo=FALSE}
+costsModelSLRSmall <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:25)
+costsModelSLRLarge <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:50)
+plot(overall~materials, SBA_Chapter_11_Costs, subset=1:50,
+     xlab="Material costs", ylab="Overall costs",
+     col=3, pch=1, lwd=2)
+points(SBA_Chapter_11_Costs$materials[1:25], SBA_Chapter_11_Costs$overall[1:25],
+       col=5, pch=20, lwd=2)
 abline(h=0, col="grey")
 abline(v=0, col="grey")
-abline(slmMPGWt,col="darkred")
-text(4,35,paste0(c("mpg=",round(coef(slmMPGWt),2),"wt+et"),collapse=""), col="darkred")
-abline(slmMPGWt2,col="darkblue")
-text(1,20,paste0(c("mpg=",round(coef(slmMPGWt2),2),"wt+et"),collapse=""), col="darkblue")
-legend("bottomleft", legend=c("Small subsample","Full sample"),
-       lwd=1, col=c("darkblue","darkred"), pch=c(0,4))
+abline(costsModelSLRLarge, col=3, lty=2)
+text(250,380,paste0(c("overall = ",round(coef(costsModelSLRLarge)[1],2)," + ",
+                      round(coef(costsModelSLRLarge)[2],2)," materials + e"),collapse=""), col=3)
+abline(costsModelSLRSmall, col=5)
+text(215,557,paste0(c("overall = ",round(coef(costsModelSLRSmall)[1],2)," + ",
+                      round(coef(costsModelSLRSmall)[2],2)," materials + e"),collapse=""), col=5)
+legend("topleft", legend=c("50 observations","25 observations"),
+       lwd=2, col=c(3,5), lty=c(2,1))
 ```
 
-Figure \@ref(fig:scatterWeightMPG4) shows the two lines: the red one corresponds to the larger sample, while the blue one corresponds to the small one. We can see that these lines have different intercepts and slope parameters. So, which one of them is correct? An amateur analyst would say that the one that has more observations is the correct model. But a more experienced statistician would tell you that none of the two is correct. They are both estimated on a sample of data and they both inevitably inherit the uncertainty of the data, making them both incorrect if we compare them to the hypothetical [true model](#modelsMethods). This means that whatever regression model we estimate on a sample of data, it will be incorrect as well.
+We see that the two lines differ both in terms of their intercepts and their slopes. So, which one of them is correct?
 
-This uncertainty about the regression line actually comes to the uncertainty of estimates of parameters of the model. In order to see it more clearly, consider the example with Speed and Stopping Distances of Cars dataset from `datasets` package (`?cars`):
+The general view of a spherical statistician in vacuum is that the larger the sample is, the better the model is. While this is correct in general, we would argue that none of the two models is correct. This is because they are both just estimates of the true model (Section \@ref(modelsMethods) on a sample of data and they both inevitably inherit the uncertainty of the data. This means that whatever regression model we estimate on a sample of data, it will always be incorrect in the sense that it can only be considered as an approximation of the truth.
 
-```{r scatterSpeedDistance, fig.cap="Speed vs stopping distance of cars", echo=FALSE}
-slmSpeedDistance <- alm(dist~speed, cars, loss="MSE")
-plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance")
-abline(slmSpeedDistance,col="red")
+More importantly, the line will always change when the model is fit to the new sample of data, even if we add only one observation. This is because on different samples, we get different estimates of parameters, which comes from one of the fundamental sources of uncertainty (the second one discussed in Section \@ref(sourcesOfUncertainty)). This means that the estimates of parameters are random and might have some distribution of their own.
+
+To see this point clearer, we will fit the same simple regression model to randomly selected subsamples of the original dataset many times and collect the estimates of parameters to plot histograms and see their distribution. This empirical way of capturing uncertainty is called "bootstrap" and we will discuss it in more detail in Chapter \@ref(SectionNeededHere). The R code below shows how this can be done using the `coefbootstrap()` function from the `greybox` package (which implements a simple "Case Resampling" technique):
+
+```{r}
+# Fit the model
+costsModelSLR <- alm(overall ~ materials, data=SBA_Chapter_11_Costs)
+# Set random seed for reproducibility
+set.seed(41)
+costsModelSLRBootstrap <- coefbootstrap(costsModelSLR)
 ```
 
-While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using `coefbootstrap()` method from `greybox` package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:
-```{r eval=FALSE}
-slmSpeedDistanceBootstrap <- coefbootstrap(slmSpeedDistance)
-```
+Based on that we can plot the histograms of the estimates of parameters as shown in Figure \@ref(fig:costsModelSLRBootstrap).
 
-```{r include=FALSE}
-load("data/slmSpeedDistance.Rdata")
-```
-
-Based on that we can plot the histograms of the estimates of parameters.
-
-```{r slmSpeedDistanceBoot, fig.cap="Distribution of bootstrapped parameters of a regression model"}
+```{r costsModelSLRBootstrap, fig.cap="Distribution of bootstrapped parameters of a regression model"}
 par(mfcol=c(1,2))
-hist(slmSpeedDistanceBootstrap$coefficients[,1],
+# First histogram
+hist(costsModelSLRBootstrap$coefficients[,1],
      xlab="Intercept", main="")
-hist(slmSpeedDistanceBootstrap$coefficients[,2],
+# The estimated coefficient
+abline(v=coef(costsModelSLR)[1], col="darkred", lwd=2)
+# Second histogram
+hist(costsModelSLRBootstrap$coefficients[,2],
      xlab="Slope", main="")
+# The estimated coefficient
+abline(v=coef(costsModelSLR)[2], col="darkred", lwd=2)
 ```
 
-Figure \@ref(fig:slmSpeedDistanceBoot) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution. In fact, if we repeated this example thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and \@ref(assumptions)). As a result, when we work with regression we should take this uncertainty about the parameters into account. This applies to both parameters analysis and forecasting.
+Figure \@ref(fig:costsModelSLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and \@ref(assumptions)).
+
+This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
+
+
 
 
 ## Confidence intervals
