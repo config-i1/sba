@@ -11,6 +11,7 @@ Consider, for example, the stopping distance vs speed of the car, the case we ha
 If we use the linear function instead, then we might fail in capturing the relation correctly. Here is how the linear regression looks like, when applied to the data (Figure \@ref(fig:speedDistanceExtrapolation)).
 
 ```{r speedDistanceExtrapolation, fig.cap="Speed vs stopping distance and a linear model", echo=FALSE}
+slmSpeedDistance <- alm(dist~speed, cars)
 plot(cars, xlab="Speed", ylab="Stopping distance", xlim=c(0,30), ylim=c(-20,120))
 abline(h=0, col="grey")
 abline(v=0, col="grey")

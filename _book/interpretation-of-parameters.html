@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="linearRegressionMultipleQualityOfFit.html"/>
-<link rel="next" href="uncertaintyParameters.html"/>
+<link rel="next" href="uncertaintyRegression.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -309,15 +309,15 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="uncertaintyParameters.html"><a href="uncertaintyParameters.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.2" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.2.2" data-path="uncertaintyHypothesis.html"><a href="uncertaintyHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.2.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
 </ul></li>
-<li class="chapter" data-level="12.3" data-path="regression-line-uncertainty.html"><a href="regression-line-uncertainty.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
@@ -415,7 +415,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 ## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555</code></pre>
 <p>Each of the parameters of this model shows an <strong>average</strong> effect of each variable on the overall costs. They have a simple interpretation and show how the response variable will change <strong>on average</strong> with the increase of a variable by 1 unit, keeping all the other variables constant.</p>
 <p>For example, the parameter for <code>size</code> shows that with the increase of size of the building by on squared meter, the overall cost tends to increase <strong>on average</strong> by 0.897 thousand pounds, if all the other variables do not change.</p>
-<p>I have made the word “average” boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
+<p>We have made the word “average” boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word “average” is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section <a href="assumptions.html#assumptions">15</a>).</p>
 <p>Finally, it is worth discussing what the interpretation of the intercept in the model is. If we set all the explanatory variables to zero, the overall costs will be equal to the value of the intercept. In our example, where we fitted the basic linear model, the interpretation is meaningless: there is no such thing as a house with no costs, size of zero, and it definitely cannot have negative overall costs. In this case, intercept plays purely technical role, showing where the regression line intersects the y-axis. However, if we were to build a different model, the value might have a meaning. Still, we personally prefer avoiding interpreting the intercept.</p>
 
 </div>
@@ -427,7 +427,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
         </div>
       </div>
 <a href="linearRegressionMultipleQualityOfFit.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="uncertaintyParameters.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uncertaintyRegression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
