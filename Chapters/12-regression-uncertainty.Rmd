@@ -61,9 +61,62 @@ Figure \@ref(fig:costsModelSLRBootstrap) shows the uncertainty around the estima
 This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
 
 
-
-
 ## Confidence intervals {#uncertaintyRegressionCI}
+Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. The simplest way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelSLRCI), which continues the example we discussed before.
+
+```{r costsModelSLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
+par(mfcol=c(1,2))
+# First histogram
+hist(costsModelSLRBootstrap$coefficients[,1],
+     xlab="Intercept", main="", probability=TRUE,
+     xlim=range(costsModelSLRBootstrap$coefficients[,1])*c(0.9,1.1))
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[1], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,1]), col=5, lwd=2)
+xSequence <- mean(costsModelSLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,1])
+lines(xSequence,
+      dnorm(xSequence,
+            mean(costsModelSLRBootstrap$coefficients[,1]),
+            sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               mean(costsModelSLRBootstrap$coefficients[,1]),
+               sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             mean(costsModelSLRBootstrap$coefficients[,1]),
+             sd(costsModelSLRBootstrap$coefficients[,1]))),
+     rep(0.03,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        mean(costsModelSLRBootstrap$coefficients[,1]),
+                        sd(costsModelSLRBootstrap$coefficients[,1])),2), pos=c(2,4))
+
+# Second histogram
+hist(costsModelSLRBootstrap$coefficients[,2],
+     xlab="Slope", main="", probability=TRUE)
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
+lines(xSequence,
+      dnorm(xSequence,
+            mean(costsModelSLRBootstrap$coefficients[,2]),
+            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               mean(costsModelSLRBootstrap$coefficients[,2]),
+               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             mean(costsModelSLRBootstrap$coefficients[,2]),
+             sd(costsModelSLRBootstrap$coefficients[,2]))),
+     rep(6,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        mean(costsModelSLRBootstrap$coefficients[,2]),
+                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+```
+
+Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times. So, the interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval).
+
+
+
+
 In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section \@ref(confidenceInterval). This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that [CLT](#CLT) holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section \@ref(likelihoodApproach)). In these conditions the covariance matrix of parameters can be calculated using the following formula:
 \begin{equation}
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
