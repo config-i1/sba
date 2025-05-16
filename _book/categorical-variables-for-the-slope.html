@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-04-26" />
+<meta name="date" content="2025-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -80,7 +80,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -410,19 +411,19 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="categorical-variables-for-the-slope" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Categorical variables for the slope<a href="categorical-variables-for-the-slope.html#categorical-variables-for-the-slope" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In reality, we can have more complicated situations, when the change of price would lead to different changes in sales for different types of t-shirts. In this case, we are talking about an <strong>interaction effect</strong> between price and colour. The following artificial example demonstrates the situation:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="categorical-variables-for-the-slope.html#cb197-1" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb197-2"><a href="categorical-variables-for-the-slope.html#cb197-2" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb197-3"><a href="categorical-variables-for-the-slope.html#cb197-3" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb197-4"><a href="categorical-variables-for-the-slope.html#cb197-4" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb197-5"><a href="categorical-variables-for-the-slope.html#cb197-5" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirtsInteraction <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb197-6"><a href="categorical-variables-for-the-slope.html#cb197-6" tabindex="-1"></a>                              <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirtsInteraction)</span>
-<span id="cb197-7"><a href="categorical-variables-for-the-slope.html#cb197-7" tabindex="-1"></a><span class="fu">colnames</span>(tShirtsInteraction) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;price:colourRed&quot;</span>,</span>
-<span id="cb197-8"><a href="categorical-variables-for-the-slope.html#cb197-8" tabindex="-1"></a>                                  <span class="st">&quot;price:colourGreen&quot;</span>,<span class="st">&quot;price:colourBlue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="categorical-variables-for-the-slope.html#cb201-1" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb201-2"><a href="categorical-variables-for-the-slope.html#cb201-2" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
+<span id="cb201-3"><a href="categorical-variables-for-the-slope.html#cb201-3" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
+<span id="cb201-4"><a href="categorical-variables-for-the-slope.html#cb201-4" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb201-5"><a href="categorical-variables-for-the-slope.html#cb201-5" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirtsInteraction <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb201-6"><a href="categorical-variables-for-the-slope.html#cb201-6" tabindex="-1"></a>                              <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirtsInteraction)</span>
+<span id="cb201-7"><a href="categorical-variables-for-the-slope.html#cb201-7" tabindex="-1"></a><span class="fu">colnames</span>(tShirtsInteraction) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;price:colourRed&quot;</span>,</span>
+<span id="cb201-8"><a href="categorical-variables-for-the-slope.html#cb201-8" tabindex="-1"></a>                                  <span class="st">&quot;price:colourGreen&quot;</span>,<span class="st">&quot;price:colourBlue&quot;</span>)</span></code></pre></div>
 <p>This artificial data can be plotted in the following way to show the effect:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="categorical-variables-for-the-slope.html#cb198-1" tabindex="-1"></a><span class="fu">plot</span>(tShirtsInteraction[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb198-2"><a href="categorical-variables-for-the-slope.html#cb198-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-1.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb198-3"><a href="categorical-variables-for-the-slope.html#cb198-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-0.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb198-4"><a href="categorical-variables-for-the-slope.html#cb198-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span><span class="dv">-4</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="categorical-variables-for-the-slope.html#cb202-1" tabindex="-1"></a><span class="fu">plot</span>(tShirtsInteraction[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
+<span id="cb202-2"><a href="categorical-variables-for-the-slope.html#cb202-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-1.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb202-3"><a href="categorical-variables-for-the-slope.html#cb202-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-0.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
+<span id="cb202-4"><a href="categorical-variables-for-the-slope.html#cb202-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span><span class="dv">-4</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:tShirtsInteractionScatterPlot"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsInteractionScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect." width="672" />
 <p class="caption">
@@ -441,12 +442,12 @@ Notice that we still include only two dummy variables out of three in order to a
 <li>Blue colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \epsilon_j\)</span>.</li>
 </ol>
 <p>In R, the interaction effect can be introduced explicitly in the formula via <code>:</code> symbol if you have a proper factor variable:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="categorical-variables-for-the-slope.html#cb199-1" tabindex="-1"></a>tShirtsInteractionDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirtsInteraction[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb199-2"><a href="categorical-variables-for-the-slope.html#cb199-2" tabindex="-1"></a>tShirtsInteractionDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> tShirtsDataFrame<span class="sc">$</span>colour</span>
-<span id="cb199-3"><a href="categorical-variables-for-the-slope.html#cb199-3" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb199-4"><a href="categorical-variables-for-the-slope.html#cb199-4" tabindex="-1"></a>tShirtsInteractionDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>price<span class="sc">:</span>colour,</span>
-<span id="cb199-5"><a href="categorical-variables-for-the-slope.html#cb199-5" tabindex="-1"></a>                                      tShirtsInteractionDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb199-6"><a href="categorical-variables-for-the-slope.html#cb199-6" tabindex="-1"></a><span class="fu">summary</span>(tShirtsInteractionDataFrameALM)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="categorical-variables-for-the-slope.html#cb203-1" tabindex="-1"></a>tShirtsInteractionDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirtsInteraction[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb203-2"><a href="categorical-variables-for-the-slope.html#cb203-2" tabindex="-1"></a>tShirtsInteractionDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> tShirtsDataFrame<span class="sc">$</span>colour</span>
+<span id="cb203-3"><a href="categorical-variables-for-the-slope.html#cb203-3" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb203-4"><a href="categorical-variables-for-the-slope.html#cb203-4" tabindex="-1"></a>tShirtsInteractionDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>price<span class="sc">:</span>colour,</span>
+<span id="cb203-5"><a href="categorical-variables-for-the-slope.html#cb203-5" tabindex="-1"></a>                                      tShirtsInteractionDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb203-6"><a href="categorical-variables-for-the-slope.html#cb203-6" tabindex="-1"></a><span class="fu">summary</span>(tShirtsInteractionDataFrameALM)</span></code></pre></div>
 <pre><code>## Response variable: sales
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
