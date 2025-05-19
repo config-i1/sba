@@ -85,17 +85,18 @@ One thing we should discuss briefly is the term "true" model, which was mentione
 4. Because of (1) - (3), the error term of the model does not have any structure left, and represents small random fluctuations around the structure that cannot be captured by any other variables;
 5. Because of (4), the error term has a zero expectation;
 6. As a result of (4), the error term cannot be correlated with any of the variables, either included in the model or omitted by it. Having this the other way around would imply that there is some structure left in the error, which should be transferred away from it;
-7. In the simple case we are discussing in this Chapter, the error term also has some fixed variance;
-8. The parameters of the model should also be independent of the error term for the same reason (4).
+7. Similarly, the error term cannot be related to its values on other observations. This issue can potentially appear on time series, where an error of an applied model on Monday can be related to the error on Tuesday. But when we talk about the true model, the errors cannot be related, otherwise this would imply that we missed some structure, thus violating (1) - (3);
+8. In the simple case of a linear model that we are discussing in this Chapter, the error term also has some fixed variance;
+9. The parameters of the model should also be independent of the error term for the same reason (4).
 
-In a general case, the true model can be represented as:
+In the simple case of a linear true model, it can be represented as:
 \begin{equation}
     y_j = \mu_{y,j} + \epsilon_j .
     (\#eq:TrueModel)
 \end{equation}
-where $\mu_j$ is the structure that we can capture in theory with the correct set of explanatory variables, and $\epsilon_j$ is the true error term that mathematically has $\mathrm{E}(\epsilon_j)=0$ due to (5) and $\mathrm{V}(\epsilon_j)=\sigma^2$ due to (7). The property (6) can be written mathematically as $\mathrm{E}(x_{i,j}\epsilon_j)=0$ for any $i$ and $j$.
+where $\mu_j$ is the structure that we can capture in theory with the correct set of explanatory variables, and $\epsilon_j$ is the true error term that mathematically has $\mathrm{E}(\epsilon_j)=0$ due to (5) and $\mathrm{V}(\epsilon_j)=\sigma^2$ due to (8). The property (6) can be written mathematically as $\mathrm{E}(x_{i,j}\epsilon_j)=0$ for any $i$ and $j$. This model can be called "linear" or "additive", because the structure and the error interact are added in one linear equation. But the true model can be more complicated and might contain non-linear structure or some complicated interactions between variables and the error term.
 
-For now, we assume that when we estimate a model, we know its form and have all the necessary variables. We will discuss what happens when this is violated in Chapter \@ref(assumptions).
+For now, we focus on the model \@ref(eq:TrueModel) and we assume that when we estimate a model, we know its form and have all the necessary variables. We will discuss what happens when this is violated in Chapter \@ref(assumptions).
 
 
 ## OLS estimation
