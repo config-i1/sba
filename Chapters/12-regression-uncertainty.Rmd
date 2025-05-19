@@ -117,10 +117,10 @@ Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     (\#eq:MLRParameterInterval)
 \end{equation}
-where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:\#eq:MLRParameterInterval) above.
+where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:MLRParameterInterval) above.
 
 ::: example
-To calculate the confidence interval, using the equation \@ref(eq:\#eq:MLRParameterInterval), we need to know several things:
+To calculate the confidence interval, using the equation \@ref(eq:MLRParameterInterval), we need to know several things:
 
 1. Significance level $\alpha$ - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;
 2. The value of the estimated parameter $b_i$. We get it after using the Least Squares, any statistical software can give us the estimate.
@@ -179,6 +179,80 @@ summary(costsModelSLR)
 This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
 
 
+### Derivation of the formula for the covariance matrix of parameters
+In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
+
+::: proof
+We start by expanding the formula for the OLS \@ref(eq:MLROLS) by inserting the "true" model in it (${\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}$:
+\begin{equation}
+    \begin{aligned}
+    {\boldsymbol{b}} =
+        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+        & {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+    \end{aligned}
+    (\#eq:MLROLSExpansion)
+\end{equation}
+
+This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in $\mathbf{X}$ and the specific values of the error term $\boldsymbol{\epsilon}$.
+
+In bypassing, we can show that the OLS estimates of parameters are unbiased as long as the model is correctly specified:
+\begin{equation}
+    \begin{aligned}
+    \mathrm{E}\left(\boldsymbol{b}\right) =
+        & \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        & {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        & {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+        & \boldsymbol{\beta} ,
+    \end{aligned}
+    (\#eq:MLRCLSExpansion)
+\end{equation}
+which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection \@ref(TrueModel)).
+
+More importantly, we can calculate the variance of the estimates of parameters using \@ref(eq:MLROLSExpansion):
+
+\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+    (\#eq:MLROLSVariance01)
+\end{equation}
+
+In formula \@ref(eq:MLROLSVariance01), the true parameter $\boldsymbol{\beta}$ should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to ${\boldsymbol{\beta}}$ in \@ref(eq:MLROLSVariance01) can be dropped leaving us with:
+\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+    (\#eq:MLROLSVariance02)
+\end{equation}
+After that, we can recall that $\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0$, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection \@ref(TrueModel)). This is useful because now we can represent the variance \@ref(eq:MLROLSVariance02) as the expectation of products:
+\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+    (\#eq:MLROLSVariance02)
+\end{equation}
+
+
+
+
+
+\begin{equation}
+    \begin{aligned}
+        \mathrm{V}\left( {\boldsymbol{b}} \right) =
+        & \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) = \\
+        & \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) \right) .
+    \end{aligned}
+    (\#eq:MLROLSVariance02)
+\end{equation}
+
+
+\begin{equation}
+    \begin{aligned}
+        \mathrm{V}\left( {\boldsymbol{b}}^{\text{OLS}} \right) =
+        & \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \mathrm{E}\left( \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1} {{\mathbf{X}}}^\top \tilde{{\boldsymbol{\epsilon}}} \right) + \\
+        & \mathrm{cov}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1} {{\mathbf{X}}}^\top \tilde{{\boldsymbol{\epsilon}}} \right) = \\
+        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \tilde{{\mathbf{X}}} \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1 \prime}  \mathrm{cov}\left( {\boldsymbol{\epsilon}}, \tilde{{\boldsymbol{\epsilon}}} \right) = \\
+        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \tilde{{\mathbf{X}}} \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1 \prime}  \sigma_{{\epsilon}}^2 ,
+    \end{aligned}
+    (\#eq:MLROLSConjVar)
+\end{equation}
+:::
 
 
 
