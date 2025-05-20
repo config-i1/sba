@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>12.3 Regression line uncertainty | Statistics for Business Analytics</title>
+  <title>12.4 Regression line uncertainty | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="12.3 Regression line uncertainty | Statistics for Business Analytics" />
+  <meta property="og:title" content="12.4 Regression line uncertainty | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="12.3 Regression line uncertainty | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="12.4 Regression line uncertainty | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -313,16 +313,19 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html"><i class="fa fa-check"></i><b>12.1</b> Covariance matrix of parameters</a>
 <ul>
-<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap</a></li>
+<li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
+<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
-<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.3</b> Hypothesis testing</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.2.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.2.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.3.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.3.2</b> Regression line</a></li>
 </ul></li>
-<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.4</b> Regression line uncertainty</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
@@ -412,29 +415,29 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="uncertaintyRegressionLine" class="section level2 hasAnchor" number="12.3">
-<h2><span class="header-section-number">12.3</span> Regression line uncertainty<a href="uncertaintyRegressionLine.html#uncertaintyRegressionLine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="uncertaintyRegressionLine" class="section level2 hasAnchor" number="12.4">
+<h2><span class="header-section-number">12.4</span> Regression line uncertainty<a href="uncertaintyRegressionLine.html#uncertaintyRegressionLine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression <span class="math inline">\(\hat{y}_j\)</span>, but also the uncertainty around them.</p>
 <p>The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
 <span class="math display" id="eq:regressionLineUncertaintyVariance01">\[\begin{equation}
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
-    \tag{12.16}
+    \tag{12.17}
 \end{equation}\]</span>
 which after some simplifications leads to:
 <span class="math display" id="eq:regressionLineUncertaintyVariance02">\[\begin{equation}
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
-    \tag{12.17}
+    \tag{12.18}
 \end{equation}\]</span>
 where <span class="math inline">\(x_{0,j}=1\)</span>. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(b_i\)</span> will follow normal distribution with a fixed mean and variance due to <a href="CLT.html#CLT">CLT</a>, the predicted value <span class="math inline">\(\hat{y}_j\)</span> will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>:
 <span class="math display" id="eq:confidenceIntervalRegression">\[\begin{equation}
     \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
-    \tag{12.18}
+    \tag{12.19}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}\)</span>.</p>
 <p>In R, this interval can be constructed via the function <code>predict()</code> with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="uncertaintyRegressionLine.html#cb189-1" tabindex="-1"></a>costsModelSLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
-<span id="cb189-2"><a href="uncertaintyRegressionLine.html#cb189-2" tabindex="-1"></a><span class="fu">plot</span>(costsModelSLRCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>,</span>
-<span id="cb189-3"><a href="uncertaintyRegressionLine.html#cb189-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Observation&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Distance&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="uncertaintyRegressionLine.html#cb193-1" tabindex="-1"></a>costsModelSLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb193-2"><a href="uncertaintyRegressionLine.html#cb193-2" tabindex="-1"></a><span class="fu">plot</span>(costsModelSLRCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>,</span>
+<span id="cb193-3"><a href="uncertaintyRegressionLine.html#cb193-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Observation&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Distance&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceConfidenceInterval"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceConfidenceInterval-1.png" alt="Fitted values and confidence interval for the stopping distance model." width="672" />
 <p class="caption">
@@ -442,15 +445,15 @@ Figure 12.6: Fitted values and confidence interval for the stopping distance mod
 </p>
 </div>
 <p>The same fitted values and interval can be presented differently on the actuals vs fitted plot:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionLine.html#cb190-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModelSLR),<span class="fu">actuals</span>(costsModelSLR),</span>
-<span id="cb190-2"><a href="uncertaintyRegressionLine.html#cb190-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
-<span id="cb190-3"><a href="uncertaintyRegressionLine.html#cb190-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb190-4"><a href="uncertaintyRegressionLine.html#cb190-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelSLR)),</span>
-<span id="cb190-5"><a href="uncertaintyRegressionLine.html#cb190-5" tabindex="-1"></a>      costsModelSLRCI<span class="sc">$</span>lower[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelSLR))], </span>
-<span id="cb190-6"><a href="uncertaintyRegressionLine.html#cb190-6" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb190-7"><a href="uncertaintyRegressionLine.html#cb190-7" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelSLR)),</span>
-<span id="cb190-8"><a href="uncertaintyRegressionLine.html#cb190-8" tabindex="-1"></a>      costsModelSLRCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelSLR))], </span>
-<span id="cb190-9"><a href="uncertaintyRegressionLine.html#cb190-9" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="uncertaintyRegressionLine.html#cb194-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModelSLR),<span class="fu">actuals</span>(costsModelSLR),</span>
+<span id="cb194-2"><a href="uncertaintyRegressionLine.html#cb194-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
+<span id="cb194-3"><a href="uncertaintyRegressionLine.html#cb194-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb194-4"><a href="uncertaintyRegressionLine.html#cb194-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelSLR)),</span>
+<span id="cb194-5"><a href="uncertaintyRegressionLine.html#cb194-5" tabindex="-1"></a>      costsModelSLRCI<span class="sc">$</span>lower[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelSLR))], </span>
+<span id="cb194-6"><a href="uncertaintyRegressionLine.html#cb194-6" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb194-7"><a href="uncertaintyRegressionLine.html#cb194-7" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelSLR)),</span>
+<span id="cb194-8"><a href="uncertaintyRegressionLine.html#cb194-8" tabindex="-1"></a>      costsModelSLRCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelSLR))], </span>
+<span id="cb194-9"><a href="uncertaintyRegressionLine.html#cb194-9" tabindex="-1"></a>      <span class="at">col=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceConfidenceIntervalAvsF"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceConfidenceIntervalAvsF-1.png" alt="Actuals vs Fitted and confidence interval for the stopping distance model." width="672" />
 <p class="caption">
@@ -461,16 +464,16 @@ Figure 12.7: Actuals vs Fitted and confidence interval for the stopping distance
 <p>If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
 <span class="math display" id="eq:regressionLineUncertaintyVariance03">\[\begin{equation}
     \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
-    \tag{12.19}
+    \tag{12.20}
 \end{equation}\]</span>
 which can be simplified to (if assumptions of regression model hold, see Section <a href="assumptions.html#assumptions">15</a>):
 <span class="math display" id="eq:regressionLineUncertaintyVariance04">\[\begin{equation}
     \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2,
-    \tag{12.20}
+    \tag{12.21}
 \end{equation}\]</span>
-where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the residuals <span class="math inline">\(e_j\)</span>. As we see from the formula <a href="uncertaintyRegressionLine.html#eq:regressionLineUncertaintyVariance04">(12.20)</a>, the variance in this case is larger than <a href="uncertaintyRegressionLine.html#eq:regressionLineUncertaintyVariance02">(12.17)</a>, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to <a href="uncertaintyRegressionLine.html#eq:confidenceIntervalRegression">(12.18)</a>), as long as we can assume that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0,\sigma^2)\)</span>.</p>
+where <span class="math inline">\(\hat{\sigma}^2\)</span> is the variance of the residuals <span class="math inline">\(e_j\)</span>. As we see from the formula <a href="uncertaintyRegressionLine.html#eq:regressionLineUncertaintyVariance04">(12.21)</a>, the variance in this case is larger than <a href="uncertaintyRegressionLine.html#eq:regressionLineUncertaintyVariance02">(12.18)</a>, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to <a href="uncertaintyRegressionLine.html#eq:confidenceIntervalRegression">(12.19)</a>), as long as we can assume that <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0,\sigma^2)\)</span>.</p>
 <p>In R, this can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="uncertaintyRegressionLine.html#cb191-1" tabindex="-1"></a>costsModelSLRPI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="uncertaintyRegressionLine.html#cb195-1" tabindex="-1"></a>costsModelSLRPI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
 <p>Based on this, we can construct graphs similar to <a href="uncertaintyRegressionLine.html#fig:speedDistanceConfidenceInterval">12.6</a> and <a href="uncertaintyRegressionLine.html#fig:speedDistanceConfidenceIntervalAvsF">12.7</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistancePI"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistancePI-1.png" alt="Fitted values and prediction interval for the stopping distance model." width="672" />
@@ -480,9 +483,9 @@ Figure 12.8: Fitted values and prediction interval for the stopping distance mod
 </div>
 <p>Figure <a href="uncertaintyRegressionLine.html#fig:speedDistancePI">12.8</a> shows the prediction interval for values over observations and for actuals vs fitted. As we see, the interval is wider in this case, covering only 95% of observations (there are 2 observations outside it).</p>
 <p>In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with stopping distance, we could see what would happen if the speed of a car was, for example, 30mph:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="uncertaintyRegressionLine.html#cb192-1" tabindex="-1"></a>costsModelSLRForecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">materials=</span><span class="dv">250</span>),</span>
-<span id="cb192-2"><a href="uncertaintyRegressionLine.html#cb192-2" tabindex="-1"></a>                                    <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
-<span id="cb192-3"><a href="uncertaintyRegressionLine.html#cb192-3" tabindex="-1"></a><span class="fu">plot</span>(costsModelSLRForecast)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="uncertaintyRegressionLine.html#cb196-1" tabindex="-1"></a>costsModelSLRForecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">materials=</span><span class="dv">250</span>),</span>
+<span id="cb196-2"><a href="uncertaintyRegressionLine.html#cb196-2" tabindex="-1"></a>                                    <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb196-3"><a href="uncertaintyRegressionLine.html#cb196-3" tabindex="-1"></a><span class="fu">plot</span>(costsModelSLRForecast)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceForecast"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceForecast-1.png" alt="Forecast of the stopping distance for the speed of 30mph." width="672" />
 <p class="caption">

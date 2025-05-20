@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.3 Normal distribution | Statistics for Business Analytics</title>
+  <title>12.1 Covariance matrix of parameters | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.3 Normal distribution | Statistics for Business Analytics" />
+  <meta property="og:title" content="12.1 Covariance matrix of parameters | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.3 Normal distribution | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="12.1 Covariance matrix of parameters | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="distributionsUniformContinuous.html"/>
-<link rel="next" href="distributionLogNormal.html"/>
+<link rel="prev" href="uncertaintyRegression.html"/>
+<link rel="next" href="uncertaintyRegressionCI.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -415,97 +415,143 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionsNormal" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> Normal distribution<a href="distributionsNormal.html#distributionsNormal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Every statistical textbook has Normal distribution. It is that one famous bell-curved distribution that every statistician likes because it is easy to work with and because it is an asymptotic distribution for many other well-behaved distributions under some conditions (see discussion of “Central Limit Theorem” in Section <a href="CLT.html#CLT">6.2</a>). For example, consider the the coin tossing example and Binomial distribution discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>. If we toss the coin one time only, we get the Bernoulli distribution with two outcomes. If we do that ten times, the shape of distribution will change and there will be a score with higher probability than the others (that is <span class="math inline">\(\mathcal{Bi}(10, 0.5)\)</span>). If we continue tossing the coin and do that for a hundred times, the shape of distribution will start converging to the bell-curve, reminding the Normal distribution. These three cases are shown in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:binomialPMFSeveral"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialPMFSeveral-1.png" alt="Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}." width="672" />
-<p class="caption">
-Figure 4.8: Probability Mass Functions for Binomial distribution with p=0.5 and n={1, 10, 100}.
-</p>
+<div id="uncertaintyRegressionCov" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Covariance matrix of parameters<a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:</p>
+<p><span class="math display" id="eq:MLRParameterCov">\[\begin{equation}
+    \mathrm{V}(\hat{\boldsymbol{\beta}}) =
+    \begin{pmatrix}
+        \mathrm{V}(b_0) &amp; \mathrm{cov}(b_0, b_1) &amp; \dots &amp; \mathrm{cov}(b_0, b_{k-1}) \\
+        \mathrm{cov}(b_0, b_1) &amp; \mathrm{V}(b_1) &amp; \dots &amp; \mathrm{cov}(b_1, b_{k-1}) \\
+        \vdot &amp; \vdot &amp; \ddot &amp; \vdot \\
+        \mathrm{cov}(b_0, b_{k-1}) &amp; \mathrm{cov}(b_1, b_{k-1}) &amp; \dots &amp; \mathrm{V}(b_{k-1}) \\
+    \end{pmatrix} .
+    \tag{12.1}
+\end{equation}\]</span>
+The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
+<div id="bootstrap" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Bootstrap<a href="uncertaintyRegressionCov.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelSLRBootstrap<span class="sc">$</span>coefficients)</span></code></pre></div>
+<pre><code>##             (Intercept)    materials
+## (Intercept)  88.5218620 -0.410357862
+## materials    -0.4103579  0.002037377</code></pre>
+<p>The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="uncertaintyRegressionCov.html#cb173-1" tabindex="-1"></a><span class="fu">var</span>(costsModelSLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
+<span id="cb173-2"><a href="uncertaintyRegressionCov.html#cb173-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>()</span></code></pre></div>
+<pre><code>##             (Intercept)  materials
+## (Intercept)   1.0000000 -0.9662773
+## materials    -0.9662773  1.0000000</code></pre>
+<p>We see that the correlation between the intercept and the parameter for the materials is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (materials vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data. This sort of behaviour is typical for the case when the two variables have positive correlation (with the increase of the material costs, the overall costs increase as well).</p>
 </div>
-<p>This is one of the classical examples of a distribution converging to the Normal one with the increase of the number of trials <span class="math inline">\(n\)</span> under some circumstances. This also tells us that in some circumstances we can use Normal distribution as an approximation of the real distribution: in Figure <a href="distributionsNormal.html#fig:binomialPMFSeveral">4.8</a>, the third graph corresponds to the <span class="math inline">\(\mathcal{Bi}(100, 0.5)\)</span>, but it can be approximated by the normal distribution <span class="math inline">\(\mathcal{N}(\mu_y, \sigma)\)</span>, where <span class="math inline">\(\mu_y=100 \times 0.5 = 50\)</span> is the mean of the distribution and <span class="math inline">\(\sigma^2 = 100 \times 0.5 \times 0.5 = 25\)</span> is the variance (as discussed in Section <a href="distributionBinomial.html#distributionBinomial">3.3</a>), i.e. <span class="math inline">\(\mathcal{N}(50, 25)\)</span>.</p>
-<p>The probability density function (PDF) of the Normal distribution with some mean <span class="math inline">\(\mu_y\)</span> and variance <span class="math inline">\(\sigma^2\)</span> is:
-<span class="math display" id="eq:Normal">\[\begin{equation}
-    f(y, \mu_y, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{1}{2} \left(\frac{y - \mu_y}{\sigma}\right)^2 \right) ,
-    \tag{4.5}
+<div id="analytical-solution" class="section level3 hasAnchor" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> Analytical solution<a href="uncertaintyRegressionCov.html#analytical-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter <a href="likelihoodApproach.html#likelihoodApproach">16</a>). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
+<span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
+    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
+    \tag{12.2}
+\end{equation}\]</span>
+where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelSLR)</span></code></pre></div>
+<pre><code>##             (Intercept)    materials
+## (Intercept)  263.306314 -1.288465587
+## materials     -1.288466  0.006730734</code></pre>
+<p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
+</div>
+<div id="mathematical-derivation" class="section level3 hasAnchor" number="12.1.3">
+<h3><span class="header-section-number">12.1.3</span> Mathematical derivation<a href="uncertaintyRegressionCov.html#mathematical-derivation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a>. There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the “true” model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.</p>
+<div class="warning">
+<p>Linear algebra! Tread lightly!</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-40" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
+    \begin{aligned}
+    {\boldsymbol{b}} =
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+    \end{aligned}
+    \tag{12.3}
 \end{equation}\]</span></p>
-<p>This distribution can be represented in Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:dnormPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dnormPlot-1.png" alt="Probability Density Function of Standard Normal distribution" width="672" />
-<p class="caption">
-Figure 4.9: Probability Density Function of Standard Normal distribution
-</p>
-</div>
-<p>Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a> demonstrates a standard normal distribution, meaning that <span class="math inline">\(\mu_y=0\)</span> and <span class="math inline">\(\sigma^2=1\)</span>. A more general distribution with non-zero <span class="math inline">\(\mu_y\)</span> and a non-unity <span class="math inline">\(\sigma^2\)</span> will have the same shape, but will have different values on the axes. The shape itself demonstrates that there is a central tendency (in our case - the mean <span class="math inline">\(\mu_y\)</span>), around which the density of values is the highest and there are other potential cases, further away from the centre of distribution, but their probability of appearance reduces proportionally to the distance from the centre. As we can see from Figure <a href="distributionsNormal.html#fig:dnormPlot">4.9</a>, the Normal distribution is symmetric. It has skewness of zero and kurtosis of 3 (see discussion in Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>).</p>
-<!-- Normal distribution is the most popular assumption for the random variable in conventional statistical models. This is represented as $y \sim \mathcal{N}(\mu_y, \sigma)$. -->
-<p>When it comes to the cumulative distribution function, it has a form of an S-curve as shown in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:pnormPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/pnormPlot-1.png" alt="Cumulative Distribution Function of Standard Normal distribution" width="672" />
-<p class="caption">
-Figure 4.10: Cumulative Distribution Function of Standard Normal distribution
-</p>
-</div>
-<p>The CDF in Figure <a href="distributionsNormal.html#fig:pnormPlot">4.10</a> has the properties of any other CDF: it converges to one with the increase of the value of <span class="math inline">\(y\)</span> and reaches zero asymptotically with the decrease of the value of <span class="math inline">\(y\)</span>. It can be used to solve problems of the style “what is the probability that <span class="math inline">\(y\)</span> will lie between 20 and 30 for the <span class="math inline">\(\mathcal{N}(20, 10)\)</span>”. In R, this can be done by entering the values of <span class="math inline">\(y\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> in the following function (note that in R, the scale is the standard deviation <span class="math inline">\(\sigma\)</span>, not the variance <span class="math inline">\(\sigma^2\)</span>):</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="distributionsNormal.html#cb19-1" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q=</span><span class="dv">30</span>, <span class="at">mean=</span><span class="dv">20</span>, <span class="at">sd=</span><span class="dv">10</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q=</span><span class="dv">20</span>, <span class="at">mean=</span><span class="dv">20</span>, <span class="at">sd=</span><span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## [1] 0.3413447</code></pre>
-<p>which mathematically is typically represented as:
-<span class="math display" id="eq:NormalCDFExample">\[\begin{equation}
-    \Phi(y_2, \mu_y, \sigma^2) - \Phi(y_1, \mu_y, \sigma^2) = \Phi(30, 20, 100) - \Phi(20, 20, 100) = 0.841 - 0.5 \approx 0.341.
-    \tag{4.6}
+<p>This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in <span class="math inline">\(\mathbf{X}\)</span> and the specific values of the error term <span class="math inline">\(\boldsymbol{\epsilon}\)</span>.</p>
+<p>In bypassing, we can show that the OLS estimates of parameters are unbiased as long as the model is correctly specified:
+<span class="math display" id="eq:MLRCLSExpansion">\[\begin{equation}
+    \begin{aligned}
+    \mathrm{E}\left(\boldsymbol{b}\right) =
+        &amp; \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        &amp; {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+        &amp; \boldsymbol{\beta} ,
+    \end{aligned}
+    \tag{12.4}
 \end{equation}\]</span>
-The CDF itself is difficult to summarise and involves a complicated integral:
-<span class="math display" id="eq:NormalCDFE">\[\begin{equation}
-    \Phi(y, \mu_y, \sigma^2) = \frac{1}{2} \left(1 + \mathrm{erf}\left(\frac{y-\mu_y}{\sqrt{2\sigma^2}} \right) \right),
-    \tag{4.7}
+which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>).</p>
+<p>More importantly, we can calculate the variance of the estimates of parameters using <a href="uncertaintyRegressionCov.html#eq:MLROLSExpansion">(12.3)</a>:</p>
+<p><span class="math display" id="eq:MLROLSVariance01">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+    \tag{12.5}
+\end{equation}\]</span></p>
+<p>In formula <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance01">(12.5)</a>, the true parameter <span class="math inline">\(\boldsymbol{\beta}\)</span> should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to <span class="math inline">\({\boldsymbol{\beta}}\)</span> in <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance01">(12.5)</a> can be dropped leaving us with:
+<span class="math display" id="eq:MLROLSVariance02">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+    \tag{12.6}
 \end{equation}\]</span>
-where <span class="math inline">\(\mathrm{erf(y)= \frac{2}{\sqrt{\pi}} \int_{0}^{y} e^{-x^2} dx}\)</span> is the so called ``error function’’. This function does not have a closed form and is typically evaluated numerically or using some approximations. The probability <a href="distributionsNormal.html#eq:NormalCDFExample">(4.6)</a> corresponds to the difference between the points shown in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:pnormExample"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/pnormExample-1.png" alt="Values of CDF for the example with Normal distribution" width="672" />
-<p class="caption">
-Figure 4.11: Values of CDF for the example with Normal distribution
-</p>
-</div>
-<p>The same number also corresponds to the dark area in PDF of the distribution as shown in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:dnormExample"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dnormExample-1.png" alt="Values of PDF for the example with Normal distribution" width="672" />
-<p class="caption">
-Figure 4.12: Values of PDF for the example with Normal distribution
-</p>
-</div>
-<p>The relation between the area in Figure <a href="distributionsNormal.html#fig:dnormExample">4.12</a> and the difference between the two points in Figure <a href="distributionsNormal.html#fig:pnormExample">4.11</a> comes directly from the definition of CDF, the latter being the function of cumulative values of the density function.</p>
-<p>Many distributions converge to the Normal one or can be approximated by it under some circumstances. For example, as shown earlier, Binomial distribution can be approximated by the normal in some cases. More specifically, the approximation works when <span class="math inline">\(n&gt;20\)</span>, <span class="math inline">\(n p \geq 5\)</span> and <span class="math inline">\(n(1-p) \geq 5\)</span>. Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a> demonstrates how the normal curve (the solid red line) approximates the barplots of the Binomial distribution.</p>
-<div class="figure"><span style="display:block;" id="fig:binomialNormalApprox"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialNormalApprox-1.png" alt="Binomial distribution and its approximation via the Normal one." width="672" />
-<p class="caption">
-Figure 4.13: Binomial distribution and its approximation via the Normal one.
-</p>
-</div>
-<p>As we can see from Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a>, the normal curve fits the bars of the Binomial distribution very well, which means that we can use it, for example, to compute the probability that the variable <span class="math inline">\(y\)</span> will be equal to 41, via the formula:
-<span class="math display" id="eq:BinomialNormalApproximation">\[\begin{equation}
-    \mathrm{P}(y=41) \approx \Phi(41.5, 50, 25) - \Phi(40.5, 50, 25)
-    \tag{4.8}
+After that, we can recall that <span class="math inline">\(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\)</span>, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>). This is useful because now we can represent the variance <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance02">(12.6)</a> as the expectation of products (this follows directly from equation <a href="dataAnalysisNumerical.html#eq:VarianceAlt">(5.2)</a> that we discussed in Subsection <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
+<span class="math display" id="eq:MLROLSVariance03">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \tag{12.7}
 \end{equation}\]</span>
-In the equation <a href="distributionsNormal.html#eq:BinomialNormalApproximation">(4.8)</a> by adding and subtraction 0.5, we calculate the surface of the area under the normal curve, corresponding roughly to the area of the respective bin in the barplot. We can see that this method of calculation gives a result very close to the one from the Binomial distribution:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="distributionsNormal.html#cb21-1" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">dbinom</span>(<span class="dv">41</span>,<span class="dv">100</span>,<span class="fl">0.5</span>),</span>
-<span id="cb21-2"><a href="distributionsNormal.html#cb21-2" tabindex="-1"></a>  <span class="fu">pnorm</span>(<span class="fl">41.5</span>,<span class="dv">50</span>,<span class="dv">5</span>)<span class="sc">-</span><span class="fu">pnorm</span>(<span class="fl">40.5</span>,<span class="dv">50</span>,<span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="distributionsNormal.html#cb21-3" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">&quot;Binomial&quot;</span>, <span class="st">&quot;Normal&quot;</span>))</span></code></pre></div>
-<pre><code>##   Binomial     Normal 
-## 0.01586907 0.01584890</code></pre>
-<p>This calculation based on the approximation is shown visually in Figure <a href="distributionsNormal.html#fig:binomialNormalApprox">4.13</a>, where the second figure is the zoomed-in area in the first one. As we can see, the area under the curve of the Normal distribution is roughly equal to the area of the bar of the Binomial distribution.</p>
-<div class="figure"><span style="display:block;" id="fig:binomialNormalApproxArea"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/binomialNormalApproxArea-1.png" alt="Calculating the probability based on Normal approximation." width="672" />
-<p class="caption">
-Figure 4.14: Calculating the probability based on Normal approximation.
-</p>
-</div>
-<p>Normal distribution is implemented in <code>dnorm()</code>, <code>qnorm()</code>, <code>pnorm()</code> and <code>rnorm()</code> functions from <code>stats</code> package in R.</p>
-<p>Finally, as mentioned earlier, Normal distribution is popular among statisticians to use for the error term in a model of a type:
-<span class="math display" id="eq:NormalModel">\[\begin{equation}
-    y_j = \mu_j + \epsilon_j,
-    \tag{4.9}
+Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula <a href="dataAnalysisNumerical.html#eq:CovarianceAlt">(5.8)</a> from Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
+<span class="math display" id="eq:MLROLSVariance04">\[\begin{equation}
+    \begin{aligned}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) =
+        &amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
+        &amp; \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \end{aligned}
+    \tag{12.8}
 \end{equation}\]</span>
-where <span class="math inline">\(\mu_j\)</span> is some structure and <span class="math inline">\(\epsilon_j \sim \mathcal{N}(0, \sigma^2)\)</span>. The main reason for this is the ease of use of the distribution, and because it is described using its mean and variance. For example, based on <a href="distributionsNormal.html#eq:NormalModel">(4.9)</a>, we can say that <span class="math inline">\(y_j \sim \mathcal{N}(\mu_j, \sigma^2)\)</span>, because as we remember from Chapter <a href="probabilityTheory.html#probabilityTheory">2</a>, <span class="math inline">\(\mathrm{E}(y_j)=\mathrm{E}(\mu_j) + \mathrm{E}(\epsilon_j)=\mathrm{E}(\mu_j)\)</span>. In reality, the error term of a model might not follow normal distribution, it can be more complicated and sometimes might not follow any theoretical distribution.</p>
+We can notice that the expectations in <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance04">(12.8)</a> should be zero because, as discussed earlier, in the true model the error term is not related to anything. This means that the formula can be simplified to:
+<span class="math display" id="eq:MLROLSVariance05">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \tag{12.9}
+\end{equation}\]</span>
+The second element in the brackets can be rewritten as:
+<span class="math display">\[\begin{equation*}
+    \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\end{equation*}\]</span>
+Substituting this to <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance leads to:
+<span class="math display" id="eq:MLROLSVariance06">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+    \tag{12.10}
+\end{equation}\]</span>
+which after some cancellations leads to:
+<span class="math display" id="eq:MLROLSVarianceSemiFinal">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
+    \tag{12.11}
+\end{equation}\]</span>
+Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula:
+<span class="math display">\[\begin{equation*}
+    \hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
+\end{equation*}\]</span>
+which after being insert in <a href="uncertaintyRegressionCov.html#eq:MLROLSVarianceSemiFinal">(12.11)</a>, leads to:
+<span class="math display" id="eq:MLROLSVarianceFinal">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+    \tag{12.12}
+\end{equation}\]</span>
+where is the estimate of the true variance based on the applied model.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-41" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<span class="math display">\[\begin{equation*}
+    \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\end{equation*}\]</span>
+where <span class="math inline">\(\mathbf{I}_{k-1}\)</span> is the identity matrix of the size <span class="math inline">\(k-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term.</p>
+</div>
+<p>We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that the model is correctly estimated. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter <a href="assumptions.html#assumptions">15</a>).</p>
+</div>
 </div>
 
             </section>
@@ -513,8 +559,8 @@ where <span class="math inline">\(\mu_j\)</span> is some structure and <span cla
           </div>
         </div>
       </div>
-<a href="distributionsUniformContinuous.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="distributionLogNormal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uncertaintyRegression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="uncertaintyRegressionCI.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -545,7 +591,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/config-i1/sba/tree/master/Chapters//04-distributions-continuous.Rmd",
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//12-regression-uncertainty.Rmd",
     "text": "Edit"
   },
   "history": {
