@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.2 Central Limit Theorem | Statistics for Business Analytics</title>
+  <title>11.1 OLS estimation | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.2 Central Limit Theorem | Statistics for Business Analytics" />
+  <meta property="og:title" content="11.1 OLS estimation | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.2 Central Limit Theorem | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="11.1 OLS estimation | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="LLN.html"/>
-<link rel="next" href="estimatesProperties.html"/>
+<link rel="prev" href="linearRegression.html"/>
+<link rel="next" href="linearRegressionMultipleQualityOfFit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -412,29 +412,183 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="CLT" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="CLT.html#cb68-1" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb68-2"><a href="CLT.html#cb68-2" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb68-3"><a href="CLT.html#cb68-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb68-4"><a href="CLT.html#cb68-4" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,<span class="dv">1000</span>))</span>
-<span id="cb68-5"><a href="CLT.html#cb68-5" tabindex="-1"></a>}</span>
-<span id="cb68-6"><a href="CLT.html#cb68-6" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:histyMean"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histyMean-1.png" alt="Histogram of the mean of the variable y." width="672" />
+<div id="OLSMLR" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> OLS estimation<a href="OLSMLR.html#OLSMLR" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have already discussed the idea of the OLS in Section <a href="OLS.html#OLS">10.1</a> on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.</p>
+<div id="a-bit-of-maths" class="section level3 hasAnchor" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> A bit of maths<a href="OLSMLR.html#a-bit-of-maths" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are several ways how we can get the formula for the OLS of the Multiple Linear Regression. We could start with the same SSE value, expanding it based on the equation of the regression <a href="linearRegression.html#eq:MLRExpectationSample">(11.4)</a>:
+<span class="math display">\[\begin{equation*}
+    \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 = \sum_{j=1}^n (y_j - b_0 - b_1 x_{1,j} - b_2 x_{2,j} - \dots - b_{k-1} x_{k-1,j})^2 .
+\end{equation*}\]</span>
+Taking derivatives of SSE with respect to <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(b_{k-1}\)</span> and then equating them to zero, we would get a so-called <strong>System of Normal Equations</strong> (we have discussed it when providing a proof in Section <a href="OLS.html#OLS">10.1</a>), which in general case has form:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        &amp; \sum_{j=1}^n y_j - n b_0 - b_1 \sum_{j=1}^n x_{1,j} - b_2 \sum_{j=1}^n x_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} = 0 \\
+        &amp; \sum_{j=1}^n y_j x_{1,j} - b_0 \sum_{j=1}^n x_{1,j} - b_1 \sum_{j=1}^n x^2_{1,j} - b_2 \sum_{j=1}^n x_{2,j} x_{1,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{1,j} = 0 \\
+        &amp; \sum_{j=1}^n y_j x_{2,j} - b_0 \sum_{j=1}^n x_{2,j} - b_1 \sum_{j=1}^n x_{1,j} x_{2,j} - b_2 \sum_{j=1}^n x^2_{2,j} - \dots - b_{k-1} \sum_{j=1}^n x_{k-1,j} x_{2,j} = 0 \\
+        \vdots
+        &amp; \sum_{j=1}^n y_j x_{k-1,j} - b_0 \sum_{j=1}^n x_{k-1,j} - b_1 \sum_{j=1}^n x_{1,j} x_{k-1,j} - b_2 \sum_{j=1}^n x_{2,j} x_{k-1,j} - \dots - b_{k-1} \sum_{j=1}^n x^2_{k-1,j} = 0
+    \end{aligned}
+\end{equation*}\]</span>
+Solving this system of equations gives us formulae for parameters <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(b_{k-1}\)</span>, that guarantee that the SSE is minimal.</p>
+<p>However, there is a more compact and easier in logic way of getting the formulae, but it requires some basic knowledge of linear algebra. To explain it, we need to present the multiple linear regression in a more compact form. In order to do that we will introduce the following vectors:
+<span class="math display" id="eq:MLRVectors">\[\begin{equation}
+    \mathbf{x}&#39;_j = \begin{pmatrix}1 &amp; x_{1,j} &amp; \dots &amp; x_{k-1,j} \end{pmatrix},
+    \boldsymbol{\beta} = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{k-1} \end{pmatrix} ,
+    \tag{11.5}
+\end{equation}\]</span>
+where <span class="math inline">\(&#39;\)</span> symbol is the transposition. This can then be substituted in <a href="linearRegression.html#eq:MLRFormula">(11.2)</a> to get:
+<span class="math display" id="eq:MLRFormulaCompacter">\[\begin{equation}
+    y_j = \mathbf{x}&#39;_j \boldsymbol{\beta} + \epsilon_j .
+    \tag{11.6}
+\end{equation}\]</span>
+This form is just convenient, but it denotes exactly the same model as in equation <a href="linearRegression.html#eq:MLRFormula">(11.2)</a>. All we need to remember in case of the equation <a href="OLSMLR.html#eq:MLRFormulaCompacter">(11.6)</a> is that it represents the sum of products of variables by their coefficients, just in a compact way.</p>
+<p>But this is not over yet, we can make it even more compact, if we pack all those values with index <span class="math inline">\(j\)</span> in vectors and matrices:
+<span class="math display" id="eq:MLRMatrices">\[\begin{equation}
+    \mathbf{X} = \begin{pmatrix} \mathbf{x}&#39;_1 \\ \mathbf{x}&#39;_2 \\ \vdots \\ \mathbf{x}&#39;_n \end{pmatrix} =
+    \begin{pmatrix} 1 &amp; x_{1,1} &amp; \dots &amp; x_{k-1,1} \\ 1 &amp; x_{1,2} &amp; \dots &amp; x_{k-1,2} \\ \vdots \\ 1 &amp; x_{1,n} &amp; \dots &amp; x_{k-1,n} \end{pmatrix},
+    \mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix},
+    \boldsymbol{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix} ,
+    \tag{11.7}
+\end{equation}\]</span>
+where <span class="math inline">\(n\)</span> is the sample size. This leads to the following even more compact form of the multiple linear regression:
+<span class="math display" id="eq:MLRFormulaCompactest">\[\begin{equation}
+    \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} .
+    \tag{11.8}
+\end{equation}\]</span>
+If you compare <a href="OLSMLR.html#eq:MLRFormulaCompactest">(11.8)</a> with the original one <a href="linearRegression.html#eq:MLRFormula">(11.2)</a>:
+<span class="math display">\[\begin{equation*}
+    y_j = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} + \epsilon_j ,
+\end{equation*}\]</span>
+you will probably see the connection. But the form <a href="OLSMLR.html#eq:MLRFormulaCompactest">(11.8)</a> is just more abstract. This abstraction, however, allows us getting an analytical formula for the calculation of the estimates of parameters of the model (remember, we substitute the true values <span class="math inline">\(\beta_j\)</span> by their sample estimates <span class="math inline">\(b_j\)</span>):
+<span class="math display" id="eq:MLROLS">\[\begin{equation}
+    \mathbf{b} = \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1} \mathbf{X}&#39; \mathbf{y} .
+    \tag{11.9}
+\end{equation}\]</span></p>
+<p>One way to get a better understanding of this formula is to connect it with the one for the slope parameter in the Simple Linear Regression, which we discussed in Section <a href="OLS.html#OLS">10.1</a>:
+<span class="math display">\[\begin{equation*}
+        {b}_1 = \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} .
+\end{equation*}\]</span>
+In case of only one explanatory variable (simple linear regression), <span class="math inline">\(\mathbf{X}&#39; \mathbf{y}\)</span> in <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> would be equivalent to <span class="math inline">\(\mathrm{cov}(x,y)\)</span>, while <span class="math inline">\(\left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}\)</span> would be <span class="math inline">\(\frac{1}{\mathrm{V}(x)}\)</span>.</p>
+<div class="warning">
+<p>Linear algebra! Tread lightly!</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-37" class="proof"><em>Proof</em>. </span>Sum of squared errors based on the model <a href="OLSMLR.html#eq:MLRFormulaCompactest">(11.8)</a> applied to the data can be expressed as:
+<span class="math display">\[\begin{equation*}
+    \mathrm{SSE} = \mathbf{e}&#39; \mathbf{e} = (\mathbf{y} - \mathbf{X} \mathbf{b})&#39; (\mathbf{y} - \mathbf{X} \mathbf{b}) ,
+\end{equation*}\]</span>
+where <span class="math inline">\(\mathbf{e}\)</span> is the estimate of <span class="math inline">\(\boldsymbol{\epsilon}\)</span> and <span class="math inline">\(\mathbf{b}\)</span> is the estimate of <span class="math inline">\(\boldsymbol{\beta}\)</span>. This can be expanded by opening brackets to:
+<span class="math display" id="eq:MLROLS02">\[\begin{equation}
+    \begin{aligned}
+        \mathrm{SSE} = &amp; \mathbf{y}&#39;\mathbf{y} - \mathbf{y}&#39; \mathbf{X} \mathbf{b} - \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y} + \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{X} \mathbf{b} = \\
+        &amp; \mathbf{y}&#39;\mathbf{y} - 2 \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y} + \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{X} \mathbf{b}
+    \end{aligned} ,
+    \tag{11.10}
+\end{equation}\]</span>
+which can be done because <span class="math inline">\(\mathbf{y}&#39; \mathbf{X} \mathbf{b}\)</span> is a scalar and <span class="math inline">\(\mathbf{y}&#39; \mathbf{X} \mathbf{b} = (\mathbf{y}&#39; \mathbf{X} \mathbf{b})&#39; = \mathbf{b}&#39; \mathbf{X}&#39; \mathbf{y}\)</span>. Now we need to minimise <a href="OLSMLR.html#eq:MLROLS02">(11.10)</a> with respect to parameters to find their estimates. This can be done by taking derivative of <a href="OLSMLR.html#eq:MLROLS02">(11.10)</a> with respect to <span class="math inline">\(\mathbf{b}\)</span> and equating it to zero:
+<span class="math display" id="eq:MLROLS03">\[\begin{equation}
+    \frac{\partial \mathrm{SSE}}{\partial \mathbf{b}} = - 2 \mathbf{X}&#39; \mathbf{y} + 2 \mathbf{X}&#39; \mathbf{X} \mathbf{b} = 0.
+    \tag{11.11}
+\end{equation}\]</span>
+After that, we can regroup the elements in <a href="OLSMLR.html#eq:MLROLS03">(11.11)</a> to get:
+<span class="math display">\[\begin{equation*}
+    \mathbf{X}&#39; \mathbf{X} \mathbf{b} = \mathbf{X}&#39; \mathbf{y}.
+\end{equation*}\]</span>
+And then, we can multiply both parts of the equation by the inverse of <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> to get rid of that part in the left-hand side of the equation:
+<span class="math display">\[\begin{equation*}
+    (\mathbf{X}&#39; \mathbf{X})^{-1} \mathbf{X}&#39; \mathbf{X} \mathbf{b} = (\mathbf{X}&#39; \mathbf{X})^{-1} \mathbf{X}&#39; \mathbf{y},
+\end{equation*}\]</span>
+which then leads to the final formula:
+<span class="math display">\[\begin{equation*}
+    \mathbf{b} = \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1} \mathbf{X}&#39; \mathbf{y} .
+\end{equation*}\]</span></p>
+</div>
+</div>
+<div id="application" class="section level3 hasAnchor" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Application<a href="OLSMLR.html#application" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Luckily, you do not need to remember the formula <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> and should not need to use it in real life, because it is used in all statistical software, including <code>lm()</code> function from <code>stats</code> package for R. Here is an example with the same dataset:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="OLSMLR.html#cb153-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span></code></pre></div>
+<p>To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="OLSMLR.html#cb154-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModel01),<span class="fu">actuals</span>(costsModel01))</span></code></pre></div>
+<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="OLSMLR.html#cb155-1" tabindex="-1"></a>costsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb155-2"><a href="OLSMLR.html#cb155-2" tabindex="-1"></a><span class="fu">plot</span>(costsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:costsModel02Plot"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">
-Figure 6.3: Histogram of the mean of the variable y.
+Figure 11.3: Actuals vs fitted values for multiple linear regression model on mtcars data.
 </p>
 </div>
-<p>There is a theorem that says that the distribution of mean in the experiment above will follow normal distribution under several conditions (discussed later in this section). It is called <strong>Central Limit Theorem</strong> (CLT) and very roughly it says that when independent random variables are added, their normalised sum will asymptotically follow normal distribution, even if the original variables do not follow it. Note that this is the theorem about <em>what happens with the estimate</em> (sum in this case), <em>not with individual observations</em>. This means that the error term might follow, for example, <a href="#IGDistribution">Inverse Gaussian distribution</a>, but the estimate of its mean (under some conditions) will follow normal distribution. There are different versions of this theorem, built with different assumptions with respect to the random variable and the estimation procedure, but we do not dicuss these details in this textbook.</p>
-<p>In order for CLT to hold, the following important assumptions need to be satisfied:</p>
+<p>We use <code>loss="MSE"</code> in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in <code>alm()</code>, likelihood, in Section <a href="likelihoodApproach.html#likelihoodApproach">16</a>.</p>
+<p>The plot on Figure <a href="OLSMLR.html#fig:costsModel02Plot">11.3</a> can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter <a href="assumptions.html#assumptions">15</a>).</p>
+</div>
+<div id="properties-of-the-ols-estimators" class="section level3 hasAnchor" number="11.1.3">
+<h3><span class="header-section-number">11.1.3</span> Properties of the OLS Estimators<a href="OLSMLR.html#properties-of-the-ols-estimators" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are several important properties of the OLS estimated regression that are worth keeping in mind (we discussed some of them specifically for the Simple Linear Regression in Section <a href="OLSResiduals.html#OLSResiduals">10.3</a>):</p>
 <ol style="list-style-type: decimal">
-<li><strong>The true value of parameter is not near the bound</strong>. e.g. if the variable follows uniform distribution on (0, <span class="math inline">\(a\)</span>) and we want to estimate <span class="math inline">\(a\)</span>, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in our context, because ETS and ARIMA typically have restrictions on their parameters.</li>
-<li><strong>The random variables are identically independent distributed</strong> (i.i.d.). If they are not, then their average might not follow normal distribution (in some conditions it still might).</li>
-<li><strong>The mean and variance of the distribution are finite</strong>. This might seem as a weird issue, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the “true” value. Cauchy distribution is one of such examples.</li>
+<li>The mean of residuals of the model is always equal to zero as long as it contains intercept.</li>
+<li>The explanatory variables in the model are not correlated with the residuals of the model.</li>
+<li>The mean of the fitted values coincides with the mean of the actual values.</li>
 </ol>
-<p>If these assumptions hold, then CLT will work for the estimate of a parameter, no matter what the distribution of the random variable is. This becomes especially useful, when we want to test a hypothesis or construct a confidence interval for an estimate of a parameter.</p>
+<p>They all follow directly from the derivation of the OLS formula.</p>
+<div class="warning">
+<p>Linear algebra! Tread lightly!</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-38" class="proof"><em>Proof</em>. </span>Consider the system of normal equations
+<span class="math display" id="eq:MLROLSProp01">\[\begin{equation}
+    \left(\mathbf{X}&#39; \mathbf{X}\right) \mathbf{b} = \mathbf{X}&#39; \mathbf{y} .
+    \tag{11.12}
+\end{equation}\]</span>
+Given that we estimated the model in sample, we can rewrite the multiple linear regression as:
+<span class="math display">\[\begin{equation*}
+    \mathbf{y} = \mathbf{X} \boldsymbol{b} + \boldsymbol{e}
+\end{equation*}\]</span>
+and substitute it in <a href="OLSMLR.html#eq:MLROLSProp01">(11.12)</a> to get:
+<span class="math display" id="eq:MLROLSProp02">\[\begin{equation}
+    \left(\mathbf{X}&#39; \mathbf{X}\right) \mathbf{b} = \mathbf{X}&#39; \mathbf{X} \boldsymbol{b} + \mathbf{X}&#39; \boldsymbol{e} .
+    \tag{11.13}
+\end{equation}\]</span>
+Equation <a href="OLSMLR.html#eq:MLROLSProp02">(11.13)</a> implies that <span class="math inline">\(\mathbf{X}&#39; \boldsymbol{e}=0\)</span>, which given how the matrix <span class="math inline">\(\mathbf{X}\)</span> is formed prooves the first two properties:</p>
+<ol style="list-style-type: decimal">
+<li>The first column of the matrix (which contains ones) corresponds to the intercept and the multiplication of it by the error implies that <span class="math inline">\(\sum_{j=1}^n e_j =0\)</span>, which also means that the mean of the residuals is zero as well: <span class="math inline">\(\bar{e}=0\)</span>;</li>
+<li>All the other columns contain the explanatory variables and for each one of them this comes to the equation: <span class="math inline">\(\sum_{j=1}^n x_{i,j} e_j\)</span> for all <span class="math inline">\(i=\{1, \dots, k-1\}\)</span>. Given that the first property holds, the same equation can be rewritten to:
+<span class="math display">\[\begin{equation*}
+\begin{aligned}
+&amp; \sum_{j=1}^n x_{i,j} (e_j - \bar{e}) = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) =
+&amp; \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}) + \bar{x}_i \sum_{j=1}^n (e_j - \bar{e})
+\end{aligned}
+\end{equation*}\]</span>
+The right hand side of this equation equals to zero due to the first property, which implies that:
+<span class="math display" id="eq:MLROLSProp03">\[\begin{equation}
+\sum_{j=1}^n x_{i,j} e_j = \sum_{j=1}^n (x_{i,j} - \bar{x}_i) (e_j - \bar{e}),
+\tag{11.14}
+\end{equation}\]</span>
+which is the covariance between the residuals and the explanatory variable <span class="math inline">\(x_i\)</span>. And because the equation <a href="OLSMLR.html#eq:MLROLSProp02">(11.13)</a> implies that <span class="math inline">\(\sum_{j=1}^n x_{i,j} e_j=0\)</span>, the covariance <a href="OLSMLR.html#eq:MLROLSProp03">(11.14)</a> should be equal to zero as well.</li>
+</ol>
+<p>Finally, it is easy to show the third property. All we need to do is to take the mean of the response variable:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b} + \boldsymbol{e}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) + \mathrm{E}(\boldsymbol{e}) ,
+\end{equation*}\]</span>
+where the expectation of the error term equals to zero, implying that:
+<span class="math display">\[\begin{equation*}
+    \mathrm{E}(\mathbf{y}) = \mathrm{E}(\mathbf{X} \boldsymbol{b}) = \mathrm{E}(\hat{\mathbf{y}}) .
+\end{equation*}\]</span></p>
+</div>
+<p>These three properties are useful because, first, they show that it does not make sense to test whether they hold or not, with OLS they will be satisfied automatically, and second they allow measuring quality of the fit via the squares of regression, which will be discussed in Section <a href="linearRegressionMultipleQualityOfFit.html#linearRegressionMultipleQualityOfFit">11.2</a>.</p>
+</div>
+<div id="GaussMarkov" class="section level3 hasAnchor" number="11.1.4">
+<h3><span class="header-section-number">11.1.4</span> Gauss-Markov theorem<a href="OLSMLR.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The theorem that states that is called “Gauss-Markov theorem”, here is one of versions of it:</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-39" class="theorem"><strong>Theorem 11.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of parameters.</p>
+</div>
+<p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median (see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
+<p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.</p>
+</div>
 </div>
 
             </section>
@@ -442,8 +596,8 @@ Figure 6.3: Histogram of the mean of the variable y.
           </div>
         </div>
       </div>
-<a href="LLN.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="estimatesProperties.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="linearRegression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linearRegressionMultipleQualityOfFit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +628,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/config-i1/sba/tree/master/Chapters//06-population-sampling.Rmd",
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//11-MLR.Rmd",
     "text": "Edit"
   },
   "history": {
