@@ -99,7 +99,7 @@ where $\mu_j$ is the structure that we can capture in theory with the correct se
 For now, we focus on the model \@ref(eq:TrueModel) and we assume that when we estimate a model, we know its form and have all the necessary variables. We will discuss what happens when this is violated in Chapter \@ref(assumptions).
 
 
-## OLS estimation
+## OLS estimation {#OLSMLR}
 We have already discussed the idea of the OLS in Section \@ref(OLS) on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.
 
 ### A bit of maths
@@ -154,6 +154,17 @@ you will probably see the connection. But the form \@ref(eq:MLRFormulaCompactest
     \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
     (\#eq:MLROLS)
 \end{equation}
+
+One way to get a better understanding of this formula is to connect it with the one for the slope parameter in the Simple Linear Regression, which we discussed in Section \@ref(OLS):
+\begin{equation*}
+        {b}_1 = \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} .
+\end{equation*}
+In case of only one explanatory variable (simple linear regression), $\mathbf{X}' \mathbf{y}$ in \@ref(eq:MLROLS) would be equivalent to $\mathrm{cov}(x,y)$, while $\left(\mathbf{X}' \mathbf{X}\right)^{-1}$ would be $\frac{1}{\mathrm{V}(x)}$.
+
+
+::: warning
+Linear algebra! Tread lightly!
+:::
 
 ::: proof
 Sum of squared errors based on the model \@ref(eq:MLRFormulaCompactest) applied to the data can be expressed as:
@@ -213,13 +224,17 @@ The plot on Figure \@ref(fig:costsModel02Plot) can be used for diagnostic purpos
 
 
 ### Properties of the OLS Estimators
-There are several important properties of the OLS estimated regression that are worth keeping in mind:
+There are several important properties of the OLS estimated regression that are worth keeping in mind (we discussed some of them specifically for the Simple Linear Regression in Section \@ref(OLSResiduals)):
 
 1. The mean of residuals of the model is always equal to zero as long as it contains intercept.
 2. The explanatory variables in the model are not correlated with the residuals of the model.
 3. The mean of the fitted values coincides with the mean of the actual values.
 
 They all follow directly from the derivation of the OLS formula. 
+
+::: warning
+Linear algebra! Tread lightly!
+:::
 
 ::: proof
 Consider the system of normal equations

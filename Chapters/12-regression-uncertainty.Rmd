@@ -166,7 +166,7 @@ The question that we still have not resolved is how to calculate the variance of
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. The result of this calculation would be a matrix, containing the variances of parameters on the diagonal and covariances between them on the off-diagonals. For now, we are only interested in the diagonal, so we can ignore the covariances. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
+where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The result of this calculation would be a matrix, containing the variances of parameters on the diagonal and covariances between them on the off-diagonals. For now, we are only interested in the diagonal, so we can ignore the covariances. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
 vcov(costsModelSLR)
 ```
@@ -183,7 +183,7 @@ This summary provides all the necessary information about the model and the esti
 In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
 
 ::: warning
-Linear algebra is used below! Tread lightly!
+Linear algebra! Tread lightly!
 :::
 
 ::: proof
