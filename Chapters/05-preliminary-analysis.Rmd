@@ -71,7 +71,12 @@ Making a step back, we also need to mention the **variance**, which shows the ov
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     (\#eq:Variance)
 \end{equation}
-Note that the division in \@ref(eq:Variance) is done by $n-1$, and not by $n$. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \@ref(estimatesPropertiesBias)). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called **standard deviation**:
+Note that the division in \@ref(eq:Variance) is done by $n-1$, and not by $n$. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \@ref(estimatesPropertiesBias)). The alternative formula for the variance can be derived by opening the brackets and regrouping the elements to obtain:
+\begin{equation}
+    \mathrm{V}(y)= \mathrm{E}(y^2) - \mathrm{E}(y)^2.
+    (\#eq:VarianceAlt)
+\end{equation}
+This form sometimes becomes useful for some derivations. The value of the variance itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called **standard deviation**:
 \begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
     (\#eq:StdDev)
@@ -148,7 +153,12 @@ Finally, one other moment that is often used in statistics is called "covariance
     \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
     (\#eq:Covariance)
 \end{equation}
-Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \@ref(SLRCovariance).
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \@ref(SLRCovariance). It can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
+\begin{equation}
+    \mathrm{cov}(x,y)= \mathrm{E}(x*y) - \mathrm{E}(x)*\mathrm{E}(y).
+    (\#eq:CovarianceAlt)
+\end{equation}
+
 
 
 ## Graphical analysis {#dataAnalysisGraphical}
