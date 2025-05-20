@@ -419,15 +419,16 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">12.1</span> Covariance matrix of parameters<a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:</p>
 <p><span class="math display" id="eq:MLRParameterCov">\[\begin{equation}
-    \mathrm{V}(\hat{\boldsymbol{\beta}}) =
+    \mathrm{V}({\boldsymbol{b}}) =
     \begin{pmatrix}
         \mathrm{V}(b_0) &amp; \mathrm{cov}(b_0, b_1) &amp; \dots &amp; \mathrm{cov}(b_0, b_{k-1}) \\
         \mathrm{cov}(b_0, b_1) &amp; \mathrm{V}(b_1) &amp; \dots &amp; \mathrm{cov}(b_1, b_{k-1}) \\
         \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
         \mathrm{cov}(b_0, b_{k-1}) &amp; \mathrm{cov}(b_1, b_{k-1}) &amp; \dots &amp; \mathrm{V}(b_{k-1}) \\
-    \end{pmatrix} .
+    \end{pmatrix} ,
     \tag{12.1}
 \end{equation}\]</span>
+where <span class="math inline">\({\boldsymbol{b}}\)</span>
 The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
 <div id="bootstrap" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Bootstrap<a href="uncertaintyRegressionCov.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -448,7 +449,7 @@ The diagonal elements of this matrix contain variances of parameters, showing ho
 <h3><span class="header-section-number">12.1.2</span> Analytical solution<a href="uncertaintyRegressionCov.html#analytical-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter <a href="likelihoodApproach.html#likelihoodApproach">16</a>). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
-    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
+    \mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
     \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
