@@ -65,15 +65,16 @@ This example demonstrates that any model applied to the data will always have in
 One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:
 
 \begin{equation}
-    \mathrm{V}(\hat{\boldsymbol{\beta}}) =
+    \mathrm{V}({\boldsymbol{b}}) =
     \begin{pmatrix}
         \mathrm{V}(b_0) & \mathrm{cov}(b_0, b_1) & \dots & \mathrm{cov}(b_0, b_{k-1}) \\
         \mathrm{cov}(b_0, b_1) & \mathrm{V}(b_1) & \dots & \mathrm{cov}(b_1, b_{k-1}) \\
         \vdots & \vdots & \ddots & \vdots \\
         \mathrm{cov}(b_0, b_{k-1}) & \mathrm{cov}(b_1, b_{k-1}) & \dots & \mathrm{V}(b_{k-1}) \\
-    \end{pmatrix} .
+    \end{pmatrix} ,
     (\#eq:MLRParameterCov)
 \end{equation}
+where ${\boldsymbol{b}}$
 The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
 
 
@@ -97,7 +98,7 @@ We see that the correlation between the intercept and the parameter for the mate
 ### Analytical solution
 The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter \@ref(likelihoodApproach)). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
 \begin{equation}
-    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
+    \mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
 where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
