@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>15.3 The explanatory variables are not correlated with anything but the response variable | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="15.3 The explanatory variables are not correlated with anything but the response variable | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
 <li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
@@ -312,7 +313,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+</ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
@@ -485,7 +489,7 @@ for each model <span class="math inline">\(i\)</span>. Which in our case can be 
 \end{equation}\]</span>
 In the equation <a href="assumptionsXreg.html#eq:endogeneitySystemEquations">(15.1)</a>, the response variable <span class="math inline">\(y_j\)</span> depends on the value of <span class="math inline">\(x_{1,j}\)</span> (among other variables), but that variable depends on the value of <span class="math inline">\(y_j\)</span> at the same time. In order to estimate such system of equations and break this loop, an analyst would need to find an “instrumental variable” – a variable that would be correlated with <span class="math inline">\(x_{1,j}\)</span> but would not be correlated with <span class="math inline">\(y_j\)</span> and then use a different estimation procedure (e.g. two-stage least squares). We do not aim to cover possible solutions of this issue, because they lie outside of the scope of this textbook, but an interested reader is referred to Chapter 12 of <span class="citation">Hanck et al. (<a href="#ref-Hanck2020">2022</a>)</span>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Note that if we work with time series then endogeneity would only appear when the bi-directional relation happens at the same time <span class="math inline">\(t\)</span>, not over time. In the latter case we would be dealing with recursive relation (<span class="math inline">\(y_t\)</span> depends on <span class="math inline">\(x_{t}\)</span>, but <span class="math inline">\(x_t\)</span> depends on <span class="math inline">\(y_{t-1}\)</span>) rather than the contemporaneous and thus the estimation of such a model would not lead to the issues discussed in this subsection.</p>
+<p><span id="unlabeled-div-44" class="remark"><em>Remark</em>. </span>Note that if we work with time series then endogeneity would only appear when the bi-directional relation happens at the same time <span class="math inline">\(t\)</span>, not over time. In the latter case we would be dealing with recursive relation (<span class="math inline">\(y_t\)</span> depends on <span class="math inline">\(x_{t}\)</span>, but <span class="math inline">\(x_t\)</span> depends on <span class="math inline">\(y_{t-1}\)</span>) rather than the contemporaneous and thus the estimation of such a model would not lead to the issues discussed in this subsection.</p>
 </div>
 
 </div>

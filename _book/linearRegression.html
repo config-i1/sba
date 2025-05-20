@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Multiple Linear Regression | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Multiple Linear Regression | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
 <li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
@@ -312,7 +313,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+</ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
@@ -469,6 +473,28 @@ Furthermore, similar to how we discussed it in Chapter <a href="simpleLinearRegr
     \tag{11.4}
 \end{equation}\]</span>
 Similar to the Simple Linear Regression, each parameter in equation <a href="linearRegression.html#eq:MLRExpectationSample">(11.4)</a> represents the slope for the respective variable, showing how on average the value of the response variable (overall costs in our example) changes with the change of each variable.</p>
+<div id="TrueModel" class="section level3 hasAnchor" number="11.0.1">
+<h3><span class="header-section-number">11.0.1</span> A couple of notes about the “true” model<a href="linearRegression.html#TrueModel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One thing we should discuss briefly is the term “true” model, which was mentioned in Subsection <a href="what-is-model.html#modelsMethods">1.1.1</a>. The whole idea of the true model implies that this is a model that has the following important properties:</p>
+<ol style="list-style-type: decimal">
+<li>It is applied to the population of data (i.e. all the data in the universe);</li>
+<li>It has all the important variables in it, i.e. there are no omitted variables that could impact the response variable;</li>
+<li>All included important variables are in the correct format. i.e., all necessary transformations are done;</li>
+<li>Because of (1) - (3), the error term of the model does not have any structure left, and represents small random fluctuations around the structure that cannot be captured by any other variables;</li>
+<li>Because of (4), the error term has a zero expectation;</li>
+<li>As a result of (4), the error term cannot be correlated with any of the variables, either included in the model or omitted by it. Having this the other way around would imply that there is some structure left in the error, which should be transferred away from it;</li>
+<li>Similarly, the error term cannot be related to its values on other observations. This issue can potentially appear on time series, where an error of an applied model on Monday can be related to the error on Tuesday. But when we talk about the true model, the errors cannot be related, otherwise this would imply that we missed some structure, thus violating (1) - (3);</li>
+<li>In the simple case of a linear model that we are discussing in this Chapter, the error term also has some fixed variance;</li>
+<li>The parameters of the model should also be independent of the error term for the same reason (4).</li>
+</ol>
+<p>In the simple case of a linear true model, it can be represented as:
+<span class="math display" id="eq:TrueModel">\[\begin{equation}
+    y_j = \mu_{y,j} + \epsilon_j .
+    \tag{1.1}
+\end{equation}\]</span>
+where <span class="math inline">\(\mu_j\)</span> is the structure that we can capture in theory with the correct set of explanatory variables, and <span class="math inline">\(\epsilon_j\)</span> is the true error term that mathematically has <span class="math inline">\(\mathrm{E}(\epsilon_j)=0\)</span> due to (5) and <span class="math inline">\(\mathrm{V}(\epsilon_j)=\sigma^2\)</span> due to (8). The property (6) can be written mathematically as <span class="math inline">\(\mathrm{E}(x_{i,j}\epsilon_j)=0\)</span> for any <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. This model can be called “linear” or “additive”, because the structure and the error interact are added in one linear equation. But the true model can be more complicated and might contain non-linear structure or some complicated interactions between variables and the error term.</p>
+<p>For now, we focus on the model <a href="what-is-model.html#eq:TrueModel">(1.1)</a> and we assume that when we estimate a model, we know its form and have all the necessary variables. We will discuss what happens when this is violated in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
+</div>
 </div>
 
             </section>

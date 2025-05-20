@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5.1 Numerical analysis | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5.1 Numerical analysis | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
 <li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
@@ -312,7 +313,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+</ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
@@ -423,10 +427,10 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <li>cyl - Number of cylinders,</li>
 <li>hp - Gross horsepower,</li>
 <li>gear - Number of forward gears,</li>
-<li>carb - Number of carburetors.</li>
+<li>carb - Number of carburettors.</li>
 </ol>
 <p>All the other variables are continuous numeric.</p>
-<p>Takign this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:</p>
+<p>Taking this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="dataAnalysisNumerical.html#cb26-1" tabindex="-1"></a>mtcarsData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(mtcars)</span>
 <span id="cb26-2"><a href="dataAnalysisNumerical.html#cb26-2" tabindex="-1"></a>mtcarsData<span class="sc">$</span>vs <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>vs,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;V-shaped&quot;</span>,<span class="st">&quot;Straight&quot;</span>))</span>
 <span id="cb26-3"><a href="dataAnalysisNumerical.html#cb26-3" tabindex="-1"></a>mtcarsData<span class="sc">$</span>am <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcarsData<span class="sc">$</span>am,<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;automatic&quot;</span>,<span class="st">&quot;manual&quot;</span>))</span></code></pre></div>
@@ -470,10 +474,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     \tag{5.1}
 \end{equation}\]</span>
-Note that the division in <a href="dataAnalysisNumerical.html#eq:Variance">(5.1)</a> is done by <span class="math inline">\(n-1\)</span>, and not by <span class="math inline">\(n\)</span>. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called <strong>standard deviation</strong>:
+Note that the division in <a href="dataAnalysisNumerical.html#eq:Variance">(5.1)</a> is done by <span class="math inline">\(n-1\)</span>, and not by <span class="math inline">\(n\)</span>. This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The alternative formula for the variance can be derived by opening the brackets and regrouping the elements to obtain:
+<span class="math display" id="eq:VarianceAlt">\[\begin{equation}
+    \mathrm{V}(y)= \mathrm{E}(y^2) - \mathrm{E}(y)^2.
+    \tag{5.2}
+\end{equation}\]</span>
+This form sometimes becomes useful for some derivations. The value of the variance itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called <strong>standard deviation</strong>:
 <span class="math display" id="eq:StdDev">\[\begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
-    \tag{5.2}
+    \tag{5.3}
 \end{equation}\]</span>
 it has the same scale as the variable <span class="math inline">\(y_j\)</span>. In our example, both can be obtained via:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="dataAnalysisNumerical.html#cb39-1" tabindex="-1"></a><span class="fu">var</span>(mtcarsData<span class="sc">$</span>mpg)</span></code></pre></div>
@@ -500,19 +509,19 @@ Figure 5.1: Visual presentation of standard deviation. The value of standard dev
 <p><strong>Skewness</strong> shows the asymmetry of distribution. If it is greater than zero, then the distribution has the long right tail. If it is equal to zero, then it is symmetric. It is calculated as:
 <span class="math display" id="eq:Skewness">\[\begin{equation}
     \mathrm{skew}(y)= \frac{1}{n}\sum_{j=1}^n \frac{(y_j - \bar{y})^3}{\hat{\sigma}^3} .
-    \tag{5.3}
+    \tag{5.4}
 \end{equation}\]</span></p>
 <p><strong>Kurtosis</strong> shows the excess of distribution (fatness of tails) in comparison with the normal distribution. If it is equal to zero, then it is the same as for the normal distribution. Here how it is calculated:
 <span class="math display" id="eq:Kurtosis">\[\begin{equation}
     \mathrm{kurt}(y)= \frac{1}{n}\sum_{j=1}^n \frac{(y_j - \bar{y})^4}{\hat{\sigma}^4} - 3 .
-    \tag{5.4}
-\end{equation}\]</span>
-Note that there is <span class="math inline">\(3\)</span> in the formula. This is because the excess (which is the value without 3) of Normal distribution is equal to 3. Instead of dividing the value by 3 (which would make kurtosis easier to interpret), Karl Pearson has decided to use subtraction. The same formula <a href="dataAnalysisNumerical.html#eq:Kurtosis">(5.4)</a> can be rewritten as:
-<span class="math display" id="eq:KurtosisRewritten">\[\begin{equation}
-    \mathrm{kurt}(y)= \frac{1}{n}\sum_{j=1}^n \left(\frac{y_j - \bar{y}}{\hat{\sigma}}\right)^4 - 3 .
     \tag{5.5}
 \end{equation}\]</span>
-Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">(5.5)</a>, we see that the impact of the deviations lying inside one <span class="math inline">\(\hat{\sigma}\)</span> bounds are reduced, while those that lie outside, are increased. e.g. if the value <span class="math inline">\(y_j - \bar{y} &gt; \hat{\sigma}\)</span>, then the value in the ratio will be greater than one (e.g. 2), thus increasing the final value (e.g. <span class="math inline">\(2^4=16\)</span>), while in the opposite case of <span class="math inline">\(y_j - \bar{y} &lt; \hat{\sigma}\)</span>, the ratio will be diminished (e.g. <span class="math inline">\(0.5^4 = 0.0625\)</span>). After summing up all <span class="math inline">\(n\)</span> values in <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">(5.5)</a>, the values outside one <span class="math inline">\(\hat{\sigma}\)</span> will have a bigger impact on the resulting kurtosis than those lying inside. So, kurtosis will be higher for the distributions with longer tails and in the cases when there are outliers in the data.</p>
+Note that there is <span class="math inline">\(3\)</span> in the formula. This is because the excess (which is the value without 3) of Normal distribution is equal to 3. Instead of dividing the value by 3 (which would make kurtosis easier to interpret), Karl Pearson has decided to use subtraction. The same formula <a href="dataAnalysisNumerical.html#eq:Kurtosis">(5.5)</a> can be rewritten as:
+<span class="math display" id="eq:KurtosisRewritten">\[\begin{equation}
+    \mathrm{kurt}(y)= \frac{1}{n}\sum_{j=1}^n \left(\frac{y_j - \bar{y}}{\hat{\sigma}}\right)^4 - 3 .
+    \tag{5.6}
+\end{equation}\]</span>
+Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">(5.6)</a>, we see that the impact of the deviations lying inside one <span class="math inline">\(\hat{\sigma}\)</span> bounds are reduced, while those that lie outside, are increased. e.g. if the value <span class="math inline">\(y_j - \bar{y} &gt; \hat{\sigma}\)</span>, then the value in the ratio will be greater than one (e.g. 2), thus increasing the final value (e.g. <span class="math inline">\(2^4=16\)</span>), while in the opposite case of <span class="math inline">\(y_j - \bar{y} &lt; \hat{\sigma}\)</span>, the ratio will be diminished (e.g. <span class="math inline">\(0.5^4 = 0.0625\)</span>). After summing up all <span class="math inline">\(n\)</span> values in <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">(5.6)</a>, the values outside one <span class="math inline">\(\hat{\sigma}\)</span> will have a bigger impact on the resulting kurtosis than those lying inside. So, kurtosis will be higher for the distributions with longer tails and in the cases when there are outliers in the data.</p>
 <!-- Another potentially useful measure is the half moment (`hm` from `greybox`), which returns the complex number: -->
 <!-- ```{r} -->
 <!-- hm(mtcarsData$mpg) -->
@@ -549,9 +558,13 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
 <p>Finally, one other moment that is often used in statistics is called “covariance”. It measures the joint variability of two variables and is calculated as:
 <span class="math display" id="eq:Covariance">\[\begin{equation}
     \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
-    \tag{5.6}
+    \tag{5.7}
 \end{equation}\]</span>
-Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section <a href="SLRCovariance.html#SLRCovariance">10.2</a>.</p>
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section <a href="SLRCovariance.html#SLRCovariance">10.2</a>. It can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
+<span class="math display" id="eq:CovarianceAlt">\[\begin{equation}
+    \mathrm{cov}(x,y)= \mathrm{E}(x*y) - \mathrm{E}(x)*\mathrm{E}(y).
+    \tag{5.8}
+\end{equation}\]</span></p>
 </div>
 
             </section>

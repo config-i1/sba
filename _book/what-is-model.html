@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.1 What is model? | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.1 What is model? | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
 <li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
@@ -312,7 +313,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+</ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
@@ -457,7 +461,7 @@ Figure 1.1: Chair assembly instruction. Found on Reddit.
 <p>There are several other definitions that will be useful throughout these lecture notes:</p>
 <ul>
 <li><strong>Statistical model</strong> (or ‘stochastic model’, or just ‘model’ in these lecture notes) is a ‘mathematical representation of a real phenomenon with a complete specification of distribution and parameters’ <span class="citation">(<a href="#ref-Svetunkov2019a">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.</li>
-<li><strong>True model</strong> is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.</li>
+<li><strong>True model</strong> is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. One important element of the true model is that the error term in it cannot have any structure and thus has zero expectation. The notion itself is important when discussing how far the model that we use is from the true one.</li>
 <li><strong>Estimated model</strong> (aka ‘applied model’ or ‘used model’) is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully <a href="#statistics">converge to the true ones</a> if the sample size increases.</li>
 <li><strong>Data generating process</strong> (DGP) is an artificial statistical model, showing how the data could be generated in theory. This notion is utopic and can be used in simulation experiments in order to check, how the selected model with the specific estimator behave in a specific setting. In real life, the data is not generated from any process, but is usually based on complex interactions between different agents in a dynamic environment. Note that I make a distinction between DGP and true model, because I do not think that the idea of something being generated using a mathematical formula is helpful. Many statisticians will not agree with me on this distinction.</li>
 <li><strong>Forecasting method</strong> is a mathematical procedure that generates point and / or interval forecasts, with or without a statistical model <span class="citation">(<a href="#ref-Svetunkov2019a">Svetunkov and Boylan, 2019</a>)</span>. Very roughly, forecasting method is just a way of producing forecasts that does not explain how the components of time series interact with each other. It might be needed in order to filter out the noise and extrapolate the structure.</li>

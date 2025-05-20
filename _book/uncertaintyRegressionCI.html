@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12.1 Confidence intervals | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12.1 Confidence intervals | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,6 +297,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
 <ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="ols-estimation.html"><a href="ols-estimation.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
 <li class="chapter" data-level="11.1.1" data-path="ols-estimation.html"><a href="ols-estimation.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
@@ -312,7 +313,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a></li>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.1</b> Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters"><i class="fa fa-check"></i><b>12.1.1</b> Derivation of the formula for the covariance matrix of parameters</a></li>
+</ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.2</b> Hypothesis testing</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.2.1</b> Regression parameters</a></li>
@@ -422,9 +426,9 @@ Figure 12.3: Parameter uncertainty in the estimated model
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     \tag{12.1}
 \end{equation}\]</span>
-where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, we need to use the Student’s t distribution. This is why we have <span class="math inline">\(t_{\alpha/2}(n-k)\)</span> in the equation @ref(eq:#eq:MLRParameterInterval) above.</p>
+where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, we need to use the Student’s t distribution. This is why we have <span class="math inline">\(t_{\alpha/2}(n-k)\)</span> in the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.1)</a> above.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-40" class="example"><strong>Example 12.1  </strong></span>To calculate the confidence interval, using the equation @ref(eq:#eq:MLRParameterInterval), we need to know several things:</p>
+<p><span id="exm:unlabeled-div-40" class="example"><strong>Example 12.1  </strong></span>To calculate the confidence interval, using the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.1)</a>, we need to know several things:</p>
 <ol style="list-style-type: decimal">
 <li>Significance level <span class="math inline">\(\alpha\)</span> - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;</li>
 <li>The value of the estimated parameter <span class="math inline">\(b_i\)</span>. We get it after using the Least Squares, any statistical software can give us the estimate.</li>
@@ -481,6 +485,86 @@ where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanato
 ##      AIC     AICc      BIC     BICc 
 ## 598.3734 598.7944 604.7060 605.5714</code></pre>
 <p>This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column “Estimate”, their standard errors (square roots of the variances) in “Std. Error”, the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.</p>
+<div id="derivation-of-the-formula-for-the-covariance-matrix-of-parameters" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Derivation of the formula for the covariance matrix of parameters<a href="uncertaintyRegressionCI.html#derivation-of-the-formula-for-the-covariance-matrix-of-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula <a href="uncertaintyRegressionCI.html#eq:MLRcovarianceMatrix">(12.2)</a>. There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the “true” model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.</p>
+<div class="warning">
+<p>Linear algebra is used below! Tread lightly!</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="ols-estimation.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
+    \begin{aligned}
+    {\boldsymbol{b}} =
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+    \end{aligned}
+    \tag{12.3}
+\end{equation}\]</span></p>
+<p>This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in <span class="math inline">\(\mathbf{X}\)</span> and the specific values of the error term <span class="math inline">\(\boldsymbol{\epsilon}\)</span>.</p>
+<p>In bypassing, we can show that the OLS estimates of parameters are unbiased as long as the model is correctly specified:
+<span class="math display" id="eq:MLRCLSExpansion">\[\begin{equation}
+    \begin{aligned}
+    \mathrm{E}\left(\boldsymbol{b}\right) =
+        &amp; \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        &amp; {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+        &amp; \boldsymbol{\beta} ,
+    \end{aligned}
+    \tag{12.4}
+\end{equation}\]</span>
+which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>).</p>
+<p>More importantly, we can calculate the variance of the estimates of parameters using <a href="uncertaintyRegressionCI.html#eq:MLROLSExpansion">(12.3)</a>:</p>
+<p><span class="math display" id="eq:MLROLSVariance01">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+    \tag{12.5}
+\end{equation}\]</span></p>
+<p>In formula <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance01">(12.5)</a>, the true parameter <span class="math inline">\(\boldsymbol{\beta}\)</span> should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to <span class="math inline">\({\boldsymbol{\beta}}\)</span> in <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance01">(12.5)</a> can be dropped leaving us with:
+<span class="math display" id="eq:MLROLSVariance02">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+    \tag{12.6}
+\end{equation}\]</span>
+After that, we can recall that <span class="math inline">\(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\)</span>, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>). This is useful because now we can represent the variance <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance02">(12.6)</a> as the expectation of products:
+<span class="math display" id="eq:MLROLSVariance03">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \tag{12.7}
+\end{equation}\]</span>
+Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula <a href="dataAnalysisNumerical.html#eq:CovarianceAlt">(5.8)</a> from Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
+<span class="math display" id="eq:MLROLSVariance04">\[\begin{equation}
+    \begin{aligned}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) =
+        &amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) +
+        &amp; \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \end{aligned}
+    \tag{12.8}
+\end{equation}\]</span>
+We can notice that the expectations in <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance04">(12.8)</a> should be zero because, as discussed earlier, in the true model the error term is not related to anything. This means that the formula can be simplified to:
+<span class="math display" id="eq:MLROLSVariance05">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    \tag{12.9}
+\end{equation}\]</span>
+The second element in the brackets can be rewritten as $( ( {}^ )^{-1} {}^ )^= {} {} ( {}^ )^{-1} $. Substituting this to <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance leads to:
+<span class="math display" id="eq:MLROLSVariance06">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+    \tag{12.10}
+\end{equation}\]</span>
+which after some cancellations leads to:
+<span class="math display" id="eq:MLROLSVarianceFinal">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \hat{\sigma}^2 ,
+    \tag{12.11}
+\end{equation}\]</span>
+where <span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2\)</span> is the estimate of the true variance based on the applied model.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<span class="math display">\[\begin{equation*}
+    \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\end{equation*}\]</span>
+where <span class="math inline">\(\mathbf{I}_{k-1}\)</span> is the identity matrix of the size <span class="math inline">\(k-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term.</p>
+</div>
+</div>
 </div>
 
             </section>
