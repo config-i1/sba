@@ -102,7 +102,41 @@ For now, we focus on the model \@ref(eq:TrueModel) and we assume that when we es
 ## OLS estimation {#OLSMLR}
 We have already discussed the idea of the OLS in Section \@ref(OLS) on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.
 
-### A bit of maths
+
+### Application
+Luckily, you do not need to know any formula to calculate the estimates of parameters and should not need to use it in real life, because it is used in all statistical software, including `lm()` function from `stats` package for R. If you want to know the maths behind this, it is explained in Subsection \@ref(OLSMLRMaths).
+
+Here is an example of the model estimation via OLS with the same dataset:
+
+```{r}
+costsModel01 <- lm(overall~size+materials+projects+year, SBA_Chapter_11_Costs)
+```
+
+After running the above command, we will get a model with some estimates of parameters:
+
+```{r}
+coef(costsModel01)
+```
+
+To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with $\hat{y}_j$ on x-axis and $y_j$ on the y-axis:
+
+```{r}
+plot(fitted(costsModel01),actuals(costsModel01))
+```
+
+The same plot is produced via `plot()` method if we use `alm()` function from `greybox` instead:
+
+```{r costsModel02Plot, fig.cap="Actuals vs fitted values for multiple linear regression model on mtcars data."}
+costsModel02 <- alm(overall~size+materials+projects+year, SBA_Chapter_11_Costs, loss="MSE")
+plot(costsModel02,1)
+```
+
+We use `loss="MSE"` in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in `alm()`, likelihood, in Section \@ref(likelihoodApproach).
+
+The plot on Figure \@ref(fig:costsModel02Plot) can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter \@ref(assumptions)). 
+
+
+### A bit of maths {#OLSMLRMaths}
 There are several ways how we can get the formula for the OLS of the Multiple Linear Regression. We could start with the same SSE value, expanding it based on the equation of the regression \@ref(eq:MLRExpectationSample):
 \begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 = \sum_{j=1}^n (y_j - b_0 - b_1 x_{1,j} - b_2 x_{2,j} - \dots - b_{k-1} x_{k-1,j})^2 .
@@ -197,31 +231,6 @@ which then leads to the final formula:
     \mathbf{b} = \left(\mathbf{X}' \mathbf{X}\right)^{-1} \mathbf{X}' \mathbf{y} .
 \end{equation*}
 :::
-
-### Application
-Luckily, you do not need to remember the formula \@ref(eq:MLROLS) and should not need to use it in real life, because it is used in all statistical software, including `lm()` function from `stats` package for R. Here is an example with the same dataset:
-
-```{r}
-costsModel01 <- lm(overall~size+materials+projects+year, SBA_Chapter_11_Costs)
-```
-
-To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with $\hat{y}_j$ on x-axis and $y_j$ on the y-axis:
-
-```{r}
-plot(fitted(costsModel01),actuals(costsModel01))
-```
-
-The same plot is produced via `plot()` method if we use `alm()` function from `greybox` instead:
-
-```{r costsModel02Plot, fig.cap="Actuals vs fitted values for multiple linear regression model on mtcars data."}
-costsModel02 <- alm(overall~size+materials+projects+year, SBA_Chapter_11_Costs, loss="MSE")
-plot(costsModel02,1)
-```
-
-We use `loss="MSE"` in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in `alm()`, likelihood, in Section \@ref(likelihoodApproach).
-
-The plot on Figure \@ref(fig:costsModel02Plot) can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter \@ref(assumptions)). 
-
 
 ### Properties of the OLS Estimators
 There are several important properties of the OLS estimated regression that are worth keeping in mind (we discussed some of them specifically for the Simple Linear Regression in Section \@ref(OLSResiduals)):
