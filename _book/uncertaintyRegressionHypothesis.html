@@ -423,7 +423,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
         \mathrm{H}_0: \beta_i = 0 \\
         \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
-    \tag{12.12}
+    \tag{12.13}
 \end{equation}\]</span>
 This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This <strong>does not mean</strong> that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure <a href="uncertaintyRegressionHypothesis.html#fig:speedDistanceHypotheses">12.4</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceHypotheses"></span>
@@ -436,10 +436,10 @@ Figure 12.4: Graphical presentation of null and alternative hypothesis in regres
 <p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(n-k\)</span> degrees of freedom:
 <span class="math display" id="eq:regressionHypothesisTest01">\[\begin{equation}
     \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
-    \tag{12.13}
+    \tag{12.14}
 \end{equation}\]</span>
-After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.13)</a> with the significance level, we can make conclusions about the hypothesis.</p>
-<p>The context of regression provides a great example, why we never accept hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.12)</a>) on 1% significance level. Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.13)</a>, we get:
+After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.14)</a> with the significance level, we can make conclusions about the hypothesis.</p>
+<p>The context of regression provides a great example, why we never accept hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.13)</a>) on 1% significance level. Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.14)</a>, we get:
 <span class="math display">\[\begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}\]</span>
@@ -486,7 +486,7 @@ which leads to exactly the same conclusion as before: on 1% significance level, 
         \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
         \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0
     \end{aligned} ,
-    \tag{12.14}
+    \tag{12.15}
 \end{equation}\]</span>
 which translates into normal language as “H<span class="math inline">\(_0\)</span>: all parameters (except for intercept) are equal to zero; H<span class="math inline">\(_1\)</span>: at least one parameter is not equal to zero”. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
 <span class="math display">\[\begin{equation*}

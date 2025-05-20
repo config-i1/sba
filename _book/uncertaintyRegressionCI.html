@@ -526,7 +526,7 @@ which holds as long as the expectation of the true error term is zero, and this 
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
     \tag{12.6}
 \end{equation}\]</span>
-After that, we can recall that <span class="math inline">\(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\)</span>, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>). This is useful because now we can represent the variance <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance02">(12.6)</a> as the expectation of products:
+After that, we can recall that <span class="math inline">\(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\)</span>, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>). This is useful because now we can represent the variance <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance02">(12.6)</a> as the expectation of products (this follows directly from equation <a href="dataAnalysisNumerical.html#eq:VarianceAlt">(5.2)</a> that we discussed in Subsection <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
 <span class="math display" id="eq:MLROLSVariance03">\[\begin{equation}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     \tag{12.7}
@@ -535,7 +535,7 @@ Now to expand the expectation of the sum, we can use the following equality, com
 <span class="math display" id="eq:MLROLSVariance04">\[\begin{equation}
     \begin{aligned}
     \mathrm{V}\left( {\boldsymbol{b}} \right) =
-        &amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) +
+        &amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
         &amp; \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     \end{aligned}
     \tag{12.8}
@@ -545,17 +545,30 @@ We can notice that the expectations in <a href="uncertaintyRegressionCI.html#eq:
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     \tag{12.9}
 \end{equation}\]</span>
-The second element in the brackets can be rewritten as $( ( {}^ )^{-1} {}^ )^= {} {} ( {}^ )^{-1} $. Substituting this to <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance leads to:
+The second element in the brackets can be rewritten as:
+<span class="math display">\[\begin{equation*}
+    \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\end{equation*}\]</span>
+Substituting this to <a href="uncertaintyRegressionCI.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance leads to:
 <span class="math display" id="eq:MLROLSVariance06">\[\begin{equation}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
     \tag{12.10}
 \end{equation}\]</span>
 which after some cancellations leads to:
-<span class="math display" id="eq:MLROLSVarianceFinal">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \hat{\sigma}^2 ,
+<span class="math display" id="eq:MLROLSVarianceSemiFinal">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
     \tag{12.11}
 \end{equation}\]</span>
-where <span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2\)</span> is the estimate of the true variance based on the applied model.</p>
+Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula:
+<span class="math display">\[\begin{equation*}
+    \hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
+\end{equation*}\]</span>
+which after being insert in <a href="uncertaintyRegressionCI.html#eq:MLROLSVarianceSemiFinal">(12.11)</a>, leads to:
+<span class="math display" id="eq:MLROLSVarianceFinal">\[\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+    \tag{12.12}
+\end{equation}\]</span>
+where is the estimate of the true variance based on the applied model.</p>
 </div>
 <div class="remark">
 <p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
