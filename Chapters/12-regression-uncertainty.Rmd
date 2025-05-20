@@ -327,7 +327,14 @@ This summary provides all the necessary information about the model and the esti
 
 
 ## Regression line uncertainty {#uncertaintyRegressionLine}
-Given the uncertainty of estimates of parameters, the regression line itself and the points around it will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but should also consider the uncertainty around them. Similar to what we discussed in Sections \@ref(confidenceInterval) and \@ref(predictionInterval), there are two different interval types we can produce from the regression.
+Given the uncertainty of estimates of parameters, the regression line itself and the points around it will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but should also consider the uncertainty around them. Similar to what we discussed in Sections \@ref(confidenceInterval) and \@ref(predictionInterval), there are two different interval types we can produce from the regression: confidence and prediction. It is extremely important to get the difference between the two, so here it is again just in case:
+
+1. **Confidence interval** shows where the **expected value** should lie in the population in the x% of the cases if we repeat the calculation for different samples of data many times;
+2. **Prediction interval** shows where the x% of the **actual values** should lie.
+
+The former will tell you something about the true *expected costs* of a project, while the latter will tell you about the *actual costs*.
+
+Let's see what this means in the regression context.
 
 
 ### Confidence interval {#uncertaintyRegressionLineConfidence}
@@ -394,6 +401,8 @@ Figure \@ref(fig:speedDistanceConfidenceIntervalAvsF) demonstrates the actuals v
 
 
 ### Prediction interval {#uncertaintyRegressionLinePrediction}
+In case of prediction interval, we are interested in understanding where the actual values lie, not the expected one. For our example, that would mean that we want to know the span of overall costs for projects that have material costs of 200 in the x% of the cases (e.g. 95%).
+
 
 
 
