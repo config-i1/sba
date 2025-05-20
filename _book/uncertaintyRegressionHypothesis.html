@@ -300,8 +300,8 @@ div.csl-indent {
 <li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
 <li class="chapter" data-level="11.1" data-path="OLSMLR.html"><a href="OLSMLR.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
 <ul>
-<li class="chapter" data-level="11.1.1" data-path="OLSMLR.html"><a href="OLSMLR.html#a-bit-of-maths"><i class="fa fa-check"></i><b>11.1.1</b> A bit of maths</a></li>
-<li class="chapter" data-level="11.1.2" data-path="OLSMLR.html"><a href="OLSMLR.html#application"><i class="fa fa-check"></i><b>11.1.2</b> Application</a></li>
+<li class="chapter" data-level="11.1.1" data-path="OLSMLR.html"><a href="OLSMLR.html#application"><i class="fa fa-check"></i><b>11.1.1</b> Application</a></li>
+<li class="chapter" data-level="11.1.2" data-path="OLSMLR.html"><a href="OLSMLR.html#OLSMLRMaths"><i class="fa fa-check"></i><b>11.1.2</b> A bit of maths</a></li>
 <li class="chapter" data-level="11.1.3" data-path="OLSMLR.html"><a href="OLSMLR.html#properties-of-the-ols-estimators"><i class="fa fa-check"></i><b>11.1.3</b> Properties of the OLS Estimators</a></li>
 <li class="chapter" data-level="11.1.4" data-path="OLSMLR.html"><a href="OLSMLR.html#GaussMarkov"><i class="fa fa-check"></i><b>11.1.4</b> Gauss-Markov theorem</a></li>
 </ul></li>
@@ -456,8 +456,8 @@ The procedure is the same, the calculated t-value is:
 \end{equation*}\]</span>
 which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is “we do not know”. The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
 <p>In R, if you want to test the hypothesis for parameters, I would recommend using <code>lm()</code> function for regression:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="uncertaintyRegressionHypothesis.html#cb179-1" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
-<span id="cb179-2"><a href="uncertaintyRegressionHypothesis.html#cb179-2" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="uncertaintyRegressionHypothesis.html#cb181-1" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
+<span id="cb181-2"><a href="uncertaintyRegressionHypothesis.html#cb181-2" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -502,16 +502,16 @@ Figure 12.5: Graphical presentation of F test for regression model.
 </div>
 <p>What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.</p>
 <p>Here is an example with the speed model discussed above with the significance level of 1%:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="uncertaintyRegressionHypothesis.html#cb181-1" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
-<span id="cb181-2"><a href="uncertaintyRegressionHypothesis.html#cb181-2" tabindex="-1"></a><span class="co"># F value</span></span>
-<span id="cb181-3"><a href="uncertaintyRegressionHypothesis.html#cb181-3" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="uncertaintyRegressionHypothesis.html#cb183-1" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
+<span id="cb183-2"><a href="uncertaintyRegressionHypothesis.html#cb183-2" tabindex="-1"></a><span class="co"># F value</span></span>
+<span id="cb183-3"><a href="uncertaintyRegressionHypothesis.html#cb183-3" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##    value 
 ## 89.56711</code></pre>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="uncertaintyRegressionHypothesis.html#cb183-1" tabindex="-1"></a><span class="co"># F critical</span></span>
-<span id="cb183-2"><a href="uncertaintyRegressionHypothesis.html#cb183-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="uncertaintyRegressionHypothesis.html#cb185-1" tabindex="-1"></a><span class="co"># F critical</span></span>
+<span id="cb185-2"><a href="uncertaintyRegressionHypothesis.html#cb185-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>## [1] 7.194218</code></pre>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="uncertaintyRegressionHypothesis.html#cb185-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
-<span id="cb185-2"><a href="uncertaintyRegressionHypothesis.html#cb185-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="uncertaintyRegressionHypothesis.html#cb187-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
+<span id="cb187-2"><a href="uncertaintyRegressionHypothesis.html#cb187-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>##        value 
 ## 1.489919e-12</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>
