@@ -61,125 +61,54 @@ Figure \@ref(fig:costsModelSLRBootstrap) shows the uncertainty around the estima
 This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
 
 
-## Confidence intervals {#uncertaintyRegressionCI}
-Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. The simplest way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelSLRCI), which continues the example we discussed before.
+## Covariance matrix of parameters {#uncertaintyRegressionCov}
+One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:
 
-```{r costsModelSLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
-par(mfcol=c(1,2))
-# First histogram
-hist(costsModelSLRBootstrap$coefficients[,1],
-     xlab="Intercept", main="", probability=TRUE,
-     xlim=range(costsModelSLRBootstrap$coefficients[,1])*c(0.9,1.1))
-# The estimated coefficient
-# abline(v=coef(costsModelSLR)[1], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,1]), col=5, lwd=2)
-xSequence <- mean(costsModelSLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,1])
-lines(xSequence,
-      dnorm(xSequence,
-            mean(costsModelSLRBootstrap$coefficients[,1]),
-            sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
-abline(v=qnorm(c(0.025,0.975),
-               mean(costsModelSLRBootstrap$coefficients[,1]),
-               sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
-text(c(qnorm(c(0.025,0.975),
-             mean(costsModelSLRBootstrap$coefficients[,1]),
-             sd(costsModelSLRBootstrap$coefficients[,1]))),
-     rep(0.03,2),
-     labels=round(qnorm(c(0.025,0.975),
-                        mean(costsModelSLRBootstrap$coefficients[,1]),
-                        sd(costsModelSLRBootstrap$coefficients[,1])),2), pos=c(2,4))
-
-# Second histogram
-hist(costsModelSLRBootstrap$coefficients[,2],
-     xlab="Slope", main="", probability=TRUE)
-# The estimated coefficient
-# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
-xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
-lines(xSequence,
-      dnorm(xSequence,
-            mean(costsModelSLRBootstrap$coefficients[,2]),
-            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
-abline(v=qnorm(c(0.025,0.975),
-               mean(costsModelSLRBootstrap$coefficients[,2]),
-               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
-text(c(qnorm(c(0.025,0.975),
-             mean(costsModelSLRBootstrap$coefficients[,2]),
-             sd(costsModelSLRBootstrap$coefficients[,2]))),
-     rep(6,2),
-     labels=round(qnorm(c(0.025,0.975),
-                        mean(costsModelSLRBootstrap$coefficients[,2]),
-                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
-```
-
-Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times. So, the interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 \begin{equation}
-    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    (\#eq:MLRParameterInterval)
+    \mathrm{V}(\hat{\boldsymbol{\beta}}) =
+    \begin{pmatrix}
+        \mathrm{V}(b_0) & \mathrm{cov}(b_0, b_1) & \dots & \mathrm{cov}(b_0, b_{k-1}) \\
+        \mathrm{cov}(b_0, b_1) & \mathrm{V}(b_1) & \dots & \mathrm{cov}(b_1, b_{k-1}) \\
+        \vdot & \vdot & \ddot & \vdot \\
+        \mathrm{cov}(b_0, b_{k-1}) & \mathrm{cov}(b_1, b_{k-1}) & \dots & \mathrm{V}(b_{k-1}) \\
+    \end{pmatrix} .
+    (\#eq:MLRParameterCov)
 \end{equation}
-where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:MLRParameterInterval) above.
+The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
 
-::: example
-To calculate the confidence interval, using the equation \@ref(eq:MLRParameterInterval), we need to know several things:
 
-1. Significance level $\alpha$ - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;
-2. The value of the estimated parameter $b_i$. We get it after using the Least Squares, any statistical software can give us the estimate.
-3. Standard error (or deviation) of the parameter. We would need to use additional formula to get it.
-4. Number of degrees of freedom $n-k$, which can be easily calculated based on the sample size $n$ and the number of estimated parameters $k$.
-5. Student's t statistics. This can be obtained from statistical tables or the software, given the significance level $\alpha$ and the number of degrees of freedom $n-k$, calculated above.
+### Bootstrap
+There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:
 
-Consider construction of the interval for the slope parameter `materials` from the regression we discussed earlier. In our case, we know the following:
-
-1. $\alpha=0.05$ because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;
-2. The value of the parameter $b_1$ is `r coef(costsModelSLR)[2]`;
-3. We have not discussed yet how to obtain the variance of the parameter analytically, but there is a built-in formula in software that gives it, and/or we could get it via the bootstrap, simply by taking the variance of the values from the distribution in Figure \@ref(fig:costsModelSLRCI). In R, we can get the variance of the parameter for slope (second parameter in the model) via the `vcov()` function, like this:
 ```{r}
-vcov(costsModelSLR)[2,2]
+var(costsModelSLRBootstrap$coefficients)
 ```
-Based on that, we can say that the standard error of the slope is approximately `r round(sqrt(vcov(costsModelSLR)[2,2]),4)`.
-4. We estimated two parameters, so $k=2$, and the sample size $n$ was 61, which means that in our model has $n-k=61-2=59$ degrees of freedom.
-5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we will have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=59$. In R, we can use the `qt()` function in the folloqing way:
+
+The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:
+
 ```{r}
-qt(c(0.025,0.975), 59)
+var(costsModelSLRBootstrap$coefficients) |>
+    cov2cor()
 ```
 
-```{r echo=FALSE}
-x <- round(coef(costsModelSLR)[2]+qt(c(0.025,0.975), 59)*round(sqrt(vcov(costsModelSLR)[2,2]),4),4)
-```
+We see that the correlation between the intercept and the parameter for the materials is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (materials vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data. This sort of behaviour is typical for the case when the two variables have positive correlation (with the increase of the material costs, the overall costs increase as well).
 
-Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")``)
 
-In R, the confidence interval can be obtained via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
-```{r}
-confint(costsModelSLR)
-```
-
-```{r echo=FALSE}
-x <- confint(costsModelSLR)[2,2:3]
-```
-
-The confidence interval for materials above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
-:::
-
-The question that we still have not resolved is how to calculate the variance of parameters. If you estimate the model via OLS or Maximisation of the Likelihood (see Chapter \@ref(likelihoodApproach)), there is an analytical solution for the variance. In the general case, the following formula is used to get the covariance matrix of parameters:
+### Analytical solution
+The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter \@ref(likelihoodApproach)). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
 \begin{equation}
     \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The result of this calculation would be a matrix, containing the variances of parameters on the diagonal and covariances between them on the off-diagonals. For now, we are only interested in the diagonal, so we can ignore the covariances. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
+where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
 vcov(costsModelSLR)
 ```
 
-We can also present all of this in the following summary (this is based on the `alm()` model, the other functions will produce different ones):
-```{r}
-summary(costsModelSLR)
-```
-
-This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
+We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \@ref(eq:MLRcovarianceMatrix) is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that *the model is correctly specified* (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter \@ref(assumptions).
 
 
-### Derivation of the formula for the covariance matrix of parameters
+### Mathematical derivation
 In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
 
 ::: warning
@@ -278,6 +207,121 @@ Mathematically speaking, $\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsym
 \end{equation*}
 where $\mathbf{I}_{k-1}$ is the identity matrix of the size $k-1$ and $\sigma^2$ is the variance of the error term.
 :::
+
+We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that the model is correctly estimated. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter \@ref(assumptions)).
+
+
+## Confidence intervals {#uncertaintyRegressionCI}
+Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section \@ref(uncertaintyRegressionCov) captures that uncertainty, but it is hard to make any decisions based on it.
+
+A simpler way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelSLRCI), which continues the example we discussed before.
+
+```{r costsModelSLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
+par(mfcol=c(1,2))
+# First histogram
+hist(costsModelSLRBootstrap$coefficients[,1],
+     xlab="Intercept", main="", probability=TRUE,
+     xlim=range(costsModelSLRBootstrap$coefficients[,1])*c(0.9,1.1))
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[1], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,1]), col=5, lwd=2)
+xSequence <- mean(costsModelSLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,1])
+lines(xSequence,
+      dnorm(xSequence,
+            mean(costsModelSLRBootstrap$coefficients[,1]),
+            sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               mean(costsModelSLRBootstrap$coefficients[,1]),
+               sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             mean(costsModelSLRBootstrap$coefficients[,1]),
+             sd(costsModelSLRBootstrap$coefficients[,1]))),
+     rep(0.03,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        mean(costsModelSLRBootstrap$coefficients[,1]),
+                        sd(costsModelSLRBootstrap$coefficients[,1])),2), pos=c(2,4))
+
+# Second histogram
+hist(costsModelSLRBootstrap$coefficients[,2],
+     xlab="Slope", main="", probability=TRUE)
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
+lines(xSequence,
+      dnorm(xSequence,
+            mean(costsModelSLRBootstrap$coefficients[,2]),
+            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               mean(costsModelSLRBootstrap$coefficients[,2]),
+               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             mean(costsModelSLRBootstrap$coefficients[,2]),
+             sd(costsModelSLRBootstrap$coefficients[,2]))),
+     rep(6,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        mean(costsModelSLRBootstrap$coefficients[,2]),
+                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+```
+
+Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times. So, the interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
+\begin{equation}
+    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
+    (\#eq:MLRParameterInterval)
+\end{equation}
+where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:MLRParameterInterval) above.
+
+::: example
+To calculate the confidence interval, using the equation \@ref(eq:MLRParameterInterval), we need to know several things:
+
+1. Significance level $\alpha$ - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;
+2. The value of the estimated parameter $b_i$. We get it after using the Least Squares, any statistical software can give us the estimate.
+3. Standard error (or deviation) of the parameter. We would need to use additional formula to get it.
+4. Number of degrees of freedom $n-k$, which can be easily calculated based on the sample size $n$ and the number of estimated parameters $k$.
+5. Student's t statistics. This can be obtained from statistical tables or the software, given the significance level $\alpha$ and the number of degrees of freedom $n-k$, calculated above.
+
+Consider construction of the interval for the slope parameter `materials` from the regression we discussed earlier. In our case, we know the following:
+
+1. $\alpha=0.05$ because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;
+2. The value of the parameter $b_1$ is `r coef(costsModelSLR)[2]`;
+3. We have not discussed yet how to obtain the variance of the parameter analytically, but there is a built-in formula in software that gives it, and/or we could get it via the bootstrap, simply by taking the variance of the values from the distribution in Figure \@ref(fig:costsModelSLRCI). In R, we can get the variance of the parameter for slope (second parameter in the model) via the `vcov()` function, like this:
+```{r}
+vcov(costsModelSLR)[2,2]
+```
+Based on that, we can say that the standard error of the slope is approximately `r round(sqrt(vcov(costsModelSLR)[2,2]),4)`.
+4. We estimated two parameters, so $k=2$, and the sample size $n$ was 61, which means that in our model has $n-k=61-2=59$ degrees of freedom.
+5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we will have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=59$. In R, we can use the `qt()` function in the folloqing way:
+```{r}
+qt(c(0.025,0.975), 59)
+```
+
+```{r echo=FALSE}
+x <- round(coef(costsModelSLR)[2]+qt(c(0.025,0.975), 59)*round(sqrt(vcov(costsModelSLR)[2,2]),4),4)
+```
+
+Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")``)
+
+In R, the confidence interval can be obtained via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
+```{r}
+confint(costsModelSLR)
+```
+
+```{r echo=FALSE}
+x <- confint(costsModelSLR)[2,2:3]
+```
+
+The confidence interval for materials above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
+:::
+
+We can also present all of this in the following summary (this is based on the `alm()` model, the other functions will produce different ones):
+```{r}
+summary(costsModelSLR)
+```
+
+This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
+
+
+
 
 
 ## Hypothesis testing {#uncertaintyRegressionHypothesis}
