@@ -182,6 +182,10 @@ This summary provides all the necessary information about the model and the esti
 ### Derivation of the formula for the covariance matrix of parameters
 In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
 
+::: warning
+Linear algebra is used below! Tread lightly!
+:::
+
 ::: proof
 We start by expanding the formula for the OLS \@ref(eq:MLROLS) by inserting the "true" model in it (${\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}$:
 \begin{equation}
@@ -224,36 +228,43 @@ In formula \@ref(eq:MLROLSVariance01), the true parameter $\boldsymbol{\beta}$ s
 \end{equation}
 After that, we can recall that $\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0$, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection \@ref(TrueModel)). This is useful because now we can represent the variance \@ref(eq:MLROLSVariance02) as the expectation of products:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
-    (\#eq:MLROLSVariance02)
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    (\#eq:MLROLSVariance03)
 \end{equation}
-
-
-
-
-
+Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula \@ref(eq:CovarianceAlt) from Section \@ref(dataAnalysisNumerical)):
 \begin{equation}
     \begin{aligned}
-        \mathrm{V}\left( {\boldsymbol{b}} \right) =
-        & \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) = \\
-        & \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) \right) .
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = 
+        & \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) +
+        & \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     \end{aligned}
-    (\#eq:MLROLSVariance02)
+    (\#eq:MLROLSVariance04)
 \end{equation}
-
-
+We can notice that the expectations in \@ref(eq:MLROLSVariance04) should be zero because, as discussed earlier, in the true model the error term is not related to anything. This means that the formula can be simplified to:
 \begin{equation}
-    \begin{aligned}
-        \mathrm{V}\left( {\boldsymbol{b}}^{\text{OLS}} \right) =
-        & \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \mathrm{E}\left( \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1} {{\mathbf{X}}}^\top \tilde{{\boldsymbol{\epsilon}}} \right) + \\
-        & \mathrm{cov}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1} {{\mathbf{X}}}^\top \tilde{{\boldsymbol{\epsilon}}} \right) = \\
-        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \tilde{{\mathbf{X}}} \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1 \prime}  \mathrm{cov}\left( {\boldsymbol{\epsilon}}, \tilde{{\boldsymbol{\epsilon}}} \right) = \\
-        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \tilde{{\mathbf{X}}} \left( {{\mathbf{X}}}^\top \tilde{{\mathbf{X}}} \right)^{-1 \prime}  \sigma_{{\epsilon}}^2 ,
-    \end{aligned}
-    (\#eq:MLROLSConjVar)
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+    (\#eq:MLROLSVariance05)
 \end{equation}
+The second element in the brackets can be rewritten as $\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} $. Substituting this to \@ref(eq:MLROLSVariance05) and moving explanatory variables from the covariance leads to:
+\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+    (\#eq:MLROLSVariance06)
+\end{equation}
+which after some cancellations leads to:
+\begin{equation}
+    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \hat{\sigma}^2 ,
+    (\#eq:MLROLSVarianceFinal)
+\end{equation}
+where $\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2$ is the estimate of the true variance based on the applied model.
 :::
 
+::: remark
+Mathematically speaking, $\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)$ is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+\begin{equation*}
+    \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\end{equation*}
+where $\mathbf{I}_{k-1}$ is the identity matrix of the size $k-1$ and $\sigma^2$ is the variance of the error term.
+:::
 
 
 ## Hypothesis testing {#uncertaintyRegressionHypothesis}
