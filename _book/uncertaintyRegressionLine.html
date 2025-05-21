@@ -546,7 +546,19 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
     \tag{12.17}
 \end{equation}\]</span>
-where <span class="math inline">\(x_{0,j}=1\)</span>. As we see, the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(b_i\)</span> will follow normal distribution with a fixed mean and variance due to CLT (Section <a href="CLT.html#CLT">6.2</a>), the predicted value <span class="math inline">\(\hat{y}_j\)</span> will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
+where <span class="math inline">\(x_{0,j}=1\)</span>. Alternatively, this can be calculated using the compact form of the multiple regression model <a href="OLSMLR.html#eq:MLRFormulaCompacter">(11.6)</a>:
+<span class="math display">\[\begin{equation*}
+    y_j = \mathbf{x}&#39;_j \boldsymbol{\beta} + \epsilon_j .
+\end{equation*}\]</span>
+the fitted values for which are:
+<span class="math display">\[\begin{equation*}
+    \hat{y_j} = \mathbf{x}&#39;_j \boldsymbol{\beta} .
+\end{equation*}\]</span>
+Taking the variance of the fitted in that form would involve the covariance matrix of parameters from Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>:
+<span class="math display">\[\begin{equation*}
+    \mathrm{V}(\hat{y_j}| \mathbf{x}_j) = \mathbf{x}&#39;_j \mathrm{V}({\boldsymbol{b}}) \mathbf{x}_j.
+\end{equation*}\]</span>
+In any case, we see that the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter <span class="math inline">\(b_i\)</span> will follow normal distribution with a fixed mean and variance due to CLT (Section <a href="CLT.html#CLT">6.2</a>), the predicted value <span class="math inline">\(\hat{y}_j\)</span> will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
 <span class="math display">\[\begin{equation*}
     \mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j))
 \end{equation*}\]</span>

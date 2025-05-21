@@ -433,8 +433,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \end{pmatrix} ,
     \tag{12.1}
 \end{equation}\]</span>
-where <span class="math inline">\({\boldsymbol{b}}\)</span>
-The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
+where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of the Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>, equation <a href="dataAnalysisNumerical.html#eq:CovarMat">(5.9)</a>, but it is now applied to the estimates of parameters of the model instead of several random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
 <div id="bootstrap" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Bootstrap<a href="uncertaintyRegressionCov.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>

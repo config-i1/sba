@@ -568,11 +568,24 @@ Analysing the formula <a href="dataAnalysisNumerical.html#eq:KurtosisRewritten">
     \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
     \tag{5.7}
 \end{equation}\]</span>
-Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section <a href="SLRCovariance.html#SLRCovariance">10.2</a>. It can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section <a href="SLRCovariance.html#SLRCovariance">10.2</a>. One thing that we can note at this stage is that it is symmetric, meaning that the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is the same as the covariance between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. This becomes apparent from the formula <a href="dataAnalysisNumerical.html#eq:Covariance">(5.7)</a>, where switching <span class="math inline">\(x_j\)</span> with <span class="math inline">\(y_j\)</span> and <span class="math inline">\(\bar{x}\)</span> with <span class="math inline">\(\bar{y}\)</span> will give you exactly the same formula.</p>
+<p>Furthermore, the same formula can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
 <span class="math display" id="eq:CovarianceAlt">\[\begin{equation}
-    \mathrm{cov}(x,y)= \mathrm{E}(x*y) - \mathrm{E}(x)*\mathrm{E}(y).
+    \mathrm{cov}(x,y)= \mathrm{E}(x \times y) - \mathrm{E}(x) \times \mathrm{E}(y).
     \tag{5.8}
-\end{equation}\]</span></p>
+\end{equation}\]</span>
+Comparing the formula <a href="dataAnalysisNumerical.html#eq:CovarianceAlt">(5.8)</a> with <a href="dataAnalysisNumerical.html#eq:VarianceAlt">(5.2)</a>, we can see that if <span class="math inline">\(x=y\)</span> then the covariance transforms into the variance of the variable. So, you can think of a variance as a measure of a joint variability of a variable with itself.</p>
+<p>Finally, if we have several random variables, we can create an object called “matrix” that would have variances of variables and covariances between them. This is sometimes convenient to do for some further analysis or for presenting the results. This is called “covariance matrix” or “variance-covariance matrix”. The idea is to group elements in a way that all variances lie on the diagonal, while the covariances would lie on the off-diagonals. In case of three variables (<span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>) it would look like this:
+<span class="math display" id="eq:CovarMat">\[\begin{equation}
+    \begin{pmatrix}
+        \mathrm{V}(x) &amp; \mathrm{cov}(x,y) &amp; \mathrm{cov}(x,z) \\
+        \mathrm{cov}(y,x) &amp; \mathrm{V}(y) &amp; \mathrm{cov}(y,z) \\
+        \mathrm{cov}(z,x) &amp; \mathrm{cov}(z,y) &amp; \mathrm{V}(z)\\
+    \end{pmatrix}
+    \tag{5.9}
+\end{equation}\]</span>
+Given the symmetry property of the covariance, the off-diagonal elements (such as <span class="math inline">\(\mathrm{cov}(x,y)\)</span> and <span class="math inline">\(\mathrm{cov}(y,x)\)</span>) would be the same.</p>
+<p>We will come back to the covariance matrix in the future topics.</p>
 </div>
 
             </section>
