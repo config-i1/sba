@@ -78,8 +78,7 @@ One of the simplest ways of capturing the uncertainty about the parameters is by
     \end{pmatrix} ,
     (\#eq:MLRParameterCov)
 \end{equation}
-where ${\boldsymbol{b}}$
-The diagonal elements of this matrix contain variances of parameters, showing how they vary in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
+where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of the Section \@ref(dataAnalysisNumerical), equation \@ref(eq:CovarMat), but it is now applied to the estimates of parameters of the model instead of several random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
 
 
 ### Bootstrap
