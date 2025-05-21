@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-20" />
+<meta name="date" content="2025-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,7 +245,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
-<li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
+<li class="chapter" data-level="6.5" data-path="predictionInterval.html"><a href="predictionInterval.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
@@ -319,13 +319,18 @@ div.csl-indent {
 <li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
 <li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
-<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.3</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
 <ul>
-<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.3.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.3.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineConfidence"><i class="fa fa-check"></i><b>12.3.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLinePrediction"><i class="fa fa-check"></i><b>12.3.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="12.3.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths"><i class="fa fa-check"></i><b>12.3.3</b> Derivations of the variance in regression</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.4</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.4</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.4.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.4.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.4.2</b> Regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
@@ -466,7 +471,7 @@ where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanato
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-40" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
 <span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
     \begin{aligned}
     {\boldsymbol{b}} =
@@ -545,7 +550,7 @@ which after being insert in <a href="uncertaintyRegressionCov.html#eq:MLROLSVari
 where is the estimate of the true variance based on the applied model.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-41" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
 <span class="math display">\[\begin{equation*}
     \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
 \end{equation*}\]</span>

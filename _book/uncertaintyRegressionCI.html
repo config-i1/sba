@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>12.2 Confidence intervals | Statistics for Business Analytics</title>
+  <title>12.2 Confidence intervals of parameters | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="12.2 Confidence intervals | Statistics for Business Analytics" />
+  <meta property="og:title" content="12.2 Confidence intervals of parameters | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="12.2 Confidence intervals | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="12.2 Confidence intervals of parameters | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-20" />
+<meta name="date" content="2025-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="uncertaintyRegressionCov.html"/>
-<link rel="next" href="uncertaintyRegressionHypothesis.html"/>
+<link rel="next" href="uncertaintyRegressionLine.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -245,7 +245,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
-<li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
+<li class="chapter" data-level="6.5" data-path="predictionInterval.html"><a href="predictionInterval.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
@@ -319,13 +319,18 @@ div.csl-indent {
 <li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
 <li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
-<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.3</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
 <ul>
-<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.3.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.3.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineConfidence"><i class="fa fa-check"></i><b>12.3.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLinePrediction"><i class="fa fa-check"></i><b>12.3.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="12.3.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths"><i class="fa fa-check"></i><b>12.3.3</b> Derivations of the variance in regression</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.4</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.4</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.4.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.4.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.4.2</b> Regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
@@ -416,7 +421,7 @@ div.csl-indent {
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
 <div id="uncertaintyRegressionCI" class="section level2 hasAnchor" number="12.2">
-<h2><span class="header-section-number">12.2</span> Confidence intervals<a href="uncertaintyRegressionCI.html#uncertaintyRegressionCI" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">12.2</span> Confidence intervals of parameters<a href="uncertaintyRegressionCI.html#uncertaintyRegressionCI" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a> captures that uncertainty, but it is hard to make any decisions based on it.</p>
 <p>A simpler way to do that is to construct confidence intervals in a similar way to what we discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>. Visually, this process is shown in Figure <a href="uncertaintyRegressionCI.html#fig:costsModelSLRCI">12.3</a>, which continues the example we discussed before.</p>
 <div class="figure"><span style="display:block;" id="fig:costsModelSLRCI"></span>
@@ -425,14 +430,18 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Figure 12.3: Parameter uncertainty in the estimated model
 </p>
 </div>
-<p>Figure <a href="uncertaintyRegressionCI.html#fig:costsModelSLRCI">12.3</a> demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section <a href="CLT.html#CLT">6.2</a>) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between 190.79 and 227.67 in the 95% of the cases, if we repeat the resampling experiment many times. So, the interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>. The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
+<p>Figure <a href="uncertaintyRegressionCI.html#fig:costsModelSLRCI">12.3</a> demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section <a href="CLT.html#CLT">6.2</a>) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between 190.79 and 227.67 in the 95% of the cases, if we repeat the resampling experiment many times.</p>
+<p>The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>. The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 <span class="math display" id="eq:MLRParameterInterval">\[\begin{equation}
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     \tag{12.13}
 \end{equation}\]</span>
 where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>, we need to use the Student’s t distribution. This is why we have <span class="math inline">\(t_{\alpha/2}(n-k)\)</span> in the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a> above.</p>
+<div class="remark">
+<p><span id="unlabeled-div-43" class="remark"><em>Remark</em>. </span>The important note is that in order to be able to use the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student’s t-statistics would not be appropriate to calculate the interval.</p>
+</div>
 <div class="example">
-<p><span id="exm:unlabeled-div-42" class="example"><strong>Example 12.1  </strong></span>To calculate the confidence interval, using the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need to know several things:</p>
+<p><span id="exm:unlabeled-div-44" class="example"><strong>Example 12.1  </strong></span>To calculate the confidence interval, using the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need to know several things:</p>
 <ol style="list-style-type: decimal">
 <li>Significance level <span class="math inline">\(\alpha\)</span> - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;</li>
 <li>The value of the estimated parameter <span class="math inline">\(b_i\)</span>. We get it after using the Least Squares, any statistical software can give us the estimate.</li>
@@ -487,7 +496,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
         </div>
       </div>
 <a href="uncertaintyRegressionCov.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="uncertaintyRegressionHypothesis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uncertaintyRegressionLine.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

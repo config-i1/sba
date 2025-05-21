@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-20" />
+<meta name="date" content="2025-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,7 +245,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.3.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.3.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.4</b> Confidence interval</a></li>
-<li class="chapter" data-level="6.5" data-path="confidenceIntervalsPrediction.html"><a href="confidenceIntervalsPrediction.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
+<li class="chapter" data-level="6.5" data-path="predictionInterval.html"><a href="predictionInterval.html"><i class="fa fa-check"></i><b>6.5</b> Prediction interval</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
 <ul>
@@ -319,13 +319,18 @@ div.csl-indent {
 <li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
 <li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
-<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals</a></li>
-<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.3</b> Hypothesis testing</a>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
 <ul>
-<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.3.1</b> Regression parameters</a></li>
-<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.3.2</b> Regression line</a></li>
+<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineConfidence"><i class="fa fa-check"></i><b>12.3.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLinePrediction"><i class="fa fa-check"></i><b>12.3.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="12.3.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths"><i class="fa fa-check"></i><b>12.3.3</b> Derivations of the variance in regression</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.4</b> Regression line uncertainty</a></li>
+<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.4</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.4.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.4.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.4.2</b> Regression line</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
@@ -456,7 +461,7 @@ This is a very simple method that allows us to get to the model closest to the t
 \end{equation}\]</span>
 where <span class="math inline">\(k_j\)</span> is the number of estimated parameters in model <span class="math inline">\(j\)</span> (this typically includes scale parameters when dealing with Maximum Likelihood Estimates).</p>
 <div class="remark">
-<p><span id="unlabeled-div-48" class="remark"><em>Remark</em>. </span>If your model is estimated using OLS then you can use the idea that the maximum of the likelihood of the normal distribution is achieved by the minimum of the MSE (OLS criterion). In that case you can jump from one thing to another and calculate AIC by inserting the estimates of parameters to the likelihood formula. However, there are two things to consider:</p>
+<p><span id="unlabeled-div-52" class="remark"><em>Remark</em>. </span>If your model is estimated using OLS then you can use the idea that the maximum of the likelihood of the normal distribution is achieved by the minimum of the MSE (OLS criterion). In that case you can jump from one thing to another and calculate AIC by inserting the estimates of parameters to the likelihood formula. However, there are two things to consider:</p>
 <ol style="list-style-type: decimal">
 <li>The scale of distribution used in likelihood needs to be based on <a href="likelihoodApproachMaths.html#eq:MLEFullLogLikScale">(16.9)</a>, i.e. without the bias correction, because it maximises the likelihood;</li>
 <li>The number of parameters <span class="math inline">\(k_j\)</span> should also include the scale of distribution. So, if you had a linear regression model, which estimated 3 parameters (intercept and two coefficients for explanatory variables) then <span class="math inline">\(k_j=3+1 = 4\)</span>.</li>
