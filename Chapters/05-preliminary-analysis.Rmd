@@ -153,12 +153,27 @@ Finally, one other moment that is often used in statistics is called "covariance
     \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
     (\#eq:Covariance)
 \end{equation}
-Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \@ref(SLRCovariance). It can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \@ref(SLRCovariance). One thing that we can note at this stage is that it is symmetric, meaning that the covariance between $x$ and $y$ is the same as the covariance between $y$ and $x$. This becomes apparent from the formula \@ref(eq:Covariance), where switching $x_j$ with $y_j$ and $\bar{x}$ with $\bar{y}$ will give you exactly the same formula.
+
+Furthermore, the same formula can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
 \begin{equation}
-    \mathrm{cov}(x,y)= \mathrm{E}(x*y) - \mathrm{E}(x)*\mathrm{E}(y).
+    \mathrm{cov}(x,y)= \mathrm{E}(x \times y) - \mathrm{E}(x) \times \mathrm{E}(y).
     (\#eq:CovarianceAlt)
 \end{equation}
+Comparing the formula \@ref(eq:CovarianceAlt) with \@ref(eq:VarianceAlt), we can see that if $x=y$ then the covariance transforms into the variance of the variable. So, you can think of a variance as a measure of a joint variability of a variable with itself.
 
+Finally, if we have several random variables, we can create an object called "matrix" that would have variances of variables and covariances between them. This is sometimes convenient to do for some further analysis or for presenting the results. This is called "covariance matrix" or "variance-covariance matrix". The idea is to group elements in a way that all variances lie on the diagonal, while the covariances would lie on the off-diagonals. In case of three variables ($x$, $y$ and $z$) it would look like this:
+\begin{equation}
+    \begin{pmatrix}
+        \mathrm{V}(x) & \mathrm{cov}(x,y) & \mathrm{cov}(x,z) \\
+        \mathrm{cov}(y,x) & \mathrm{V}(y) & \mathrm{cov}(y,z) \\
+        \mathrm{cov}(z,x) & \mathrm{cov}(z,y) & \mathrm{V}(z)\\
+    \end{pmatrix}
+    (\#eq:CovarMat)
+\end{equation}
+Given the symmetry property of the covariance, the off-diagonal elements (such as $\mathrm{cov}(x,y)$ and $\mathrm{cov}(y,x)$) would be the same.
+
+We will come back to the covariance matrix in the future topics.
 
 
 ## Graphical analysis {#dataAnalysisGraphical}
