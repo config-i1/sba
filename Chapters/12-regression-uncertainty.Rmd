@@ -470,7 +470,19 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
     (\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
-where $x_{0,j}=1$. As we see, the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to CLT (Section \@ref(CLT)), the predicted value $\hat{y}_j$ will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
+where $x_{0,j}=1$. Alternatively, this can be calculated using the compact form of the multiple regression model \@ref(eq:MLRFormulaCompacter):
+\begin{equation*}
+    y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
+\end{equation*}
+the fitted values for which are:
+\begin{equation*}
+    \hat{y_j} = \mathbf{x}'_j \boldsymbol{\beta} .
+\end{equation*}
+Taking the variance of the fitted in that form would involve the covariance matrix of parameters from Section \@ref(uncertaintyRegressionCov):
+\begin{equation*}
+    \mathrm{V}(\hat{y_j}| \mathbf{x}_j) = \mathbf{x}'_j \mathrm{V}({\boldsymbol{b}}) \mathbf{x}_j.
+\end{equation*}
+In any case, we see that the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to CLT (Section \@ref(CLT)), the predicted value $\hat{y}_j$ will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
 \begin{equation*}
     \mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j))
 \end{equation*}
