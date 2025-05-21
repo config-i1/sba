@@ -269,12 +269,18 @@ text(c(qnorm(c(0.025,0.975),
                         sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
 ```
 
-Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times. So, the interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
+Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times.
+
+The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 \begin{equation}
     \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
     (\#eq:MLRParameterInterval)
 \end{equation}
 where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:MLRParameterInterval) above.
+
+::: remark
+The important note is that in order to be able to use the formula \@ref(eq:MLRParameterInterval), we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student's t-statistics would not be appropriate to calculate the interval.
+:::
 
 ::: example
 To calculate the confidence interval, using the equation \@ref(eq:MLRParameterInterval), we need to know several things:
@@ -326,7 +332,7 @@ summary(costsModelSLR)
 This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
 
 
-## Regression line uncertainty {#uncertaintyRegressionLine}
+## Regression line related uncertainty {#uncertaintyRegressionLine}
 Given the uncertainty of estimates of parameters, the regression line itself and the points around it will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but should also consider the uncertainty around them. Similar to what we discussed in Sections \@ref(confidenceInterval) and \@ref(predictionInterval), there are two different interval types we can produce from the regression: confidence and prediction. It is extremely important to get the difference between the two, so here it is again just in case:
 
 1. **Confidence interval** shows where the **expected value** should lie in the population in the x% of the cases if we repeat the calculation for different samples of data many times;
@@ -338,7 +344,7 @@ Let's see what this means in the regression context.
 
 
 ### Confidence interval {#uncertaintyRegressionLineConfidence}
-As a reminder, confidence interval shows where the true value of statistics should lie in x% of cases (e.g. in 95%) if we construct it many times. In context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)), which reflects the potential changes of the line with the changes of the sample.
+In context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)), which reflects the potential changes of the line with the changes of the sample.
 
 The formula for the construction of the confidence interval is very similar to the one we discussed for the sample mean in Section \@ref(confidenceInterval):
 \begin{equation}
@@ -358,16 +364,20 @@ Here are the main differences:
 
 But the rest is the same and uses exactly the same principles.
 
-In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:speedDistanceConfidenceInterval)):
-```{r speedDistanceConfidenceInterval, fig.cap="Fitted values and confidence interval for the costs model."}
-costsModelSLRCI <- predict(costsModelSLR,interval="confidence")
+::: remark
+To be able to construct the confidence interval using the formula above, we need one important assumption to hold. This assumption is that the Central Limit Theorem holds (Section \@ref(CLT)). If it does not then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval.
+:::
+
+In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:costModelConfidenceInterval)):
+```{r costModelConfidenceInterval, fig.cap="Fitted values and confidence interval for the costs model."}
+costsModelSLRCI <- predict(costsModelSLR, interval="confidence")
 plot(costsModelSLRCI, main="",
      xlab="Observation", ylab="Overall Costs")
 ```
 
-It is hard to read this graph because the interval is narrow, and the actual values in it do not bring much value. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:speedDistanceConfidenceIntervalZoom)):
+It is hard to read this graph because the interval is narrow, and the actual values in it do not bring much value. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:costModelConfidenceIntervalZoom)):
 
-```{r speedDistanceConfidenceIntervalZoom, fig.cap="Fitted values and confidence interval for the costs model."}
+```{r costModelConfidenceIntervalZoom, fig.cap="Fitted values and confidence interval for the costs model."}
 # Produce the predicted value and the confidence interval
 costsModelSLRCI200 <- predict(costsModelSLR,
                               interval="confidence",
@@ -382,10 +392,10 @@ abline(h=costsModelSLRCI200$upper, col="grey", lwd=2, lty=2)
 abline(h=costsModelSLRCI200$lower, col="grey", lwd=2, lty=2)
 ```
 
-What the image in Figure \@ref(fig:speedDistanceConfidenceIntervalZoom) shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k are `r round(costsModelSLRCI200$mean, 2)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelSLRCI200$lower, 2)` and `r round(costsModelSLRCI200$upper, 2)` in 95% if we repeat the confidence interval construction many times.
+What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k are `r round(costsModelSLRCI200$mean, 2)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelSLRCI200$lower, 2)` and `r round(costsModelSLRCI200$upper, 2)` in 95% if we repeat the confidence interval construction many times.
 
 Another way of visualising the confidence interval is on the actuals vs fitted plot:
-```{r speedDistanceConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
+```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
 plot(fitted(costsModelSLR), actuals(costsModelSLR),
      xlab="Fitted",ylab="Actuals")
 abline(a=0,b=1,col=5,lwd=2)
@@ -397,56 +407,61 @@ lines(sort(fitted(costsModelSLR)),
       col=3, lwd=2)
 ```
 
-Figure \@ref(fig:speedDistanceConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the line would be expected to be in 95% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
+Figure \@ref(fig:costModelConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the line would be expected to be in 95% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
 
 
 ### Prediction interval {#uncertaintyRegressionLinePrediction}
 In case of prediction interval, we are interested in understanding where the actual values lie, not the expected one. For our example, that would mean that we want to know the span of overall costs for projects that have material costs of 200 in the x% of the cases (e.g. 95%).
 
+The construction of the interval relies on the formula, which is very similar to the one used for the confidence interval:
+\begin{equation}
+    y_j \in (\hat{y}_j + z_{\alpha/2} s_y^2, \hat{y}_j + z_{1-\alpha/2} s_y^2),
+    (\#eq:predictionIntervalRegression)
+\end{equation}
+where $s_y^2$ is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection \@ref(uncertaintyRegressionLineMaths). The main difference with the confidence interval is that we need to rely on the assumption about the error term in the model.
 
+::: remark
+In the formula above, the important assumption is that the error term follows the Normal distribution. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.
+:::
 
-
-In R, this can be done via the very same `predict()` function with `interval="prediction"`:
+In R, the interval construction can be done via the very same `predict()` function with `interval="prediction"`:
 ```{r}
-costsModelSLRPI <- predict(costsModelSLR,interval="prediction")
+costsModelSLRPI <- predict(costsModelSLR, interval="prediction")
 ```
-Based on this, we can construct graphs similar to \@ref(fig:speedDistanceConfidenceInterval) and \@ref(fig:speedDistanceConfidenceIntervalAvsF).
 
+Based on this, we can produce an image similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
 
-```{r speedDistancePI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
+```{r costModelPI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
 plot(costsModelSLRPI, ylab="Values", xlab="Observations",
      main="Actuals and Fitted over observations")
-plot(fitted(costsModelSLR),actuals(costsModelSLR),
+plot(fitted(costsModelSLR), actuals(costsModelSLR),
      xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted",
      ylim=range(costsModelSLRPI$lower,costsModelSLRPI$upper))
-abline(a=0,b=1,col="darkblue",lwd=2)
+abline(a=0,b=1,col=5,lwd=2)
 lines(sort(fitted(costsModelSLR)),
       costsModelSLRPI$lower[order(fitted(costsModelSLR))], 
-      col="darkorange", lty=2, lwd=2)
+      col=3, lty=2, lwd=2)
 lines(sort(fitted(costsModelSLR)),
       costsModelSLRPI$upper[order(fitted(costsModelSLR))], 
-      col="darkorange", lty=2, lwd=2)
+      col=3, lty=2, lwd=2)
 ```
 
-Figure \@ref(fig:speedDistancePI) shows the prediction interval for values over observations and for actuals vs fitted. As we see, the interval is wider in this case, covering only 95% of observations (there are 2 observations outside it).
+Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 2 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval.
 
-In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with stopping distance, we could see what would happen if the speed of a car was, for example, 30mph:
+In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what would happen if the material costs were, for example, £200k:
 
-```{r speedDistanceForecast, fig.cap="Forecast of the stopping distance for the speed of 30mph."}
-costsModelSLRForecast <- predict(costsModelSLR,newdata=data.frame(materials=250),
+```{r costModelForecast, fig.cap="Forecast of the overall costs given the material costs of 200."}
+costsModelSLRForecast <- predict(costsModelSLR,newdata=data.frame(materials=200),
                                     interval="prediction")
 plot(costsModelSLRForecast)
 ```
 
-Figure \@ref(fig:speedDistanceForecast) shows the point forecast (the expected stopping distance if the speed of car was 30mph) and the 95% prediction interval (we expect that in 95% of the cases, the cars will have the stopping distance between `r paste(round(c(costsModelSLRForecast$lower,costsModelSLRForecast$upper),3),collapse=" and ")` feet.
+Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overall costs of a project if the material ones are £200k) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between `r paste(round(c(costsModelSLRForecast$lower,costsModelSLRForecast$upper),3),collapse=" and ")` thousands of pounds.
 
 
-### How to get the variance of the line
-
-A bit of maths here
-
-The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
+### Derivations of the variance in regression {#uncertaintyRegressionLineMaths}
+The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance using the formula:
 \begin{equation}
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
     (\#eq:regressionLineUncertaintyVariance01)
@@ -456,25 +471,27 @@ which after some simplifications leads to:
     \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
     (\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
-where $x_{0,j}=1$. As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to [CLT](#CLT), the predicted value $\hat{y}_j$ will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \@ref(confidenceInterval):
-\begin{equation}
-    \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
-    (\#eq:confidenceIntervalRegression)
-\end{equation}
-where $s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}$.
+where $x_{0,j}=1$. As we see, the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to CLT (Section \@ref(CLT)), the predicted value $\hat{y}_j$ will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
+\begin{equation*}
+    \mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j))
+\end{equation*}
+We used this property to derive the formula for the confidence interval around the line.
 
-
-If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
+If we are interested in the uncertainty of the observations, we can refer to prediction interval. In this case we rely on the Normality assumption for the actual values themselves:
+\begin{equation*}
+    y_j = (\hat{y}_j + \epsilon_j) \sim \mathcal{N}(\hat{y}_j, s_y^2) ,
+\end{equation*}
+because we assume that $\epsilon_j \sim \mathcal{N}(0, {\sigma}^2)$, where ${\sigma}^2$ is the variance of the error term and $s_y^2 = \mathrm{V}(y_j| \mathbf{x}_j)$ is the variance of the response variable conditional on the values of the explanatory variables. The latter can be calculated as:
 \begin{equation}
     \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
     (\#eq:regressionLineUncertaintyVariance03)
 \end{equation}
 which can be simplified to (if assumptions of regression model hold, see Section \@ref(assumptions)):
 \begin{equation}
-    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2,
+    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j | \mathbf{x}_j) + \hat{\sigma}^2,
     (\#eq:regressionLineUncertaintyVariance04)
 \end{equation}
-where $\hat{\sigma}^2$ is the variance of the residuals $e_j$. As we see from the formula \@ref(eq:regressionLineUncertaintyVariance04), the variance in this case is larger than \@ref(eq:regressionLineUncertaintyVariance02), which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to \@ref(eq:confidenceIntervalRegression)), as long as we can assume that $\epsilon_j \sim \mathcal{N}(0,\sigma^2)$.
+where the variance $\mathrm{V}(\hat{y}_j | \mathbf{x}_j)$ was calculated above for the confidence interval in formula \@ref(eq:regressionLineUncertaintyVariance02). Given that the variance \@ref(eq:regressionLineUncertaintyVariance04) is larger than the variance \@ref(eq:regressionLineUncertaintyVariance02), the prediction interval will always be wider than the confidence one.
 
 
 
@@ -491,9 +508,9 @@ The classical hypotheses for the parameters are formulated in the following way:
     \end{aligned} .
     (\#eq:regressionHypothesis01)
 \end{equation}
-This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This **does not mean** that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure \@ref(fig:speedDistanceHypotheses).
+This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This **does not mean** that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure \@ref(fig:costModelHypotheses).
 
-```{r speedDistanceHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
+```{r costModelHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
 par(mfcol=c(1,2))
 plot(cars$speed, cars$dist,
      xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $\\beta_i = 0$"))
@@ -503,7 +520,7 @@ plot(cars$speed, cars$dist,
 abline(costsModelSLR,col="blue")
 ```
 
-The graph on the left in Figure \@ref(fig:speedDistanceHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \@ref(hypothesisTesting), the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
+The graph on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \@ref(hypothesisTesting), the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
 
 Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $n-k$ degrees of freedom:
 \begin{equation}
