@@ -508,7 +508,6 @@ where the variance $\mathrm{V}(\hat{y}_j | \mathbf{x}_j)$ was calculated above f
 ## Hypothesis testing {#uncertaintyRegressionHypothesis}
 In the regression context, it is often the case that an analyst is more interest in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.
 
-### Regression parameters
 What does "effect exist" means in statistical terms? It means that we found some evidence based on our data and model that the value of parameters is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
 \begin{equation}
     \begin{aligned}
@@ -591,20 +590,28 @@ We personally think that the confidence interval shows this idea more clearly, t
 Now we will discuss the classical hypothesis testing in regression.
 
 
-
-
-
-Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section \@ref(hypothesisTesting), I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section \@ref(hypothesisTesting).
-
 ### Regression parameters
-The classical hypotheses for the parameters are formulated in the following way:
-\begin{equation}
+To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+\begin{equation*}
     \begin{aligned}
         \mathrm{H}_0: \beta_i = 0 \\
         \mathrm{H}_1: \beta_i \neq 0
     \end{aligned} .
-    (\#eq:regressionHypothesis01)
+\end{equation*}
+
+Then, we select the significance level. The typical one is 5%, but we can choose another one based on the specific situation.
+
+After that, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is funamentally the same as in Section \@ref(hypothesisTestingBasics):
+\begin{equation}
+    t = \frac{b_i - 0}{s_{b_i}} ,
+    (\#eq:ttestFormulaReg)
 \end{equation}
+where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the standard error of the parameter.
+
+
+
+
+
 This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This **does not mean** that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure \@ref(fig:costModelHypotheses).
 
 ```{r costModelHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
