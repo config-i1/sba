@@ -505,9 +505,95 @@ which can be simplified to (if assumptions of regression model hold, see Section
 where the variance $\mathrm{V}(\hat{y}_j | \mathbf{x}_j)$ was calculated above for the confidence interval in formula \@ref(eq:regressionLineUncertaintyVariance02). Given that the variance \@ref(eq:regressionLineUncertaintyVariance04) is larger than the variance \@ref(eq:regressionLineUncertaintyVariance02), the prediction interval will always be wider than the confidence one.
 
 
-
-
 ## Hypothesis testing {#uncertaintyRegressionHypothesis}
+In the regression context, it is often the case that an analyst is more interest in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.
+
+### Regression parameters
+What does "effect exist" means in statistical terms? It means that we found some evidence based on our data and model that the value of parameters is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
+\begin{equation}
+    \begin{aligned}
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
+    \end{aligned} .
+    (\#eq:regressionHypothesis01)
+\end{equation}
+where $\beta_i$ is the true parameter in the population. The idea is to make some conclusions about what happens in population based on a specific sample of data **and** the estimated model.
+
+Coming back to the example in Section \@ref(uncertaintyRegressionCI), the whole hypothesis testing process implies that the distribution of the estimates of parameter for `materials` lies either consistently above zero or consistently below it (in our case, it is above). Figure \@ref(fig:costsModelSLRCImaterials) demonstrates the distribution we obtained from the bootstrap in the beginning of this chapter and the 95% confidence interval based on the normal approximation of the distribution.
+
+```{r costsModelSLRCImaterials, fig.cap="Parameter uncertainty in the estimated model for the materials variable.", echo=FALSE}
+# Second histogram
+hist(costsModelSLRBootstrap$coefficients[,2],
+     xlab="Slope", main="", probability=TRUE)
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
+lines(xSequence,
+      dnorm(xSequence,
+            mean(costsModelSLRBootstrap$coefficients[,2]),
+            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               mean(costsModelSLRBootstrap$coefficients[,2]),
+               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             mean(costsModelSLRBootstrap$coefficients[,2]),
+             sd(costsModelSLRBootstrap$coefficients[,2]))),
+     rep(6,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        mean(costsModelSLRBootstrap$coefficients[,2]),
+                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+```
+
+The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelSLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample of because the model is incorrect. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.
+
+::: remark
+In hypothesis testing, if we formulate the alternative one as inequality (as it was done in \@ref(eq:regressionHypothesis01)), we cannot say whether the effect is positive or negative. We can only conclude that it is not zero on the pre-specified significance level.
+:::
+
+If we bring this idea further, we can also conclude that the effect is definitely not equal to one (that value is outside of the interval and in the left tail of the distribution), and surely not 2 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a potential simple hypothesis \@ref(eq:regressionHypothesis01), which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?
+
+Figure \@ref(fig:costsModelSLRCIWithZero) shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95% confidence interval.
+
+```{r costsModelSLRCIWithZero, fig.cap="Parameter uncertainty of a hypothetical parameter.", echo=FALSE}
+# Second histogram
+set.seed(41)
+meanValue <- 0.75
+sdValue <- 0.5
+hist(rnorm(1000, meanValue, sdValue),
+     xlab="Slope", main="", probability=TRUE)
+# The estimated coefficient
+# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
+# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- 1+seq(-5,5,0.1)*0.75
+lines(xSequence,
+      dnorm(xSequence,
+            meanValue,
+            sdValue), col=5, lwd=2)
+abline(v=qnorm(c(0.025,0.975),
+               meanValue,
+               sdValue), col=5, lwd=2)
+text(c(qnorm(c(0.025,0.975),
+             meanValue,
+             sdValue)),
+     rep(0.3,2),
+     labels=round(qnorm(c(0.025,0.975),
+                        meanValue,
+                        sdValue),2), pos=c(2,4))
+```
+
+According to Figure \@ref(fig:costsModelSLRCIWithZero), the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
+
+We can also notice that if we were to formulate a different hypothesis, for example, that the parameters is equal to one, we would fail to reject it on the 5% significance level as well. In fact, we would fail to reject the hypotheses on the 5% significance level that the true parameter equals to 0.5, 1.5 and anything between -0.23 and 1.73. Neither of this tells us anything about the true value of parameter. The true conclusion of hypothesis testing in this example is that **we do not know** what the true value of the effect is.
+
+We personally think that the confidence interval shows this idea more clearly, than the conventional hypothesis testing, not hiding anything.
+
+Now we will discuss the classical hypothesis testing in regression.
+
+
+
+
+
 Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section \@ref(hypothesisTesting), I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section \@ref(hypothesisTesting).
 
 ### Regression parameters
