@@ -1,10 +1,6 @@
 # Uncertainty in regression {#uncertaintyRegression}
 
-::: remark
-In this chapter, we focus on a Simple Linear Regression in our discussion, showing mathematical derivations for a more general case. We note that such simplistic model is rarely correct for the data (not a "true" model), but for the purposes of explanation, we find it more intuitive than the proper multiple linear regression.
-:::
-
-Coming back to the example of properties costs from Chapter \@ref(linearRegression), consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure \@ref(fig:scatterCostsUncertainty) depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).
+Coming back to the example of real estate costs from Chapter \@ref(linearRegression), consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure \@ref(fig:scatterCostsUncertainty) depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).
 
 ```{r scatterCostsUncertainty, fig.cap="Material vs overall costs and two regression lines.", echo=FALSE}
 costsModelMLRSmall <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:25)
@@ -60,7 +56,7 @@ hist(costsModelMLRBootstrap$coefficients[,2],
 abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 ```
 
-Figure \@ref(fig:costsModelMLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and \@ref(assumptions)).
+Figure \@ref(fig:costsModelMLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and Chapter \@ref(assumptions)).
 
 This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
 
@@ -78,42 +74,42 @@ One of the simplest ways of capturing the uncertainty about the parameters is by
     \end{pmatrix} ,
     (\#eq:MLRParameterCov)
 \end{equation}
-where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of the Section \@ref(dataAnalysisNumerical), equation \@ref(eq:CovarMat), but it is now applied to the estimates of parameters of the model instead of several random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
+where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of Section \@ref(dataAnalysisNumerical), equation \@ref(eq:CovarMat), but it is now applied to the estimates of parameters of the model instead of some random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
 
 
-### Bootstrap
+### Bootstrap-based matrix
 There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:
 
 ```{r}
-var(costsModelMLRBootstrap$coefficients)
+var(costsModelMLRBootstrap$coefficients) |> round(3)
 ```
 
 The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:
 
 ```{r}
 var(costsModelMLRBootstrap$coefficients) |>
-    cov2cor()
+    cov2cor() |> round(3)
 ```
 
-We see that the correlation between the intercept and the parameter for the year is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data.
+We see, for example, that the correlation between the intercept and the parameter for the `year` is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data for these two variables. Still, this does not provide much useful information, but the matrix itself can be used for further derivations (see next Section).
 
 
 ### Analytical solution
-The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter \@ref(likelihoodApproach)). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
+The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution, see Chapter \@ref(likelihoodApproach)). The following formula is derived for OLS, relies on several important assumptions (see derivations in Subsection \@ref(uncertaintyRegressionCovMaths)), and would not produce adequate results in case of other estimators:
 \begin{equation}
     \mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
     (\#eq:MLRcovarianceMatrix)
 \end{equation}
-where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
+where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does, is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
-vcov(costsModelMLR)
+vcov(costsModelMLR) |> round(3)
 ```
 
-We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \@ref(eq:MLRcovarianceMatrix) is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that *the model is correctly specified* (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter \@ref(assumptions).
+We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \@ref(eq:MLRcovarianceMatrix) is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below), the most important of them being that *the model is correctly specified* (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, discussed in Chapter \@ref(assumptions).
 
 
-### Mathematical derivation
-In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
+### Mathematical derivation {#uncertaintyRegressionCovMaths}
+In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \@ref(eq:MLRcovarianceMatrix). There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The important thing we need to assume at this moment is that the "true" model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
 
 ::: warning
 Linear algebra! Tread lightly!
@@ -134,7 +130,7 @@ We start by expanding the formula for the OLS \@ref(eq:MLROLS) by inserting the 
 
 This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in $\mathbf{X}$ and the specific values of the error term $\boldsymbol{\epsilon}$.
 
-In bypassing, we can show that the OLS estimates of parameters are unbiased as long as the model is correctly specified:
+In bypassing, we can show that the OLS estimates of parameters are unbiased (i.e. their expectation will be equal to the true parameters) as long as the model is correctly specified:
 \begin{equation}
     \begin{aligned}
     \mathrm{E}\left(\boldsymbol{b}\right) =
@@ -160,10 +156,10 @@ In formula \@ref(eq:MLROLSVariance01), the true parameter $\boldsymbol{\beta}$ s
     (\#eq:MLROLSVariance02)
 \end{equation}
 After that, we can recall that $\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0$, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection \@ref(TrueModel)). This is useful because now we can represent the variance \@ref(eq:MLROLSVariance02) as the expectation of products (this follows directly from equation \@ref(eq:VarianceAlt) that we discussed in Subsection \@ref(dataAnalysisNumerical)):
-\begin{equation}
+\begin{equation*}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     (\#eq:MLROLSVariance03)
-\end{equation}
+\end{equation*}
 Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula \@ref(eq:CovarianceAlt) from Section \@ref(dataAnalysisNumerical)):
 \begin{equation}
     \begin{aligned}
@@ -173,7 +169,7 @@ Now to expand the expectation of the sum, we can use the following equality, com
     \end{aligned}
     (\#eq:MLROLSVariance04)
 \end{equation}
-We can notice that the expectations in \@ref(eq:MLROLSVariance04) should be zero because, as discussed earlier, in the true model the error term is not related to anything. This means that the formula can be simplified to:
+We can notice that the expectations in \@ref(eq:MLROLSVariance04) should be zero because, as discussed earlier, in the true model, the error term is not related to anything. This means that the formula can be simplified to:
 \begin{equation}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
     (\#eq:MLROLSVariance05)
@@ -182,7 +178,7 @@ The second element in the brackets can be rewritten as:
 \begin{equation*}
     \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
 \end{equation*}
-Substituting this to \@ref(eq:MLROLSVariance05) and moving explanatory variables from the covariance leads to:
+Substituting this to \@ref(eq:MLROLSVariance05) and moving explanatory variables from the covariance gives:
 \begin{equation}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
     (\#eq:MLROLSVariance06)
@@ -192,16 +188,15 @@ which after some cancellations leads to:
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
     (\#eq:MLROLSVarianceSemiFinal)
 \end{equation}
-Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula:
+Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula (from equation \@ref(eq:RMSERegression)):
 \begin{equation*}
     \hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
 \end{equation*}
-which after being insert in \@ref(eq:MLROLSVarianceSemiFinal), leads to:
+which after being inserted in \@ref(eq:MLROLSVarianceSemiFinal), leads to:
 \begin{equation}
     \mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
     (\#eq:MLROLSVarianceFinal)
 \end{equation}
-where is the estimate of the true variance based on the applied model.
 :::
 
 ::: remark
@@ -212,20 +207,20 @@ Mathematically speaking, $\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsym
 where $\mathbf{I}_{k-1}$ is the identity matrix of the size $k-1$ and $\sigma^2$ is the variance of the error term.
 :::
 
-We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that the model is correctly estimated. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter \@ref(assumptions)).
+We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that **the model is correctly estimated**. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter \@ref(assumptions)).
 
 
 ## Confidence intervals of parameters {#uncertaintyRegressionCI}
-Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section \@ref(uncertaintyRegressionCov) captures that uncertainty, but it is hard to make any decisions based on it.
+Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section \@ref(uncertaintyRegressionCov) captures that uncertainty, but it is hard to make any decision based on it.
 
-A simpler way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelMLRCI), which continues the example we discussed before.
+A simpler way to do that is to construct confidence intervals in a similar way to how we did that in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelMLRCI), which continues the example we discussed earlier.
 
 ```{r costsModelMLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
 par(mfcol=c(1,2))
 # First histogram
 hist(costsModelMLRBootstrap$coefficients[,1],
      xlab="Intercept", main="", probability=TRUE,
-     xlim=range(costsModelMLRBootstrap$coefficients[,1])*c(0.9,1.1))
+     xlim=range(costsModelMLRBootstrap$coefficients[,1])*c(1.1,1.15))
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[1], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,1]), col=5, lwd=2)
@@ -240,14 +235,15 @@ abline(v=qnorm(c(0.025,0.975),
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,1]),
              sd(costsModelMLRBootstrap$coefficients[,1]))),
-     rep(0.03,2),
+     rep(0.00015,2),
      labels=round(qnorm(c(0.025,0.975),
                         mean(costsModelMLRBootstrap$coefficients[,1]),
                         sd(costsModelMLRBootstrap$coefficients[,1])),2), pos=c(2,4))
 
 # Second histogram
 hist(costsModelMLRBootstrap$coefficients[,2],
-     xlab="Slope", main="", probability=TRUE)
+     xlab="Materials costs", main="", probability=TRUE,
+     xlim=range(costsModelMLRBootstrap$coefficients[,2])*c(0.75,1.1))
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
@@ -262,13 +258,13 @@ abline(v=qnorm(c(0.025,0.975),
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,2]),
              sd(costsModelMLRBootstrap$coefficients[,2]))),
-     rep(6,2),
+     rep(2,2),
      labels=round(qnorm(c(0.025,0.975),
                         mean(costsModelMLRBootstrap$coefficients[,2]),
                         sd(costsModelMLRBootstrap$coefficients[,2])),2), pos=c(2,4))
 ```
 
-Figure \@ref(fig:costsModelMLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times.
+Figure \@ref(fig:costsModelMLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true intercept will lie between `r round(qnorm(c(0.025), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times.
 
 The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 \begin{equation}
