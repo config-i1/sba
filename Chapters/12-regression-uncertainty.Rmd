@@ -7,8 +7,8 @@ In this chapter, we focus on a Simple Linear Regression in our discussion, showi
 Coming back to the example of properties costs from Chapter \@ref(linearRegression), consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure \@ref(fig:scatterCostsUncertainty) depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).
 
 ```{r scatterCostsUncertainty, fig.cap="Material vs overall costs and two regression lines.", echo=FALSE}
-costsModelSLRSmall <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:25)
-costsModelSLRLarge <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:50)
+costsModelMLRSmall <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:25)
+costsModelMLRLarge <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:50)
 plot(overall~materials, SBA_Chapter_11_Costs, subset=1:50,
      xlab="Material costs", ylab="Overall costs",
      col=3, pch=1, lwd=2)
@@ -16,12 +16,12 @@ points(SBA_Chapter_11_Costs$materials[1:25], SBA_Chapter_11_Costs$overall[1:25],
        col=5, pch=20, lwd=2)
 abline(h=0, col="grey")
 abline(v=0, col="grey")
-abline(costsModelSLRLarge, col=3, lty=2)
-text(250,380,paste0(c("overall = ",round(coef(costsModelSLRLarge)[1],2)," + ",
-                      round(coef(costsModelSLRLarge)[2],2)," materials + e"),collapse=""), col=3)
-abline(costsModelSLRSmall, col=5)
-text(215,557,paste0(c("overall = ",round(coef(costsModelSLRSmall)[1],2)," + ",
-                      round(coef(costsModelSLRSmall)[2],2)," materials + e"),collapse=""), col=5)
+abline(costsModelMLRLarge, col=3, lty=2)
+text(250,380,paste0(c("overall = ",round(coef(costsModelMLRLarge)[1],2)," + ",
+                      round(coef(costsModelMLRLarge)[2],2)," materials + e"),collapse=""), col=3)
+abline(costsModelMLRSmall, col=5)
+text(215,557,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1],2)," + ",
+                      round(coef(costsModelMLRSmall)[2],2)," materials + e"),collapse=""), col=5)
 legend("topleft", legend=c("50 observations","25 observations"),
        lwd=2, col=c(3,5), lty=c(2,1))
 ```
@@ -38,29 +38,29 @@ To see this point clearer, we fit the same simple regression model to randomly s
 
 ```{r}
 # Fit the model
-costsModelSLR <- alm(overall ~ materials, data=SBA_Chapter_11_Costs, loss="MSE")
+costsModelMLR <- alm(overall~materials+size+projects+year, data=SBA_Chapter_11_Costs, loss="MSE")
 # Set random seed for reproducibility
 set.seed(41)
-costsModelSLRBootstrap <- coefbootstrap(costsModelSLR)
+costsModelMLRBootstrap <- coefbootstrap(costsModelMLR)
 ```
 
-Based on that we can plot the histograms of the estimates of parameters as shown in Figure \@ref(fig:costsModelSLRBootstrap).
+Based on that we can plot the histograms of the estimates of parameters as shown in Figure \@ref(fig:costsModelMLRBootstrap).
 
-```{r costsModelSLRBootstrap, fig.cap="Distribution of bootstrapped parameters of a regression model"}
+```{r costsModelMLRBootstrap, fig.cap="Distribution of bootstrapped parameters of a regression model"}
 par(mfcol=c(1,2))
 # First histogram
-hist(costsModelSLRBootstrap$coefficients[,1],
+hist(costsModelMLRBootstrap$coefficients[,1],
      xlab="Intercept", main="")
 # The estimated coefficient
-abline(v=coef(costsModelSLR)[1], col="darkred", lwd=2)
+abline(v=coef(costsModelMLR)[1], col=3, lwd=2)
 # Second histogram
-hist(costsModelSLRBootstrap$coefficients[,2],
-     xlab="Slope", main="")
+hist(costsModelMLRBootstrap$coefficients[,2],
+     xlab="Material costs", main="")
 # The estimated coefficient
-abline(v=coef(costsModelSLR)[2], col="darkred", lwd=2)
+abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 ```
 
-Figure \@ref(fig:costsModelSLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and \@ref(assumptions)).
+Figure \@ref(fig:costsModelMLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and \@ref(assumptions)).
 
 This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
 
@@ -85,17 +85,17 @@ where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The cova
 There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:
 
 ```{r}
-var(costsModelSLRBootstrap$coefficients)
+var(costsModelMLRBootstrap$coefficients)
 ```
 
 The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:
 
 ```{r}
-var(costsModelSLRBootstrap$coefficients) |>
+var(costsModelMLRBootstrap$coefficients) |>
     cov2cor()
 ```
 
-We see that the correlation between the intercept and the parameter for the materials is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (materials vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data. This sort of behaviour is typical for the case when the two variables have positive correlation (with the increase of the material costs, the overall costs increase as well).
+We see that the correlation between the intercept and the parameter for the year is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data.
 
 
 ### Analytical solution
@@ -106,7 +106,7 @@ The alternative way of calculating the covariance matrix is using a formula. Thi
 \end{equation}
 where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
-vcov(costsModelSLR)
+vcov(costsModelMLR)
 ```
 
 We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \@ref(eq:MLRcovarianceMatrix) is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that *the model is correctly specified* (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter \@ref(assumptions).
@@ -218,57 +218,57 @@ We should note that the majority of assumptions above needed for the derivation 
 ## Confidence intervals of parameters {#uncertaintyRegressionCI}
 Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this Chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section \@ref(uncertaintyRegressionCov) captures that uncertainty, but it is hard to make any decisions based on it.
 
-A simpler way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelSLRCI), which continues the example we discussed before.
+A simpler way to do that is to construct confidence intervals in a similar way to what we discussed in Section \@ref(confidenceInterval). Visually, this process is shown in Figure \@ref(fig:costsModelMLRCI), which continues the example we discussed before.
 
-```{r costsModelSLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
+```{r costsModelMLRCI, fig.cap="Parameter uncertainty in the estimated model", echo=FALSE}
 par(mfcol=c(1,2))
 # First histogram
-hist(costsModelSLRBootstrap$coefficients[,1],
+hist(costsModelMLRBootstrap$coefficients[,1],
      xlab="Intercept", main="", probability=TRUE,
-     xlim=range(costsModelSLRBootstrap$coefficients[,1])*c(0.9,1.1))
+     xlim=range(costsModelMLRBootstrap$coefficients[,1])*c(0.9,1.1))
 # The estimated coefficient
-# abline(v=coef(costsModelSLR)[1], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,1]), col=5, lwd=2)
-xSequence <- mean(costsModelSLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,1])
+# abline(v=coef(costsModelMLR)[1], col=3, lwd=2)
+# lines(density(costsModelMLRBootstrap$coefficients[,1]), col=5, lwd=2)
+xSequence <- mean(costsModelMLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(costsModelMLRBootstrap$coefficients[,1])
 lines(xSequence,
       dnorm(xSequence,
-            mean(costsModelSLRBootstrap$coefficients[,1]),
-            sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+            mean(costsModelMLRBootstrap$coefficients[,1]),
+            sd(costsModelMLRBootstrap$coefficients[,1])), col=5, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
-               mean(costsModelSLRBootstrap$coefficients[,1]),
-               sd(costsModelSLRBootstrap$coefficients[,1])), col=5, lwd=2)
+               mean(costsModelMLRBootstrap$coefficients[,1]),
+               sd(costsModelMLRBootstrap$coefficients[,1])), col=5, lwd=2)
 text(c(qnorm(c(0.025,0.975),
-             mean(costsModelSLRBootstrap$coefficients[,1]),
-             sd(costsModelSLRBootstrap$coefficients[,1]))),
+             mean(costsModelMLRBootstrap$coefficients[,1]),
+             sd(costsModelMLRBootstrap$coefficients[,1]))),
      rep(0.03,2),
      labels=round(qnorm(c(0.025,0.975),
-                        mean(costsModelSLRBootstrap$coefficients[,1]),
-                        sd(costsModelSLRBootstrap$coefficients[,1])),2), pos=c(2,4))
+                        mean(costsModelMLRBootstrap$coefficients[,1]),
+                        sd(costsModelMLRBootstrap$coefficients[,1])),2), pos=c(2,4))
 
 # Second histogram
-hist(costsModelSLRBootstrap$coefficients[,2],
+hist(costsModelMLRBootstrap$coefficients[,2],
      xlab="Slope", main="", probability=TRUE)
 # The estimated coefficient
-# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
-xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
+# abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
+# lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- mean(costsModelMLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelMLRBootstrap$coefficients[,2])
 lines(xSequence,
       dnorm(xSequence,
-            mean(costsModelSLRBootstrap$coefficients[,2]),
-            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+            mean(costsModelMLRBootstrap$coefficients[,2]),
+            sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
-               mean(costsModelSLRBootstrap$coefficients[,2]),
-               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+               mean(costsModelMLRBootstrap$coefficients[,2]),
+               sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
 text(c(qnorm(c(0.025,0.975),
-             mean(costsModelSLRBootstrap$coefficients[,2]),
-             sd(costsModelSLRBootstrap$coefficients[,2]))),
+             mean(costsModelMLRBootstrap$coefficients[,2]),
+             sd(costsModelMLRBootstrap$coefficients[,2]))),
      rep(6,2),
      labels=round(qnorm(c(0.025,0.975),
-                        mean(costsModelSLRBootstrap$coefficients[,2]),
-                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+                        mean(costsModelMLRBootstrap$coefficients[,2]),
+                        sd(costsModelMLRBootstrap$coefficients[,2])),2), pos=c(2,4))
 ```
 
-Figure \@ref(fig:costsModelSLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelSLRBootstrap$coefficients[,1]), sd(costsModelSLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times.
+Figure \@ref(fig:costsModelMLRCI) demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \@ref(CLT)) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true Intercept will lie between `r round(qnorm(c(0.025), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` and `r round(qnorm(c(0.975), mean(costsModelMLRBootstrap$coefficients[,1]), sd(costsModelMLRBootstrap$coefficients[,1])),2)` in the 95% of the cases, if we repeat the resampling experiment many times.
 
 The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 \begin{equation}
@@ -290,15 +290,15 @@ To calculate the confidence interval, using the equation \@ref(eq:MLRParameterIn
 4. Number of degrees of freedom $n-k$, which can be easily calculated based on the sample size $n$ and the number of estimated parameters $k$.
 5. Student's t statistics. This can be obtained from statistical tables or the software, given the significance level $\alpha$ and the number of degrees of freedom $n-k$, calculated above.
 
-Consider construction of the interval for the slope parameter `materials` from the regression we discussed earlier. In our case, we know the following:
+Consider construction of the interval for the slope parameter for the variable `materials` from the regression we discussed earlier. In our case, we know the following:
 
 1. $\alpha=0.05$ because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;
-2. The value of the parameter $b_1$ is `r coef(costsModelSLR)[2]`;
-3. We have not discussed yet how to obtain the variance of the parameter analytically, but there is a built-in formula in software that gives it, and/or we could get it via the bootstrap, simply by taking the variance of the values from the distribution in Figure \@ref(fig:costsModelSLRCI). In R, we can get the variance of the parameter for slope (second parameter in the model) via the `vcov()` function, like this:
+2. The value of the parameter $b_1$ is `r coef(costsModelMLR)[2]`;
+3. We have not discussed yet how to obtain the variance of the parameter analytically, but there is a built-in formula in software that gives it, and/or we could get it via the bootstrap, simply by taking the variance of the values from the distribution in Figure \@ref(fig:costsModelMLRCI). In R, we can get the variance of the parameter for slope (second parameter in the model) via the `vcov()` function, like this:
 ```{r}
-vcov(costsModelSLR)[2,2]
+vcov(costsModelMLR)[2,2]
 ```
-Based on that, we can say that the standard error of the slope is approximately `r round(sqrt(vcov(costsModelSLR)[2,2]),4)`.
+Based on that, we can say that the standard error of the slope is approximately `r round(sqrt(vcov(costsModelMLR)[2,2]),4)`.
 4. We estimated two parameters, so $k=2$, and the sample size $n$ was 61, which means that in our model has $n-k=61-2=59$ degrees of freedom.
 5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we will have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=59$. In R, we can use the `qt()` function in the folloqing way:
 ```{r}
@@ -306,18 +306,18 @@ qt(c(0.025,0.975), 59)
 ```
 
 ```{r echo=FALSE}
-x <- round(coef(costsModelSLR)[2]+qt(c(0.025,0.975), 59)*round(sqrt(vcov(costsModelSLR)[2,2]),4),4)
+x <- round(coef(costsModelMLR)[2]+qt(c(0.025,0.975), 59)*round(sqrt(vcov(costsModelMLR)[2,2]),4),4)
 ```
 
 Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")``)
 
 In R, the confidence interval can be obtained via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
 ```{r}
-confint(costsModelSLR)
+confint(costsModelMLR)
 ```
 
 ```{r echo=FALSE}
-x <- confint(costsModelSLR)[2,2:3]
+x <- confint(costsModelMLR)[2,2:3]
 ```
 
 The confidence interval for materials above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
@@ -325,7 +325,7 @@ The confidence interval for materials above shows, for example, that if we repea
 
 We can also present all of this in the following summary (this is based on the `alm()` model, the other functions will produce different ones):
 ```{r}
-summary(costsModelSLR)
+summary(costsModelMLR)
 ```
 
 This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
@@ -343,7 +343,7 @@ Let's see what this means in the regression context.
 
 
 ### Confidence interval {#uncertaintyRegressionLineConfidence}
-In context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)), which reflects the potential changes of the line with the changes of the sample.
+In context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds, size of 90, 3 projects and the year 2008. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)), which reflects the potential changes of the line with the changes of the sample.
 
 The formula for the construction of the confidence interval is very similar to the one we discussed for the sample mean in Section \@ref(confidenceInterval):
 \begin{equation}
@@ -369,8 +369,8 @@ To be able to construct the confidence interval using the formula above, we need
 
 In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:costModelConfidenceInterval)):
 ```{r costModelConfidenceInterval, fig.cap="Fitted values and confidence interval for the costs model."}
-costsModelSLRCI <- predict(costsModelSLR, interval="confidence")
-plot(costsModelSLRCI, main="",
+costsModelMLRCI <- predict(costsModelMLR, interval="confidence")
+plot(costsModelMLRCI, main="",
      xlab="Observation", ylab="Overall Costs")
 ```
 
@@ -378,31 +378,31 @@ It is hard to read this graph because the interval is narrow, and the actual val
 
 ```{r costModelConfidenceIntervalZoom, fig.cap="Fitted values and confidence interval for the costs model."}
 # Produce the predicted value and the confidence interval
-costsModelSLRCI200 <- predict(costsModelSLR,
+costsModelMLRCI200 <- predict(costsModelMLR,
                               interval="confidence",
-                              newdata=data.frame(materials=200))
+                              newdata=data.frame(materials=200, size=90, projects=3, year=2008))
 # Plot the material costs vs fitted
-plot(200, costsModelSLRCI200$mean,
+plot(200, costsModelMLRCI200$mean,
      xlab="Material costs", ylab="Overall costs",
-     ylim=c(costsModelSLRCI200$lower, costsModelSLRCI200$upper),
+     ylim=c(costsModelMLRCI200$lower, costsModelMLRCI200$upper),
      pch=16)
 # Add confidence interval
-abline(h=costsModelSLRCI200$upper, col="grey", lwd=2, lty=2)
-abline(h=costsModelSLRCI200$lower, col="grey", lwd=2, lty=2)
+abline(h=costsModelMLRCI200$upper, col="grey", lwd=2, lty=2)
+abline(h=costsModelMLRCI200$lower, col="grey", lwd=2, lty=2)
 ```
 
-What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k are `r round(costsModelSLRCI200$mean, 2)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelSLRCI200$lower, 2)` and `r round(costsModelSLRCI200$upper, 2)` in 95% if we repeat the confidence interval construction many times.
+What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k, size of 90, 3 projects and the year 2008 are `r round(costsModelMLRCI200$mean, 2)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCI200$lower, 2)` and `r round(costsModelMLRCI200$upper, 2)` in 95% if we repeat the confidence interval construction many times.
 
 Another way of visualising the confidence interval is on the actuals vs fitted plot:
 ```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
-plot(fitted(costsModelSLR), actuals(costsModelSLR),
+plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals")
 abline(a=0,b=1,col=5,lwd=2)
-lines(sort(fitted(costsModelSLR)),
-      costsModelSLRCI$lower[order(fitted(costsModelSLR))], 
+lines(sort(fitted(costsModelMLR)),
+      costsModelMLRCI$lower[order(fitted(costsModelMLR))], 
       col=3, lwd=2)
-lines(sort(fitted(costsModelSLR)),
-      costsModelSLRCI$upper[order(fitted(costsModelSLR))], 
+lines(sort(fitted(costsModelMLR)),
+      costsModelMLRCI$upper[order(fitted(costsModelMLR))], 
       col=3, lwd=2)
 ```
 
@@ -425,38 +425,39 @@ In the formula above, the important assumption is that the error term follows th
 
 In R, the interval construction can be done via the very same `predict()` function with `interval="prediction"`:
 ```{r}
-costsModelSLRPI <- predict(costsModelSLR, interval="prediction")
+costsModelMLRPI <- predict(costsModelMLR, interval="prediction")
 ```
 
 Based on this, we can produce an image similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
 
 ```{r costModelPI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
-plot(costsModelSLRPI, ylab="Values", xlab="Observations",
+plot(costsModelMLRPI, ylab="Values", xlab="Observations",
      main="Actuals and Fitted over observations")
-plot(fitted(costsModelSLR), actuals(costsModelSLR),
+plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted",
-     ylim=range(costsModelSLRPI$lower,costsModelSLRPI$upper))
+     ylim=range(costsModelMLRPI$lower,costsModelMLRPI$upper))
 abline(a=0,b=1,col=5,lwd=2)
-lines(sort(fitted(costsModelSLR)),
-      costsModelSLRPI$lower[order(fitted(costsModelSLR))], 
+lines(sort(fitted(costsModelMLR)),
+      costsModelMLRPI$lower[order(fitted(costsModelMLR))], 
       col=3, lty=2, lwd=2)
-lines(sort(fitted(costsModelSLR)),
-      costsModelSLRPI$upper[order(fitted(costsModelSLR))], 
+lines(sort(fitted(costsModelMLR)),
+      costsModelMLRPI$upper[order(fitted(costsModelMLR))], 
       col=3, lty=2, lwd=2)
 ```
 
 Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 2 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval.
 
-In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what would happen if the material costs were, for example, £200k:
+In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what would happen if the material costs were, for example, £200k, the size was 90, the team produced 3 projects and the project was done in 2008:
 
-```{r costModelForecast, fig.cap="Forecast of the overall costs given the material costs of 200."}
-costsModelSLRForecast <- predict(costsModelSLR,newdata=data.frame(materials=200),
-                                    interval="prediction")
-plot(costsModelSLRForecast)
+```{r costModelForecast, fig.cap="Forecast of the overall costs given the material costs of 200, size of 90, 3 projects and year 2008."}
+costsModelMLRForecast <- predict(costsModelMLR,
+                                 newdata=data.frame(materials=200, size=90, projects=3, year=2008),
+                                 interval="prediction")
+plot(costsModelMLRForecast)
 ```
 
-Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overall costs of a project if the material ones are £200k) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between `r paste(round(c(costsModelSLRForecast$lower,costsModelSLRForecast$upper),3),collapse=" and ")` thousands of pounds.
+Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overall costs of a project given the values of explanatory variables) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between `r paste(round(c(costsModelMLRForecast$lower,costsModelMLRForecast$upper),3),collapse=" and ")` thousands of pounds.
 
 
 ### Derivations of the variance in regression {#uncertaintyRegressionLineMaths}
@@ -518,33 +519,33 @@ What does "effect exist" means in statistical terms? It means that we found some
 \end{equation}
 where $\beta_i$ is the true parameter in the population. The idea is to make some conclusions about what happens in population based on a specific sample of data **and** the estimated model.
 
-Coming back to the example in Section \@ref(uncertaintyRegressionCI), the whole hypothesis testing process implies that the distribution of the estimates of parameter for `materials` lies either consistently above zero or consistently below it (in our case, it is above). Figure \@ref(fig:costsModelSLRCImaterials) demonstrates the distribution we obtained from the bootstrap in the beginning of this chapter and the 95% confidence interval based on the normal approximation of the distribution.
+Coming back to the example in Section \@ref(uncertaintyRegressionCI), the whole hypothesis testing process implies that the distribution of the estimates of parameter for `materials` lies either consistently above zero or consistently below it (in our case, it is above). Figure \@ref(fig:costsModelMLRCImaterials) demonstrates the distribution we obtained from the bootstrap in the beginning of this chapter and the 95% confidence interval based on the normal approximation of the distribution.
 
-```{r costsModelSLRCImaterials, fig.cap="Parameter uncertainty in the estimated model for the materials variable.", echo=FALSE}
+```{r costsModelMLRCImaterials, fig.cap="Parameter uncertainty in the estimated model for the materials variable.", echo=FALSE}
 # Second histogram
-hist(costsModelSLRBootstrap$coefficients[,2],
-     xlab="Slope", main="", probability=TRUE)
+hist(costsModelMLRBootstrap$coefficients[,2],
+     xlab="Material costs", main="", probability=TRUE)
 # The estimated coefficient
-# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
-xSequence <- mean(costsModelSLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelSLRBootstrap$coefficients[,2])
+# abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
+# lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
+xSequence <- mean(costsModelMLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(costsModelMLRBootstrap$coefficients[,2])
 lines(xSequence,
       dnorm(xSequence,
-            mean(costsModelSLRBootstrap$coefficients[,2]),
-            sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+            mean(costsModelMLRBootstrap$coefficients[,2]),
+            sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
-               mean(costsModelSLRBootstrap$coefficients[,2]),
-               sd(costsModelSLRBootstrap$coefficients[,2])), col=5, lwd=2)
+               mean(costsModelMLRBootstrap$coefficients[,2]),
+               sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
 text(c(qnorm(c(0.025,0.975),
-             mean(costsModelSLRBootstrap$coefficients[,2]),
-             sd(costsModelSLRBootstrap$coefficients[,2]))),
+             mean(costsModelMLRBootstrap$coefficients[,2]),
+             sd(costsModelMLRBootstrap$coefficients[,2]))),
      rep(6,2),
      labels=round(qnorm(c(0.025,0.975),
-                        mean(costsModelSLRBootstrap$coefficients[,2]),
-                        sd(costsModelSLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+                        mean(costsModelMLRBootstrap$coefficients[,2]),
+                        sd(costsModelMLRBootstrap$coefficients[,2])),2), pos=c(2,4))
 ```
 
-The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelSLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample of because the model is incorrect. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.
+The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelMLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample of because the model is incorrect. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.
 
 ::: remark
 In hypothesis testing, if we formulate the alternative one as inequality (as it was done in \@ref(eq:regressionHypothesis01)), we cannot say whether the effect is positive or negative. We can only conclude that it is not zero on the pre-specified significance level.
@@ -552,9 +553,9 @@ In hypothesis testing, if we formulate the alternative one as inequality (as it 
 
 If we bring this idea further, we can also conclude that the effect is definitely not equal to one (that value is outside of the interval and in the left tail of the distribution), and surely not 2 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a potential simple hypothesis \@ref(eq:regressionHypothesis01), which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?
 
-Figure \@ref(fig:costsModelSLRCIWithZero) shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95% confidence interval.
+Figure \@ref(fig:costsModelMLRCIWithZero) shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95% confidence interval.
 
-```{r costsModelSLRCIWithZero, fig.cap="Parameter uncertainty of a hypothetical parameter.", echo=FALSE}
+```{r costsModelMLRCIWithZero, fig.cap="Parameter uncertainty of a hypothetical parameter.", echo=FALSE}
 # Second histogram
 set.seed(41)
 meanValue <- 0.75
@@ -562,8 +563,8 @@ sdValue <- 0.5
 hist(rnorm(1000, meanValue, sdValue),
      xlab="Slope", main="", probability=TRUE)
 # The estimated coefficient
-# abline(v=coef(costsModelSLR)[2], col=3, lwd=2)
-# lines(density(costsModelSLRBootstrap$coefficients[,2]), col=5, lwd=2)
+# abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
+# lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
 xSequence <- 1+seq(-5,5,0.1)*0.75
 lines(xSequence,
       dnorm(xSequence,
@@ -581,7 +582,7 @@ text(c(qnorm(c(0.025,0.975),
                         sdValue),2), pos=c(2,4))
 ```
 
-According to Figure \@ref(fig:costsModelSLRCIWithZero), the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
+According to Figure \@ref(fig:costsModelMLRCIWithZero), the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
 
 We can also notice that if we were to formulate a different hypothesis, for example, that the parameters is equal to one, we would fail to reject it on the 5% significance level as well. In fact, we would fail to reject the hypotheses on the 5% significance level that the true parameter equals to 0.5, 1.5 and anything between -0.23 and 1.73. Neither of this tells us anything about the true value of parameter. The true conclusion of hypothesis testing in this example is that **we do not know** what the true value of the effect is.
 
@@ -591,7 +592,7 @@ Now we will discuss the classical hypothesis testing in regression.
 
 
 ### Regression parameters
-The logic of hypothesis testing in regression is very similar to the one discussed in Section \@ref(hypothesisTesting). To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable `materials`, which equals to `r coef(costsModelSLR)[2]`. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+The logic of hypothesis testing in regression is very similar to the one discussed in Section \@ref(hypothesisTesting). To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable `materials`, which equals to `r coef(costsModelMLR)[2]`. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
 \begin{equation*}
     \begin{aligned}
         \mathrm{H}_0: \beta_i = 0 \\
@@ -602,6 +603,7 @@ The logic of hypothesis testing in regression is very similar to the one discuss
 Visually, the null and alternative hypotheses can be represented as shown in Figure \@ref(fig:costModelHypotheses).
 
 ```{r costModelHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context.", echo=FALSE}
+costsModelSLR <- alm(overall~materials, data=SBA_Chapter_11_Costs, loss="MSE")
 par(mfcol=c(1,2))
 plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
      xlab="Material costs", ylab="Overall costs", main=TeX("H$_0$: $\\beta_i = 0$"),
@@ -624,35 +626,35 @@ Then, we need to select the test to use. As discussed earlier in this chapter, i
 \end{equation}
 where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the standard error of the parameter obtained from the covariance matrix from Section \@ref(uncertaintyRegressionCov). The standard deviation of the parameter is:
 ```{r}
-vcov(costsModelSLR)[2,2] |> sqrt()
+vcov(costsModelMLR)[2,2] |> sqrt()
 ```
 Inserting the values in formula \@ref(eq:ttestFormulaReg) gives us the t-statistics value for our example:
 \begin{equation*}
-    t = \frac{|1.165 - 0|}{0.081} \approx 14.4 
+    t = \frac{|0.774 - 0|}{0.219} \approx 3.534 
 \end{equation*}
-Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-2=59. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
+Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-5=55. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
 ```{r}
-qt(c(0.025, 0.975), 59)
+qt(c(0.025, 0.975), 55)
 ```
-We consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 14.2 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of materials on overall costs.
+We consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of materials on overall costs.
 
 ::: remark
-The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 14.4 with 2.000995, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
+The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.534 with 2.004045, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
 :::
 
 An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H$_0$ if the p-value is lower than the level. For our example, the p-value can be calculated using the `pt()` function in R: 
 ```{r}
-pt(14.4, 59, lower.tail=FALSE)
+pt(3.534, 55, lower.tail=FALSE)
 ```
-Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get `r pt(14.4, 59, lower.tail=FALSE)*2`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
+Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get `r pt(3.534, 55, lower.tail=FALSE)*2`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
 
 All of this is done automatically by R if we estimate the model using the basic `lm()` function from the `stats` package:
 ```{r}
-lm(overall ~ materials, data=SBA_Chapter_11_Costs) |>
+lm(overall~materials+size+projects+year, data=SBA_Chapter_11_Costs) |>
 summary()
 ```
 
-The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called "Pr(>|t|)"). The "<2e-16" means that the calculated p-value is lower than $2 \times 10^{-16}$.
+The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called "Pr(>|t|)").
 
 ::: remark
 When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \@ref(hypothesisTestingMistakes).
@@ -698,10 +700,10 @@ where the sums of squares are divided by their degrees of freedom. The test is c
 This hypothesis is not very useful, when the parameters are significant and the coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is good or bad, adequate or not. And the F value and related p-value are not comparable with respective values of another models. Visually, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same costs model is provided in Figure \@ref(fig:costsModelHypothesesF).
 
 ```{r costsModelHypothesesF, fig.cap="Graphical presentation of F test for regression model.", echo=FALSE}
-plot(fitted(costsModelSLR), actuals(costsModelSLR),
+plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted", ylab="Actuals")
 abline(a=0, b=1, col=5, lwd=2)
-abline(h=mean(actuals(costsModelSLR)),col=3, lwd=2)
+abline(h=mean(actuals(costsModelMLR)),col=3, lwd=2)
 ```
 
 What the test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
@@ -710,21 +712,21 @@ Here is an example with the costs model discussed in this chapter with the pre-s
 
 ```{r}
 # Estimate the regression using lm 
-costsModelSLRLm <- lm(overall ~ materials, data=SBA_Chapter_11_Costs)
+costsModelMLRLm <- lm(overall ~ materials, data=SBA_Chapter_11_Costs)
 # Get summary statistics
-costsModelSLRF <- summary(costsModelSLRLm)$fstatistic
+costsModelMLRF <- summary(costsModelMLRLm)$fstatistic
 # Extract the F-value
-costsModelSLRF[1]
+costsModelMLRF[1]
 # Calculate the critical value of F
-qf(0.99,costsModelSLRF[2],costsModelSLRF[3])
+qf(0.99,costsModelMLRF[2],costsModelMLRF[3])
 ```
 
 In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `overall`. Alternatively, we could focus on the p-value:
 ```{r}
 # p-value from the test
-pf(costsModelSLRF[1],costsModelSLRF[2],costsModelSLRF[3],lower.tail=FALSE)
+pf(costsModelMLRF[1],costsModelMLRF[2],costsModelMLRF[3],lower.tail=FALSE)
 ```
 We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the `lm()` function:
 ```{r}
-summary(costsModelSLRLm)
+summary(costsModelMLRLm)
 ```

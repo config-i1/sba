@@ -437,17 +437,23 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 <div id="bootstrap" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Bootstrap<a href="uncertaintyRegressionCov.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelSLRBootstrap<span class="sc">$</span>coefficients)</span></code></pre></div>
-<pre><code>##             (Intercept)    materials
-## (Intercept)  88.5218620 -0.410357862
-## materials    -0.4103579  0.002037377</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients)</span></code></pre></div>
+<pre><code>##               (Intercept)   materials         size     projects          year
+## (Intercept) 3628842.79487 21.21075659 -59.99315670 311.55636049 -1.806527e+03
+## materials        21.21076  0.02813508  -0.05780041   0.05215842 -1.071008e-02
+## size            -59.99316 -0.05780041   0.12720910  -0.12347879  2.980010e-02
+## projects        311.55636  0.05215842  -0.12347879   3.15771407 -1.596460e-01
+## year          -1806.52687 -0.01071008   0.02980010  -0.15964602  8.993605e-01</code></pre>
 <p>The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="uncertaintyRegressionCov.html#cb173-1" tabindex="-1"></a><span class="fu">var</span>(costsModelSLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="uncertaintyRegressionCov.html#cb173-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
 <span id="cb173-2"><a href="uncertaintyRegressionCov.html#cb173-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>()</span></code></pre></div>
-<pre><code>##             (Intercept)  materials
-## (Intercept)   1.0000000 -0.9662773
-## materials    -0.9662773  1.0000000</code></pre>
-<p>We see that the correlation between the intercept and the parameter for the materials is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (materials vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data. This sort of behaviour is typical for the case when the two variables have positive correlation (with the increase of the material costs, the overall costs increase as well).</p>
+<pre><code>##             (Intercept)   materials        size    projects        year
+## (Intercept)  1.00000000  0.06638164 -0.08829956  0.09203778 -0.99998490
+## materials    0.06638164  1.00000000 -0.96615708  0.17499029 -0.06732890
+## size        -0.08829956 -0.96615708  1.00000000 -0.19482598  0.08810320
+## projects     0.09203778  0.17499029 -0.19482598  1.00000000 -0.09473376
+## year        -0.99998490 -0.06732890  0.08810320 -0.09473376  1.00000000</code></pre>
+<p>We see that the correlation between the intercept and the parameter for the year is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data.</p>
 </div>
 <div id="analytical-solution" class="section level3 hasAnchor" number="12.1.2">
 <h3><span class="header-section-number">12.1.2</span> Analytical solution<a href="uncertaintyRegressionCov.html#analytical-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -457,10 +463,13 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
     \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelSLR)</span></code></pre></div>
-<pre><code>##             (Intercept)    materials
-## (Intercept)  258.843495 -1.266627187
-## materials     -1.266627  0.006616654</code></pre>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)</span></code></pre></div>
+<pre><code>##               (Intercept)   materials          size     projects          year
+## (Intercept) 9323602.83034 42.93420349 -13.001244950 670.12795613 -4.647635e+03
+## materials        42.93420  0.04798315  -0.100373199   0.09670892 -2.157164e-02
+## size            -13.00124 -0.10037320   0.242055291  -0.20502991  5.423772e-03
+## projects        670.12796  0.09670892  -0.205029909   7.14554628 -3.461713e-01
+## year          -4647.63488 -0.02157164   0.005423772  -0.34617126  2.316845e+00</code></pre>
 <p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
 </div>
 <div id="mathematical-derivation" class="section level3 hasAnchor" number="12.1.3">
