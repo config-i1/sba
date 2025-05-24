@@ -719,7 +719,7 @@ n <- nobs(slmTrees)
 R2 <- 1 - sum(resid(slmTrees)^2) / (var(actuals(slmTrees))*(n-1))
 R2
 ```
-Note that in this formula we used the relation between SST and V$(y)$, multiplying the value by $n-1$ to get rid of the denominator. The resulting value tells us that the model has explained `r round(1 - sum(resid(slmTrees)^2) / (var(actuals(slmTrees))*(n-1)),3)*100`% deviations in the data.
+Note that in this formula we used the relation between SST and V$(y)$, multiplying the value by $n-1$ to get rid of the denominator. The resulting value tells us that the model has explained `r round(1 - sum(resid(slmTrees)^2) / (var(actuals(slmTrees))*(n-1)), digits)*100`% deviations in the data.
 
 Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section \@ref(correlationsMixed):
 \begin{equation}
@@ -741,7 +741,7 @@ cor(SBA_Chapter_10_Trees$height,SBA_Chapter_10_Trees$volume)
 
 
 ## What about the "Timber Lend" company?
-Coming back to the example that motivated this chapter, there is a way we can improve the model for the company and help them in making better decisions. After all, the determination coefficient of the model of volume from height was just `r round(R2, 4)`.
+Coming back to the example that motivated this chapter, there is a way we can improve the model for the company and help them in making better decisions. After all, the determination coefficient of the model of volume from height was just `r round(R2, digits)`.
 
 First, we check how the relation between the diameter and the volume looks (Figure \@ref(fig:TreesLineDiameter))
 

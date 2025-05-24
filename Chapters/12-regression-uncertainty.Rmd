@@ -65,14 +65,14 @@ This example demonstrates that any model applied to the data will always have in
 One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:
 
 \begin{equation}
-    \mathrm{V}({\boldsymbol{b}}) =
-    \begin{pmatrix}
-        \mathrm{V}(b_0) & \mathrm{cov}(b_0, b_1) & \dots & \mathrm{cov}(b_0, b_{k-1}) \\
-        \mathrm{cov}(b_0, b_1) & \mathrm{V}(b_1) & \dots & \mathrm{cov}(b_1, b_{k-1}) \\
-        \vdots & \vdots & \ddots & \vdots \\
-        \mathrm{cov}(b_0, b_{k-1}) & \mathrm{cov}(b_1, b_{k-1}) & \dots & \mathrm{V}(b_{k-1}) \\
-    \end{pmatrix} ,
-    (\#eq:MLRParameterCov)
+\mathrm{V}({\boldsymbol{b}}) =
+\begin{pmatrix}
+\mathrm{V}(b_0) & \mathrm{cov}(b_0, b_1) & \dots & \mathrm{cov}(b_0, b_{k-1}) \\
+\mathrm{cov}(b_0, b_1) & \mathrm{V}(b_1) & \dots & \mathrm{cov}(b_1, b_{k-1}) \\
+\vdots & \vdots & \ddots & \vdots \\
+\mathrm{cov}(b_0, b_{k-1}) & \mathrm{cov}(b_1, b_{k-1}) & \dots & \mathrm{V}(b_{k-1}) \\
+\end{pmatrix} ,
+(\#eq:MLRParameterCov)
 \end{equation}
 where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of Section \@ref(dataAnalysisNumerical), equation \@ref(eq:CovarMat), but it is now applied to the estimates of parameters of the model instead of some random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called "Standard errors" of parameters (the standard deviations). These are typically used in further analysis.
 
@@ -97,8 +97,8 @@ We see, for example, that the correlation between the intercept and the paramete
 ### Analytical solution
 The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution, see Chapter \@ref(likelihoodApproach)). The following formula is derived for OLS, relies on several important assumptions (see derivations in Subsection \@ref(uncertaintyRegressionCovMaths)), and would not produce adequate results in case of other estimators:
 \begin{equation}
-    \mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
-    (\#eq:MLRcovarianceMatrix)
+\mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
+(\#eq:MLRcovarianceMatrix)
 \end{equation}
 where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does, is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
@@ -118,91 +118,91 @@ Linear algebra! Tread lightly!
 ::: proof
 We start by expanding the formula for the OLS \@ref(eq:MLROLS) by inserting the "true" model in it (${\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}$:
 \begin{equation}
-    \begin{aligned}
-    {\boldsymbol{b}} =
-        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
-        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
-        & \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
-        & {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
-    \end{aligned}
-    (\#eq:MLROLSExpansion)
+\begin{aligned}
+{\boldsymbol{b}} =
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+& {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+\end{aligned}
+(\#eq:MLROLSExpansion)
 \end{equation}
 
 This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in $\mathbf{X}$ and the specific values of the error term $\boldsymbol{\epsilon}$.
 
 In bypassing, we can show that the OLS estimates of parameters are unbiased (i.e. their expectation will be equal to the true parameters) as long as the model is correctly specified:
 \begin{equation}
-    \begin{aligned}
-    \mathrm{E}\left(\boldsymbol{b}\right) =
-        & \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
-        & {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
-        & {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
-        & \boldsymbol{\beta} ,
-    \end{aligned}
-    (\#eq:MLRCLSExpansion)
+\begin{aligned}
+\mathrm{E}\left(\boldsymbol{b}\right) =
+& \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+& {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+& {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+& \boldsymbol{\beta} ,
+\end{aligned}
+(\#eq:MLRCLSExpansion)
 \end{equation}
 which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection \@ref(TrueModel)).
 
 More importantly, we can calculate the variance of the estimates of parameters using \@ref(eq:MLROLSExpansion):
 
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
-    (\#eq:MLROLSVariance01)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+(\#eq:MLROLSVariance01)
 \end{equation}
 
 In formula \@ref(eq:MLROLSVariance01), the true parameter $\boldsymbol{\beta}$ should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to ${\boldsymbol{\beta}}$ in \@ref(eq:MLROLSVariance01) can be dropped leaving us with:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
-    (\#eq:MLROLSVariance02)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+(\#eq:MLROLSVariance02)
 \end{equation}
 After that, we can recall that $\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0$, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection \@ref(TrueModel)). This is useful because now we can represent the variance \@ref(eq:MLROLSVariance02) as the expectation of products (this follows directly from equation \@ref(eq:VarianceAlt) that we discussed in Subsection \@ref(dataAnalysisNumerical)):
 \begin{equation*}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    (\#eq:MLROLSVariance03)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+(\#eq:MLROLSVariance03)
 \end{equation*}
 Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula \@ref(eq:CovarianceAlt) from Section \@ref(dataAnalysisNumerical)):
 \begin{equation}
-    \begin{aligned}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = 
-        & \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
-        & \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    \end{aligned}
-    (\#eq:MLROLSVariance04)
+\begin{aligned}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = 
+& \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
+& \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\end{aligned}
+(\#eq:MLROLSVariance04)
 \end{equation}
 We can notice that the expectations in \@ref(eq:MLROLSVariance04) should be zero because, as discussed earlier, in the true model, the error term is not related to anything. This means that the formula can be simplified to:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    (\#eq:MLROLSVariance05)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+(\#eq:MLROLSVariance05)
 \end{equation}
 The second element in the brackets can be rewritten as:
 \begin{equation*}
-    \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
 \end{equation*}
 Substituting this to \@ref(eq:MLROLSVariance05) and moving explanatory variables from the covariance gives:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
-    (\#eq:MLROLSVariance06)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+(\#eq:MLROLSVariance06)
 \end{equation}
 which after some cancellations leads to:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
-    (\#eq:MLROLSVarianceSemiFinal)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
+(\#eq:MLROLSVarianceSemiFinal)
 \end{equation}
 Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula (from equation \@ref(eq:RMSERegression)):
 \begin{equation*}
-    \hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
+\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
 \end{equation*}
 which after being inserted in \@ref(eq:MLROLSVarianceSemiFinal), leads to:
 \begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
-    (\#eq:MLROLSVarianceFinal)
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+(\#eq:MLROLSVarianceFinal)
 \end{equation}
 :::
 
 ::: remark
 Mathematically speaking, $\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)$ is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
 \begin{equation*}
-    \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
 \end{equation*}
 where $\mathbf{I}_{k-1}$ is the identity matrix of the size $k-1$ and $\sigma^2$ is the variance of the error term.
 :::
@@ -268,8 +268,8 @@ Figure \@ref(fig:costsModelMLRCI) demonstrates the bootstrapped distributions of
 
 The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \@ref(confidenceInterval). The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 \begin{equation}
-    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    (\#eq:MLRParameterInterval)
+\beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
+(\#eq:MLRParameterInterval)
 \end{equation}
 where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \@ref(confidenceInterval), we need to use the Student's t distribution. This is why we have $t_{\alpha/2}(n-k)$ in the equation \@ref(eq:MLRParameterInterval) above.
 
@@ -277,78 +277,90 @@ where $s_{b_i}$ is the standard error of the parameter $b_i$. An important note 
 The important note is that in order to be able to use the formula \@ref(eq:MLRParameterInterval), we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student's t-statistics would not be appropriate to calculate the interval.
 :::
 
-::: example
 To calculate the confidence interval, using the equation \@ref(eq:MLRParameterInterval), we need to know several things:
 
 1. Significance level $\alpha$ - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5%, mainly because the standard human has five fingers on a hand;
 2. The value of the estimated parameter $b_i$. We get it after using the Least Squares, any statistical software can give us the estimate.
-3. Standard error (or deviation) of the parameter. We would need to use additional formula to get it.
+3. Standard error (or deviation) of the parameter. This is obtained from the covariance matrix of parameters discussed in Section \@ref(uncertaintyRegressionCov).
 4. Number of degrees of freedom $n-k$, which can be easily calculated based on the sample size $n$ and the number of estimated parameters $k$.
-5. Student's t statistics. This can be obtained from statistical tables or the software, given the significance level $\alpha$ and the number of degrees of freedom $n-k$, calculated above.
+5. Student's t statistics. We get it from statistical tables or the software, given the significance level $\alpha$ and the number of degrees of freedom $n-k$ above.
 
+::: example
 Consider construction of the interval for the slope parameter for the variable `materials` from the regression we discussed earlier. In our case, we know the following:
 
 1. $\alpha=0.05$ because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;
-2. The value of the parameter $b_1$ is `r coef(costsModelMLR)[2]`;
-3. We have not discussed yet how to obtain the variance of the parameter analytically, but there is a built-in formula in software that gives it, and/or we could get it via the bootstrap, simply by taking the variance of the values from the distribution in Figure \@ref(fig:costsModelMLRCI). In R, we can get the variance of the parameter for slope (second parameter in the model) via the `vcov()` function, like this:
+2. The value of the parameter $b_1$ is `r round(coef(costsModelMLR)[2],3)`;
+3. To get the variance of the parameter, we can use the formula discussed in Section \@ref(uncertaintyRegressionCov). In R, we can get the variance of the parameter for the `materials` (second parameter in the model) via the `vcov()` function, like this:
 ```{r}
 vcov(costsModelMLR)[2,2]
 ```
-Based on that, we can say that the standard error of the slope is approximately `r round(sqrt(vcov(costsModelMLR)[2,2]),4)`.
-4. We estimated two parameters, so $k=2$, and the sample size $n$ was 61, which means that in our model has $n-k=61-2=59$ degrees of freedom.
-5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we will have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=59$. In R, we can use the `qt()` function in the folloqing way:
+Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately `r round(sqrt(vcov(costsModelMLR)[2,2]),3)`.
+4. We estimated five parameters (four for variables and an intercept), so $k=5$, and the sample size $n$ was 61, which means that in our model has $n-k=61-5=56$ degrees of freedom.
+5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we expect to have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=56$. In R, we can use the `qt()` function in the following way:
 ```{r}
-qt(c(0.025,0.975), 59)
+qt(c(0.025,0.975), 56)
 ```
 
 ```{r echo=FALSE}
-x <- round(coef(costsModelMLR)[2]+qt(c(0.025,0.975), 59)*round(sqrt(vcov(costsModelMLR)[2,2]),4),4)
+x <- round(round(coef(costsModelMLR)[2],3)+qt(c(0.025,0.975), 56)*round(sqrt(vcov(costsModelMLR)[2,2]),3),3)
 ```
 
-Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")``)
+Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")`)
 
-In R, the confidence interval can be obtained via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
+In R, the confidence interval can be obtained directly via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
 ```{r}
-confint(costsModelMLR)
+confint(costsModelMLR) |> round(3)
 ```
 
 ```{r echo=FALSE}
-x <- confint(costsModelMLR)[2,2:3]
+x <- round(confint(costsModelMLR)[2,2:3],3)
 ```
 
-The confidence interval for materials above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
+The confidence interval for `materials` above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
 :::
 
-We can also present all of this in the following summary (this is based on the `alm()` model, the other functions will produce different ones):
+We can also present all of this in the following summary (this is based on the `alm()` model, the other functions will produce different outputs):
 ```{r}
 summary(costsModelMLR)
 ```
 
-This summary provides all the necessary information about the model and the estimates of parameters: their mean values in the column "Estimate", their standard errors (square roots of the variances) in "Std. Error", the bounds of confidence interval and finally a star if the interval does not contain zero. If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists.
+This summary provides all the necessary information about the model and the estimates of parameters:
+
+- their mean values are in the column "Estimate",
+- their standard errors (square roots of the variances) are in "Std. Error",
+- the bounds of confidence interval are in the last two columns,
+- and, finally, a star drawn next to the interval if it does not contain zero.
+
+If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists. We can regulate the confidence level by defining the `level` parameter. For example, if we want the 99% one, we should add `level=0.99` in the summary:
+
+```{r eval=FALSE}
+summary(costsModelMLR, level=0.99)
+```
+
 
 
 ## Regression line related uncertainty {#uncertaintyRegressionLine}
-Given the uncertainty of estimates of parameters, the regression line itself and the points around it will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but should also consider the uncertainty around them. Similar to what we discussed in Sections \@ref(confidenceInterval) and \@ref(predictionInterval), there are two different interval types we can produce from the regression: confidence and prediction. It is extremely important to get the difference between the two, so here it is again just in case:
+Given the uncertainty of estimates of parameters, the regression line itself will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression $\hat{y}_j$, but should also consider the uncertainty around them.
+
+Similar to what we discussed in Sections \@ref(confidenceInterval) and \@ref(predictionInterval), there are two different interval types we can produce from the regression: confidence and prediction. It is extremely important to get the difference between the two, so here it is again just in case:
 
 1. **Confidence interval** shows where the **expected value** should lie in the population in the x% of the cases if we repeat the calculation for different samples of data many times;
 2. **Prediction interval** shows where the x% of the **actual values** should lie.
 
-The former will tell you something about the true *expected costs* of a project, while the latter will tell you about the *actual costs*.
-
-Let's see what this means in the regression context.
+The former will tell you something about the true *expected costs* of a project, while the latter will tell you about the *actual costs*. The word "should" indicates that this is not necessarily always the case - the final outcome depends on the specific data (e.g. sample size) and the model (whether its assumptions hold).
 
 
 ### Confidence interval {#uncertaintyRegressionLineConfidence}
-In context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds, size of 90, 3 projects and the year 2008. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)), which reflects the potential changes of the line with the changes of the sample.
+In the context of univariate statistics that we discussed in Section \@ref(confidenceInterval), the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e. the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds, size of 90, 3 projects and the year 2008. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \@ref(uncertaintyRegressionCov)).
 
 The formula for the construction of the confidence interval is very similar to the one we discussed for the sample mean in Section \@ref(confidenceInterval):
 \begin{equation}
-    \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
-    (\#eq:confidenceIntervalRegression)
+\mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
+(\#eq:confidenceIntervalRegression)
 \end{equation}
 where $\mu_j$ is the true expectation, and $s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}$ is the standard deviation of the fitted value. Compare this with the one we had in Section \@ref(confidenceInterval):
 \begin{equation*}
-    \mu \in (\bar{y} + t_{\alpha/2}(n-1) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(n-1) s_{\bar{y}}).
+\mu \in (\bar{y} + t_{\alpha/2}(n-1) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(n-1) s_{\bar{y}}).
 \end{equation*}
 Here are the main differences:
 
@@ -360,7 +372,7 @@ Here are the main differences:
 But the rest is the same and uses exactly the same principles.
 
 ::: remark
-To be able to construct the confidence interval using the formula above, we need one important assumption to hold. This assumption is that the Central Limit Theorem holds (Section \@ref(CLT)). If it does not then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval.
+To be able to construct the confidence interval using the formula above, we, once again, need one important assumption to hold. This assumption is that the *Central Limit Theorem holds* (Section \@ref(CLT)). If it does not, then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval. Luckily, with OLS, the CLT typically holds on samples of 50 observations and more.
 :::
 
 In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:costModelConfidenceInterval)):
@@ -370,26 +382,28 @@ plot(costsModelMLRCI, main="",
      xlab="Observation", ylab="Overall Costs")
 ```
 
-It is hard to read this graph because the interval is narrow, and the actual values in it do not bring much value. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:costModelConfidenceIntervalZoom)):
+It is hard to read this graph because the interval is narrow, and the actual values in it do not help in reading it. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:costModelConfidenceIntervalZoom)):
 
 ```{r costModelConfidenceIntervalZoom, fig.cap="Fitted values and confidence interval for the costs model."}
 # Produce the predicted value and the confidence interval
-costsModelMLRCI200 <- predict(costsModelMLR,
-                              interval="confidence",
-                              newdata=data.frame(materials=200, size=90, projects=3, year=2008))
+costsModelMLRCIZoom <- predict(costsModelMLR,
+                               interval="confidence",
+                               newdata=data.frame(materials=200, size=90,
+                                                  projects=3, year=2008))
 # Plot the material costs vs fitted
-plot(200, costsModelMLRCI200$mean,
+plot(200, costsModelMLRCIZoom$mean,
      xlab="Material costs", ylab="Overall costs",
-     ylim=c(costsModelMLRCI200$lower, costsModelMLRCI200$upper),
+     ylim=c(costsModelMLRCIZoom$lower, costsModelMLRCIZoom$upper),
      pch=16)
 # Add confidence interval
-abline(h=costsModelMLRCI200$upper, col="grey", lwd=2, lty=2)
-abline(h=costsModelMLRCI200$lower, col="grey", lwd=2, lty=2)
+abline(h=c(costsModelMLRCIZoom$lower,
+           costsModelMLRCIZoom$upper),
+       col="grey", lwd=2, lty=2)
 ```
 
-What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k, size of 90, 3 projects and the year 2008 are `r round(costsModelMLRCI200$mean, 2)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCI200$lower, 2)` and `r round(costsModelMLRCI200$upper, 2)` in 95% if we repeat the confidence interval construction many times.
+What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m$^2$, the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be `r round(costsModelMLRCIZoom$mean, 3)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCIZoom$lower, 3)` and `r round(costsModelMLRCIZoom$upper, 3)` in 95% of the cases if we repeat the confidence interval construction many times.
 
-Another way of visualising the confidence interval is on the actuals vs fitted plot:
+Another way of visualising the confidence interval is by plotting the actuals vs fitted figure:
 ```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals")
@@ -402,21 +416,21 @@ lines(sort(fitted(costsModelMLR)),
       col=3, lwd=2)
 ```
 
-Figure \@ref(fig:costModelConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the line would be expected to be in 95% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
+Figure \@ref(fig:costModelConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the true line would be expected to be in 95% of the cases if we re-estimate the model many times on different samples. We also see that the uncertainty of the regression line is lower in the middle of the data than in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
 
 
 ### Prediction interval {#uncertaintyRegressionLinePrediction}
-In case of prediction interval, we are interested in understanding where the actual values lie, not the expected one. For our example, that would mean that we want to know the span of overall costs for projects that have material costs of 200 in the x% of the cases (e.g. 95%).
+In case of prediction interval, we are interested in understanding where the actual values lie, not the expected one. For our example, that would mean that we want to know the span of overall costs in the x% of the cases (e.g. 95%) for a project constructed in 2008 that has material costs of £200k, size of the property of 90 squared meters, done by the crew that did 3 projects before it.
 
 The construction of the interval relies on the formula, which is very similar to the one used for the confidence interval:
 \begin{equation}
-    y_j \in (\hat{y}_j + z_{\alpha/2} s_y^2, \hat{y}_j + z_{1-\alpha/2} s_y^2),
-    (\#eq:predictionIntervalRegression)
+y_j \in (\hat{y}_j + z_{\alpha/2} s_y^2, \hat{y}_j + z_{1-\alpha/2} s_y^2),
+(\#eq:predictionIntervalRegression)
 \end{equation}
-where $s_y^2$ is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection \@ref(uncertaintyRegressionLineMaths). The main difference with the confidence interval is that we need to rely on the assumption about the error term in the model.
+where $s_y^2$ is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection \@ref(uncertaintyRegressionLineMaths). The main difference with the confidence interval is that we now need to rely on the *assumption about the distribution of the error term* in the model.
 
 ::: remark
-In the formula above, the important assumption is that the error term follows the Normal distribution. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.
+In the formula above, the important assumption is that **the error term follows the Normal distribution**. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.
 :::
 
 In R, the interval construction can be done via the very same `predict()` function with `interval="prediction"`:
@@ -424,7 +438,7 @@ In R, the interval construction can be done via the very same `predict()` functi
 costsModelMLRPI <- predict(costsModelMLR, interval="prediction")
 ```
 
-Based on this, we can produce an image similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
+Based on this, we can produce an images similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
 
 ```{r costModelPI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
@@ -442,13 +456,14 @@ lines(sort(fitted(costsModelMLR)),
       col=3, lty=2, lwd=2)
 ```
 
-Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 2 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval.
+Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 3 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval if the regression assumptions hold.
 
-In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what would happen if the material costs were, for example, £200k, the size was 90, the team produced 3 projects and the project was done in 2008:
+In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what the prediction interval would be in the setting we discussed earlier (materials=200, size=90, projects=3 and year=2008):
 
-```{r costModelForecast, fig.cap="Forecast of the overall costs given the material costs of 200, size of 90, 3 projects and year 2008."}
+```{r costModelForecast, fig.cap="Forecast of the overall costs given the material costs of 200, size of 90 squared meters, 3 projects and year 2008."}
 costsModelMLRForecast <- predict(costsModelMLR,
-                                 newdata=data.frame(materials=200, size=90, projects=3, year=2008),
+                                 newdata=data.frame(materials=200, size=90,
+                                                    projects=3, year=2008),
                                  interval="prediction")
 plot(costsModelMLRForecast)
 ```
@@ -458,60 +473,62 @@ Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overa
 
 ### Derivations of the variance in regression {#uncertaintyRegressionLineMaths}
 The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance using the formula:
-\begin{equation}
-    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
-    (\#eq:regressionLineUncertaintyVariance01)
-\end{equation}
+\begin{equation*}
+\mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
+(\#eq:regressionLineUncertaintyVariance01)
+\end{equation*}
 which after some simplifications leads to:
 \begin{equation}
-    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
-    (\#eq:regressionLineUncertaintyVariance02)
+\mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
+(\#eq:regressionLineUncertaintyVariance02)
 \end{equation}
 where $x_{0,j}=1$. Alternatively, this can be calculated using the compact form of the multiple regression model \@ref(eq:MLRFormulaCompacter):
 \begin{equation*}
-    y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
+y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
 \end{equation*}
 the fitted values for which are:
 \begin{equation*}
-    \hat{y_j} = \mathbf{x}'_j \boldsymbol{\beta} .
+\hat{y_j} = \mathbf{x}'_j \boldsymbol{\beta} .
 \end{equation*}
 Taking the variance of the fitted in that form would involve the covariance matrix of parameters from Section \@ref(uncertaintyRegressionCov):
 \begin{equation*}
-    \mathrm{V}(\hat{y_j}| \mathbf{x}_j) = \mathbf{x}'_j \mathrm{V}({\boldsymbol{b}}) \mathbf{x}_j.
+\mathrm{V}(\hat{y_j}| \mathbf{x}_j) = \mathbf{x}'_j \mathrm{V}({\boldsymbol{b}}) \mathbf{x}_j.
 \end{equation*}
-In any case, we see that the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter $b_i$ will follow normal distribution with a fixed mean and variance due to CLT (Section \@ref(CLT)), the predicted value $\hat{y}_j$ will follow normal distribution as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distribution is another one, but with different parameters. So, we can say that:
+In any case, we see that the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line.
+
+Given that each estimate of parameter $b_i$ should follow the Normal distribution with a fixed mean and variance due to CLT (Section \@ref(CLT)), the predicted value $\hat{y}_j$ will follow it as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distributions produces another one, but with different parameters. So, we can say that:
 \begin{equation*}
-    \mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j))
+\mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j)) .
 \end{equation*}
 We used this property to derive the formula for the confidence interval around the line.
 
-If we are interested in the uncertainty of the observations, we can refer to prediction interval. In this case we rely on the Normality assumption for the actual values themselves:
+If we are interested in capturing the uncertainty of the actual values, we can refer to prediction interval. In this case we rely on the Normality assumption for the actual values themselves:
 \begin{equation*}
-    y_j = (\hat{y}_j + \epsilon_j) \sim \mathcal{N}(\hat{y}_j, s_y^2) ,
+y_j = (\hat{y}_j + \epsilon_j) \sim \mathcal{N}(\hat{y}_j, s_y^2) ,
 \end{equation*}
-because we assume that $\epsilon_j \sim \mathcal{N}(0, {\sigma}^2)$, where ${\sigma}^2$ is the variance of the error term and $s_y^2 = \mathrm{V}(y_j| \mathbf{x}_j)$ is the variance of the response variable conditional on the values of the explanatory variables. The latter can be calculated as:
+because we assume that $\epsilon_j \sim \mathcal{N}(0, {\sigma}^2)$, where ${\sigma}^2$ is the variance of the error term and $s_y^2 = \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2$ is the estimated of the variance of the response variable conditional on the values of the explanatory variables. The latter can be calculated as:
 \begin{equation}
-    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
-    (\#eq:regressionLineUncertaintyVariance03)
+\mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
+(\#eq:regressionLineUncertaintyVariance03)
 \end{equation}
-which can be simplified to (if assumptions of regression model hold, see Section \@ref(assumptions)):
+which can be simplified to (if assumptions of regression model hold, see Chapter \@ref(assumptions)):
 \begin{equation}
-    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j | \mathbf{x}_j) + \hat{\sigma}^2,
-    (\#eq:regressionLineUncertaintyVariance04)
+\mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j | \mathbf{x}_j) + \hat{\sigma}^2,
+(\#eq:regressionLineUncertaintyVariance04)
 \end{equation}
 where the variance $\mathrm{V}(\hat{y}_j | \mathbf{x}_j)$ was calculated above for the confidence interval in formula \@ref(eq:regressionLineUncertaintyVariance02). Given that the variance \@ref(eq:regressionLineUncertaintyVariance04) is larger than the variance \@ref(eq:regressionLineUncertaintyVariance02), the prediction interval will always be wider than the confidence one.
 
 
 ## Hypothesis testing {#uncertaintyRegressionHypothesis}
-In the regression context, it is often the case that an analyst is more interest in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.
+In the regression context, an analyst is often interested in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.
 
-What does "effect exist" means in statistical terms? It means that we found some evidence based on our data and model that the value of parameters is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
+What does "effect exists" mean in statistical terms? It means that we found some evidence based on our data and model that the value of a parameter is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
 \begin{equation}
-    \begin{aligned}
-        \mathrm{H}_0: \beta_i = 0 \\
-        \mathrm{H}_1: \beta_i \neq 0
-    \end{aligned} .
-    (\#eq:regressionHypothesis01)
+\begin{aligned}
+\mathrm{H}_0: \beta_i = 0 \\
+\mathrm{H}_1: \beta_i \neq 0
+\end{aligned} .
+(\#eq:regressionHypothesis01)
 \end{equation}
 where $\beta_i$ is the true parameter in the population. The idea is to make some conclusions about what happens in population based on a specific sample of data **and** the estimated model.
 
@@ -535,29 +552,30 @@ abline(v=qnorm(c(0.025,0.975),
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,2]),
              sd(costsModelMLRBootstrap$coefficients[,2]))),
-     rep(6,2),
+     rep(2,2),
      labels=round(qnorm(c(0.025,0.975),
                         mean(costsModelMLRBootstrap$coefficients[,2]),
-                        sd(costsModelMLRBootstrap$coefficients[,2])),2), pos=c(2,4))
+                        sd(costsModelMLRBootstrap$coefficients[,2])),3), pos=c(2,4))
 ```
 
-The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelMLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample of because the model is incorrect. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.
+The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelMLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample or because the model was incorrectly specified. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.
 
 ::: remark
-In hypothesis testing, if we formulate the alternative one as inequality (as it was done in \@ref(eq:regressionHypothesis01)), we cannot say whether the effect is positive or negative. We can only conclude that it is not zero on the pre-specified significance level.
+In hypothesis testing, if we formulate the alternative one as inequality (as it was done in \@ref(eq:regressionHypothesis01)), we cannot say whether the effect is positive or negative. We can only conclude whether it is or it is not zero on the pre-specified significance level.
 :::
 
-If we bring this idea further, we can also conclude that the effect is definitely not equal to one (that value is outside of the interval and in the left tail of the distribution), and surely not 2 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a potential simple hypothesis \@ref(eq:regressionHypothesis01), which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?
+If we bring this idea further, we can also conclude that the effect is not equal to 0.4 (that value is outside of the interval and in the left tail of the distribution), and surely not 1.5 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a critical value or a p-value (we will discuss them later in this section), which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the non-rejection interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?
 
 Figure \@ref(fig:costsModelMLRCIWithZero) shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95% confidence interval.
 
 ```{r costsModelMLRCIWithZero, fig.cap="Parameter uncertainty of a hypothetical parameter.", echo=FALSE}
 # Second histogram
 set.seed(41)
-meanValue <- 0.75
-sdValue <- 0.5
+meanValue <- 0.5
+sdValue <- 1
 hist(rnorm(1000, meanValue, sdValue),
-     xlab="Slope", main="", probability=TRUE)
+     xlab="Slope", main="", probability=TRUE,
+     ylim=c(0,0.8))
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
@@ -572,15 +590,15 @@ abline(v=qnorm(c(0.025,0.975),
 text(c(qnorm(c(0.025,0.975),
              meanValue,
              sdValue)),
-     rep(0.3,2),
+     rep(0.5,2),
      labels=round(qnorm(c(0.025,0.975),
                         meanValue,
-                        sdValue),2), pos=c(2,4))
+                        sdValue), digits), pos=c(2,4))
 ```
 
-According to Figure \@ref(fig:costsModelMLRCIWithZero), the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
+According to Figure \@ref(fig:costsModelMLRCIWithZero), the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size and would become centered around zero. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
 
-We can also notice that if we were to formulate a different hypothesis, for example, that the parameters is equal to one, we would fail to reject it on the 5% significance level as well. In fact, we would fail to reject the hypotheses on the 5% significance level that the true parameter equals to 0.5, 1.5 and anything between -0.23 and 1.73. Neither of this tells us anything about the true value of parameter. The true conclusion of hypothesis testing in this example is that **we do not know** what the true value of the effect is.
+We can also notice that if we were to formulate a different hypothesis, for example, that the parameter is equal to one, we would fail to reject it on the 5% significance level as well. In fact, we would fail to reject the hypotheses on the 5% significance level that the true parameter equals to 0.5, 1.5 and anything between `r round(qnorm(0.025, meanValue, sdValue), digits)` and `r round(qnorm(0.975, meanValue, sdValue), digits)`. Neither of this tells us anything definite about the true value of parameter. The true conclusion of hypothesis testing in this example is that **we do not know** what the true value of the effect is.
 
 We personally think that the confidence interval shows this idea more clearly, than the conventional hypothesis testing, not hiding anything.
 
@@ -588,12 +606,14 @@ Now we will discuss the classical hypothesis testing in regression.
 
 
 ### Regression parameters
-The logic of hypothesis testing in regression is very similar to the one discussed in Section \@ref(hypothesisTesting). To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable `materials`, which equals to `r coef(costsModelMLR)[2]`. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+The logic of hypothesis testing in regression is very similar to the one discussed in Section \@ref(hypothesisTesting). To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable `materials`, which equals to `r round(coef(costsModelMLR)[2], digits)`. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting).
+
+First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
 \begin{equation*}
-    \begin{aligned}
-        \mathrm{H}_0: \beta_i = 0 \\
-        \mathrm{H}_1: \beta_i \neq 0
-    \end{aligned} .
+\begin{aligned}
+\mathrm{H}_0: \beta_i = 0 \\
+\mathrm{H}_1: \beta_i \neq 0
+\end{aligned} .
 \end{equation*}
 
 Visually, the null and alternative hypotheses can be represented as shown in Figure \@ref(fig:costModelHypotheses).
@@ -611,14 +631,14 @@ plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
 abline(costsModelSLR, col=5, lwd=2)
 ```
 
-The image on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure \@ref(fig:costModelHypotheses) demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on the other one in the data.
+The image on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure \@ref(fig:costModelHypotheses) demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on the other one in the data.
 
-After formulating the hypothesis, we select the significance level. The typical one is 5%, but we can choose another one based on the specific situation.
+After formulating the hypothesis, we select the significance level. Fro this exercise, we will choose 5%.
 
-Then, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is funamentally the same as in Section \@ref(hypothesisTestingBasics):
+Then, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, on samples of more than 50 observations, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is fundamentally similar to the one in Section \@ref(hypothesisTestingBasics):
 \begin{equation}
-    t = \frac{|b_i - 0|}{s_{b_i}} ,
-    (\#eq:ttestFormulaReg)
+t = \frac{|b_i - 0|}{s_{b_i}} ,
+(\#eq:ttestFormulaReg)
 \end{equation}
 where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the standard error of the parameter obtained from the covariance matrix from Section \@ref(uncertaintyRegressionCov). The standard deviation of the parameter is:
 ```{r}
@@ -626,56 +646,56 @@ vcov(costsModelMLR)[2,2] |> sqrt()
 ```
 Inserting the values in formula \@ref(eq:ttestFormulaReg) gives us the t-statistics value for our example:
 \begin{equation*}
-    t = \frac{|0.774 - 0|}{0.219} \approx 3.534 
+t = \frac{|0.774 - 0|}{0.219} \approx 3.5342 
 \end{equation*}
-Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-5=55. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
+Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-5=56. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
 ```{r}
-qt(c(0.025, 0.975), 55)
+qt(c(0.025, 0.975), 56)
 ```
-We consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of materials on overall costs.
+In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.
 
 ::: remark
-The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.534 with 2.004045, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
+The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.5342 with `r round(abs(qt(0.975, 56)), digits)`, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
 :::
 
-An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H$_0$ if the p-value is lower than the level. For our example, the p-value can be calculated using the `pt()` function in R: 
+An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H$_0$ if the p-value is lower than the level. For our example, the p-value can be calculated using the `pt()` function in R:
 ```{r}
-pt(3.534, 55, lower.tail=FALSE)
+pt(3.534, 56, lower.tail=FALSE)
 ```
-Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get `r pt(3.534, 55, lower.tail=FALSE)*2`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
+Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately `r round(pt(3.534, 56, lower.tail=FALSE)*2, digits+1)`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
 
 All of this is done automatically by R if we estimate the model using the basic `lm()` function from the `stats` package:
 ```{r}
 lm(overall~materials+size+projects+year, data=SBA_Chapter_11_Costs) |>
-summary()
+    summary()
 ```
 
 The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called "Pr(>|t|)").
 
 ::: remark
-When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \@ref(hypothesisTestingMistakes).
+When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after obtaining the results. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment are amended to fit better to preferences of analyst. This temptation should be resisted! This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \@ref(hypothesisTestingMistakes).
 :::
 
-The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:ttestFormulaReg), we get: 
+The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (hypothesis \@ref(eq:regressionHypothesis01)) on 5% significance level. Inserting the values in formula \@ref(eq:ttestFormulaReg), we get: 
 \begin{equation*}
-    \frac{|0.5 - 0|}{1} = 0.5,
+\frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}
-with the critical value for two-tailed test of $t_{0.01}(30-2)\approx 2.76$. Comparing t-value with the critical one, we would conclude that we fail to reject H$_0$ and thus the parameter is not statistically different from zero. There is a temptation to remove it from the model, but this would be fundamentally wrong. And here is why.
+with the critical value for two-tailed test of $t_{0.025}(30-2)\approx 2.05$. Comparing t-value with the critical one, we would conclude that we fail to reject H$_0$ and thus the parameter is not statistically different from zero. There is a temptation to remove it from the model, but this would be fundamentally wrong. And here is why.
 
 Consider testing another hypothesis for the same parameter:
 \begin{equation*}
-    \begin{aligned}
-        \mathrm{H}_0: \beta_1 = 1 \\
-        \mathrm{H}_1: \beta_1 \neq 1
-    \end{aligned} .
+\begin{aligned}
+\mathrm{H}_0: \beta_1 = 1 \\
+\mathrm{H}_1: \beta_1 \neq 1
+\end{aligned} .
 \end{equation*}
 The procedure is the same, the calculated t-value is:
 \begin{equation*}
-    \frac{|0.5 - 1|}{1} = 0.5,
+\frac{|0.5 - 1|}{1} = 0.5,
 \end{equation*}
-which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H$_0$, so the value is not distinguishable from 1. So, which of the two conclusions is correct? Is it zero or is it one?
+which leads to exactly the same conclusion as before: on 5% significance level, we fail to reject the new H$_0$, so the value is not distinguishable from 1. So, which of the two conclusions is correct? Is it zero or is it one?
 
-The correct answer is "we do not know". The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region $(-2.26, 3.26)$ and can be any of these numbers.
+The correct answer is "**we do not know**". The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 5% significance level the true parameter lies in the region $(-1.46, 2.46)$ and can be any of the numbers between them.
 
 
 ### Regression line
@@ -685,44 +705,58 @@ Finally, in regression context, we can test another hypothesis, which becomes us
         \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
         \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0
     \end{aligned} ,
-    (\#eq:regressionHypothesis02)
+(\#eq:regressionHypothesis02)
 \end{equation}
-which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares (discussed in Subsection \@ref(linearRegressionSimpleQualityOfFitSSE)):
+which translates into normal language as:
 \begin{equation*}
-    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+    \begin{aligned}
+        \mathrm{H}_0: \text{ all parameters (except for intercept) are equal to zero}\\
+        \mathrm{H}_1: \text{ at least one parameter is not equal to zero}
+    \end{aligned} .
 \end{equation*}
-where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we calculate the F-value and then either select the critical value of F for the specified degrees of freedom, or compare the significance level with the p-value from the test to make a conclusion about the null hypothesis.
+This hypothesis is only needed when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares (discussed in Subsection \@ref(linearRegressionSimpleQualityOfFitSSE)):
+\begin{equation*}
+F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+\end{equation*}
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we calculate the F-value and then either select the critical value of F for the specific degrees of freedom, or compare the significance level with the p-value from the test to make a conclusion about the null hypothesis.
 
-This hypothesis is not very useful, when the parameters are significant and the coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is good or bad, adequate or not. And the F value and related p-value are not comparable with respective values of another models. Visually, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same costs model is provided in Figure \@ref(fig:costsModelHypothesesF).
+There are several things to consider about the F-test in regression:
 
-```{r costsModelHypothesesF, fig.cap="Graphical presentation of F test for regression model.", echo=FALSE}
+- It is not very useful, when at least one parameter is statistically significant. It only becomes useful in difficult situations of poor fit.
+- The test on its own does not tell if the model is good or bad, adequate or not, etc.
+- And the F value and related p-value are not comparable with respective values of another models.
+
+Visually, this test checks, whether in the true model the slope of the line on the plot of actuals vs fitted is different from zero. An example with the same costs model is provided in Figure \@ref(fig:costsModelHypothesesF).
+
+```{r costsModelHypothesesF, fig.cap="Graphical presentation of F-test for regression model.", echo=FALSE}
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted", ylab="Actuals")
 abline(a=0, b=1, col=5, lwd=2)
 abline(h=mean(actuals(costsModelMLR)),col=3, lwd=2)
 ```
 
-What the test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
+What the F-test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
 
-Here is an example with the costs model discussed in this chapter with the pre-selected significance level of 1%:
+Here is an example with the costs model discussed in this chapter with the pre-selected significance level of 5%:
 
 ```{r}
 # Estimate the regression using lm 
-costsModelMLRLm <- lm(overall ~ materials, data=SBA_Chapter_11_Costs)
+costsModelMLRLm <- lm(overall~materials+size+projects+year,
+                      data=SBA_Chapter_11_Costs)
 # Get summary statistics
 costsModelMLRF <- summary(costsModelMLRLm)$fstatistic
 # Extract the F-value
 costsModelMLRF[1]
 # Calculate the critical value of F
-qf(0.99,costsModelMLRF[2],costsModelMLRF[3])
+qf(0.95, costsModelMLRF[2], costsModelMLRF[3])
 ```
 
-In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `overall`. Alternatively, we could focus on the p-value:
+In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability of the overall costs. Alternatively, we could focus on the p-value:
 ```{r}
 # p-value from the test
-pf(costsModelMLRF[1],costsModelMLRF[2],costsModelMLRF[3],lower.tail=FALSE)
+pf(costsModelMLRF[1], costsModelMLRF[2], costsModelMLRF[3], lower.tail=FALSE)
 ```
-We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the `lm()` function:
+We see that the the p-value is lower than the significance level of 5%, so we reject the H$_0$ on that level and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the `lm()` function:
 ```{r}
 summary(costsModelMLRLm)
 ```
