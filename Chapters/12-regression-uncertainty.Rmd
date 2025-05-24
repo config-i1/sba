@@ -38,7 +38,7 @@ To see this point clearer, we fit the same simple regression model to randomly s
 
 ```{r}
 # Fit the model
-costsModelSLR <- alm(overall ~ materials, data=SBA_Chapter_11_Costs)
+costsModelSLR <- alm(overall ~ materials, data=SBA_Chapter_11_Costs, loss="MSE")
 # Set random seed for reproducibility
 set.seed(41)
 costsModelSLRBootstrap <- coefbootstrap(costsModelSLR)
@@ -591,7 +591,7 @@ Now we will discuss the classical hypothesis testing in regression.
 
 
 ### Regression parameters
-To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+The logic of hypothesis testing in regression is very similar to the one discussed in Section \@ref(hypothesisTesting). To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable `materials`, which equals to `r coef(costsModelSLR)[2]`. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \@ref(hypothesisTesting). First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
 \begin{equation*}
     \begin{aligned}
         \mathrm{H}_0: \beta_i = 0 \\
@@ -599,45 +599,73 @@ To test the hypothesis about a parameter in regression, we need to follow the pr
     \end{aligned} .
 \end{equation*}
 
-Then, we select the significance level. The typical one is 5%, but we can choose another one based on the specific situation.
+Visually, the null and alternative hypotheses can be represented as shown in Figure \@ref(fig:costModelHypotheses).
 
-After that, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is funamentally the same as in Section \@ref(hypothesisTestingBasics):
-\begin{equation}
-    t = \frac{b_i - 0}{s_{b_i}} ,
-    (\#eq:ttestFormulaReg)
-\end{equation}
-where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the standard error of the parameter.
-
-
-
-
-
-This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This **does not mean** that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure \@ref(fig:costModelHypotheses).
-
-```{r costModelHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context", echo=FALSE}
+```{r costModelHypotheses, fig.cap="Graphical presentation of null and alternative hypothesis in regression context.", echo=FALSE}
 par(mfcol=c(1,2))
-plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_0$: $\\beta_i = 0$"))
-abline(h=mean(cars$dist),col="red")
-plot(cars$speed, cars$dist,
-     xlab="Speed", ylab="Stopping Distance", main=TeX("H$_1$: $\\beta_i \\neq 0$"))
-abline(costsModelSLR,col="blue")
+plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
+     xlab="Material costs", ylab="Overall costs", main=TeX("H$_0$: $\\beta_i = 0$"),
+     col=17)
+abline(h=mean(SBA_Chapter_11_Costs$overall), col=3, lwd=2)
+plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
+     xlab="Material costs", ylab="Overall costs", main=TeX("H$_1$: $\\beta_i \\neq 0$"),
+     col=17)
+abline(costsModelSLR, col=5, lwd=2)
 ```
 
-The graph on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \@ref(hypothesisTesting), the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
+The image on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure \@ref(fig:costModelHypotheses) demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on the other one in the data.
 
-Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all [assumptions](#assumptions) are satisfied (including those for [CLT](#CLT)). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with $n-k$ degrees of freedom:
+After formulating the hypothesis, we select the significance level. The typical one is 5%, but we can choose another one based on the specific situation.
+
+Then, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is funamentally the same as in Section \@ref(hypothesisTestingBasics):
 \begin{equation}
-    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
-    (\#eq:regressionHypothesisTest01)
+    t = \frac{|b_i - 0|}{s_{b_i}} ,
+    (\#eq:ttestFormulaReg)
 \end{equation}
-After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on \@ref(eq:regressionHypothesisTest01) with the significance level, we can make conclusions about the hypothesis.
+where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the standard error of the parameter obtained from the covariance matrix from Section \@ref(uncertaintyRegressionCov). The standard deviation of the parameter is:
+```{r}
+vcov(costsModelSLR)[2,2] |> sqrt()
+```
+Inserting the values in formula \@ref(eq:ttestFormulaReg) gives us the t-statistics value for our example:
+\begin{equation}
+    t = \frac{|1.165 - 0|}{0.081} \approx 14.4 
+    (\#eq:ttestFormulaReg)
+\end{equation}
+Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-2=59. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
+```{r}
+qt(c(0.025, 0.975), 59)
+```
+We consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 14.2 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of materials on overall costs.
 
-The context of regression provides a great example, why we never accept hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:regressionHypothesisTest01), we get: 
+::: remark
+The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 14.4 with 2.000995, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
+:::
+
+An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H$_0$ if the p-value is lower than the level. For our example, the p-value can be calculated using the `pt()` function in R: 
+```{r}
+pt(14.4, 59, lower.tail=FALSE)
+```
+Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get `r pt(14.4, 59, lower.tail=FALSE)*2`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
+
+All of this is done automatically by R if we estimate the model using the basic `lm()` function from the `stats` package:
+```{r}
+lm(overall ~ materials, data=SBA_Chapter_11_Costs) |>
+summary()
+```
+
+The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called "Pr(>|t|)"). The "<2e-16" means that the calculated p-value is lower than $2 \times 10^{-16}$.
+
+::: remark
+When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \@ref(hypothesisTestingMistakes).
+:::
+
+The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:regressionHypothesisTest01), we get: 
 \begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}
-with the critical value for two-tailed test of $t_{0.01}(30-2)\approx 2.76$. Comparing t-value with the critical one, we would conclude that we fail to reject H$_0$ and thus the parameter is not statistically different from zero. But what would happen if we check another hypothesis:
+with the critical value for two-tailed test of $t_{0.01}(30-2)\approx 2.76$. Comparing t-value with the critical one, we would conclude that we fail to reject H$_0$ and thus the parameter is not statistically different from zero. There is a temptation to remove it from the model, but this would be fundamentally wrong. And here is why.
+
+Consider testing another hypothesis for the same parameter:
 \begin{equation*}
     \begin{aligned}
         \mathrm{H}_0: \beta_1 = 1 \\
@@ -648,18 +676,15 @@ The procedure is the same, the calculated t-value is:
 \begin{equation*}
     \frac{|0.5 - 1|}{1} = 0.5,
 \end{equation*}
-which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H$_0$, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is "we do not know". The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region $(-2.26, 3.26)$ and can be any of these numbers.
+which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H$_0$, so the value is not distinguishable from 1. So, which of the two conclusions is correct? Is it zero or is it one?
 
-In R, if you want to test the hypothesis for parameters, I would recommend using `lm()` function for regression:
-```{r}
-lmSpeedDistance <- lm(dist~speed,cars)
-summary(lmSpeedDistance)
-```
+The correct answer is "we do not know". The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region $(-2.26, 3.26)$ and can be any of these numbers.
 
-This output tells us that when we consider the parameter for the variable speed, we reject the standard H$_0$ on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.
+
+
 
 ### Regression line
-Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
+Finally, in regression context, we can test another hypothesis, which becomes useful, when many parameters of the model are very close to zero and seem to be insignificant on the selected level:
 \begin{equation}
     \begin{aligned}
         \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
