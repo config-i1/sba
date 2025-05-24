@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -459,8 +459,8 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelSLR)</span></code></pre></div>
 <pre><code>##             (Intercept)    materials
-## (Intercept)  263.306314 -1.288465587
-## materials     -1.288466  0.006730734</code></pre>
+## (Intercept)  258.843495 -1.266627187
+## materials     -1.266627  0.006616654</code></pre>
 <p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
 </div>
 <div id="mathematical-derivation" class="section level3 hasAnchor" number="12.1.3">
@@ -470,7 +470,7 @@ where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanato
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<p><span id="unlabeled-div-42" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
 <span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
     \begin{aligned}
     {\boldsymbol{b}} =
@@ -549,7 +549,7 @@ which after being insert in <a href="uncertaintyRegressionCov.html#eq:MLROLSVari
 where is the estimate of the true variance based on the applied model.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<p><span id="unlabeled-div-43" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
 <span class="math display">\[\begin{equation*}
     \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
 \end{equation*}\]</span>

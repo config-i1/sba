@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -450,7 +450,7 @@ Here are the main differences:</p>
 </ol>
 <p>But the rest is the same and uses exactly the same principles.</p>
 <div class="remark">
-<p><span id="unlabeled-div-45" class="remark"><em>Remark</em>. </span>To be able to construct the confidence interval using the formula above, we need one important assumption to hold. This assumption is that the Central Limit Theorem holds (Section <a href="CLT.html#CLT">6.2</a>). If it does not then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval.</p>
+<p><span id="unlabeled-div-46" class="remark"><em>Remark</em>. </span>To be able to construct the confidence interval using the formula above, we need one important assumption to hold. This assumption is that the Central Limit Theorem holds (Section <a href="CLT.html#CLT">6.2</a>). If it does not then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval.</p>
 </div>
 <p>In R, the confidence interval can be constructed for each observation via the <code>predict()</code> function with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function (Figure <a href="uncertaintyRegressionLine.html#fig:costModelConfidenceInterval">12.4</a>):</p>
 <div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="uncertaintyRegressionLine.html#cb185-1" tabindex="-1"></a>costsModelSLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR, <span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
@@ -481,7 +481,7 @@ Figure 12.4: Fitted values and confidence interval for the costs model.
 Figure 12.5: Fitted values and confidence interval for the costs model.
 </p>
 </div>
-<p>What the image in Figure <a href="uncertaintyRegressionLine.html#fig:costModelConfidenceIntervalZoom">12.5</a> shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k are 442.37. But given the uncertainty of the estimates of parameters, the true expected costs should lie between 434.08 and 450.66 in 95% if we repeat the confidence interval construction many times.</p>
+<p>What the image in Figure <a href="uncertaintyRegressionLine.html#fig:costModelConfidenceIntervalZoom">12.5</a> shows is that according to the estimated regression, the expected overall costs for the project where the material costs are £200k are 442.37. But given the uncertainty of the estimates of parameters, the true expected costs should lie between 434.16 and 450.59 in 95% if we repeat the confidence interval construction many times.</p>
 <p>Another way of visualising the confidence interval is on the actuals vs fitted plot:</p>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="uncertaintyRegressionLine.html#cb187-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModelSLR), <span class="fu">actuals</span>(costsModelSLR),</span>
 <span id="cb187-2"><a href="uncertaintyRegressionLine.html#cb187-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
@@ -510,7 +510,7 @@ Figure 12.6: Actuals vs Fitted and confidence interval for the costs model.
 \end{equation}\]</span>
 where <span class="math inline">\(s_y^2\)</span> is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection <a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths">12.3.3</a>. The main difference with the confidence interval is that we need to rely on the assumption about the error term in the model.</p>
 <div class="remark">
-<p><span id="unlabeled-div-46" class="remark"><em>Remark</em>. </span>In the formula above, the important assumption is that the error term follows the Normal distribution. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.</p>
+<p><span id="unlabeled-div-47" class="remark"><em>Remark</em>. </span>In the formula above, the important assumption is that the error term follows the Normal distribution. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.</p>
 </div>
 <p>In R, the interval construction can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="uncertaintyRegressionLine.html#cb188-1" tabindex="-1"></a>costsModelSLRPI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelSLR, <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
@@ -532,7 +532,7 @@ Figure 12.7: Fitted values and prediction interval for the stopping distance mod
 Figure 12.8: Forecast of the overall costs given the material costs of 200.
 </p>
 </div>
-<p>Figure <a href="uncertaintyRegressionLine.html#fig:costModelForecast">12.8</a> shows the point forecast (the expected overall costs of a project if the material ones are £200k) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between 378.035 and 506.713 thousands of pounds.</p>
+<p>Figure <a href="uncertaintyRegressionLine.html#fig:costModelForecast">12.8</a> shows the point forecast (the expected overall costs of a project if the material ones are £200k) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between 378.605 and 506.143 thousands of pounds.</p>
 </div>
 <div id="uncertaintyRegressionLineMaths" class="section level3 hasAnchor" number="12.3.3">
 <h3><span class="header-section-number">12.3.3</span> Derivations of the variance in regression<a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths" class="anchor-section" aria-label="Anchor link to header"></a></h3>

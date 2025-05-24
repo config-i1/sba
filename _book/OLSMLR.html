@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -507,7 +507,7 @@ In case of only one explanatory variable (simple linear regression), <span class
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-37" class="proof"><em>Proof</em>. </span>Sum of squared errors based on the model <a href="OLSMLR.html#eq:MLRFormulaCompactest">(11.8)</a> applied to the data can be expressed as:
+<p><span id="unlabeled-div-38" class="proof"><em>Proof</em>. </span>Sum of squared errors based on the model <a href="OLSMLR.html#eq:MLRFormulaCompactest">(11.8)</a> applied to the data can be expressed as:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \mathbf{e}&#39; \mathbf{e} = (\mathbf{y} - \mathbf{X} \mathbf{b})&#39; (\mathbf{y} - \mathbf{X} \mathbf{b}) ,
 \end{equation*}\]</span>
@@ -551,7 +551,7 @@ which then leads to the final formula:
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-38" class="proof"><em>Proof</em>. </span>Consider the system of normal equations
+<p><span id="unlabeled-div-39" class="proof"><em>Proof</em>. </span>Consider the system of normal equations
 <span class="math display" id="eq:MLROLSProp01">\[\begin{equation}
     \left(\mathbf{X}&#39; \mathbf{X}\right) \mathbf{b} = \mathbf{X}&#39; \mathbf{y} .
     \tag{11.12}
@@ -597,7 +597,7 @@ where the expectation of the error term equals to zero, implying that:
 <h3><span class="header-section-number">11.1.4</span> Gauss-Markov theorem<a href="OLSMLR.html#GaussMarkov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>OLS is a very popular estimation method for linear regression for a variety of reasons. First, it is relatively simple (much simpler than other approaches) and conceptually easy to understand. Second, the estimates of OLS parameters can be found analytically (using formula <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>). Furthermore, there is a mathematical proof that the OLS estimates of parameters are efficient (Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>), consistent (Subsection <a href="estimatesProperties.html#estimatesPropertiesConsistency">6.3.3</a>) and unbiased (Subsection <a href="estimatesProperties.html#estimatesPropertiesBias">6.3.1</a>). The theorem that states that is called “Gauss-Markov theorem”, here is one of versions of it:</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-39" class="theorem"><strong>Theorem 11.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of parameters.</p>
+<p><span id="thm:unlabeled-div-40" class="theorem"><strong>Theorem 11.1  </strong></span>If regression model is correctly specified then OLS will produce Best Linear Unbiased Estimates (BLUE) of parameters.</p>
 </div>
 <p>The term “correctly specified” implies that all main statistical assumptions about the model are satisfied (such as no omitted important variables, no autocorrelation and heteroscedasticity in the residuals, see details in Chapter <a href="assumptions.html#assumptions">15</a>). The “BLUE” part means that OLS guarantees the most efficient and the least biased estimates of parameters amongst all possible estimators of a linear model. For example, if we used a criterion of minimisation of Mean Absolute Error (MAE), then the estimates of parameters would be less efficient than in case of OLS. This is because OLS gives “mean” estimates, while the minimum of MAE corresponds to the median (see Subsection <a href="estimatesProperties.html#estimatesPropertiesEfficiency">6.3.2</a>).</p>
 <p>Practically speaking, the theorem implies that when you use OLS, the estimates of parameters will have good statistical properties (given that the model is correctly specified), in some cases better than the estimates obtained using other methods.</p>

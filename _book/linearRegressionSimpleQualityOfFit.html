@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -450,7 +450,7 @@ which shows the variability of the regression line. It is possible to show that 
     \tag{10.24}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-33" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
+<p><span id="unlabeled-div-34" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -515,7 +515,7 @@ Given the fundamental property <a href="linearRegressionSimpleQualityOfFit.html#
 </ol>
 <p>So, the zero value of the coefficient of determination means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model.</p>
 <div class="remark">
-<p><span id="unlabeled-div-34" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
+<p><span id="unlabeled-div-35" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}\]</span>

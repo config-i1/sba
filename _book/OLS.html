@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -425,7 +425,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>For obvious reasons, we do not have the values of parameters from the population: it would be simply impossible to measure heights, diameters and volumes of all eysting trees in the world. This means that we will never know what the true intercept and slope are. But we can get some estimates of these parameters based on the sample of data we have. There are different ways of doing that, and the most popular one is called “Ordinary Least Squares” method. This is the method that was used in the estimation of the model in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a>. So, how does it work?</p>
 <p>Having the sample of data, we can draw a line through the cloud of points and then change the parameters for the intercept and slope until we are satisfied with how the line looks like. This would not be a reliable approach, but what we would be doing in this case is probably just making sure that the line goes somehow in the middle of data. To make this more rigorous, we could use the following simple method:</p>
 <div class="remark">
-<p><span id="unlabeled-div-26" class="remark"><em>Remark</em>. </span>This is not how OLS works, but this gives an idea what it implies.</p>
+<p><span id="unlabeled-div-27" class="remark"><em>Remark</em>. </span>This is not how OLS works, but this gives an idea what it implies.</p>
 </div>
 <ol style="list-style-type: decimal">
 <li>Sort all values in ascending order;</li>
@@ -449,7 +449,7 @@ Figure 10.4: Scatterplot diagram between height and volume and the line drawn th
 \end{equation}\]</span>
 where <span class="math inline">\(b_0\)</span> is the estimate of the true intercept, <span class="math inline">\(b_1\)</span> is the estimate of the true slope and <span class="math inline">\(e_j\)</span> is the estimate of the true error term, which we usually call “residuals”.</p>
 <div class="remark">
-<p><span id="unlabeled-div-27" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just an approximation of the true model.</p>
+<p><span id="unlabeled-div-28" class="remark"><em>Remark</em>. </span>We never know the true values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which is why when we estimate a model, we should substitute them with <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. This way we show that we deal with just an approximation of the true model.</p>
 </div>
 <p>After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as <span class="math inline">\(e_j\)</span> instead of <span class="math inline">\(\epsilon_j\)</span>, which in general can be calculated as <span class="math inline">\(e_j = y_j - \hat{y}_j\)</span>, where <span class="math inline">\(\hat{y}_j\)</span> is the value of the regression line (aka “fitted” value) for each specific value of explanatory variable.</p>
 <p>For example, for the height of tree of 64 meters, the actual volume is 249.2, while the fitted value would be 117.052. The resulting error (or residual of model) is 249.2 - 117.052 = 132.148. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:</p>
@@ -499,7 +499,7 @@ If we now minimise SSE by changing values of parameters <span class="math inline
 \end{equation}\]</span>
 where <span class="math inline">\(\bar{x}\)</span> is the mean of the explanatory variable <span class="math inline">\(x_j\)</span> (height in our example) and <span class="math inline">\(\bar{y}\)</span> is the mean of the response variables <span class="math inline">\(y_j\)</span> (volume).</p>
 <div class="proof">
-<p><span id="unlabeled-div-28" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.4)</a> in <a href="OLS.html#eq:OLSCriterion">(10.5)</a> to get:
+<p><span id="unlabeled-div-29" class="proof"><em>Proof</em>. </span>In order to get <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>, we should first insert <a href="OLS.html#eq:SLRFormulaEstimatedError">(10.4)</a> in <a href="OLS.html#eq:OLSCriterion">(10.5)</a> to get:
 <span class="math display">\[\begin{equation*}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - {b}_0 - {b}_1 x_j)^2 .
 \end{equation*}\]</span>
@@ -535,11 +535,11 @@ In the system of equations <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a>
 <p>which after inserting in <a href="OLS.html#eq:OLSSLREstimatesProof">(10.7)</a> lead to <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a>.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-29" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
+<p><span id="unlabeled-div-30" class="remark"><em>Remark</em>. </span>If for some reason <span class="math inline">\({b}_1=0\)</span> in <a href="OLS.html#eq:OLSSLREstimates">(10.6)</a> (for example, because the covariance between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is zero, implying that they are not correlated), then the intercept <span class="math inline">\({b}_0 = \bar{y}\)</span>, meaning that the global average of the data would be the best predictor of the variable <span class="math inline">\(y_j\)</span>.</p>
 </div>
 <p>This method of estimation of parameters based on the minimisation of SSE, is called “Ordinary Least Squares”, because by using this method we get the least possible squares of errors for the data. The word “ordinary” means that this is one of the basic estimation techniques. There are other least squares techniques, which we are not yet discussing in this book. The method is simple and does not require any specific assumptions: we just minimise the overall distance between the line and the points by changing the values of parameters.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-30" class="example"><strong>Example 10.2  </strong></span>For the problem with trees, we can use the <code>lm()</code> function from the <code>stats</code> package in R to get the OLS estimates of parameters. This is done in the following way:</p>
+<p><span id="exm:unlabeled-div-31" class="example"><strong>Example 10.2  </strong></span>For the problem with trees, we can use the <code>lm()</code> function from the <code>stats</code> package in R to get the OLS estimates of parameters. This is done in the following way:</p>
 <div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="OLS.html#cb138-1" tabindex="-1"></a>slmTrees <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume<span class="sc">~</span>height, SBA_Chapter_10_Trees)</span>
 <span id="cb138-2"><a href="OLS.html#cb138-2" tabindex="-1"></a>slmTrees</span></code></pre></div>
 <pre><code>## 

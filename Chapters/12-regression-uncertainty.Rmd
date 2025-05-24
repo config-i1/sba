@@ -681,8 +681,6 @@ which leads to exactly the same conclusion as before: on 1% significance level, 
 The correct answer is "we do not know". The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region $(-2.26, 3.26)$ and can be any of these numbers.
 
 
-
-
 ### Regression line
 Finally, in regression context, we can test another hypothesis, which becomes useful, when many parameters of the model are very close to zero and seem to be insignificant on the selected level:
 \begin{equation}
@@ -692,7 +690,7 @@ Finally, in regression context, we can test another hypothesis, which becomes us
     \end{aligned} ,
     (\#eq:regressionHypothesis02)
 \end{equation}
-which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
 \begin{equation*}
     F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
 \end{equation*}
@@ -713,13 +711,14 @@ What the test is tries to get insight about, is whether in the true model the bl
 Here is an example with the speed model discussed above with the significance level of 1%:
 
 ```{r}
-lmSpeedDistanceF <- summary(lmSpeedDistance)$fstatistic
+costsModelSLRLm <- lm(overall ~ materials, data=SBA_Chapter_11_Costs)
+costsModelSLRF <- summary(costsModelSLRLm)$fstatistic
 # F value
-lmSpeedDistanceF[1]
+costsModelSLRF[1]
 # F critical
-qf(0.99,lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+qf(0.99,costsModelSLRF[2],costsModelSLRF[3])
 # p-value from the test
-1-pf(lmSpeedDistanceF[1],lmSpeedDistanceF[2],lmSpeedDistanceF[3])
+1-pf(costsModelSLRF[1],costsModelSLRF[2],costsModelSLRF[3])
 ```
 
 In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `dist`. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above.

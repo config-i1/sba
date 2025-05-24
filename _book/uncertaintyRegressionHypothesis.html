@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,10 +422,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="uncertaintyRegressionHypothesis" class="section level2 hasAnchor" number="12.4">
 <h2><span class="header-section-number">12.4</span> Hypothesis testing<a href="uncertaintyRegressionHypothesis.html#uncertaintyRegressionHypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>, I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>.</p>
-<div id="regression-parameters" class="section level3 hasAnchor" number="12.4.1">
-<h3><span class="header-section-number">12.4.1</span> Regression parameters<a href="uncertaintyRegressionHypothesis.html#regression-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The classical hypotheses for the parameters are formulated in the following way:
+<p>In the regression context, it is often the case that an analyst is more interest in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.</p>
+<p>What does “effect exist” means in statistical terms? It means that we found some evidence based on our data and model that the value of parameters is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
 <span class="math display" id="eq:regressionHypothesis01">\[\begin{equation}
     \begin{aligned}
         \mathrm{H}_0: \beta_i = 0 \\
@@ -433,25 +431,103 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
     \end{aligned} .
     \tag{12.20}
 \end{equation}\]</span>
-This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e. statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This <strong>does not mean</strong> that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure <a href="uncertaintyRegressionHypothesis.html#fig:costModelHypotheses">12.9</a>.</p>
-<div class="figure"><span style="display:block;" id="fig:costModelHypotheses"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costModelHypotheses-1.png" alt="Graphical presentation of null and alternative hypothesis in regression context" width="672" />
+where <span class="math inline">\(\beta_i\)</span> is the true parameter in the population. The idea is to make some conclusions about what happens in population based on a specific sample of data <strong>and</strong> the estimated model.</p>
+<p>Coming back to the example in Section <a href="uncertaintyRegressionCI.html#uncertaintyRegressionCI">12.2</a>, the whole hypothesis testing process implies that the distribution of the estimates of parameter for <code>materials</code> lies either consistently above zero or consistently below it (in our case, it is above). Figure <a href="uncertaintyRegressionHypothesis.html#fig:costsModelSLRCImaterials">12.9</a> demonstrates the distribution we obtained from the bootstrap in the beginning of this chapter and the 95% confidence interval based on the normal approximation of the distribution.</p>
+<div class="figure"><span style="display:block;" id="fig:costsModelSLRCImaterials"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModelSLRCImaterials-1.png" alt="Parameter uncertainty in the estimated model for the materials variable." width="672" />
 <p class="caption">
-Figure 12.9: Graphical presentation of null and alternative hypothesis in regression context
+Figure 12.9: Parameter uncertainty in the estimated model for the materials variable.
 </p>
 </div>
-<p>The graph on the left in Figure <a href="uncertaintyRegressionHypothesis.html#fig:costModelHypotheses">12.9</a> demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H<span class="math inline">\(_0\)</span>, then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>, the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.</p>
-<p>Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all <a href="assumptions.html#assumptions">assumptions</a> are satisfied (including those for <a href="CLT.html#CLT">CLT</a>). We also know that because the standard errors of parameters are estimated, we need to use Student’s distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with <span class="math inline">\(n-k\)</span> degrees of freedom:
-<span class="math display" id="eq:regressionHypothesisTest01">\[\begin{equation}
-    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
+<p>The 95% confidence level corresponds to the 5% significance level. We see from Figure <a href="uncertaintyRegressionHypothesis.html#fig:costsModelSLRCImaterials">12.9</a> that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word “<em>probably</em>” here because we could always make a mistake based on a specific sample of because the model is incorrect. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.</p>
+<div class="remark">
+<p><span id="unlabeled-div-48" class="remark"><em>Remark</em>. </span>In hypothesis testing, if we formulate the alternative one as inequality (as it was done in <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>), we cannot say whether the effect is positive or negative. We can only conclude that it is not zero on the pre-specified significance level.</p>
+</div>
+<p>If we bring this idea further, we can also conclude that the effect is definitely not equal to one (that value is outside of the interval and in the left tail of the distribution), and surely not 2 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a potential simple hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>, which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?</p>
+<p>Figure <a href="uncertaintyRegressionHypothesis.html#fig:costsModelSLRCIWithZero">12.10</a> shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95% confidence interval.</p>
+<div class="figure"><span style="display:block;" id="fig:costsModelSLRCIWithZero"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModelSLRCIWithZero-1.png" alt="Parameter uncertainty of a hypothetical parameter." width="672" />
+<p class="caption">
+Figure 12.10: Parameter uncertainty of a hypothetical parameter.
+</p>
+</div>
+<p>According to Figure <a href="uncertaintyRegressionHypothesis.html#fig:costsModelSLRCIWithZero">12.10</a>, the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.</p>
+<p>We can also notice that if we were to formulate a different hypothesis, for example, that the parameters is equal to one, we would fail to reject it on the 5% significance level as well. In fact, we would fail to reject the hypotheses on the 5% significance level that the true parameter equals to 0.5, 1.5 and anything between -0.23 and 1.73. Neither of this tells us anything about the true value of parameter. The true conclusion of hypothesis testing in this example is that <strong>we do not know</strong> what the true value of the effect is.</p>
+<p>We personally think that the confidence interval shows this idea more clearly, than the conventional hypothesis testing, not hiding anything.</p>
+<p>Now we will discuss the classical hypothesis testing in regression.</p>
+<div id="regression-parameters" class="section level3 hasAnchor" number="12.4.1">
+<h3><span class="header-section-number">12.4.1</span> Regression parameters<a href="uncertaintyRegressionHypothesis.html#regression-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The logic of hypothesis testing in regression is very similar to the one discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>. To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable <code>materials</code>, which equals to 1.1649173. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>. First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+<span class="math display">\[\begin{equation*}
+    \begin{aligned}
+        \mathrm{H}_0: \beta_i = 0 \\
+        \mathrm{H}_1: \beta_i \neq 0
+    \end{aligned} .
+\end{equation*}\]</span></p>
+<p>Visually, the null and alternative hypotheses can be represented as shown in Figure <a href="uncertaintyRegressionHypothesis.html#fig:costModelHypotheses">12.11</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:costModelHypotheses"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costModelHypotheses-1.png" alt="Graphical presentation of null and alternative hypothesis in regression context." width="672" />
+<p class="caption">
+Figure 12.11: Graphical presentation of null and alternative hypothesis in regression context.
+</p>
+</div>
+<p>The image on the left in Figure <a href="uncertaintyRegressionHypothesis.html#fig:costModelHypotheses">12.11</a> demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure <a href="uncertaintyRegressionHypothesis.html#fig:costModelHypotheses">12.11</a> demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H<span class="math inline">\(_0\)</span>, then we might conclude that we see an effect of one variable on the other one in the data.</p>
+<p>After formulating the hypothesis, we select the significance level. The typical one is 5%, but we can choose another one based on the specific situation.</p>
+<p>Then, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student’s t distribution. The formula for calculating the t-statistics is funamentally the same as in Section <a href="hypothesisTestingBasics.html#hypothesisTestingBasics">7.1</a>:
+<span class="math display" id="eq:ttestFormulaReg">\[\begin{equation}
+    t = \frac{|b_i - 0|}{s_{b_i}} ,
     \tag{12.21}
 \end{equation}\]</span>
-After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.21)</a> with the significance level, we can make conclusions about the hypothesis.</p>
-<p>The context of regression provides a great example, why we never accept hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>) on 1% significance level. Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesisTest01">(12.21)</a>, we get:
+where <span class="math inline">\(b_i\)</span> is the estimate of the parameter <span class="math inline">\(\beta_i\)</span> and <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter obtained from the covariance matrix from Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>. The standard deviation of the parameter is:</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionHypothesis.html#cb190-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelSLR)[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code></pre></div>
+<pre><code>## [1] 0.08134282</code></pre>
+<p>Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:ttestFormulaReg">(12.21)</a> gives us the t-statistics value for our example:
+<span class="math display" id="eq:ttestFormulaReg">\[\begin{equation}
+    t = \frac{|1.165 - 0|}{0.081} \approx 14.4
+    \tag{12.21}
+\end{equation}\]</span>
+Now we need to get the critical value of the t-statistics for the selected significance value and <span class="math inline">\(n-k\)</span> degrees of freedom, which in our case are equal to 61-2=59. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="uncertaintyRegressionHypothesis.html#cb192-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">59</span>)</span></code></pre></div>
+<pre><code>## [1] -2.000995  2.000995</code></pre>
+<p>We consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 14.2 lies outside of these bounds, so we can reject the H<span class="math inline">\(_0\)</span> and conclude that based on our model and the data, we have enough evidence to say that there is an effect of materials on overall costs.</p>
+<div class="remark">
+<p><span id="unlabeled-div-49" class="remark"><em>Remark</em>. </span>The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 14.4 with 2.000995, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H<span class="math inline">\(_0\)</span>.</p>
+</div>
+<p>An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H<span class="math inline">\(_0\)</span> if the p-value is lower than the level. For our example, the p-value can be calculated using the <code>pt()</code> function in R:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="uncertaintyRegressionHypothesis.html#cb194-1" tabindex="-1"></a><span class="fu">pt</span>(<span class="fl">14.4</span>, <span class="dv">59</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 2.849779e-21</code></pre>
+<p>Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get 5.699557^{-21}. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.</p>
+<p>All of this is done automatically by R if we estimate the model using the basic <code>lm()</code> function from the <code>stats</code> package:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="uncertaintyRegressionHypothesis.html#cb196-1" tabindex="-1"></a><span class="fu">lm</span>(overall <span class="sc">~</span> materials, <span class="at">data=</span>SBA_Chapter_11_Costs) <span class="sc">|&gt;</span></span>
+<span id="cb196-2"><a href="uncertaintyRegressionHypothesis.html#cb196-2" tabindex="-1"></a><span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = overall ~ materials, data = SBA_Chapter_11_Costs)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -75.951 -19.186  -0.298  20.303  69.979 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 209.39069   16.08861   13.02   &lt;2e-16 ***
+## materials     1.16492    0.08134   14.32   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 31.6 on 59 degrees of freedom
+## Multiple R-squared:  0.7766, Adjusted R-squared:  0.7728 
+## F-statistic: 205.1 on 1 and 59 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called “Pr(&gt;|t|)”). The “&lt;2e-16” means that the calculated p-value is lower than <span class="math inline">\(2 \times 10^{-16}\)</span>.</p>
+<div class="remark">
+<p><span id="unlabeled-div-50" class="remark"><em>Remark</em>. </span>When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection <a href="hypothesisTestingBasics.html#hypothesisTestingMistakes">7.1.1</a>.</p>
+</div>
+<p>The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>) on 1% significance level. Inserting the values in formula <a href="#eq:regressionHypothesisTest01">(<strong>??</strong>)</a>, we get:
 <span class="math display">\[\begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}\]</span>
-with the critical value for two-tailed test of <span class="math inline">\(t_{0.01}(30-2)\approx 2.76\)</span>. Comparing t-value with the critical one, we would conclude that we fail to reject H<span class="math inline">\(_0\)</span> and thus the parameter is not statistically different from zero. But what would happen if we check another hypothesis:
+with the critical value for two-tailed test of <span class="math inline">\(t_{0.01}(30-2)\approx 2.76\)</span>. Comparing t-value with the critical one, we would conclude that we fail to reject H<span class="math inline">\(_0\)</span> and thus the parameter is not statistically different from zero. There is a temptation to remove it from the model, but this would be fundamentally wrong. And here is why.</p>
+<p>Consider testing another hypothesis for the same parameter:
 <span class="math display">\[\begin{equation*}
     \begin{aligned}
         \mathrm{H}_0: \beta_1 = 1 \\
@@ -462,33 +538,12 @@ The procedure is the same, the calculated t-value is:
 <span class="math display">\[\begin{equation*}
     \frac{|0.5 - 1|}{1} = 0.5,
 \end{equation*}\]</span>
-which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is “we do not know”. The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
-<p>In R, if you want to test the hypothesis for parameters, I would recommend using <code>lm()</code> function for regression:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionHypothesis.html#cb190-1" tabindex="-1"></a>lmSpeedDistance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist<span class="sc">~</span>speed,cars)</span>
-<span id="cb190-2"><a href="uncertaintyRegressionHypothesis.html#cb190-2" tabindex="-1"></a><span class="fu">summary</span>(lmSpeedDistance)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -29.069  -9.525  -2.272   9.215  43.201 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -17.5791     6.7584  -2.601   0.0123 *  
-## speed         3.9324     0.4155   9.464 1.49e-12 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 15.38 on 48 degrees of freedom
-## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
-## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
-<p>This output tells us that when we consider the parameter for the variable speed, we reject the standard H<span class="math inline">\(_0\)</span> on the pre-selected 1% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.</p>
+which leads to exactly the same conclusion as before: on 1% significance level, we fail to reject the new H<span class="math inline">\(_0\)</span>, so the value is not distinguishable from 1. So, which of the two conclusions is correct? Is it zero or is it one?</p>
+<p>The correct answer is “we do not know”. The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1% significance level the true parameter lies in the region <span class="math inline">\((-2.26, 3.26)\)</span> and can be any of these numbers.</p>
 </div>
 <div id="regression-line" class="section level3 hasAnchor" number="12.4.2">
 <h3><span class="header-section-number">12.4.2</span> Regression line<a href="uncertaintyRegressionHypothesis.html#regression-line" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
+<p>Finally, in regression context, we can test another hypothesis, which becomes useful, when many parameters of the model are very close to zero and seem to be insignificant on the selected level:
 <span class="math display" id="eq:regressionHypothesis02">\[\begin{equation}
     \begin{aligned}
         \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
@@ -496,32 +551,33 @@ which leads to exactly the same conclusion as before: on 1% significance level, 
     \end{aligned} ,
     \tag{12.22}
 \end{equation}\]</span>
-which translates into normal language as “H<span class="math inline">\(_0\)</span>: all parameters (except for intercept) are equal to zero; H<span class="math inline">\(_1\)</span>: at least one parameter is not equal to zero”. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+which translates into normal language as “H<span class="math inline">\(_0\)</span>: all parameters (except for intercept) are equal to zero; H<span class="math inline">\(_1\)</span>: at least one parameter is not equal to zero”. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
 <span class="math display">\[\begin{equation*}
     F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
 \end{equation*}\]</span>
 where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis.</p>
-<p>This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure <a href="uncertaintyRegressionHypothesis.html#fig:speedDistanceHypothesesF">12.10</a>.</p>
+<p>This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure <a href="uncertaintyRegressionHypothesis.html#fig:speedDistanceHypothesesF">12.12</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:speedDistanceHypothesesF"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/speedDistanceHypothesesF-1.png" alt="Graphical presentation of F test for regression model." width="672" />
 <p class="caption">
-Figure 12.10: Graphical presentation of F test for regression model.
+Figure 12.12: Graphical presentation of F test for regression model.
 </p>
 </div>
 <p>What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.</p>
 <p>Here is an example with the speed model discussed above with the significance level of 1%:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="uncertaintyRegressionHypothesis.html#cb192-1" tabindex="-1"></a>lmSpeedDistanceF <span class="ot">&lt;-</span> <span class="fu">summary</span>(lmSpeedDistance)<span class="sc">$</span>fstatistic</span>
-<span id="cb192-2"><a href="uncertaintyRegressionHypothesis.html#cb192-2" tabindex="-1"></a><span class="co"># F value</span></span>
-<span id="cb192-3"><a href="uncertaintyRegressionHypothesis.html#cb192-3" tabindex="-1"></a>lmSpeedDistanceF[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="uncertaintyRegressionHypothesis.html#cb198-1" tabindex="-1"></a>costsModelSLRLm <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall <span class="sc">~</span> materials, <span class="at">data=</span>SBA_Chapter_11_Costs)</span>
+<span id="cb198-2"><a href="uncertaintyRegressionHypothesis.html#cb198-2" tabindex="-1"></a>costsModelSLRF <span class="ot">&lt;-</span> <span class="fu">summary</span>(costsModelSLRLm)<span class="sc">$</span>fstatistic</span>
+<span id="cb198-3"><a href="uncertaintyRegressionHypothesis.html#cb198-3" tabindex="-1"></a><span class="co"># F value</span></span>
+<span id="cb198-4"><a href="uncertaintyRegressionHypothesis.html#cb198-4" tabindex="-1"></a>costsModelSLRF[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##    value 
-## 89.56711</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="uncertaintyRegressionHypothesis.html#cb194-1" tabindex="-1"></a><span class="co"># F critical</span></span>
-<span id="cb194-2"><a href="uncertaintyRegressionHypothesis.html#cb194-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
-<pre><code>## [1] 7.194218</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="uncertaintyRegressionHypothesis.html#cb196-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
-<span id="cb196-2"><a href="uncertaintyRegressionHypothesis.html#cb196-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(lmSpeedDistanceF[<span class="dv">1</span>],lmSpeedDistanceF[<span class="dv">2</span>],lmSpeedDistanceF[<span class="dv">3</span>])</span></code></pre></div>
-<pre><code>##        value 
-## 1.489919e-12</code></pre>
+## 205.0934</code></pre>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="uncertaintyRegressionHypothesis.html#cb200-1" tabindex="-1"></a><span class="co"># F critical</span></span>
+<span id="cb200-2"><a href="uncertaintyRegressionHypothesis.html#cb200-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.99</span>,costsModelSLRF[<span class="dv">2</span>],costsModelSLRF[<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## [1] 7.08496</code></pre>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="uncertaintyRegressionHypothesis.html#cb202-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
+<span id="cb202-2"><a href="uncertaintyRegressionHypothesis.html#cb202-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(costsModelSLRF[<span class="dv">1</span>],costsModelSLRF[<span class="dv">2</span>],costsModelSLRF[<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## value 
+##     0</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability in the variable <code>dist</code>. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H<span class="math inline">\(_0\)</span> and come to the same conclusion as above.</p>
 
 </div>

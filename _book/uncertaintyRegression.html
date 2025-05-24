@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-05-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -423,7 +423,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="uncertaintyRegression" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Uncertainty in regression<a href="uncertaintyRegression.html#uncertaintyRegression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div class="remark">
-<p><span id="unlabeled-div-40" class="remark"><em>Remark</em>. </span>In this chapter, we focus on a Simple Linear Regression in our discussion, showing mathematical derivations for a more general case. We note that such simplistic model is rarely correct for the data (not a “true” model), but for the purposes of explanation, we find it more intuitive than the proper multiple linear regression.</p>
+<p><span id="unlabeled-div-41" class="remark"><em>Remark</em>. </span>In this chapter, we focus on a Simple Linear Regression in our discussion, showing mathematical derivations for a more general case. We note that such simplistic model is rarely correct for the data (not a “true” model), but for the purposes of explanation, we find it more intuitive than the proper multiple linear regression.</p>
 </div>
 <p>Coming back to the example of properties costs from Chapter <a href="linearRegression.html#linearRegression">11</a>, consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure <a href="uncertaintyRegression.html#fig:scatterCostsUncertainty">12.1</a> depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).</p>
 <div class="figure"><span style="display:block;" id="fig:scatterCostsUncertainty"></span>
@@ -438,7 +438,7 @@ Figure 12.1: Material vs overall costs and two regression lines.
 <p>Exactly the same effect will be observed if we collect a different random sample from the same population, for example, if we worked for a different company that does similar business and collects the same data. In that case, the parameters would be random again, having some sort of a distribution.</p>
 <p>To see this point clearer, we fit the same simple regression model to randomly selected subsamples of the original dataset many times and collect the estimates of parameters to plot histograms and see their distribution. This empirical way of capturing uncertainty is called “bootstrap” and we will discuss it in more detail in Chapter <a href="#SectionNeededHere"><strong>??</strong></a>. The R code below shows how this can be done using the <code>coefbootstrap()</code> function from the <code>greybox</code> package (which implements a simple “Case Resampling” technique):</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="uncertaintyRegression.html#cb169-1" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb169-2"><a href="uncertaintyRegression.html#cb169-2" tabindex="-1"></a>costsModelSLR <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall <span class="sc">~</span> materials, <span class="at">data=</span>SBA_Chapter_11_Costs)</span>
+<span id="cb169-2"><a href="uncertaintyRegression.html#cb169-2" tabindex="-1"></a>costsModelSLR <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall <span class="sc">~</span> materials, <span class="at">data=</span>SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
 <span id="cb169-3"><a href="uncertaintyRegression.html#cb169-3" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
 <span id="cb169-4"><a href="uncertaintyRegression.html#cb169-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
 <span id="cb169-5"><a href="uncertaintyRegression.html#cb169-5" tabindex="-1"></a>costsModelSLRBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(costsModelSLR)</span></code></pre></div>
