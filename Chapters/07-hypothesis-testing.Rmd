@@ -82,8 +82,12 @@ Also **note** that we never say that we accept $\mathrm{H}_0$, because this is n
 
 Finally, there is a third way to test the hypothesis. We could calculate how much surface is left in the tails with the cut off of the assumed distribution by the blue line on Figure \@ref(fig:hypothesisTesting01) (calculated value). In R this can be done using the `pt()` function:
 ```{r}
-pt(-3, 36-1)
+pt(3, 36-1, lower.tail=FALSE)
 ```
+::: remark
+We use absolute value of statistics in the formula above and calculate the p-value based on the right tail of distribution. This is the conventional way of doing that, although we would have gotten the same result with the command `pt(-3, 36-1, lower.tail=TRUE)`.
+:::
+
 Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately `r round(pt(-3, 36-1)*2, 4)`. This is the significance level, for which the switch from "reject" to "do not reject" happens. We could compare this value with the pre-selected significance level directly, rejecting $\mathrm{H}_0$ if it is lower than $\alpha$. This value is called "p-value" and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: **p-value** is the smallest significance level at which a null hypothesis can be rejected.
 
 Despite this simplification, we still need to follow the procedure and select $\alpha$ *before conducting the test*! We should not change the significance level after observing the p-values, otherwise we might end up bending reality for our needs. Also *note* that if in one case p-value is 0.2, while in the other it is 0.3, it does not mean that the the first case is more significant than the second! P-values are not comparable with each other and they do not tell you about the size of significance. *This is still a binary process*: we either reject, or fail to reject $\mathrm{H}_0$, depending on whether p-value is smaller or greater than the selected significance level.
