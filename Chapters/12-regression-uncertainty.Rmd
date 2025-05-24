@@ -690,35 +690,42 @@ Finally, in regression context, we can test another hypothesis, which becomes us
     \end{aligned} ,
     (\#eq:regressionHypothesis02)
 \end{equation}
-which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+which translates into normal language as "H$_0$: all parameters (except for intercept) are equal to zero; H$_1$: at least one parameter is not equal to zero". This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares (discussed in Subsection \@ref(linearRegressionSimpleQualityOfFitSSE)):
 \begin{equation*}
     F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
 \end{equation*}
-where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis. 
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \@ref(hypothesisTesting)): after choosing the significance level, we calculate the F-value and then either select the critical value of F for the specified degrees of freedom, or compare the significance level with the p-value from the test to make a conclusion about the null hypothesis.
 
-This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure \@ref(fig:speedDistanceHypothesesF).
+This hypothesis is not very useful, when the parameters are significant and the coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is good or bad, adequate or not. And the F value and related p-value are not comparable with respective values of another models. Visually, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same costs model is provided in Figure \@ref(fig:costsModelHypothesesF).
 
-```{r speedDistanceHypothesesF, fig.cap="Graphical presentation of F test for regression model.", echo=FALSE}
-testModel <- alm(actuals(costsModelSLR)~fitted(costsModelSLR))
+```{r costsModelHypothesesF, fig.cap="Graphical presentation of F test for regression model.", echo=FALSE}
 plot(fitted(costsModelSLR), actuals(costsModelSLR),
      xlab="Fitted", ylab="Actuals")
-abline(testModel,col="blue")
-abline(h=mean(actuals(costsModelSLR)),col="red")
+abline(a=0, b=1, col=5, lwd=2)
+abline(h=mean(actuals(costsModelSLR)),col=3, lwd=2)
 ```
 
-What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.
+What the test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
 
-Here is an example with the speed model discussed above with the significance level of 1%:
+Here is an example with the costs model discussed in this chapter with the pre-selected significance level of 1%:
 
 ```{r}
+# Estimate the regression using lm 
 costsModelSLRLm <- lm(overall ~ materials, data=SBA_Chapter_11_Costs)
+# Get summary statistics
 costsModelSLRF <- summary(costsModelSLRLm)$fstatistic
-# F value
+# Extract the F-value
 costsModelSLRF[1]
-# F critical
+# Calculate the critical value of F
 qf(0.99,costsModelSLRF[2],costsModelSLRF[3])
-# p-value from the test
-1-pf(costsModelSLRF[1],costsModelSLRF[2],costsModelSLRF[3])
 ```
 
-In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `dist`. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above.
+In the output above, the critical value is lower than the calculated, so we can reject the H$_0$, which means that there is something in the model that explains the variability in the variable `overall`. Alternatively, we could focus on the p-value:
+```{r}
+# p-value from the test
+pf(costsModelSLRF[1],costsModelSLRF[2],costsModelSLRF[3],lower.tail=FALSE)
+```
+We see that the it is lower than the significance level of 1%, so we reject the H$_0$ and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the `lm()` function:
+```{r}
+summary(costsModelSLRLm)
+```
