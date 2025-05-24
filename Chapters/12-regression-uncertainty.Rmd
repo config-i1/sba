@@ -13,11 +13,11 @@ points(SBA_Chapter_11_Costs$materials[1:25], SBA_Chapter_11_Costs$overall[1:25],
 abline(h=0, col="grey")
 abline(v=0, col="grey")
 abline(costsModelMLRLarge, col=3, lty=2)
-text(250,380,paste0(c("overall = ",round(coef(costsModelMLRLarge)[1],2)," + ",
-                      round(coef(costsModelMLRLarge)[2],2)," materials + e"),collapse=""), col=3)
+text(250,380,paste0(c("overall = ",round(coef(costsModelMLRLarge)[1], 2)," + ",
+                      round(coef(costsModelMLRLarge)[2], 2)," materials + e"),collapse=""), col=3)
 abline(costsModelMLRSmall, col=5)
-text(215,557,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1],2)," + ",
-                      round(coef(costsModelMLRSmall)[2],2)," materials + e"),collapse=""), col=5)
+text(215,557,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1], 2)," + ",
+                      round(coef(costsModelMLRSmall)[2], 2)," materials + e"),collapse=""), col=5)
 legend("topleft", legend=c("50 observations","25 observations"),
        lwd=2, col=c(3,5), lty=c(2,1))
 ```
@@ -81,14 +81,14 @@ where ${\boldsymbol{b}}$ is the vector of all the estimated parameters. The cova
 There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:
 
 ```{r}
-var(costsModelMLRBootstrap$coefficients) |> round(3)
+var(costsModelMLRBootstrap$coefficients) |> round(4)
 ```
 
 The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:
 
 ```{r}
 var(costsModelMLRBootstrap$coefficients) |>
-    cov2cor() |> round(3)
+    cov2cor() |> round(4)
 ```
 
 We see, for example, that the correlation between the intercept and the parameter for the `year` is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data for these two variables. Still, this does not provide much useful information, but the matrix itself can be used for further derivations (see next Section).
@@ -102,7 +102,7 @@ The alternative way of calculating the covariance matrix is using a formula. Thi
 \end{equation}
 where $\mathbf{X}$ is the matrix of explanatory variables from equation \@ref(eq:MLRMatrices) and $e_j$ is the residual of the model on the observation $j$. One way to understand what this formula does, is to keep in mind that $\mathbf{X}' \mathbf{X}$ will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function `vcov()` in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
 ```{r}
-vcov(costsModelMLR) |> round(3)
+vcov(costsModelMLR) |> round(4)
 ```
 
 We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \@ref(eq:MLRcovarianceMatrix) is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below), the most important of them being that *the model is correctly specified* (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, discussed in Chapter \@ref(assumptions).
@@ -289,12 +289,12 @@ To calculate the confidence interval, using the equation \@ref(eq:MLRParameterIn
 Consider construction of the interval for the slope parameter for the variable `materials` from the regression we discussed earlier. In our case, we know the following:
 
 1. $\alpha=0.05$ because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;
-2. The value of the parameter $b_1$ is `r round(coef(costsModelMLR)[2],3)`;
+2. The value of the parameter $b_1$ is `r round(coef(costsModelMLR)[2],digits)`;
 3. To get the variance of the parameter, we can use the formula discussed in Section \@ref(uncertaintyRegressionCov). In R, we can get the variance of the parameter for the `materials` (second parameter in the model) via the `vcov()` function, like this:
 ```{r}
 vcov(costsModelMLR)[2,2]
 ```
-Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately `r round(sqrt(vcov(costsModelMLR)[2,2]),3)`.
+Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately `r round(sqrt(vcov(costsModelMLR)[2,2]),digits)`.
 4. We estimated five parameters (four for variables and an intercept), so $k=5$, and the sample size $n$ was 61, which means that in our model has $n-k=61-5=56$ degrees of freedom.
 5. To get the Student's t statistics correctly, we need to split the significance level $\alpha$ into two equal part, meaning that we expect to have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for $\alpha/2=0.025$ and $1-\alpha/2=0.975$ with $n-k=56$. In R, we can use the `qt()` function in the following way:
 ```{r}
@@ -302,18 +302,18 @@ qt(c(0.025,0.975), 56)
 ```
 
 ```{r echo=FALSE}
-x <- round(round(coef(costsModelMLR)[2],3)+qt(c(0.025,0.975), 56)*round(sqrt(vcov(costsModelMLR)[2,2]),3),3)
+x <- round(round(coef(costsModelMLR)[2], digits)+qt(c(0.025,0.975), 56)*round(sqrt(vcov(costsModelMLR)[2,2]), digits), digits)
 ```
 
 Taking all these values and inserting them in the formula \@ref(eq:MLRParameterInterval), we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (`r paste0(x, collapse=",")`)
 
 In R, the confidence interval can be obtained directly via the `confint()` function, and it should be close to what we obtained above, but not exactly the same due to rounding:
 ```{r}
-confint(costsModelMLR) |> round(3)
+confint(costsModelMLR) |> round(4)
 ```
 
 ```{r echo=FALSE}
-x <- round(confint(costsModelMLR)[2,2:3],3)
+x <- round(confint(costsModelMLR)[2,2:3], digits)
 ```
 
 The confidence interval for `materials` above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between `r x[1]` and `r x[2]`. This gives us an idea about the real effect in the population and how certain we are about it.
@@ -401,7 +401,7 @@ abline(h=c(costsModelMLRCIZoom$lower,
        col="grey", lwd=2, lty=2)
 ```
 
-What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m$^2$, the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be `r round(costsModelMLRCIZoom$mean, 3)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCIZoom$lower, 3)` and `r round(costsModelMLRCIZoom$upper, 3)` in 95% of the cases if we repeat the confidence interval construction many times.
+What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m$^2$, the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be `r round(costsModelMLRCIZoom$mean, digits)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCIZoom$lower, digits)` and `r round(costsModelMLRCIZoom$upper, digits)` in 95% of the cases if we repeat the confidence interval construction many times.
 
 Another way of visualising the confidence interval is by plotting the actuals vs fitted figure:
 ```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
@@ -468,7 +468,7 @@ costsModelMLRForecast <- predict(costsModelMLR,
 plot(costsModelMLRForecast)
 ```
 
-Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overall costs of a project given the values of explanatory variables) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between `r paste(round(c(costsModelMLRForecast$lower,costsModelMLRForecast$upper),3),collapse=" and ")` thousands of pounds.
+Figure \@ref(fig:costModelForecast) shows the point forecast (the expected overall costs of a project given the values of explanatory variables) and the 95% prediction interval (we expect that in 95% of the cases, the overall costs would be between `r paste(round(c(costsModelMLRForecast$lower,costsModelMLRForecast$upper), digits),collapse=" and ")` thousands of pounds.
 
 
 ### Derivations of the variance in regression {#uncertaintyRegressionLineMaths}
@@ -555,7 +555,7 @@ text(c(qnorm(c(0.025,0.975),
      rep(2,2),
      labels=round(qnorm(c(0.025,0.975),
                         mean(costsModelMLRBootstrap$coefficients[,2]),
-                        sd(costsModelMLRBootstrap$coefficients[,2])),3), pos=c(2,4))
+                        sd(costsModelMLRBootstrap$coefficients[,2])),digits), pos=c(2,4))
 ```
 
 The 95% confidence level corresponds to the 5% significance level. We see from Figure \@ref(fig:costsModelMLRCImaterials) that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word "*probably*" here because we could always make a mistake based on a specific sample or because the model was incorrectly specified. Still, we would be inclined to conclude on the 5% significance level that the effect is indeed non-zero.

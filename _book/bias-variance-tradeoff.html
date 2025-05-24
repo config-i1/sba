@@ -315,9 +315,9 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html"><i class="fa fa-check"></i><b>12.1</b> Covariance matrix of parameters</a>
 <ul>
-<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap</a></li>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap-based-matrix"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap-based matrix</a></li>
 <li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
-<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
+<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#uncertaintyRegressionCovMaths"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
@@ -476,7 +476,7 @@ Figure 17.5: Fuel consumption vs engine size, the true and the polynomial (7th o
 \end{equation}\]</span>
 where <span class="math inline">\(\hat{y}\)</span> is the fitted value of our model, <span class="math inline">\(\mathrm{Bias}(\hat{y})=\mathrm{E}(\mu_y-\hat{y})\)</span>, <span class="math inline">\(\mathrm{V}(\hat{y})=\mathrm{E}\left((\mu_y-\hat{y})^2\right)\)</span>, <span class="math inline">\(\mu_y\)</span> is the fitted value of the true model, and <span class="math inline">\(\sigma^2\)</span> is the variance of the white noise of the true model.</p>
 <div class="proof">
-<p><span id="unlabeled-div-57" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
+<p><span id="unlabeled-div-56" class="proof"><em>Proof</em>. </span>The Mean Squared Error of a model by definition is the expectation of the squared difference between the actual and the fitted values:
 <span class="math display" id="eq:biasVarianceProof01">\[\begin{equation}
     \mathrm{MSE} = \mathrm{E}\left((y -\hat{y})^2\right) = \mathrm{E}\left((\mu_y +\epsilon -\hat{y})^2\right)
     \tag{17.3}

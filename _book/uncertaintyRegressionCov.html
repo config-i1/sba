@@ -315,9 +315,9 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html"><i class="fa fa-check"></i><b>12.1</b> Covariance matrix of parameters</a>
 <ul>
-<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap</a></li>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap-based-matrix"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap-based matrix</a></li>
 <li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
-<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#mathematical-derivation"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
+<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#uncertaintyRegressionCovMaths"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
 </ul></li>
 <li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
@@ -424,147 +424,146 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">12.1</span> Covariance matrix of parameters<a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:</p>
 <p><span class="math display" id="eq:MLRParameterCov">\[\begin{equation}
-    \mathrm{V}({\boldsymbol{b}}) =
-    \begin{pmatrix}
-        \mathrm{V}(b_0) &amp; \mathrm{cov}(b_0, b_1) &amp; \dots &amp; \mathrm{cov}(b_0, b_{k-1}) \\
-        \mathrm{cov}(b_0, b_1) &amp; \mathrm{V}(b_1) &amp; \dots &amp; \mathrm{cov}(b_1, b_{k-1}) \\
-        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-        \mathrm{cov}(b_0, b_{k-1}) &amp; \mathrm{cov}(b_1, b_{k-1}) &amp; \dots &amp; \mathrm{V}(b_{k-1}) \\
-    \end{pmatrix} ,
-    \tag{12.1}
+\mathrm{V}({\boldsymbol{b}}) =
+\begin{pmatrix}
+\mathrm{V}(b_0) &amp; \mathrm{cov}(b_0, b_1) &amp; \dots &amp; \mathrm{cov}(b_0, b_{k-1}) \\
+\mathrm{cov}(b_0, b_1) &amp; \mathrm{V}(b_1) &amp; \dots &amp; \mathrm{cov}(b_1, b_{k-1}) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\mathrm{cov}(b_0, b_{k-1}) &amp; \mathrm{cov}(b_1, b_{k-1}) &amp; \dots &amp; \mathrm{V}(b_{k-1}) \\
+\end{pmatrix} ,
+\tag{12.1}
 \end{equation}\]</span>
-where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of the Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>, equation <a href="dataAnalysisNumerical.html#eq:CovarMat">(5.9)</a>, but it is now applied to the estimates of parameters of the model instead of several random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
-<div id="bootstrap" class="section level3 hasAnchor" number="12.1.1">
-<h3><span class="header-section-number">12.1.1</span> Bootstrap<a href="uncertaintyRegressionCov.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>, equation <a href="dataAnalysisNumerical.html#eq:CovarMat">(5.9)</a>, but it is now applied to the estimates of parameters of the model instead of some random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called “Standard errors” of parameters (the standard deviations). These are typically used in further analysis.</p>
+<div id="bootstrap-based-matrix" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Bootstrap-based matrix<a href="uncertaintyRegressionCov.html#bootstrap-based-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients)</span></code></pre></div>
-<pre><code>##               (Intercept)   materials         size     projects          year
-## (Intercept) 3628842.79487 21.21075659 -59.99315670 311.55636049 -1.806527e+03
-## materials        21.21076  0.02813508  -0.05780041   0.05215842 -1.071008e-02
-## size            -59.99316 -0.05780041   0.12720910  -0.12347879  2.980010e-02
-## projects        311.55636  0.05215842  -0.12347879   3.15771407 -1.596460e-01
-## year          -1806.52687 -0.01071008   0.02980010  -0.15964602  8.993605e-01</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##              (Intercept) materials     size projects       year
+## (Intercept) 3628842.7949   21.2108 -59.9932 311.5564 -1806.5269
+## materials        21.2108    0.0281  -0.0578   0.0522    -0.0107
+## size            -59.9932   -0.0578   0.1272  -0.1235     0.0298
+## projects        311.5564    0.0522  -0.1235   3.1577    -0.1596
+## year          -1806.5269   -0.0107   0.0298  -0.1596     0.8994</code></pre>
 <p>The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:</p>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="uncertaintyRegressionCov.html#cb173-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
-<span id="cb173-2"><a href="uncertaintyRegressionCov.html#cb173-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>()</span></code></pre></div>
-<pre><code>##             (Intercept)   materials        size    projects        year
-## (Intercept)  1.00000000  0.06638164 -0.08829956  0.09203778 -0.99998490
-## materials    0.06638164  1.00000000 -0.96615708  0.17499029 -0.06732890
-## size        -0.08829956 -0.96615708  1.00000000 -0.19482598  0.08810320
-## projects     0.09203778  0.17499029 -0.19482598  1.00000000 -0.09473376
-## year        -0.99998490 -0.06732890  0.08810320 -0.09473376  1.00000000</code></pre>
-<p>We see that the correlation between the intercept and the parameter for the year is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data.</p>
+<span id="cb173-2"><a href="uncertaintyRegressionCov.html#cb173-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##             (Intercept) materials    size projects    year
+## (Intercept)      1.0000    0.0664 -0.0883   0.0920 -1.0000
+## materials        0.0664    1.0000 -0.9662   0.1750 -0.0673
+## size            -0.0883   -0.9662  1.0000  -0.1948  0.0881
+## projects         0.0920    0.1750 -0.1948   1.0000 -0.0947
+## year            -1.0000   -0.0673  0.0881  -0.0947  1.0000</code></pre>
+<p>We see, for example, that the correlation between the intercept and the parameter for the <code>year</code> is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data for these two variables. Still, this does not provide much useful information, but the matrix itself can be used for further derivations (see next Section).</p>
 </div>
 <div id="analytical-solution" class="section level3 hasAnchor" number="12.1.2">
 <h3><span class="header-section-number">12.1.2</span> Analytical solution<a href="uncertaintyRegressionCov.html#analytical-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution (see Chapter <a href="likelihoodApproach.html#likelihoodApproach">16</a>). The following formula is derived for OLS, and would not produce adequate results in case of other estimators:
+<p>The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution, see Chapter <a href="likelihoodApproach.html#likelihoodApproach">16</a>). The following formula is derived for OLS, relies on several important assumptions (see derivations in Subsection <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCovMaths">12.1.3</a>), and would not produce adequate results in case of other estimators:
 <span class="math display" id="eq:MLRcovarianceMatrix">\[\begin{equation}
-    \mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
-    \tag{12.2}
+\mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}&#39; \mathbf{X}\right)^{-1}.
+\tag{12.2}
 \end{equation}\]</span>
-where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)</span></code></pre></div>
-<pre><code>##               (Intercept)   materials          size     projects          year
-## (Intercept) 9323602.83034 42.93420349 -13.001244950 670.12795613 -4.647635e+03
-## materials        42.93420  0.04798315  -0.100373199   0.09670892 -2.157164e-02
-## size            -13.00124 -0.10037320   0.242055291  -0.20502991  5.423772e-03
-## projects        670.12796  0.09670892  -0.205029909   7.14554628 -3.461713e-01
-## year          -4647.63488 -0.02157164   0.005423772  -0.34617126  2.316845e+00</code></pre>
-<p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below). The most important one is that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, some of which will be discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
+where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does, is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##              (Intercept) materials     size projects       year
+## (Intercept) 9323602.8303   42.9342 -13.0012 670.1280 -4647.6349
+## materials        42.9342    0.0480  -0.1004   0.0967    -0.0216
+## size            -13.0012   -0.1004   0.2421  -0.2050     0.0054
+## projects        670.1280    0.0967  -0.2050   7.1455    -0.3462
+## year          -4647.6349   -0.0216   0.0054  -0.3462     2.3168</code></pre>
+<p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below), the most important of them being that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
 </div>
-<div id="mathematical-derivation" class="section level3 hasAnchor" number="12.1.3">
-<h3><span class="header-section-number">12.1.3</span> Mathematical derivation<a href="uncertaintyRegressionCov.html#mathematical-derivation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a>. There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The only thing we need to assume at this moment is that the “true” model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.</p>
+<div id="uncertaintyRegressionCovMaths" class="section level3 hasAnchor" number="12.1.3">
+<h3><span class="header-section-number">12.1.3</span> Mathematical derivation<a href="uncertaintyRegressionCov.html#uncertaintyRegressionCovMaths" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a>. There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The important thing we need to assume at this moment is that the “true” model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.</p>
 <div class="warning">
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-42" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
 <span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
-    \begin{aligned}
-    {\boldsymbol{b}} =
-        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
-        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
-        &amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
-        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
-    \end{aligned}
-    \tag{12.3}
+\begin{aligned}
+{\boldsymbol{b}} =
+&amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+&amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+&amp; \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+&amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+\end{aligned}
+\tag{12.3}
 \end{equation}\]</span></p>
 <p>This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in <span class="math inline">\(\mathbf{X}\)</span> and the specific values of the error term <span class="math inline">\(\boldsymbol{\epsilon}\)</span>.</p>
-<p>In bypassing, we can show that the OLS estimates of parameters are unbiased as long as the model is correctly specified:
+<p>In bypassing, we can show that the OLS estimates of parameters are unbiased (i.e. their expectation will be equal to the true parameters) as long as the model is correctly specified:
 <span class="math display" id="eq:MLRCLSExpansion">\[\begin{equation}
-    \begin{aligned}
-    \mathrm{E}\left(\boldsymbol{b}\right) =
-        &amp; \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
-        &amp; {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
-        &amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
-        &amp; \boldsymbol{\beta} ,
-    \end{aligned}
-    \tag{12.4}
+\begin{aligned}
+\mathrm{E}\left(\boldsymbol{b}\right) =
+&amp; \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+&amp; {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+&amp; {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+&amp; \boldsymbol{\beta} ,
+\end{aligned}
+\tag{12.4}
 \end{equation}\]</span>
 which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>).</p>
 <p>More importantly, we can calculate the variance of the estimates of parameters using <a href="uncertaintyRegressionCov.html#eq:MLROLSExpansion">(12.3)</a>:</p>
 <p><span class="math display" id="eq:MLROLSVariance01">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
-    \tag{12.5}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+\tag{12.5}
 \end{equation}\]</span></p>
 <p>In formula <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance01">(12.5)</a>, the true parameter <span class="math inline">\(\boldsymbol{\beta}\)</span> should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to <span class="math inline">\({\boldsymbol{\beta}}\)</span> in <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance01">(12.5)</a> can be dropped leaving us with:
 <span class="math display" id="eq:MLROLSVariance02">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
-    \tag{12.6}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+\tag{12.6}
 \end{equation}\]</span>
 After that, we can recall that <span class="math inline">\(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\)</span>, because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection <a href="linearRegression.html#TrueModel">11.0.1</a>). This is useful because now we can represent the variance <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance02">(12.6)</a> as the expectation of products (this follows directly from equation <a href="dataAnalysisNumerical.html#eq:VarianceAlt">(5.2)</a> that we discussed in Subsection <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
-<span class="math display" id="eq:MLROLSVariance03">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    \tag{12.7}
-\end{equation}\]</span>
+<span class="math display" id="eq:MLROLSVariance03">\[\begin{equation*}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\tag{12.7}
+\end{equation*}\]</span>
 Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula <a href="dataAnalysisNumerical.html#eq:CovarianceAlt">(5.8)</a> from Section <a href="dataAnalysisNumerical.html#dataAnalysisNumerical">5.1</a>):
 <span class="math display" id="eq:MLROLSVariance04">\[\begin{equation}
-    \begin{aligned}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) =
-        &amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
-        &amp; \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    \end{aligned}
-    \tag{12.8}
+\begin{aligned}
+\mathrm{V}\left( {\boldsymbol{b}} \right) =
+&amp; \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
+&amp; \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\end{aligned}
+\tag{12.8}
 \end{equation}\]</span>
-We can notice that the expectations in <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance04">(12.8)</a> should be zero because, as discussed earlier, in the true model the error term is not related to anything. This means that the formula can be simplified to:
+We can notice that the expectations in <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance04">(12.8)</a> should be zero because, as discussed earlier, in the true model, the error term is not related to anything. This means that the formula can be simplified to:
 <span class="math display" id="eq:MLROLSVariance05">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
-    \tag{12.9}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\tag{12.9}
 \end{equation}\]</span>
 The second element in the brackets can be rewritten as:
 <span class="math display">\[\begin{equation*}
-    \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
 \end{equation*}\]</span>
-Substituting this to <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance leads to:
+Substituting this to <a href="uncertaintyRegressionCov.html#eq:MLROLSVariance05">(12.9)</a> and moving explanatory variables from the covariance gives:
 <span class="math display" id="eq:MLROLSVariance06">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
-    \tag{12.10}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+\tag{12.10}
 \end{equation}\]</span>
 which after some cancellations leads to:
 <span class="math display" id="eq:MLROLSVarianceSemiFinal">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
-    \tag{12.11}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
+\tag{12.11}
 \end{equation}\]</span>
-Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula:
+Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula (from equation <a href="linearRegressionMultipleQualityOfFit.html#eq:RMSERegression">(11.15)</a>):
 <span class="math display">\[\begin{equation*}
-    \hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
+\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
 \end{equation*}\]</span>
-which after being insert in <a href="uncertaintyRegressionCov.html#eq:MLROLSVarianceSemiFinal">(12.11)</a>, leads to:
+which after being inserted in <a href="uncertaintyRegressionCov.html#eq:MLROLSVarianceSemiFinal">(12.11)</a>, leads to:
 <span class="math display" id="eq:MLROLSVarianceFinal">\[\begin{equation}
-    \mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
-    \tag{12.12}
-\end{equation}\]</span>
-where is the estimate of the true variance based on the applied model.</p>
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\tag{12.12}
+\end{equation}\]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-43" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<p><span id="unlabeled-div-42" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
 <span class="math display">\[\begin{equation*}
-    \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
 \end{equation*}\]</span>
 where <span class="math inline">\(\mathbf{I}_{k-1}\)</span> is the identity matrix of the size <span class="math inline">\(k-1\)</span> and <span class="math inline">\(\sigma^2\)</span> is the variance of the error term.</p>
 </div>
-<p>We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that the model is correctly estimated. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter <a href="assumptions.html#assumptions">15</a>).</p>
+<p>We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that <strong>the model is correctly estimated</strong>. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter <a href="assumptions.html#assumptions">15</a>).</p>
 </div>
 </div>
 
