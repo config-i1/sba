@@ -290,7 +290,7 @@ div.csl-indent {
 <li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
 <li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
 <ul>
-<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFitSSE"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
 <li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
@@ -423,8 +423,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="linearRegressionSimpleQualityOfFit" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Quality of a fit<a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The term “Quality of a fit” is used often in statistics to outline approaches that provide some information about how the applied models fit the data. We find it misleading, because the word “quality” is not appropriate here. The measures discussed in this section only show how well the actual values are approximated by the model, but their values do not tell us whether a model is good or bad. Still, to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the approximating properties of the model.</p>
-<div id="sums-of-squares" class="section level3 hasAnchor" number="10.4.1">
-<h3><span class="header-section-number">10.4.1</span> Sums of squares<a href="linearRegressionSimpleQualityOfFit.html#sums-of-squares" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="linearRegressionSimpleQualityOfFitSSE" class="section level3 hasAnchor" number="10.4.1">
+<h3><span class="header-section-number">10.4.1</span> Sums of squares<a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFitSSE" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion <a href="OLS.html#eq:OLSCriterion">(10.5)</a>. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 <span class="math display" id="eq:SSE">\[\begin{equation}
     \mathrm{SSE} = \sum_{j=1}^n (y_j - \hat{y}_j)^2 .
