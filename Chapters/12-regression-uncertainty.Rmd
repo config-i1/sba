@@ -627,10 +627,9 @@ where $b_i$ is the estimate of the parameter $\beta_i$ and $s_{b_i}$ is the stan
 vcov(costsModelSLR)[2,2] |> sqrt()
 ```
 Inserting the values in formula \@ref(eq:ttestFormulaReg) gives us the t-statistics value for our example:
-\begin{equation}
+\begin{equation*}
     t = \frac{|1.165 - 0|}{0.081} \approx 14.4 
-    (\#eq:ttestFormulaReg)
-\end{equation}
+\end{equation*}
 Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-2=59. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
 ```{r}
 qt(c(0.025, 0.975), 59)
@@ -659,7 +658,7 @@ The output above shows the estimates of parameters, the standard errors, the t-v
 When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \@ref(hypothesisTestingMistakes).
 :::
 
-The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:regressionHypothesisTest01), we get: 
+The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of "Fail to reject H$_0$", we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter $b_1=0.5$, and its standard error is $s_{b_1}=1$, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis \@ref(eq:regressionHypothesis01)) on 1% significance level. Inserting the values in formula \@ref(eq:ttestFormulaReg), we get: 
 \begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}

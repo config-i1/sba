@@ -482,10 +482,9 @@ where <span class="math inline">\(b_i\)</span> is the estimate of the parameter 
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionHypothesis.html#cb190-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelSLR)[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code></pre></div>
 <pre><code>## [1] 0.08134282</code></pre>
 <p>Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:ttestFormulaReg">(12.21)</a> gives us the t-statistics value for our example:
-<span class="math display" id="eq:ttestFormulaReg">\[\begin{equation}
+<span class="math display">\[\begin{equation*}
     t = \frac{|1.165 - 0|}{0.081} \approx 14.4
-    \tag{12.21}
-\end{equation}\]</span>
+\end{equation*}\]</span>
 Now we need to get the critical value of the t-statistics for the selected significance value and <span class="math inline">\(n-k\)</span> degrees of freedom, which in our case are equal to 61-2=59. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:</p>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="uncertaintyRegressionHypothesis.html#cb192-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">59</span>)</span></code></pre></div>
 <pre><code>## [1] -2.000995  2.000995</code></pre>
@@ -522,7 +521,7 @@ Now we need to get the critical value of the t-statistics for the selected signi
 <div class="remark">
 <p><span id="unlabeled-div-50" class="remark"><em>Remark</em>. </span>When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after the results are obtained. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment and amended to fit better to a beautiful picture. This and other mistakes related to p-values and hypothesis testing were discussed in Subsection <a href="hypothesisTestingBasics.html#hypothesisTestingMistakes">7.1.1</a>.</p>
 </div>
-<p>The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>) on 1% significance level. Inserting the values in formula <a href="#eq:regressionHypothesisTest01">(<strong>??</strong>)</a>, we get:
+<p>The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of “Fail to reject H<span class="math inline">\(_0\)</span>”, we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter <span class="math inline">\(b_1=0.5\)</span>, and its standard error is <span class="math inline">\(s_{b_1}=1\)</span>, we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e. hypothesis <a href="uncertaintyRegressionHypothesis.html#eq:regressionHypothesis01">(12.20)</a>) on 1% significance level. Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:ttestFormulaReg">(12.21)</a>, we get:
 <span class="math display">\[\begin{equation*}
     \frac{|0.5 - 0|}{1} = 0.5,
 \end{equation*}\]</span>
