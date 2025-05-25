@@ -114,6 +114,7 @@
 
 \newtheorem*{adamCitation}{Citation}
 \newtheorem*{task}{Task}
+\newtheorem*{warning}{Warning! Maths!}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -144,7 +145,7 @@
 
 \title{Statistics for Business Analytics}
 \author{Ivan Svetunkov}
-\date{2025-03-14}
+\date{2025-05-25}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -315,7 +316,7 @@ There are several other definitions that will be useful throughout these lecture
 \item
   \textbf{Statistical model} (or `stochastic model', or just `model' in these lecture notes) is a `mathematical representation of a real phenomenon with a complete specification of distribution and parameters' \citep{Svetunkov2019a}. Very roughly, the statistical model is something that contains a structure (defined by its parameters) and a noise that follows some distribution.
 \item
-  \textbf{True model} is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. The notion itself is important when discussing how far the model that we use is from the true one.
+  \textbf{True model} is the idealistic statistical model that is correctly specified (has all the necessary components in correct form), and applied to the data in population. By this definition, true model is never reachable in reality, but it is achievable in theory if for some reason we know what components and variables and in what form should be in the model, and have all the data in the world. One important element of the true model is that the error term in it cannot have any structure and thus has zero expectation. The notion itself is important when discussing how far the model that we use is from the true one.
 \item
   \textbf{Estimated model} (aka `applied model' or `used model') is the statistical model that was constructed and estimated on the available sample of data. This typically differs from the true model, because the latter is not known. Even if the specification of the true model is known for some reason, the parameters of the estimated model will differ from the true parameters due to sampling randomness, but will hopefully \hyperref[statistics]{converge to the true ones} if the sample size increases.
 \item
@@ -753,7 +754,7 @@ The variance is \(p \times (1-p) = 0.36 \times 0.64 = 0.2304\).
 In R, this distribution is implemented in \texttt{stats} package via \texttt{dbinom(size=1)}, \texttt{pbinom(size=1)}, \texttt{qbinom(size=1)} and \texttt{rbinom(size=1)} for PDF, CDF, QF and random generator respectively. The important parameter in this case is \texttt{size=1}, which will be discussed in Section \ref{distributionBinomial}.
 
 \begin{remark}
-A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox \citep[page 8318]{Kotz2005}. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £\(2^2=4\). In general, I will pay £\(2^n\) if I toss consecutively \(n\) tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e.~what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
+A nice example of a task using Bernoulli distribution is the Saint Petersburg Paradox \citep[8318]{Kotz2005}. The idea of it is as follows. Imagine that I offer you to play a game. I will toss the coin as many times as needed to get first heads. We will calculate how many tails I had in that tossing and I will pay you an amount of money, depending on that number. If I toss tails once, I will pay you £2. If I toss it twice, I will pay £\(2^2=4\). In general, I will pay £\(2^n\) if I toss consecutively \(n\) tails before getting heads. The question of this task, is how much you will be ready to pay to enter such game (i.e.~what is the fair price?). Daniel Bernoulli proposed that the fair price can be calculated via the expectation of prize, which in this case is:
 \begin{equation*}
     \mathrm{E}(\text{tails }n\text{ times and heads on }n+1) = \sum_{j=1}^\infty 2^{j} \left(\frac{1}{2}\right)^{j+1} 
 \end{equation*}
@@ -1618,12 +1619,12 @@ In addition, the following variables are integer numeric ones:
 \item
   gear - Number of forward gears,
 \item
-  carb - Number of carburetors.
+  carb - Number of carburettors.
 \end{enumerate}
 
 All the other variables are continuous numeric.
 
-Takign this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:
+Taking this into account, we will create a data frame, encoding the categorical variables as factors for further analysis:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1735,7 +1736,12 @@ Making a step back, we also need to mention the \textbf{variance}, which shows t
     \mathrm{V}(y)= \frac{1}{n-1}\sum_{j=1}^n (y_j - \bar{y})^2 .
     \label{eq:Variance}
 \end{equation}
-Note that the division in \eqref{eq:Variance} is done by \(n-1\), and not by \(n\). This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \ref{estimatesPropertiesBias}). The number itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called \textbf{standard deviation}:
+Note that the division in \eqref{eq:Variance} is done by \(n-1\), and not by \(n\). This is done in order to correct the value for the in-sample bias (we will discuss this in Subsection \ref{estimatesPropertiesBias}). The alternative formula for the variance can be derived by opening the brackets and regrouping the elements to obtain:
+\begin{equation}
+    \mathrm{V}(y)= \mathrm{E}(y^2) - \mathrm{E}(y)^2.
+    \label{eq:VarianceAlt}
+\end{equation}
+This form sometimes becomes useful for some derivations. The value of the variance itself does not tell us much about the variability, but having it allows calculating other more advanced measures. Typically the square root of variance is used in inferences, because it is measured in the same scale as the original data. It is called \textbf{standard deviation}:
 \begin{equation}
     \hat{\sigma} = \sqrt{\mathrm{V}(y)} ,
     \label{eq:StdDev}
@@ -1855,7 +1861,27 @@ Finally, one other moment that is often used in statistics is called ``covarianc
     \mathrm{cov}(x,y)= \frac{1}{n-1}\sum_{j=1}^n (x_j - \bar{x}) (y_j - \bar{y}) .
     \label{eq:Covariance}
 \end{equation}
-Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \ref{SLRCovariance}.
+Covariance is one of the more complicated moments to explain. It is equal to zero if one of the variables does not have any variability and otherwise can take any real value. We will discuss its meaning later in Section \ref{SLRCovariance}. One thing that we can note at this stage is that it is symmetric, meaning that the covariance between \(x\) and \(y\) is the same as the covariance between \(y\) and \(x\). This becomes apparent from the formula \eqref{eq:Covariance}, where switching \(x_j\) with \(y_j\) and \(\bar{x}\) with \(\bar{y}\) will give you exactly the same formula.
+
+Furthermore, the same formula can also be rewritten the following way, showing its connection with the variance and the expectations of random variables:
+\begin{equation}
+    \mathrm{cov}(x,y)= \mathrm{E}(x \times y) - \mathrm{E}(x) \times \mathrm{E}(y).
+    \label{eq:CovarianceAlt}
+\end{equation}
+Comparing the formula \eqref{eq:CovarianceAlt} with \eqref{eq:VarianceAlt}, we can see that if \(x=y\) then the covariance transforms into the variance of the variable. So, you can think of a variance as a measure of a joint variability of a variable with itself.
+
+Finally, if we have several random variables, we can create an object called ``matrix'' that would have variances of variables and covariances between them. This is sometimes convenient to do for some further analysis or for presenting the results. This is called ``covariance matrix'' or ``variance-covariance matrix''. The idea is to group elements in a way that all variances lie on the diagonal, while the covariances would lie on the off-diagonals. In case of three variables (\(x\), \(y\) and \(z\)) it would look like this:
+\begin{equation}
+    \begin{pmatrix}
+        \mathrm{V}(x) & \mathrm{cov}(x,y) & \mathrm{cov}(x,z) \\
+        \mathrm{cov}(y,x) & \mathrm{V}(y) & \mathrm{cov}(y,z) \\
+        \mathrm{cov}(z,x) & \mathrm{cov}(z,y) & \mathrm{V}(z)\\
+    \end{pmatrix}
+    \label{eq:CovarMat}
+\end{equation}
+Given the symmetry property of the covariance, the off-diagonal elements (such as \(\mathrm{cov}(x,y)\) and \(\mathrm{cov}(y,x)\)) would be the same.
+
+We will come back to the covariance matrix in the future topics.
 
 \section{Graphical analysis}\label{dataAnalysisGraphical}
 
@@ -2185,7 +2211,9 @@ What we will typically see on the plots above is that the mean (red line) on the
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=9.72in]{images/02-statistics-LLN} \caption{Demonstration of Law of Large Numbers.}\label{fig:statsSampleMean}
+\centering
+\includegraphics{images/02-statistics-LLN.png}
+\caption{\label{fig:statsSampleMean}Demonstration of Law of Large Numbers.}
 \end{figure}
 
 We can see from the plot above that with the increase of the sample size the sample mean reaches the true value of 100. This is a graphical demonstration of the Law of Large Numbers: it only tells us about what will happen when the sample size increases. But it is still useful, because it used for many statistical inferences and if it does not work, then the estimate of mean would be incorrect, meaning that we cannot make conclusions about the behaviour in population.
@@ -2340,7 +2368,9 @@ In order to establish the efficiency of the estimators, we will take their varia
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=11.11in]{images/02-statistics-efficiency} \caption{An example of a relatively inefficient estimator.}\label{fig:statsEfficiecny}
+\centering
+\includegraphics{images/02-statistics-efficiency.png}
+\caption{\label{fig:statsEfficiecny}An example of a relatively inefficient estimator.}
 \end{figure}
 
 What we should typically see on this graph, is that the black line should be below the red one, indicating that the variance of mean is lower than the variance of the median. This means that mean is more efficient estimator of the true location of the distribution \(\mu\) than the median. In fact, it is easy to proove that asymptotically the mean will be 1.57 times more efficient than median \citep{WikipediaMedianEfficiency2020} (so, the line should converge approximately to the value of 0.64).
@@ -2387,7 +2417,9 @@ And here how the estimate looks with the increase of sample size:
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=9.72in]{images/02-statistics-consistency} \caption{An example of inconsistent estimator.}\label{fig:statsConsistency}
+\centering
+\includegraphics{images/02-statistics-consistency.png}
+\caption{\label{fig:statsConsistency}An example of inconsistent estimator.}
 \end{figure}
 
 While in the example with bias we could see that the lines converge to the red line (the true value) with the increase of the sample size, the Chebyshev metric example shows that the line does not approach the true one, even when the sample size is 10000 observations. The conclusion is that when Chebyshev metric is used, it produces inconsistent estimates of parameters.
@@ -2484,7 +2516,7 @@ Based on this, we can conclude that \(s_{\bar{y}}=\sqrt{\mathrm{V}(\bar{y})}= \f
 
 Note, that in order to construct \emph{confidence interval}, we do not care what distribution \(y\) follows, as long as LLN and CLT hold.
 
-\section{Prediction interval}\label{confidenceIntervalsPrediction}
+\section{Prediction interval}\label{predictionInterval}
 
 If we are interested in capturing the uncertainty about the random variable \(y\), then we should refer to prediction interval. In this case, we typically rely on \hyperref[LLNandCLT]{LLN} and the \hyperref[distributions]{assumed distribution} for the random variable \(y\). For example, if we know that \(y \sim \mathcal{N}(\mu, \sigma^2)\), then based on our sample we can construct a prediction interval of the width \(1-\alpha\):
 \begin{equation}
@@ -2578,13 +2610,17 @@ Finally, there is a third way to test the hypothesis. We could calculate how muc
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{pt}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{36{-}1}\NormalTok{)}
+\FunctionTok{pt}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{36{-}1}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.002474416
 \end{verbatim}
+
+\begin{remark}
+We use absolute value of statistics in the formula above and calculate the p-value based on the right tail of distribution. This is the conventional way of doing that, although we would have gotten the same result with the command \texttt{pt(-3,\ 36-1,\ lower.tail=TRUE)}.
+\end{remark}
 
 Given that we had the inequality in the alternative hypothesis, we need to consider both tails, multiplying the value by 2 to get approximately 0.0049. This is the significance level, for which the switch from ``reject'' to ``do not reject'' happens. We could compare this value with the pre-selected significance level directly, rejecting \(\mathrm{H}_0\) if it is lower than \(\alpha\). This value is called ``p-value'' and simplifies the hypothesis testing, because we do not need to look at critical values or construct the confidence interval. There are different definitions of what it is, I personally find the following easier to comprehend: \textbf{p-value} is the smallest significance level at which a null hypothesis can be rejected.
 
@@ -4003,13 +4039,19 @@ The resulting line is shown in Figure \ref{fig:TreesModelSegments}
 
 The line in the figure represents the average change of volume with the increase of height of trunks. The red crosses show the middle points, the vertical line in the middle shows where the sample is split into two halves. We could improve this method by splitting each half into two halves again, and calculating points for them, or even further splitting each resulting half in halves etc. This method might not be reasonable for the specific sample, but if we had the population data, eventually we would be able to get a collection of points, each one of them representing the mean volume of trees given specific height.
 
-But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters \(b_0\) and \(b_1\).
+But there is an easier way to do something similar but more practical. We could draw an arbitrary line, picking some estimates of parameters \(b_0\) and \(b_1\) and ending up with an approximation of the true model:
+
+\begin{equation}
+    {y}_j = b_0 + b_1 x_j + e_j,
+    \label{eq:SLRFormulaEstimated}
+\end{equation}
+where \(b_0\) is the estimate of the true intercept, \(b_1\) is the estimate of the true slope and \(e_j\) is the estimate of the true error term, which we usually call ``residuals''.
 
 \begin{remark}
-We never know the true values of \(\beta_0\) and \(\beta_1\), which is why when we estimate a model, we should substitute them with \(b_0\) and \(b_1\). This way we show that we deal with just some estimates of the true parameters.
+We never know the true values of \(\beta_0\) and \(\beta_1\), which is why when we estimate a model, we should substitute them with \(b_0\) and \(b_1\). This way we show that we deal with just an approximation of the true model.
 \end{remark}
 
-After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as \(e_j\) instead of \(\epsilon_j\), which in general they can be calculated as \(e_j = y_j - \hat{y}_j\), where \(\hat{y}_j\) is the value of the regression line (aka ``fitted'' value) for each specific value of explanatory variable.
+After that we can calculate errors for each of observations, as we did before, but this time, because we do not know the true line, and we are only trying to get the best possible estimates of parameters, we should denote each error as \(e_j\) instead of \(\epsilon_j\), which in general can be calculated as \(e_j = y_j - \hat{y}_j\), where \(\hat{y}_j\) is the value of the regression line (aka ``fitted'' value) for each specific value of explanatory variable.
 
 For example, for the height of tree of 64 meters, the actual volume is 249.2, while the fitted value would be 117.052. The resulting error (or residual of model) is 249.2 - 117.052 = 132.148. We could collect all these errors of the model for all available trees based on their heights and this would result in a vector of positive and negative values like this:
 
@@ -4286,7 +4328,7 @@ Now we insert the formula for \(b_1\) from \eqref{eq:OLSSLREstimatesProof} in \e
 The ratio in the right-hand side of \eqref{eq:sumOfResiduals06} can be regrouped and rewritten as:
 \begin{equation}
     \begin{aligned}
-        & -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) =
+        & -\frac{n \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j}{n \left( \sum_{j=1}^n x_j^2 - \frac{1}{n}\left(\sum_{j=1}^n x_j \right)^2 \right)} \left( \sum_{j=1}^n x_j^2 - \frac{1}{n} \left(\sum_{j=1}^n x_j\right)^2 \right) = \\
         & - \sum_{j=1}^n y_j x_j - \sum_{j=1}^n y_j \sum_{j=1}^n x_j,
     \end{aligned}
     \label{eq:sumOfResiduals07}
@@ -4317,7 +4359,7 @@ These two basic properties on one hand are useful for further derivations and on
 
 The term ``Quality of a fit'' is used often in statistics to outline approaches that provide some information about how the applied models fit the data. We find it misleading, because the word ``quality'' is not appropriate here. The measures discussed in this section only show how well the actual values are approximated by the model, but their values do not tell us whether a model is good or bad. Still, to get a general impression about the performance of the estimated model, we can calculate several in-sample measures, which could provide us insights about the approximating properties of the model.
 
-\subsection{Sums of squares}\label{sums-of-squares}
+\subsection{Sums of squares}\label{linearRegressionSimpleQualityOfFitSSE}
 
 The fundamental measure that lies in the basis of many other ones is SSE, which is the value of the OLS criterion \eqref{eq:OLSCriterion}. It cannot be interpreted on its own and cannot be used for model comparison, but it shows the overall variability of the data around the regression line. In a more general case, it is written as:
 \begin{equation}
@@ -4392,7 +4434,9 @@ which is the formula of SST \eqref{eq:SST}.
 The relation between SSE, SSR and SST can be visualised and is shown in Figure \ref{fig:sumsSquaredRelation}. If we take any observation in that figure, we will see how the deviations from the regression line and from the mean are related.
 
 \begin{figure}
-\includegraphics[width=16.81in]{images/09-SLR-SSE-white} \caption{Relation between different sums of squares.}\label{fig:sumsSquaredRelation}
+\centering
+\includegraphics{images/09-SLR-SSE-white.png}
+\caption{\label{fig:sumsSquaredRelation}Relation between different sums of squares.}
 \end{figure}
 
 \subsection{\texorpdfstring{Coefficient of determination, R\(^2\)}{Coefficient of determination, R\^{}2}}\label{coefficient-of-determination-r2}
@@ -4635,18 +4679,108 @@ where \(\beta_i\) is a \(i\)-th parameter for the respective \(i\)-th explanator
     \mu_{y,j} = \mathrm{E}(y_j | \mathbf{x}_j) = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \dots + \beta_{k-1} x_{k-1,j} .
     \label{eq:MLRExpectation}
 \end{equation}
-Furthermore, similar to how we discussed it in Chapter \ref{simpleLinearRegression}, when we want to estimate model @ref\{eq:MLRFormula\}, we should substitute all parameters \(\beta_j\) with their estimates \(b_j\):
+Furthermore, similar to how we discussed it in Chapter \ref{simpleLinearRegression}, when we want to estimate model \eqref{eq:MLRFormula}, we should substitute all parameters \(\beta_j\) with their estimates \(b_j\):
 \begin{equation}
     \hat{y}_j = b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} .
     \label{eq:MLRExpectationSample}
 \end{equation}
 Similar to the Simple Linear Regression, each parameter in equation \eqref{eq:MLRExpectationSample} represents the slope for the respective variable, showing how on average the value of the response variable (overall costs in our example) changes with the change of each variable.
 
-\section{OLS estimation}\label{ols-estimation}
+\subsection{A couple of notes about the ``true'' model}\label{TrueModel}
+
+One thing we should discuss briefly is the term ``true'' model, which was mentioned in Subsection \ref{modelsMethods}. The whole idea of the true model implies that this is a model that has the following important properties:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  It is applied to the population of data (i.e.~all the data in the universe);
+\item
+  It has all the important variables in it, i.e.~there are no omitted variables that could impact the response variable;
+\item
+  All included important variables are in the correct format. i.e., all necessary transformations are done;
+\item
+  Because of (1) - (3), the error term of the model does not have any structure left, and represents small random fluctuations around the structure that cannot be captured by any other variables;
+\item
+  Because of (4), the error term has a zero expectation;
+\item
+  As a result of (4), the error term cannot be correlated with any of the variables, either included in the model or omitted by it. Having this the other way around would imply that there is some structure left in the error, which should be transferred away from it;
+\item
+  Similarly, the error term cannot be related to its values on other observations. This issue can potentially appear on time series, where an error of an applied model on Monday can be related to the error on Tuesday. But when we talk about the true model, the errors cannot be related, otherwise this would imply that we missed some structure, thus violating (1) - (3);
+\item
+  In the simple case of a linear model that we are discussing in this Chapter, the error term also has some fixed variance;
+\item
+  The parameters of the model should also be independent of the error term for the same reason (4).
+\end{enumerate}
+
+In the simple case of a linear true model, it can be represented as:
+\begin{equation}
+    y_j = \mu_{y,j} + \epsilon_j .
+    \label{eq:TrueModel}
+\end{equation}
+where \(\mu_j\) is the structure that we can capture in theory with the correct set of explanatory variables, and \(\epsilon_j\) is the true error term that mathematically has \(\mathrm{E}(\epsilon_j)=0\) due to (5) and \(\mathrm{V}(\epsilon_j)=\sigma^2\) due to (8). The property (6) can be written mathematically as \(\mathrm{E}(x_{i,j}\epsilon_j)=0\) for any \(i\) and \(j\). This model can be called ``linear'' or ``additive'', because the structure and the error interact are added in one linear equation. But the true model can be more complicated and might contain non-linear structure or some complicated interactions between variables and the error term.
+
+For now, we focus on the model \eqref{eq:TrueModel} and we assume that when we estimate a model, we know its form and have all the necessary variables. We will discuss what happens when this is violated in Chapter \ref{assumptions}.
+
+\section{OLS estimation}\label{OLSMLR}
 
 We have already discussed the idea of the OLS in Section \ref{OLS} on the example of the Simple Linear Regression. The logic with the multiple one is exactly the same: we want to minimise the sum of squared errors by changing the values of parameters. The main difference now is that we can have more than two parameters and as a result, the formulae become more complicated.
 
-\subsection{A bit of maths}\label{a-bit-of-maths}
+\subsection{Application}\label{application}
+
+Luckily, you do not need to know any formula to calculate the estimates of parameters and should not need to use it in real life, because it is used in all statistical software, including \texttt{lm()} function from \texttt{stats} package for R. If you want to know the maths behind this, it is explained in Subsection \ref{OLSMLRMaths}.
+
+Here is an example of the model estimation via OLS with the same dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{costsModel01 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{size}\SpecialCharTok{+}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, SBA\_Chapter\_11\_Costs)}
+\end{Highlighting}
+\end{Shaded}
+
+After running the above command, we will get a model with some estimates of parameters:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{coef}\NormalTok{(costsModel01)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   (Intercept)          size     materials      projects          year 
+## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555
+\end{verbatim}
+
+To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with \(\hat{y}_j\) on x-axis and \(y_j\) on the y-axis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModel01),}\FunctionTok{actuals}\NormalTok{(costsModel01))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-72-1.pdf}
+
+The same plot is produced via \texttt{plot()} method if we use \texttt{alm()} function from \texttt{greybox} instead:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{costsModel02 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{size}\SpecialCharTok{+}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, SBA\_Chapter\_11\_Costs, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(costsModel02,}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModel02Plot-1.pdf}
+\caption{\label{fig:costsModel02Plot}Actuals vs fitted values for multiple linear regression model on mtcars data.}
+\end{figure}
+
+We use \texttt{loss="MSE"} in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in \texttt{alm()}, likelihood, in Section \ref{likelihoodApproach}.
+
+The plot on Figure \ref{fig:costsModel02Plot} can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter \ref{assumptions}).
+
+\subsection{A bit of maths}\label{OLSMLRMaths}
 
 There are several ways how we can get the formula for the OLS of the Multiple Linear Regression. We could start with the same SSE value, expanding it based on the equation of the regression \eqref{eq:MLRExpectationSample}:
 \begin{equation*}
@@ -4700,6 +4834,14 @@ you will probably see the connection. But the form \eqref{eq:MLRFormulaCompactes
     \label{eq:MLROLS}
 \end{equation}
 
+One way to get a better understanding of this formula is to connect it with the one for the slope parameter in the Simple Linear Regression, which we discussed in Section \ref{OLS}:
+\begin{equation*}
+        {b}_1 = \frac{\mathrm{cov}(x,y)}{\mathrm{V}(x)} .
+\end{equation*}
+In case of only one explanatory variable (simple linear regression), \(\mathbf{X}' \mathbf{y}\) in \eqref{eq:MLROLS} would be equivalent to \(\mathrm{cov}(x,y)\), while \(\left(\mathbf{X}' \mathbf{X}\right)^{-1}\) would be \(\frac{1}{\mathrm{V}(x)}\).
+
+Linear algebra! Tread lightly!
+
 \begin{proof}
 Sum of squared errors based on the model \eqref{eq:MLRFormulaCompactest} applied to the data can be expressed as:
 \begin{equation*}
@@ -4732,48 +4874,9 @@ which then leads to the final formula:
 \end{equation*}
 \end{proof}
 
-\subsection{Application}\label{application}
-
-Luckily, you do not need to remember the formula \eqref{eq:MLROLS} and should not need to use it in real life, because it is used in all statistical software, including \texttt{lm()} function from \texttt{stats} package for R. Here is an example with the same dataset:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{costsModel01 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{size}\SpecialCharTok{+}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, SBA\_Chapter\_11\_Costs)}
-\end{Highlighting}
-\end{Shaded}
-
-To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with \(\hat{y}_j\) on x-axis and \(y_j\) on the y-axis:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModel01),}\FunctionTok{actuals}\NormalTok{(costsModel01))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-71-1.pdf}
-
-The same plot is produced via \texttt{plot()} method if we use \texttt{alm()} function from \texttt{greybox} instead:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{costsModel02 }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{size}\SpecialCharTok{+}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, SBA\_Chapter\_11\_Costs, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(costsModel02,}\DecValTok{1}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModel02Plot-1.pdf}
-\caption{\label{fig:costsModel02Plot}Actuals vs fitted values for multiple linear regression model on mtcars data.}
-\end{figure}
-
-We use \texttt{loss="MSE"} in this case, to make sure that the model is estimated via OLS. We will discuss the default estimation method in \texttt{alm()}, likelihood, in Section \ref{likelihoodApproach}.
-
-The plot on Figure \ref{fig:costsModel02Plot} can be used for diagnostic purposes and in ideal situation the red line (LOWESS line) should coincide with the grey one, which would mean that we have correctly capture the tendencies in the data, so that all the regression assumptions are satisfied (see Chapter \ref{assumptions}).
-
 \subsection{Properties of the OLS Estimators}\label{properties-of-the-ols-estimators}
 
-There are several important properties of the OLS estimated regression that are worth keeping in mind:
+There are several important properties of the OLS estimated regression that are worth keeping in mind (we discussed some of them specifically for the Simple Linear Regression in Section \ref{OLSResiduals}):
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -4787,6 +4890,8 @@ There are several important properties of the OLS estimated regression that are 
 \end{enumerate}
 
 They all follow directly from the derivation of the OLS formula.
+
+Linear algebra! Tread lightly!
 
 \begin{proof}
 Consider the system of normal equations
@@ -4857,7 +4962,7 @@ Building upon the discussion of the quality of the fit in Section \ref{linearReg
     \hat{\sigma}^2 = \sqrt{\frac{1}{n-k} \sum_{j=1}^n e_j^2 }.
     \label{eq:RMSERegression}
 \end{equation}
-The denominator of \eqref{eq:RMSERegression} contains the number of degrees of freedom in the model, \(n-k\), not the number of observations \(n\), so technically speaking this is not a ``mean'' any more. This is done to correct the in-sample bias (Section \ref{estimatesPropertiesBias}) of the measure. Standard error does not tell us much about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data, given the number of estimated parameters. However, this measure is not aware of the randomness in the true model (Section \ref{modelsMethods}) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
+This is an unbiased estimate of the variance of the error term \(\sigma^2\). The denominator of \eqref{eq:RMSERegression} contains the number of degrees of freedom in the model, \(n-k\), not the number of observations \(n\), so technically speaking this is not a ``mean'' any more. This is done to correct the in-sample bias (Section \ref{estimatesPropertiesBias}) of the measure. Standard error does not tell us much about the in-sample performance but can be used to compare several models with the same response variable between each other: the lower it is, the better the model fits the data, given the number of estimated parameters. However, this measure is not aware of the randomness in the true model (Section \ref{modelsMethods}) and thus will be equal to zero in a model that fits the data perfectly (thus ignoring the existence of error term). This is a potential issue, as we might end up with a poor model that would seem like the best one.
 
 Here is how this can be calculated for our model, estimated using \texttt{alm()} function:
 
@@ -4965,7 +5070,7 @@ There are several common mistakes that arise when people measure quality of a fi
 \begin{itemize}
 \tightlist
 \item
-  This argument relates to what we will discuss in Section \ref{uncertaintyHypothesis}, but we can say now that the low value of the coefficient of determination indicates that the model does not differ much from the straight line (global mean). To that extent, its low value could be alarming.
+  This argument relates to what we will discuss in Section \ref{uncertaintyRegressionLine}, but we can say now that the low value of the coefficient of determination indicates that the model does not differ much from the straight line (global mean). To that extent, its low value could be alarming.
 \end{itemize}
 
 In general, we think that both R\(^2\) close to one and close to zero are alarming, the former implies that the model might overfit the data, while the latter means that it underfits it. But there is no proper threshold value, with which you should compare your coefficient of determination.
@@ -5003,380 +5108,926 @@ Each of the parameters of this model shows an \textbf{average} effect of each va
 
 For example, the parameter for \texttt{size} shows that with the increase of size of the building by on squared meter, the overall cost tends to increase \textbf{on average} by 0.897 thousand pounds, if all the other variables do not change.
 
-I have made the word ``average'' boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word ``average'' is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section \ref{assumptions}).
+We have made the word ``average'' boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word ``average'' is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section \ref{assumptions}).
 
 Finally, it is worth discussing what the interpretation of the intercept in the model is. If we set all the explanatory variables to zero, the overall costs will be equal to the value of the intercept. In our example, where we fitted the basic linear model, the interpretation is meaningless: there is no such thing as a house with no costs, size of zero, and it definitely cannot have negative overall costs. In this case, intercept plays purely technical role, showing where the regression line intersects the y-axis. However, if we were to build a different model, the value might have a meaning. Still, we personally prefer avoiding interpreting the intercept.
 
-\chapter{Uncertainty in regression}\label{uncertaintyParameters}
+\chapter{Uncertainty in regression}\label{uncertaintyRegression}
 
-Coming back to the example of mileage vs weight of cars, the estimated simple linear regression on the data was mpg=37.29-5.34wt+et. But what would happen if we estimate the same model on a different sample of data (e.g.~15 first observations instead of 32)?
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/scatterWeightMPG4-1.pdf}
-\caption{\label{fig:scatterWeightMPG4}Weight vs mileage and two regression lines.}
-\end{figure}
-
-Figure \ref{fig:scatterWeightMPG4} shows the two lines: the red one corresponds to the larger sample, while the blue one corresponds to the small one. We can see that these lines have different intercepts and slope parameters. So, which one of them is correct? An amateur analyst would say that the one that has more observations is the correct model. But a more experienced statistician would tell you that none of the two is correct. They are both estimated on a sample of data and they both inevitably inherit the uncertainty of the data, making them both incorrect if we compare them to the hypothetical \hyperref[modelsMethods]{true model}. This means that whatever regression model we estimate on a sample of data, it will be incorrect as well.
-
-This uncertainty about the regression line actually comes to the uncertainty of estimates of parameters of the model. In order to see it more clearly, consider the example with Speed and Stopping Distances of Cars dataset from \texttt{datasets} package (\texttt{?cars}):
+Coming back to the example of real estate costs from Chapter \ref{linearRegression}, consider a simple linear regression of material vs overall costs, fit to a sub-sample of data. If we fit the line to the first 25 observations we would get a different model than when fitting it to the sample of 50 observations. Figure \ref{fig:scatterCostsUncertainty} depicts these two situations, where the blue dashed red line corresponds to the bigger sample (fit to the empty red circles in the plot), while the blue solid line represents the model for the smaller sample (blue solid circles).
 
 \begin{figure}
 \centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/scatterSpeedDistance-1.pdf}
-\caption{\label{fig:scatterSpeedDistance}Speed vs stopping distance of cars}
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/scatterCostsUncertainty-1.pdf}
+\caption{\label{fig:scatterCostsUncertainty}Material vs overall costs and two regression lines.}
 \end{figure}
 
-While the linear relation between these variables might be not the the most appropriate, it suffices for demonstration purposes. What we will do for this example is fit the model and then use a simple bootstrap technique to get estimates of parameters of the model. We will do that using \texttt{coefbootstrap()} method from \texttt{greybox} package. The bootstrap technique implemented in the function applies the same model to subsamples of the original data and returns a matrix with parameters. This way we get an idea about the empirical uncertainty of parameters:
+We see that the two lines differ both in terms of their intercepts and their slopes. So, which one of them is correct?
+
+The general view of a spherical statistician in vacuum is that the larger the sample is, the better the model is. While this is correct in general, we would argue that none of the two models is correct. This is because they are both just estimates of the true model (Section \ref{modelsMethods} on a sample of data and they both inevitably inherit the uncertainty of the data. This means that whatever regression model we estimate on a sample of data, it will always be incorrect in the sense that it can only be considered as an approximation of the truth.
+
+More importantly, the line will always change when the model is fit to the new sample of data, even if we add only one observation. This is because on different samples, we get different estimates of parameters, which comes from one of the fundamental sources of uncertainty (the second one discussed in Section \ref{sourcesOfUncertainty}). This means that the estimates of parameters are random and might have some distribution of their own.
+
+Exactly the same effect will be observed if we collect a different random sample from the same population, for example, if we worked for a different company that does similar business and collects the same data. In that case, the parameters would be random again, having some sort of a distribution.
+
+To see this point clearer, we fit the same simple regression model to randomly selected subsamples of the original dataset many times and collect the estimates of parameters to plot histograms and see their distribution. This empirical way of capturing uncertainty is called ``bootstrap'' and we will discuss it in more detail in Chapter \ref{SectionNeededHere}. The R code below shows how this can be done using the \texttt{coefbootstrap()} function from the \texttt{greybox} package (which implements a simple ``Case Resampling'' technique):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceBootstrap }\OtherTok{\textless{}{-}} \FunctionTok{coefbootstrap}\NormalTok{(slmSpeedDistance)}
+\CommentTok{\# Fit the model}
+\NormalTok{costsModelMLR }\OtherTok{\textless{}{-}} \FunctionTok{alm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{size}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, }\AttributeTok{data=}\NormalTok{SBA\_Chapter\_11\_Costs, }\AttributeTok{loss=}\StringTok{"MSE"}\NormalTok{)}
+\CommentTok{\# Set random seed for reproducibility}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{41}\NormalTok{)}
+\NormalTok{costsModelMLRBootstrap }\OtherTok{\textless{}{-}} \FunctionTok{coefbootstrap}\NormalTok{(costsModelMLR)}
 \end{Highlighting}
 \end{Shaded}
 
-Based on that we can plot the histograms of the estimates of parameters.
+Based on that we can plot the histograms of the estimates of parameters as shown in Figure \ref{fig:costsModelMLRBootstrap}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{par}\NormalTok{(}\AttributeTok{mfcol=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{1}\NormalTok{],}
+\CommentTok{\# First histogram}
+\FunctionTok{hist}\NormalTok{(costsModelMLRBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{1}\NormalTok{],}
      \AttributeTok{xlab=}\StringTok{"Intercept"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
-\FunctionTok{hist}\NormalTok{(slmSpeedDistanceBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{2}\NormalTok{],}
-     \AttributeTok{xlab=}\StringTok{"Slope"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\CommentTok{\# The estimated coefficient}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{coef}\NormalTok{(costsModelMLR)[}\DecValTok{1}\NormalTok{], }\AttributeTok{col=}\DecValTok{3}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\CommentTok{\# Second histogram}
+\FunctionTok{hist}\NormalTok{(costsModelMLRBootstrap}\SpecialCharTok{$}\NormalTok{coefficients[,}\DecValTok{2}\NormalTok{],}
+     \AttributeTok{xlab=}\StringTok{"Material costs"}\NormalTok{, }\AttributeTok{main=}\StringTok{""}\NormalTok{)}
+\CommentTok{\# The estimated coefficient}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\FunctionTok{coef}\NormalTok{(costsModelMLR)[}\DecValTok{2}\NormalTok{], }\AttributeTok{col=}\DecValTok{3}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/slmSpeedDistanceBoot-1.pdf}
-\caption{\label{fig:slmSpeedDistanceBoot}Distribution of bootstrapped parameters of a regression model}
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModelMLRBootstrap-1.pdf}
+\caption{\label{fig:costsModelMLRBootstrap}Distribution of bootstrapped parameters of a regression model}
 \end{figure}
 
-Figure \ref{fig:slmSpeedDistanceBoot} shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution. In fact, if we repeated this example thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \ref{CLT} and \ref{assumptions}). As a result, when we work with regression we should take this uncertainty about the parameters into account. This applies to both parameters analysis and forecasting.
+Figure \ref{fig:costsModelMLRBootstrap} shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \ref{CLT} and Chapter \ref{assumptions}).
 
-\section{Confidence intervals}\label{confidence-intervals}
+This example demonstrates that any model applied to the data will always have inherited uncertainty, which should be taken into account. In decision making, you should not rely on just a number from your model, and you should get a general understanding of what the variability about the estimates of parameters is. This has its implications for both parameters analysis and forecasting.
 
-In order to take this uncertainty into account, we could construct confidence intervals for the estimates of parameters, using the principles discussed in Section \ref{confidenceInterval}. This way we would hopefully have some idea about the uncertainty of the parameters, and not just rely on average values. If we assume that \hyperref[CLT]{CLT} holds, we could use the t statistics for the calculation of the quantiles of distribution (we need to use t because we do not know the variance of estimates of parameters). But in order to do that, we need to have variances of estimates of parameters. One of possible ways of getting them would be the bootstrap used in the example above. However, this is a computationally expensive operation, and there is a more efficient procedure, which however only works with linear regression models either estimated using OLS or via Maximum Likelihood Estimation assuming Normal distribution (see Section \ref{likelihoodApproach}). In these conditions the covariance matrix of parameters can be calculated using the following formula:
+\section{Covariance matrix of parameters}\label{uncertaintyRegressionCov}
+
+One of the simplest ways of capturing the uncertainty about the parameters is by calculating the covariance matrix of parameters. It is the matrix that shows the individual and joint variabilities of parameters of the model. It has the following shape:
+
 \begin{equation}
-    \mathrm{V}(\hat{\boldsymbol{\beta}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
-    \label{eq:MLRcovarianceMatrix}
+\mathrm{V}({\boldsymbol{b}}) =
+\begin{pmatrix}
+\mathrm{V}(b_0) & \mathrm{cov}(b_0, b_1) & \dots & \mathrm{cov}(b_0, b_{k-1}) \\
+\mathrm{cov}(b_0, b_1) & \mathrm{V}(b_1) & \dots & \mathrm{cov}(b_1, b_{k-1}) \\
+\vdots & \vdots & \ddots & \vdots \\
+\mathrm{cov}(b_0, b_{k-1}) & \mathrm{cov}(b_1, b_{k-1}) & \dots & \mathrm{V}(b_{k-1}) \\
+\end{pmatrix} ,
+\label{eq:MLRParameterCov}
 \end{equation}
-This matrix will contain variances of parameters on the diagonal and covariances between the parameters on off-diagonals. In this specific case, we only need the diagonal elements. We can take square root of them to obtain standard errors of parameters, which can then be used to construct confidence intervals for each parameter \(i\) via:
-\begin{equation}
-    \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
-    \label{eq:MLRParameterInterval}
-\end{equation}
-where \(s_{b_i}\) is the standard error of the parameter \(b_i\). All modern software does all these calculations automatically, so we do not need to do them manually. Here is an example:
+where \({\boldsymbol{b}}\) is the vector of all the estimated parameters. The covariance matrix above is similar to the one we discussed at the end of Section \ref{dataAnalysisNumerical}, equation \eqref{eq:CovarMat}, but it is now applied to the estimates of parameters of the model instead of some random variables. The diagonal elements of this matrix contain variances of parameters, showing how each estimate of parameter varies in sample, while the off-diagonal ones contain the covariances, capturing the joint variability of parameters. The square roots of the diagonal of that matrix would give the so called ``Standard errors'' of parameters (the standard deviations). These are typically used in further analysis.
+
+\subsection{Bootstrap-based matrix}\label{bootstrap-based-matrix}
+
+There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{vcov}\NormalTok{(slmSpeedDistance)}
+\FunctionTok{var}\NormalTok{(costsModelMLRBootstrap}\SpecialCharTok{$}\NormalTok{coefficients) }\SpecialCharTok{|\textgreater{}} \FunctionTok{round}\NormalTok{(}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##             (Intercept)      speed
-## (Intercept)   45.676514 -2.6588234
-## speed         -2.658823  0.1726509
+##              (Intercept) materials     size projects       year
+## (Intercept) 3628842.7949   21.2108 -59.9932 311.5564 -1806.5269
+## materials        21.2108    0.0281  -0.0578   0.0522    -0.0107
+## size            -59.9932   -0.0578   0.1272  -0.1235     0.0298
+## projects        311.5564    0.0522  -0.1235   3.1577    -0.1596
+## year          -1806.5269   -0.0107   0.0298  -0.1596     0.8994
 \end{verbatim}
 
-This is the covariance matrix of parameters, the diagonal elements of which are then used in the \texttt{confint()} method:
+The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{confint}\NormalTok{(slmSpeedDistance)}
+\FunctionTok{var}\NormalTok{(costsModelMLRBootstrap}\SpecialCharTok{$}\NormalTok{coefficients) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{cov2cor}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{round}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             (Intercept) materials    size projects    year
+## (Intercept)      1.0000    0.0664 -0.0883   0.0920 -1.0000
+## materials        0.0664    1.0000 -0.9662   0.1750 -0.0673
+## size            -0.0883   -0.9662  1.0000  -0.1948  0.0881
+## projects         0.0920    0.1750 -0.1948   1.0000 -0.0947
+## year            -1.0000   -0.0673  0.0881  -0.0947  1.0000
+\end{verbatim}
+
+We see, for example, that the correlation between the intercept and the parameter for the \texttt{year} is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e.~the line exhibits rotations around the middle of the data for these two variables. Still, this does not provide much useful information, but the matrix itself can be used for further derivations (see next Section).
+
+\subsection{Analytical solution}\label{analytical-solution}
+
+The alternative way of calculating the covariance matrix is using a formula. This is not universally available, and works only in case of OLS and a couple of other estimation methods (such as Maximisation of the Likelihood in case of the Normal distribution, see Chapter \ref{likelihoodApproach}). The following formula is derived for OLS, relies on several important assumptions (see derivations in Subsection \ref{uncertaintyRegressionCovMaths}), and would not produce adequate results in case of other estimators:
+\begin{equation}
+\mathrm{V}({\boldsymbol{b}}) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \times \left(\mathbf{X}' \mathbf{X}\right)^{-1}.
+\label{eq:MLRcovarianceMatrix}
+\end{equation}
+where \(\mathbf{X}\) is the matrix of explanatory variables from equation \eqref{eq:MLRMatrices} and \(e_j\) is the residual of the model on the observation \(j\). One way to understand what this formula does, is to keep in mind that \(\mathbf{X}' \mathbf{X}\) will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function \texttt{vcov()} in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vcov}\NormalTok{(costsModelMLR) }\SpecialCharTok{|\textgreater{}} \FunctionTok{round}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              (Intercept) materials     size projects       year
+## (Intercept) 9323602.8303   42.9342 -13.0012 670.1280 -4647.6349
+## materials        42.9342    0.0480  -0.1004   0.0967    -0.0216
+## size            -13.0012   -0.1004   0.2421  -0.2050     0.0054
+## projects        670.1280    0.0967  -0.2050   7.1455    -0.3462
+## year          -4647.6349   -0.0216   0.0054  -0.3462     2.3168
+\end{verbatim}
+
+We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via \eqref{eq:MLRcovarianceMatrix} is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below), the most important of them being that \emph{the model is correctly specified} (i.e.~we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, discussed in Chapter \ref{assumptions}.
+
+\subsection{Mathematical derivation}\label{uncertaintyRegressionCovMaths}
+
+In this subsection, we show the proof that the variance matrix of parameters can be calculated via the formula \eqref{eq:MLRcovarianceMatrix}. There are several ways of showing this, we use the one that does not need the values of the explanatory variables to be known. The important thing we need to assume at this moment is that the ``true'' model is known and is correctly estimated. If it is not, the final formula will stay the same, but it will have different implications.
+
+Linear algebra! Tread lightly!
+
+\begin{proof}
+We start by expanding the formula for the OLS \eqref{eq:MLROLS} by inserting the ``true'' model in it (\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\):
+\begin{equation}
+\begin{aligned}
+{\boldsymbol{b}} =
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{y}} = \\
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime ({\mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}) = \\
+& \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} = \\
+& {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} .
+\end{aligned}
+\label{eq:MLROLSExpansion}
+\end{equation}
+
+This equation tells us that the estimated parameters will have some variability around the true ones, and the extent of that variability will depend on the explanatory variables in \(\mathbf{X}\) and the specific values of the error term \(\boldsymbol{\epsilon}\).
+
+In bypassing, we can show that the OLS estimates of parameters are unbiased (i.e.~their expectation will be equal to the true parameters) as long as the model is correctly specified:
+\begin{equation}
+\begin{aligned}
+\mathrm{E}\left(\boldsymbol{b}\right) =
+& \mathrm{E}\left({\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+& {\boldsymbol{\beta}} + \mathrm{E}\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}\right) = \\
+& {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime \mathrm{E}\left( {\boldsymbol{\epsilon}}\right) = \\
+& \boldsymbol{\beta} ,
+\end{aligned}
+\label{eq:MLRCLSExpansion}
+\end{equation}
+which holds as long as the expectation of the true error term is zero, and this is always true by the definition of the true model (see discussion in Subsection \ref{TrueModel}).
+
+More importantly, we can calculate the variance of the estimates of parameters using \eqref{eq:MLROLSExpansion}:
+
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left( {\boldsymbol{\beta}} + \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) .
+\label{eq:MLROLSVariance01}
+\end{equation}
+
+In formula \eqref{eq:MLROLSVariance01}, the true parameter \(\boldsymbol{\beta}\) should be independent of the explanatory variables and the error term by definition of the true model, so the formula can be represented as a sum of variances (the right hand side only). Furthermore, in this basic linear model, we assume that the true parameter does not have any uncertainty, which means that the part related to \({\boldsymbol{\beta}}\) in \eqref{eq:MLROLSVariance01} can be dropped leaving us with:
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{V}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right).
+\label{eq:MLROLSVariance02}
+\end{equation}
+After that, we can recall that \(\mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)=0\), because in the true model, there should be no structure in the error term and thus the explanatory variables and the error term should be unrelated (Subsection \ref{TrueModel}). This is useful because now we can represent the variance \eqref{eq:MLROLSVariance02} as the expectation of products (this follows directly from equation \eqref{eq:VarianceAlt} that we discussed in Subsection \ref{dataAnalysisNumerical}):
+\begin{equation*}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \times \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\label{eq:MLROLSVariance03}
+\end{equation*}
+Now to expand the expectation of the sum, we can use the following equality, coming directly from the definition of a covariance of two random variables (formula \eqref{eq:CovarianceAlt} from Section \ref{dataAnalysisNumerical}):
+\begin{equation}
+\begin{aligned}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = 
+& \mathrm{E}\left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right) \times \mathrm{E}\left(\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right) + \\
+& \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\end{aligned}
+\label{eq:MLROLSVariance04}
+\end{equation}
+We can notice that the expectations in \eqref{eq:MLROLSVariance04} should be zero because, as discussed earlier, in the true model, the error term is not related to anything. This means that the formula can be simplified to:
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \mathrm{cov} \left(\left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}}, \left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime \right).
+\label{eq:MLROLSVariance05}
+\end{equation}
+The second element in the brackets can be rewritten as:
+\begin{equation*}
+\left( \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\boldsymbol{\epsilon}} \right)^\prime = {\boldsymbol{\epsilon}} {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\end{equation*}
+Substituting this to \eqref{eq:MLROLSVariance05} and moving explanatory variables from the covariance gives:
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} {\mathbf{X}}^\prime {\mathbf{X}} \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right),
+\label{eq:MLROLSVariance06}
+\end{equation}
+which after some cancellations leads to:
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} \sigma^2 .
+\label{eq:MLROLSVarianceSemiFinal}
+\end{equation}
+Given that we do not know the true variance of the error term, we need to estimate it. In case of the OLS, it can be done using the formula (from equation \eqref{eq:RMSERegression}):
+\begin{equation*}
+\hat{\sigma}^2 = \frac{1}{n-k} \sum_{j=1}^n e_j^2 ,
+\end{equation*}
+which after being inserted in \eqref{eq:MLROLSVarianceSemiFinal}, leads to:
+\begin{equation}
+\mathrm{V}\left( {\boldsymbol{b}} \right) = \frac{1}{n-k} \sum_{j=1}^n e_j^2 \left( {\mathbf{X}}^\prime {\mathbf{X}} \right)^{-1} .
+\label{eq:MLROLSVarianceFinal}
+\end{equation}
+\end{proof}
+
+\begin{remark}
+Mathematically speaking, \(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\) is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+\begin{equation*}
+\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
+\end{equation*}
+where \(\mathbf{I}_{k-1}\) is the identity matrix of the size \(k-1\) and \(\sigma^2\) is the variance of the error term.
+\end{remark}
+
+We should note that the majority of assumptions above needed for the derivation came from the definition of the true model. But the essential one was that \textbf{the model is correctly estimated}. If this is violated, the estimates of the elements in the covariance matrix will be biased in one way or the other (see Chapter \ref{assumptions}).
+
+\section{Confidence intervals of parameters}\label{uncertaintyRegressionCI}
+
+Given that the estimates of parameters have some uncertainty associated with them, as discussed in the introduction to this chapter, it makes sense to capture that uncertainty so that decision makers can have a better understanding about the observed effects. Covariance matrix discussed in Section \ref{uncertaintyRegressionCov} captures that uncertainty, but it is hard to make any decision based on it.
+
+A simpler way to do that is to construct confidence intervals in a similar way to how we did that in Section \ref{confidenceInterval}. Visually, this process is shown in Figure \ref{fig:costsModelMLRCI}, which continues the example we discussed earlier.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModelMLRCI-1.pdf}
+\caption{\label{fig:costsModelMLRCI}Parameter uncertainty in the estimated model}
+\end{figure}
+
+Figure \ref{fig:costsModelMLRCI} demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section \ref{CLT}) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true intercept will lie between -6741 and 726.27 in the 95\% of the cases, if we repeat the resampling experiment many times.
+
+The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section \ref{confidenceInterval}. The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
+\begin{equation}
+\beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
+\label{eq:MLRParameterInterval}
+\end{equation}
+where \(s_{b_i}\) is the standard error of the parameter \(b_i\). An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section \ref{confidenceInterval}, we need to use the Student's t distribution. This is why we have \(t_{\alpha/2}(n-k)\) in the equation \eqref{eq:MLRParameterInterval} above.
+
+\begin{remark}
+The important note is that in order to be able to use the formula \eqref{eq:MLRParameterInterval}, we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student's t-statistics would not be appropriate to calculate the interval.
+\end{remark}
+
+To calculate the confidence interval, using the equation \eqref{eq:MLRParameterInterval}, we need to know several things:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Significance level \(\alpha\) - we define it either based on our preferences or on the task at hand. This should be selected prior to construction of the interval. The typical one is 5\%, mainly because the standard human has five fingers on a hand;
+\item
+  The value of the estimated parameter \(b_i\). We get it after using the Least Squares, any statistical software can give us the estimate.
+\item
+  Standard error (or deviation) of the parameter. This is obtained from the covariance matrix of parameters discussed in Section \ref{uncertaintyRegressionCov}.
+\item
+  Number of degrees of freedom \(n-k\), which can be easily calculated based on the sample size \(n\) and the number of estimated parameters \(k\).
+\item
+  Student's t statistics. We get it from statistical tables or the software, given the significance level \(\alpha\) and the number of degrees of freedom \(n-k\) above.
+\end{enumerate}
+
+\begin{example}
+Consider construction of the interval for the slope parameter for the variable \texttt{materials} from the regression we discussed earlier. In our case, we know the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(\alpha=0.05\) because we decided to produce the 95\% confidence interval. We could choose the other value, which would result in the interval of a different width;
+\item
+  The value of the parameter \(b_1\) is 0.7744;
+\item
+  To get the variance of the parameter, we can use the formula discussed in Section \ref{uncertaintyRegressionCov}. In R, we can get the variance of the parameter for the \texttt{materials} (second parameter in the model) via the \texttt{vcov()} function, like this:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vcov}\NormalTok{(costsModelMLR)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.04798315
+\end{verbatim}
+
+Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately 0.2191.
+4. We estimated five parameters (four for variables and an intercept), so \(k=5\), and the sample size \(n\) was 61, which means that in our model has \(n-k=61-5=56\) degrees of freedom.
+5. To get the Student's t statistics correctly, we need to split the significance level \(\alpha\) into two equal part, meaning that we expect to have 2.5\% of values below the lower bound and another 2.5\% of values above the upper one. So, we will calculate it for \(\alpha/2=0.025\) and \(1-\alpha/2=0.975\) with \(n-k=56\). In R, we can use the \texttt{qt()} function in the following way:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qt}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\FloatTok{0.975}\NormalTok{), }\DecValTok{56}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.003241  2.003241
+\end{verbatim}
+
+Taking all these values and inserting them in the formula \eqref{eq:MLRParameterInterval}, we should get the two numbers, representing the lower and the upper bounds of the 95\% confidence interval respectively: (0.3355,1.2133)
+
+In R, the confidence interval can be obtained directly via the \texttt{confint()} function, and it should be close to what we obtained above, but not exactly the same due to rounding:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(costsModelMLR) }\SpecialCharTok{|\textgreater{}} \FunctionTok{round}\NormalTok{(}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##                  S.E.       2.5%     97.5%
-## (Intercept) 6.7584402 -31.167850 -3.990340
-## speed       0.4155128   3.096964  4.767853
+## (Intercept) 3053.4575 -9081.4297 3152.1912
+## materials      0.2191     0.3356    1.2132
+## size           0.4920    -0.0886    1.8826
+## projects       2.6731   -10.6645    0.0453
+## year           1.5221    -1.4627    4.6356
 \end{verbatim}
 
-The confidence interval for speed above shows, for example, that if we repeat the construction of interval many times, the true value of parameter speed will lie in 95\% of cases between 3.08 and 4.78. This gives an idea about the real effect in the population. We can also present all of this in the following summary (this is based on the \texttt{alm()} model, the other functions will produce different summaries):
+The confidence interval for \texttt{materials} above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95\% of cases between 0.3356 and 1.2132. This gives us an idea about the real effect in the population and how certain we are about it.
+\end{example}
+
+We can also present all of this in the following summary (this is based on the \texttt{alm()} model, the other functions will produce different outputs):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(slmSpeedDistance)}
+\FunctionTok{summary}\NormalTok{(costsModelMLR)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Response variable: dist
+## Response variable: overall
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##             Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) -17.5791     6.7584   -31.1678     -3.9903 *
-## speed         3.9324     0.4155     3.0970      4.7679 *
+##               Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept) -2964.6192  3053.4575 -9081.4297   3152.1912  
+## materials       0.7744     0.2191     0.3356      1.2132 *
+## size            0.8970     0.4920    -0.0886      1.8826  
+## projects       -5.3096     2.6731   -10.6645      0.0453  
+## year            1.5865     1.5221    -1.4627      4.6356  
 ## 
-## Error standard deviation: 15.3796
-## Sample size: 50
-## Number of estimated parameters: 2
-## Number of degrees of freedom: 48
+## Error standard deviation: 30.5643
+## Sample size: 61
+## Number of estimated parameters: 5
+## Number of degrees of freedom: 56
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 419.1569 417.4122 424.8929 421.4803
+## 597.1132 596.2041 609.7784 607.9098
 \end{verbatim}
 
-This summary provide all the necessary information about the estimates of parameters: their mean values in the column ``Estimate'', their standard errors in ``Std. Error'', the bounds of confidence interval and finally a star if the interval does not contain zero. This typically indicates that we are certain on the selected confidence level (95\% in our example) about the sign of the parameter and that the effect really exists.
+This summary provides all the necessary information about the model and the estimates of parameters:
 
-\section{Hypothesis testing}\label{uncertaintyHypothesis}
+\begin{itemize}
+\tightlist
+\item
+  their mean values are in the column ``Estimate'',
+\item
+  their standard errors (square roots of the variances) are in ``Std. Error'',
+\item
+  the bounds of confidence interval are in the last two columns,
+\item
+  and, finally, a star drawn next to the interval if it does not contain zero.
+\end{itemize}
 
-Another way to look at the uncertainty of parameters is to test a statistical hypothesis. As it was discussed in Section \ref{hypothesisTesting}, I personally think that hypothesis testing is a less useful instrument for these purposes than the confidence interval and that it might be misleading in some circumstances. Nonetheless, it has its merits and can be helpful if an analyst knows what they are doing. In order to test the hypothesis, we need to follow the procedure, described in Section \ref{hypothesisTesting}.
-
-\subsection{Regression parameters}\label{regression-parameters}
-
-The classical hypotheses for the parameters are formulated in the following way:
-\begin{equation}
-    \begin{aligned}
-        \mathrm{H}_0: \beta_i = 0 \\
-        \mathrm{H}_1: \beta_i \neq 0
-    \end{aligned} .
-    \label{eq:regressionHypothesis01}
-\end{equation}
-This formulation of hypotheses comes from the idea that we want to check if the effect estimated by the regression is indeed there (i.e.~statistically significantly different from zero). Note however, that as in any other hypothesis testing, if you fail to reject the null hypothesis, this only means that you do not know, we do not have enough evidence to conclude anything. This \textbf{does not mean} that there is no effect and that the respective variable can be removed from the model. In case of simple linear regression, the null and alternative hypothesis can be represented graphically as shown in Figure \ref{fig:speedDistanceHypotheses}.
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistanceHypotheses-1.pdf}
-\caption{\label{fig:speedDistanceHypotheses}Graphical presentation of null and alternative hypothesis in regression context}
-\end{figure}
-
-The graph on the left in Figure \ref{fig:speedDistanceHypotheses} demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. The graph on the right demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us, whether the hypothesis is true or false, but if we have enough evidence to reject H\(_0\), then we might conclude that we see an effect of one variable on another in the data. Note, as discussed in Section \ref{hypothesisTesting}, the null hypothesis is always wrong, and it will inevitably be rejected with the increase of sample size.
-
-Given the discussion in the previous subsection, we know that the parameters of regression model will follow normal distribution, as long as all \hyperref[assumptions]{assumptions} are satisfied (including those for \hyperref[CLT]{CLT}). We also know that because the standard errors of parameters are estimated, we need to use Student's distribution, which takes the uncertainty about the variance into account. Based on this, we can say that the following statistics will follow t with \(n-k\) degrees of freedom:
-\begin{equation}
-    \frac{b_i - 0}{s_{b_i}} \sim t(n-k) .
-    \label{eq:regressionHypothesisTest01}
-\end{equation}
-After calculating the value and comparing it with the critical t-value on the selected significance level or directly comparing p-value based on \eqref{eq:regressionHypothesisTest01} with the significance level, we can make conclusions about the hypothesis.
-
-The context of regression provides a great example, why we never accept hypothesis and why in the case of ``Fail to reject H\(_0\)'', we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter \(b_1=0.5\), and its standard error is \(s_{b_1}=1\), we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (i.e.~hypothesis \eqref{eq:regressionHypothesis01}) on 1\% significance level. Inserting the values in formula \eqref{eq:regressionHypothesisTest01}, we get:
-\begin{equation*}
-    \frac{|0.5 - 0|}{1} = 0.5,
-\end{equation*}
-with the critical value for two-tailed test of \(t_{0.01}(30-2)\approx 2.76\). Comparing t-value with the critical one, we would conclude that we fail to reject H\(_0\) and thus the parameter is not statistically different from zero. But what would happen if we check another hypothesis:
-\begin{equation*}
-    \begin{aligned}
-        \mathrm{H}_0: \beta_1 = 1 \\
-        \mathrm{H}_1: \beta_1 \neq 1
-    \end{aligned} .
-\end{equation*}
-The procedure is the same, the calculated t-value is:
-\begin{equation*}
-    \frac{|0.5 - 1|}{1} = 0.5,
-\end{equation*}
-which leads to exactly the same conclusion as before: on 1\% significance level, we fail to reject the new H\(_0\), so the value is not distinguishable from 1. So, which of the two is correct? The correct answer is ``we do not know''. The non-rejection region just tells us that uncertainty about the parameter is so high that it also include the value of interest (0 in case of the classical regression analysis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 1\% significance level the true parameter lies in the region \((-2.26, 3.26)\) and can be any of these numbers.
-
-In R, if you want to test the hypothesis for parameters, I would recommend using \texttt{lm()} function for regression:
+If we have that star, then this indicates that we are certain on the selected confidence level (95\% in our example) about the sign of the parameter and that the effect indeed exists. We can regulate the confidence level by defining the \texttt{level} parameter. For example, if we want the 99\% one, we should add \texttt{level=0.99} in the summary:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{lmSpeedDistance }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(dist}\SpecialCharTok{\textasciitilde{}}\NormalTok{speed,cars)}
-\FunctionTok{summary}\NormalTok{(lmSpeedDistance)}
+\FunctionTok{summary}\NormalTok{(costsModelMLR, }\AttributeTok{level=}\FloatTok{0.99}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Regression line related uncertainty}\label{uncertaintyRegressionLine}
+
+Given the uncertainty of estimates of parameters, the regression line itself will vary with different samples. This means that in some cases we should not just consider the predicted values of the regression \(\hat{y}_j\), but should also consider the uncertainty around them.
+
+Similar to what we discussed in Sections \ref{confidenceInterval} and \ref{predictionInterval}, there are two different interval types we can produce from the regression: confidence and prediction. It is extremely important to get the difference between the two, so here it is again just in case:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Confidence interval} shows where the \textbf{expected value} should lie in the population in the x\% of the cases if we repeat the calculation for different samples of data many times;
+\item
+  \textbf{Prediction interval} shows where the x\% of the \textbf{actual values} should lie.
+\end{enumerate}
+
+The former will tell you something about the true \emph{expected costs} of a project, while the latter will tell you about the \emph{actual costs}. The word ``should'' indicates that this is not necessarily always the case - the final outcome depends on the specific data (e.g.~sample size) and the model (whether its assumptions hold).
+
+\subsection{Confidence interval}\label{uncertaintyRegressionLineConfidence}
+
+In the context of univariate statistics that we discussed in Section \ref{confidenceInterval}, the idea was to capture the uncertainty around the mean of the data. In case of regression, we are focusing on the conditional mean, i.e.~the expected value, given the values of all explanatory variables for a specific observation. In the example that we have used in this chapter, this would come to understanding what the true expected overall costs should be, for example, for the material costs of 200 thousands of pounds, size of 90, 3 projects and the year 2008. This should be straight forward to calculate as long as we have the covariance matrix of parameters (Section \ref{uncertaintyRegressionCov}).
+
+The formula for the construction of the confidence interval is very similar to the one we discussed for the sample mean in Section \ref{confidenceInterval}:
+\begin{equation}
+\mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
+\label{eq:confidenceIntervalRegression}
+\end{equation}
+where \(\mu_j\) is the true expectation, and \(s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}\) is the standard deviation of the fitted value. Compare this with the one we had in Section \ref{confidenceInterval}:
+\begin{equation*}
+\mu \in (\bar{y} + t_{\alpha/2}(n-1) s_{\bar{y}}, \bar{y} + t_{1-\alpha/2}(n-1) s_{\bar{y}}).
+\end{equation*}
+Here are the main differences:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  We now focus on \(\mu_j\), the expectation for a specific observation instead of just global average \(\mu\);
+\item
+  We have the fitted value from the regression line \(\hat{y}_j\) instead of the sample mean \(\bar{y}\);
+\item
+  We have the standard deviation of the line \(s_{\hat{y}_j}\) instead of the standard deviation of the mean \(s_{\bar{y}}\);
+\item
+  We have \(n-k\) degrees of freedom instead of \(n-1\) because we estimated \(k\) parameters instead of just one (the sample mean).
+\end{enumerate}
+
+But the rest is the same and uses exactly the same principles.
+
+\begin{remark}
+To be able to construct the confidence interval using the formula above, we, once again, need one important assumption to hold. This assumption is that the \emph{Central Limit Theorem holds} (Section \ref{CLT}). If it does not, then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval. Luckily, with OLS, the CLT typically holds on samples of 50 observations and more.
+\end{remark}
+
+In R, the confidence interval can be constructed for each observation via the \texttt{predict()} function with \texttt{interval="confidence"}. It is based on the covariance matrix of parameters, extracted via \texttt{vcov()} method in R (discussed in Section \ref{uncertaintyRegressionCov}). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with \texttt{alm()} function (Figure \ref{fig:costModelConfidenceInterval}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{costsModelMLRCI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(costsModelMLR, }\AttributeTok{interval=}\StringTok{"confidence"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(costsModelMLRCI, }\AttributeTok{main=}\StringTok{""}\NormalTok{,}
+     \AttributeTok{xlab=}\StringTok{"Observation"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Overall Costs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelConfidenceInterval-1.pdf}
+\caption{\label{fig:costModelConfidenceInterval}Fitted values and confidence interval for the costs model.}
+\end{figure}
+
+It is hard to read this graph because the interval is narrow, and the actual values in it do not help in reading it. But if we zoom in to a specific observation, it would be more readable (Figure \ref{fig:costModelConfidenceIntervalZoom}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Produce the predicted value and the confidence interval}
+\NormalTok{costsModelMLRCIZoom }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(costsModelMLR,}
+                               \AttributeTok{interval=}\StringTok{"confidence"}\NormalTok{,}
+                               \AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{materials=}\DecValTok{200}\NormalTok{, }\AttributeTok{size=}\DecValTok{90}\NormalTok{,}
+                                                  \AttributeTok{projects=}\DecValTok{3}\NormalTok{, }\AttributeTok{year=}\DecValTok{2008}\NormalTok{))}
+\CommentTok{\# Plot the material costs vs fitted}
+\FunctionTok{plot}\NormalTok{(}\DecValTok{200}\NormalTok{, costsModelMLRCIZoom}\SpecialCharTok{$}\NormalTok{mean,}
+     \AttributeTok{xlab=}\StringTok{"Material costs"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Overall costs"}\NormalTok{,}
+     \AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(costsModelMLRCIZoom}\SpecialCharTok{$}\NormalTok{lower, costsModelMLRCIZoom}\SpecialCharTok{$}\NormalTok{upper),}
+     \AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\CommentTok{\# Add confidence interval}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\FunctionTok{c}\NormalTok{(costsModelMLRCIZoom}\SpecialCharTok{$}\NormalTok{lower,}
+\NormalTok{           costsModelMLRCIZoom}\SpecialCharTok{$}\NormalTok{upper),}
+       \AttributeTok{col=}\StringTok{"grey"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelConfidenceIntervalZoom-1.pdf}
+\caption{\label{fig:costModelConfidenceIntervalZoom}Fitted values and confidence interval for the costs model.}
+\end{figure}
+
+What the image in Figure \ref{fig:costModelConfidenceIntervalZoom} shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m\(^2\), the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be 440.6603. But given the uncertainty of the estimates of parameters, the true expected costs should lie between 431.2901 and 450.0305 in 95\% of the cases if we repeat the confidence interval construction many times.
+
+Another way of visualising the confidence interval is by plotting the actuals vs fitted figure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModelMLR), }\FunctionTok{actuals}\NormalTok{(costsModelMLR),}
+     \AttributeTok{xlab=}\StringTok{"Fitted"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Actuals"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{0}\NormalTok{,}\AttributeTok{b=}\DecValTok{1}\NormalTok{,}\AttributeTok{col=}\DecValTok{5}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModelMLR)),}
+\NormalTok{      costsModelMLRCI}\SpecialCharTok{$}\NormalTok{lower[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModelMLR))], }
+      \AttributeTok{col=}\DecValTok{3}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModelMLR)),}
+\NormalTok{      costsModelMLRCI}\SpecialCharTok{$}\NormalTok{upper[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(costsModelMLR))], }
+      \AttributeTok{col=}\DecValTok{3}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelConfidenceIntervalAvsF-1.pdf}
+\caption{\label{fig:costModelConfidenceIntervalAvsF}Actuals vs Fitted and confidence interval for the costs model.}
+\end{figure}
+
+Figure \ref{fig:costModelConfidenceIntervalAvsF} demonstrates the actuals vs fitted plot, together with the 95\% confidence interval around the line, demonstrating where the true line would be expected to be in 95\% of the cases if we re-estimate the model many times on different samples. We also see that the uncertainty of the regression line is lower in the middle of the data than in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data \((\bar{x},\bar{y})\) and the variability in this point is lower than the variability in the tails.
+
+\subsection{Prediction interval}\label{uncertaintyRegressionLinePrediction}
+
+In case of prediction interval, we are interested in understanding where the actual values lie, not the expected one. For our example, that would mean that we want to know the span of overall costs in the x\% of the cases (e.g.~95\%) for a project constructed in 2008 that has material costs of £200k, size of the property of 90 squared meters, done by the crew that did 3 projects before it.
+
+The construction of the interval relies on the formula, which is very similar to the one used for the confidence interval:
+\begin{equation}
+y_j \in (\hat{y}_j + z_{\alpha/2} s_y^2, \hat{y}_j + z_{1-\alpha/2} s_y^2),
+\label{eq:predictionIntervalRegression}
+\end{equation}
+where \(s_y^2\) is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection \ref{uncertaintyRegressionLineMaths}. The main difference with the confidence interval is that we now need to rely on the \emph{assumption about the distribution of the error term} in the model.
+
+\begin{remark}
+In the formula above, the important assumption is that \textbf{the error term follows the Normal distribution}. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.
+\end{remark}
+
+In R, the interval construction can be done via the very same \texttt{predict()} function with \texttt{interval="prediction"}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{costsModelMLRPI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(costsModelMLR, }\AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Based on this, we can produce an images similar to \ref{fig:costModelConfidenceInterval} and \ref{fig:costModelConfidenceIntervalAvsF}.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelPI-1.pdf}
+\caption{\label{fig:costModelPI}Fitted values and prediction interval for the stopping distance model.}
+\end{figure}
+
+Figure \ref{fig:costModelPI} shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95\% prediction interval (there are 3 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95\% of observations lying inside the interval if the regression assumptions hold.
+
+In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with costs, we could see what the prediction interval would be in the setting we discussed earlier (materials=200, size=90, projects=3 and year=2008):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{costsModelMLRForecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(costsModelMLR,}
+                                 \AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{materials=}\DecValTok{200}\NormalTok{, }\AttributeTok{size=}\DecValTok{90}\NormalTok{,}
+                                                    \AttributeTok{projects=}\DecValTok{3}\NormalTok{, }\AttributeTok{year=}\DecValTok{2008}\NormalTok{),}
+                                 \AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(costsModelMLRForecast)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelForecast-1.pdf}
+\caption{\label{fig:costModelForecast}Forecast of the overall costs given the material costs of 200, size of 90 squared meters, 3 projects and year 2008.}
+\end{figure}
+
+Figure \ref{fig:costModelForecast} shows the point forecast (the expected overall costs of a project given the values of explanatory variables) and the 95\% prediction interval (we expect that in 95\% of the cases, the overall costs would be between 378.7199 and 502.6008 thousands of pounds.
+
+\subsection{Derivations of the variance in regression}\label{uncertaintyRegressionLineMaths}
+
+The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance using the formula:
+\begin{equation*}
+\mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
+\label{eq:regressionLineUncertaintyVariance01}
+\end{equation*}
+which after some simplifications leads to:
+\begin{equation}
+\mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
+\label{eq:regressionLineUncertaintyVariance02}
+\end{equation}
+where \(x_{0,j}=1\). Alternatively, this can be calculated using the compact form of the multiple regression model \eqref{eq:MLRFormulaCompacter}:
+\begin{equation*}
+y_j = \mathbf{x}'_j \boldsymbol{\beta} + \epsilon_j .
+\end{equation*}
+the fitted values for which are:
+\begin{equation*}
+\hat{y_j} = \mathbf{x}'_j \boldsymbol{\beta} .
+\end{equation*}
+Taking the variance of the fitted in that form would involve the covariance matrix of parameters from Section \ref{uncertaintyRegressionCov}:
+\begin{equation*}
+\mathrm{V}(\hat{y_j}| \mathbf{x}_j) = \mathbf{x}'_j \mathrm{V}({\boldsymbol{b}}) \mathbf{x}_j.
+\end{equation*}
+In any case, we see that the variance of the regression line relies on the variances and covariances of parameters. It can then be used in the construction of the confidence interval for the regression line.
+
+Given that each estimate of parameter \(b_i\) should follow the Normal distribution with a fixed mean and variance due to CLT (Section \ref{CLT}), the predicted value \(\hat{y}_j\) will follow it as well. This is because the multiplication of the Normal distribution by a number (the value of an explanatory variable) gives the Normal distribution as well, and the addition of Normal distributions produces another one, but with different parameters. So, we can say that:
+\begin{equation*}
+\mu_j \sim \mathcal{N}(\hat{y}_j, \mathrm{V}(\hat{y}_j| \mathbf{x}_j)) .
+\end{equation*}
+We used this property to derive the formula for the confidence interval around the line.
+
+If we are interested in capturing the uncertainty of the actual values, we can refer to prediction interval. In this case we rely on the Normality assumption for the actual values themselves:
+\begin{equation*}
+y_j = (\hat{y}_j + \epsilon_j) \sim \mathcal{N}(\hat{y}_j, s_y^2) ,
+\end{equation*}
+because we assume that \(\epsilon_j \sim \mathcal{N}(0, {\sigma}^2)\), where \({\sigma}^2\) is the variance of the error term and \(s_y^2 = \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2\) is the estimated of the variance of the response variable conditional on the values of the explanatory variables. The latter can be calculated as:
+\begin{equation}
+\mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
+\label{eq:regressionLineUncertaintyVariance03}
+\end{equation}
+which can be simplified to (if assumptions of regression model hold, see Chapter \ref{assumptions}):
+\begin{equation}
+\mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j | \mathbf{x}_j) + \hat{\sigma}^2,
+\label{eq:regressionLineUncertaintyVariance04}
+\end{equation}
+where the variance \(\mathrm{V}(\hat{y}_j | \mathbf{x}_j)\) was calculated above for the confidence interval in formula \eqref{eq:regressionLineUncertaintyVariance02}. Given that the variance \eqref{eq:regressionLineUncertaintyVariance04} is larger than the variance \eqref{eq:regressionLineUncertaintyVariance02}, the prediction interval will always be wider than the confidence one.
+
+\section{Hypothesis testing}\label{uncertaintyRegressionHypothesis}
+
+In the regression context, an analyst is often interested in understanding whether a specific effect exists or not. This is usually done using the hypothesis testing instrument, which we will discuss in this section. But before we do that, we will approach this problem from a slightly non-conventional perspective, using the connection between hypothesis testing and confidence interval.
+
+What does ``effect exists'' mean in statistical terms? It means that we found some evidence based on our data and model that the value of a parameter is significantly different from zero on some pre-selected level. Formally, this hypothesis is formulated as:
+\begin{equation}
+\begin{aligned}
+\mathrm{H}_0: \beta_i = 0 \\
+\mathrm{H}_1: \beta_i \neq 0
+\end{aligned} .
+\label{eq:regressionHypothesis01}
+\end{equation}
+where \(\beta_i\) is the true parameter in the population. The idea is to make some conclusions about what happens in population based on a specific sample of data \textbf{and} the estimated model.
+
+Coming back to the example in Section \ref{uncertaintyRegressionCI}, the whole hypothesis testing process implies that the distribution of the estimates of parameter for \texttt{materials} lies either consistently above zero or consistently below it (in our case, it is above). Figure \ref{fig:costsModelMLRCImaterials} demonstrates the distribution we obtained from the bootstrap in the beginning of this chapter and the 95\% confidence interval based on the normal approximation of the distribution.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModelMLRCImaterials-1.pdf}
+\caption{\label{fig:costsModelMLRCImaterials}Parameter uncertainty in the estimated model for the materials variable.}
+\end{figure}
+
+The 95\% confidence level corresponds to the 5\% significance level. We see from Figure \ref{fig:costsModelMLRCImaterials} that the variability of the estimate of the parameter is substantially above zero. This probably means that if we increase the sample size and continue constructing the interval, the true value will be somewhere inside and it must be not equal to zero. We use the word ``\emph{probably}'' here because we could always make a mistake based on a specific sample or because the model was incorrectly specified. Still, we would be inclined to conclude on the 5\% significance level that the effect is indeed non-zero.
+
+\begin{remark}
+In hypothesis testing, if we formulate the alternative one as inequality (as it was done in \eqref{eq:regressionHypothesis01}), we cannot say whether the effect is positive or negative. We can only conclude whether it is or it is not zero on the pre-specified significance level.
+\end{remark}
+
+If we bring this idea further, we can also conclude that the effect is not equal to 0.4 (that value is outside of the interval and in the left tail of the distribution), and surely not 1.5 (it is in the right tail). We can say that by directly looking at the confidence interval, and, arguably, it provides more information than a critical value or a p-value (we will discuss them later in this section), which would only compare the sample value with zero. But this also shows us what the hypothesis testing is all about: checking whether the tested value is inside the non-rejection interval or not. But can we make solid conclusions about the effect based on the results of the hypothesis testing?
+
+Figure \ref{fig:costsModelMLRCIWithZero} shows the distribution of estimates of some hypothetical parameter in a regression model together with the 95\% confidence interval.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModelMLRCIWithZero-1.pdf}
+\caption{\label{fig:costsModelMLRCIWithZero}Parameter uncertainty of a hypothetical parameter.}
+\end{figure}
+
+According to Figure \ref{fig:costsModelMLRCIWithZero}, the zero is included in the interval, so we would fail to reject the hypothesis that the effect is zero on the 5\% significance level. This is because there is a chance that this distribution would shift to the left with the increase of the sample size and would become centered around zero. Does this mean that there is no effect? No, because we do not know what happens in population, we are making conclusions based on the limited sample and a specific model.
+
+We can also notice that if we were to formulate a different hypothesis, for example, that the parameter is equal to one, we would fail to reject it on the 5\% significance level as well. In fact, we would fail to reject the hypotheses on the 5\% significance level that the true parameter equals to 0.5, 1.5 and anything between -1.46 and 2.46. Neither of this tells us anything definite about the true value of parameter. The true conclusion of hypothesis testing in this example is that \textbf{we do not know} what the true value of the effect is.
+
+We personally think that the confidence interval shows this idea more clearly, than the conventional hypothesis testing, not hiding anything.
+
+Now we will discuss the classical hypothesis testing in regression.
+
+\subsection{Regression parameters}\label{regression-parameters}
+
+The logic of hypothesis testing in regression is very similar to the one discussed in Section \ref{hypothesisTesting}. To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable \texttt{materials}, which equals to 0.7744. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section \ref{hypothesisTesting}.
+
+First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
+\begin{equation*}
+\begin{aligned}
+\mathrm{H}_0: \beta_i = 0 \\
+\mathrm{H}_1: \beta_i \neq 0
+\end{aligned} .
+\end{equation*}
+
+Visually, the null and alternative hypotheses can be represented as shown in Figure \ref{fig:costModelHypotheses}.
+
+\begin{figure}
+\centering
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costModelHypotheses-1.pdf}
+\caption{\label{fig:costModelHypotheses}Graphical presentation of null and alternative hypothesis in regression context.}
+\end{figure}
+
+The image on the left in Figure \ref{fig:costModelHypotheses} demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure \ref{fig:costModelHypotheses} demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us whether the hypothesis is true or false, but if we have enough evidence to reject H\(_0\), then we might conclude that we see an effect of one variable on the other one in the data.
+
+After formulating the hypothesis, we select the significance level. Fro this exercise, we will choose 5\%.
+
+Then, we need to select the test to use. As discussed earlier in this chapter, if we can assume that the Central Limit Theorem holds (typically, for the linear regression estimated using the OLS, on samples of more than 50 observations, it does), we can use the Normal distribution. But given that the standard deviations of parameters are not known, and are estimated, we need to use Student's t distribution. The formula for calculating the t-statistics is fundamentally similar to the one in Section \ref{hypothesisTestingBasics}:
+\begin{equation}
+t = \frac{|b_i - 0|}{s_{b_i}} ,
+\label{eq:ttestFormulaReg}
+\end{equation}
+where \(b_i\) is the estimate of the parameter \(\beta_i\) and \(s_{b_i}\) is the standard error of the parameter obtained from the covariance matrix from Section \ref{uncertaintyRegressionCov}. The standard deviation of the parameter is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vcov}\NormalTok{(costsModelMLR)[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{] }\SpecialCharTok{|\textgreater{}} \FunctionTok{sqrt}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2190506
+\end{verbatim}
+
+Inserting the values in formula \eqref{eq:ttestFormulaReg} gives us the t-statistics value for our example:
+\begin{equation*}
+t = \frac{|0.774 - 0|}{0.219} \approx 3.5342 
+\end{equation*}
+Now we need to get the critical value of the t-statistics for the selected significance value and \(n-k\) degrees of freedom, which in our case are equal to 61-5=56. We chose the significance value of 5\%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5\% level. In R, we can get it by running:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qt}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{), }\DecValTok{56}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.003241  2.003241
+\end{verbatim}
+
+In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H\(_0\) and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.
+
+\begin{remark}
+The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.5342 with 2.0032, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H\(_0\).
+\end{remark}
+
+An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H\(_0\) if the p-value is lower than the level. For our example, the p-value can be calculated using the \texttt{pt()} function in R:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pt}\NormalTok{(}\FloatTok{3.534}\NormalTok{, }\DecValTok{56}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0004143986
+\end{verbatim}
+
+Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately \ensuremath{8.3\times 10^{-4}}. The conclusion that we can draw from this is that we reject the null hypothesis on the 5\% significance level.
+
+All of this is done automatically by R if we estimate the model using the basic \texttt{lm()} function from the \texttt{stats} package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{size}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year, }\AttributeTok{data=}\NormalTok{SBA\_Chapter\_11\_Costs) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{summary}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## 
 ## Call:
-## lm(formula = dist ~ speed, data = cars)
+## lm(formula = overall ~ materials + size + projects + year, data = SBA_Chapter_11_Costs)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -29.069  -9.525  -2.272   9.215  43.201 
+## -63.657 -17.959  -4.588  23.835  80.481 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) -17.5791     6.7584  -2.601   0.0123 *  
-## speed         3.9324     0.4155   9.464 1.49e-12 ***
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -2964.6192  3053.4575  -0.971 0.335770    
+## materials       0.7744     0.2191   3.535 0.000826 ***
+## size            0.8970     0.4920   1.823 0.073610 .  
+## projects       -5.3096     2.6731  -1.986 0.051905 .  
+## year            1.5865     1.5221   1.042 0.301766    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 15.38 on 48 degrees of freedom
-## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
-## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12
+## Residual standard error: 30.56 on 56 degrees of freedom
+## Multiple R-squared:  0.8017, Adjusted R-squared:  0.7875 
+## F-statistic: 56.59 on 4 and 56 DF,  p-value: < 2.2e-16
 \end{verbatim}
 
-This output tells us that when we consider the parameter for the variable speed, we reject the standard H\(_0\) on the pre-selected 1\% significance level (comparing the level with p-value in the last column of the output). Note that we should first select the significance level and only then conduct the test, otherwise we would be bending reality for our needs.
+The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called ``Pr(\textgreater\textbar t\textbar)'').
+
+\begin{remark}
+When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after obtaining the results. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment are amended to fit better to preferences of analyst. This temptation should be resisted! This and other mistakes related to p-values and hypothesis testing were discussed in Subsection \ref{hypothesisTestingMistakes}.
+\end{remark}
+
+The context of regression also provides a great example, why we never accept the null hypothesis and why in the case of ``Fail to reject H\(_0\)'', we should not remove a variable (unless we have more fundamental reasons for doing that). Consider an example, where the estimated parameter \(b_1=0.5\), and its standard error is \(s_{b_1}=1\), we estimated a simple linear regression on a sample of 30 observations, and we want to test, whether the parameter in the population is zero (hypothesis \eqref{eq:regressionHypothesis01}) on 5\% significance level. Inserting the values in formula \eqref{eq:ttestFormulaReg}, we get:
+\begin{equation*}
+\frac{|0.5 - 0|}{1} = 0.5,
+\end{equation*}
+with the critical value for two-tailed test of \(t_{0.025}(30-2)\approx 2.05\). Comparing t-value with the critical one, we would conclude that we fail to reject H\(_0\) and thus the parameter is not statistically different from zero. There is a temptation to remove it from the model, but this would be fundamentally wrong. And here is why.
+
+Consider testing another hypothesis for the same parameter:
+\begin{equation*}
+\begin{aligned}
+\mathrm{H}_0: \beta_1 = 1 \\
+\mathrm{H}_1: \beta_1 \neq 1
+\end{aligned} .
+\end{equation*}
+The procedure is the same, the calculated t-value is:
+\begin{equation*}
+\frac{|0.5 - 1|}{1} = 0.5,
+\end{equation*}
+which leads to exactly the same conclusion as before: on 5\% significance level, we fail to reject the new H\(_0\), so the value is not distinguishable from 1. So, which of the two conclusions is correct? Is it zero or is it one?
+
+The correct answer is ``\textbf{we do not know}''. The non-rejection region just tells us that the uncertainty about the parameter is so high that it also includes the value of interest (0 in case of the classical regression analysis or 1 in the case of the second hypothesis). If we constructed the confidence interval for this problem, we would not have such confusion, as we would conclude that on 5\% significance level the true parameter lies in the region \((-1.46, 2.46)\) and can be any of the numbers between them.
 
 \subsection{Regression line}\label{regression-line}
 
-Finally, in regression context, we can test another hypothesis, which becomes useful, when a lot of parameters of the model are very close to zero and seem to be insignificant on the selected level:
+Finally, in regression context, we can test another hypothesis, which becomes useful, when many parameters of the model are very close to zero and seem to be insignificant on the selected level:
 \begin{equation}
     \begin{aligned}
         \mathrm{H}_0: \beta_1 = \beta_2 = \dots = \beta_{k-1} = 0 \\
         \mathrm{H}_1: \beta_1 \neq 0 \vee \beta_2 \neq 0 \vee \dots \vee \beta_{k-1} \neq 0
     \end{aligned} ,
-    \label{eq:regressionHypothesis02}
+\label{eq:regressionHypothesis02}
 \end{equation}
-which translates into normal language as ``H\(_0\): all parameters (except for intercept) are equal to zero; H\(_1\): at least one parameter is not equal to zero''. This hypothesis is only needed, when you have a model with many statistically insignificant variables and want to see if the model explains anything. This is done using F-test, which can be calculated based on sums of squares:
+which translates into normal language as:
 \begin{equation*}
-    F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+    \begin{aligned}
+        \mathrm{H}_0: \text{ all parameters (except for intercept) are equal to zero}\\
+        \mathrm{H}_1: \text{ at least one parameter is not equal to zero}
+    \end{aligned} .
 \end{equation*}
-where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \ref{hypothesisTesting}): after choosing the significance level, we can either calculate the critical value of F for the specified degrees of freedom, or compare it with the p-value from the test to make a conclusion about the null hypothesis.
+This hypothesis is only needed when you have a model with many statistically insignificant variables and want to see if overall the model explains anything. This is done using F-test, which can be calculated based on sums of squares (discussed in Subsection \ref{linearRegressionSimpleQualityOfFitSSE}):
+\begin{equation*}
+F = \frac{ SSR / (k-1)}{SSE / (n-k)} \sim F(k-1, n-k) ,
+\end{equation*}
+where the sums of squares are divided by their degrees of freedom. The test is conducted in the similar manner as any other test (see Section \ref{hypothesisTesting}): after choosing the significance level, we calculate the F-value and then either select the critical value of F for the specific degrees of freedom, or compare the significance level with the p-value from the test to make a conclusion about the null hypothesis.
 
-This hypothesis is not very useful, when the parameter are significant and coefficient of determination is high. It only becomes useful in difficult situations of poor fit. The test on its own does not tell if the model is adequate or not. And the F value and related p-value is not comparable with respective values of other models. Graphically, this test checks, whether in the true model the slope of the straight line on the plot of actuals vs fitted is different from zero. An example with the same stopping distance model is provided in Figure \ref{fig:speedDistanceHypothesesF}.
+There are several things to consider about the F-test in regression:
+
+\begin{itemize}
+\tightlist
+\item
+  It is not very useful, when at least one parameter is statistically significant. It only becomes useful in difficult situations of poor fit.
+\item
+  The test on its own does not tell if the model is good or bad, adequate or not, etc.
+\item
+  And the F value and related p-value are not comparable with respective values of another models.
+\end{itemize}
+
+Visually, this test checks, whether in the true model the slope of the line on the plot of actuals vs fitted is different from zero. An example with the same costs model is provided in Figure \ref{fig:costsModelHypothesesF}.
 
 \begin{figure}
 \centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistanceHypothesesF-1.pdf}
-\caption{\label{fig:speedDistanceHypothesesF}Graphical presentation of F test for regression model.}
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/costsModelHypothesesF-1.pdf}
+\caption{\label{fig:costsModelHypothesesF}Graphical presentation of F-test for regression model.}
 \end{figure}
 
-What the test is tries to get insight about, is whether in the true model the blue line coincides with the red line (i.e.~the slope is equal to zero, which is only possible, when all parameters are zero). If we have enough evidence to reject the null hypothesis, then this means that the slopes are different on the selected significance level.
+What the F-test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e.~the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
 
-Here is an example with the speed model discussed above with the significance level of 1\%:
+Here is an example with the costs model discussed in this chapter with the pre-selected significance level of 5\%:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{lmSpeedDistanceF }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(lmSpeedDistance)}\SpecialCharTok{$}\NormalTok{fstatistic}
-\CommentTok{\# F value}
-\NormalTok{lmSpeedDistanceF[}\DecValTok{1}\NormalTok{]}
+\CommentTok{\# Estimate the regression using lm }
+\NormalTok{costsModelMLRLm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(overall}\SpecialCharTok{\textasciitilde{}}\NormalTok{materials}\SpecialCharTok{+}\NormalTok{size}\SpecialCharTok{+}\NormalTok{projects}\SpecialCharTok{+}\NormalTok{year,}
+                      \AttributeTok{data=}\NormalTok{SBA\_Chapter\_11\_Costs)}
+\CommentTok{\# Get summary statistics}
+\NormalTok{costsModelMLRF }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(costsModelMLRLm)}\SpecialCharTok{$}\NormalTok{fstatistic}
+\CommentTok{\# Extract the F{-}value}
+\NormalTok{costsModelMLRF[}\DecValTok{1}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    value 
-## 89.56711
+## 56.58674
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# F critical}
-\FunctionTok{qf}\NormalTok{(}\FloatTok{0.99}\NormalTok{,lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
+\CommentTok{\# Calculate the critical value of F}
+\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, costsModelMLRF[}\DecValTok{2}\NormalTok{], costsModelMLRF[}\DecValTok{3}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 7.194218
+## [1] 2.536579
 \end{verbatim}
+
+In the output above, the critical value is lower than the calculated, so we can reject the H\(_0\), which means that there is something in the model that explains the variability of the overall costs. Alternatively, we could focus on the p-value:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# p{-}value from the test}
-\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pf}\NormalTok{(lmSpeedDistanceF[}\DecValTok{1}\NormalTok{],lmSpeedDistanceF[}\DecValTok{2}\NormalTok{],lmSpeedDistanceF[}\DecValTok{3}\NormalTok{])}
+\FunctionTok{pf}\NormalTok{(costsModelMLRF[}\DecValTok{1}\NormalTok{], costsModelMLRF[}\DecValTok{2}\NormalTok{], costsModelMLRF[}\DecValTok{3}\NormalTok{], }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##        value 
-## 1.489919e-12
+## 4.982143e-19
 \end{verbatim}
 
-In the output above, the critical value is lower than the calculated, so we can reject the H\(_0\), which means that there is something in the model that explains the variability in the variable \texttt{dist}. Alternatively, we could focus on p-value. We see that the it is lower than the significance level of 1\%, so we reject the H\(_0\) and come to the same conclusion as above.
-
-\section{Regression line uncertainty}\label{regression-line-uncertainty}
-
-Given the uncertainty of estimates of parameters, the regression line itself and the points around it will be uncertain. This means that in some cases we should not just consider the predicted values of the regression \(\hat{y}_j\), but also the uncertainty around them.
-
-The uncertainty of the regression line builds upon the uncertainty of parameters and can be measured via the conditional variance in the following way:
-\begin{equation}
-    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j}) ,
-    \label{eq:regressionLineUncertaintyVariance01}
-\end{equation}
-which after some simplifications leads to:
-\begin{equation}
-    \mathrm{V}(\hat{y}_j| \mathbf{x}_j) = \sum_{l=0}^{k-1} \mathrm{V}(b_j) x^2_{l,j} + 2 \sum_{l=1}^{k-1} \sum_{i=0}^{l-1}  \mathrm{cov}(b_i,b_l) x_{i,j} x_{l,j} ,
-    \label{eq:regressionLineUncertaintyVariance02}
-\end{equation}
-where \(x_{0,j}=1\). As we see, the variance of the regression line involves variances and covariances of parameters. This variance can then be used in the construction of the confidence interval for the regression line. Given that each estimate of parameter \(b_i\) will follow normal distribution with a fixed mean and variance due to \hyperref[CLT]{CLT}, the predicted value \(\hat{y}_j\) will follow normal distribution as well. This can be used in the construction of the confidence interval, in a manner similar to the one discussed in Section \ref{confidenceInterval}:
-\begin{equation}
-    \mu_j \in (\hat{y}_j + t_{\alpha/2}(n-k) s_{\hat{y}_j}, \hat{y}_j + t_{1-\alpha/2}(n-k) s_{\hat{y}_j}),
-    \label{eq:confidenceIntervalRegression}
-\end{equation}
-where \(s_{\hat{y}_j}=\sqrt{\mathrm{V}(\hat{y}_j| \mathbf{x}_j)}\).
-
-In R, this interval can be constructed via the function \texttt{predict()} with \texttt{interval="confidence"}. It is based on the covariance matrix of parameters, extracted via \texttt{vcov()} method in R (it was discussed in a previous subsection). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with \texttt{alm()} function:
+We see that the the p-value is lower than the significance level of 5\%, so we reject the H\(_0\) on that level and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the \texttt{lm()} function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceCI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{interval=}\StringTok{"confidence"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(slmSpeedDistanceCI, }\AttributeTok{main=}\StringTok{""}\NormalTok{,}
-     \AttributeTok{xlab=}\StringTok{"Observation"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Distance"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(costsModelMLRLm)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistanceConfidenceInterval-1.pdf}
-\caption{\label{fig:speedDistanceConfidenceInterval}Fitted values and confidence interval for the stopping distance model.}
-\end{figure}
-
-The same fitted values and interval can be presented differently on the actuals vs fitted plot:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance),}\FunctionTok{actuals}\NormalTok{(slmSpeedDistance),}
-     \AttributeTok{xlab=}\StringTok{"Fitted"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Actuals"}\NormalTok{)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{0}\NormalTok{,}\AttributeTok{b=}\DecValTok{1}\NormalTok{,}\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance)),}
-\NormalTok{      slmSpeedDistanceCI}\SpecialCharTok{$}\NormalTok{lower[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance))], }
-      \AttributeTok{col=}\StringTok{"darkred"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance)),}
-\NormalTok{      slmSpeedDistanceCI}\SpecialCharTok{$}\NormalTok{upper[}\FunctionTok{order}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(slmSpeedDistance))], }
-      \AttributeTok{col=}\StringTok{"darkred"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistanceConfidenceIntervalAvsF-1.pdf}
-\caption{\label{fig:speedDistanceConfidenceIntervalAvsF}Actuals vs Fitted and confidence interval for the stopping distance model.}
-\end{figure}
-
-Figure \ref{fig:speedDistanceConfidenceIntervalAvsF} demonstrates the actuals vs fitted plot, together with the 95\% confidence interval around the line, demonstrating where the line would be expected to be in 95\% of the cases if we re-estimate the model many times. We also see that the uncertainty of the regression line is lower in the middle of the data, but expands in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data \((\bar{x},\bar{y})\) and the variability in this point is lower than the variability in the tails.
-
-If we are not interested in the uncertainty of the regression line, but rather in the uncertainty of the observations, we can refer to prediction interval. The variance in this case is:
-\begin{equation}
-    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(b_0 + b_1 x_{1,j} + b_2 x_{2,j} + \dots + b_{k-1} x_{k-1,j} + e_j) ,
-    \label{eq:regressionLineUncertaintyVariance03}
-\end{equation}
-which can be simplified to (if assumptions of regression model hold, see Section \ref{assumptions}):
-\begin{equation}
-    \mathrm{V}(y_j| \mathbf{x}_j) = \mathrm{V}(\hat{y}_j| \mathbf{x}_j) + \hat{\sigma}^2,
-    \label{eq:regressionLineUncertaintyVariance04}
-\end{equation}
-where \(\hat{\sigma}^2\) is the variance of the residuals \(e_j\). As we see from the formula \eqref{eq:regressionLineUncertaintyVariance04}, the variance in this case is larger than \eqref{eq:regressionLineUncertaintyVariance02}, which will result in wider interval than the confidence one. We can use normal distribution for the construction of the interval in this case (using formula similar to \eqref{eq:confidenceIntervalRegression}), as long as we can assume that \(\epsilon_j \sim \mathcal{N}(0,\sigma^2)\).
-
-In R, this can be done via the very same \texttt{predict()} function with \texttt{interval="prediction"}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{slmSpeedDistancePI }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Based on this, we can construct graphs similar to \ref{fig:speedDistanceConfidenceInterval} and \ref{fig:speedDistanceConfidenceIntervalAvsF}.
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistancePI-1.pdf}
-\caption{\label{fig:speedDistancePI}Fitted values and prediction interval for the stopping distance model.}
-\end{figure}
-
-Figure \ref{fig:speedDistancePI} shows the prediction interval for values over observations and for actuals vs fitted. As we see, the interval is wider in this case, covering only 95\% of observations (there are 2 observations outside it).
-
-In forecasting, prediction interval has a bigger importance than the confidence interval. This is because we are typically interested in capturing the uncertainty about the observations, not about the estimate of a line. Typically, the prediction interval would be constructed for some holdout data, which we did not have at the model estimation phase. In the example with stopping distance, we could see what would happen if the speed of a car was, for example, 30mph:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{slmSpeedDistanceForecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(slmSpeedDistance,}\AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{speed=}\DecValTok{30}\NormalTok{),}
-                                    \AttributeTok{interval=}\StringTok{"prediction"}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(slmSpeedDistanceForecast)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/speedDistanceForecast-1.pdf}
-\caption{\label{fig:speedDistanceForecast}Forecast of the stopping distance for the speed of 30mph.}
-\end{figure}
-
-Figure \ref{fig:speedDistanceForecast} shows the point forecast (the expected stopping distance if the speed of car was 30mph) and the 95\% prediction interval (we expect that in 95\% of the cases, the cars will have the stopping distance between 66.865 and 133.921 feet.
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = overall ~ materials + size + projects + year, data = SBA_Chapter_11_Costs)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -63.657 -17.959  -4.588  23.835  80.481 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -2964.6192  3053.4575  -0.971 0.335770    
+## materials       0.7744     0.2191   3.535 0.000826 ***
+## size            0.8970     0.4920   1.823 0.073610 .  
+## projects       -5.3096     2.6731  -1.986 0.051905 .  
+## year            1.5865     1.5221   1.042 0.301766    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 30.56 on 56 degrees of freedom
+## Multiple R-squared:  0.8017, Adjusted R-squared:  0.7875 
+## F-statistic: 56.59 on 4 and 56 DF,  p-value: < 2.2e-16
+\end{verbatim}
 
 \chapter{Regression with categorical variables}\label{dummyVariables}
 
@@ -5481,36 +6132,36 @@ Now, if we want to construct the regression that would take these differences in
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1057.3799     4.5380  1048.4113   1066.3484 *
-## price         -2.9201     0.2198    -3.3545     -2.4857 *
-## colourRed    -18.9248     1.0048   -20.9107    -16.9389 *
-## colourGreen  -68.8138     1.0186   -70.8270    -66.8007 *
+## (Intercept) 1048.4996     3.7216  1041.1444   1055.8549 *
+## price         -2.3887     0.1842    -2.7527     -2.0246 *
+## colourRed    -20.3478     0.9613   -22.2477    -18.4478 *
+## colourGreen  -70.6922     0.9665   -72.6022    -68.7822 *
 ## 
-## Error standard deviation: 5.0238
+## Error standard deviation: 4.8061
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 915.8849 914.1608 930.9381 926.6186
+## 902.5904 900.8662 917.6435 913.3240
 \end{verbatim}
 
-Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1057. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that \emph{the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 19 units}. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:
+Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1048. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that \emph{the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units}. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  For the blue t-shirt, our model is: sales=1057.38-2.92price+et. This is because both \texttt{colourRed} and \texttt{colourGreen} are zero in this case;
+  For the blue t-shirt, our model is: sales=1048.5-2.39price+et. This is because both \texttt{colourRed} and \texttt{colourGreen} are zero in this case;
 \item
-  For the red t-shirt the model is: sales=1057.38+-18.92-2.92price+et or sales=1038.46-2.92price+et;
+  For the red t-shirt the model is: sales=1048.5+-20.35-2.39price+et or sales=1028.15-2.39price+et;
 \item
-  Finally, for the green one, the model is: sales=1057.38+-68.81-2.92price+et or sales=988.57-2.92price+et.
+  Finally, for the green one, the model is: sales=1048.5+-70.69-2.39price+et or sales=977.81-2.39price+et.
 \end{enumerate}
 
 In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model \texttt{tShirtsALM}.
 
-One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1057.38, 1038.46 and 988.57 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):
+One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1048.5, 1028.15 and 977.81 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5522,7 +6173,7 @@ One thing that we can remark is that the estimated parameters differ from the on
 
 \begin{verbatim}
 ##   colourRed colourGreen  colourBlue 
-##    10.32141   -39.56763    29.24622
+##    9.998901  -40.345555   30.346654
 \end{verbatim}
 
 The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 10 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.
@@ -5537,7 +6188,7 @@ In R, we can also work with factor variables, without a need to expand variables
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-90-1.pdf}
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-101-1.pdf}
 
 Notice that the ``Blue'' was automatically set as the first level, because \texttt{factor()} function would sort labels alphabetically unless the levels are provided explicitly. The estimated model in this case will be exactly the same as the \texttt{tShirts} model above:
 
@@ -5554,18 +6205,18 @@ Notice that the ``Blue'' was automatically set as the first level, because \text
 ## Loss function used in estimation: MSE
 ## Coefficients:
 ##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1057.3799     4.5380  1048.4113   1066.3484 *
-## price         -2.9201     0.2198    -3.3545     -2.4857 *
-## colourGreen  -68.8138     1.0186   -70.8270    -66.8007 *
-## colourRed    -18.9248     1.0048   -20.9107    -16.9389 *
+## (Intercept) 1048.4996     3.7216  1041.1444   1055.8549 *
+## price         -2.3887     0.1842    -2.7527     -2.0246 *
+## colourGreen  -70.6922     0.9665   -72.6022    -68.7822 *
+## colourRed    -20.3478     0.9613   -22.2477    -18.4478 *
 ## 
-## Error standard deviation: 5.0238
+## Error standard deviation: 4.8061
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 915.8849 914.1608 930.9381 926.6186
+## 902.5904 900.8662 917.6435 913.3240
 \end{verbatim}
 
 Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include \texttt{colourRed} and only have the model with \texttt{colourGreen}, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.
@@ -5640,22 +6291,22 @@ In R, the interaction effect can be introduced explicitly in the formula via \te
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##                   Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept)       997.8761     3.5949   990.7713   1004.9809 *
-## price              -6.4493     0.1803    -6.8057     -6.0929 *
-## price:colourGreen   3.4919     0.0418     3.4094      3.5745 *
-## price:colourRed     2.5696     0.0421     2.4865      2.6528 *
+##                    Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       1002.4849     3.5235   995.5213   1009.4486 *
+## price               -6.6367     0.1809    -6.9943     -6.2791 *
+## price:colourGreen    3.5221     0.0458     3.4316      3.6127 *
+## price:colourRed      2.5273     0.0458     2.4369      2.6178 *
 ## 
-## Error standard deviation: 4.207
+## Error standard deviation: 4.5373
 ## Sample size: 150
 ## Number of estimated parameters: 4
 ## Number of degrees of freedom: 146
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 862.6541 860.9300 877.7073 873.3878
+## 885.3254 883.6013 900.3786 896.0591
 \end{verbatim}
 
-Note that the interpretation of parameters in such model will be different, because now the \texttt{price} shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for \texttt{price} and \texttt{price:colourRed}. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 3.88 units.
+Note that the interpretation of parameters in such model will be different, because now the \texttt{price} shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for \texttt{price} and \texttt{price:colourRed}. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by 4.11 units.
 
 \chapter{Variables transformations}\label{variablesTransformations}
 
@@ -6534,7 +7185,7 @@ We consider a simple example, when we want to estimate the model \(y_j = \mu_y +
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-112-1.pdf}
+\includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/unnamed-chunk-123-1.pdf}
 
 As expected, the distribution of this variable (1000 observations) has the bell shape of Normal distribution. In order to estimate the parameters, for the distribution, we will try them one by one and see how the likelihood and the shape of the fitted curve to this histogram change. We start with \(\hat{\mu}_y=80\) and \(\hat{\sigma}=10\) just to see how the probability density function of normal distribution fits the data:
 
@@ -6561,7 +7212,7 @@ and we get the following log-likelihood value (we will discuss how this formula 
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -5757.199
+## [1] -5743.599
 \end{verbatim}
 
 In order for the normal distribution on \ref{fig:MLENormalExample01} to fit the data well, we need to shift the estimate of \(\mu_y\) to the right, thus increasing the value to, let's say, \(\hat{\mu}_y=90\):
@@ -6580,7 +7231,7 @@ In order for the normal distribution on \ref{fig:MLENormalExample01} to fit the 
 \caption{\label{fig:MLENormalExample02}ML example with Normal curve and \(\hat{\mu}_y=90\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4227.945, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting \(\hat{\mu}_y=100\), we get:
+Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to the data, but it is still a bit off. The log-likelihood value in this case is -4229.117, which is higher than the previous one, indicating that we are moving towards the maximum of the likelihood function. Moving it further, setting \(\hat{\mu}_y=100\), we get:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6596,7 +7247,7 @@ Now, in Figure \ref{fig:MLENormalExample02}, the normal curve is much closer to 
 \caption{\label{fig:MLENormalExample03}ML example with Normal curve and \(\hat{\mu}_y=100\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the previous cases with the log-likelihood of -3698.691, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:
+Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the previous cases with the log-likelihood of -3714.636, which is even higher than in the previous case. We are almost there. In fact, in order to maximise this likelihood, we just need to calculate the sample mean of the variable (this is the MLE of the location parameter in normal distribution) and insert it in the function to obtain:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6612,9 +7263,9 @@ Figure \ref{fig:MLENormalExample02} demonstrates a much better fit than in the p
 \caption{\label{fig:MLENormalExample04}ML example with Normal curve and \(\hat{\mu}_y=\bar{y}\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-So the value of \(\hat{\mu}_y=\bar{y}=\) 100.293 (where \(\bar{y}\) is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3698.263.
+So the value of \(\hat{\mu}_y=\bar{y}=\) 100.145 (where \(\bar{y}\) is the sample mean) maximises the likelihood function, resulting in log-likelihood of -3714.531.
 
-In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of the model. In this case, we will be changing the height of the distribution. Here is an example with \(\hat{\mu}_y=\) 100.293 and \(\hat{\sigma}=15\):
+In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of the model. In this case, we will be changing the height of the distribution. Here is an example with \(\hat{\mu}_y=\) 100.145 and \(\hat{\sigma}=15\):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6625,7 +7276,7 @@ In a similar fashion we can get the MLE of the scale parameter \(\sigma^2\) of t
 \end{Shaded}
 
 \includegraphics{Svetunkov---Statistics-for-Business-Analytics_files/figure-latex/MLENormalExample05-1.pdf}
-Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower than needed, which implies that the scale parameter \(\hat{\sigma}\) is too high. The log-likelihood value in this case is -3838.873. In order to get a better fit of the curve to the data, we need to reduce the \(\hat{\sigma}\). Here how the situation would look for the case of \(\hat{\sigma}=10\):
+Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower than needed, which implies that the scale parameter \(\hat{\sigma}\) is too high. The log-likelihood value in this case is -3846.103. In order to get a better fit of the curve to the data, we need to reduce the \(\hat{\sigma}\). Here how the situation would look for the case of \(\hat{\sigma}=10\):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6641,7 +7292,7 @@ Figure \ref{fig:MLENormalExample05} demonstrates that the curve is located lower
 \caption{\label{fig:MLENormalExample06}ML example with Normal curve and \(\hat{\mu}_y=\bar{y}\) and \(\hat{\sigma}=10\)}
 \end{figure}
 
-The fit on Figure \ref{fig:MLENormalExample06} is better than on Figure \ref{fig:MLENormalExample05}, which is also reflected in the log-likelihood value being equal to -3698.263 instead of -3838.873. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula \(\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), resulting in log-likelihood of -3697.705. Note that if we use the unbiased estimate of the variance \(\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), the log-likelihood will not reach the maximum and will be equal to -3697.705. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are different, which can be checked in R via the following commands:
+The fit on Figure \ref{fig:MLENormalExample06} is better than on Figure \ref{fig:MLENormalExample05}, which is also reflected in the log-likelihood value being equal to -3714.531 instead of -3846.103. The best fit and the maximum of the likelihood is obtained, when the scale parameter is estimated using the formula \(\hat{\sigma}^2 = \frac{1}{n}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), resulting in log-likelihood of -3714.482. Note that if we use the unbiased estimate of the variance \(\hat{s}^2 = \frac{1}{n-1}\sum_{j=1}^n\left(y_j - \bar{y}\right)^2\), the log-likelihood will not reach the maximum and will be equal to -3714.482. In our special case the difference between the two is infinitesimal, because of the large sample (1000 observations), but it will be more substantial on small samples. Still, the two likelihood values are different, which can be checked in R via the following commands:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6674,7 +7325,7 @@ All of this is great, but so far we have discussed a very special case, when the
 \caption{\label{fig:MLENormalExample07}ML example with Normal curve on Log Normal data}
 \end{figure}
 
-Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -4998.395. The much better model would be the Log Normal one:
+Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the Log Normal data properly, but this is the best we can get, given our assumptions. The log-likelihood in this case is -5029.665. The much better model would be the Log Normal one:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6689,7 +7340,7 @@ Figure \ref{fig:MLENormalExample07} shows that the Normal model does not fit the
 \caption{\label{fig:MLENormalExample08}ML example with Log Normal curve on Log Normal data}
 \end{figure}
 
-The model in Figure \ref{fig:MLENormalExample08} has the log likelihood of -4884.452. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the \hyperref[modelSelection]{next section}.
+The model in Figure \ref{fig:MLENormalExample08} has the log likelihood of -4908.55. This indicates that the Log Normal model is more appropriate for the data and gives us an idea that it is possible to compare different distributions via the likelihood, finding the better fit to the data. This idea is explored further in the \hyperref[modelSelection]{next section}.
 
 As a final word, when it comes to more complicated models with more parameters and dynamic structure, the specific curves and data become more complicated, but the logic of the likelihood approach stays the same.
 
@@ -6775,13 +7426,13 @@ When performing model selection and calculating different statistics, it is impo
 When it comes to inference based on regression models, the general idea is to calculate the number of \textbf{all the independent estimated parameters} \(k\). This typically includes all initial components and all coefficients of the model together with the scale, shape and shift parameters of the assumed distribution (e.g.~variance in the Normal distribution).
 
 \begin{example}
-\protect\hypertarget{exm:unnamed-chunk-115}{}\label{exm:unnamed-chunk-115}In a simple regression model: \(y_j = \beta_0 + \beta_1 x_j + \epsilon_j\) - assuming Normal distribution for \(\epsilon_j\), using the MLE will result in the estimation of \(k=3\): the two parameters of the model (\(\beta_0\) and \(\beta_1\)) and the variance of the error term \(\sigma^2\).
+\protect\hypertarget{exm:unnamed-chunk-126}{}\label{exm:unnamed-chunk-126}In a simple regression model: \(y_j = \beta_0 + \beta_1 x_j + \epsilon_j\) - assuming Normal distribution for \(\epsilon_j\), using the MLE will result in the estimation of \(k=3\): the two parameters of the model (\(\beta_0\) and \(\beta_1\)) and the variance of the error term \(\sigma^2\).
 \end{example}
 
 If likelihood is not used, then the number of parameters might be different. For example, if we estimate the model via the minimisation of MSE (similar to OLS), then the number of all estimated parameters does not include the variance anymore - it is obtained as a by product of the estimation. This is because the likelihood needs to have all the parameters of distribution in order to be maximised, but with MSE, we just minimise the mean of squared errors, and the variance of the distribution is obtained automatically. While the values of parameters might be the same, the logic is slightly different.
 
 \begin{example}
-\protect\hypertarget{exm:unnamed-chunk-116}{}\label{exm:unnamed-chunk-116}This means that for the same simple linear regression, estimated using OLS, the number of parameters is equal to 2: estimates of \(\beta_0\) and \(\beta_1\).
+\protect\hypertarget{exm:unnamed-chunk-127}{}\label{exm:unnamed-chunk-127}This means that for the same simple linear regression, estimated using OLS, the number of parameters is equal to 2: estimates of \(\beta_0\) and \(\beta_1\).
 \end{example}
 
 \begin{remark}
@@ -6791,7 +7442,7 @@ For the calculation of information criteria, the number of parameters in the exa
 In addition, all the restrictions on the parameters can reduce the number of estimated parameters, when they get to the boundary values.
 
 \begin{example}
-\protect\hypertarget{exm:unnamed-chunk-117}{}\label{exm:unnamed-chunk-117}If we know that the parameter \(\beta_1\) lies between 0 and 1, and in the estimation process it gets to the value of 1 (due to how the optimiser works), it can be considered as a restriction \(\beta_1=1\). So, when estimated via the minimum of MSE with this restriction, this would imply that \(k=1\).
+\protect\hypertarget{exm:unnamed-chunk-128}{}\label{exm:unnamed-chunk-128}If we know that the parameter \(\beta_1\) lies between 0 and 1, and in the estimation process it gets to the value of 1 (due to how the optimiser works), it can be considered as a restriction \(\beta_1=1\). So, when estimated via the minimum of MSE with this restriction, this would imply that \(k=1\).
 \end{example}
 
 In general, if a parameter is provided in the model, then it does not count towards the number of all estimated parameters. So, setting \(b_1=1\) acts in the same fashion.
@@ -6799,7 +7450,7 @@ In general, if a parameter is provided in the model, then it does not count towa
 Finally, if a parameter is just a function of another one, then it does not count towards the \(k\) as well.
 
 \begin{example}
-\protect\hypertarget{exm:unnamed-chunk-118}{}\label{exm:unnamed-chunk-118}If we know that in the same simple linear regression \(\beta_1 = \frac{\beta_0}{\sigma^2}\), then the number of all the estimated parameter via the maximum likelihood is 2: \(\beta_0\) and \(\sigma^2\).
+\protect\hypertarget{exm:unnamed-chunk-129}{}\label{exm:unnamed-chunk-129}If we know that in the same simple linear regression \(\beta_1 = \frac{\beta_0}{\sigma^2}\), then the number of all the estimated parameter via the maximum likelihood is 2: \(\beta_0\) and \(\sigma^2\).
 \end{example}
 
 We will come back to the number of parameters later in this textbook, when we discuss specific models.
