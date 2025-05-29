@@ -709,7 +709,7 @@ Whenever we want to add or take a mean of two random variable, and want to know 
 ### Convolution of two discrete distributions {#distributionsConvolutionDiscrete}
 To explain it better, we take a step back and consider a case of rolling dices. As we discussed, in that case we are dealing wi the uniform distribution (Section \@ref(distributionUniform)): it is equally probably to get 1, 2, 3, 4, 5 or 6 when you roll a dice once. Now, what would happen if we roll two dices at the same time?
 
-Let us record the value on one dice as $x$, and the value on the second one as $y$. Rolling both of them, means that we need to add $x$ to $y$ to get a new score $z$. For example, we had 3 on one dice and 5 on the other one, which means that $x=3$, $y=5$ and $z=x+y=3+5=8$. The span of values of $z$ is now between 2 and 12, because the lowest score is 1 (thus $1+1=2$), while the highest one is 6 ($6+6=12$).
+Let us record the value on one dice as $x$, and the value on the second one as $y$. Rolling both of them, means that we need to add $x$ to $y$ to get a new score $z$. For example, we had 3 on one dice and 5 on the other one, which means that $x=3$, $y=5$ and $z=x+y=3+5=8$. The span of values of $z$ is now between 2 and 12, because the lowest score for each die is 1 (thus $1+1=2$), while the highest one is 6 (6+6=12).
 
 But what happens with the probability distribution? Remember, it was uniform for both dices and looked like this (Figure \@ref(fig:uniformPMFRepeated)):
 ```{r uniformPMFRepeated, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", echo=FALSE}
