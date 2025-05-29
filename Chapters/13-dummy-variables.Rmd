@@ -4,6 +4,10 @@ So far we assumed that the explanatory variables in the model are numerical. But
 The short answer to this question is "yes". This can be done by transforming variables in categorical scale to the set of binary variables, which in regression context are called "dummy variables".
 
 
+
+
+
+
 ## Dummy variables for the intercept
 As we remember from Section \@ref(scales), the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. "red" - "1", "green" - "2", "blue" - "3"), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in operations with these values. In order to overcome this limitation, we could create a set of dummy variables, each of which would be equal to one if the value of the original variable is equal to a specific value and zero otherwise. Consider the example with colours, where we have three types of t-shirts to sell:
 
