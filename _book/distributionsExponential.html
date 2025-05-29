@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-24" />
+<meta name="date" content="2025-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="distributionLogNormal.html"/>
-<link rel="next" href="dataAnalysis.html"/>
+<link rel="next" href="distributionsConvolution.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,6 +218,12 @@ div.csl-indent {
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="distributionsExponential.html"><a href="distributionsExponential.html"><i class="fa fa-check"></i><b>4.5</b> Exponential distribution</a></li>
+<li class="chapter" data-level="4.6" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html"><i class="fa fa-check"></i><b>4.6</b> Convolution of distributions</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionDiscrete"><i class="fa fa-check"></i><b>4.6.1</b> Convolution of two discrete distributions</a></li>
+<li class="chapter" data-level="4.6.2" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionContinuous"><i class="fa fa-check"></i><b>4.6.2</b> Convolution of two continuous distributions</a></li>
+<li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
 <ul>
@@ -577,11 +583,11 @@ where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poi
 <!-- plot(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,0.5),type="l",ylab="Density",xlab="y",main="PDF of Generalised Normal distribution", -->
 <!--      ylim=c(0,0.6)) -->
 <!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,1),col="darkblue") -->
-<!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,2),col="darkred") -->
+<!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,2),col=3) -->
 <!-- lines(seq(-3,3,0.01),dgnorm(seq(-3,3,0.01),0,1,1000),col="purple") -->
 <!-- abline(v=0, col="red") -->
 <!-- legend("topright",legend=c(TeX("$\\beta =0.5$"),TeX("$\\beta =1$"),TeX("$\\beta =2$"),TeX("$\\beta =1000$")), -->
-<!--        col=c("black","darkblue","darkred","purple"),lwd=1) -->
+<!--        col=c("black","darkblue",3,"purple"),lwd=1) -->
 <!-- ``` -->
 <!-- Typically, estimating $\beta$ consistently is a tricky thing to do, especially if it is less than one. Still, it is possible to do that by maximising the likelihood function \@ref(eq:GND). -->
 <!-- The variance of the random variable following Generalised Normal distribution is equal to: -->
@@ -607,10 +613,10 @@ where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poi
 <!-- plot(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.5),type="l",ylab="Density",xlab="y",main="PDF of Asymmetric Laplace distribution", -->
 <!--      ylim=c(0,0.6)) -->
 <!-- lines(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.2),col="darkblue") -->
-<!-- lines(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.8),col="darkred") -->
+<!-- lines(seq(-3,3,0.01),dalaplace(seq(-3,3,0.01),0,1,0.8),col=3) -->
 <!-- abline(v=0, col="red") -->
 <!-- legend("topright",legend=c(TeX("$\\alpha =0.5$"),TeX("$\\alpha =0.2$"),TeX("$\\alpha =0.8$")), -->
-<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!--        col=c("black","darkblue",3),lwd=1) -->
 <!-- ``` -->
 <!-- Similarly to $\mathcal{GN}$ distribution, the parameter $\alpha$ can be estimated during the maximisation of the likelihood, although it makes more sense to set it to some specific values in order to obtain the desired quantile of distribution. -->
 <!-- The variance of the random variable following Asymmetric Laplace distribution is equal to: -->
@@ -653,10 +659,10 @@ where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poi
 <!-- ```{r dIGPlot, fig.cap="Probability Density Functions of Inverse Gaussian distribution", echo=FALSE} -->
 <!-- plot(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=10),type="l",ylab="Density",xlab="y",main="PDF of Inverse Gaussian distribution") -->
 <!-- lines(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=1),col="darkblue") -->
-<!-- lines(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=0.1),col="darkred") -->
+<!-- lines(seq(0,6,0.01),dinvgauss(seq(0,6,0.01),1,dispersion=0.1),col=3) -->
 <!-- abline(v=1, col="red") -->
 <!-- legend("topright",legend=c(TeX("$s =10$"),TeX("$s =1$"),TeX("$s =0.1$")), -->
-<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!--        col=c("black","darkblue",3),lwd=1) -->
 <!-- ``` -->
 <!-- `statmod` package implements density, quantile, cumulative and random number generator functions for the $\mathcal{IG}$. -->
 <!-- ## Gamma distribution {#GammaDistribution} -->
@@ -681,16 +687,14 @@ where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poi
 <!-- ```{r dGammaPlot, fig.cap="Probability Density Functions of Gamma distribution", echo=FALSE} -->
 <!-- plot(seq(0,6,0.01),dgamma(seq(0,6,0.01),0.1,scale=10),type="l",ylab="Density",xlab="y",main="PDF of Gamma distribution") -->
 <!-- lines(seq(0,6,0.01),dgamma(seq(0,6,0.01),1,scale=1),col="darkblue") -->
-<!-- lines(seq(0,6,0.01),dgamma(seq(0,6,0.01),10,scale=0.1),col="darkred") -->
+<!-- lines(seq(0,6,0.01),dgamma(seq(0,6,0.01),10,scale=0.1),col=3) -->
 <!-- abline(v=1, col="red") -->
 <!-- legend("topright",legend=c(TeX("$s =10$"),TeX("$s =1$"),TeX("$s =0.1$")), -->
-<!--        col=c("black","darkblue","darkred"),lwd=1) -->
+<!--        col=c("black","darkblue",3),lwd=1) -->
 <!-- ``` -->
 <!-- With the increase of the shape $\xi=s^{-1}$ (in our case this implies the decrease of variance $s$), $\mathcal{\Gamma}$ distribution converges to the normal one with $\mu=\xi s=1$ and variance $\sigma^2=s$. This demonstrates indirectly that the estimate of the scale \@ref(eq:GammaScale) maximises the likelihood of the function \@ref(eq:Gamma), although I do not have any proper proof of this. -->
 <!-- ## Beta distribution -->
-
 </div>
-<!-- </div> -->
 
             </section>
 
@@ -698,7 +702,7 @@ where <span class="math inline">\(\lambda_P\)</span> is the parameter of the Poi
         </div>
       </div>
 <a href="distributionLogNormal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="dataAnalysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributionsConvolution.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

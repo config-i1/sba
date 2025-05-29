@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-24" />
+<meta name="date" content="2025-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,6 +218,12 @@ div.csl-indent {
 <li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
 <li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distribution</a></li>
 <li class="chapter" data-level="4.5" data-path="distributionsExponential.html"><a href="distributionsExponential.html"><i class="fa fa-check"></i><b>4.5</b> Exponential distribution</a></li>
+<li class="chapter" data-level="4.6" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html"><i class="fa fa-check"></i><b>4.6</b> Convolution of distributions</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionDiscrete"><i class="fa fa-check"></i><b>4.6.1</b> Convolution of two discrete distributions</a></li>
+<li class="chapter" data-level="4.6.2" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionContinuous"><i class="fa fa-check"></i><b>4.6.2</b> Convolution of two continuous distributions</a></li>
+<li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
 <ul>
@@ -436,7 +442,7 @@ Figure 4.1: Distribution of a continuous random variable.
 <li>Cumulative distribution function (CDF);</li>
 <li>Quantile function (QF);</li>
 <li>Moment Generation Function (MMF);</li>
-<li>Characteristic function.</li>
+<li>Characteristic function (CF).</li>
 </ol>
 <p>PDF has similarities with PMF, but does not return the probabilities, but rather the score for the variable in each specific point because (once again) the probability of continuous variable taking a specific value is equal to zero. PDF however is useful because it represents the shape of the distribution, showing where the values are concentrated. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntro">4.2</a> demonstrates an example of PDF of Normal distribution (discussed in more detail in Section <a href="distributionsNormal.html#distributionsNormal">4.3</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:dnormPlotIntro"></span>
@@ -461,7 +467,7 @@ Figure 4.3: Cumulative Distribution Function of Normal distribution
 Figure 4.4: Cumulative Distribution Function of Normal distribution
 </p>
 </div>
-<p>The dark area in the first plot in Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroCDFPDF">4.4</a> is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to 0.16.</p>
+<p>The dark area in the first plot in Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroCDFPDF">4.4</a> is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to 0.16. Mathematically, the CDF is calculated as an integral of the PDF, thus capturing this idea of the surface below the PDF curve.</p>
 <p>Another important function is the Quantile Function. It returns the value of <span class="math inline">\(y\)</span> for the given probability. By the definition, QF is the inverse of the CDF. It does not always have a closed form (thus cannot be represented mathematically), and for some distributions numerical optimisation is required to obtain the quantiles. Figure <a href="distributionsContinuousWhat.html#fig:dnormPlotIntroQF">4.5</a> demonstrates the quantile function of Normal distribution.</p>
 <div class="figure"><span style="display:block;" id="fig:dnormPlotIntroQF"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dnormPlotIntroQF-1.png" alt="Quantile Function of Normal distribution" width="672" />
