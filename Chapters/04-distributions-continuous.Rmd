@@ -833,7 +833,7 @@ for(i in 1:length(mu1)){
     polygon(c(z,rev(z)),
             c(dnorm(z, mu2, sqrt(2)), rep(0,length(z))), col=18)
     lines(c(mu1[i],mu1[i]), c(0,dnorm(mu1[i], mu2, sqrt(2))), lwd=3, lty=1,
-          col=rgb((0.9*0.5+0.6*0.5), (0.6*0.5+0.8*0.5), (0.6*0.5+1*0.5), 0.75))
+          col=13)
     axis(1)
     axis(4)
     text(mu1[i], 0.015, mu1[i], pos=4, cex=1.25)
@@ -878,7 +878,7 @@ for(i in 1:length(mu1)){
     polygon(c(z,rev(z)),
             c(dgamma(z, shape=2, rate=1), rep(0,length(z))), col=18)
     lines(c(mu1[i],mu1[i]), c(0,dgamma(mu1[i], shape=2, rate=1)), lwd=3, lty=1,
-          col=rgb((0.9*0.5+0.6*0.5), (0.6*0.5+0.8*0.5), (0.6*0.5+1*0.5), 0.75))
+          col=13)
     axis(1)
     axis(4)
     text(mu1[i], 0.015, mu1[i], pos=4, cex=1.25)
