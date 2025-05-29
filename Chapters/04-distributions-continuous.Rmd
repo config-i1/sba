@@ -714,9 +714,9 @@ Let us record the value on one dice as $x$, and the value on the second one as $
 But what happens with the probability distribution? Remember, it was uniform for both dices and looked like this (Figure \@ref(fig:uniformPMFRepeated)):
 ```{r uniformPMFRepeated, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", echo=FALSE}
 par(mar=c(4,4,1,1))
-test <- barplot(rep(1/6,6), ylim=c(0,0.3),
+test <- barplot(rep(1/6,6), ylim=c(0,0.2),
                 ylab="Probability",xlab="x", col=11)
-axis(side=1,at=test,labels=c(1:6))
+axis(side=1,at=test,labels=c(1:6), col.axis=5)
 ```
 
 To get the PMF of the new convolved distribution, we need to assign probabilities for each of the new combined values. Getting the score of 2 is only possible if we have 1 on each dice, which corresponds to the probability of $\frac{1}{6}$ for each of them, meaning that this can happen only in $\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}$ cases. The score $z=3$ is possible if we get either $x=1$ and $y=2$ or $x=2$ and $y=1$. This translates to the probability of $\frac{1}{36} + \frac{1}{36} = \frac{2}{36} = \frac{1}{18}$. We could continue with other distributions, obtaining probability of each outcome from $z=2$ to $z=12$.
@@ -729,11 +729,10 @@ y <- c(rep(0,4),table(12-x+1))
 
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,12),
+                 ylim=c(-0.01,0.18), xlim=c(0,12),
                  col=9,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,12),
                  col=11,
                  axes=F, names.arg="",
                  add=T)
@@ -751,11 +750,10 @@ y <- table(12-x+1)
 
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,7.3),
+                 ylim=c(-0.01,0.18), xlim=c(0,7.3),
                  col=9,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,7.3),
                  col=11,
                  axes=F, names.arg="",
                  add=T)
@@ -773,11 +771,10 @@ y <- c(rep(0,2),table(12-x+1))
 
 par(mar=c(0,0,0,0))
 test2 <- barplot(y/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,10),
+                 ylim=c(-0.01,0.18), xlim=c(0,10),
                  col=9,
                  axes=F, names.arg="")
 test1 <- barplot(table(x)/6,
-                 ylim=c(-0.1,0.3), xlim=c(0,12),
                  col=11,
                  axes=F, names.arg="",
                  add=T)
@@ -792,7 +789,7 @@ Collecting all the probabilities after such sliding, we can visualise the PMF of
 ```{r uniformPMFCombined, fig.cap="Probability Mass Function of the sum of two Uniform distributions for 1d6.", echo=FALSE}
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
 test <- barplot(z/sum(z),
-                ylim=c(0,0.3), ylab="Probability", xlab="z", 
+                ylim=c(0,0.22), ylab="Probability", xlab="z", 
                 col=9, axes=F, names.arg="")
 barplot(z/sum(z),
         ylim=c(0,0.3),
