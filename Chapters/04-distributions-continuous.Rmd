@@ -860,10 +860,10 @@ for(i in 1:length(mu1)){
     plot(x,dexp(x, mu2),
          type="l",ylab="Density",xlab="",main="",
          xlim=c(-2,5), ylim=c(0,1), axes=F)
-    polygon(c(x,rev(x)),
-            c(dexp(x, mu2), rep(0,length(x))), col=9)
     lines(mu1[i]-x,dexp(x, mu2))
     polygon(c(mu1[i]-x,rev(mu1[i]-x)),
+            c(dexp(x, mu2), rep(0,length(x))), col=9)
+    polygon(c(x,rev(x)),
             c(dexp(x, mu2), rep(0,length(x))), col=11)
     axis(2)
     text(4, 0.85, paste0("z=",mu1[i]), cex=1.25)
@@ -893,9 +893,8 @@ Similar mechanism is used for convolutions of other distributions. The interesti
 ### Mathematics behind convolutions {#distributionsConvolutionMaths}
 If we have two random variables $x$ and $y$ following continuous distributions $f(x)$ and $g(y)$ respectively, their sum $z=x+y$ (convolution) would follow a distribution with PDF $h(z)$, which can be written as:
 \begin{equation}
-    h(z) = (f * g)(z) := \int_{-\infty}^{\infty}f(x)g(z-x) dx .
+    h(z) = (f * g)(z) := \int_{-\infty}^{\infty} f(x) g(z-x) dx .
     (\#eq:convolution)
 \end{equation}
-The sliding that we discussed in the previous subsections, in this formula is done by the element $g(z-x)$, which takes values from the right tail of distribution due to $z-x$.
-
+The sliding that we discussed in the previous subsections, in this formula is done by the element $g(z-x)$, which takes values from the right tail of distribution due to $z-x$, thus reflecting the idea that we can obtain the same value of $z$ with a set of combinations of $x$ and $y$, each having some assigned density value from the functions $f(x)$ and $g(y)$ respectively.
 
