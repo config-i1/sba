@@ -435,7 +435,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>Let us record the value on one dice as <span class="math inline">\(x\)</span>, and the value on the second one as <span class="math inline">\(y\)</span>. Rolling both of them, means that we need to add <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> to get a new score <span class="math inline">\(z\)</span>. For example, we had 3 on one dice and 5 on the other one, which means that <span class="math inline">\(x=3\)</span>, <span class="math inline">\(y=5\)</span> and <span class="math inline">\(z=x+y=3+5=8\)</span>. The span of values of <span class="math inline">\(z\)</span> is now between 2 and 12, because the lowest score for each die is 1 (thus <span class="math inline">\(1+1=2\)</span>), while the highest one is 6 (6+6=12).</p>
 But what happens with the probability distribution? Remember, it was uniform for both dices and looked like this (Figure <a href="distributionsConvolution.html#fig:uniformPMFRepeated">4.20</a>):
 <div class="figure"><span style="display:block;" id="fig:uniformPMFRepeated"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFRepeated-1.png" alt="Probability Mass Function of Uniform distribution for 1d6." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFRepeated-1.png" alt="Probability Mass Function of Uniform distribution for 1d6." width="768" />
 <p class="caption">
 Figure 4.20: Probability Mass Function of Uniform distribution for 1d6.
 </p>
@@ -443,28 +443,28 @@ Figure 4.20: Probability Mass Function of Uniform distribution for 1d6.
 <p>To get the PMF of the new convolved distribution, we need to assign probabilities for each of the new combined values. Getting the score of 2 is only possible if we have 1 on each dice, which corresponds to the probability of <span class="math inline">\(\frac{1}{6}\)</span> for each of them, meaning that this can happen only in <span class="math inline">\(\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}\)</span> cases. The score <span class="math inline">\(z=3\)</span> is possible if we get either <span class="math inline">\(x=1\)</span> and <span class="math inline">\(y=2\)</span> or <span class="math inline">\(x=2\)</span> and <span class="math inline">\(y=1\)</span>. This translates to the probability of <span class="math inline">\(\frac{1}{36} + \frac{1}{36} = \frac{2}{36} = \frac{1}{18}\)</span>. We could continue with other distributions, obtaining probability of each outcome from <span class="math inline">\(z=2\)</span> to <span class="math inline">\(z=12\)</span>.</p>
 <p>One way of looking at this process, is to first acknowledge that <span class="math inline">\(y=z-x\)</span> and then by sliding one distribution above the other by changing the value of <span class="math inline">\(x\)</span>. For example, to have <span class="math inline">\(z=3\)</span> we can have <span class="math inline">\(x=1\)</span> and <span class="math inline">\(y=3-1=2\)</span>, or <span class="math inline">\(x=2\)</span> and <span class="math inline">\(y=3-2=1\)</span>. This corresponds to the sliding shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide01">4.21</a>, where the red distribution is placed above the blue one and in this specific example, we get an intersection of two bars, each of which gives us the same <span class="math inline">\(z=3\)</span>. The probabilities of each bar are <span class="math inline">\(\frac{1}{6}\)</span>, the intersection gives us the multiplication of those probabilities (thus <span class="math inline">\(\frac{1}{36}\)</span>) and we have two bars that have these intersections, so the final answer is the same as we obtained above: <span class="math inline">\(\frac{1}{36} + \frac{1}{36} = \frac{1}{18}\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide01"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide01-1.png" alt="Convolution of two PMFs for 1d6." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide01-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
 <p class="caption">
 Figure 4.21: Convolution of two PMFs for 1d6.
 </p>
 </div>
 <p>The more we move the red bars to the right, the more intersections we will have, giving us higher and higher probability of occurrence until we reach the moment shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide02">4.22</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide02-1.png" alt="Convolution of two PMFs for 1d6." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide02-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
 <p class="caption">
 Figure 4.22: Convolution of two PMFs for 1d6.
 </p>
 </div>
 <p>In this specific example, we can obtain <span class="math inline">\(z=7\)</span> 6 different ways, which means that the probability of that outcome is <span class="math inline">\(\frac{1}{36} \times 6 = \frac{1}{6}\)</span>. This is the highest probability outcome if you roll two 6 sided dices (2d6). But that’s not all, after that, we can continue sliding the distribution, and we will notice that the probability of outcomes starts declining as well (Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide03">4.23</a>), because we have fewer and fewer intersections between the distributions that would give us the specific scores.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide03"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide03-1.png" alt="Convolution of two PMFs for 1d6." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide03-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
 <p class="caption">
 Figure 4.23: Convolution of two PMFs for 1d6.
 </p>
 </div>
 <p>Collecting all the probabilities after such sliding, we can visualise the PMF of <span class="math inline">\(z\)</span> (convolution of two uniform distributions), which is shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFCombined">4.24</a>, where we decided not to simplify the ratios for simplicity.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFCombined"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFCombined-1.png" alt="Probability Mass Function of the sum of two Uniform distributions for 1d6." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFCombined-1.png" alt="Probability Mass Function of the sum of two Uniform distributions for 1d6." width="768" />
 <p class="caption">
 Figure 4.24: Probability Mass Function of the sum of two Uniform distributions for 1d6.
 </p>

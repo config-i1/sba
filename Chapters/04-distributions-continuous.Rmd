@@ -712,7 +712,7 @@ To explain it better, we take a step back and consider a case of rolling dices. 
 Let us record the value on one dice as $x$, and the value on the second one as $y$. Rolling both of them, means that we need to add $x$ to $y$ to get a new score $z$. For example, we had 3 on one dice and 5 on the other one, which means that $x=3$, $y=5$ and $z=x+y=3+5=8$. The span of values of $z$ is now between 2 and 12, because the lowest score for each die is 1 (thus $1+1=2$), while the highest one is 6 (6+6=12).
 
 But what happens with the probability distribution? Remember, it was uniform for both dices and looked like this (Figure \@ref(fig:uniformPMFRepeated)):
-```{r uniformPMFRepeated, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", echo=FALSE}
+```{r uniformPMFRepeated, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", fig.height=3, fig.width=8, echo=FALSE}
 par(mar=c(4,4,1,1))
 test <- barplot(rep(1/6,6), ylim=c(0,0.2),
                 ylab="Probability",xlab="x", col=11)
@@ -723,13 +723,13 @@ To get the PMF of the new convolved distribution, we need to assign probabilitie
 
 One way of looking at this process, is to first acknowledge that $y=z-x$ and then by sliding one distribution above the other by changing the value of $x$. For example, to have $z=3$ we can have $x=1$ and $y=3-1=2$, or $x=2$ and $y=3-2=1$. This corresponds to the sliding shown in Figure \@ref(fig:uniformPMFSlide01), where the red distribution is placed above the blue one and in this specific example, we get an intersection of two bars, each of which gives us the same $z=3$. The probabilities of each bar are $\frac{1}{6}$, the intersection gives us the multiplication of those probabilities (thus $\frac{1}{36}$) and we have two bars that have these intersections, so the final answer is the same as we obtained above: $\frac{1}{36} + \frac{1}{36} = \frac{1}{18}$.
 
-```{r uniformPMFSlide01, fig.cap="Convolution of two PMFs for 1d6.", echo=FALSE}
+```{r uniformPMFSlide01, fig.cap="Convolution of two PMFs for 1d6.", fig.height=3, fig.width=8, echo=FALSE}
 x <- c(1:6)
 y <- c(rep(0,4),table(12-x+1))
 
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
-                 ylim=c(-0.01,0.18), xlim=c(0,12),
+                 ylim=c(-0.02,0.19), xlim=c(0,12),
                  col=9,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
@@ -744,13 +744,13 @@ text(test1[c(5:6)], 1/12, labels=rep(3,2), col=2)
 
 The more we move the red bars to the right, the more intersections we will have, giving us higher and higher probability of occurrence until we reach the moment shown in Figure \@ref(fig:uniformPMFSlide02).
 
-```{r uniformPMFSlide02, fig.cap="Convolution of two PMFs for 1d6.", echo=FALSE}
+```{r uniformPMFSlide02, fig.cap="Convolution of two PMFs for 1d6.", fig.height=3, fig.width=8, echo=FALSE}
 x <- c(1:6)
 y <- table(12-x+1)
 
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
-                 ylim=c(-0.01,0.18), xlim=c(0,7.3),
+                 ylim=c(-0.02,0.19), xlim=c(0,7.3),
                  col=9,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
@@ -765,13 +765,13 @@ text(test1[c(1:6)], 1/12, labels=rep(7,6), col=2)
 
 In this specific example, we can obtain $z=7$ 6 different ways, which means that the probability of that outcome is $\frac{1}{36} \times 6 = \frac{1}{6}$. This is the highest probability outcome if you roll two 6 sided dices (2d6). But that's not all, after that, we can continue sliding the distribution, and we will notice that the probability of outcomes starts declining as well (Figure \@ref(fig:uniformPMFSlide03)), because we have fewer and fewer intersections between the distributions that would give us the specific scores.
 
-```{r uniformPMFSlide03, fig.cap="Convolution of two PMFs for 1d6.", echo=FALSE}
+```{r uniformPMFSlide03, fig.cap="Convolution of two PMFs for 1d6.", fig.height=3, fig.width=8, echo=FALSE}
 x <- c(1:6)
 y <- c(rep(0,2),table(12-x+1))
 
 par(mar=c(0,0,0,0))
 test2 <- barplot(y/6,
-                 ylim=c(-0.01,0.18), xlim=c(0,10),
+                 ylim=c(-0.02,0.19), xlim=c(0,10),
                  col=9,
                  axes=F, names.arg="")
 test1 <- barplot(table(x)/6,
@@ -786,10 +786,11 @@ text(test1[c(3:6)], 1/12, labels=rep(5,4), col=2)
 
 Collecting all the probabilities after such sliding, we can visualise the PMF of $z$ (convolution of two uniform distributions), which is shown in Figure \@ref(fig:uniformPMFCombined), where we decided not to simplify the ratios for simplicity.
 
-```{r uniformPMFCombined, fig.cap="Probability Mass Function of the sum of two Uniform distributions for 1d6.", echo=FALSE}
+```{r uniformPMFCombined, fig.cap="Probability Mass Function of the sum of two Uniform distributions for 1d6.", fig.width=8, fig.height=3, echo=FALSE}
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
+par(mar=c(4,4,0,1))
 test <- barplot(z/sum(z),
-                ylim=c(0,0.22), ylab="Probability", xlab="z", 
+                ylim=c(0,0.23), ylab="Probability", xlab="z", 
                 col=9, axes=F, names.arg="")
 barplot(z/sum(z),
         ylim=c(0,0.3),
