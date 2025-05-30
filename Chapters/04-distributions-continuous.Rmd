@@ -78,13 +78,13 @@ Consider an example with elevator. You press the button to call it, and it arriv
 
 The contiunuous uniform distribution has similarities to the discrete one, which was discussed in Section \@ref(distributionUniform), but due to the different nature of the random variable is parameterised differently. First, because we are discussing continuous variable, it is always defined on a segment of values, from $a$ to $b$. For example, we can have a random variable which can take any value from 0 to 10 with equal likelihood. Mathematically, the PDF of continuous distribution can be written as:
 \begin{equation}
-    f(y, b, a) = \left\{\begin{aligned}
+    f(y, a, b) = \left\{\begin{aligned}
                         & \frac{1}{b-a} & \text{ for } y \in [a, b] \\
                         & 0 & \text{ otherwise }
-                    \end{aligned} \right. .
+                    \end{aligned} \right. ,
     (\#eq:ContinuousUniformPDF)
 \end{equation}
-It can be represented visually as shown in Figure \@ref(fig:uniformPDF).
+or in a short form $y \sim \mathcal{U}(a,b)$. It can be represented visually as shown in Figure \@ref(fig:uniformPDF).
 
 ```{r uniformPDF, fig.cap="Probability Density Function of Continuous Uniform distribution.", echo=FALSE}
 plot(seq(0,10,0.1),dunif(seq(0,10,0.1),0,10),
@@ -114,7 +114,7 @@ plot(seq(0,10,by=0.1),punif(seq(0,10,by=0.1),0,10),
 
 Mathematically, the CDF can be represented as:
 \begin{equation}
-    F(y, b, a) = \left\{\begin{aligned}
+    F(y, a, b) = \left\{\begin{aligned}
                         & 0 & \text{ if } y<a \\
                         & \frac{y-a}{b-a} & \text{ for } y \in [a, b] \\
                         & 1 & \text{ if } y>b
@@ -898,4 +898,36 @@ If we have two random variables $x$ and $y$ following continuous distributions $
     (\#eq:convolution)
 \end{equation}
 The sliding that we discussed in the previous subsections, in this formula is done by the element $g(z-x)$, which takes values from the right tail of distribution due to $z-x$, thus reflecting the idea that we can obtain the same value of $z$ with a set of combinations of $x$ and $y$, each having some assigned density value from the functions $f(x)$ and $g(y)$ respectively.
+
+<!-- Let's consider an example of the addition of two random variables following uniform distribution with different parameters: $x \sim \mathcal{U}(1,3)$ and  $y \sim \mathcal{U}(2,4)$. Their PDFs can be written as: -->
+<!-- \begin{equation} -->
+<!--     f(x, 1, 3) = \left\{\begin{aligned} -->
+<!--                     & \frac{1}{3-1} & \text{ for } x \in [1, 3] \\ -->
+<!--                     & 0 & \text{ otherwise } -->
+<!--                 \end{aligned} \right. , -->
+<!--     (\#eq:uniformExampleX) -->
+<!-- \end{equation} -->
+<!-- and -->
+<!-- \begin{equation} -->
+<!--     f(y, 2, 4) = \left\{\begin{aligned} -->
+<!--                     & \frac{1}{4-2} & \text{ for } y \in [2, 4] \\ -->
+<!--                     & 0 & \text{ otherwise } -->
+<!--                 \end{aligned} \right.  -->
+<!--     (\#eq:uniformExampleY) -->
+<!-- \end{equation} -->
+<!-- respectively. Based on $z=x+y$, we can rewrite the PDF \@ref(eq:uniformExampleY) into: -->
+<!-- \begin{equation} -->
+<!--     f(z-x, 2, 4) = \left\{\begin{aligned} -->
+<!--                     & \frac{1}{2} & \text{ for } z-x \in [2, 4] \\ -->
+<!--                     & 0 & \text{ otherwise } -->
+<!--                 \end{aligned} \right. . -->
+<!--     (\#eq:uniformExampleYRewritten) -->
+<!-- \end{equation} -->
+<!-- Given the summation of the two variables, the support for $z$ is in the region $[3, 7]$. For the other values, the PDF of $z$ will be equal to zero. -->
+
+<!-- Inserting \@ref(eq:uniformExampleX) and \@ref(eq:uniformExampleY) in \@ref(eq:convolution), leads to: -->
+<!-- \begin{equation} -->
+<!--     h(z) = \int_{-infty}^{infty} f(x, 1, 3) f(z-x, 2, 4) dx = . -->
+<!--     (\#eq:convolutionExample01) -->
+<!-- \end{equation} -->
 
