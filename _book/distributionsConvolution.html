@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-29" />
+<meta name="date" content="2025-05-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -443,23 +443,23 @@ Figure 4.20: Probability Mass Function of Uniform distribution for 1d6.
 <p>To get the PMF of the new convolved distribution, we need to assign probabilities for each of the new combined values. Getting the score of 2 is only possible if we have 1 on each dice, which corresponds to the probability of <span class="math inline">\(\frac{1}{6}\)</span> for each of them, meaning that this can happen only in <span class="math inline">\(\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}\)</span> cases. The score <span class="math inline">\(z=3\)</span> is possible if we get either <span class="math inline">\(x=1\)</span> and <span class="math inline">\(y=2\)</span> or <span class="math inline">\(x=2\)</span> and <span class="math inline">\(y=1\)</span>. This translates to the probability of <span class="math inline">\(\frac{1}{36} + \frac{1}{36} = \frac{2}{36} = \frac{1}{18}\)</span>. We could continue with other distributions, obtaining probability of each outcome from <span class="math inline">\(z=2\)</span> to <span class="math inline">\(z=12\)</span>.</p>
 <p>One way of looking at this process, is to first acknowledge that <span class="math inline">\(y=z-x\)</span> and then by sliding one distribution above the other by changing the value of <span class="math inline">\(x\)</span>. For example, to have <span class="math inline">\(z=3\)</span> we can have <span class="math inline">\(x=1\)</span> and <span class="math inline">\(y=3-1=2\)</span>, or <span class="math inline">\(x=2\)</span> and <span class="math inline">\(y=3-2=1\)</span>. This corresponds to the sliding shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide01">4.21</a>, where the red distribution is placed above the blue one and in this specific example, we get an intersection of two bars, each of which gives us the same <span class="math inline">\(z=3\)</span>. The probabilities of each bar are <span class="math inline">\(\frac{1}{6}\)</span>, the intersection gives us the multiplication of those probabilities (thus <span class="math inline">\(\frac{1}{36}\)</span>) and we have two bars that have these intersections, so the final answer is the same as we obtained above: <span class="math inline">\(\frac{1}{36} + \frac{1}{36} = \frac{1}{18}\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide01"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide01-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide01-1.png" alt="Convolution of two PMFs for 1d6, giving the join score of 3." width="768" />
 <p class="caption">
-Figure 4.21: Convolution of two PMFs for 1d6.
+Figure 4.21: Convolution of two PMFs for 1d6, giving the join score of 3.
 </p>
 </div>
 <p>The more we move the red bars to the right, the more intersections we will have, giving us higher and higher probability of occurrence until we reach the moment shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide02">4.22</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide02"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide02-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide02-1.png" alt="Convolution of two PMFs for 1d6, giving the join score of 7." width="768" />
 <p class="caption">
-Figure 4.22: Convolution of two PMFs for 1d6.
+Figure 4.22: Convolution of two PMFs for 1d6, giving the join score of 7.
 </p>
 </div>
 <p>In this specific example, we can obtain <span class="math inline">\(z=7\)</span> 6 different ways, which means that the probability of that outcome is <span class="math inline">\(\frac{1}{36} \times 6 = \frac{1}{6}\)</span>. This is the highest probability outcome if you roll two 6 sided dices (2d6). But that’s not all, after that, we can continue sliding the distribution, and we will notice that the probability of outcomes starts declining as well (Figure <a href="distributionsConvolution.html#fig:uniformPMFSlide03">4.23</a>), because we have fewer and fewer intersections between the distributions that would give us the specific scores.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFSlide03"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide03-1.png" alt="Convolution of two PMFs for 1d6." width="768" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFSlide03-1.png" alt="Convolution of two PMFs for 1d6, giving the join score of 9." width="768" />
 <p class="caption">
-Figure 4.23: Convolution of two PMFs for 1d6.
+Figure 4.23: Convolution of two PMFs for 1d6, giving the join score of 9.
 </p>
 </div>
 <p>Collecting all the probabilities after such sliding, we can visualise the PMF of <span class="math inline">\(z\)</span> (convolution of two uniform distributions), which is shown in Figure <a href="distributionsConvolution.html#fig:uniformPMFCombined">4.24</a>, where we decided not to simplify the ratios for simplicity.</p>
@@ -485,9 +485,9 @@ Figure 4.25: Convolution of two standard Normal distributions.
 <p>So far, we looked at the convolution of the symmetric distributions. But the situation would be a bit different for the asymmetric ones, because in reality the distribution that we slide over needs to be flipped vertically to reflect the idea we discussed in case of the convolution of discrete distributions in Subsection <a href="distributionsConvolution.html#distributionsConvolutionDiscrete">4.6.1</a>: there is a multitude of values of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that give a specific value of <span class="math inline">\(z\)</span>. For the continuous distribution, for example, the number <span class="math inline">\(z=4\)</span> can be achieved by <span class="math inline">\(x=2\)</span> and <span class="math inline">\(y=2\)</span>, by <span class="math inline">\(x=2.1\)</span>, <span class="math inline">\(y=1.9\)</span>, by <span class="math inline">\(x=2.0000001\)</span> and <span class="math inline">\(y=1.9999999\)</span>, by <span class="math inline">\(x=10\)</span>, <span class="math inline">\(y=-6\)</span>, etc - the number of possible combinations is infinite. But not all of them are equally possible, which is reflected by the PDFs of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
 <p>To see the idea of flipping clearer, consider two Exponential distributions (discussed in Section <a href="distributionsExponential.html#distributionsExponential">4.5</a>) with <span class="math inline">\(\lambda=1\)</span>. Three specific points during the sliding would look like those shown in Figure <a href="distributionsConvolution.html#fig:expConvolution">4.26</a>. They correspond to situations when <span class="math inline">\(z=1\)</span>, <span class="math inline">\(z=3\)</span> and <span class="math inline">\(z=5\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:expConvolution"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/expConvolution-1.png" alt="Convolution of two Exponential distributions." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/expConvolution-1.png" alt="Convolution of two Exponential distributions with $\lambda=1$." width="672" />
 <p class="caption">
-Figure 4.26: Convolution of two Exponential distributions.
+Figure 4.26: Convolution of two Exponential distributions with <span class="math inline">\(\lambda=1\)</span>.
 </p>
 </div>
 <p>For that case, the resulting distribution would not be symmetric. It would have values starting from zero (because there is no intersection between the red and the blue areas for negative values), have a long right tail and a hump, not too far from zero.</p>
