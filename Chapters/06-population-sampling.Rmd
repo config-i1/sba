@@ -279,8 +279,8 @@ In general, we should note that the more factors listed above are violated, the 
 Finally, there are three important assumptions that need to be satisfied for the CLT to work:
 
 1. **The true value of parameter is not near the bound**. e.g. if the variable follows uniform distribution on (0, $a$) and we want to estimate $a$, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in contexts, where parameter estimates are restricted to make models obey to some rules (e.g. AR parametrs of ARIMA model that guarantee that it is stationary).
-2. **The random variables are independent identically distributed** (i.i.d.). We saw what the violation of this assumption implies in milder cases, but in more serious cases, this might lead to more serious problems. and CLT might not work.
-3. **The mean and variance of the distribution are finite**. This might seem as a weird assumption, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the "true" value. Cauchy distribution is one of such examples.
+2. **The mean and variance of the distribution are finite**. This might seem as a weird assumption, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the "true" value. Cauchy distribution is one of such examples.
+3. **The random variables are independent identically distributed** (i.i.d.). We saw what the violation of this assumption implies in milder cases, but in more serious ones, this might lead to more substantial problems, so that the convolved distribution would not converge to the Normal one.
 
 If these assumptions hold, then CLT will work for the estimate of a parameter, no matter what the distribution of the random variable is. This becomes especially useful, when we want to test a hypothesis or construct a confidence interval for an estimate of a parameter.
 
