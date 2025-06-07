@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-30" />
+<meta name="date" content="2025-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -429,7 +429,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="simpleLinearRegression" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Simple Linear Regression<a href="simpleLinearRegression.html#simpleLinearRegression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div class="example">
-<p><span id="exm:unlabeled-div-25" class="example"><strong>Example 10.1  </strong></span>A timber harvesting company “Timber Lend” needs to measure the volume of trees they cut. While they could measure the volume using physics principles, this is time consuming and they want to speed up the process. They have collected data of 31 trees, which includes:</p>
+<p><span id="exm:unlabeled-div-29" class="example"><strong>Example 10.1  </strong></span>A timber harvesting company “Timber Lend” needs to measure the volume of trees they cut. While they could measure the volume using physics principles, this is time consuming and they want to speed up the process. They have collected data of 31 trees, which includes:</p>
 <ol style="list-style-type: decimal">
 <li><code>volume</code> measured manually by a special group of tree surgeon,</li>
 <li><code>height</code> of the tree, measured from the bottom to the top of the cut trunk,</li>
@@ -473,7 +473,7 @@ Figure 10.3: Scatterplot diagram between height and volume, together with an err
 </div>
 <p>The mathematical formula <a href="simpleLinearRegression.html#eq:SLRFormula">(10.2)</a> is called “simple regression model”, and is one of the basic <em>statistical model</em> (discussed in Subsection <a href="what-is-model.html#modelsMethods">1.1.1</a>) that captures the relation between an explanatory variable <span class="math inline">\(x_j\)</span> and the response variable <span class="math inline">\(y_j\)</span> and explains what composes the response variable. In our example, the volume is impacted by the height and some individual errors that happen due to randomness.</p>
 <div class="remark">
-<p><span id="unlabeled-div-26" class="remark"><em>Remark</em>. </span>The line in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a> captures the averaged-our relation between the height and the volume. We might find some specific points, where the increase of height would not increase volume (e.g. switch from the observation 17 to 18 at the right-hand side of the image), but this can be considered as a random fluctuation. But overall, the average tendency is described by the increasing line.</p>
+<p><span id="unlabeled-div-30" class="remark"><em>Remark</em>. </span>The line in Figure <a href="simpleLinearRegression.html#fig:TreesModel">10.3</a> captures the averaged-our relation between the height and the volume. We might find some specific points, where the increase of height would not increase volume (e.g. switch from the observation 17 to 18 at the right-hand side of the image), but this can be considered as a random fluctuation. But overall, the average tendency is described by the increasing line.</p>
 </div>
 <p>Now the question is how to capture and quantify this relation correctly, so that we could help the “Timber Lend” company with its problem. One of the simplest techniques for this is called “Ordinary Least Squares”.</p>
 </div>

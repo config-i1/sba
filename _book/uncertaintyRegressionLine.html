@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-30" />
+<meta name="date" content="2025-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -456,7 +456,7 @@ Here are the main differences:</p>
 </ol>
 <p>But the rest is the same and uses exactly the same principles.</p>
 <div class="remark">
-<p><span id="unlabeled-div-45" class="remark"><em>Remark</em>. </span>To be able to construct the confidence interval using the formula above, we, once again, need one important assumption to hold. This assumption is that the <em>Central Limit Theorem holds</em> (Section <a href="CLT.html#CLT">6.2</a>). If it does not, then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval. Luckily, with OLS, the CLT typically holds on samples of 50 observations and more.</p>
+<p><span id="unlabeled-div-49" class="remark"><em>Remark</em>. </span>To be able to construct the confidence interval using the formula above, we, once again, need one important assumption to hold. This assumption is that the <em>Central Limit Theorem holds</em> (Section <a href="CLT.html#CLT">6.2</a>). If it does not, then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval. Luckily, with OLS, the CLT typically holds on samples of 50 observations and more.</p>
 </div>
 <p>In R, the confidence interval can be constructed for each observation via the <code>predict()</code> function with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function (Figure <a href="uncertaintyRegressionLine.html#fig:costModelConfidenceInterval">12.4</a>):</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="uncertaintyRegressionLine.html#cb186-1" tabindex="-1"></a>costsModelMLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelMLR, <span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
@@ -518,7 +518,7 @@ y_j \in (\hat{y}_j + z_{\alpha/2} s_y^2, \hat{y}_j + z_{1-\alpha/2} s_y^2),
 \end{equation}\]</span>
 where <span class="math inline">\(s_y^2\)</span> is the standard deviation of the actual values, conditional on the values of the explanatory variables. Its derivation is shown in Subsection <a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths">12.3.3</a>. The main difference with the confidence interval is that we now need to rely on the <em>assumption about the distribution of the error term</em> in the model.</p>
 <div class="remark">
-<p><span id="unlabeled-div-46" class="remark"><em>Remark</em>. </span>In the formula above, the important assumption is that <strong>the error term follows the Normal distribution</strong>. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.</p>
+<p><span id="unlabeled-div-50" class="remark"><em>Remark</em>. </span>In the formula above, the important assumption is that <strong>the error term follows the Normal distribution</strong>. We can no longer rely on the CLT, because it only applies to the estimates of parameters. If we cannot assume that the error term follows the Normal distribution, we would need to use either a different one, or to construct the interval using some non-parametric methods.</p>
 </div>
 <p>In R, the interval construction can be done via the very same <code>predict()</code> function with <code>interval="prediction"</code>:</p>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="uncertaintyRegressionLine.html#cb189-1" tabindex="-1"></a>costsModelMLRPI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelMLR, <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>

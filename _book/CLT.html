@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-05-30" />
+<meta name="date" content="2025-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -428,25 +428,111 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="CLT" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="CLT.html#cb68-1" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb68-2"><a href="CLT.html#cb68-2" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb68-3"><a href="CLT.html#cb68-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb68-4"><a href="CLT.html#cb68-4" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y,<span class="dv">1000</span>))</span>
-<span id="cb68-5"><a href="CLT.html#cb68-5" tabindex="-1"></a>}</span>
-<span id="cb68-6"><a href="CLT.html#cb68-6" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator (Figure <a href="CLT.html#fig:histyMean">6.3</a>):</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="CLT.html#cb68-1" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb68-2"><a href="CLT.html#cb68-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
+<span id="cb68-3"><a href="CLT.html#cb68-3" tabindex="-1"></a><span class="co"># Define number of iterations</span></span>
+<span id="cb68-4"><a href="CLT.html#cb68-4" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb68-5"><a href="CLT.html#cb68-5" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb68-6"><a href="CLT.html#cb68-6" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb68-7"><a href="CLT.html#cb68-7" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
+<span id="cb68-8"><a href="CLT.html#cb68-8" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y, sampleSize))</span>
+<span id="cb68-9"><a href="CLT.html#cb68-9" tabindex="-1"></a>}</span>
+<span id="cb68-10"><a href="CLT.html#cb68-10" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
+<span id="cb68-11"><a href="CLT.html#cb68-11" tabindex="-1"></a><span class="co"># Add the density curve for the normal distribution</span></span>
+<span id="cb68-12"><a href="CLT.html#cb68-12" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>),</span>
+<span id="cb68-13"><a href="CLT.html#cb68-13" tabindex="-1"></a>      <span class="fu">dnorm</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>), <span class="dv">100</span>, <span class="dv">100</span><span class="sc">/</span><span class="fu">sqrt</span>(sampleSize)), </span>
+<span id="cb68-14"><a href="CLT.html#cb68-14" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histyMean"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histyMean-1.png" alt="Histogram of the mean of the variable y." width="672" />
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histyMean-1.png" alt="Histogram of the estimates of mean of the variable y." width="672" />
 <p class="caption">
-Figure 6.3: Histogram of the mean of the variable y.
+Figure 6.3: Histogram of the estimates of mean of the variable y.
 </p>
 </div>
-<p>There is a theorem that says that the distribution of mean in the experiment above will follow normal distribution under several conditions (discussed later in this section). It is called <strong>Central Limit Theorem</strong> (CLT) and very roughly it says that when independent random variables are added, their normalised sum will asymptotically follow normal distribution, even if the original variables do not follow it. Note that this is the theorem about <em>what happens with the estimate</em> (sum in this case), <em>not with individual observations</em>. This means that the error term might follow, for example, <a href="#IGDistribution">Inverse Gaussian distribution</a>, but the estimate of its mean (under some conditions) will follow normal distribution. There are different versions of this theorem, built with different assumptions with respect to the random variable and the estimation procedure, but we do not dicuss these details in this textbook.</p>
-<p>In order for CLT to hold, the following important assumptions need to be satisfied:</p>
+<p>Figure <a href="CLT.html#fig:histyMean">6.3</a> shows the distribution of the estimates of mean and also has a density curve of the normal distribution with some known parameters above it. We can see that the empirical distribution on the histogram looks similar to the normal one. Why is that?</p>
+<p>The answer to this is given by the so called “Central Limit Theorem”. It is a group of theorems proving that when many variables are added, the distribution of their normalised sum asymptotically would follow the Normal distribution. There are many different versions of this theorem, which prove that it works under different conditions. One of the basic ones, tells that the sum of independent identically distributed random variables converges to the Normal distribution with the increase of the elements that are summed up, even if the distributions of each variable are not normal.</p>
+<p>We do not prove the CLT here, but we provide a demonstration that explains how it holds. To do that, we need to refer back to the convolutions of distributions (Section <a href="distributionsConvolution.html#distributionsConvolution">4.6</a>). To understand why we refer to convolution, recall the formula for the sample mean:
+<span class="math display">\[\begin{equation*}
+    \bar{y} = \frac{1}{n} \sum_{j=1}^n y_j .
+\end{equation*}\]</span>
+In the core of the calculation of the mean, there lies the sum of actual values <span class="math inline">\(y_j\)</span>. If each one of them has some distribution (e.g. Normal) then their mean would be the normalised (using <span class="math inline">\(n\)</span>) sum of random variables <span class="math inline">\(y_j\)</span>.</p>
+<div class="remark">
+<p><span id="unlabeled-div-15" class="remark"><em>Remark</em>. </span>The CLT is the theorem about <em>what happens with the estimate</em> (usually mean), <em>not with individual observations</em>. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.</p>
+</div>
+<p>Now, consider a simple case, where the random variable <span class="math inline">\(y\)</span> follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value $z=y_1 + y_2 + y_3 + + y_n = _{j=1}^n y_j $, i.e. the convolution of <span class="math inline">\(n\)</span> Uniform distributions. Figure <a href="CLT.html#fig:uniformPMFCombinedN">6.4</a> shows how the convolved distributions look for <span class="math inline">\(n=1\)</span> (one die), <span class="math inline">\(n=2\)</span> (two dice), <span class="math inline">\(n=4\)</span> and <span class="math inline">\(n=8\)</span>.</p>
+<div class="figure"><span style="display:block;" id="fig:uniformPMFCombinedN"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFCombinedN-1.png" alt="Probability Mass Function of the sum of n Uniform distributions for 1d6." width="672" />
+<p class="caption">
+Figure 6.4: Probability Mass Function of the sum of n Uniform distributions for 1d6.
+</p>
+</div>
+<p>We see that the convolution of 8 distributions already starts looking similar to the normal one (Figure <a href="CLT.html#fig:uniformPMFCombinedN">6.4</a>). The more dice we combine, the closer that distribution would be to the bell shape of the Normal distribution. This works for both discrete and continuous distributions, no matter what the original shape of the distribution is. The only thing that changes is the number of samples needed for the convolution to converge to the Normal one.</p>
+<p>There are several factors that impact the speed of convergence of the convolution to the Normal distribution:</p>
 <ol style="list-style-type: decimal">
-<li><strong>The true value of parameter is not near the bound</strong>. e.g. if the variable follows uniform distribution on (0, <span class="math inline">\(a\)</span>) and we want to estimate <span class="math inline">\(a\)</span>, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in our context, because ETS and ARIMA typically have restrictions on their parameters.</li>
-<li><strong>The random variables are identically independent distributed</strong> (i.i.d.). If they are not, then their average might not follow normal distribution (in some conditions it still might).</li>
-<li><strong>The mean and variance of the distribution are finite</strong>. This might seem as a weird issue, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the “true” value. Cauchy distribution is one of such examples.</li>
+<li>Asymmetry of distribution - the more asymmetric the distribution of <span class="math inline">\(y\)</span> is, the longer the sample size needs to be for the convolution to converge to the Normal distribution;</li>
+<li>Fatness of tails (or the sharpness of the peak) - the fatter the tails are, the longer the samples size needs to be for the convergence;</li>
+<li>Identical distribution - if all <span class="math inline">\(y_1\)</span>, <span class="math inline">\(y_2\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(y_n\)</span> follow the same distribution, the speed of convergence will be higher;</li>
+<li>Independence of variables - if the variables are independent, the speed of convergence would be higher than in the case of dependent variables.</li>
+</ol>
+<p>The fastest distribution, convolutions of which converge to the Normal one, is the Normal distribution itself. But even if the distribution of <span class="math inline">\(y_j\)</span> is symmetric, without the large fat tails and the random variables <span class="math inline">\(y_j\)</span> are i.i.d. (independent and identically distributed), then the speed of convergence would be high enough, so that even with the sample of 30 observations the empirical distribution of the sum <span class="math inline">\(\sum_{j=1}^n y_j\)</span> would be close to the Normal one.</p>
+<p>Now, consider several examples of distributions, violating the factors above. We will produce the empirical PDFs of the sum of <span class="math inline">\(n\)</span> random variables and compared it with the Normal distribution.</p>
+<p>Figure <a href="CLT.html#fig:logNormalPDFCombinedN">6.5</a> demonstrates how probability density functions of the convolutions of the Log-Normal distributions would look, depending on how many variables <span class="math inline">\(y_j\)</span> we sum up (for <span class="math inline">\(n=1, 2, 4, \dots 128\)</span>). The distribution itself is asymmetric, which is apparent from the first image in Figure <a href="CLT.html#fig:logNormalPDFCombinedN">6.5</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:logNormalPDFCombinedN"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/logNormalPDFCombinedN-1.png" alt="Probability Density Function of the convolution of n Log-Normal distributions, $y \sim \mathrm{log}\mathcal{N}(0, 0.5)$." width="768" />
+<p class="caption">
+Figure 6.5: Probability Density Function of the convolution of n Log-Normal distributions, <span class="math inline">\(y \sim \mathrm{log}\mathcal{N}(0, 0.5)\)</span>.
+</p>
+</div>
+<p>Figure <a href="#fig:logNormalPMFCombinedN"><strong>??</strong></a> demonstrates how distributions of the convolved log-normal distributions (with zero location and <span class="math inline">\(0.5^2\)</span> scale) look like. The empirical density functions are shown in solid green line, while the normal distribution is shown in the dark red dashed lines. We can see that with the increase of the number of observations <span class="math inline">\(n\)</span>, the empirical density converges to the theoretical normal one. Given that the Log-Normal distribution is asymmetric, this convergence happens slowly, but even with the 64 samples, it looks already close to the Normal one.</p>
+<div class="remark">
+<p><span id="unlabeled-div-16" class="remark"><em>Remark</em>. </span>The skewness of the Log-Normal distribution we considered in the example above is 1.7502. If the asymmetry of the distribution was higher, it would take more observations for the convolved distribution to converge to the Normal one.</p>
+</div>
+<p>Next, we see the effect of the fatness of tails. Figure <a href="CLT.html#fig:LaplacePDFCombinedN">6.6</a> shows the convolution of the Laplace distributions. This distribution is known to have <strong>fatter tails and higher peak than the Normal one</strong>, which becomes apparent for the <span class="math inline">\(n=1\)</span> in the figure.</p>
+<div class="figure"><span style="display:block;" id="fig:LaplacePDFCombinedN"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/LaplacePDFCombinedN-1.png" alt="Probability Density Function of the sum of n Laplace distributions, $y \sim \mathcal{Laplace}(0, 1)$." width="768" />
+<p class="caption">
+Figure 6.6: Probability Density Function of the sum of n Laplace distributions, <span class="math inline">\(y \sim \mathcal{Laplace}(0, 1)\)</span>.
+</p>
+</div>
+<p>But similarly to the example with the Log-Normal distribution, we see that the convolution of the Laplace distributions converges to the Normal one with the increase of the sample size. In fact, this happens much faster than in the case of the Log-Normal, and for the sample of 16 observations, the distributions already look very similar.</p>
+<div class="remark">
+<p><span id="unlabeled-div-17" class="remark"><em>Remark</em>. </span>The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). The higher it is, the longer it would take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.</p>
+</div>
+<p>Next, we consider the situation where the distributions are <strong>not identical</strong>. Figure <a href="CLT.html#fig:nonidentPDFCombinedN">6.7</a> shows the convolution of several continuous distributions (with randomly selected parameters):</p>
+<ul>
+<li>Normal,</li>
+<li>Laplace,</li>
+<li>Log-Normal,</li>
+<li>Uniform,</li>
+<li>Gamma,</li>
+<li>Gamma.</li>
+</ul>
+<p>These are then normalised to have the same min and max values and are selected at random, after which their convolutions are plotted against the Normal density function.</p>
+<div class="remark">
+<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>While CLT works well for i.i.d. variables, for it to work in case of the violation of i.i.d., we need to normalise the random variables. Otherwise, some of them would dominate the pool and it would take many more samples for the convolved distribution to converge to the Normal one.</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:nonidentPDFCombinedN"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/nonidentPDFCombinedN-1.png" alt="Probability Density Function of the sum of n non-identically distributed random variables." width="768" />
+<p class="caption">
+Figure 6.7: Probability Density Function of the sum of n non-identically distributed random variables.
+</p>
+</div>
+<p>As we see from Figure <a href="CLT.html#fig:nonidentPDFCombinedN">6.7</a>, the convolved distribution still converges to the Normal one, but this time the convergence happens non-linearly: adding asymmetric distributions to the pool leads to divergences from Normality on some of large samples (e.g. sample of 35 observations). But even in that case, the convolved distribution looks similar to the Normal one on larger samples.</p>
+<p>The speed of convergence in this situation highly depends on the asymmetry and the excess of the convolved distributions (see two examples above).</p>
+<p>Finally, we consider the violation of the independence. In this example, the variable <span class="math inline">\(y_j\)</span> follows the normal distribution, but it’s parameters depend on the parameters of <span class="math inline">\(y_{j-1}\)</span>. Each value we generate is standardised to make sure that CLT works.</p>
+<div class="figure"><span style="display:block;" id="fig:nonindepPDFCombinedN"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/nonindepPDFCombinedN-1.png" alt="Probability Density Function of the sum of n dependent random variables." width="768" />
+<p class="caption">
+Figure 6.8: Probability Density Function of the sum of n dependent random variables.
+</p>
+</div>
+<p>Because the base distributions used in this example, are Normal, it does not take too much time for their convolution to get close to the Normal as well. Still, we see the violation of independence leads to shapes that deviate from normality even on the sample of 32 observations. The speed of convergence in this example would be lower if the convolved distribution are more linearly related.</p>
+<p>In general, we should note that the more factors listed above are violated, the more observations you need to have before the Central Limit Theorem will start working and the convolved distribution becomes close to the Normal one. And as we saw from the examples above, the asymmetry is one of the most important factors influencing the speed of convergence of the convolution of distributions to the Normal one.</p>
+<p>Finally, there are three important assumptions that need to be satisfied for the CLT to work:</p>
+<ol style="list-style-type: decimal">
+<li><strong>The true value of parameter is not near the bound</strong>. e.g. if the variable follows uniform distribution on (0, <span class="math inline">\(a\)</span>) and we want to estimate <span class="math inline">\(a\)</span>, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in contexts, where parameter estimates are restricted to make models obey to some rules (e.g. AR parametrs of ARIMA model that guarantee that it is stationary).</li>
+<li><strong>The random variables are independent identically distributed</strong> (i.i.d.). We saw what the violation of this assumption implies in milder cases, but in more serious cases, this might lead to more serious problems. and CLT might not work.</li>
+<li><strong>The mean and variance of the distribution are finite</strong>. This might seem as a weird assumption, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the “true” value. Cauchy distribution is one of such examples.</li>
 </ol>
 <p>If these assumptions hold, then CLT will work for the estimate of a parameter, no matter what the distribution of the random variable is. This becomes especially useful, when we want to test a hypothesis or construct a confidence interval for an estimate of a parameter.</p>
 </div>

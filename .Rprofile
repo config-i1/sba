@@ -3,6 +3,7 @@ library(greybox)
 library(smooth)
 library(latex2exp)
 library(plotrix)
+library(grDevices)
 
 ourPalette <- c("white","black",
                 # 3-Red, 4-green, 5-blue,
