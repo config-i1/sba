@@ -40,24 +40,247 @@ In summary, what LLN tells us is that if we average things out over a large numb
 
 
 ## Central Limit Theorem {#CLT}
-As we have already seen on Figure \@ref(fig:statsSampleMean), the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator:
+As we have already seen on Figure \@ref(fig:statsSampleMean), the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator (Figure \@ref(fig:histyMean)):
 
-```{r histyMean, fig.cap="Histogram of the mean of the variable y."}
+```{r histyMean, fig.cap="Histogram of the estimates of mean of the variable y."}
+# Set seed for reproducibility
+set.seed(41)
+# Define number of iterations
 nIterations <- 1000
+sampleSize <- 1000
 yMean <- vector("numeric",nIterations)
 for(i in 1:nIterations){
-    yMean[i] <- mean(sample(y,1000))
+    yMean[i] <- mean(sample(y, sampleSize))
 }
-hist(yMean, xlab="Sample mean", main="")
+hist(yMean, xlab="Sample mean", main="", probability=TRUE)
+# Add the density curve for the normal distribution
+lines(seq(90,110,0.1),
+      dnorm(seq(90,110,0.1), 100, 100/sqrt(sampleSize)), 
+      col=3, lwd=2)
 ```
 
-There is a theorem that says that the distribution of mean in the experiment above will follow normal distribution under several conditions (discussed later in this section). It is called **Central Limit Theorem** (CLT) and very roughly it says that when independent random variables are added, their normalised sum will asymptotically follow normal distribution, even if the original variables do not follow it. Note that this is the theorem about *what happens with the estimate* (sum in this case), *not with individual observations*. This means that the error term might follow, for example, [Inverse Gaussian distribution](#IGDistribution), but the estimate of its mean (under some conditions) will follow normal distribution. There are different versions of this theorem, built with different assumptions with respect to the random variable and the estimation procedure, but we do not dicuss these details in this textbook.
+Figure \@ref(fig:histyMean) shows the distribution of the estimates of mean and also has a density curve of the normal distribution with some known parameters above it. We can see that the empirical distribution on the histogram looks similar to the normal one. Why is that?
 
-In order for CLT to hold, the following important assumptions need to be satisfied:
+The answer to this is given by the so called "Central Limit Theorem". It is a group of theorems proving that when many variables are added, the distribution of their normalised sum asymptotically would follow the Normal distribution. There are many different versions of this theorem, which prove that it works under different conditions. One of the basic ones, tells that the sum of independent identically distributed random variables converges to the Normal distribution with the increase of the elements that are summed up, even if the distributions of each variable are not normal.
 
-1. **The true value of parameter is not near the bound**. e.g. if the variable follows uniform distribution on (0, $a$) and we want to estimate $a$, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in our context, because ETS and ARIMA typically have restrictions on their parameters.
-2. **The random variables are identically independent distributed** (i.i.d.). If they are not, then their average might not follow normal distribution (in some conditions it still might).
-3. **The mean and variance of the distribution are finite**. This might seem as a weird issue, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the "true" value. Cauchy distribution is one of such examples.
+We do not prove the CLT here, but we provide a demonstration that explains how it holds. To do that, we need to refer back to the convolutions of distributions (Section \@ref(distributionsConvolution)). To understand why we refer to convolution, recall the formula for the sample mean:
+\begin{equation*}
+    \bar{y} = \frac{1}{n} \sum_{j=1}^n y_j .
+\end{equation*}
+In the core of the calculation of the mean, there lies the sum of actual values $y_j$. If each one of them has some distribution (e.g. Normal) then their mean would be the normalised (using $n$) sum of random variables $y_j$.
+
+::: remark
+The CLT is the theorem about *what happens with the estimate* (usually mean), *not with individual observations*. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.
+:::
+
+Now, consider a simple case, where the random variable $y$ follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value $z=y_1 + y_2 + y_3 + \dots + y_n = \sum_{j=1}^n y_j $, i.e. the convolution of $n$ Uniform distributions. Figure \@ref(fig:uniformPMFCombinedN) shows how the convolved distributions look for $n=1$ (one die), $n=2$ (two dice), $n=4$ and $n=8$.
+
+```{r uniformPMFCombinedN, fig.cap="Probability Mass Function of the sum of n Uniform distributions for 1d6.", fig.width=7, fig.height=8, echo=FALSE}
+
+# load("./data/dice_Convolution.Rdata")
+# z <- vector("list", 4)
+# for(i in 0:3){
+#     z[[i+1]] <- table(apply(expand.grid(asplit(replicate(2^i,1:6), 2)), 1, sum))
+# }
+# save(z, file="./data/dice_Convolution.Rdata")
+
+par(mfcol=c(4,1), mar=c(2,1,3,0))
+for(i in c(1:4)){
+    test <- barplot(z[[i]], main=paste0(2^(i-1), " dice"), col=10)
+}
+```
+
+We see that the convolution of 8 distributions already starts looking similar to the normal one (Figure \@ref(fig:uniformPMFCombinedN)). The more dice we combine, the closer that distribution would be to the bell shape of the Normal distribution. This works for both discrete and continuous distributions, no matter what the original shape of the distribution is. The only thing that changes is the number of samples needed for the convolution to converge to the Normal one.
+
+There are several factors that impact the speed of convergence of the convolution to the Normal distribution:
+
+1. Asymmetry of distribution - the more asymmetric the distribution of $y$ is, the longer the sample size needs to be for the convolution to converge to the Normal distribution;
+2. Fatness of tails (or the sharpness of the peak) - the fatter the tails are, the longer the samples size needs to be for the convergence;
+3. Identical distribution - if all $y_1$, $y_2$, $\dots$, $y_n$ follow the same distribution, the speed of convergence will be higher;
+4. Independence of variables - if the variables are independent, the speed of convergence would be higher than in the case of dependent variables.
+
+The fastest distribution, convolutions of which converge to the Normal one, is the Normal distribution itself. But even if the distribution of $y_j$ is symmetric, without the large fat tails and the random variables $y_j$ are i.i.d. (independent and identically distributed), then the speed of convergence would be high enough, so that even with the sample of 30 observations the empirical distribution of the sum $\sum_{j=1}^n y_j$ would be close to the Normal one.
+
+Now, consider several examples of distributions, violating the factors above. We will produce the empirical PDFs of the sum of $n$ random variables and compared it with the Normal distribution.
+
+Figure \@ref(fig:logNormalPDFCombinedN) demonstrates how probability density functions of the convolutions of the Log-Normal distributions would look, depending on how many variables $y_j$ we sum up (for $n=1, 2, 4, \dots 128$). The distribution itself is asymmetric, which is apparent from the first image in Figure \@ref(fig:logNormalPDFCombinedN).
+
+```{r logNormalPDFCombinedN, fig.cap="Probability Density Function of the convolution of n Log-Normal distributions, $y \\sim \\mathrm{log}\\mathcal{N}(0, 0.5)$.", fig.width=8, fig.height=8, echo=FALSE}
+set.seed(141)
+n <- 2^c(0:7)
+y <- replicate(max(n), rlnorm(10000,0,0.5))
+z <- vector("list", length(n))
+z[[1]] <- y[,1]
+
+for(i in 2:length(n)){
+    z[[i]] <- apply(y[,1:n[i]],1,sum)
+}
+
+par(mfcol=c(4,2), mar=c(2,1,3,0))
+for(i in c(1:length(n))){
+    # hist(z[[i]], main=n[i], col=10,
+    #      probability=T, axes=F)
+    if(i==1){
+        mainTitle <- " observation"
+    }
+    else{
+        mainTitle <- " observations"
+    }
+    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    lines(seq(-min(z[[i]]), max(z[[i]])*1.5, 0.1),
+          dnorm(seq(-min(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          col=3, lwd=2, lty=2)
+    axis(1)
+    box()
+}
+```
+
+Figure \@ref(fig:logNormalPMFCombinedN) demonstrates how distributions of the convolved log-normal distributions (with zero location and $0.5^2$ scale) look like. The empirical density functions are shown in solid green line, while the normal distribution is shown in the dark red dashed lines. We can see that with the increase of the number of observations $n$, the empirical density converges to the theoretical normal one. Given that the Log-Normal distribution is asymmetric, this convergence happens slowly, but even with the 64 samples, it looks already close to the Normal one.
+
+::: remark
+The skewness of the Log-Normal distribution we considered in the example above is `r round((exp(0.5^2)+2)*(sqrt(exp(0.5^2)-1)), digits)`. If the asymmetry of the distribution was higher, it would take more observations for the convolved distribution to converge to the Normal one.
+:::
+
+Next, we see the effect of the fatness of tails. Figure \@ref(fig:LaplacePDFCombinedN) shows the convolution of the Laplace distributions. This distribution is known to have **fatter tails and higher peak than the Normal one**, which becomes apparent for the $n=1$ in the figure.
+
+```{r LaplacePDFCombinedN, fig.cap="Probability Density Function of the sum of n Laplace distributions, $y \\sim \\mathcal{Laplace}(0, 1)$.", fig.width=8, fig.height=6, echo=FALSE}
+set.seed(41)
+n <- 2^c(0:5)
+y <- replicate(max(n),rlaplace(10000,0,1))
+z <- vector("list", length(n))
+z[[1]] <- y[,1]
+
+for(i in 2:length(n)){
+    z[[i]] <- apply(y[,1:n[i]],1,sum)
+}
+
+par(mfcol=c(3,2), mar=c(2,1,3,0))
+for(i in c(1:length(n))){
+    # hist(z[[i]], main=n[i], col=10,
+    #      probability=T, axes=F)
+    if(i==1){
+        mainTitle <- " observation"
+    }
+    else{
+        mainTitle <- " observations"
+    }
+    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
+          dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          col=3, lwd=2, lty=2)
+    axis(1)
+    box()
+}
+```
+
+But similarly to the example with the Log-Normal distribution, we see that the convolution of the Laplace distributions converges to the Normal one with the increase of the sample size. In fact, this happens much faster than in the case of the Log-Normal, and for the sample of 16 observations, the distributions already look very similar.
+
+::: remark
+The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). The higher it is, the longer it would take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.
+:::
+
+Next, we consider the situation where the distributions are **not identical**. Figure \@ref(fig:nonidentPDFCombinedN) shows the convolution of several continuous distributions (with randomly selected parameters):
+
+- Normal,
+- Laplace,
+- Log-Normal,
+- Uniform,
+- Gamma,
+- Gamma.
+
+These are then normalised to have the same min and max values and are selected at random, after which their convolutions are plotted against the Normal density function.
+
+::: remark
+While CLT works well for i.i.d. variables, for it to work in case of the violation of i.i.d., we need to normalise the random variables. Otherwise, some of them would dominate the pool and it would take many more samples for the convolved distribution to converge to the Normal one.
+:::
+
+```{r nonidentPDFCombinedN, fig.cap="Probability Density Function of the sum of n non-identically distributed random variables.", fig.width=8, fig.height=8, echo=FALSE}
+set.seed(41)
+obs <- 10000
+ddist <- function(obs){
+    distributions <- matrix(c(rnorm(obs, runif(1,-10,10), runif(1,1,10)),
+                              rlaplace(obs, runif(1,-10,10), runif(1,1,5)),
+                              rlnorm(obs, runif(1,-10,1), runif(1,0,0.5)),
+                              runif(obs, runif(1,-10,0),runif(1,0,10)),
+                              rgamma(obs, runif(1,1,10), runif(1,1,10))),
+                            obs, 5)
+    distributions
+    return((distributions - matrix(apply(distributions, 2, min), obs, 5, byrow=TRUE)) / matrix(apply(distributions, 2, max), obs, 5, byrow=TRUE))
+}
+
+n <- (1:8)*5
+y <- matrix(replicate(8, ddist(obs)), obs, max(n))
+z <- vector("list", length(n))
+
+for(i in 1:length(n)){
+    z[[i]] <- apply(y[,sample(1:max(n), n[i])], 1, sum)
+}
+
+par(mfcol=c(4,2), mar=c(2,1,3,0))
+for(i in c(1:length(n))){
+    mainTitle <- " observations"
+    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
+          dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          col=3, lwd=2, lty=2)
+    axis(1)
+    box()
+}
+```
+
+As we see from Figure \@ref(fig:nonidentPDFCombinedN), the convolved distribution still converges to the Normal one, but this time the convergence happens non-linearly: adding asymmetric distributions to the pool leads to divergences from Normality on some of large samples (e.g. sample of 35 observations). But even in that case, the convolved distribution looks similar to the Normal one on larger samples.
+
+The speed of convergence in this situation highly depends on the asymmetry and the excess of the convolved distributions (see two examples above).
+
+Finally, we consider the violation of the independence. In this example, the variable $y_j$ follows the normal distribution, but it's parameters depend on the parameters of $y_{j-1}$. Each value we generate is standardised to make sure that CLT works.
+
+```{r nonindepPDFCombinedN, fig.cap="Probability Density Function of the sum of n dependent random variables.", fig.width=8, fig.height=8, echo=FALSE}
+set.seed(41)
+obs <- 10000
+ddist <- function(obs, times){
+    distributions <- matrix(NA, obs, times)
+    meanValue <- 100
+    sdValue <- 10
+    x <- rnorm(obs, meanValue, sdValue)
+    distributions[,1] <- x;
+    for(i in 2:times){
+        # distributions[,i] <- (distributions[,1:(i-1),drop=FALSE] %*% rlnorm(i-1, 0, 0.5) + rnorm(obs, 0, 1))
+        distributions[,i] <- distributions[,i-1,drop=FALSE] %*% rlnorm(1, 0, 1) + rnorm(obs, 0, 10)
+        distributions[,i] <- (distributions[,i] - mean(distributions[,i]))/sd(distributions[,i])
+    }
+    return(distributions)
+}
+
+n <- 2^(1:6)
+y <- ddist(obs, max(n))
+# y <- matrix(replicate(8, ddist(obs)), obs, max(n))
+z <- vector("list", length(n))
+
+for(i in 1:length(n)){
+    z[[i]] <- apply(y[,sample(1:max(n), n[i])], 1, sum)
+}
+
+par(mfcol=c(3,2), mar=c(2,1,3,0))
+for(i in c(1:length(n))){
+    mainTitle <- " observations"
+    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
+          dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          col=3, lwd=2, lty=2)
+    axis(1)
+    box()
+}
+```
+
+Because the base distributions used in this example, are Normal, it does not take too much time for their convolution to get close to the Normal as well. Still, we see the violation of independence leads to shapes that deviate from normality even on the sample of 32 observations. The speed of convergence in this example would be lower if the convolved distribution are more linearly related.
+
+In general, we should note that the more factors listed above are violated, the more observations you need to have before the Central Limit Theorem will start working and the convolved distribution becomes close to the Normal one. And as we saw from the examples above, the asymmetry is one of the most important factors influencing the speed of convergence of the convolution of distributions to the Normal one.
+
+Finally, there are three important assumptions that need to be satisfied for the CLT to work:
+
+1. **The true value of parameter is not near the bound**. e.g. if the variable follows uniform distribution on (0, $a$) and we want to estimate $a$, then its distribution will not be Normal (because in this case the true value is always approached from below). This assumption is important in contexts, where parameter estimates are restricted to make models obey to some rules (e.g. AR parametrs of ARIMA model that guarantee that it is stationary).
+2. **The random variables are independent identically distributed** (i.i.d.). We saw what the violation of this assumption implies in milder cases, but in more serious cases, this might lead to more serious problems. and CLT might not work.
+3. **The mean and variance of the distribution are finite**. This might seem as a weird assumption, but some distributions do not have finite moments, so the CLT will not hold if a variable follows them, just because the sample mean will be all over the plane due to randomness and will not converge to the "true" value. Cauchy distribution is one of such examples.
 
 If these assumptions hold, then CLT will work for the estimate of a parameter, no matter what the distribution of the random variable is. This becomes especially useful, when we want to test a hypothesis or construct a confidence interval for an estimate of a parameter.
 
