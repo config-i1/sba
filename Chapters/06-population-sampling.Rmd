@@ -116,7 +116,7 @@ for(i in 2:length(n)){
     z[[i]] <- apply(y[,1:n[i]],1,sum)
 }
 
-par(mfcol=c(4,2), mar=c(2,1,3,0))
+par(mfrow=c(4,2), mar=c(2,1,3,0))
 for(i in c(1:length(n))){
     # hist(z[[i]], main=n[i], col=10,
     #      probability=T, axes=F)
@@ -154,7 +154,7 @@ for(i in 2:length(n)){
     z[[i]] <- apply(y[,1:n[i]],1,sum)
 }
 
-par(mfcol=c(3,2), mar=c(2,1,3,0))
+par(mfrow=c(3,2), mar=c(2,1,3,0))
 for(i in c(1:length(n))){
     # hist(z[[i]], main=n[i], col=10,
     #      probability=T, axes=F)
@@ -185,10 +185,9 @@ Next, we consider the situation where the distributions are **not identical**. F
 - Laplace,
 - Log-Normal,
 - Uniform,
-- Gamma,
 - Gamma.
 
-These are then normalised to have the same min and max values and are selected at random, after which their convolutions are plotted against the Normal density function.
+These are then normalised to have the same minimum and maximum values and are selected at random, after which their convolutions are plotted against the Normal density function.
 
 ::: remark
 While CLT works well for i.i.d. variables, for it to work in case of the violation of i.i.d., we need to normalise the random variables. Otherwise, some of them would dominate the pool and it would take many more samples for the convolved distribution to converge to the Normal one.
@@ -216,12 +215,14 @@ for(i in 1:length(n)){
     z[[i]] <- apply(y[,sample(1:max(n), n[i])], 1, sum)
 }
 
-par(mfcol=c(4,2), mar=c(2,1,3,0))
+par(mfrow=c(4,2), mar=c(2,1,3,0))
 for(i in c(1:length(n))){
     mainTitle <- " observations"
-    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    x <- density(z[[i]])
+    y <- dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]]))
+    plot(x, col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
     lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
-          dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          y,
           col=3, lwd=2, lty=2)
     axis(1)
     box()
@@ -245,7 +246,7 @@ ddist <- function(obs, times){
     distributions[,1] <- x;
     for(i in 2:times){
         # distributions[,i] <- (distributions[,1:(i-1),drop=FALSE] %*% rlnorm(i-1, 0, 0.5) + rnorm(obs, 0, 1))
-        distributions[,i] <- distributions[,i-1,drop=FALSE] %*% rlnorm(1, 0, 1) + rnorm(obs, 0, 10)
+        distributions[,i] <- distributions[,i-1,drop=FALSE] %*% rlnorm(1, 0.5, 1) + rnorm(obs, 0, 0.1)
         distributions[,i] <- (distributions[,i] - mean(distributions[,i]))/sd(distributions[,i])
     }
     return(distributions)
@@ -260,12 +261,14 @@ for(i in 1:length(n)){
     z[[i]] <- apply(y[,sample(1:max(n), n[i])], 1, sum)
 }
 
-par(mfcol=c(3,2), mar=c(2,1,3,0))
+par(mfrow=c(3,2), mar=c(2,1,3,0))
 for(i in c(1:length(n))){
     mainTitle <- " observations"
-    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    x <- density(z[[i]])
+    y <- dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]]))
+    plot(x, col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
     lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
-          dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
+          y,
           col=3, lwd=2, lty=2)
     axis(1)
     box()
