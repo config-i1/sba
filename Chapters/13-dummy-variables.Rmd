@@ -1,16 +1,21 @@
 # Regression with categorical variables {#dummyVariables}
-So far we assumed that the explanatory variables in the model are numerical. But is it possible somehow to capture the effect of categorical variables on the variable of interest? After all, we can expect, for example, sales of silver mobile phone to differ from the sales of the pink one.
+So far we assumed that the explanatory variables in the model are numerical (e.g. length of a tree or years of experience). But is it possible somehow to capture the effect of categorical variables on the variable of interest? Do we expect, for example, sales of silver mobile phone to differ from the sales of the pink one? We probably do, and this needs to be taken into account by a model.
 
-The short answer to this question is "yes". This can be done by transforming variables in categorical scale to the set of binary variables, which in regression context are called "dummy variables".
+Consider the same example with the overall costs of construction from Chapter \@ref(linearRegression). The type of building there is a categorical variable, which takes values:
 
-Consider an example...
+1. Detached;
+2. Semi-detached;
+3. Other.
+
+If we had a sample large enough, we could split it into three sub-samples depending on the value of the variable and estimate three regression models. Unfortunately, this is neither always possible nor meaningful. If we fit three different models to the data, that would imply that the effect of size, materials costs, number of projects and year when the project started would differ depending on the type of the building. While this might hold for some relations, it is not universally the case. Besides, having three smaller samples instead of one big one, would imply the increased uncertainty about the estimates of parameters of a model (discussed in Chapter \@ref(uncertaintyRegression)), thus impacting the managerial decisions based on our model. So, is there a better way?
+
+The answer to this, is "yes". This can be done by transforming variables from the categorical scale to the set of binary variables (i.e. taking values of zero or one). These binary variables are called "dummy variables" in the regression context. They denote when a specific attribute is met in the sample.
+
+In this chapter we will learn how this information can be incorporated in a regression model and can be used for analysis and for forecasting.
 
 
 
-But the categorical scale contains two types of variables: (i) nominal, (ii) ordinal (Section \@ref(scales)). While the former only contains "description", the latter also has an order, which in some cases can be used by models.
-
-
-
+<!-- But the categorical scale contains two types of variables: (i) nominal, (ii) ordinal (Section \@ref(scales)). While the former only contains "description", the latter also has an order, which in some cases can be used by models. -->
 
 
 ## Dummy variables for the intercept
