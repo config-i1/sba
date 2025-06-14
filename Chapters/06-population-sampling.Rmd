@@ -135,7 +135,7 @@ for(i in c(1:length(n))){
 }
 ```
 
-Figure \@ref(fig:logNormalPMFCombinedN) demonstrates how distributions of the convolved log-normal distributions (with zero location and $0.5^2$ scale) look like. The empirical density functions are shown in solid green line, while the normal distribution is shown in the dark red dashed lines. We can see that with the increase of the number of observations $n$, the empirical density converges to the theoretical normal one. Given that the Log-Normal distribution is asymmetric, this convergence happens slowly, but even with the 64 samples, it looks already close to the Normal one.
+The empirical density functions are shown in solid green line, while the normal distribution is shown in the dark red dashed lines. We can see that with the increase of the number of observations $n$, the empirical density converges to the theoretical normal one. Given that the Log-Normal distribution is asymmetric, this convergence happens slowly, but even with the 64 samples, it looks already close to the Normal one.
 
 ::: remark
 The skewness of the Log-Normal distribution we considered in the example above is `r round((exp(0.5^2)+2)*(sqrt(exp(0.5^2)-1)), digits)`. If the asymmetry of the distribution was higher, it would take more observations for the convolved distribution to converge to the Normal one.
