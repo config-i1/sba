@@ -9,7 +9,7 @@ Consider the same example with the overall costs of construction from Chapter \@
 
 If we had a sample large enough, we could split it into three sub-samples depending on the value of the variable and estimate three regression models. Unfortunately, this is neither always possible nor meaningful. If we fit three different models to the data, that would imply that the effect of size, materials costs, number of projects and year when the project started would differ depending on the type of the building. While this might hold for some relations, it is not universally the case. Besides, having three smaller samples instead of one big one, would imply the increased uncertainty about the estimates of parameters of a model (discussed in Chapter \@ref(uncertaintyRegression)), thus impacting the managerial decisions based on our model. So, is there a better way?
 
-The answer to this, is "yes". This can be done by transforming variables from the categorical scale to the set of binary variables (i.e. taking values of zero or one). These binary variables are called "dummy variables" in the regression context. They denote when a specific attribute is met in the sample.
+The answer to this, is "yes". This can be done by transforming variables from the categorical scale to the set of binary variables (i.e. taking values of zero or one). These binary variables are called "**dummy variables**" in the regression context. They denote when a specific attribute is met in the sample.
 
 In this chapter we will learn how this information can be incorporated in a regression model and can be used for analysis and for forecasting.
 
@@ -19,11 +19,18 @@ In this chapter we will learn how this information can be incorporated in a regr
 
 
 ## Dummy variables for the intercept
-As we remember from Section \@ref(scales), the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. "red" - "1", "green" - "2", "blue" - "3"), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in operations with these values. In order to overcome this limitation, we could create a set of dummy variables, each of which would be equal to one if the value of the original variable is equal to a specific value and zero otherwise. Consider the example with colours, where we have three types of t-shirts to sell:
+As we remember from Section \@ref(scales), the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. "detached" - "1", "semi-detached" - "2", "other" - "3"), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in what we can do with these values. As a reminder, the mean value in this case does not make any sense, and the median only makes sense for the ordinal scale.
 
-1. Red,
-2. Green,
-3. Blue.
+To overcome this limitation, we could create a set of dummy variables, each of which would be equal to one if the specific object has the value of the original variable and zero otherwise. For example, for the property 7 in the dataset that we have used since Chapter \@ref(linearRegression), we have:
+
+```{r}
+SBA_Chapter_11_Costs[7,]
+```
+
+We see that the type of this building was "detached". So when we create the dummy variable "type_detached", we would encode it being equal to one for this and all the other observations that have this type, and to zero otherwise.
+
+
+
 
 Every t-shirt in our dataset would have one of these colours, and based on this we could create three dummy variables:
 
