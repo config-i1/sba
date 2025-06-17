@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -449,14 +449,14 @@ Figure 12.1: Material vs overall costs and two regression lines.
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="uncertaintyRegression.html#cb170-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb170-2"><a href="uncertaintyRegression.html#cb170-2" tabindex="-1"></a><span class="co"># First histogram</span></span>
 <span id="cb170-3"><a href="uncertaintyRegression.html#cb170-3" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
-<span id="cb170-4"><a href="uncertaintyRegression.html#cb170-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb170-4"><a href="uncertaintyRegression.html#cb170-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
 <span id="cb170-5"><a href="uncertaintyRegression.html#cb170-5" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
-<span id="cb170-6"><a href="uncertaintyRegression.html#cb170-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">1</span>], <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb170-6"><a href="uncertaintyRegression.html#cb170-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">1</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb170-7"><a href="uncertaintyRegression.html#cb170-7" tabindex="-1"></a><span class="co"># Second histogram</span></span>
 <span id="cb170-8"><a href="uncertaintyRegression.html#cb170-8" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
-<span id="cb170-9"><a href="uncertaintyRegression.html#cb170-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Material costs&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb170-9"><a href="uncertaintyRegression.html#cb170-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Material costs&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
 <span id="cb170-10"><a href="uncertaintyRegression.html#cb170-10" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
-<span id="cb170-11"><a href="uncertaintyRegression.html#cb170-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb170-11"><a href="uncertaintyRegression.html#cb170-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costsModelMLRBootstrap"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModelMLRBootstrap-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">

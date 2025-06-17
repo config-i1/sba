@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -429,7 +429,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="header">
 <h1 class="title">Statistics for Business Analytics</h1>
 <p class="author"><em>Ivan Svetunkov</em></p>
-<p class="date"><em>2025-06-14</em></p>
+<p class="date"><em>2025-06-17</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered hasAnchor">
 <h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -438,8 +438,23 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <p>These lecture notes relies heavily on the <code>greybox</code> package for R, which focuses on forecasting using regression models. In order to run examples from the lecture notes, you would need to install this package <span class="citation">(<a href="#ref-R-greybox">Svetunkov, 2025</a>)</span>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;greybox&quot;</span>)</span></code></pre></div>
 <p>A very important thing to note is that these lecture notes <strong>do not use <code>tidyverse</code> packages</strong>. I like base R, and, to be honest, I am sure that <code>tidyverse</code> packages are great, but I have never needed them in my research. So, I will not use pipeline operators, <code>tibble</code> or <code>tsibble</code> objects and <code>ggplot2</code>. It is assumed throughout the lecture notes that you can do all those nice tricks on your own if you want to.</p>
-<p>If you want to get in touch with me, there are lots of ways to do that: comments section on any page of <a href="https://forecasting.svetunkov.ru/">my website</a>, <a href="https://ivan.svetunkov.ru/">my Russian website</a>, <a href="https://vk.com/isvetunkov">vk.com</a>, <a href="https://www.facebook.com/isvetunkov">Facebook</a>, <a href="https://www.linkedin.com/in/isvetunkov">Linkedin</a>, <a href="https://twitter.com/iSvetunkov">Twitter</a>.</p>
-<p>You can also find me on <a href="https://www.researchgate.net/profile/Ivan_Svetunkov">ResearchGate</a>, <a href="http://stats.stackexchange.com/users/87585/ivan-svetunkov">StackExchange</a> and <a href="http://stackoverflow.com/users/5296618/ivan-svetunkov">StackOverflow</a>, although I’m not really active there. Finally, I also have <a href="https://github.com/config-i1">GitHub</a> account.</p>
+<p>Note that we use the following colour palette throughout the book:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a>ourPalette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,</span>
+<span id="cb2-2"><a href="index.html#cb2-2" tabindex="-1"></a>                <span class="co"># 2-Red, 3-green, 4-blue,</span></span>
+<span id="cb2-3"><a href="index.html#cb2-3" tabindex="-1"></a>                <span class="fu">rgb</span>(<span class="fl">0.5</span>,<span class="fl">0.2</span>,<span class="fl">0.2</span>,<span class="dv">1</span>), <span class="fu">rgb</span>(<span class="fl">0.2</span>,<span class="fl">0.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span>), <span class="fu">rgb</span>(<span class="fl">0.2</span>,<span class="fl">0.3</span>,<span class="fl">0.5</span>,<span class="dv">1</span>),</span>
+<span id="cb2-4"><a href="index.html#cb2-4" tabindex="-1"></a>                <span class="co"># 5-yellow, 6-purple, 7-orange;</span></span>
+<span id="cb2-5"><a href="index.html#cb2-5" tabindex="-1"></a>                <span class="fu">rgb</span>(<span class="fl">0.9</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>,<span class="dv">1</span>), <span class="fu">rgb</span>(<span class="fl">0.8</span>,<span class="fl">0.4</span>,<span class="fl">0.8</span>,<span class="dv">1</span>), <span class="fu">rgb</span>(<span class="dv">1</span>,<span class="fl">0.65</span>,<span class="fl">0.4</span>,<span class="dv">1</span>),</span>
+<span id="cb2-6"><a href="index.html#cb2-6" tabindex="-1"></a>                <span class="co"># translucent 8-R, 9-G, 10-B</span></span>
+<span id="cb2-7"><a href="index.html#cb2-7" tabindex="-1"></a>                <span class="fu">rgb</span>(<span class="fl">0.9</span>,<span class="fl">0.6</span>,<span class="fl">0.6</span>,<span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="fl">0.5</span>,<span class="fl">0.8</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">0.5</span>),</span>
+<span id="cb2-8"><a href="index.html#cb2-8" tabindex="-1"></a>                <span class="co"># translucent 11-Y, 12-P, 13-O</span></span>
+<span id="cb2-9"><a href="index.html#cb2-9" tabindex="-1"></a>                <span class="fu">rgb</span>(<span class="fl">0.9</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>,<span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="fl">0.7</span>,<span class="fl">0.55</span>,<span class="fl">0.7</span>,<span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="dv">1</span>,<span class="fl">0.65</span>,<span class="fl">0.4</span>,<span class="fl">0.5</span>),</span>
+<span id="cb2-10"><a href="index.html#cb2-10" tabindex="-1"></a>                <span class="co"># 14-Grey, 15-Light grey, 16-dark grey, 17-very light grey</span></span>
+<span id="cb2-11"><a href="index.html#cb2-11" tabindex="-1"></a>                <span class="st">&quot;grey&quot;</span>, <span class="st">&quot;lightgrey&quot;</span>, <span class="st">&quot;darkgrey&quot;</span>, <span class="st">&quot;grey95&quot;</span>)</span>
+<span id="cb2-12"><a href="index.html#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="index.html#cb2-13" tabindex="-1"></a><span class="fu">palette</span>(ourPalette)</span></code></pre></div>
+<p>This is why some images have colours that differ from the default ones.</p>
+<p>If you want to get in touch with Ivan, there are lots of ways to do that: comments section on any page of <a href="https://openforecast.org/">my website</a>, <a href="https://ivan.svetunkov.vom/">my other website</a>, <a href="https://vk.com/isvetunkov">vk.com</a>, <a href="https://www.facebook.com/isvetunkov">Facebook</a>, <a href="https://www.linkedin.com/in/isvetunkov">Linkedin</a>, <a href="https://twitter.com/iSvetunkov">Twitter</a>.</p>
+<p>You can also find Ivan on <a href="https://www.researchgate.net/profile/Ivan_Svetunkov">ResearchGate</a>, <a href="http://stats.stackexchange.com/users/87585/ivan-svetunkov">StackExchange</a> and <a href="http://stackoverflow.com/users/5296618/ivan-svetunkov">StackOverflow</a>, although I’m not really active there. Finally, I also have <a href="https://github.com/config-i1">GitHub</a> account.</p>
 <hr />
 <p>You can use the following to cite the online version of this book:</p>
 <div class="adamCitation">
@@ -448,14 +463,14 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ul>
 </div>
 <p>If you use LaTeX, the following can be used instead:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a><span class="sc">@</span>MISC{SvetunkovSBA,</span>
-<span id="cb2-2"><a href="index.html#cb2-2" tabindex="-1"></a>    title <span class="ot">=</span> {Statistics <span class="cf">for</span> Business Analytics},</span>
-<span id="cb2-3"><a href="index.html#cb2-3" tabindex="-1"></a>    author <span class="ot">=</span> {Ivan Svetunkov},</span>
-<span id="cb2-4"><a href="index.html#cb2-4" tabindex="-1"></a>    howpublished <span class="ot">=</span> {Lecture notes. OpenForecast},</span>
-<span id="cb2-5"><a href="index.html#cb2-5" tabindex="-1"></a>    note <span class="ot">=</span> {(version<span class="sc">:</span> [current date])},</span>
-<span id="cb2-6"><a href="index.html#cb2-6" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>openforecast.org<span class="sc">/</span>sba<span class="sc">/</span>},</span>
-<span id="cb2-7"><a href="index.html#cb2-7" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2022</span>}</span>
-<span id="cb2-8"><a href="index.html#cb2-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a><span class="sc">@</span>MISC{SvetunkovSBA,</span>
+<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a>    title <span class="ot">=</span> {Statistics <span class="cf">for</span> Business Analytics},</span>
+<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>    author <span class="ot">=</span> {Ivan Svetunkov},</span>
+<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>    howpublished <span class="ot">=</span> {Lecture notes. OpenForecast},</span>
+<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>    note <span class="ot">=</span> {(version<span class="sc">:</span> [current date])},</span>
+<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>openforecast.org<span class="sc">/</span>sba<span class="sc">/</span>},</span>
+<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2022</span>}</span>
+<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>}</span></code></pre></div>
 <div id="license" class="section level3 unnumbered hasAnchor">
 <h3>License<a href="index.html#license" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>These lecture notes are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Common License by-nc-sa 4.0</a>, which means that you can share, copy, redistribute and remix the content of the lecture notes for non-commercial purposes as long as you give appropriate credit to the author and provide the link to the original license. If you remix, transform, or build upon the material, you must distribute your contributions under the same CC-BY-NC-SA 4.0 license. See <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">the explanation on the Creative Commons website</a>.</p>
@@ -465,7 +480,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-greybox" class="csl-entry">
-• Svetunkov, I., 2025. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 2.0.5.41002
+• Svetunkov, I., 2025. Greybox: Toolbox for model building and forecasting. <a href="https://github.com/config-i1/greybox">https://github.com/config-i1/greybox</a> R package version 2.0.5.41003
 </div>
 </div>
 

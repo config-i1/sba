@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -440,10 +440,11 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 ## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555</code></pre>
 <p>To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="OLSMLR.html#cb156-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModel01),<span class="fu">actuals</span>(costsModel01))</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
 <p>The same plot is produced via <code>plot()</code> method if we use <code>alm()</code> function from <code>greybox</code> instead:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="OLSMLR.html#cb157-1" tabindex="-1"></a>costsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb157-2"><a href="OLSMLR.html#cb157-2" tabindex="-1"></a><span class="fu">plot</span>(costsModel02,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="OLSMLR.html#cb157-1" tabindex="-1"></a>costsModel02 <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year,</span>
+<span id="cb157-2"><a href="OLSMLR.html#cb157-2" tabindex="-1"></a>                    SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb157-3"><a href="OLSMLR.html#cb157-3" tabindex="-1"></a><span class="fu">plot</span>(costsModel02,<span class="dv">1</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costsModel02Plot"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModel02Plot-1.png" alt="Actuals vs fitted values for multiple linear regression model on mtcars data." width="672" />
 <p class="caption">

@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -459,9 +459,10 @@ Here are the main differences:</p>
 <p><span id="unlabeled-div-49" class="remark"><em>Remark</em>. </span>To be able to construct the confidence interval using the formula above, we, once again, need one important assumption to hold. This assumption is that the <em>Central Limit Theorem holds</em> (Section <a href="CLT.html#CLT">6.2</a>). If it does not, then the distribution of the estimates of parameters would not be Normal and as a result, the distribution of the conditional expectations would not be Normal either. In that case, we would need to use some other tools (such as bootstrap) to construct the interval. Luckily, with OLS, the CLT typically holds on samples of 50 observations and more.</p>
 </div>
 <p>In R, the confidence interval can be constructed for each observation via the <code>predict()</code> function with <code>interval="confidence"</code>. It is based on the covariance matrix of parameters, extracted via <code>vcov()</code> method in R (discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with <code>alm()</code> function (Figure <a href="uncertaintyRegressionLine.html#fig:costModelConfidenceInterval">12.4</a>):</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="uncertaintyRegressionLine.html#cb186-1" tabindex="-1"></a>costsModelMLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelMLR, <span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
-<span id="cb186-2"><a href="uncertaintyRegressionLine.html#cb186-2" tabindex="-1"></a><span class="fu">plot</span>(costsModelMLRCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>,</span>
-<span id="cb186-3"><a href="uncertaintyRegressionLine.html#cb186-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Observation&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Overall Costs&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="uncertaintyRegressionLine.html#cb186-1" tabindex="-1"></a><span class="co"># Produce predictions</span></span>
+<span id="cb186-2"><a href="uncertaintyRegressionLine.html#cb186-2" tabindex="-1"></a>costsModelMLRCI <span class="ot">&lt;-</span> <span class="fu">predict</span>(costsModelMLR, <span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb186-3"><a href="uncertaintyRegressionLine.html#cb186-3" tabindex="-1"></a><span class="fu">plot</span>(costsModelMLRCI, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">type=</span><span class="st">&quot;p&quot;</span>,</span>
+<span id="cb186-4"><a href="uncertaintyRegressionLine.html#cb186-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Observation&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Overall Costs&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costModelConfidenceInterval"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costModelConfidenceInterval-1.png" alt="Fitted values and confidence interval for the costs model." width="672" />
 <p class="caption">
@@ -482,7 +483,7 @@ Figure 12.4: Fitted values and confidence interval for the costs model.
 <span id="cb187-11"><a href="uncertaintyRegressionLine.html#cb187-11" tabindex="-1"></a><span class="co"># Add confidence interval</span></span>
 <span id="cb187-12"><a href="uncertaintyRegressionLine.html#cb187-12" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">c</span>(costsModelMLRCIZoom<span class="sc">$</span>lower,</span>
 <span id="cb187-13"><a href="uncertaintyRegressionLine.html#cb187-13" tabindex="-1"></a>           costsModelMLRCIZoom<span class="sc">$</span>upper),</span>
-<span id="cb187-14"><a href="uncertaintyRegressionLine.html#cb187-14" tabindex="-1"></a>       <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb187-14"><a href="uncertaintyRegressionLine.html#cb187-14" tabindex="-1"></a>       <span class="at">col=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costModelConfidenceIntervalZoom"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costModelConfidenceIntervalZoom-1.png" alt="Fitted values and confidence interval for the costs model." width="672" />
 <p class="caption">
@@ -493,13 +494,13 @@ Figure 12.5: Fitted values and confidence interval for the costs model.
 <p>Another way of visualising the confidence interval is by plotting the actuals vs fitted figure:</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="uncertaintyRegressionLine.html#cb188-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModelMLR), <span class="fu">actuals</span>(costsModelMLR),</span>
 <span id="cb188-2"><a href="uncertaintyRegressionLine.html#cb188-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fitted&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Actuals&quot;</span>)</span>
-<span id="cb188-3"><a href="uncertaintyRegressionLine.html#cb188-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">col=</span><span class="dv">5</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb188-3"><a href="uncertaintyRegressionLine.html#cb188-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
 <span id="cb188-4"><a href="uncertaintyRegressionLine.html#cb188-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelMLR)),</span>
 <span id="cb188-5"><a href="uncertaintyRegressionLine.html#cb188-5" tabindex="-1"></a>      costsModelMLRCI<span class="sc">$</span>lower[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelMLR))], </span>
-<span id="cb188-6"><a href="uncertaintyRegressionLine.html#cb188-6" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb188-6"><a href="uncertaintyRegressionLine.html#cb188-6" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
 <span id="cb188-7"><a href="uncertaintyRegressionLine.html#cb188-7" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">sort</span>(<span class="fu">fitted</span>(costsModelMLR)),</span>
 <span id="cb188-8"><a href="uncertaintyRegressionLine.html#cb188-8" tabindex="-1"></a>      costsModelMLRCI<span class="sc">$</span>upper[<span class="fu">order</span>(<span class="fu">fitted</span>(costsModelMLR))], </span>
-<span id="cb188-9"><a href="uncertaintyRegressionLine.html#cb188-9" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb188-9"><a href="uncertaintyRegressionLine.html#cb188-9" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costModelConfidenceIntervalAvsF"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costModelConfidenceIntervalAvsF-1.png" alt="Actuals vs Fitted and confidence interval for the costs model." width="672" />
 <p class="caption">

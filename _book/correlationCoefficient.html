@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -441,7 +441,7 @@ where <span class="math inline">\(\sigma_{x,y}\)</span> is the covariance betwee
 where all the values from <a href="correlationCoefficient.html#eq:measuresAssociationPearsonPopulation">(9.9)</a> are substituted by their in-sample estimates. This coefficient measures the <strong>strength of linear relation</strong> between variables and lies between -1 and 1, where the boundary values correspond to perfect linear relation and 0 implies that there is no <strong>linear</strong> relation between the variables. In some textbooks the authors claim that this coefficient relies on Normal distribution of variables, but nothing in the formula assumes that. It was originally derived based on the simple linear regression (see Section <a href="simpleLinearRegression.html#simpleLinearRegression">10</a>) and its rough idea is to get information about the angle of the straight line drawn on the scatterplot. It might be easier to explain this on an example:</p>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="correlationCoefficient.html#cb113-1" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>disp,mtcarsData<span class="sc">$</span>mpg,</span>
 <span id="cb113-2"><a href="correlationCoefficient.html#cb113-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Displacement&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Mileage&quot;</span>)</span>
-<span id="cb113-3"><a href="correlationCoefficient.html#cb113-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(mpg<span class="sc">~</span>disp,mtcarsData),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<span id="cb113-3"><a href="correlationCoefficient.html#cb113-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(mpg<span class="sc">~</span>disp,mtcarsData), <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsScatterPlotDispMPG"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/mtcarsScatterPlotDispMPG-1.png" alt="Scatterplot for dispalcement vs mileage variables in mtcars dataset" width="672" />
 <p class="caption">
@@ -451,7 +451,7 @@ Figure 9.2: Scatterplot for dispalcement vs mileage variables in mtcars dataset
 <p>Figure <a href="correlationCoefficient.html#fig:mtcarsScatterPlotDispMPG">9.2</a> shows the scatterplot between the two variables and also has the straight line, going through the cloud of points. The closer the points are to the line, the stronger the linear relation between the two variables is. The line corresponds to the formula <span class="math inline">\(\hat{y}=a_0+a_1 x\)</span>, where <span class="math inline">\(x\)</span> is the displacement and <span class="math inline">\(\hat{y}\)</span> is the line value for the Mileage. The same relation can be presented if we swap the axes and draw the line <span class="math inline">\(\hat{x}=b_0+b_1 y\)</span>:</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="correlationCoefficient.html#cb114-1" tabindex="-1"></a><span class="fu">plot</span>(mtcarsData<span class="sc">$</span>mpg,mtcarsData<span class="sc">$</span>disp,</span>
 <span id="cb114-2"><a href="correlationCoefficient.html#cb114-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Mileage&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Displacement&quot;</span>)</span>
-<span id="cb114-3"><a href="correlationCoefficient.html#cb114-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(disp<span class="sc">~</span>mpg,mtcarsData),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<span id="cb114-3"><a href="correlationCoefficient.html#cb114-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(disp<span class="sc">~</span>mpg,mtcarsData), <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mtcarsScatterPlotMPGDisp"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/mtcarsScatterPlotMPGDisp-1.png" alt="Scatterplot for mileage vs dispalcement" width="672" />
 <p class="caption">
@@ -467,7 +467,7 @@ Figure 9.3: Scatterplot for mileage vs dispalcement
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  mtcarsData$mpg and mtcarsData$disp
-## t = -8.7472, df = 30, p-value = 9.38e-10
+## t = -8.7472, df = 30, p-value = 0.000000000938
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.9233594 -0.7081376
@@ -483,10 +483,10 @@ Figure 9.3: Scatterplot for mileage vs dispalcement
 <span id="cb119-5"><a href="correlationCoefficient.html#cb119-5" tabindex="-1"></a><span class="co"># Produce the plots</span></span>
 <span id="cb119-6"><a href="correlationCoefficient.html#cb119-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb119-7"><a href="correlationCoefficient.html#cb119-7" tabindex="-1"></a><span class="fu">plot</span>(x,y1,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
-<span id="cb119-8"><a href="correlationCoefficient.html#cb119-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y1<span class="sc">~</span>x),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb119-8"><a href="correlationCoefficient.html#cb119-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y1<span class="sc">~</span>x),<span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb119-9"><a href="correlationCoefficient.html#cb119-9" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="fu">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x,y1),<span class="dv">5</span>)))</span>
 <span id="cb119-10"><a href="correlationCoefficient.html#cb119-10" tabindex="-1"></a><span class="fu">plot</span>(x,y2,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>))</span>
-<span id="cb119-11"><a href="correlationCoefficient.html#cb119-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y2<span class="sc">~</span>x),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb119-11"><a href="correlationCoefficient.html#cb119-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y2<span class="sc">~</span>x),<span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb119-12"><a href="correlationCoefficient.html#cb119-12" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">30</span>,<span class="dv">150</span>,<span class="fu">paste0</span>(<span class="st">&quot;r=&quot;</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x,y2),<span class="dv">5</span>)))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:correlationsScatterplotExample"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/correlationsScatterplotExample-1.png" alt="Example of relations with exactly the same correlations, but different slopes." width="672" />
@@ -514,7 +514,7 @@ Figure 9.4: Example of relations with exactly the same correlations, but differe
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="correlationCoefficient.html#cb123-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
 <span id="cb123-2"><a href="correlationCoefficient.html#cb123-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x)</span>
 <span id="cb123-3"><a href="correlationCoefficient.html#cb123-3" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
 <p>But neither Pearson’s nor Spearman’s coefficients will be able to capture it:</p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="correlationCoefficient.html#cb124-1" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
 <pre><code>## [1] -0.04806497</code></pre>

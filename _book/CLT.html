@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -429,20 +429,24 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="CLT" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.2</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator (Figure <a href="CLT.html#fig:histyMean">6.3</a>):</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="CLT.html#cb68-1" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
-<span id="cb68-2"><a href="CLT.html#cb68-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
-<span id="cb68-3"><a href="CLT.html#cb68-3" tabindex="-1"></a><span class="co"># Define number of iterations</span></span>
-<span id="cb68-4"><a href="CLT.html#cb68-4" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb68-5"><a href="CLT.html#cb68-5" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb68-6"><a href="CLT.html#cb68-6" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb68-7"><a href="CLT.html#cb68-7" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb68-8"><a href="CLT.html#cb68-8" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y, sampleSize))</span>
-<span id="cb68-9"><a href="CLT.html#cb68-9" tabindex="-1"></a>}</span>
-<span id="cb68-10"><a href="CLT.html#cb68-10" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
-<span id="cb68-11"><a href="CLT.html#cb68-11" tabindex="-1"></a><span class="co"># Add the density curve for the normal distribution</span></span>
-<span id="cb68-12"><a href="CLT.html#cb68-12" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>),</span>
-<span id="cb68-13"><a href="CLT.html#cb68-13" tabindex="-1"></a>      <span class="fu">dnorm</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>), <span class="dv">100</span>, <span class="dv">100</span><span class="sc">/</span><span class="fu">sqrt</span>(sampleSize)), </span>
-<span id="cb68-14"><a href="CLT.html#cb68-14" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="CLT.html#cb70-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb70-2"><a href="CLT.html#cb70-2" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb70-3"><a href="CLT.html#cb70-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
+<span id="cb70-4"><a href="CLT.html#cb70-4" tabindex="-1"></a><span class="co"># Define number of iterations</span></span>
+<span id="cb70-5"><a href="CLT.html#cb70-5" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb70-6"><a href="CLT.html#cb70-6" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb70-7"><a href="CLT.html#cb70-7" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
+<span id="cb70-8"><a href="CLT.html#cb70-8" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
+<span id="cb70-9"><a href="CLT.html#cb70-9" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb70-10"><a href="CLT.html#cb70-10" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
+<span id="cb70-11"><a href="CLT.html#cb70-11" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y, sampleSize))</span>
+<span id="cb70-12"><a href="CLT.html#cb70-12" tabindex="-1"></a>}</span>
+<span id="cb70-13"><a href="CLT.html#cb70-13" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb70-14"><a href="CLT.html#cb70-14" tabindex="-1"></a>     <span class="at">col=</span><span class="dv">17</span>)</span>
+<span id="cb70-15"><a href="CLT.html#cb70-15" tabindex="-1"></a><span class="co"># Add the density curve for the normal distribution</span></span>
+<span id="cb70-16"><a href="CLT.html#cb70-16" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>),</span>
+<span id="cb70-17"><a href="CLT.html#cb70-17" tabindex="-1"></a>      <span class="fu">dnorm</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>), <span class="dv">100</span>, <span class="dv">100</span><span class="sc">/</span><span class="fu">sqrt</span>(sampleSize)), </span>
+<span id="cb70-18"><a href="CLT.html#cb70-18" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histyMean"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histyMean-1.png" alt="Histogram of the estimates of mean of the variable y." width="672" />
 <p class="caption">

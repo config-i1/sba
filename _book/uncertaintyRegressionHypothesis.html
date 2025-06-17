@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-14" />
+<meta name="date" content="2025-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -502,7 +502,7 @@ Now we need to get the critical value of the t-statistics for the selected signi
 <p>An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H<span class="math inline">\(_0\)</span> if the p-value is lower than the level. For our example, the p-value can be calculated using the <code>pt()</code> function in R:</p>
 <div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="uncertaintyRegressionHypothesis.html#cb195-1" tabindex="-1"></a><span class="fu">pt</span>(<span class="fl">3.534</span>, <span class="dv">56</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.0004143986</code></pre>
-<p>Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately 8.3^{-4}. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.</p>
+<p>Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately 0.00083. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.</p>
 <p>All of this is done automatically by R if we estimate the model using the basic <code>lm()</code> function from the <code>stats</code> package:</p>
 <div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="uncertaintyRegressionHypothesis.html#cb197-1" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year, <span class="at">data=</span>SBA_Chapter_11_Costs) <span class="sc">|&gt;</span></span>
 <span id="cb197-2"><a href="uncertaintyRegressionHypothesis.html#cb197-2" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code></pre></div>
