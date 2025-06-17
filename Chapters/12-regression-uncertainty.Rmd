@@ -380,14 +380,10 @@ To be able to construct the confidence interval using the formula above, we, onc
 In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:costModelConfidenceInterval)):
 
 ```{r costModelConfidenceInterval, fig.cap="Fitted values and confidence interval for the costs model."}
-# Modify palette to have similar colours as in the plot below
-palette(ourPalette[c(1,4,2)])
 # Produce predictions
 costsModelMLRCI <- predict(costsModelMLR, interval="confidence")
-plot(costsModelMLRCI, main="",
+plot(costsModelMLRCI, main="", type="p",
      xlab="Observation", ylab="Overall Costs")
-# Revert to the original palette
-palette(ourPalette)
 ```
 
 It is hard to read this graph because the interval is narrow, and the actual values in it do not help in reading it. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:costModelConfidenceIntervalZoom)):
@@ -406,7 +402,7 @@ plot(200, costsModelMLRCIZoom$mean,
 # Add confidence interval
 abline(h=c(costsModelMLRCIZoom$lower,
            costsModelMLRCIZoom$upper),
-       col=14, lwd=2, lty=2)
+       col=4, lwd=2, lty=2)
 ```
 
 What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m$^2$, the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be `r round(costsModelMLRCIZoom$mean, digits)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCIZoom$lower, digits)` and `r round(costsModelMLRCIZoom$upper, digits)` in 95% of the cases if we repeat the confidence interval construction many times.
@@ -415,7 +411,7 @@ Another way of visualising the confidence interval is by plotting the actuals vs
 ```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals")
-abline(a=0, b=1, col=2, lwd=2, lty=2)
+abline(a=0, b=1, col=3, lwd=2, lty=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRCI$lower[order(fitted(costsModelMLR))], 
       col=4, lwd=2, lty=2)
@@ -448,29 +444,23 @@ costsModelMLRPI <- predict(costsModelMLR, interval="prediction")
 
 Based on this, we can produce an images similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
 
-```{r echo=FALSE}
-palette(ourPalette[c(1,4,2)])
-```
-
 ```{r costModelPI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
 plot(costsModelMLRPI, ylab="Values", xlab="Observations",
-     main="Actuals and Fitted over observations")
+     main="Actuals and Fitted over observations",
+     type="p")
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted",
      ylim=range(costsModelMLRPI$lower,costsModelMLRPI$upper))
 abline(a=0, b=1, col=3, lwd=2, lty=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRPI$lower[order(fitted(costsModelMLR))], 
-      col=2, lty=2, lwd=2)
+      col=4, lty=2, lwd=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRPI$upper[order(fitted(costsModelMLR))], 
-      col=2, lty=2, lwd=2)
+      col=4, lty=2, lwd=2)
 ```
 
-```{r echo=FALSE}
-palette(ourPalette)
-```
 
 Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 3 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval if the regression assumptions hold.
 
@@ -553,7 +543,7 @@ Coming back to the example in Section \@ref(uncertaintyRegressionCI), the whole 
 ```{r costsModelMLRCImaterials, fig.cap="Parameter uncertainty in the estimated model for the materials variable.", echo=FALSE}
 # Second histogram
 hist(costsModelMLRBootstrap$coefficients[,2],
-     xlab="Material costs", main="", probability=TRUE)
+     xlab="Material costs", main="", probability=TRUE, col=17)
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
@@ -561,10 +551,10 @@ xSequence <- mean(costsModelMLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(cost
 lines(xSequence,
       dnorm(xSequence,
             mean(costsModelMLRBootstrap$coefficients[,2]),
-            sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
+            sd(costsModelMLRBootstrap$coefficients[,2])), col=4, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                mean(costsModelMLRBootstrap$coefficients[,2]),
-               sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
+               sd(costsModelMLRBootstrap$coefficients[,2])), col=4, lwd=2)
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,2]),
              sd(costsModelMLRBootstrap$coefficients[,2]))),
@@ -591,7 +581,7 @@ meanValue <- 0.5
 sdValue <- 1
 hist(rnorm(1000, meanValue, sdValue),
      xlab="Slope", main="", probability=TRUE,
-     ylim=c(0,0.8))
+     ylim=c(0,0.8), col=17)
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
@@ -599,10 +589,10 @@ xSequence <- 1+seq(-5,5,0.1)*0.75
 lines(xSequence,
       dnorm(xSequence,
             meanValue,
-            sdValue), col=5, lwd=2)
+            sdValue), col=4, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                meanValue,
-               sdValue), col=5, lwd=2)
+               sdValue), col=4, lwd=2)
 text(c(qnorm(c(0.025,0.975),
              meanValue,
              sdValue)),
@@ -639,12 +629,12 @@ costsModelSLR <- alm(overall~materials, data=SBA_Chapter_11_Costs, loss="MSE")
 par(mfcol=c(1,2))
 plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
      xlab="Material costs", ylab="Overall costs", main=TeX("H$_0$: $\\beta_i = 0$"),
-     col=17)
-abline(h=mean(SBA_Chapter_11_Costs$overall), col=3, lwd=2)
+     col=1)
+abline(h=mean(SBA_Chapter_11_Costs$overall), col=2, lwd=2)
 plot(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$overall,
      xlab="Material costs", ylab="Overall costs", main=TeX("H$_1$: $\\beta_i \\neq 0$"),
-     col=17)
-abline(costsModelSLR, col=5, lwd=2)
+     col=1)
+abline(costsModelSLR, col=4, lwd=2)
 ```
 
 The image on the left in Figure \@ref(fig:costModelHypotheses) demonstrates how the true model could look if the null hypothesis was true - it would be just a straight line, parallel to x-axis. This would imply that with the increase of the material costs, the overall costs do not change. The image on the right in Figure \@ref(fig:costModelHypotheses) demonstrates the alternative situation, when the parameter is not equal to zero. We do not know the true model, and hypothesis testing does not tell us whether the hypothesis is true or false, but if we have enough evidence to reject H$_0$, then we might conclude that we see an effect of one variable on the other one in the data.
@@ -747,8 +737,8 @@ Visually, this test checks, whether in the true model the slope of the line on t
 ```{r costsModelHypothesesF, fig.cap="Graphical presentation of F-test for regression model.", echo=FALSE}
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted", ylab="Actuals")
-abline(a=0, b=1, col=5, lwd=2)
-abline(h=mean(actuals(costsModelMLR)),col=3, lwd=2)
+abline(a=0, b=1, col=4, lwd=2)
+abline(h=mean(actuals(costsModelMLR)),col=2, lwd=2)
 ```
 
 What the F-test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.
