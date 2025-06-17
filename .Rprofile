@@ -19,3 +19,5 @@ ourPalette <- c("black",
                 "grey", "lightgrey", "darkgrey", "grey95")
 
 palette(ourPalette)
+
+digits <- 4
