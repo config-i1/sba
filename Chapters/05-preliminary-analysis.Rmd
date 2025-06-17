@@ -6,7 +6,6 @@ In this section we will use the classical `mtcars` dataset from `datasets` packa
 
 ```{r eval=FALSE}
 ?mtcars
-palette("default")
 ```
 
 Judging by the explanation in the R documentation, the following variables are categorical:
@@ -182,7 +181,7 @@ We will come back to the covariance matrix in the future topics.
 Continuing our example with `mtcars` dataset, we now investigate what plots can be used for different types of data. As discussed earlier, we have two categorical variables: vs and am - and they need to be treated differently than the numerical ones. We can start by producing their barplots:
 
 ```{r barplotVS, fig.cap="Barplot for the engine type."}
-barplotVS <- barplot(table(mtcarsData$vs), xlab="Type of engine")
+barplotVS <- barplot(table(mtcarsData$vs), xlab="Type of engine", col=17)
 text(barplotVS,table(mtcarsData$vs)/2,table(mtcarsData$vs),cex=1.25)
 ```
 
