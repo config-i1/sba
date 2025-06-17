@@ -7,19 +7,19 @@ costsModelMLRSmall <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=
 costsModelMLRLarge <- lm(overall ~ materials, data=SBA_Chapter_11_Costs, subset=1:50)
 plot(overall~materials, SBA_Chapter_11_Costs, subset=1:50,
      xlab="Material costs", ylab="Overall costs",
-     col=3, pch=1, lwd=2)
+     col=2, pch=1, lwd=2)
 points(SBA_Chapter_11_Costs$materials[1:25], SBA_Chapter_11_Costs$overall[1:25],
-       col=5, pch=20, lwd=2)
+       col=4, pch=20, lwd=2)
 abline(h=0, col="grey")
 abline(v=0, col="grey")
-abline(costsModelMLRLarge, col=3, lty=2)
+abline(costsModelMLRLarge, col=2, lty=2)
 text(250,380,paste0(c("overall = ",round(coef(costsModelMLRLarge)[1], 2)," + ",
-                      round(coef(costsModelMLRLarge)[2], 2)," materials + e"),collapse=""), col=3)
-abline(costsModelMLRSmall, col=5)
+                      round(coef(costsModelMLRLarge)[2], 2)," materials + e"),collapse=""), col=2)
+abline(costsModelMLRSmall, col=4)
 text(215,557,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1], 2)," + ",
-                      round(coef(costsModelMLRSmall)[2], 2)," materials + e"),collapse=""), col=5)
+                      round(coef(costsModelMLRSmall)[2], 2)," materials + e"),collapse=""), col=4)
 legend("topleft", legend=c("50 observations","25 observations"),
-       lwd=2, col=c(3,5), lty=c(2,1))
+       lwd=2, col=c(2,4), lty=c(2,1))
 ```
 
 We see that the two lines differ both in terms of their intercepts and their slopes. So, which one of them is correct?
@@ -46,14 +46,14 @@ Based on that we can plot the histograms of the estimates of parameters as shown
 par(mfcol=c(1,2))
 # First histogram
 hist(costsModelMLRBootstrap$coefficients[,1],
-     xlab="Intercept", main="")
+     xlab="Intercept", main="", col=17)
 # The estimated coefficient
-abline(v=coef(costsModelMLR)[1], col=3, lwd=2)
+abline(v=coef(costsModelMLR)[1], col=2, lwd=2)
 # Second histogram
 hist(costsModelMLRBootstrap$coefficients[,2],
-     xlab="Material costs", main="")
+     xlab="Material costs", main="", col=17)
 # The estimated coefficient
-abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
+abline(v=coef(costsModelMLR)[2], col=2, lwd=2)
 ```
 
 Figure \@ref(fig:costsModelMLRBootstrap) shows the uncertainty around the estimates of parameters. These distributions look similar to the normal distribution and demonstrate the variability of the estimates around the specific values. The vertical lines on the plots show the estimated values of parameters, which hopefully should be close to the ones in the true model. If we were we to repeat this experiment thousands of times, the distribution of estimates of parameters would indeed follow the normal one due to CLT (if the assumptions hold, see Sections \@ref(CLT) and Chapter \@ref(assumptions)).
@@ -220,7 +220,8 @@ par(mfcol=c(1,2))
 # First histogram
 hist(costsModelMLRBootstrap$coefficients[,1],
      xlab="Intercept", main="", probability=TRUE,
-     xlim=range(costsModelMLRBootstrap$coefficients[,1])*c(1.1,1.15))
+     xlim=range(costsModelMLRBootstrap$coefficients[,1])*c(1.1,1.15),
+     col=17)
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[1], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,1]), col=5, lwd=2)
@@ -228,10 +229,10 @@ xSequence <- mean(costsModelMLRBootstrap$coefficients[,1])+seq(-5,5,0.1)*sd(cost
 lines(xSequence,
       dnorm(xSequence,
             mean(costsModelMLRBootstrap$coefficients[,1]),
-            sd(costsModelMLRBootstrap$coefficients[,1])), col=5, lwd=2)
+            sd(costsModelMLRBootstrap$coefficients[,1])), col=2, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                mean(costsModelMLRBootstrap$coefficients[,1]),
-               sd(costsModelMLRBootstrap$coefficients[,1])), col=5, lwd=2)
+               sd(costsModelMLRBootstrap$coefficients[,1])), col=4, lwd=2)
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,1]),
              sd(costsModelMLRBootstrap$coefficients[,1]))),
@@ -243,7 +244,8 @@ text(c(qnorm(c(0.025,0.975),
 # Second histogram
 hist(costsModelMLRBootstrap$coefficients[,2],
      xlab="Materials costs", main="", probability=TRUE,
-     xlim=range(costsModelMLRBootstrap$coefficients[,2])*c(0.75,1.1))
+     xlim=range(costsModelMLRBootstrap$coefficients[,2])*c(0.75,1.1),
+     col=17)
 # The estimated coefficient
 # abline(v=coef(costsModelMLR)[2], col=3, lwd=2)
 # lines(density(costsModelMLRBootstrap$coefficients[,2]), col=5, lwd=2)
@@ -251,10 +253,10 @@ xSequence <- mean(costsModelMLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(cost
 lines(xSequence,
       dnorm(xSequence,
             mean(costsModelMLRBootstrap$coefficients[,2]),
-            sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
+            sd(costsModelMLRBootstrap$coefficients[,2])), col=2, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                mean(costsModelMLRBootstrap$coefficients[,2]),
-               sd(costsModelMLRBootstrap$coefficients[,2])), col=5, lwd=2)
+               sd(costsModelMLRBootstrap$coefficients[,2])), col=4, lwd=2)
 text(c(qnorm(c(0.025,0.975),
              mean(costsModelMLRBootstrap$coefficients[,2]),
              sd(costsModelMLRBootstrap$coefficients[,2]))),
@@ -376,10 +378,16 @@ To be able to construct the confidence interval using the formula above, we, onc
 :::
 
 In R, the confidence interval can be constructed for each observation via the `predict()` function with `interval="confidence"`. It is based on the covariance matrix of parameters, extracted via `vcov()` method in R (discussed in Section \@ref(uncertaintyRegressionCov)). Note that the interval can be produced not only for the in-sample value, but for the holdout as well. Here is an example with `alm()` function (Figure \@ref(fig:costModelConfidenceInterval)):
+
 ```{r costModelConfidenceInterval, fig.cap="Fitted values and confidence interval for the costs model."}
+# Modify palette to have similar colours as in the plot below
+palette(ourPalette[c(1,4,2)])
+# Produce predictions
 costsModelMLRCI <- predict(costsModelMLR, interval="confidence")
 plot(costsModelMLRCI, main="",
      xlab="Observation", ylab="Overall Costs")
+# Revert to the original palette
+palette(ourPalette)
 ```
 
 It is hard to read this graph because the interval is narrow, and the actual values in it do not help in reading it. But if we zoom in to a specific observation, it would be more readable (Figure \@ref(fig:costModelConfidenceIntervalZoom)):
@@ -398,7 +406,7 @@ plot(200, costsModelMLRCIZoom$mean,
 # Add confidence interval
 abline(h=c(costsModelMLRCIZoom$lower,
            costsModelMLRCIZoom$upper),
-       col="grey", lwd=2, lty=2)
+       col=14, lwd=2, lty=2)
 ```
 
 What the image in Figure \@ref(fig:costModelConfidenceIntervalZoom) shows is that according to the estimated regression, for the project where the material costs were £200k, size of the property was 90 m$^2$, the crew did 3 projects and the new project was done in the year 2008, the expected overall costs would be `r round(costsModelMLRCIZoom$mean, digits)`. But given the uncertainty of the estimates of parameters, the true expected costs should lie between `r round(costsModelMLRCIZoom$lower, digits)` and `r round(costsModelMLRCIZoom$upper, digits)` in 95% of the cases if we repeat the confidence interval construction many times.
@@ -407,13 +415,13 @@ Another way of visualising the confidence interval is by plotting the actuals vs
 ```{r costModelConfidenceIntervalAvsF, fig.cap="Actuals vs Fitted and confidence interval for the costs model."}
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals")
-abline(a=0,b=1,col=5,lwd=2)
+abline(a=0, b=1, col=2, lwd=2, lty=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRCI$lower[order(fitted(costsModelMLR))], 
-      col=3, lwd=2)
+      col=4, lwd=2, lty=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRCI$upper[order(fitted(costsModelMLR))], 
-      col=3, lwd=2)
+      col=4, lwd=2, lty=2)
 ```
 
 Figure \@ref(fig:costModelConfidenceIntervalAvsF) demonstrates the actuals vs fitted plot, together with the 95% confidence interval around the line, demonstrating where the true line would be expected to be in 95% of the cases if we re-estimate the model many times on different samples. We also see that the uncertainty of the regression line is lower in the middle of the data than in the tails. Conceptually, this happens because the regression line, estimated via OLS, always passes through the average point of the data $(\bar{x},\bar{y})$ and the variability in this point is lower than the variability in the tails.
@@ -440,6 +448,10 @@ costsModelMLRPI <- predict(costsModelMLR, interval="prediction")
 
 Based on this, we can produce an images similar to \@ref(fig:costModelConfidenceInterval) and \@ref(fig:costModelConfidenceIntervalAvsF).
 
+```{r echo=FALSE}
+palette(ourPalette[c(1,4,2)])
+```
+
 ```{r costModelPI, fig.cap="Fitted values and prediction interval for the stopping distance model.", echo=FALSE}
 par(mfcol=c(1,2))
 plot(costsModelMLRPI, ylab="Values", xlab="Observations",
@@ -447,13 +459,17 @@ plot(costsModelMLRPI, ylab="Values", xlab="Observations",
 plot(fitted(costsModelMLR), actuals(costsModelMLR),
      xlab="Fitted",ylab="Actuals",main="Actuals vs Fitted",
      ylim=range(costsModelMLRPI$lower,costsModelMLRPI$upper))
-abline(a=0,b=1,col=5,lwd=2)
+abline(a=0, b=1, col=3, lwd=2, lty=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRPI$lower[order(fitted(costsModelMLR))], 
-      col=3, lty=2, lwd=2)
+      col=2, lty=2, lwd=2)
 lines(sort(fitted(costsModelMLR)),
       costsModelMLRPI$upper[order(fitted(costsModelMLR))], 
-      col=3, lty=2, lwd=2)
+      col=2, lty=2, lwd=2)
+```
+
+```{r echo=FALSE}
+palette(ourPalette)
 ```
 
 Figure \@ref(fig:costModelPI) shows the prediction interval for values over observations and for actuals vs fitted. While the first image is hard to read, we can see that the prediction interval is wider than the confidence one. The second image is more informative, showing that there are some points lying outside of the 95% prediction interval (there are 3 observations outside it). The statistical principles guarantee that asymptotically, if we increase the sample size and repeat the experiment many times, we would have 95% of observations lying inside the interval if the regression assumptions hold.

@@ -53,8 +53,8 @@ s3d <- scatterplot3d::scatterplot3d(SBA_Chapter_11_Costs$materials, SBA_Chapter_
                                     pch=16, highlight.3d=TRUE,
                                     type="h", xlab="Materials costs", ylab="Size of the building",
                                     zlab="Overall costs", main="")
-s3d$plane3d(fit, lty.box="solid", col="darkblue", draw_polygon=TRUE,
-            polygon_args=list(col=rgb(0,0,0.8,0.2)))
+s3d$plane3d(fit, lty.box="solid", col=4, draw_polygon=TRUE,
+            polygon_args=list(col=10))
 ```
 
 The 3d image in Figure \@ref(fig:scatterplot3dProjectCosts) is already hard to analyse, but at least it gives an idea of how the overall costs change with the change of materials costs and size of buildings. However, it would be impossible to produce a meaningful plot of overall costs from more than two variables. What the figure above gives us is the connection between the simple linear regression (which is just a straight line in the two-dimensional plane) and the multiple one (which is a plane in a multi-dimensional space).
@@ -127,7 +127,8 @@ plot(fitted(costsModel01),actuals(costsModel01))
 The same plot is produced via `plot()` method if we use `alm()` function from `greybox` instead:
 
 ```{r costsModel02Plot, fig.cap="Actuals vs fitted values for multiple linear regression model on mtcars data."}
-costsModel02 <- alm(overall~size+materials+projects+year, SBA_Chapter_11_Costs, loss="MSE")
+costsModel02 <- alm(overall~size+materials+projects+year,
+                    SBA_Chapter_11_Costs, loss="MSE")
 plot(costsModel02,1)
 ```
 

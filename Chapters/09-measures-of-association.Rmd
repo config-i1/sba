@@ -183,7 +183,7 @@ where all the values from \@ref(eq:measuresAssociationPearsonPopulation) are sub
 ```{r mtcarsScatterPlotDispMPG, fig.cap="Scatterplot for dispalcement vs mileage variables in mtcars dataset"}
 plot(mtcarsData$disp,mtcarsData$mpg,
      xlab="Displacement",ylab="Mileage")
-abline(lm(mpg~disp,mtcarsData),col="red")
+abline(lm(mpg~disp,mtcarsData), col=2, lwd=2)
 ```
 
 Figure \@ref(fig:mtcarsScatterPlotDispMPG) shows the scatterplot between the two variables and also has the straight line, going through the cloud of points. The closer the points are to the line, the stronger the linear relation between the two variables is. The line corresponds to the formula $\hat{y}=a_0+a_1 x$, where $x$ is the displacement and $\hat{y}$ is the line value for the Mileage. The same relation can be presented if we swap the axes and draw the line $\hat{x}=b_0+b_1 y$:
@@ -191,7 +191,7 @@ Figure \@ref(fig:mtcarsScatterPlotDispMPG) shows the scatterplot between the two
 ```{r mtcarsScatterPlotMPGDisp, fig.cap="Scatterplot for mileage vs dispalcement"}
 plot(mtcarsData$mpg,mtcarsData$disp,
      xlab="Mileage",ylab="Displacement")
-abline(lm(disp~mpg,mtcarsData),col="red")
+abline(lm(disp~mpg,mtcarsData), col=2, lwd=2)
 ```
 
 The slopes for the two lines will in general differ, and will only coincide if the two variables have functional relations (all the point lie on the line). Based on this property, the correlation coefficient was originally constructed, as a geometric mean of the two parameters of slopes: $r_{x,y}=\sqrt{a_1 b_1}$. We will come back to this specific formula later in Section \@ref(simpleLinearRegression). But this idea provides an explanation why the correlation coefficient measures the strength of linear relation. For the two variables of interest it will be:
@@ -216,10 +216,10 @@ y2 <- 2+1.5*x+1.5*error
 # Produce the plots
 par(mfcol=c(1,2))
 plot(x,y1,ylim=c(0,200))
-abline(lm(y1~x),col="red")
+abline(lm(y1~x),col=2, lwd=2)
 text(30,150,paste0("r=",round(cor(x,y1),5)))
 plot(x,y2,ylim=c(0,200))
-abline(lm(y2~x),col="red")
+abline(lm(y2~x),col=2, lwd=2)
 text(30,150,paste0("r=",round(cor(x,y2),5)))
 ```
 

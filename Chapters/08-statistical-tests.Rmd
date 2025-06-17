@@ -50,21 +50,21 @@ In the R code above we are calculating the surface in the tails of distribution.
 
 ```{r hypothesisTestingZTestPvalue, echo=FALSE, fig.cap="The process of p-value calculation for the z-test."}
 plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), xlab="z", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=4)
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1)),rep(0,length(seq(-5,5,0.1)))), col="grey95", lty=0)
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=1, lty=1, col="darkgreen")
-lines(c(-5,5), c(0,0), col="black", lwd=1)
+        c(dnorm(seq(-5,5,0.1)),rep(0,length(seq(-5,5,0.1)))), col=17, lty=0)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=2, lty=1, col=2)
+lines(c(-5,5), c(0,0), col=1, lwd=1)
 polygon(c(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01),rev(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01))),
-        c(dnorm(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)), rep(0,length(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)))), col="lightblue")
+        c(dnorm(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)), rep(0,length(seq(-5,qnorm(1-pnorm(abs(1.6))),0.01)))), col=15)
 polygon(c(seq(qnorm(pnorm(abs(1.6))),5,0.01),rev(seq(qnorm(pnorm(abs(1.6))),5,0.01))),
-        c(dnorm(seq(qnorm(pnorm(abs(1.6))),5,0.01)), rep(0,length(seq(qnorm(pnorm(abs(1.6))),5,0.01)))), col="lightblue")
-# abline(v=qnorm(c(1-pnorm(abs(1.6)),pnorm(abs(1.6)))), col="darkred", lwd=2)
-abline(v=c(-1.6,1.6), col="darkblue", lwd=2)
-text(-1.65,0.02,"-1.6",pos=4)
+        c(dnorm(seq(qnorm(pnorm(abs(1.6))),5,0.01)), rep(0,length(seq(qnorm(pnorm(abs(1.6))),5,0.01)))), col=15)
+# abline(v=qnorm(c(1-pnorm(abs(1.6)),pnorm(abs(1.6)))), col=2, lwd=2)
+abline(v=c(-1.6,1.6), col=2, lwd=2, lty=2)
+text(-1.65,0.02,"-1.6",pos=2)
 text(1.65,0.02,"1.6",pos=2)
 legend("topright",legend=c("calculated z","p-value"),
-       lwd=c(2,6), col=c("darkblue","lightblue"))
+       lwd=c(2,6), col=c(2,15), lty=c(2,1))
 ```
 
 Comparing the p-value of `r round((1-pnorm(abs(1.6)))*2,4)` with the significance level of 0.01, we can conclude that we fail to reject the null hypothesis. This means that based on the collected sample, we cannot tell the difference between the population mean height of 175.3 and the sample height of 176.1.
@@ -186,38 +186,38 @@ Comparing the critical and calculated values ($23.97>14.26$), we conclude that w
 
 ```{r hypothesisTestingChiSquared, echo=FALSE, fig.cap="The process of hypothesis testing in Chi-squared distribution (one-tailed case)."}
 plot(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), xlab=TeX("$\\chi^2$$"), ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=4)
 polygon(c(seq(0,100,0.1),rev(seq(0,100,0.1))),
-        c(dchisq(seq(0,100,0.1),29),rep(0,length(seq(0,100,0.1)))), col="grey95", lty=0)
-lines(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), lwd=1, lty=1, col="darkgreen")
-lines(c(0,100), c(0,0), col="black", lwd=1)
+        c(dchisq(seq(0,100,0.1),29),rep(0,length(seq(0,100,0.1)))), col=17, lty=0)
+lines(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), lwd=2, lty=1, col=2)
+lines(c(0,100), c(0,0), col=1, lwd=1)
 polygon(c(seq(0,qchisq(0.01,29),0.01),rev(seq(0,qchisq(0.01,29),0.01))),
-        c(dchisq(seq(0,qchisq(0.01,29),0.01),29), rep(0,length(seq(0,qchisq(0.01,29),0.01)))), col="grey")
-abline(v=qchisq(0.01,29), col="darkblue", lwd=2)
+        c(dchisq(seq(0,qchisq(0.01,29),0.01),29), rep(0,length(seq(0,qchisq(0.01,29),0.01)))), col=15)
+abline(v=qchisq(0.01,29), col=4, lwd=2)
 text(14.2,0.006,"14.26",pos=4)
-abline(v=23.97, col="darkred", lwd=2)
+abline(v=23.97, col=2, lwd=2, lty=2)
 text(24,0.004,"23.97",pos=4)
 legend("topright",legend=c(TeX("critical $\\chi^2$$"),TeX("calculated $\\chi^2$$"),TeX("$\\alpha =0.01$")),
-       lwd=c(2,2,6), col=c("darkblue","darkred","grey"))
+       lwd=c(2,2,6), col=c(4,2,15), lty=c(1,2,1))
 ```
 
 A thing to keep in mind about the Chi-square distribution is that it is in general asymmetric (it converges to normal with the increase of the sample size, see discussion in Chapter \@ref(distributions)). This means that if the alternative hypothesis is formulated as "not equal", the absolutes of critical values for the left and right tails will differ. This situation is shown in Figure \@ref(fig:hypothesisTestingChiSquared2) with the example of 5% significance level, which is split into two equal parts of 2.5% with critical values of 16.05 and 45.72.
 
 ```{r hypothesisTestingChiSquared2, echo=FALSE, fig.cap="The process of hypothesis testing in Chi-squared distribution (two-tailed case)."}
 plot(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), xlab=TeX("$\\chi^2$$"), ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=4)
 polygon(c(seq(0,100,0.1),rev(seq(0,100,0.1))),
-        c(dchisq(seq(0,100,0.1),29),rep(0,length(seq(0,100,0.1)))), col="grey95", lty=0)
-lines(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), lwd=1, lty=1, col="darkgreen")
-lines(c(0,100), c(0,0), col="black", lwd=1)
+        c(dchisq(seq(0,100,0.1),29),rep(0,length(seq(0,100,0.1)))), col=17, lty=0)
+lines(seq(0,100,0.1), dchisq(seq(0,100,0.1),29), lwd=2, lty=1, col=2)
+lines(c(0,100), c(0,0), col=1, lwd=1)
 polygon(c(seq(0,qchisq(0.025,29),0.01),rev(seq(0,qchisq(0.025,29),0.01))),
-        c(dchisq(seq(0,qchisq(0.025,29),0.01),29), rep(0,length(seq(0,qchisq(0.025,29),0.01)))), col="grey")
-abline(v=qchisq(0.025,29), col="darkblue", lwd=2)
+        c(dchisq(seq(0,qchisq(0.025,29),0.01),29), rep(0,length(seq(0,qchisq(0.025,29),0.01)))), col=15)
+abline(v=qchisq(0.025,29), col=4, lwd=2)
 polygon(c(seq(100,qchisq(0.975,29),-0.01),rev(seq(100,qchisq(0.975,29),-0.01))),
-        c(dchisq(seq(100,qchisq(0.975,29),-0.01),29), rep(0,length(seq(100,qchisq(0.975,29),-0.01)))), col="lightgrey")
-abline(v=qchisq(0.975,29), col="darkblue", lwd=2)
+        c(dchisq(seq(100,qchisq(0.975,29),-0.01),29), rep(0,length(seq(100,qchisq(0.975,29),-0.01)))), col=16)
+abline(v=qchisq(0.975,29), col=4, lwd=2)
 legend("topright",legend=c("critical values","95%","left 2.5%", "right 2.5%"),
-       lwd=c(2,6,6,6), col=c("darkblue","grey95","grey","lightgrey"))
+       lwd=c(2,6,6,6), col=c(4,17,15,16))
 ```
 
 The surfaces in the tails in Figure \@ref(fig:hypothesisTestingChiSquared2) are equal, but because of the asymmetry of distribution they look different.

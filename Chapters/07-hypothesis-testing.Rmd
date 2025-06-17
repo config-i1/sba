@@ -35,19 +35,19 @@ Visually, the whole process of hypothesis testing explained above can be represe
 
 ```{r hypothesisTesting01, echo=FALSE, fig.cap="The process of hypothesis testing with t value."}
 plot(seq(-5,5,0.1), dt(seq(-5,5,0.1), 36-1), xlab="t", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=4)
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dt(seq(-5,5,0.1), 36-1),rep(0,length(seq(-5,5,0.1)))), col="grey95", lty=0)
-lines(seq(-5,5,0.1), dt(seq(-5,5,0.1), 36-1), lwd=1, lty=1, col="darkgreen")
-lines(c(-5,5), c(0,0), col="black", lwd=1)
+        c(dt(seq(-5,5,0.1), 36-1),rep(0,length(seq(-5,5,0.1)))), col=17, lty=0)
+lines(seq(-5,5,0.1), dt(seq(-5,5,0.1), 36-1), lwd=2, lty=1, col=2)
+lines(c(-5,5), c(0,0), col=1, lwd=1)
 polygon(c(seq(-5,qt(0.025, 36-1),0.01),rev(seq(-5,qt(0.025, 36-1),0.01))),
-        c(dt(seq(-5,qt(0.025, 36-1),0.01),36-1), rep(0,length(seq(-5,qt(0.025, 36-1),0.01)))), col="grey")
+        c(dt(seq(-5,qt(0.025, 36-1),0.01),36-1), rep(0,length(seq(-5,qt(0.025, 36-1),0.01)))), col=15)
 polygon(c(seq(qt(0.975, 36-1),5,0.01),rev(seq(qt(0.975, 36-1),5,0.01))),
-        c(dt(seq(qt(0.975, 36-1),5,0.01),36-1), rep(0,length(seq(qt(0.975, 36-1),5,0.01)))), col="grey")
-abline(v=qt(c(0.025,0.975),36-1), col="darkred", lwd=2)
-abline(v=-3, col="darkblue", lwd=2)
+        c(dt(seq(qt(0.975, 36-1),5,0.01),36-1), rep(0,length(seq(qt(0.975, 36-1),5,0.01)))), col=15)
+abline(v=qt(c(0.025,0.975),36-1), col=4, lwd=2)
+abline(v=-3, col=2, lwd=2, lty=2)
 legend("topright",legend=c("critical values","calculated t",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
-       lwd=c(2,2,6,6), col=c("darkred","darkblue","grey95","grey"))
+       lwd=c(2,2,6,6), col=c(4,2,17,15), lty=c(1,2,1,1))
 ```
 
 If the blue line on Figure \@ref(fig:hypothesisTesting01) would lie inside the red bounds (i.e. the calculated value is less than the critical value by absolute), then we would fail to reject $\mathrm{H}_0$. But in our example it is outside the bounds, so we have enough evidence to conclude that the population mean is not equal to zero on 5% significance level. Notice, how similar the mechanisms of confidence interval construction and hypothesis testing are. This is because they are one and the same thing, presented differently. In fact, we could test the same hypothesis by constructing the 95% confidence interval using \@ref(eq:confidenceInterval) and checking, whether the interval covers the $\mu=0$:
@@ -61,19 +61,19 @@ In our case it does not, so we conclude that we reject $\mathrm{H}_0$ on 5% sign
 
 ```{r hypothesisTesting02, echo=FALSE, fig.cap="Confidence interval for for the population mean example."}
 plot(seq(-1.5,0.5,0.01), dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1), xlab="Sample mean", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=4)
 polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
-        c(dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1),rep(0,length(seq(-1.5,0.5,0.01)))), col="grey95", lty=0)
-lines(seq(-1.5,0.5,0.01), dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1), lwd=1, lty=1, col="darkgreen")
-lines(c(-1.5,0.5), c(0,0), col="black", lwd=1)
+        c(dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1),rep(0,length(seq(-1.5,0.5,0.01)))), col=17, lty=0)
+lines(seq(-1.5,0.5,0.01), dt((seq(-1.5,0.5,0.01)+0.5)*6, 36-1), lwd=2, lty=1, col=2)
+lines(c(-1.5,0.5), c(0,0), col=1, lwd=1)
 polygon(c(seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01),rev(seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01))),
-        c(dt((seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01)+0.5)*6,36-1), rep(0,length(seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01)))), col="grey")
+        c(dt((seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01)+0.5)*6,36-1), rep(0,length(seq(-1.5,qt(0.025, 36-1)/6-0.5,0.01)))), col=15)
 polygon(c(seq(qt(0.975, 36-1)/6-0.5,0.5,0.01),rev(seq(qt(0.975, 36-1)/6-0.5,0.5,0.01))),
-        c(dt((seq(qt(0.975, 36-1)/6-0.5,0.5,0.01)+0.5)*6,36-1), rep(0,length(seq(qt(0.975, 36-1)/6-0.5,0.5,0.01)))), col="grey")
-abline(v=qt(c(0.025,0.975),36-1)/6-0.5, col="darkred", lwd=2)
-abline(v=0, col="darkblue", lwd=2)
+        c(dt((seq(qt(0.975, 36-1)/6-0.5,0.5,0.01)+0.5)*6,36-1), rep(0,length(seq(qt(0.975, 36-1)/6-0.5,0.5,0.01)))), col=15)
+abline(v=qt(c(0.025,0.975),36-1)/6-0.5, col=4, lwd=2)
+abline(v=0, col=2, lwd=2, lty=2)
 legend("topright",legend=c("bounds",TeX("$\\mu$=0"),TeX("$1-\\alpha$"),TeX("$\\alpha$")),
-       lwd=c(2,2,6,6), col=c("darkred","darkblue","grey95","grey"))
+       lwd=c(2,2,6,6), col=c(4,2,17,15), lty=c(1,2,1,1))
 ```
 
 Note that the positioning of the blue line has changed in the case of confidence interval, which happens because of the transition from \@ref(eq:ttestFormula) to \@ref(eq:confidenceInterval). The idea and the message, however, stay the same: if the value is not inside the light grey area, then we reject $\mathrm{H}_0$ on the selected significance level.
@@ -223,74 +223,74 @@ In this example we will test the hypothesis on 5% significance level. The genera
 
 ```{r powerOfTestVisual01, echo=FALSE, fig.cap="The process of hypothesis testing of one sided hypothesis \\@ref(eq:powerOfATestHypothesis)."}
 plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+     lwd=0, lty=0, col=4, xlim=c(-7,4))
 polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
-        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
-lines(c(-8,10), c(0,0), col="black", lwd=1)
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col=17, lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=2, lty=1, col=2)
+lines(c(-8,10), c(0,0), col=1, lwd=1)
 polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
-        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
-abline(v=qnorm(0.05), col="darkred", lwd=2)
-abline(v=-2.66, col="darkblue", lwd=2)
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col=15)
+abline(v=qnorm(0.05), col=4, lwd=2)
+abline(v=-2.66, col=2, lwd=2, lty=2)
 legend("topright",legend=c("critical values","calculated z",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
-       lwd=c(2,2,6,6), col=c("darkred","darkblue","grey95","lightgrey"))
+       lwd=c(2,2,6,6), col=c(4,2,17,15), lty=c(1,2,1,1))
 ```
 
 The plot in Figure \@ref(fig:powerOfTestVisual01) shows the theoretical distribution of z-values, the 5% critical value and the calculated one. On the plot, we see that the calculated value lies in the tail of the distribution, which means that we can reject the null hypothesis on 5% significance level. The situation, when we correctly reject H$_0$ in our example corresponds to the case, when the true distribution lies to the left of the assumed one as shown in Figure \@ref(fig:powerOfTestVisual02).
 
 ```{r powerOfTestVisual02, echo=FALSE, fig.cap="Hypothetical \"true\" and the assumed distributions."}
 plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+     lwd=0, lty=0, col=4, xlim=c(-7,4))
 polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
-        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
-lines(c(-8,10), c(0,0), col="black", lwd=1)
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col=17, lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=2, lty=1, col=2)
+lines(c(-8,10), c(0,0), col=1, lwd=1)
 polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
-        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col="purple")
-abline(v=qnorm(0.05), col="darkred", lwd=2)
-abline(v=-2.66, col="darkblue", lwd=2)
-abline(v=-4, col="purple", lwd=2, lty=2)
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col=15)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col=3)
+abline(v=qnorm(0.05), col=4, lwd=2)
+abline(v=-2.66, col=2, lwd=2, lty=2)
+abline(v=-4, col=3, lwd=2, lty=2)
 legend("topright",legend=c("critical values","calculated z","True distribution",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
-       lwd=c(2,2,2,6,6), col=c("darkred","darkblue","purple","grey95","lightgrey"), lty=c(1,1,2,1,1))
+       lwd=c(2,2,2,6,6), col=c(4,2,3,17,15), lty=c(1,2,2,1,1))
 ```
 
 In the example of Figure \@ref(fig:powerOfTestVisual02) we consider a hypothetical situation, where the true mean is such that the standard normal distribution is centered around the value -4. In this example we correctly reject the wrong null hypothesis, which corresponds to the correct decision in Table \@ref(tab:typeErrorsTable) and the probability of this case is the "Power of a Test". Visually, it corresponds to the surface of the "true" distribution to the left of the critical value that we have chosen in the beginning - any calculated value below this will lead to the rejection of H$_0$ and thus to the correct decision. This is shown visually in Figure \@ref(fig:powerOfTestVisual03).
 
 ```{r powerOfTestVisual03, echo=FALSE, fig.cap="Power of the Test based on the hypothetical true value of $\\mu$."}
 plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+     lwd=0, lty=0, col=2, xlim=c(-7,4))
 polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
-        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
-lines(c(-8,10), c(0,0), col="black", lwd=1)
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col=17, lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=2, lty=1, col=2)
+lines(c(-8,10), c(0,0), col=1, lwd=1)
 polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
-        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col="lightgrey")
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col="purple")
+        c(dnorm(seq(-8,qnorm(0.05),0.01)), rep(0,length(seq(-8,qnorm(0.05),0.01)))), col=15)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-4), lwd=2, lty=2, col=3)
 polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
         c(dnorm(seq(-8,qnorm(0.05),0.01),-4), rep(0,length(seq(-8,qnorm(0.05),0.01)))),
-        col=rgb(0.9,0.8,0.9,0.5), lty=2, border="purple", lwd=2)
-abline(v=qnorm(0.05), col="darkred", lwd=2)
+        col=9, lty=2, border=3, lwd=2)
+abline(v=qnorm(0.05), col=4, lwd=2)
 legend("topright",legend=c("critical values","True distribution",TeX("$1-\\alpha$"),TeX("$\\alpha$"),"Power of the Test"),
-       lwd=c(2,2,6,6,6), col=c("darkred","purple","grey95","lightgrey",rgb(0.9,0.8,0.9,0.5)), lty=c(1,2,1,1,1))
+       lwd=c(2,2,6,6,6), col=c(4,3,17,15,9), lty=c(1,2,1,1,1))
 ```
 
 The surface to the left of the critical value in Figure \@ref(fig:powerOfTestVisual03) is the Power of the Test for the example of a specific value of assumed $\mu$. Given that we never know the true value, we could try other values, which would shift the distribution to the left or to the right, meaning either the increase or the decrease in power of the test. For example, the situation shown in Figure \@ref(fig:powerOfTestVisual04) corresponds to the smaller Power of the Test (because the surface of the distribution to the left is smaller than the surface of the distribution in Figure \@ref(fig:powerOfTestVisual03)).
 
 ```{r powerOfTestVisual04, echo=FALSE, fig.cap="Power of the Test based on another hypothetical true value of $\\mu$."}
 plot(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), xlab="z", ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue", xlim=c(-7,4))
+     lwd=0, lty=0, col=4, xlim=c(-7,4))
 polygon(c(seq(-8,10,0.1),rev(seq(-8,10,0.1))),
-        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col="grey95", lty=0)
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=1, lty=1, col="darkgreen")
-lines(c(-8,10), c(0,0), col="black", lwd=1)
-lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-2.5), lwd=2, lty=2, col="purple")
+        c(dnorm(seq(-8,10,0.1)),rep(0,length(seq(-8,10,0.1)))), col=17, lty=0)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1)), lwd=2, lty=1, col=2)
+lines(c(-8,10), c(0,0), col=1, lwd=1)
+lines(seq(-8,10,0.1), dnorm(seq(-8,10,0.1),-2.5), lwd=2, lty=2, col=3)
 polygon(c(seq(-8,qnorm(0.05),0.01),rev(seq(-8,qnorm(0.05),0.01))),
         c(dnorm(seq(-8,qnorm(0.05),0.01),-2.5), rep(0,length(seq(-8,qnorm(0.05),0.01)))),
-        col=rgb(0.9,0.8,0.9,0.5), lty=2, border="purple", lwd=2)
-abline(v=qnorm(0.05), col="darkred", lwd=2)
+        col=9, lty=2, border=3, lwd=2)
+abline(v=qnorm(0.05), col=4, lwd=2)
 legend("topright",legend=c("critical values","True distribution","Power of the Test"),
-       lwd=c(2,2,6), col=c("darkred","purple",rgb(0.9,0.8,0.9,0.5)), lty=c(1,2,1))
+       lwd=c(2,2,6), col=c(4,3,9), lty=c(1,2,1))
 ```
 
 Analysing Figures \@ref(fig:powerOfTestVisual03) and \@ref(fig:powerOfTestVisual04), we can already outline two factors impacting the power of a test:
@@ -388,12 +388,12 @@ The larger the sample size (element (3)), the more powerful the test becomes in 
 muValuesNew <- seq(2.8,3.1,length.out=1000)
 plot(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(1000))), type="l",
      xlab=TeX("$\\mu$"), ylab="Power of the test")
-lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(300))), col="blue")
-lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(100))), col="purple")
-lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(50))), col="red")
-lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(25))), col="orange")
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(300))), col=2)
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(100))), col=3)
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(50))), col=4)
+lines(muValuesNew, pnorm((zValue - muValuesNew)/(yMeanSD*6/sqrt(25))), col=5)
 legend("topright", legend=c("n=1000","n=300","n=100","n=50","n=25"),
-       col=c("black","blue","purple","red","orange"), lwd=1)
+       col=c(1:5), lwd=1)
 ```
 
 Finally, the more general point about the "amount of information" applies to the selection between the tests. In the Section \@ref(statisticalTests) we will discuss a variety of tests and we will discuss the conditions under which some of them are more powerful than the others. But in general the rule is: the more a priori information you can provide to the test, the easier it becomes to detect deviations from the tested value, because the uncertainty caused by estimation of additional parameters is decreased in this case.

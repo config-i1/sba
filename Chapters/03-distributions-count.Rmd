@@ -8,7 +8,7 @@ A random variable discussed in Section \@ref(whatIsRandomVariable) can take a va
 ```{r distributionDice12, echo=FALSE, fig.cap="Distribution of outcomes for scores based on two dices."}
 y <- c(1:6,5:1)/36
 names(y) <- c(2:12)
-yBarplot <- barplot(y, xlab="Dice score", ylab="Probability of outcome", col="grey95")
+yBarplot <- barplot(y, xlab="Dice score", ylab="Probability of outcome", col=17)
 axis(1, at=yBarplot, labels=FALSE)
 ```
 
@@ -26,7 +26,7 @@ PMF is the function of probability of occurrence from specific values of random 
 CDF shows the probability of the event lower than the specified one. For example, the probability of getting the score lower than 4 is $\frac{1}{36}+\frac{2}{36}=\frac{1}{12}$, which corresponds to the sum of the first two bars in Figure \@ref(fig:distributionDice12). The CDF for our example is shown in Figure \@ref(fig:distributionDice12CDF).
 
 ```{r distributionDice12CDF, echo=FALSE, fig.cap="Cumulative distribution of outcomes for scores based on two dices."}
-yBarplot <- barplot(cumsum(y), xlab="Cumulative dice score", ylab="Probability of outcome", col="grey95")
+yBarplot <- barplot(cumsum(y), xlab="Cumulative dice score", ylab="Probability of outcome", col=17)
 axis(1, at=yBarplot, labels=FALSE)
 ```
 
@@ -53,17 +53,17 @@ where $y$ can only take values of 0 and 1. Figure \@ref(fig:bernoulliPMF) demons
 par(mfcol=c(1,3))
 test <- barplot(dbinom(c(0,1), size=1, prob=0.2), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.2", col="grey95")
+                main="p=0.2", col=17)
 axis(side=1,at=test,labels=c(0,1))
 
 test <- barplot(dbinom(c(0,1), size=1, prob=0.5), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.5", col="grey95")
+                main="p=0.5", col=17)
 axis(side=1,at=test,labels=c(0,1))
 
 test <- barplot(dbinom(c(0,1), size=1, prob=0.8), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.8", col="grey95")
+                main="p=0.8", col=17)
 axis(side=1,at=test,labels=c(0,1))
 ```
 
@@ -83,17 +83,17 @@ which can be plotted as shown in Figure \@ref(fig:bernoulliCDF).
 par(mfcol=c(1,3))
 test <- barplot(pbinom(c(0,1), size=1, prob=0.2), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.2", col="grey95")
+                main="p=0.2", col=17)
 axis(side=1,at=test,labels=c(0,1))
 
 test <- barplot(pbinom(c(0,1), size=1, prob=0.5), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.5", col="grey95")
+                main="p=0.5", col=17)
 axis(side=1,at=test,labels=c(0,1))
 
 test <- barplot(pbinom(c(0,1), size=1, prob=0.8), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="p=0.8", col="grey95")
+                main="p=0.8", col=17)
 axis(side=1,at=test,labels=c(0,1))
 ```
 
@@ -151,7 +151,7 @@ Yes, we can. The distribution that underlies this experiment is called "Binomial
 ```{r binomialPMF05, fig.cap="Probability Mass Function for Binomial distribution with p=0.5 and n=10.", echo=FALSE}
 test <- barplot(dbinom(c(0:10), size=10, prob=0.5), ylim=c(0,1),
                 ylab="Probability",xlab="y",
-                main="", col="grey95")
+                main="", col=17)
 axis(side=1,at=test,labels=c(0:10))
 ```
 
@@ -192,7 +192,7 @@ Consider a problem of demand forecasting for expensive medical equipment in the 
 ```{r binomialPMF01, fig.cap="Probability Mass Function for Binomial distribution with p=0.1 and n=20.", echo=FALSE}
 test <- barplot(dbinom(c(0:20), size=20, prob=0.1),
                 ylab="Probability",xlab="y", ylim=c(0,0.25),
-                main="", col="grey95")
+                main="", col=17)
 axis(side=1,at=test,labels=c(0:20))
 ```
 
@@ -209,7 +209,7 @@ This CDF in our example will have the shape shown in Figure \@ref(fig:binomialCD
 ```{r binomialCDF01, fig.cap="Cumulative Distribution Function for Binomial distribution with p=0.1 and n=20.", echo=FALSE}
 test <- barplot(pbinom(c(0:20), size=20, prob=0.1),
                 ylab="Probability",xlab="y", ylim=c(0,1),
-                main="", col="grey95")
+                main="", col=17)
 axis(side=1,at=test,labels=c(0:20))
 ```
 
@@ -269,22 +269,22 @@ Based on this principle of memorylessness (and based on the Exponential distribu
 par(mfrow=c(2,3))
 dpois(c(0:10),lambda=0.1) |> setNames(0:10) |>
 barplot(ylim=c(0,1),
-        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=0.1$"))
+        ylab="Probability",xlab="y", col=17, main=TeX("$\\lambda=0.1$"))
 dpois(c(0:10),lambda=0.5) |> setNames(0:10) |>
 barplot(ylim=c(0,1),
-        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=0.5$"))
+        ylab="Probability",xlab="y", col=17, main=TeX("$\\lambda=0.5$"))
 dpois(c(0:10),lambda=1) |> setNames(0:10) |>
 barplot(ylim=c(0,1),
-        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=1$"))
+        ylab="Probability",xlab="y", col=17, main=TeX("$\\lambda=1$"))
 
 dpois(c(0:10),lambda=2) |> setNames(0:10) |>
 barplot(ylim=c(0,1),
-        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=2$"))
+        ylab="Probability",xlab="y", col=17, main=TeX("$\\lambda=2$"))
 dpois(c(0:10),lambda=3) |> setNames(0:10) |>
 barplot(ylim=c(0,1),
-        ylab="Probability",xlab="y", col="grey95", main=TeX("$\\lambda=3$"))
+        ylab="Probability",xlab="y", col=17, main=TeX("$\\lambda=3$"))
 dpois(c(0:22),lambda=10) |> setNames(0:22) |>
-barplot(ylab="Probability", xlab="y", col="grey95", main=TeX("$\\lambda=10$"))
+barplot(ylab="Probability", xlab="y", col=17, main=TeX("$\\lambda=10$"))
 ```
 
 From the graphs in Figure \@ref(fig:poissonPMF), we can make several observations:
@@ -364,7 +364,7 @@ The PMF of the Uniform distribution is shown visually in Figure \@ref(fig:unifor
 
 ```{r uniformPMF, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", echo=FALSE}
 test <- barplot(rep(1/6,6), ylim=c(0,1),
-                ylab="Probability",xlab="y", col="grey95")
+                ylab="Probability",xlab="y", col=17)
 axis(side=1,at=test,labels=c(1:6))
 ```
 
@@ -386,7 +386,7 @@ where $a$ is the lowest possible value and $k$ is the number of outcomes. This C
 
 ```{r uniformCDF, fig.cap="Cumulative Distribution Function of Uniform distribution for 1d6.", echo=FALSE}
 test <- barplot(cumsum(rep(1/6,6)), ylim=c(0,1),
-                ylab="Probability",xlab="y", col="grey95")
+                ylab="Probability",xlab="y", col=17)
 axis(side=1,at=test,labels=c(1:6))
 ```
 
@@ -437,22 +437,22 @@ xValues <- seq(0,20,1)
 dnbinom(xValues, 1, 0.2) |>
     barplot(main="p=0.2, k=1",
             ylab="Probability", xlab="m",
-            col="grey95", ylim=c(0,0.2)) -> test
+            col=17, ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 dnbinom(xValues, 2, 0.2) |>
     barplot(main="p=0.2, k=2",
             ylab="Probability", xlab="m",
-            col="grey95", ylim=c(0,0.2)) -> test
+            col=17, ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 dnbinom(xValues, 4, 0.2) |>
     barplot(main="p=0.2, k=4",
             ylab="Probability", xlab="m",
-            col="grey95", ylim=c(0,0.2)) -> test
+            col=17, ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 dnbinom(xValues, 1, 0.1) |>
     barplot(main="p=0.1, k=1",
             ylab="Probability", xlab="m",
-            col="grey95", ylim=c(0,0.2)) -> test
+            col=17, ylim=c(0,0.2)) -> test
 axis(side=1,at=test,labels=xValues)
 ```
 

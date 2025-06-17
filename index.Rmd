@@ -28,9 +28,28 @@ install.packages("greybox")
 
 A very important thing to note is that these lecture notes **do not use `tidyverse` packages**. I like base R, and, to be honest, I am sure that `tidyverse` packages are great, but I have never needed them in my research. So, I will not use pipeline operators, `tibble` or `tsibble` objects and `ggplot2`. It is assumed throughout the lecture notes that you can do all those nice tricks on your own if you want to.
 
-If you want to get in touch with me, there are lots of ways to do that: comments section on any page of [my website](https://forecasting.svetunkov.ru/), [my Russian website](https://ivan.svetunkov.ru/), [vk.com](https://vk.com/isvetunkov), [Facebook](https://www.facebook.com/isvetunkov), [Linkedin](https://www.linkedin.com/in/isvetunkov), [Twitter](https://twitter.com/iSvetunkov).
+Note that we use the following colour palette throughout the book:
 
-You can also find me on [ResearchGate](https://www.researchgate.net/profile/Ivan_Svetunkov), [StackExchange](http://stats.stackexchange.com/users/87585/ivan-svetunkov) and [StackOverflow](http://stackoverflow.com/users/5296618/ivan-svetunkov), although I’m not really active there. Finally, I also have [GitHub](https://github.com/config-i1) account.
+```{r}
+ourPalette <- c("black",
+                # 2-Red, 3-green, 4-blue,
+                rgb(0.5,0.2,0.2,1), rgb(0.2,0.5,0.2,1), rgb(0.2,0.3,0.5,1),
+                # 5-yellow, 6-purple, 7-orange;
+                rgb(0.9,0.8,0.4,1), rgb(0.8,0.4,0.8,1), rgb(1,0.65,0.4,1),
+                # translucent 8-R, 9-G, 10-B
+                rgb(0.9,0.6,0.6,0.5), rgb(0.5,0.8,0.5,0.5), rgb(0.6,0.8,1,0.5),
+                # translucent 11-Y, 12-P, 13-O
+                rgb(0.9,0.8,0.4,0.5), rgb(0.7,0.55,0.7,0.5), rgb(1,0.65,0.4,0.5),
+                # 14-Grey, 15-Light grey, 16-dark grey, 17-very light grey
+                "grey", "lightgrey", "darkgrey", "grey95")
+
+palette(ourPalette)
+```
+This is why some images have colours that differ from the default ones.
+
+If you want to get in touch with Ivan, there are lots of ways to do that: comments section on any page of [my website](https://openforecast.org/), [my other website](https://ivan.svetunkov.vom/), [vk.com](https://vk.com/isvetunkov), [Facebook](https://www.facebook.com/isvetunkov), [Linkedin](https://www.linkedin.com/in/isvetunkov), [Twitter](https://twitter.com/iSvetunkov).
+
+You can also find Ivan on [ResearchGate](https://www.researchgate.net/profile/Ivan_Svetunkov), [StackExchange](http://stats.stackexchange.com/users/87585/ivan-svetunkov) and [StackOverflow](http://stackoverflow.com/users/5296618/ivan-svetunkov), although I’m not really active there. Finally, I also have [GitHub](https://github.com/config-i1) account.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
@@ -48,20 +67,6 @@ library("DescTools")
 library("plotrix")
 library("scatterplot3d")
 library("grDevices")
-
-ourPalette <- c("white","black",
-                # 3-Red, 4-green, 5-blue,
-                rgb(0.5,0.2,0.2,1), rgb(0.2,0.5,0.2,1), rgb(0.2,0.3,0.5,1),
-                # 6-yellow, 7-purple, 8-orange;
-                rgb(0.9,0.8,0.4,1), rgb(0.8,0.4,0.8,1), rgb(1,0.65,0.4,1),
-                # translucent 9-R, 10-G, 11-B
-                rgb(0.9,0.6,0.6,0.5), rgb(0.5,0.8,0.5,0.5), rgb(0.6,0.8,1,0.5),
-                # translucent 12-Y, 13-P, 14-O
-                rgb(0.9,0.8,0.4,0.5), rgb(0.7,0.55,0.7,0.5), rgb(1,0.65,0.4,0.5),
-                # 15-Grey, 16-Light grey, 17-dark grey, 18-very light grey
-                "grey", "lightgrey", "darkgrey", "grey95")
-
-palette(ourPalette)
 
 digits <- 4
 ```

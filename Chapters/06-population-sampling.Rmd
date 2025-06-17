@@ -1,35 +1,44 @@
 # Population and sampling {#PopulationSampling}
 Consider a case, when you want to understand what is the average height of teenagers living in your town. It is very expensive and time consuming to go from one house to another and ask every single teenager (if you find one), what their hight is. If we could do that, we would get the true mean, true average height of teenagers living in the town. But in reality, it is more practical to ask a sample of teenagers and make conclusions about the "population" (all teenagers in the town) based on this sample. Indeed, you will spend much less time collecting the information about the height of 100 people rather than 100,000. However, when we take a sample of something, the statistics we work with will always differ from the truth: sample mean will never be equal to the true mean, but it can be shown mathematically that it will converge to the truth, when some specific conditions are met and when the sample size increases. If we set up the experiment correctly, then we can expect our statistics to follow some laws. In this chapter, we discuss these laws, how they work and what they imply.
 
+```{r}
+load("data/SBA_Chapter_6_data.Rdata")
+```
+
 ## Law of Large Numbers {#LLN}
 The first law is called the **Law of Large Numbers** (LLN). It is the theorem saying that (under wide conditions) the average of a variable obtained over the large number of trials will be close to its expected value and will get closer to it with the increase of the sample size. This can be demonstrated with the following example:
 
 ```{r histY30Y1000, fig.cap="Histograms of samples of data from variable y.", }
 obs <- 10000
+set.seed(41)
 # Generate data from normal distribution
 y <- rnorm(obs,100,100)
 # Create sub-samples of 50 and 100 observations
 y30 <- sample(y, 30)
 y1000 <- sample(y, 1000)
 par(mfcol=c(1,2))
-hist(y30, xlab="y")
-abline(v=mean(y30), col="red")
-hist(y1000, xlab="y")
-abline(v=mean(y1000), col="red")
+hist(y30, xlab="y", col=17)
+abline(v=mean(y30), col=2, lwd=2)
+hist(y1000, xlab="y", col=17)
+abline(v=mean(y1000), col=2, lwd=2)
 ```
 
 What we will typically see on the plots above is that the mean (red line) on the left plot will be further away from the true mean of 100 than in the case of the right plot. Given that this is randomly generated, the situation might differ, but the idea would be that with the increase of the sample size the estimated sample mean will converge to the true one. We can even produce a plot showing how this happens:
 
 ```{r eval=FALSE}
-yMean <- vector("numeric",obs)
+yMeanLLN <- vector("numeric",obs)
 for(i in 1:obs){
-    yMean[i] <- mean(sample(y,i))
+    yMeanLLN[i] <- mean(sample(y,i))
 }
-plot(yMean, type="l", xlab="Sample size", ylab="Sample mean")
+plot(yMeanLLN, type="l", xlab="Sample size", ylab="Sample mean")
+```
+
+```{r echo=FALSE}
+save(yMeanLLN, file="data/SBA_Chapter_6_data.Rdata")
 ```
 
 ```{r statsSampleMean, fig.cap="Demonstration of Law of Large Numbers.", echo=FALSE}
-knitr::include_graphics("images/02-statistics-LLN.png")
+plot(yMeanLLN, type="l", xlab="Sample size", ylab="Sample mean")
 ```
 
 We can see from the plot above that with the increase of the sample size the sample mean reaches the true value of 100. This is a graphical demonstration of the Law of Large Numbers: it only tells us about what will happen when the sample size increases. But it is still useful, because it used for many statistical inferences and if it does not work, then the estimate of mean would be incorrect, meaning that we cannot make conclusions about the behaviour in population.
@@ -43,20 +52,24 @@ In summary, what LLN tells us is that if we average things out over a large numb
 As we have already seen on Figure \@ref(fig:statsSampleMean), the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator (Figure \@ref(fig:histyMean)):
 
 ```{r histyMean, fig.cap="Histogram of the estimates of mean of the variable y."}
+obs <- 10000
 # Set seed for reproducibility
 set.seed(41)
 # Define number of iterations
 nIterations <- 1000
 sampleSize <- 1000
+# Generate data from normal distribution
+y <- rnorm(obs,100,100)
 yMean <- vector("numeric",nIterations)
 for(i in 1:nIterations){
     yMean[i] <- mean(sample(y, sampleSize))
 }
-hist(yMean, xlab="Sample mean", main="", probability=TRUE)
+hist(yMean, xlab="Sample mean", main="", probability=TRUE,
+     col=17)
 # Add the density curve for the normal distribution
 lines(seq(90,110,0.1),
       dnorm(seq(90,110,0.1), 100, 100/sqrt(sampleSize)), 
-      col=3, lwd=2)
+      col=2, lwd=2)
 ```
 
 Figure \@ref(fig:histyMean) shows the distribution of the estimates of mean and also has a density curve of the normal distribution with some known parameters above it. We can see that the empirical distribution on the histogram looks similar to the normal one. Why is that?
@@ -86,7 +99,7 @@ load("./data/dice_Convolution.Rdata")
 
 par(mfcol=c(4,1), mar=c(2,1,3,0))
 for(i in c(1:4)){
-    test <- barplot(z[[i]], main=paste0(2^(i-1), " dice"), col=10)
+    test <- barplot(z[[i]], main=paste0(2^(i-1), " dice"), col=9)
 }
 ```
 
@@ -126,10 +139,10 @@ for(i in c(1:length(n))){
     else{
         mainTitle <- " observations"
     }
-    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    plot(density(z[[i]]), col=3, lwd=2, main=paste0(n[i], mainTitle), axes=F)
     lines(seq(-min(z[[i]]), max(z[[i]])*1.5, 0.1),
           dnorm(seq(-min(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
-          col=3, lwd=2, lty=2)
+          col=2, lwd=2, lty=2)
     axis(1)
     box()
 }
@@ -164,10 +177,10 @@ for(i in c(1:length(n))){
     else{
         mainTitle <- " observations"
     }
-    plot(density(z[[i]]), col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F)
+    plot(density(z[[i]]), col=3, lwd=2, main=paste0(n[i], mainTitle), axes=F)
     lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
           dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]])),
-          col=3, lwd=2, lty=2)
+          col=2, lwd=2, lty=2)
     axis(1)
     box()
 }
@@ -220,10 +233,10 @@ for(i in c(1:length(n))){
     mainTitle <- " observations"
     x <- density(z[[i]])
     y <- dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]]))
-    plot(x, col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
+    plot(x, col=3, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
     lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
           y,
-          col=3, lwd=2, lty=2)
+          col=2, lwd=2, lty=2)
     axis(1)
     box()
 }
@@ -266,10 +279,10 @@ for(i in c(1:length(n))){
     mainTitle <- " observations"
     x <- density(z[[i]])
     y <- dnorm(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1), mean=mean(z[[i]]), sd=sd(z[[i]]))
-    plot(x, col=4, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
+    plot(x, col=3, lwd=2, main=paste0(n[i], mainTitle), axes=F, ylim=c(min(x$y,y), max(x$y,y)))
     lines(seq(-max(z[[i]]), max(z[[i]])*1.5, 0.1),
           y,
-          col=3, lwd=2, lty=2)
+          col=2, lwd=2, lty=2)
     axis(1)
     box()
 }
@@ -325,14 +338,18 @@ This way we have generated 1000 samples with 30 observations and calculated vari
 ```{r fig.cap="Histograms for biased and unbiased estimates of variance."}
 par(mfcol=c(1,2))
 # Histogram of the biased estimate
-hist(varValues[2,], xlab="V(y)", ylab="y", main="Biased estimate of V(y)")
-abline(v=mean(varValues[2,]), col="red")
-legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[2,]),2))),lwd=1,col="red")
+hist(varValues[2,], xlab="V(y)", ylab="y", main="Biased estimate of V(y)",
+     col=17)
+abline(v=mean(varValues[2,]), col=2, lwd=2)
+legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[2,]),2))),
+       lwd=2, col=2)
 
 # Histogram of unbiased estimate
-hist(varValues[1,], xlab="V(y)", ylab="y", main="Unbiased estimate of V(y)")
-abline(v=mean(varValues[1,]), col="red")
-legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[1,]),2))),lwd=1,col="red")
+hist(varValues[1,], xlab="V(y)", ylab="y", main="Unbiased estimate of V(y)",
+     col=17)
+abline(v=mean(varValues[1,]), col=2, lwd=2)
+legend("topright",legend=TeX(paste0("E$\\left(V(y)\\right)$=",round(mean(varValues[1,]),2))),
+       lwd=2, col=2)
 
 ```
 
@@ -349,6 +366,7 @@ where $k$ is the number of all independent estimated parameters. In this simple 
 
 Another classical example of not efficient estimator is the median, when used on the data that follows Normal distribution. Here is a simple experiment demonstrating the idea:
 ```{r eval=FALSE}
+set.seed(42)
 mu <- 100
 sigma <- 10
 nIterations <- 500
@@ -363,17 +381,19 @@ for(i in 1:obs){
 }
 ```
 
+```{r echo=FALSE}
+save(yMeanLLN, varMeanValues, varMedianValues, file="data/SBA_Chapter_6_data.Rdata")
+```
+
 In order to establish the efficiency of the estimators, we will take their variances and look at the ratio of mean over median. If both are equally efficient, then this ratio will be equal to one. If the mean is more efficient than the median, then the ratio will be less than one:
 
-```{r eval=FALSE}
+```{r statsEfficiecny, fig.cap="An example of a relatively inefficient estimator.", echo=FALSE}
 options(scipen=6)
-plot(1:100*100,varMeanValues/varMedianValues, type="l", xlab="Sample size",ylab="Relative efficiency")
-abline(h=1, col="red")
+plot(1:100*100, varMeanValues/varMedianValues, type="l",
+     xlab="Sample size",ylab="Relative efficiency", ylim=c(0,1))
+abline(h=1, col=2, lwd=2)
 ```
 
-```{r statsEfficiecny, fig.cap="An example of a relatively inefficient estimator.", echo=FALSE}
-knitr::include_graphics("images/02-statistics-efficiency.png")
-```
 
 What we should typically see on this graph, is that the black line should be below the red one, indicating that the variance of mean is lower than the variance of the median. This means that mean is more efficient estimator of the true location of the distribution $\mu$ than the median. In fact, it is easy to proove that asymptotically the mean will be 1.57 times more efficient than median [@WikipediaMedianEfficiency2020] (so, the line should converge approximately to the value of 0.64).
 
@@ -388,14 +408,17 @@ An example of inconsistent estimator is Chebyshev (or max norm) metric. It is fo
 \end{equation}
 Minimising this norm, we can get an estimate $\hat{y}$ of the location parameter $\mu$. The simulation experiment becomes a bit more tricky in this situation, but here is the code to generate the estimates of the location parameter:
 ```{r eval=FALSE}
+# L-max loss function
 LMax <- function(y){
     estimator <- function(par){
         return(max(abs(y-par)));
     }
     
-    return(optim(mean(y), fn=estimator, method="Brent", lower=min(y), upper=max(y)));
+    return(optim(mean(y), fn=estimator, method="Brent",
+                 lower=min(y), upper=max(y)));
 }
 
+set.seed(43)
 mu <- 100
 sigma <- 10
 nIterations <- 1000
@@ -406,15 +429,17 @@ for(i in 1:nIterations){
 }
 ```
 
-And here how the estimate looks with the increase of sample size:
-```{r eval=FALSE}
-plot(1:nIterations*10, LMaxEstimates, type="l", xlab="Sample size",ylab=TeX("Estimate of $\\mu$"))
-abline(h=mu, col="red")
+```{r echo=FALSE}
+save(yMean, yMeanLLN, varMeanValues, varMedianValues, LMaxEstimates, file="data/SBA_Chapter_6_data.Rdata")
 ```
 
+And here how the estimate looks with the increase of sample size (Figure \@ref(fig:statsConsistency)):
 ```{r statsConsistency, fig.cap="An example of inconsistent estimator.", echo=FALSE}
-knitr::include_graphics("images/02-statistics-consistency.png")
+plot(1:nIterations*10, LMaxEstimates, type="l",
+     xlab="Sample size",ylab=TeX("Estimate of $\\mu$"))
+abline(h=mu, col=2, lwd=2)
 ```
+
 
 While in the example with bias we could see that the lines converge to the red line (the true value) with the increase of the sample size, the Chebyshev metric example shows that the line does not approach the true one, even when the sample size is 10000 observations. The conclusion is that when Chebyshev metric is used, it produces inconsistent estimates of parameters.
 
@@ -436,17 +461,17 @@ It might not be clear to everyone why the model with some bias in it might be be
 ```{r biasVarianceEstimate, fig.cap="Example of two estimators of a parameter.", echo=FALSE}
 layout(matrix(c(1,2),1,2), widths=c(0.73,0.27))
 plot(seq(-10,10,0.1),dnorm(seq(-10,10,0.1),2,2),
-     type="l", ylim=c(0,1), col="darkblue",
+     type="l", ylim=c(0,1), col=4,
      xlab=latex2exp::TeX("$m$"), ylab="Density",
      xlim=c(-4,8), lwd=2)
 lines(seq(-10,10,0.1),dnorm(seq(-10,10,0.1),3,0.5),
-      type="l", col="darkred", lwd=2)
+      type="l", col=2, lwd=2)
 abline(v=2, lwd=2, lty=3)
 # The plot for the legend
 par(mar=c(0.1,0.1,4.1,0.1), bty="n", xaxt="n", yaxt="n")
-plot(0, 0, col="white")
+plot(0, 0, col=0)
 legend("topright",legend=c("Estimator 1","Estimator 2","The true value"),
-       col=c("darkblue","darkred","black"),
+       col=c(4,2,1),
        lwd=2, lty=c(1,1,3))
 ```
 
@@ -469,33 +494,34 @@ In order to simplify further discussion in this section, we will take the popula
 What we want to get by doing this is an idea about the population mean $\mu$. The value $\bar{y}$ does not tell us much on its own due to randomness and if we do not capture its uncertainty, we will not know, where the true value $\mu$ can be. But using LLN and CLT, we know that the sample mean should converge to the true one and should follow normal distribution. So, the distribution of the sample mean would look like this (Figure \@ref(fig:normalCurveBasic)).
 
 ```{r normalCurveBasic, fig.cap="Distribution of the sample mean.", echo=FALSE}
-hist(rnorm(10000), xlab=TeX("$\\bar{y}$"), ylab="Density", xlim=c(-5,5), axes=FALSE, main="")
+hist(rnorm(10000), xlab=TeX("$\\bar{y}$"), ylab="Density",
+     xlim=c(-5,5), axes=FALSE, main="", col=17)
 par(new=TRUE)
 plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), xlab="", ylab="", type="l")
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=1, lty=1, col="darkblue")
-lines(c(-5,5), c(0,0), col="black", lwd=1)
-abline(v=0, col="darkblue", lwd=2)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=2, lty=1, col=2)
+lines(c(-5,5), c(0,0), col=1, lwd=1)
+abline(v=0, col=2, lwd=2)
 legend("topright",legend=c(TeX("$\\mu$")),
-       lwd=c(2), col=c("darkblue"))
+       lwd=2, col=2)
 ```
 
 On its own, this distribution just tells us that the variable is random around the true mean $\mu$ and that its density function has a bell-like shape. In order to make this more useful, we can construct the **confidence interval** for it, which would tell us where the true parameter is most likely to lie. We can cut the tails of this distribution to determine the width of the interval, expecting it to cover $(1-\alpha)\times 100$% of cases. In the ideal world, asymptotically, the confidence interval will be constructed based on the true value, like this:
 
 ```{r normalCurveIntervals, echo=FALSE, fig.cap="Distribution of the sample mean and the confidence interval based on the population data."}
 plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), xlab=TeX("$\\bar{y}$"), ylab="Density", type="l",
-     lwd=0, lty=0, col="darkblue")
+     lwd=0, lty=0, col=2)
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1)),rep(0,length(seq(-5,5,0.1)))), col="grey95", lty=0)
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=1, lty=1, col="darkblue")
-lines(c(-5,5), c(0,0), col="black", lwd=1)
+        c(dnorm(seq(-5,5,0.1)),rep(0,length(seq(-5,5,0.1)))), col=17, lty=0, lwd=2)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=2, lty=1, col=2)
+lines(c(-5,5), c(0,0), col=1, lwd=1)
 polygon(c(seq(-5,qnorm(0.025),0.01),rev(seq(-5,qnorm(0.025),0.01))),
-        c(dnorm(seq(-5,qnorm(0.025),0.01)), rep(0,length(seq(-5,qnorm(0.025),0.01)))), col="grey")
+        c(dnorm(seq(-5,qnorm(0.025),0.01)), rep(0,length(seq(-5,qnorm(0.025),0.01)))), col=15)
 polygon(c(seq(qnorm(0.975),5,0.01),rev(seq(qnorm(0.975),5,0.01))),
-        c(dnorm(seq(qnorm(0.975),5,0.01)), rep(0,length(seq(qnorm(0.975),5,0.01)))), col="grey")
-abline(v=qnorm(c(0.025,0.975)), col="darkred", lwd=2)
-abline(v=0, col="darkblue", lwd=2)
+        c(dnorm(seq(qnorm(0.975),5,0.01)), rep(0,length(seq(qnorm(0.975),5,0.01)))), col=15)
+abline(v=qnorm(c(0.025,0.975)), col=4, lwd=2)
+abline(v=0, col=2, lwd=2)
 legend("topright",legend=c(TeX("$\\mu$"),"bounds",TeX("$1-\\alpha$"),TeX("$\\alpha$")),
-       lwd=c(2,2,6,6), col=c("darkblue","darkred","grey95","grey"))
+       lwd=c(2,2,6,6), col=c(2,4,17,15))
 ```
 
 Figure \@ref(fig:normalCurveIntervals) shows the classical normal distribution curve around the population mean $\mu$, confidence interval of the level $1-\alpha$ and the cut off tails, the overall surface of which corresponds to $\alpha$. The value $1-\alpha$ is called **confidence level**, while $\alpha$ is the **significance level**. By constructing the interval this way, we expect that in the $(1-\alpha)\times 100$% of cases the value will be inside the bounds, and in $\alpha\times 100$% it will not.
@@ -504,21 +530,21 @@ In reality we do not know the true mean $\mu$, so we do a slightly different thi
 
 ```{r normalCurveIntervalsShades, echo=FALSE, fig.cap="Distribution of the sample mean and the confidence interval based on a sample."}
 plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), xlab=TeX("$\\bar{y}$"), ylab="Density", type="l", xlim=c(-5,5),
-     lwd=1,lty=2, col="darkblue")
+     lwd=1,lty=2, col=3)
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1),-1),rep(0,length(seq(-5,5,0.1)))),col="grey95",lty=0)
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), lwd=2, lty=1, col="darkblue")
-abline(v=-1, col="darkblue", lwd=2, lty=2)
+        c(dnorm(seq(-5,5,0.1),-1),rep(0,length(seq(-5,5,0.1)))),col=17,lty=0)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), lwd=2, lty=1, col=3)
+abline(v=-1, col=3, lwd=2, lty=2)
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1),0),rep(0,length(seq(-5,5,0.1)))),col="white",lty=0)
-lines(c(-5,5), c(0,0), col="black", lwd=1)
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), lwd=1, lty=2, col="darkblue")
-lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=2, lty=1, col="darkgreen")
-lines(c(-1,-1), c(0,dnorm(-1)), col="darkblue", lwd=1, lty=2)
-abline(v=qnorm(c(0.025,0.975)), col="darkred", lwd=2)
-abline(v=0, col="darkgreen", lwd=2, lty=2)
+        c(dnorm(seq(-5,5,0.1),0),rep(0,length(seq(-5,5,0.1)))),col=0,lty=0)
+lines(c(-5,5), c(0,0), col=1, lwd=1)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), lwd=1, lty=2, col=3)
+lines(seq(-5,5,0.1), dnorm(seq(-5,5,0.1)), lwd=2, lty=1, col=2)
+lines(c(-1,-1), c(0,dnorm(-1)), col=3, lwd=1, lty=2)
+abline(v=qnorm(c(0.025,0.975)), col=4, lwd=2)
+abline(v=0, col=2, lwd=2, lty=2)
 legend("topright",legend=c(TeX("$\\mu$"),"Sample mean","Bounds","True PDF","Assumed PDF"),
-       lwd=c(2,2,2,2,2), col=c("darkblue","darkgreen","darkred","darkblue","darkgreen"), lty=c(2,2,1,1,1))
+       lwd=c(2,2,2,2,2), col=c(3,2,4,3,2), lty=c(2,2,1,1,1))
 ```
 
 So, what the confidence interval does in reality is tries to cover the unknown population mean, based on the sample values of $\bar{y}$ and $s^2$. If we construct the confidence interval of the width $1-\alpha$ (e.g. 0.95) for thousands of random samples (thousands of trials), then in $(1-\alpha)\times 100$% of cases (e.g. 95%) the true mean will be covered by the interval, while in $\alpha \times 100$% cases it will not be. The interval itself is random, and we rely on LLN and CLT, when constructing it, expecting for it to work asymptotically, with the increase of the number of trials.
@@ -553,6 +579,7 @@ If we are interested in capturing the uncertainty about the random variable $y$,
 where $z_{\alpha/2}$ is the z-statistics (quantile of standard normal distribution) for the level $\alpha/2$ and $\bar{y}$ is the sample estimate of $\mu$ and $s$ is the sample estimate of $\sigma$. The graphical presentation of such interval can be shown as in Figure \@ref(fig:predictionInterval).
 
 ```{r predictionInterval, fig.cap="Artificial data, mean, confidence and prediction intervals.", echo=FALSE}
+set.seed(42)
 y <- rnorm(100,100,10)
 yInterval <- qnorm(c(0.025,0.975),mean(y),sd(y))
 yMeanInterval <- qnorm(c(0.025,0.975),mean(y),sd(y)/10)
@@ -561,14 +588,14 @@ par(mfcol=c(1,2))
 plot(y, xlab="Observation", ylab="Value")
 points(which(y>yInterval[2] | y<yInterval[1]),
        y[y>yInterval[2] | y<yInterval[1]], pch=16)
-abline(h=mean(y), col="darkblue", lwd=2)
-abline(h=yInterval, col="darkorange", lwd=2, lty=2)
-abline(h=yMeanInterval, col="darkred", lwd=2)
+abline(h=mean(y), col=2, lwd=2)
+abline(h=yInterval, col=3, lwd=2, lty=2)
+abline(h=yMeanInterval, col=4, lwd=2)
 
-hist(y, xlab="Value", main="")
-abline(v=mean(y), col="darkblue", lwd=2)
-abline(v=yInterval, col="darkorange", lwd=2, lty=2)
-abline(v=yMeanInterval, col="darkred", lwd=2)
+hist(y, xlab="Value", main="", col=17)
+abline(v=mean(y), col=2, lwd=2)
+abline(v=yInterval, col=3, lwd=2, lty=2)
+abline(v=yMeanInterval, col=4, lwd=2)
 ```
 
 Figure \@ref(fig:predictionInterval) shows the 95% prediction interval on two plots: the linear plot of values vs observations id and on the histogram. In both cases the prediction intervals are the dashed orange lines, lying further away from the sample mean (the solid blue line). The two solid red lines around the mean represent the 95% confidence intervals for the mean (discussed in Section \@ref(confidenceInterval)). As can be seen, the prediction intervals show, where the 95% of observations are expected to lie. As a result, several observations lie outside the bounds (given the sample of 100 observations, we would expect 5 of them to lie outside, but this will vary from one sample to another). In contrast, confidence interval shows, where the expectation of the population will lie in 95% of the cases, if the interval is constructed many times for random samples.

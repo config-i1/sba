@@ -9,7 +9,7 @@ The main difference arises from the idea discussed in Section \@ref(whatIsRandom
 set.seed(41)
 yHist <- hist(rnorm(100,100,10), probability=TRUE, main="",
               xlab="Value of variable", ylab="Probability of outcome",
-              axes=FALSE, col=18)
+              axes=FALSE, col=17)
 axis(side=2)
 axis(side=1, at=yHist$breaks)
 ```
@@ -29,7 +29,7 @@ PDF has similarities with PMF, but does not return the probabilities, but rather
 ```{r dnormPlotIntro, fig.cap="Probability Density Function of Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=18)
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=17)
 ```
 
 It can be seen from the Figure \@ref(fig:dnormPlotIntro) that the density of the distribution is higher at its centre, around zero, which means that it is more likely to get values around the centre rather than near the tails of the distribution.
@@ -48,14 +48,14 @@ CDF is obtained by calculating the surface of PDF for each specific value of $y$
 par(mfcol=c(2,1), mar=c(2,4,1,1))
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=18)
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=17)
 polygon(c(seq(-3,-1,0.01),rev(seq(-3,-1,0.01))),
-        c(dnorm(seq(-3,-1,0.01)), rep(0,length(seq(-3,-1,0.01)))), col=17)
-lines(c(-1,-1),c(0,dnorm(-1)),col=3,lwd=2,lty=1)
+        c(dnorm(seq(-3,-1,0.01)), rep(0,length(seq(-3,-1,0.01)))), col=15)
+lines(c(-1,-1),c(0,dnorm(-1)),col=2,lwd=2,lty=1)
 
 plot(seq(-3,3,0.1),pnorm(seq(-3,3,0.1)),type="l",ylab="Probability",xlab="y",main="")
-lines(c(-1,-1),c(0,pnorm(-1)),col=3,lwd=2,lty=2)
-lines(c(-4,-1),c(pnorm(-1),pnorm(-1)),col=3,lwd=2,lty=2)
+lines(c(-1,-1),c(0,pnorm(-1)),col=2,lwd=2,lty=2)
+lines(c(-4,-1),c(pnorm(-1),pnorm(-1)),col=2,lwd=2,lty=2)
 ```
 
 The dark area in the first plot in Figure \@ref(fig:dnormPlotIntroCDFPDF) is equal to the probability (the value on y-axis) in the second plot, which is approximately equal to `r round(pnorm(-1),2)`. Mathematically, the CDF is calculated as an integral of the PDF, thus capturing this idea of the surface below the PDF curve.
@@ -64,8 +64,8 @@ Another important function is the Quantile Function. It returns the value of $y$
 
 ```{r dnormPlotIntroQF, fig.cap="Quantile Function of Normal distribution", echo=FALSE}
 plot(seq(0,1,0.01),qnorm(seq(0,1,0.01)),type="l",ylab="y",xlab="Probability",main="")
-lines(c(0.25,0.25),c(-3,qnorm(0.25)),col=3,lwd=2,lty=2)
-lines(c(-1,0.25),c(qnorm(0.25),qnorm(0.25)),col=3,lwd=2,lty=2)
+lines(c(0.25,0.25),c(-3,qnorm(0.25)),col=2,lwd=2,lty=2)
+lines(c(-1,0.25),c(qnorm(0.25),qnorm(0.25)),col=2,lwd=2,lty=2)
 ```
 
 The dashed lines in Figure \@ref(fig:dnormPlotIntroQF) show the value of $y$ for the probability 0.25 according to the quantile function. In this example $y \approx -0.68$, meaning that in 25% of the cases the random variable $y$ will lie below this value. The quantiles of distributions are discussed in more detail in Section \@ref(dataAnalysisNumerical).
@@ -90,9 +90,9 @@ or in a short form $y \sim \mathcal{U}(a,b)$. It can be represented visually as 
 plot(seq(0,10,0.1),dunif(seq(0,10,0.1),0,10),
      ylab="Density",xlab="y", type="l", ylim=c(0,0.14))
 polygon(c(seq(0,10,0.1),rev(seq(0,10,0.1))),
-        c(dunif(seq(0,10,0.1),0,10), rep(0,length(seq(0,10,0.1)))), col=18)
-lines(c(0,0), c(0,0.1), lwd=2, col=3)
-lines(c(10,10), c(0,0.1), lwd=2, col=3)
+        c(dunif(seq(0,10,0.1),0,10), rep(0,length(seq(0,10,0.1)))), col=17)
+lines(c(0,0), c(0,0.1), lwd=2, col=2)
+lines(c(10,10), c(0,0.1), lwd=2, col=2)
 ```
 
 According to this distribution, it is equally likely to have 1, 1.1, 1.0001, 9 etc values. The mean of this distribution coincides with the middle of the segment and can be calculated as:
@@ -135,17 +135,17 @@ par(mfcol=c(1,3))
 # n=1
 test <- barplot(dbinom(c(0:1), size=1, prob=0.5),
                 ylab="Probability",xlab="y",
-                main="", col=18)
+                main="", col=17)
 axis(side=1,at=test,labels=c(0:1))
 # n=10
 test <- barplot(dbinom(c(0:10), size=10, prob=0.5),
                 ylab="Probability",xlab="y", ylim=c(0,0.25),
-                main="", col=18)
+                main="", col=17)
 axis(side=1,at=test,labels=c(0:10))
 # n=100
 test <- barplot(dbinom(c(30:70), size=100, prob=0.5),
                 ylab="Probability",xlab="y", ylim=c(0,0.08),
-                main="", col=18)
+                main="", col=17)
 axis(side=1,at=test,labels=c(30:70))
 ```
 
@@ -162,8 +162,8 @@ This distribution can be represented in Figure \@ref(fig:dnormPlot).
 ```{r dnormPlot, fig.cap="Probability Density Function of Standard Normal distribution", echo=FALSE}
 plot(seq(-3,3,0.1),dnorm(seq(-3,3,0.1)),type="l",ylab="Density",xlab="y",main="")
 polygon(c(seq(-5,5,0.1),rev(seq(-5,5,0.1))),
-        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=18)
-abline(v=0, col=3, lwd=2)
+        c(dnorm(seq(-5,5,0.1)), rep(0,length(seq(-5,5,0.1)))), col=17)
+abline(v=0, col=2, lwd=2)
 text(0.3,0,TeX("$\\mu =0$"), pos=3)
 ```
 
@@ -209,11 +209,11 @@ The same number also corresponds to the dark area in PDF of the distribution as 
 plot(seq(-15,55,0.1),dnorm(seq(-15,55,0.1),20,10),type="l",ylab="Density",xlab="y",main="",
      ylim=c(0,0.04), xlim=c(-10,50))
 polygon(c(seq(-15,55,0.1),rev(seq(-15,55,0.1))),
-        c(dnorm(seq(-15,55,0.1),20,10), rep(0,length(seq(-15,55,0.1)))), col=18)
+        c(dnorm(seq(-15,55,0.1),20,10), rep(0,length(seq(-15,55,0.1)))), col=17)
 polygon(c(seq(20,30,0.1),rev(seq(20,30,0.1))),
-        c(dnorm(seq(20,30,0.1),20,10), rep(0,length(seq(20,30,0.1)))), col=11)
-lines(c(20,20),c(0,dnorm(20,20,10)), lwd=2, col=3)
-lines(c(30,30),c(0,dnorm(30,20,10)), lwd=2, col=3)
+        c(dnorm(seq(20,30,0.1),20,10), rep(0,length(seq(20,30,0.1)))), col=10)
+lines(c(20,20),c(0,dnorm(20,20,10)), lwd=2, col=2)
+lines(c(30,30),c(0,dnorm(30,20,10)), lwd=2, col=2)
 text(25,dnorm(25,20,10)/2, round(pnorm(30,20,10)-pnorm(20,20,10),3))
 ```
 
@@ -225,8 +225,8 @@ Many distributions converge to the Normal one or can be approximated by it under
 test <- hist(rbinom(100,100,0.5), breaks=c(0:100), plot=F)
 test$density <- dbinom(c(0:100), 100, 0.5)
 test$breaks <- test$breaks-0.5
-plot(test, xlim=c(30,70), main="", freq=FALSE, ylab="Probability", xlab="y", col=18)
-lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=4, lwd=2)
+plot(test, xlim=c(30,70), main="", freq=FALSE, ylab="Probability", xlab="y", col=17)
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=3, lwd=2)
 ```
 
 As we can see from Figure \@ref(fig:binomialNormalApprox), the normal curve fits the bars of the Binomial distribution very well, which means that we can use it, for example, to compute the probability that the variable $y$ will be equal to 41, via the formula:
@@ -251,20 +251,20 @@ test$density <- dbinom(c(0:100), 100, 0.5)
 par(mfcol=c(1,2))
 # First plot
 plot(test, xlim=c(30,70),
-     main="", freq=FALSE, ylab="Probability", xlab="y", col=18)
+     main="", freq=FALSE, ylab="Probability", xlab="y", col=17)
 polygon(c(seq(40.5,41.5,0.1),rev(seq(40.5,41.5,0.1))),
-        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=10)
-lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=4, lwd=2)
-lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col=3)
-lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col=3)
+        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=9)
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=3, lwd=2)
+lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col=2)
+lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col=2)
 #Second plot
 plot(test, xlim=c(38,44), ylim=c(0,0.05),
-     main="", freq=FALSE, ylab="Probability", xlab="y", col=18)
+     main="", freq=FALSE, ylab="Probability", xlab="y", col=17)
 polygon(c(seq(40.5,41.5,0.1),rev(seq(40.5,41.5,0.1))),
-        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=10)
-lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=4, lwd=2)
-lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col=3)
-lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col=3)
+        c(dnorm(seq(40.5,41.5,0.1),50,5), rep(0,length(seq(40.5,41.5,0.1)))), col=9)
+lines(seq(30,70,0.1),dnorm(seq(30,70,0.1),50,5), col=3, lwd=2)
+lines(c(40.5,40.5),c(0,dnorm(40.5,50,5)), lwd=2, col=2)
+lines(c(41.5,41.5),c(0,dnorm(41.5,50,5)), lwd=2, col=2)
 # lines(c(40.5,41.5)+0.5,rep(dbinom(41,100,0.5),2))
 ```
 
@@ -287,13 +287,13 @@ par(mfrow=c(2,2), mar=c(4,5,1,0))
 plot(seq(-1.5,1.5,0.01), dnorm(seq(-1.5,1.5,0.01),0,0.5), type="l", xlab="x", ylab="Density")
 polygon(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01))),
         c(dnorm(seq(-1.5,1.5,0.01),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
-        col=18)
+        col=17)
 polygon(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01))),
         c(dnorm(seq(-1.5,0.5,0.01),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
-        col=11)
-lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)-0.01), lty=1, lwd=2, col="white")
+        col=10)
+lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)-0.01), lty=1, lwd=2, col=0)
 # lines(rep(0.5,2), c(0,dnorm(0.5,0,0.5)), lty=2, lwd=2, col=3)
-abline(v=0.5, lty=2, lwd=2, col=3)
+abline(v=0.5, lty=2, lwd=2, col=2)
 #Empty
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
      col="white",
@@ -301,19 +301,19 @@ plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),dnorm(seq(-1.5,1.5,0.01),0,0.5),
 # exp(x)
 plot(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)), type="l", xlab="x", ylab="y")
 lines(seq(-1.5,1.5,0.01), exp(seq(-1.5,1.5,0.01)))
-lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col=3)
-lines(c(0.5,2), rep(exp(0.5),2), lty=2, lwd=2, col=3)
+lines(rep(0.5,2), c(5,exp(0.5)), lty=2, lwd=2, col=2)
+lines(c(0.5,2), rep(exp(0.5),2), lty=2, lwd=2, col=2)
 text(0.9,3,TeX("$y=e^x$"),pos=3)
 # Log-Normal
 plot(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),exp(seq(-1.5,1.5,0.01)), type="l", xlab="Density", ylab="y")
 polygon(c(dlnorm(exp(seq(-1.5,1.5,0.01)),0,0.5),rep(0,length(seq(-1.5,1.5,0.01)))),
         exp(c(seq(-1.5,1.5,0.01),rev(seq(-1.5,1.5,0.01)))),
-        col=18)
+        col=17)
 polygon(c(dlnorm(exp(seq(-1.5,0.5,0.01)),0,0.5),rep(0,length(seq(-1.5,0.5,0.01)))),
         exp(c(seq(-1.5,0.5,0.01),rev(seq(-1.5,0.5,0.01)))),
-        col=11)
-abline(h=exp(0.5), lty=1, lwd=2, col="white")
-abline(h=exp(0.5), lty=2, lwd=2, col=3)
+        col=10)
+abline(h=exp(0.5), lty=1, lwd=2, col=0)
+abline(h=exp(0.5), lty=2, lwd=2, col=2)
 ```
 
 The dark areas on the plots in Figure \@ref(fig:normalLogConnection) show equal probabilities for the Normal and the Log-Normal distributions obtained via specific quantiles. This demonstrates that in order to obtain a quantile of the Log-Normal distribution for $y$, we need to produce a quantile from the Normal one for $x$ and then exponentiate the value.
@@ -341,11 +341,11 @@ Several PDFs of Log-Normal distribution are shown in Figure \@ref(fig:dlnormPlot
 plot(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.1), type="l",
      ylab="Density", xlab="y", main="", lwd=2,
      xlim=c(0,4))
-lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.5), col=3, lwd=2)
-lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.1), col=4, lwd=2)
-lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.5), col=5, lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0,0.5), col=2, lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.1), col=3, lwd=2)
+lines(seq(0,5,0.01), dlnorm(seq(0,5,0.01),0.5,0.5), col=4, lwd=2)
 legend("topright", legend=c(TeX("$\\mu=0, \\sigma=0.1$"),TeX("$\\mu=0, \\sigma=0.5$"),TeX("$\\mu=0.5, \\sigma=0.1$"),TeX("$\\mu=0.5, \\sigma=0.5$")),
-       lwd=2, col=c("black",3,4,5))
+       lwd=2, col=c(1:4))
 ```
 
 The Figure \@ref(fig:dlnormPlot) shows that with the increase of the location parameter $\mu$, the distribution shifts to the right, while with the increase of the scale parameter $\sigma$ it becomes more asymmetric with a longer right tail and its mode moves closer to zero. In fact, the skewness of the Log-Normal distribution depends solely on the value of $\sigma^2$ - the higher it is, the more skewed the distribution is. It can be calculated as:
@@ -373,10 +373,10 @@ where $t$ is a positive number and $\lambda$ is the rate parameter. This PDF is 
 plot(seq(0,4,0.1), dexp(seq(0,4,0.1),2), type="l",
      ylab="Density", xlab="t", main="", lwd=2,
      xlim=c(0,3))
-lines(seq(0,4,0.1), dexp(seq(0,4,0.1),1), col=3, lwd=2)
-lines(seq(0,4,0.1), dexp(seq(0,4,0.1),0.5), col=4, lwd=2)
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),1), col=2, lwd=2)
+lines(seq(0,4,0.1), dexp(seq(0,4,0.1),0.5), col=3, lwd=2)
 legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
-       lwd=2, col=c("black",3,4))
+       lwd=2, col=c(1:3))
 ```
 
 The plot in Figure \@ref(fig:dexpPlot) shows that there is more likely for the variable $t$ to get lower values (closer to zero) than the higher ones. The parameter $\lambda$ controls the steepness of decline of the density curve with increase of $t$: the higher the rate is, the more likely it is that the event will occur earlier and less likely that it will occur later.
@@ -387,10 +387,10 @@ The CDF of the distribution is shown in Figure \@ref(fig:pexpPlot).
 plot(seq(0,4,0.1), pexp(seq(0,4,0.1),2), type="l",
      ylab="Probability", xlab="t", main="", lwd=2,
      xlim=c(0,3))
-lines(seq(0,4,0.1), pexp(seq(0,4,0.1),1), col=3, lwd=2)
-lines(seq(0,4,0.1), pexp(seq(0,4,0.1),0.5), col=4, lwd=2)
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),1), col=2, lwd=2)
+lines(seq(0,4,0.1), pexp(seq(0,4,0.1),0.5), col=3, lwd=2)
 legend("topright", legend=c(TeX("$\\lambda=2$"),TeX("$\\lambda=1$"),TeX("$\\lambda=0.5$")),
-       lwd=2, col=c("black",3,4))
+       lwd=2, col=c(1:3))
 ```
 
 The CDFs show how fast the probability of one is achieved with different rates. Mathematically, it is written as:
@@ -434,14 +434,14 @@ plot(seq(0,4,0.1), log(1-pexp(seq(0,4,0.1),2)), type="l",
      ylab="log(1-F(t,2))", xlab="t", main="", lwd=2,
      xlim=c(0,3), ylim=c(-5,0))
 # 1.5
-lines(c(1.5,1.5),c(-5,log(1-pexp(1.5,2))), lty=2, lwd=2, col=17)
-lines(c(-1,1.5),log(rep(1-pexp(1.5,2),2)), lty=2, lwd=2, col=17)
+lines(c(1.5,1.5),c(-5,log(1-pexp(1.5,2))), lty=2, lwd=2, col=15)
+lines(c(-1,1.5),log(rep(1-pexp(1.5,2),2)), lty=2, lwd=2, col=15)
 # 0.5
-lines(c(0.5,0.5),c(-5,log(1-pexp(0.5,2))), lty=2, lwd=2, col=17)
-lines(c(-1,0.5),log(rep(1-pexp(0.5,2),2)), lty=2, lwd=2, col=17)
+lines(c(0.5,0.5),c(-5,log(1-pexp(0.5,2))), lty=2, lwd=2, col=15)
+lines(c(-1,0.5),log(rep(1-pexp(0.5,2),2)), lty=2, lwd=2, col=15)
 # 1
-lines(c(1,1),c(-5,log(1-pexp(1,2))), lty=2, lwd=2, col=17)
-lines(c(-1,1),log(rep(1-pexp(1,2),2)), lty=2, lwd=2, col=17)
+lines(c(1,1),c(-5,log(1-pexp(1,2))), lty=2, lwd=2, col=15)
+lines(c(-1,1),log(rep(1-pexp(1,2),2)), lty=2, lwd=2, col=15)
 ```
 
 Note that because of the logarithm of the CDF, the function has now become linear, and the property becomes more apparent.
@@ -715,8 +715,8 @@ But what happens with the probability distribution? Remember, it was uniform for
 ```{r uniformPMFRepeated, fig.cap="Probability Mass Function of Uniform distribution for 1d6.", fig.height=3, fig.width=8, echo=FALSE}
 par(mar=c(4,4,1,1))
 test <- barplot(rep(1/6,6), ylim=c(0,0.2),
-                ylab="Probability",xlab="x", col=11)
-axis(side=1,at=test,labels=c(1:6), col.axis=5)
+                ylab="Probability",xlab="x", col=10)
+axis(side=1,at=test,labels=c(1:6), col.axis=4)
 ```
 
 To get the PMF of the new convolved distribution, we need to assign probabilities for each of the new combined values. Getting the score of 2 is only possible if we have 1 on each dice, which corresponds to the probability of $\frac{1}{6}$ for each of them, meaning that this can happen only in $\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}$ cases. The score $z=3$ is possible if we get either $x=1$ and $y=2$ or $x=2$ and $y=1$. This translates to the probability of $\frac{1}{36} + \frac{1}{36} = \frac{2}{36} = \frac{1}{18}$. We could continue with other distributions, obtaining probability of each outcome from $z=2$ to $z=12$.
@@ -733,36 +733,36 @@ layout(matrix(1:2, 1, 2, byrow=T),
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 abline(h=0, lwd=2)
-text(test1, 1/6, labels=c(6:1), pos=3, col=3)
-text(test2[-c(1:4)], 0, labels=c(1:6), pos=1, col=5)
-text(test1[c(5:6)], 1/12, labels=rep(3,2), col=2)
+text(test1, 1/6, labels=c(6:1), pos=3, col=2)
+text(test2[-c(1:4)], 0, labels=c(1:6), pos=1, col=4)
+text(test1[c(5:6)], 1/12, labels=rep(3,2), col=1)
 
 # Overall one
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
 par(mar=c(0,1,0,0))
 test3 <- barplot(z[1]/sum(z),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=10,
+                 col=9,
                  axes=F, names.arg="")
 test3 <- barplot(c(0,z[2]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="",
                  add=T)
 test4 <- barplot(c(0,z[2]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 text(test3, z[1:2]/sum(z), labels=TeX(paste0("$\\frac{",z[1:2],"}{",sum(z),"}$")), pos=3)
-text(test3, 0, labels=c(2:12)[1:2], pos=1, col=5)
+text(test3, 0, labels=c(2:12)[1:2], pos=1, col=4)
 abline(h=0, lwd=2)
 ```
 
@@ -778,37 +778,37 @@ layout(matrix(1:2, 1, 2, byrow=T),
 par(mar=c(0,0,0,0))
 test1 <- barplot(table(x)/6,
                  ylim=c(-0.02,0.21), xlim=c(0,7.3),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="")
 test2 <- barplot(y/6,
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 abline(h=0, lwd=2)
-text(test1, 1/6, labels=c(6:1), pos=3, col=3)
-text(test2, 0, labels=c(1:6), pos=1, col=5)
-text(test1[c(1:6)], 1/12, labels=rep(7,6), col=2)
+text(test1, 1/6, labels=c(6:1), pos=3, col=2)
+text(test2, 0, labels=c(1:6), pos=1, col=4)
+text(test1[c(1:6)], 1/12, labels=rep(7,6), col=1)
 
 # Overall one
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
 par(mar=c(0,1,0,0))
 test3 <- barplot(z[1:5]/sum(z),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=10,
+                 col=9,
                  axes=F, names.arg="")
 test3 <- barplot(c(rep(0,5),z[6]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="",
                  add=T)
 test4 <- barplot(c(rep(0,5),z[6]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 text(test3, z[1:6]/sum(z), labels=TeX(paste0("$\\frac{",z[1:6],"}{",sum(z),"}$")), pos=3)
 abline(h=0, lwd=2)
-text(test3, 0, labels=c(2:12)[1:6], pos=1, col=5)
+text(test3, 0, labels=c(2:12)[1:6], pos=1, col=4)
 ```
 
 In this specific example, we can obtain $z=7$ 6 different ways, which means that the probability of that outcome is $\frac{1}{36} \times 6 = \frac{1}{6}$. This is the highest probability outcome if you roll two 6 sided dices (2d6). But that's not all, after that, we can continue sliding the distribution, and we will notice that the probability of outcomes starts declining as well (Figure \@ref(fig:uniformPMFSlide03)), because we have fewer and fewer intersections between the distributions that would give us the specific scores.
@@ -823,48 +823,50 @@ layout(matrix(1:2, 1, 2, byrow=T),
 par(mar=c(0,0,0,0))
 test2 <- barplot(y/6,
                  ylim=c(-0.02,0.19), xlim=c(0,10),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="")
 test1 <- barplot(table(x)/6,
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 abline(h=0, lwd=2)
-text(test2[-c(1:2)], 1/6, labels=c(6:1), pos=3, col=3)
-text(test1, 0, labels=c(1:6), pos=1, col=5)
-text(test1[c(3:6)], 1/12, labels=rep(9,4), col=2)
+text(test2[-c(1:2)], 1/6, labels=c(6:1), pos=3, col=2)
+text(test1, 0, labels=c(1:6), pos=1, col=4)
+text(test1[c(3:6)], 1/12, labels=rep(9,4), col=1)
 
 # Overall one
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
 par(mar=c(0,1,0,0))
 test3 <- barplot(z[1:7]/sum(z),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=10,
+                 col=9,
                  axes=F, names.arg="")
 test3 <- barplot(c(rep(0,7),z[8]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=9,
+                 col=8,
                  axes=F, names.arg="",
                  add=T)
 test4 <- barplot(c(rep(0,7),z[8]/sum(z)),
                  ylim=c(-0.02,0.21), xlim=c(0,12),
-                 col=11,
+                 col=10,
                  axes=F, names.arg="",
                  add=T)
 text(test3, z[1:8]/sum(z), labels=TeX(paste0("$\\frac{",z[1:8],"}{",sum(z),"}$")), pos=3)
 abline(h=0, lwd=2)
-text(test3, 0, labels=c(2:12)[1:8], pos=1, col=5)
+text(test3, 0, labels=c(2:12)[1:8], pos=1, col=4)
 ```
 
 Collecting all the probabilities after such sliding, we can visualise the PMF of $z$ (convolution of two uniform distributions), which is shown in Figure \@ref(fig:uniformPMFCombined), where we decided not to simplify the ratios for simplicity.
 
 ```{r uniformPMFCombined, fig.cap="Probability Mass Function of the sum of two Uniform distributions for 1d6.", fig.width=8, fig.height=3, echo=FALSE}
 apply(expand.grid(1:6,1:6), 1, sum) |> table() -> z
-par(mar=c(4,4,0,1))
+par(mar=c(3,4,0,1))
 test <- barplot(z/sum(z),
-                ylim=c(0,0.23), ylab="Probability", xlab="z", 
-                col=10, axes=F, names.arg="")
+                ylim=c(0,0.23), ylab="Probability", xlab="", 
+                col=9, axes=F, names.arg="")
 text(test, z/sum(z), labels=TeX(paste0("$\\frac{",z,"}{",sum(z),"}$")), pos=3)
+axis(1, at=test, labels=names(z))
+title(xlab="z", line=2.2, cex=1.2)
 ```
 
 ### Convolution of two continuous distributions {#distributionsConvolutionContinuous}
@@ -886,10 +888,10 @@ for(i in 1:length(mu1)){
          type="l",ylab="Density",xlab="",main="",
          xlim=c(-5,5), ylim=c(0,0.4), axes=F)
     polygon(c(x,rev(x)),
-            c(dnorm(x, mu1[i], 1), rep(0,length(x))), col=9)
+            c(dnorm(x, mu1[i], 1), rep(0,length(x))), col=8)
     lines(seq(-3,3,0.1),dnorm(seq(-3,3,0.1), mu2))
     polygon(c(x,rev(x)),
-            c(dnorm(x, mu2, 1), rep(0,length(x))), col=11)
+            c(dnorm(x, mu2, 1), rep(0,length(x))), col=10)
     text(4.5, 0.35, mains[i], cex=1.25)
     axis(2)
     box()
@@ -900,9 +902,9 @@ for(i in 1:length(mu1)){
          type="l",ylab="Density",xlab="z",main="",
          xlim=c(-5,5), ylim=c(0,0.4), axes=F)
     polygon(c(z,rev(z)),
-            c(dnorm(z, mu2, sqrt(2)), rep(0,length(z))), col=18)
+            c(dnorm(z, mu2, sqrt(2)), rep(0,length(z))), col=17)
     lines(c(mu1[i],mu1[i]), c(0,dnorm(mu1[i], mu2, sqrt(2))), lwd=3, lty=1,
-          col=13)
+          col=12)
     axis(1)
     axis(4)
     text(mu1[i], 0.015, mu1[i], pos=4, cex=1.25)
@@ -932,9 +934,9 @@ for(i in 1:length(mu1)){
          xlim=c(-2,5), ylim=c(0,1), axes=F)
     lines(mu1[i]-x,dexp(x, mu2))
     polygon(c(mu1[i]-x,rev(mu1[i]-x)),
-            c(dexp(x, mu2), rep(0,length(x))), col=9)
+            c(dexp(x, mu2), rep(0,length(x))), col=8)
     polygon(c(x,rev(x)),
-            c(dexp(x, mu2), rep(0,length(x))), col=11)
+            c(dexp(x, mu2), rep(0,length(x))), col=10)
     axis(2)
     text(4, 0.85, paste0("z=",mu1[i]), cex=1.25)
     box()
@@ -945,9 +947,9 @@ for(i in 1:length(mu1)){
          type="l",ylab="Density",xlab="z",main="",
          xlim=c(0,10), ylim=c(0,0.4), axes=F)
     polygon(c(z,rev(z)),
-            c(dgamma(z, shape=2, rate=1), rep(0,length(z))), col=18)
+            c(dgamma(z, shape=2, rate=1), rep(0,length(z))), col=17)
     lines(c(mu1[i],mu1[i]), c(0,dgamma(mu1[i], shape=2, rate=1)), lwd=3, lty=1,
-          col=13)
+          col=12)
     axis(1)
     axis(4)
     text(mu1[i], 0.015, mu1[i], pos=4, cex=1.25)

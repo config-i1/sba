@@ -91,12 +91,13 @@ sd(mtcarsData$mpg)
 Visually, standard deviation can be represented as a straight line, depicting the overall variability of the data (Figure \@ref(fig:varianceVisual)).
 
 ```{r varianceVisual, fig.cap="Visual presentation of standard deviation. The value of standard deviation corresponds to the segment between squares at the top of the histogram.", echo=FALSE}
-hist(mtcarsData$mpg, xlab="Miles per galon", main="", ylim=c(0,15))
-lines(rep(mean(mtcarsData$mpg),2), c(0,13), col="darkred", lwd=2, lty=2)
+hist(mtcarsData$mpg, xlab="Miles per galon", main="", ylim=c(0,15),
+     col=17)
+lines(rep(mean(mtcarsData$mpg),2), c(0,13), col=2, lwd=2, lty=2)
 lines(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
-      col="darkred", lwd=2)
+      col=2, lwd=2)
 points(mean(mtcarsData$mpg)+c(-0.5,0.5)*sd(mtcarsData$mpg), c(13,13),
-       pch=15, col="darkred", lwd=2)
+       pch=15, col=2, lwd=2)
 text(20, 14, TeX("$\\hat{\\sigma}$"))
 ```
 
@@ -193,14 +194,15 @@ Histograms do not make sense in case of categorical variables, because they assu
 Barplots are useful when you deal with either categorical variables or integer numerical ones. Here is what we can produce in case of the integer variable `cyl`:
 
 ```{r barplotCYL, fig.cap="Barplot for the number of cylinders."}
-barplotCYL <- barplot(table(mtcarsData$cyl), xlab="Number of cylinders")
-text(barplotCYL,table(mtcarsData$cyl)/2,table(mtcarsData$cyl),cex=1.25)
+barplotCYL <- barplot(table(mtcarsData$cyl),
+                      xlab="Number of cylinders", col=17)
+text(barplotCYL, table(mtcarsData$cyl)/2, table(mtcarsData$cyl), cex=1.25)
 ```
 
 Figure \@ref(fig:barplotCYL) shows that there are three types of cars in the data: with 4, 6 and 8 cylinders. The most frequently met is the car with 8 cylinders. Judging by the plot, half of cars have not more than 6 cylinders (median is equal to 6). All of this can be deducted from the barplot. And here how the histogram would look like for cylinders:
 
 ```{r histogramCYL, fig.cap="Histogram for the number of cylinders. Do not do this!"}
-hist(mtcarsData$cyl)
+hist(mtcarsData$cyl, col=17)
 ```
 
 Figure \@ref(fig:histogramCYL) is difficult to read, because on histogram, the bars show frequency at which continuous variable appears in pre-specified bins. In our case we would conclude that the most frequently cars in the dataset are those that have 7.5 - 8 cylinders, which is wrong and misleading. In addition, this basic plot does not have a readable label for x-axis and a meaningful title (in fact, we do not need one, given that we have caption). So, always label your axis and make sure that the text on plots is easy to understand for those people who do not work with the data.
@@ -235,8 +237,9 @@ Figure \@ref(fig:tableplotCYLVS) allows making more solid conclusions about the 
 Next, we can analyse the numerical continuous variables. We can start with the basic histogram:
 
 ```{r histWeight, fig.cap="Distribution of the weights of cars."}
-hist(mtcarsData$wt, xlab="Weight", main="", probability=TRUE)
-lines(density(mtcarsData$wt), col="red3")
+hist(mtcarsData$wt, xlab="Weight", main="", probability=TRUE,
+     col=17)
+lines(density(mtcarsData$wt), col=2, lwd=2)
 ```
 
 The histogram \@ref(fig:histWeight) shows that there is a slight skewness in the data: the cars with weight from 3 to 4 thousands pounds are met more often than the cars with more than 5. The left tail of this distribution is slightly longer than the right one. Note that I have produced the probabilities on the y-axis of the plot in order to add the density curve, which smooths out the frequencies and shows how the distribution looks like.
@@ -245,7 +248,7 @@ An alternative presentation of the histogram is the boxplot, which graphically p
 
 ```{r boxWeight, fig.cap="Boxplot of the variable weight."}
 boxplot(mtcarsData$wt, ylab="Weight")
-points(mean(mtcarsData$wt),col="red3", pch=16)
+points(mean(mtcarsData$wt),col=2, pch=16)
 ```
 
 This plot has the box in the middle, the whiskers on the sides, points at the top and the red point at the centre. The box shows 1st, 2nd and 3rd quartiles of distribution, thus the black line in the middle is the median. The distance between the 1st and the 3rd quartiles is called "Interquartile range" (IQR) and is used for the calculation of the interval (1st / 3rd quartile $\pm 1.5 \times$IQR), which corresponds roughly to the 99.3% interval (read more about this in Section \@ref(confidenceIntervals)) from Normal distribution and is graphically drawn as the furthest observation in the interval. So, the lower whisker on our plot corresponds to the minimum value in the data, which is still in the interval, while the upper whisker corresponds to the bound of the interval. All the observations that lie beyond the interval are marked as potential outliers. Note that *this does not mean that the values are indeed outliers*, they just lie outside the 99.3% interval of Normal distribution. Finally, the red dot was added by me to show where the mean is. It is lower than median, this implies that there is a slight skewness in the distribution of weight.
@@ -253,8 +256,8 @@ This plot has the box in the middle, the whiskers on the sides, points at the to
 There is also a way for producing the plots that would combine elements of histogram, density curve and boxplot. There is a plot called "violin plot". We will use `vioplot()` function from `vioplot` package in order to produce them:
 
 ```{r vioWeight, fig.cap="Violin plot together with boxplot of the variable weight."}
-vioplot(mtcarsData$wt, ylab="Weight")
-points(mean(mtcarsData$wt),col="red3", pch=16)
+vioplot(mtcarsData$wt, ylab="Weight", col=17, rectCol=16)
+points(mean(mtcarsData$wt),col=2, pch=16)
 ```
 
 Figure \@ref(fig:vioWeight) unites the boxplot and the density curve from the plots above, providing not only information about the quantiles, but also about the shape of the distribution.
@@ -274,7 +277,7 @@ So far, we have discussed the univariate analysis of numerical variables, but we
 
 ```{r scatterWeightMPG, fig.cap="Scatterplot diagram between weight and mileage."}
 plot(mtcarsData$wt, mtcarsData$mpg, xlab="Weight", ylab="Mileage")
-lines(lowess(mtcarsData$wt, mtcarsData$mpg), col="red3")
+lines(lowess(mtcarsData$wt, mtcarsData$mpg), col=2, lwd=2)
 ```
 
 The plot on Figure \@ref(fig:scatterWeightMPG) shows the observations that have specific weight and mileage. Based on this, we can see if there is a relation between variables or not and what sort of relation this is. In order to simplify analysis, I have added the lowess line to the plot. It smooths the relation between variables, drawing the smooth line through the points and helps in understanding the existing relations in the data. Judging by Figure \@ref(fig:scatterWeightMPG), there is a negative, slightly non-linear relation between the variables: the mileage decreases with reduced speed, when weight of a car increases. This relation makes sense, because heavier cars will consume more fuel and thus drive less on a gallon of petrol.
@@ -291,7 +294,7 @@ This is because one of the variables is integer and takes only a handful of valu
 
 ```{r boxGearMPG, fig.cap="Boxplot of mileage vs number of gears."}
 boxplot(mpg~gear, mtcarsData, xlab="Number of gears", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red3", pch=16)
+points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col=2, pch=16)
 ```
 
 The plot on Figure \@ref(fig:boxGearMPG) is more informative than the one on Figure \@ref(fig:scatterGearMPG): it shows how the distribution of mileage changes with the increase of the numeric variable number of gears. We can also see that the mean value first increases and then goes down slightly. I do not have any good explanation of this phenomenon, but it might be related with how efficient the cars become with the increase fo the number of gears, or this could happen due to some latent, unobserved factors. So, the data tells us that there is a non-linear relation between number of gears and mileage.
@@ -299,15 +302,17 @@ The plot on Figure \@ref(fig:boxGearMPG) is more informative than the one on Fig
 Similarly, we can produce violin plots for the same data using the following code:
 
 ```{r vioGearMPG, fig.cap="Violin plot of mileage vs number of gears.", eval=FALSE}
-vioplot(mpg~gear, mtcarsData, xlab="Number of gears", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col="red3", pch=16)
+vioplot(mpg~gear, mtcarsData, xlab="Number of gears", ylab="Mileage",
+        col=17, rectCol=16)
+points(tapply(mtcarsData$mpg, mtcarsData$gear, mean), col=2, pch=16)
 ```
 
 Finally, using exactly the same idea with boxplots / violin plots, we can analyse relations between categorical and numerical variables. Figure \@ref(fig:vioAMMPG) shows the relation between transmission type and mileage. We can conclude that the cars with manual transmission tend to have a higher mileage than the ones with the automatic one in our dataset.
 
 ```{r vioAMMPG, fig.cap="Violin plot of mileage vs transmission type."}
-vioplot(mpg~am, mtcarsData, xlab="Transmission type", ylab="Mileage")
-points(tapply(mtcarsData$mpg, mtcarsData$am, mean), col="red3", pch=16)
+vioplot(mpg~am, mtcarsData, xlab="Transmission type", ylab="Mileage",
+        col=17, rectCol=16)
+points(tapply(mtcarsData$mpg, mtcarsData$am, mean), col=2, pch=16)
 ```
 
 
@@ -321,7 +326,15 @@ plot(mtcars)
 Figure \@ref(fig:scatterMatrix) is informative for the variables `mpg`, `cyl`, `disp`, `hp`, `drat`, `qsec` and `carb`, but is difficult to read for the others. In order to address this issue, we can use the `spread()` function from `greybox`, which will detect types of variables and produce the necessary plots automatically:
 
 ```{r spreadPlot, fig.cap="Spread plot for the mtcars dataset."}
+# Amend the palette. This is just to show how to use it
+# This palette is in red colours
+palette(c(rgb(0.5,0.2,0.2,0.5), rgb(0.5,0.2,0.2,1), rgb(0.9,0.6,0.6,0.5)))
+# Call the function
 spread(mtcarsData, lowess=TRUE)
+```
+
+```{r echo=FALSE}
+palette(ourPalette)
 ```
 
 The plot on Figure \@ref(fig:spreadPlot) is the collection of the plots discussed above, so I will not stop on explaining what it shows.
