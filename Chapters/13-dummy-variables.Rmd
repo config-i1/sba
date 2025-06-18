@@ -7,6 +7,14 @@ Consider the same example with the overall costs of construction from Chapter \@
 2. Semi-detached;
 3. Other.
 
+If we analyse the spread plot diagram for the original dataset, we will notice that the overall costs seem to change depending on the property type (Figure \@ref(fig:propertiesSpread)):
+
+```{r propertiesSpread, fig.cap="Spread plots of the variables in the dataset."}
+spread(SBA_Chapter_11_Costs)
+```
+
+In fact, judging by the boxplots in Figure \@ref(fig:propertiesSpread), we can see that material costs, sizes of properties and overall costs differ depending on the type of the property. So, this categorical variable has an affect on the project and needs to be taken into account.
+
 If we had a sample large enough, we could split it into three sub-samples depending on the value of the variable and estimate three regression models. Unfortunately, this is neither always possible nor meaningful. If we fit three different models to the data, that would imply that the effect of size, materials costs, number of projects and year when the project started would differ depending on the type of the building. While this might hold for some relations, it is not universally the case. Besides, having three smaller samples instead of one big one, would imply the increased uncertainty about the estimates of parameters of a model (discussed in Chapter \@ref(uncertaintyRegression)), thus impacting the managerial decisions based on our model. So, is there a better way?
 
 The answer to this, is "yes". This can be done by transforming variables from the categorical scale to the set of binary variables (i.e. taking values of zero or one). These binary variables are called "**dummy variables**" in the regression context. They denote when a specific attribute is met in the sample.
@@ -27,16 +35,77 @@ To overcome this limitation, we could create a set of dummy variables, each of w
 SBA_Chapter_11_Costs[7,]
 ```
 
-We see that the type of this building was "detached". So when we create the dummy variable "type_detached", we would encode it being equal to one for this and all the other observations that have this type, and to zero otherwise.
+We see that the type of this building was "detached". So when we create the dummy variable "type_detached", we would encode it being equal to one for this and all the other observations that have this type, and to zero otherwise. We could do that manually using the following command in R:
+
+```{r}
+type_detached <- (SBA_Chapter_11_Costs$type=="detached")*1
+```
+
+which would create the variable `type_detached`, containing zeroes and ones. But this is a tedious way of creating dummy variables, there is a better one - using the `model.matrix()` function in R:
+
+```{r}
+# -1 is needed to tell the function to drop the intercept
+house_types <- model.matrix(~type-1, SBA_Chapter_11_Costs)
+head(house_types)
+```
+
+The resulting matrix contains three dummy variables, denoting "detached", "semi-detached" and "other" types of properties. If we visualise the overall costs vs the material costs for each one of them on the same plot, we might see whether there is a difference in relations between the variables. Here is one of possible ways of doing that (Figure \@ref(fig:costsPropertiesTypes)):
+
+```{r costsPropertiesTypes, fig.cap="Scatterplot of material vs overall costs for the three property types."}
+# The general plot
+plot(SBA_Chapter_11_Costs[,c("materials","overall")])
+# Plot for the detached houses
+points(SBA_Chapter_11_Costs[house_types[,1]==1,c("materials","overall")],
+       pch=16, col=2)
+# We added LOWESS lines to see whether the relations change
+lines(lowess(SBA_Chapter_11_Costs[house_types[,1]==1,c("materials","overall")]),
+      col=2)
+# Semi-detached
+points(SBA_Chapter_11_Costs[house_types[,2]==1,c("materials","overall")],
+       pch=16, col=3)
+lines(lowess(SBA_Chapter_11_Costs[house_types[,2]==1,c("materials","overall")]),
+      col=3)
+# Other
+points(SBA_Chapter_11_Costs[house_types[,3]==1,c("materials","overall")],
+       pch=16, col=4)
+lines(lowess(SBA_Chapter_11_Costs[house_types[,3]==1,c("materials","overall")]),
+      col=4)
+# Create the legend for convenience
+legend("topleft", legend=levels(SBA_Chapter_11_Costs$type),
+       col=c(2,3,4), lwd=1, pch=16)
+```
+
+It is hard to tell whether the relation changes (probably not), but it looks like the overall cost of semi-detached properties is higher than detached and other ones. If we were to construct several independent models, we would expect that on average, the semi-detached properties would cost more than the others, which should translate to the higher value of the intercept if we draw the line just through the cloud of the green points. The "other" should have the lowest intercept, because the points are concentrated at the bottom of the plot. Finally, the "detached" should be somewhere in the middle.
+
+To make this switch more natural, we can introduce the dummy variables in the regression model. What we could do in this case is have an intercept for one of the categories (for example, for `other`) and then have parameters that would either increase or decrease it depending on the type of the property. Luckily, R can introduce them automatically, and we do not need to do anything additional to make it work. We only need to make sure that the respective categorical variable (`type` in our case) is ended as a `factor`:
+
+```{r}
+class(SBA_Chapter_11_Costs$type)
+```
+
+And then we can add it in the regression model:
+```{r}
+costsModelWithType <- alm(overall~size+materials+projects+year+type,
+                          SBA_Chapter_11_Costs, loss="MSE")
+```
+
+What R does in this case is expands the categorical variable in a set of dummies and uses the first level as a baseline, dropping it from the model. In our data, this level is "detached":
+
+```{r}
+levels(SBA_Chapter_11_Costs$type)
+```
+
+The summary of the produced model shows the values of the parameters for each of the levels of `type`:
+
+```{r}
+summary(costsModelWithType)
+```
 
 
 
 
-Every t-shirt in our dataset would have one of these colours, and based on this we could create three dummy variables:
 
-1. colourRed, which would be equal to one if the t-shirt is Red and zero otherwise,
-2. colourGreen: 1 if the t-shirt is Green and 0 otherwise,
-3. colourBlue: 1 if the t-shirt is Blue and 0 otherwise.
+### Mathematics behind this
 
 These dummy variables can then be added to a model instead of the original variable colour, resulting, for example, in the model:
 \begin{equation}
