@@ -7,7 +7,8 @@ MLRData <- data.frame(size=rep(1, obs),
 set.seed(41)
 MLRData$type <- sample(c("detached","semi-detached","apartment","other"), obs, replace=TRUE)
 MLRData$size <- round(runif(obs, 60, 100) *
-                          sapply(MLRData$type,switch, "detached"=1.05,
+                          sapply(MLRData$type, switch,
+                                 "detached"=1.05,
                                  "semi-detached"=1.4,
                                  "apartment"=10,
                                  "other"=0.9), 2)
@@ -15,8 +16,17 @@ MLRData$year <- MLRData$year + rpois(obs, 8)
 MLRData$materials <- round(MLRData$size * 2 * rlnorm(obs, 0, 0.1)*(MLRData$year/2000)^4,2)
 MLRData$projects <- rbinom(obs, 7, 0.5)
 
-MLRData$overall <- 0.5 * MLRData$size + MLRData$materials - 1.5 * MLRData$projects + 0.1 * MLRData$year +
-    rnorm(obs, 0, 30)
+MLRData$overall <- (0.5 * MLRData$size + MLRData$materials*(1+sapply(MLRData$type, switch,
+                                                                     "detached"=0.15,
+                                                                     "semi-detached"=0.1,
+                                                                     "apartment"=0,
+                                                                     "other"=0)) -
+                        1.5 * MLRData$projects + 0.1 * MLRData$year + sapply(MLRData$type, switch,
+                                                                             "detached"=50,
+                                                                             "semi-detached"=25,
+                                                                             "apartment"=0,
+                                                                             "other"=0) +
+                        rnorm(obs, 0, 30))
 summary(MLRData)
 
 boxplot(size~type, MLRData)

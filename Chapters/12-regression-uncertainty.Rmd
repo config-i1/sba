@@ -16,7 +16,7 @@ abline(costsModelMLRLarge, col=2, lty=2)
 text(250,380,paste0(c("overall = ",round(coef(costsModelMLRLarge)[1], 2)," + ",
                       round(coef(costsModelMLRLarge)[2], 2)," materials + e"),collapse=""), col=2)
 abline(costsModelMLRSmall, col=4)
-text(215,557,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1], 2)," + ",
+text(215,610,paste0(c("overall = ",round(coef(costsModelMLRSmall)[1], 2)," + ",
                       round(coef(costsModelMLRSmall)[2], 2)," materials + e"),collapse=""), col=4)
 legend("topleft", legend=c("50 observations","25 observations"),
        lwd=2, col=c(2,4), lty=c(2,1))
@@ -551,7 +551,7 @@ xSequence <- mean(costsModelMLRBootstrap$coefficients[,2])+seq(-5,5,0.1)*sd(cost
 lines(xSequence,
       dnorm(xSequence,
             mean(costsModelMLRBootstrap$coefficients[,2]),
-            sd(costsModelMLRBootstrap$coefficients[,2])), col=4, lwd=2)
+            sd(costsModelMLRBootstrap$coefficients[,2])), col=2, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                mean(costsModelMLRBootstrap$coefficients[,2]),
                sd(costsModelMLRBootstrap$coefficients[,2])), col=4, lwd=2)
@@ -589,7 +589,7 @@ xSequence <- 1+seq(-5,5,0.1)*0.75
 lines(xSequence,
       dnorm(xSequence,
             meanValue,
-            sdValue), col=4, lwd=2)
+            sdValue), col=2, lwd=2)
 abline(v=qnorm(c(0.025,0.975),
                meanValue,
                sdValue), col=4, lwd=2)
@@ -652,23 +652,23 @@ vcov(costsModelMLR)[2,2] |> sqrt()
 ```
 Inserting the values in formula \@ref(eq:ttestFormulaReg) gives us the t-statistics value for our example:
 \begin{equation*}
-t = \frac{|0.774 - 0|}{0.219} \approx 3.5342 
+t = \frac{|0.871 - 0|}{0.311} \approx 2.797
 \end{equation*}
 Now we need to get the critical value of the t-statistics for the selected significance value and $n-k$ degrees of freedom, which in our case are equal to 61-5=56. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:
 ```{r}
 qt(c(0.025, 0.975), 56)
 ```
-In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.
+In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 2.797 lies outside of these bounds, so we can reject the H$_0$ and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.
 
 ::: remark
-The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.5342 with `r round(abs(qt(0.975, 56)), digits)`, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
+The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 2.797 with `r round(abs(qt(0.975, 56)), digits)`, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H$_0$.
 :::
 
 An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H$_0$ if the p-value is lower than the level. For our example, the p-value can be calculated using the `pt()` function in R:
 ```{r}
-pt(3.534, 56, lower.tail=FALSE)
+pt(2.797, 56, lower.tail=FALSE)
 ```
-Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately `r round(pt(3.534, 56, lower.tail=FALSE)*2, digits+1)`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
+Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately `r round(pt(2.797, 56, lower.tail=FALSE)*2, digits+1)`. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.
 
 All of this is done automatically by R if we estimate the model using the basic `lm()` function from the `stats` package:
 ```{r}
@@ -766,3 +766,5 @@ We see that the the p-value is lower than the significance level of 5%, so we re
 ```{r}
 summary(costsModelMLRLm)
 ```
+
+The summary for the `alm()` does not provide this information because it has a different philosophy behind it (likelihood, which we will discuss in Chapter \@ref(likelihoodApproach)).

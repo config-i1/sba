@@ -75,7 +75,7 @@ legend("topleft", legend=levels(SBA_Chapter_11_Costs$type),
        col=c(2,3,4), lwd=1, pch=16)
 ```
 
-It is hard to tell whether the relation changes (probably not), but it looks like the overall cost of semi-detached properties is higher than detached and other ones. If we were to construct several independent models, we would expect that on average, the semi-detached properties would cost more than the others, which should translate to the higher value of the intercept if we draw the line just through the cloud of the green points. The "other" should have the lowest intercept, because the points are concentrated at the bottom of the plot. Finally, the "detached" should be somewhere in the middle.
+It is hard to tell whether the relation changes (i.e. whether the material costs impact the overall costs differently for each of the property types), but it looks like the overall cost of semi-detached properties is higher than detached and other ones. If we were to construct several independent models, we would expect that on average, the semi-detached properties would cost more than the others, which should translate to the higher value of the intercept if we draw the line just through the cloud of the green points. The "other" should have the lowest intercept, because the points are concentrated at the bottom of the plot. Finally, the "detached" should be somewhere in the middle.
 
 To make this switch more natural, we can introduce the dummy variables in the regression model. What we could do in this case is have an intercept for one of the categories (for example, for `other`) and then have parameters that would either increase or decrease it depending on the type of the property. Luckily, R can introduce them automatically, and we do not need to do anything additional to make it work. We only need to make sure that the respective categorical variable (`type` in our case) is ended as a `factor`:
 
@@ -101,6 +101,7 @@ The summary of the produced model shows the values of the parameters for each of
 summary(costsModelWithType)
 ```
 
+Each of the parameters for the variables `typesemi-detached` and `typeother` show how the intercept will change if we have this type of property in comparison with the baseline (which is `detached`), i.e. whether the line will be above or below the line for the detached and by how much. To understand this clearer, consider the example where we have a `type="detached"` property. In that case, the dummy variables `typesemi-detached` and `typeother` both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be `r round(coef(costsModelWithType)[1], digits)`.
 
 
 

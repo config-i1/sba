@@ -47,7 +47,7 @@ where $beta_0$ is the intercept, and $beta_1$, $beta_2$ are the coefficients for
 While in the example with the Simple Linear Regression the predicted (or fitted) values implied drawing a line through the cloud of dots on the plane of the two variables, now we are talking about drawing a plane through the point in the three-dimensional space. It can be visualised in the following way (Figure \@ref(fig:scatterplot3dProjectCosts)):
 
 ```{r scatterplot3dProjectCosts, fig.cap="3D scatterplot of Overall costs vs size of project and costs of materials.", echo=FALSE}
-fit <- lm(overall ~ size+materials, data=SBA_Chapter_11_Costs)
+fit <- lm(overall ~ materials+size, data=SBA_Chapter_11_Costs)
 s3d <- scatterplot3d::scatterplot3d(SBA_Chapter_11_Costs$materials, SBA_Chapter_11_Costs$size,
                                     SBA_Chapter_11_Costs$overall,
                                     pch=16, highlight.3d=TRUE,
@@ -321,6 +321,7 @@ Similarly to the simple linear regression, we can calculate the R$^2$ (see Secti
 ```{r}
 # Record number of observations
 n <- nobs(costsModel02)
+set.seed(13)
 # Generate white noise
 SBA_Chapter_11_Costs$noise <- rnorm(n,0,10)
 # Add it to the model
