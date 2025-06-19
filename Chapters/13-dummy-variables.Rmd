@@ -101,7 +101,9 @@ The summary of the produced model shows the values of the parameters for each of
 summary(costsModelWithType)
 ```
 
-Each of the parameters for the variables `typesemi-detached` and `typeother` show how the intercept will change if we have this type of property in comparison with the baseline (which is `detached`), i.e. whether the line will be above or below the line for the detached and by how much. To understand this clearer, consider the example where we have a `type="detached"` property. In that case, the dummy variables `typesemi-detached` and `typeother` both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be `r round(coef(costsModelWithType)[1], digits)`.
+Each of the parameters for the variables `typesemi-detached` and `typeother` show how the intercept will change in comparison with the baseline (which is `detached`) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.
+
+To understand this clearer, consider the example where we have a `type="detached"` property. In that case, the dummy variables `typesemi-detached` and `typeother` both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be `r round(coef(costsModelWithType)[1], digits)`. On the other hand, if we have the `semi-detached` property, the intercept will be `r round(coef(costsModelWithType)[1], digits)`  `r round(coef(costsModelWithType)["typesemi-detached"], digits)`= `r round(coef(costsModelWithType)[1], digits) +  round(coef(costsModelWithType)["typesemi-detached"], digits)`.
 
 
 

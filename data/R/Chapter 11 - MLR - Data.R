@@ -16,7 +16,7 @@ MLRData$year <- MLRData$year + rpois(obs, 8)
 MLRData$materials <- round(MLRData$size * 2 * rlnorm(obs, 0, 0.1)*(MLRData$year/2000)^4,2)
 MLRData$projects <- rbinom(obs, 7, 0.5)
 
-MLRData$overall <- (0.5 * MLRData$size + MLRData$materials*(1+sapply(MLRData$type, switch,
+MLRData$overall <- 100 + (0.5 * MLRData$size + MLRData$materials*(1+sapply(MLRData$type, switch,
                                                                      "detached"=0.15,
                                                                      "semi-detached"=0.1,
                                                                      "apartment"=0,
