@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -436,7 +440,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 Figure 12.3: Parameter uncertainty in the estimated model
 </p>
 </div>
-<p>Figure <a href="uncertaintyRegressionCI.html#fig:costsModelMLRCI">12.3</a> demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section <a href="CLT.html#CLT">6.2</a>) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true intercept will lie between -6741 and 726.27 in the 95% of the cases, if we repeat the resampling experiment many times.</p>
+<p>Figure <a href="uncertaintyRegressionCI.html#fig:costsModelMLRCI">12.3</a> demonstrates the bootstrapped distributions of parameters (as before), together with the Normal probability density functions on top of them and vertical lines at the tails that represent the confidence bounds. The idea behind this is that due to the Central Limit Theorem (Section <a href="CLT.html#CLT">6.2</a>) we can assume that estimates of parameters follow the Normal distribution with some mean and variance, and based on that we can get the quantiles, thus inferring, for example, that the true intercept will lie between -5199.78 and 6444.31 in the 95% of the cases, if we repeat the resampling experiment many times.</p>
 <p>The interpretation of the confidence interval is exactly the same as in the simpler case discussed in the Section <a href="confidenceInterval.html#confidenceInterval">6.4</a>. The formula for it is slightly different, because it is constructed for the parameters of the model rather than the mean of the sample, but the logic is exactly the same:
 <span class="math display" id="eq:MLRParameterInterval">\[\begin{equation}
 \beta_i \in (b_i + t_{\alpha/2}(n-k) s_{b_i}, b_i + t_{1-\alpha/2}(n-k) s_{b_i}),
@@ -458,47 +462,47 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 <p><span id="exm:unlabeled-div-48" class="example"><strong>Example 12.1  </strong></span>Consider construction of the interval for the slope parameter for the variable <code>materials</code> from the regression we discussed earlier. In our case, we know the following:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\alpha=0.05\)</span> because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;</li>
-<li>The value of the parameter <span class="math inline">\(b_1\)</span> is 0.7744;</li>
+<li>The value of the parameter <span class="math inline">\(b_1\)</span> is 0.8706;</li>
 <li>To get the variance of the parameter, we can use the formula discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>. In R, we can get the variance of the parameter for the <code>materials</code> (second parameter in the model) via the <code>vcov()</code> function, like this:</li>
 </ol>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="uncertaintyRegressionCI.html#cb177-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
-<pre><code>## [1] 0.04798315</code></pre>
-<p>Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately 0.2191.
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="uncertaintyRegressionCI.html#cb182-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 0.09681792</code></pre>
+<p>Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately 0.3112.
 4. We estimated five parameters (four for variables and an intercept), so <span class="math inline">\(k=5\)</span>, and the sample size <span class="math inline">\(n\)</span> was 61, which means that in our model has <span class="math inline">\(n-k=61-5=56\)</span> degrees of freedom.
 5. To get the Student’s t statistics correctly, we need to split the significance level <span class="math inline">\(\alpha\)</span> into two equal part, meaning that we expect to have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for <span class="math inline">\(\alpha/2=0.025\)</span> and <span class="math inline">\(1-\alpha/2=0.975\)</span> with <span class="math inline">\(n-k=56\)</span>. In R, we can use the <code>qt()</code> function in the following way:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="uncertaintyRegressionCI.html#cb179-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="uncertaintyRegressionCI.html#cb184-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
 <pre><code>## [1] -2.003241  2.003241</code></pre>
-<p>Taking all these values and inserting them in the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (0.3355,1.2133)</p>
+<p>Taking all these values and inserting them in the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (0.2472,1.494)</p>
 <p>In R, the confidence interval can be obtained directly via the <code>confint()</code> function, and it should be close to what we obtained above, but not exactly the same due to rounding:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="uncertaintyRegressionCI.html#cb181-1" tabindex="-1"></a><span class="fu">confint</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="uncertaintyRegressionCI.html#cb186-1" tabindex="-1"></a><span class="fu">confint</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##                  S.E.       2.5%     97.5%
-## (Intercept) 3053.4575 -9081.4297 3152.1912
-## materials      0.2191     0.3356    1.2132
-## size           0.4920    -0.0886    1.8826
-## projects       2.6731   -10.6645    0.0453
-## year           1.5221    -1.4627    4.6356</code></pre>
-<p>The confidence interval for <code>materials</code> above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between 0.3356 and 1.2132. This gives us an idea about the real effect in the population and how certain we are about it.</p>
+## (Intercept) 4337.3590 -8074.4514 9303.0968
+## materials      0.3112     0.2473    1.4939
+## size           0.6989    -0.0529    2.7471
+## projects       3.7971    -9.1986    6.0144
+## year           2.1621    -4.4915    4.1711</code></pre>
+<p>The confidence interval for <code>materials</code> above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between 0.2473 and 1.4939. This gives us an idea about the real effect in the population and how certain we are about it.</p>
 </div>
 <p>We can also present all of this in the following summary (this is based on the <code>alm()</code> model, the other functions will produce different outputs):</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="uncertaintyRegressionCI.html#cb183-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="uncertaintyRegressionCI.html#cb188-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR)</span></code></pre></div>
 <pre><code>## Response variable: overall
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
 ## Coefficients:
-##               Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) -2964.6192  3053.4575 -9081.4297   3152.1912  
-## materials       0.7744     0.2191     0.3356      1.2132 *
-## size            0.8970     0.4920    -0.0886      1.8826  
-## projects       -5.3096     2.6731   -10.6645      0.0453  
-## year            1.5865     1.5221    -1.4627      4.6356  
+##             Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept) 614.3227  4337.3590 -8074.4514   9303.0968  
+## materials     0.8706     0.3112     0.2473      1.4939 *
+## size          1.3471     0.6989    -0.0529      2.7471  
+## projects     -1.5921     3.7971    -9.1986      6.0144  
+## year         -0.1602     2.1621    -4.4915      4.1711  
 ## 
-## Error standard deviation: 30.5643
+## Error standard deviation: 43.4158
 ## Sample size: 61
 ## Number of estimated parameters: 5
 ## Number of degrees of freedom: 56
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
-## 597.1132 596.2041 609.7784 607.9098</code></pre>
+## 639.9341 639.0250 652.5993 650.7307</code></pre>
 <p>This summary provides all the necessary information about the model and the estimates of parameters:</p>
 <ul>
 <li>their mean values are in the column “Estimate”,</li>
@@ -507,7 +511,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 <li>and, finally, a star drawn next to the interval if it does not contain zero.</li>
 </ul>
 <p>If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists. We can regulate the confidence level by defining the <code>level</code> parameter. For example, if we want the 99% one, we should add <code>level=0.99</code> in the summary:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="uncertaintyRegressionCI.html#cb185-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR, <span class="at">level=</span><span class="fl">0.99</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionCI.html#cb190-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR, <span class="at">level=</span><span class="fl">0.99</span>)</span></code></pre></div>
 </div>
 
             </section>

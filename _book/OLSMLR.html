@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -436,8 +440,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="OLSMLR.html#cb153-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span></code></pre></div>
 <p>After running the above command, we will get a model with some estimates of parameters:</p>
 <div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="OLSMLR.html#cb154-1" tabindex="-1"></a><span class="fu">coef</span>(costsModel01)</span></code></pre></div>
-<pre><code>##   (Intercept)          size     materials      projects          year 
-## -2964.6192397     0.8970045     0.7743759    -5.3095572     1.5864555</code></pre>
+<pre><code>## (Intercept)        size   materials    projects        year 
+## 614.3227252   1.3471347   0.8706179  -1.5921311  -0.1601849</code></pre>
 <p>To better understand what fitting such model to the data implies, we can produce a plot of fitted vs actuals values, with <span class="math inline">\(\hat{y}_j\)</span> on x-axis and <span class="math inline">\(y_j\)</span> on the y-axis:</p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="OLSMLR.html#cb156-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(costsModel01),<span class="fu">actuals</span>(costsModel01))</span></code></pre></div>
 <p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>

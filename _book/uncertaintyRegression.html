@@ -23,14 +23,14 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="interpretation-of-parameters.html"/>
+<link rel="prev" href="linearRegressionPrediction.html"/>
 <link rel="next" href="uncertaintyRegressionCov.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -440,23 +444,23 @@ Figure 12.1: Material vs overall costs and two regression lines.
 <p>More importantly, the line will always change when the model is fit to the new sample of data, even if we add only one observation. This is because on different samples, we get different estimates of parameters, which comes from one of the fundamental sources of uncertainty (the second one discussed in Section <a href="sourcesOfUncertainty.html#sourcesOfUncertainty">1.4</a>). This means that the estimates of parameters are random and might have some distribution of their own.</p>
 <p>Exactly the same effect will be observed if we collect a different random sample from the same population, for example, if we worked for a different company that does similar business and collects the same data. In that case, the parameters would be random again, having some sort of a distribution.</p>
 <p>To see this point clearer, we fit the same simple regression model to randomly selected subsamples of the original dataset many times and collect the estimates of parameters to plot histograms and see their distribution. This empirical way of capturing uncertainty is called “bootstrap” and we will discuss it in more detail in Chapter <a href="#SectionNeededHere"><strong>??</strong></a>. The R code below shows how this can be done using the <code>coefbootstrap()</code> function from the <code>greybox</code> package (which implements a simple “Case Resampling” technique):</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="uncertaintyRegression.html#cb169-1" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb169-2"><a href="uncertaintyRegression.html#cb169-2" tabindex="-1"></a>costsModelMLR <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year, <span class="at">data=</span>SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb169-3"><a href="uncertaintyRegression.html#cb169-3" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
-<span id="cb169-4"><a href="uncertaintyRegression.html#cb169-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
-<span id="cb169-5"><a href="uncertaintyRegression.html#cb169-5" tabindex="-1"></a>costsModelMLRBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(costsModelMLR)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="uncertaintyRegression.html#cb174-1" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb174-2"><a href="uncertaintyRegression.html#cb174-2" tabindex="-1"></a>costsModelMLR <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year, <span class="at">data=</span>SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb174-3"><a href="uncertaintyRegression.html#cb174-3" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
+<span id="cb174-4"><a href="uncertaintyRegression.html#cb174-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
+<span id="cb174-5"><a href="uncertaintyRegression.html#cb174-5" tabindex="-1"></a>costsModelMLRBootstrap <span class="ot">&lt;-</span> <span class="fu">coefbootstrap</span>(costsModelMLR)</span></code></pre></div>
 <p>Based on that we can plot the histograms of the estimates of parameters as shown in Figure <a href="uncertaintyRegression.html#fig:costsModelMLRBootstrap">12.2</a>.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="uncertaintyRegression.html#cb170-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb170-2"><a href="uncertaintyRegression.html#cb170-2" tabindex="-1"></a><span class="co"># First histogram</span></span>
-<span id="cb170-3"><a href="uncertaintyRegression.html#cb170-3" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
-<span id="cb170-4"><a href="uncertaintyRegression.html#cb170-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
-<span id="cb170-5"><a href="uncertaintyRegression.html#cb170-5" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
-<span id="cb170-6"><a href="uncertaintyRegression.html#cb170-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">1</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb170-7"><a href="uncertaintyRegression.html#cb170-7" tabindex="-1"></a><span class="co"># Second histogram</span></span>
-<span id="cb170-8"><a href="uncertaintyRegression.html#cb170-8" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
-<span id="cb170-9"><a href="uncertaintyRegression.html#cb170-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Material costs&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
-<span id="cb170-10"><a href="uncertaintyRegression.html#cb170-10" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
-<span id="cb170-11"><a href="uncertaintyRegression.html#cb170-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegression.html#cb175-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb175-2"><a href="uncertaintyRegression.html#cb175-2" tabindex="-1"></a><span class="co"># First histogram</span></span>
+<span id="cb175-3"><a href="uncertaintyRegression.html#cb175-3" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">1</span>],</span>
+<span id="cb175-4"><a href="uncertaintyRegression.html#cb175-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
+<span id="cb175-5"><a href="uncertaintyRegression.html#cb175-5" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
+<span id="cb175-6"><a href="uncertaintyRegression.html#cb175-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">1</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb175-7"><a href="uncertaintyRegression.html#cb175-7" tabindex="-1"></a><span class="co"># Second histogram</span></span>
+<span id="cb175-8"><a href="uncertaintyRegression.html#cb175-8" tabindex="-1"></a><span class="fu">hist</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients[,<span class="dv">2</span>],</span>
+<span id="cb175-9"><a href="uncertaintyRegression.html#cb175-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Material costs&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="dv">17</span>)</span>
+<span id="cb175-10"><a href="uncertaintyRegression.html#cb175-10" tabindex="-1"></a><span class="co"># The estimated coefficient</span></span>
+<span id="cb175-11"><a href="uncertaintyRegression.html#cb175-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">coef</span>(costsModelMLR)[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:costsModelMLRBootstrap"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsModelMLRBootstrap-1.png" alt="Distribution of bootstrapped parameters of a regression model" width="672" />
 <p class="caption">
@@ -472,7 +476,7 @@ Figure 12.2: Distribution of bootstrapped parameters of a regression model
           </div>
         </div>
       </div>
-<a href="interpretation-of-parameters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linearRegressionPrediction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="uncertaintyRegressionCov.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

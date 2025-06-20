@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -430,113 +434,125 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h2><span class="header-section-number">13.1</span> Dummy variables for the intercept<a href="dummy-variables-for-the-intercept.html#dummy-variables-for-the-intercept" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we remember from Section <a href="scales.html#scales">1.2</a>, the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. “detached” - “1”, “semi-detached” - “2”, “other” - “3”), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in what we can do with these values. As a reminder, the mean value in this case does not make any sense, and the median only makes sense for the ordinal scale.</p>
 <p>To overcome this limitation, we could create a set of dummy variables, each of which would be equal to one if the specific object has the value of the original variable and zero otherwise. For example, for the property 7 in the dataset that we have used since Chapter <a href="linearRegression.html#linearRegression">11</a>, we have:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="dummy-variables-for-the-intercept.html#cb207-1" tabindex="-1"></a>SBA_Chapter_11_Costs[<span class="dv">7</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="dummy-variables-for-the-intercept.html#cb213-1" tabindex="-1"></a>SBA_Chapter_11_Costs[<span class="dv">7</span>,]</span></code></pre></div>
 <pre><code>##    overall  size materials     type projects year    noise
-## 8 368.7812 75.47     160.1 detached        5 2008 6.148204</code></pre>
-<p>We see that the type of this building was “detached”. So when we create the dummy variable “type_detached”, we would encode it being equal to one for this and all the other observations that have this type, and to zero otherwise.</p>
-<p>Every t-shirt in our dataset would have one of these colours, and based on this we could create three dummy variables:</p>
-<ol style="list-style-type: decimal">
-<li>colourRed, which would be equal to one if the t-shirt is Red and zero otherwise,</li>
-<li>colourGreen: 1 if the t-shirt is Green and 0 otherwise,</li>
-<li>colourBlue: 1 if the t-shirt is Blue and 0 otherwise.</li>
-</ol>
-<p>These dummy variables can then be added to a model instead of the original variable colour, resulting, for example, in the model:
-<span class="math display" id="eq:regressionDummies01">\[\begin{equation}
-    sales_j = \beta_0 + \beta_1 price_j + \beta_2 colourRed_j + \beta_3 colourGreen_j + \epsilon_j .
+## 8 542.7962 75.47     160.1 detached        5 2008 12.29507</code></pre>
+<p>We see that the type of this building was “detached”. So when we create the dummy variable “type_detached”, we would encode it being equal to one for this and all the other observations that have this type, and to zero otherwise. We could do that manually using the following command in R:</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="dummy-variables-for-the-intercept.html#cb215-1" tabindex="-1"></a>type_detached <span class="ot">&lt;-</span> (SBA_Chapter_11_Costs<span class="sc">$</span>type<span class="sc">==</span><span class="st">&quot;detached&quot;</span>)<span class="sc">*</span><span class="dv">1</span></span></code></pre></div>
+<p>which would create the variable <code>type_detached</code>, containing zeroes and ones. But this is a tedious way of creating dummy variables, there is a better one - using the <code>model.matrix()</code> function in R:</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="dummy-variables-for-the-intercept.html#cb216-1" tabindex="-1"></a><span class="co"># -1 is needed to tell the function to drop the intercept</span></span>
+<span id="cb216-2"><a href="dummy-variables-for-the-intercept.html#cb216-2" tabindex="-1"></a>house_types <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>type<span class="dv">-1</span>, SBA_Chapter_11_Costs)</span>
+<span id="cb216-3"><a href="dummy-variables-for-the-intercept.html#cb216-3" tabindex="-1"></a><span class="fu">head</span>(house_types)</span></code></pre></div>
+<pre><code>##   typedetached typesemi-detached typeother
+## 1            0                 0         1
+## 3            1                 0         0
+## 4            0                 0         1
+## 5            0                 1         0
+## 6            0                 0         1
+## 7            0                 1         0</code></pre>
+<p>The resulting matrix contains three dummy variables, denoting “detached”, “semi-detached” and “other” types of properties. If we visualise the overall costs vs the material costs for each one of them on the same plot, we might see whether there is a difference in relations between the variables. Here is one of possible ways of doing that (Figure <a href="dummy-variables-for-the-intercept.html#fig:costsPropertiesTypes">13.2</a>):</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="dummy-variables-for-the-intercept.html#cb218-1" tabindex="-1"></a><span class="co"># The general plot</span></span>
+<span id="cb218-2"><a href="dummy-variables-for-the-intercept.html#cb218-2" tabindex="-1"></a><span class="fu">plot</span>(SBA_Chapter_11_Costs[,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)])</span>
+<span id="cb218-3"><a href="dummy-variables-for-the-intercept.html#cb218-3" tabindex="-1"></a><span class="co"># Plot for the detached houses</span></span>
+<span id="cb218-4"><a href="dummy-variables-for-the-intercept.html#cb218-4" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb218-5"><a href="dummy-variables-for-the-intercept.html#cb218-5" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb218-6"><a href="dummy-variables-for-the-intercept.html#cb218-6" tabindex="-1"></a><span class="co"># We added LOWESS lines to see whether the relations change</span></span>
+<span id="cb218-7"><a href="dummy-variables-for-the-intercept.html#cb218-7" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)]),</span>
+<span id="cb218-8"><a href="dummy-variables-for-the-intercept.html#cb218-8" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb218-9"><a href="dummy-variables-for-the-intercept.html#cb218-9" tabindex="-1"></a><span class="co"># Semi-detached</span></span>
+<span id="cb218-10"><a href="dummy-variables-for-the-intercept.html#cb218-10" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">2</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb218-11"><a href="dummy-variables-for-the-intercept.html#cb218-11" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb218-12"><a href="dummy-variables-for-the-intercept.html#cb218-12" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">2</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)]),</span>
+<span id="cb218-13"><a href="dummy-variables-for-the-intercept.html#cb218-13" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb218-14"><a href="dummy-variables-for-the-intercept.html#cb218-14" tabindex="-1"></a><span class="co"># Other</span></span>
+<span id="cb218-15"><a href="dummy-variables-for-the-intercept.html#cb218-15" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb218-16"><a href="dummy-variables-for-the-intercept.html#cb218-16" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb218-17"><a href="dummy-variables-for-the-intercept.html#cb218-17" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)]),</span>
+<span id="cb218-18"><a href="dummy-variables-for-the-intercept.html#cb218-18" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb218-19"><a href="dummy-variables-for-the-intercept.html#cb218-19" tabindex="-1"></a><span class="co"># Create the legend for convenience</span></span>
+<span id="cb218-20"><a href="dummy-variables-for-the-intercept.html#cb218-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(SBA_Chapter_11_Costs<span class="sc">$</span>type),</span>
+<span id="cb218-21"><a href="dummy-variables-for-the-intercept.html#cb218-21" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:costsPropertiesTypes"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsPropertiesTypes-1.png" alt="Scatterplot of material vs overall costs for the three property types." width="672" />
+<p class="caption">
+Figure 13.2: Scatterplot of material vs overall costs for the three property types.
+</p>
+</div>
+<p>It is hard to tell whether the relation changes (i.e. whether the material costs impact the overall costs differently for each of the property types), but it looks like the overall cost of semi-detached properties is higher than detached and other ones. If we were to construct several independent models, we would expect that on average, the semi-detached properties would cost more than the others, which should translate to the higher value of the intercept if we draw the line just through the cloud of the green points. The “other” should have the lowest intercept, because the points are concentrated at the bottom of the plot. Finally, the “detached” should be somewhere in the middle.</p>
+<p>To make this switch more natural, we can introduce the dummy variables in regression model. What we could do in this case is have an intercept for one of the categories (for example, for <code>other</code>) and then have some parameters that would either increase or decrease it depending on the type of the property. Luckily, R can introduce them automatically, and we do not need to do anything additional to make it work. We only need to make sure that the respective categorical variable (<code>type</code> in our case) is encoded as a <code>factor</code>:</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="dummy-variables-for-the-intercept.html#cb219-1" tabindex="-1"></a><span class="fu">class</span>(SBA_Chapter_11_Costs<span class="sc">$</span>type)</span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<p>And then we can add it in the regression model:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="dummy-variables-for-the-intercept.html#cb221-1" tabindex="-1"></a>costsModelWithType <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year<span class="sc">+</span>type,</span>
+<span id="cb221-2"><a href="dummy-variables-for-the-intercept.html#cb221-2" tabindex="-1"></a>                          SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span></code></pre></div>
+<p>What R does in this case is expands the categorical variable in a set of dummies and uses the first level as a baseline, dropping it from the model (we’ll discuss why in a moment). In our data, this level is “detached”:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="dummy-variables-for-the-intercept.html#cb222-1" tabindex="-1"></a><span class="fu">levels</span>(SBA_Chapter_11_Costs<span class="sc">$</span>type)</span></code></pre></div>
+<pre><code>## [1] &quot;detached&quot;      &quot;semi-detached&quot; &quot;other&quot;</code></pre>
+<p>The summary of the produced model shows the values of the parameters for each of the levels of <code>type</code>:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="dummy-variables-for-the-intercept.html#cb224-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelWithType)</span></code></pre></div>
+<pre><code>## Response variable: overall
+## Distribution used in the estimation: Normal
+## Loss function used in estimation: MSE
+## Coefficients:
+##                     Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)       -3231.6672  3204.3686 -9656.0394   3192.7050  
+## size                  1.0202     0.5876    -0.1578      2.1982  
+## materials             0.8388     0.2264     0.3850      1.2926 *
+## projects             -5.6514     2.8166   -11.2984     -0.0044 *
+## year                  1.7984     1.5971    -1.4037      5.0004  
+## typesemi-detached   -39.6631    13.3095   -66.3471    -12.9791 *
+## typeother           -76.4043    11.2599   -98.9791    -53.8295 *
+## 
+## Error standard deviation: 31.3843
+## Sample size: 61
+## Number of estimated parameters: 7
+## Number of degrees of freedom: 54
+## Information criteria:
+##      AIC     AICc      BIC     BICc 
+## 602.1246 602.2378 619.0116 619.2443</code></pre>
+<p>Each of the parameters for the variables <code>typesemi-detached</code> and <code>typeother</code> show how the intercept will change in comparison with the baseline (which is <code>detached</code>) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.</p>
+<p>To understand this clearer, consider the example where we have a <code>type="detached"</code> property. In that case, the dummy variables <code>typesemi-detached</code> and <code>typeother</code> both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be -3231.6672. On the other hand, if we have the <code>semi-detached</code> property, the intercept will be -3231.6672 -39.6631= -3271.3303.</p>
+<p>Now, why does R drop one of the levels? The simple explanation is that if we have those three dummy variables in the <code>house_types</code> variable, one of them can be considered redundant, because if we know that the property is neither detached, nor semi-detached, then it must be “other”. See example of the fifth project:</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="dummy-variables-for-the-intercept.html#cb226-1" tabindex="-1"></a>house_types[<span class="dv">5</span>,]</span></code></pre></div>
+<pre><code>##      typedetached typesemi-detached         typeother 
+##                 0                 0                 1</code></pre>
+<p>So, having all levels is simply unnecessary. But there is a mathematical explanation as well. It relates to the so called “dummy variables trap”.</p>
+<div id="dummy-variables-trap" class="section level3 hasAnchor" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Dummy variables trap<a href="dummy-variables-for-the-intercept.html#dummy-variables-trap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider a regression model without the dummy variables that we previously estimated in Section <a href="OLSMLR.html#OLSMLR">11.1</a>:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="dummy-variables-for-the-intercept.html#cb228-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span>
+<span id="cb228-2"><a href="dummy-variables-for-the-intercept.html#cb228-2" tabindex="-1"></a><span class="fu">summary</span>(costsModel01)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = overall ~ size + materials + projects + year, data = SBA_Chapter_11_Costs)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -101.198  -30.443   -2.157   26.032  108.496 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  614.3227  4337.3590   0.142  0.88788   
+## size           1.3471     0.6989   1.928  0.05898 . 
+## materials      0.8706     0.3112   2.798  0.00704 **
+## projects      -1.5921     3.7971  -0.419  0.67660   
+## year          -0.1602     2.1621  -0.074  0.94121   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 43.42 on 56 degrees of freedom
+## Multiple R-squared:  0.749,  Adjusted R-squared:  0.7311 
+## F-statistic: 41.77 on 4 and 56 DF,  p-value: 3.415e-16</code></pre>
+<p>As discussed in Section <a href="linearRegressionPrediction.html#linearRegressionPrediction">11.4</a>, this model can be written as:
+<span class="math display" id="eq:regressionOverall02">\[\begin{equation}
+    overall_j = 614.3227 + 1.3471 size_j + 0.8706 materials_j - 1.5921 projects_j - 0.1602 year_j + \epsilon_j .
     \tag{13.1}
 \end{equation}\]</span>
-Notice that I have only included two dummy variables out of the three. This is because we do not need to have all of them to be able to say what colour of t-shirt we have: if it is not Red and not Green, then it must be Blue. Furthermore, while some models and estimation methods could handle all the dummy variables in the model, the linear regression cannot be estimated via the conventional methods if they are all in. This is exactly because of this situation with “not Red, not Green”. If we introduce all three, the model will have so called “dummy variables trap”, implying perfect multicollinearity (see Subsection <a href="assumptionsXreg.html#assumptionsXreg">15.3</a>), because of the functional relation between variables:
-<span class="math display" id="eq:regressionDummies02">\[\begin{equation}
-    colourBlue_j = 1 - colourRed_j - colourGreen_j \text{ for all } j=1, \dots, n .
-    \tag{13.2}
-\end{equation}\]</span>
-This is a general rule: if you have created a set of dummy variables from a categorical one, then one of them needs to be dropped, in order not to have the dummy variables trap.</p>
-<p>So, what does the inclusion of dummy variables in the regression model means? We can see that on the following example of artificial data:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="dummy-variables-for-the-intercept.html#cb209-1" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb209-2"><a href="dummy-variables-for-the-intercept.html#cb209-2" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb209-3"><a href="dummy-variables-for-the-intercept.html#cb209-3" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb209-4"><a href="dummy-variables-for-the-intercept.html#cb209-4" tabindex="-1"></a>tShirts[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb209-5"><a href="dummy-variables-for-the-intercept.html#cb209-5" tabindex="-1"></a>tShirts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirts <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="dv">30</span>, <span class="sc">-</span><span class="dv">20</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirts)</span>
-<span id="cb209-6"><a href="dummy-variables-for-the-intercept.html#cb209-6" tabindex="-1"></a><span class="fu">colnames</span>(tShirts) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;colourRed&quot;</span>,<span class="st">&quot;colourGreen&quot;</span>,<span class="st">&quot;colourBlue&quot;</span>)</span></code></pre></div>
-<p>We can produce spread plot to see how the data looks like:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="dummy-variables-for-the-intercept.html#cb210-1" tabindex="-1"></a><span class="fu">spread</span>(tShirts)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:tShirtsSpread"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsSpread-1.png" alt="Spread plot of t-shirts data." width="672" />
-<p class="caption">
-Figure 13.1: Spread plot of t-shirts data.
-</p>
+We can notice in the formula above, that we have a variable right after each of the parameters. In fact, the intercept can also be represented in the same form, the main difference is that it is multiplied by 1 instead of anything else: <span class="math inline">\(614.3227 = 614.3227 \times 1\)</span>.</p>
+<p>Now if we add all the three dummy variables in the model, for each specific observation, we will have an issue called “perfect multicollinearity” (we will discuss it in more detail in Section <a href="assumptionsXreg.html#assumptionsXregMulti">15.3.1</a>), where the included variables are linearly related and lead to estimation issues in the model. In our case, we can say that the sum of the three dummy variables for any specific observation equals to one (which is also that latent variable for the intercept that we mentioned above). So, by including all of them in the model together with the intercept, we will not be able to distinguish the specific effect of one variable on the response variable from the other one. Having the linear combination detached + semi-detached + other = 1, the estimates of the intercept and the three parameters for the <code>type</code> levels are not uniquely defined and can be anything as long as their combination leads to the line going through the specific segments of points.</p>
+<p>To avoid the dummy variables trap, we can either drop one of levels (which is done by R automatically, as described above), or remove the intercept. The latter, however, has some consequences, because the intercept plays an important technical role, characterising where the line intersects the y-axis. If it is dropped, the model will imply that the intersection is happening at the origin (where all variables are equal to zero), and this might cause issues in the quality of a fit (see Section <a href="linearRegressionMultipleQualityOfFit.html#linearRegressionMultipleQualityOfFit">11.2</a>).</p>
+<p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>detached</code> and only have the model with <code>semi-detached</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the detached from other properties. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might improve the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one to avoid the trap) of categorical variable or not to include any of them.</p>
 </div>
-<p>Figure @red(fig:tShirtsSpread) demonstrates that the sales differ depending on the type of colour (the boxplots). The scatterplot between sales and price is not very clear, but there are actually three theoretical lines on that plot. We can enlarge the plot and draw them:</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="dummy-variables-for-the-intercept.html#cb211-1" tabindex="-1"></a><span class="fu">plot</span>(tShirts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb211-2"><a href="dummy-variables-for-the-intercept.html#cb211-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">30</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb211-3"><a href="dummy-variables-for-the-intercept.html#cb211-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000-20</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb211-4"><a href="dummy-variables-for-the-intercept.html#cb211-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span><span class="sc">+</span><span class="dv">50</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:tShirtsScatterPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour." width="672" />
-<p class="caption">
-Figure 13.2: Scatterplot of Sales vs Price of t-shirts of different colour.
-</p>
-</div>
-<p>Now, if we want to construct the regression that would take these differences into account, we need to estimate the model <a href="dummy-variables-for-the-intercept.html#eq:regressionDummies01">(13.1)</a>:</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="dummy-variables-for-the-intercept.html#cb212-1" tabindex="-1"></a>tShirtsALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colourRed<span class="sc">+</span>colourGreen, tShirts, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb212-2"><a href="dummy-variables-for-the-intercept.html#cb212-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsALM)</span></code></pre></div>
-<pre><code>## Response variable: sales
-## Distribution used in the estimation: Normal
-## Loss function used in estimation: MSE
-## Coefficients:
-##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1048.4996     3.7216  1041.1444   1055.8549 *
-## price         -2.3887     0.1842    -2.7527     -2.0246 *
-## colourRed    -20.3478     0.9613   -22.2477    -18.4478 *
-## colourGreen  -70.6922     0.9665   -72.6022    -68.7822 *
-## 
-## Error standard deviation: 4.8061
-## Sample size: 150
-## Number of estimated parameters: 4
-## Number of degrees of freedom: 146
-## Information criteria:
-##      AIC     AICc      BIC     BICc 
-## 902.5904 900.8662 917.6435 913.3240</code></pre>
-<p>Notice that the intercept in this model is not 1000, as we used in the generation of the data, but is 1048. This is because it now also contains the effect of blue colour on sales in it. So, the sales of blue coloured t-shirt is now the baseline category, and each dummy variable now represents the shifts of sales, when we switch from one colour to another. For example, we can say that <em>the sales of red colour t-shirt are on average lower than the sales of the blue one by approximately 20 units</em>. What dummy variables do in the model is just shift the line from one level to another. This becomes clear if we consider special cases of models for the three t-shirts:</p>
-<ol style="list-style-type: decimal">
-<li>For the blue t-shirt, our model is: sales=1048.5-2.39price+et. This is because both <code>colourRed</code> and <code>colourGreen</code> are zero in this case;</li>
-<li>For the red t-shirt the model is: sales=1048.5+-20.35-2.39price+et or sales=1028.15-2.39price+et;</li>
-<li>Finally, for the green one, the model is: sales=1048.5+-70.69-2.39price+et or sales=977.81-2.39price+et.</li>
-</ol>
-<p>In a way, we could have constructed three different regression models for the sub-samples of data, and in the ideal situation (all the data in the world) we would get the same set of estimates of parameters. However, this would be a costly procedure from the statistical perspective, because three separate models will have lower number of degrees of freedom, then the model with dummy variables. Thus, the estimates of parameters will be more uncertain in those three models than in one model <code>tShirtsALM</code>.</p>
-<p>One thing that we can remark is that the estimated parameters differ from the ones we used in the data generation. This is because the intercepts of the three models above intersect the y-axis in the points 1048.5, 1028.15 and 977.81 respectively. Furthermore, in general it is not possible to extract the specific effect of blue colour on sales based on the estimates of parameters, unless we impose some restrictions on parameters. The closest we can get to the true parameters is if we normalise them (assuming that there is some baseline and that the colours build upon it and add up to zero):</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="dummy-variables-for-the-intercept.html#cb214-1" tabindex="-1"></a>colourParameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(tShirtsALM)[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]<span class="sc">+</span><span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>],<span class="fu">coef</span>(tShirtsALM)[<span class="dv">1</span>])</span>
-<span id="cb214-2"><a href="dummy-variables-for-the-intercept.html#cb214-2" tabindex="-1"></a><span class="fu">names</span>(colourParameters)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;colourBlue&quot;</span>;</span>
-<span id="cb214-3"><a href="dummy-variables-for-the-intercept.html#cb214-3" tabindex="-1"></a>colourParameters <span class="sc">-</span> <span class="fu">mean</span>(colourParameters)</span></code></pre></div>
-<pre><code>##   colourRed colourGreen  colourBlue 
-##    9.998901  -40.345555   30.346654</code></pre>
-<p>The meaning of these effects is that on average they change the baseline sales of colourless t-shirts according to these values. For example, the specific increase of sales due to the red colour of t-shirt is 10 units. In general, it is not worth bothering with these specific effects, and we can just stick with parameters of model, keeping in mind that we only have effects comparative to the selected baseline category.</p>
-<p>In R, we can also work with factor variables, without a need to expand variables in a set of dummies - the program will do the expansion automatically and drop the first level of the variable. In order to see how it works, we create a data frame with the factor variable <code>colour</code>:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="dummy-variables-for-the-intercept.html#cb216-1" tabindex="-1"></a>tShirtsDataFrame <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tShirts[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb216-2"><a href="dummy-variables-for-the-intercept.html#cb216-2" tabindex="-1"></a>tShirtsDataFrame<span class="sc">$</span>colour <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Green&quot;</span>,<span class="st">&quot;Blue&quot;</span>)[tShirts[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="sc">%*%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span>
-<span id="cb216-3"><a href="dummy-variables-for-the-intercept.html#cb216-3" tabindex="-1"></a><span class="fu">spread</span>(tShirtsDataFrame)</span></code></pre></div>
-<p><img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
-<p>Notice that the “Blue” was automatically set as the first level, because <code>factor()</code> function would sort labels alphabetically unless the levels are provided explicitly. The estimated model in this case will be exactly the same as the <code>tShirts</code> model above:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="dummy-variables-for-the-intercept.html#cb217-1" tabindex="-1"></a>tShirtsDataFrameALM <span class="ot">&lt;-</span> <span class="fu">alm</span>(sales<span class="sc">~</span>price<span class="sc">+</span>colour, tShirtsDataFrame, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
-<span id="cb217-2"><a href="dummy-variables-for-the-intercept.html#cb217-2" tabindex="-1"></a><span class="fu">summary</span>(tShirtsDataFrameALM)</span></code></pre></div>
-<pre><code>## Response variable: sales
-## Distribution used in the estimation: Normal
-## Loss function used in estimation: MSE
-## Coefficients:
-##              Estimate Std. Error Lower 2.5% Upper 97.5%  
-## (Intercept) 1048.4996     3.7216  1041.1444   1055.8549 *
-## price         -2.3887     0.1842    -2.7527     -2.0246 *
-## colourGreen  -70.6922     0.9665   -72.6022    -68.7822 *
-## colourRed    -20.3478     0.9613   -22.2477    -18.4478 *
-## 
-## Error standard deviation: 4.8061
-## Sample size: 150
-## Number of estimated parameters: 4
-## Number of degrees of freedom: 146
-## Information criteria:
-##      AIC     AICc      BIC     BICc 
-## 902.5904 900.8662 917.6435 913.3240</code></pre>
-<p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>colourRed</code> and only have the model with <code>colourGreen</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the Blue from Red. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might be improving the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one) of categorical variable or not to include any of them.</p>
 </div>
 
             </section>

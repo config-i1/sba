@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -443,22 +447,22 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 <div id="bootstrap-based-matrix" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Bootstrap-based matrix<a href="uncertaintyRegressionCov.html#bootstrap-based-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="uncertaintyRegressionCov.html#cb171-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##              (Intercept) materials     size projects       year
-## (Intercept) 3628842.7949   21.2108 -59.9932 311.5564 -1806.5269
-## materials        21.2108    0.0281  -0.0578   0.0522    -0.0107
-## size            -59.9932   -0.0578   0.1272  -0.1235     0.0298
-## projects        311.5564    0.0522  -0.1235   3.1577    -0.1596
-## year          -1806.5269   -0.0107   0.0298  -0.1596     0.8994</code></pre>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="uncertaintyRegressionCov.html#cb176-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##              (Intercept) materials      size  projects       year
+## (Intercept) 8823780.1900  111.7570 -214.6135 -550.2357 -4392.6498
+## materials       111.7570    0.0717   -0.1528    0.1137    -0.0557
+## size           -214.6135   -0.1528    0.3437   -0.3026     0.1062
+## projects       -550.2357    0.1137   -0.3026    6.2181     0.2678
+## year          -4392.6498   -0.0557    0.1062    0.2678     2.1868</code></pre>
 <p>The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="uncertaintyRegressionCov.html#cb173-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
-<span id="cb173-2"><a href="uncertaintyRegressionCov.html#cb173-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="uncertaintyRegressionCov.html#cb178-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
+<span id="cb178-2"><a href="uncertaintyRegressionCov.html#cb178-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##             (Intercept) materials    size projects    year
-## (Intercept)      1.0000    0.0664 -0.0883   0.0920 -1.0000
-## materials        0.0664    1.0000 -0.9662   0.1750 -0.0673
-## size            -0.0883   -0.9662  1.0000  -0.1948  0.0881
-## projects         0.0920    0.1750 -0.1948   1.0000 -0.0947
-## year            -1.0000   -0.0673  0.0881  -0.0947  1.0000</code></pre>
+## (Intercept)      1.0000    0.1405 -0.1232  -0.0743 -1.0000
+## materials        0.1405    1.0000 -0.9730   0.1703 -0.1406
+## size            -0.1232   -0.9730  1.0000  -0.2070  0.1224
+## projects        -0.0743    0.1703 -0.2070   1.0000  0.0726
+## year            -1.0000   -0.1406  0.1224   0.0726  1.0000</code></pre>
 <p>We see, for example, that the correlation between the intercept and the parameter for the <code>year</code> is close to -1, which implies that the two have a strong negative linear relation. This means that when we draw lines through the clouds of points on samples of data (year vs overall costs), the higher intercept implies that the line should have a lower slope, i.e. the line exhibits rotations around the middle of the data for these two variables. Still, this does not provide much useful information, but the matrix itself can be used for further derivations (see next Section).</p>
 </div>
 <div id="analytical-solution" class="section level3 hasAnchor" number="12.1.2">
@@ -469,13 +473,13 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does, is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="uncertaintyRegressionCov.html#cb175-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##              (Intercept) materials     size projects       year
-## (Intercept) 9323602.8303   42.9342 -13.0012 670.1280 -4647.6349
-## materials        42.9342    0.0480  -0.1004   0.0967    -0.0216
-## size            -13.0012   -0.1004   0.2421  -0.2050     0.0054
-## projects        670.1280    0.0967  -0.2050   7.1455    -0.3462
-## year          -4647.6349   -0.0216   0.0054  -0.3462     2.3168</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="uncertaintyRegressionCov.html#cb180-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##               (Intercept) materials     size  projects       year
+## (Intercept) 18812682.8074   86.6304 -26.2332 1352.1495 -9377.7569
+## materials         86.6304    0.0968  -0.2025    0.1951    -0.0435
+## size             -26.2332   -0.2025   0.4884   -0.4137     0.0109
+## projects        1352.1495    0.1951  -0.4137   14.4179    -0.6985
+## year           -9377.7569   -0.0435   0.0109   -0.6985     4.6748</code></pre>
 <p>We can see that the values of this covariance matrix differ from the ones produced via bootstrap. This is expected because different methods will always give different results. The analytical solution via <a href="uncertaintyRegressionCov.html#eq:MLRcovarianceMatrix">(12.2)</a> is more convenient and easier to calculate, but it relies on more assumptions than the bootstrapped one (see derivations below), the most important of them being that <em>the model is correctly specified</em> (i.e. we deal with the true model applied to a sample of data). If this is violated, the estimates of the covariance matrix will be biased leading to a variety of issues, discussed in Chapter <a href="assumptions.html#assumptions">15</a>.</p>
 </div>
 <div id="uncertaintyRegressionCovMaths" class="section level3 hasAnchor" number="12.1.3">

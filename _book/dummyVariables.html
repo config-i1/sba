@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -435,6 +439,15 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <li>Semi-detached;</li>
 <li>Other.</li>
 </ol>
+<p>If we analyse the spread plot diagram for the original dataset, we will notice that the overall costs seem to change depending on the property type (Figure <a href="dummyVariables.html#fig:propertiesSpread">13.1</a>):</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="dummyVariables.html#cb212-1" tabindex="-1"></a><span class="fu">spread</span>(SBA_Chapter_11_Costs)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:propertiesSpread"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/propertiesSpread-1.png" alt="Spread plots of the variables in the dataset." width="672" />
+<p class="caption">
+Figure 13.1: Spread plots of the variables in the dataset.
+</p>
+</div>
+<p>In fact, judging by the boxplots in Figure <a href="dummyVariables.html#fig:propertiesSpread">13.1</a>, we can see that material costs, sizes of properties and overall costs differ depending on the type of the property. So, this categorical variable has an affect on the project and needs to be taken into account.</p>
 <p>If we had a sample large enough, we could split it into three sub-samples depending on the value of the variable and estimate three regression models. Unfortunately, this is neither always possible nor meaningful. If we fit three different models to the data, that would imply that the effect of size, materials costs, number of projects and year when the project started would differ depending on the type of the building. While this might hold for some relations, it is not universally the case. Besides, having three smaller samples instead of one big one, would imply the increased uncertainty about the estimates of parameters of a model (discussed in Chapter <a href="uncertaintyRegression.html#uncertaintyRegression">12</a>), thus impacting the managerial decisions based on our model. So, is there a better way?</p>
 <p>The answer to this, is “yes”. This can be done by transforming variables from the categorical scale to the set of binary variables (i.e. taking values of zero or one). These binary variables are called “<strong>dummy variables</strong>” in the regression context. They denote when a specific attribute is met in the sample.</p>
 <p>In this chapter we will learn how this information can be incorporated in a regression model and can be used for analysis and for forecasting.</p>

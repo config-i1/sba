@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-17" />
+<meta name="date" content="2025-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,8 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="interpretation-of-parameters.html"><a href="interpretation-of-parameters.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
 <ul>
@@ -340,7 +341,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a></li>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+</ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
@@ -463,7 +467,7 @@ Figure 12.10: Parameter uncertainty of a hypothetical parameter.
 <p>Now we will discuss the classical hypothesis testing in regression.</p>
 <div id="regression-parameters" class="section level3 hasAnchor" number="12.4.1">
 <h3><span class="header-section-number">12.4.1</span> Regression parameters<a href="uncertaintyRegressionHypothesis.html#regression-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The logic of hypothesis testing in regression is very similar to the one discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>. To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable <code>materials</code>, which equals to 0.7744. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>.</p>
+<p>The logic of hypothesis testing in regression is very similar to the one discussed in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>. To make it more practical, consider the regression that we have already estimated in this chapter and the coefficient for the variable <code>materials</code>, which equals to 0.8706. To test the hypothesis about a parameter in regression, we need to follow the procedure, described in Section <a href="hypothesisTesting.html#hypothesisTesting">7</a>.</p>
 <p>First step is to formulate the null and alternative hypotheses. As discussed earlier in this section, the conventional way of doing that is by checking whether the true value of parameter is zero in the population:
 <span class="math display">\[\begin{equation*}
 \begin{aligned}
@@ -486,47 +490,47 @@ t = \frac{|b_i - 0|}{s_{b_i}} ,
 \tag{12.21}
 \end{equation}\]</span>
 where <span class="math inline">\(b_i\)</span> is the estimate of the parameter <span class="math inline">\(\beta_i\)</span> and <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter obtained from the covariance matrix from Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>. The standard deviation of the parameter is:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="uncertaintyRegressionHypothesis.html#cb191-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code></pre></div>
-<pre><code>## [1] 0.2190506</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="uncertaintyRegressionHypothesis.html#cb196-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code></pre></div>
+<pre><code>## [1] 0.3111558</code></pre>
 <p>Inserting the values in formula <a href="uncertaintyRegressionHypothesis.html#eq:ttestFormulaReg">(12.21)</a> gives us the t-statistics value for our example:
 <span class="math display">\[\begin{equation*}
-t = \frac{|0.774 - 0|}{0.219} \approx 3.5342
+t = \frac{|0.871 - 0|}{0.311} \approx 2.797
 \end{equation*}\]</span>
 Now we need to get the critical value of the t-statistics for the selected significance value and <span class="math inline">\(n-k\)</span> degrees of freedom, which in our case are equal to 61-5=56. We chose the significance value of 5%, and we conduct a two-sided test, so we need to split it into two parts (this would be similar to constructing a confidence interval), so we should look at the value of statistics for the 2.5% level. In R, we can get it by running:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="uncertaintyRegressionHypothesis.html#cb193-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="uncertaintyRegressionHypothesis.html#cb198-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
 <pre><code>## [1] -2.003241  2.003241</code></pre>
-<p>In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 3.534 lies outside of these bounds, so we can reject the H<span class="math inline">\(_0\)</span> and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.</p>
+<p>In this code, we consciously provide the values of the statistics for both tails to keep the connection with the interval. If the calculated value was inside this interval, we would fail to reject the hypothesis. In our case, 2.797 lies outside of these bounds, so we can reject the H<span class="math inline">\(_0\)</span> and conclude that based on our model and the data, we have enough evidence to say that there is an effect of material costs on the overall costs of the project.</p>
 <div class="remark">
-<p><span id="unlabeled-div-52" class="remark"><em>Remark</em>. </span>The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 3.5342 with 2.0032, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H<span class="math inline">\(_0\)</span>.</p>
+<p><span id="unlabeled-div-52" class="remark"><em>Remark</em>. </span>The easier way of conducting the two sided test is to compare the t-statistics with the absolute of the critical value. In our case, we would be comparing 2.797 with 2.0032, and we would also conclude that the calculated value lies in the tails of distribution and thus we can reject the H<span class="math inline">\(_0\)</span>.</p>
 </div>
 <p>An alternative way of testing the hypothesis is by calculating the p-value and comparing it with the significance level. In that case, we would reject the H<span class="math inline">\(_0\)</span> if the p-value is lower than the level. For our example, the p-value can be calculated using the <code>pt()</code> function in R:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="uncertaintyRegressionHypothesis.html#cb195-1" tabindex="-1"></a><span class="fu">pt</span>(<span class="fl">3.534</span>, <span class="dv">56</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0004143986</code></pre>
-<p>Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately 0.00083. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="uncertaintyRegressionHypothesis.html#cb200-1" tabindex="-1"></a><span class="fu">pt</span>(<span class="fl">2.797</span>, <span class="dv">56</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.003528358</code></pre>
+<p>Given that we conduct the two-tail test, this p-value needs to be multiplied by 2 to get approximately 0.00706. The conclusion that we can draw from this is that we reject the null hypothesis on the 5% significance level.</p>
 <p>All of this is done automatically by R if we estimate the model using the basic <code>lm()</code> function from the <code>stats</code> package:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="uncertaintyRegressionHypothesis.html#cb197-1" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year, <span class="at">data=</span>SBA_Chapter_11_Costs) <span class="sc">|&gt;</span></span>
-<span id="cb197-2"><a href="uncertaintyRegressionHypothesis.html#cb197-2" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="uncertaintyRegressionHypothesis.html#cb202-1" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year, <span class="at">data=</span>SBA_Chapter_11_Costs) <span class="sc">|&gt;</span></span>
+<span id="cb202-2"><a href="uncertaintyRegressionHypothesis.html#cb202-2" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = overall ~ materials + size + projects + year, data = SBA_Chapter_11_Costs)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -63.657 -17.959  -4.588  23.835  80.481 
+##      Min       1Q   Median       3Q      Max 
+## -101.198  -30.443   -2.157   26.032  108.496 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -2964.6192  3053.4575  -0.971 0.335770    
-## materials       0.7744     0.2191   3.535 0.000826 ***
-## size            0.8970     0.4920   1.823 0.073610 .  
-## projects       -5.3096     2.6731  -1.986 0.051905 .  
-## year            1.5865     1.5221   1.042 0.301766    
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  614.3227  4337.3590   0.142  0.88788   
+## materials      0.8706     0.3112   2.798  0.00704 **
+## size           1.3471     0.6989   1.928  0.05898 . 
+## projects      -1.5921     3.7971  -0.419  0.67660   
+## year          -0.1602     2.1621  -0.074  0.94121   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 30.56 on 56 degrees of freedom
-## Multiple R-squared:  0.8017, Adjusted R-squared:  0.7875 
-## F-statistic: 56.59 on 4 and 56 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 43.42 on 56 degrees of freedom
+## Multiple R-squared:  0.749,  Adjusted R-squared:  0.7311 
+## F-statistic: 41.77 on 4 and 56 DF,  p-value: 3.415e-16</code></pre>
 <p>The output above shows the estimates of parameters, the standard errors, the t-values and p-values (called “Pr(&gt;|t|)”).</p>
 <div class="remark">
 <p><span id="unlabeled-div-53" class="remark"><em>Remark</em>. </span>When working with p-values, there is a temptation to not select the significance level before conducting the test or changing it after obtaining the results. This is one of the typical mistakes that can lead to so called p-hacking, where the interpretation of the results of the experiment are amended to fit better to preferences of analyst. This temptation should be resisted! This and other mistakes related to p-values and hypothesis testing were discussed in Subsection <a href="hypothesisTestingBasics.html#hypothesisTestingMistakes">7.1.1</a>.</p>
@@ -587,46 +591,47 @@ Figure 12.12: Graphical presentation of F-test for regression model.
 </div>
 <p>What the F-test is about, is whether in the true model (population data) the blue line coincides with the red line (i.e. the slope is equal to zero, which is only possible, when all parameters are zero). If given the data and the model, we have enough evidence to reject the null hypothesis, then this means that the slopes are probably different on the selected significance level.</p>
 <p>Here is an example with the costs model discussed in this chapter with the pre-selected significance level of 5%:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="uncertaintyRegressionHypothesis.html#cb199-1" tabindex="-1"></a><span class="co"># Estimate the regression using lm </span></span>
-<span id="cb199-2"><a href="uncertaintyRegressionHypothesis.html#cb199-2" tabindex="-1"></a>costsModelMLRLm <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year,</span>
-<span id="cb199-3"><a href="uncertaintyRegressionHypothesis.html#cb199-3" tabindex="-1"></a>                      <span class="at">data=</span>SBA_Chapter_11_Costs)</span>
-<span id="cb199-4"><a href="uncertaintyRegressionHypothesis.html#cb199-4" tabindex="-1"></a><span class="co"># Get summary statistics</span></span>
-<span id="cb199-5"><a href="uncertaintyRegressionHypothesis.html#cb199-5" tabindex="-1"></a>costsModelMLRF <span class="ot">&lt;-</span> <span class="fu">summary</span>(costsModelMLRLm)<span class="sc">$</span>fstatistic</span>
-<span id="cb199-6"><a href="uncertaintyRegressionHypothesis.html#cb199-6" tabindex="-1"></a><span class="co"># Extract the F-value</span></span>
-<span id="cb199-7"><a href="uncertaintyRegressionHypothesis.html#cb199-7" tabindex="-1"></a>costsModelMLRF[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="uncertaintyRegressionHypothesis.html#cb204-1" tabindex="-1"></a><span class="co"># Estimate the regression using lm </span></span>
+<span id="cb204-2"><a href="uncertaintyRegressionHypothesis.html#cb204-2" tabindex="-1"></a>costsModelMLRLm <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>materials<span class="sc">+</span>size<span class="sc">+</span>projects<span class="sc">+</span>year,</span>
+<span id="cb204-3"><a href="uncertaintyRegressionHypothesis.html#cb204-3" tabindex="-1"></a>                      <span class="at">data=</span>SBA_Chapter_11_Costs)</span>
+<span id="cb204-4"><a href="uncertaintyRegressionHypothesis.html#cb204-4" tabindex="-1"></a><span class="co"># Get summary statistics</span></span>
+<span id="cb204-5"><a href="uncertaintyRegressionHypothesis.html#cb204-5" tabindex="-1"></a>costsModelMLRF <span class="ot">&lt;-</span> <span class="fu">summary</span>(costsModelMLRLm)<span class="sc">$</span>fstatistic</span>
+<span id="cb204-6"><a href="uncertaintyRegressionHypothesis.html#cb204-6" tabindex="-1"></a><span class="co"># Extract the F-value</span></span>
+<span id="cb204-7"><a href="uncertaintyRegressionHypothesis.html#cb204-7" tabindex="-1"></a>costsModelMLRF[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##    value 
-## 56.58674</code></pre>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="uncertaintyRegressionHypothesis.html#cb201-1" tabindex="-1"></a><span class="co"># Calculate the critical value of F</span></span>
-<span id="cb201-2"><a href="uncertaintyRegressionHypothesis.html#cb201-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.95</span>, costsModelMLRF[<span class="dv">2</span>], costsModelMLRF[<span class="dv">3</span>])</span></code></pre></div>
+## 41.77388</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="uncertaintyRegressionHypothesis.html#cb206-1" tabindex="-1"></a><span class="co"># Calculate the critical value of F</span></span>
+<span id="cb206-2"><a href="uncertaintyRegressionHypothesis.html#cb206-2" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.95</span>, costsModelMLRF[<span class="dv">2</span>], costsModelMLRF[<span class="dv">3</span>])</span></code></pre></div>
 <pre><code>## [1] 2.536579</code></pre>
 <p>In the output above, the critical value is lower than the calculated, so we can reject the H<span class="math inline">\(_0\)</span>, which means that there is something in the model that explains the variability of the overall costs. Alternatively, we could focus on the p-value:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="uncertaintyRegressionHypothesis.html#cb203-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
-<span id="cb203-2"><a href="uncertaintyRegressionHypothesis.html#cb203-2" tabindex="-1"></a><span class="fu">pf</span>(costsModelMLRF[<span class="dv">1</span>], costsModelMLRF[<span class="dv">2</span>], costsModelMLRF[<span class="dv">3</span>], <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="uncertaintyRegressionHypothesis.html#cb208-1" tabindex="-1"></a><span class="co"># p-value from the test</span></span>
+<span id="cb208-2"><a href="uncertaintyRegressionHypothesis.html#cb208-2" tabindex="-1"></a><span class="fu">pf</span>(costsModelMLRF[<span class="dv">1</span>], costsModelMLRF[<span class="dv">2</span>], costsModelMLRF[<span class="dv">3</span>], <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>##        value 
-## 4.982143e-19</code></pre>
+## 3.414938e-16</code></pre>
 <p>We see that the the p-value is lower than the significance level of 5%, so we reject the H<span class="math inline">\(_0\)</span> on that level and come to the same conclusion as above. All of this is also provided by default in the summary of the model estimated using the <code>lm()</code> function:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="uncertaintyRegressionHypothesis.html#cb205-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLRLm)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="uncertaintyRegressionHypothesis.html#cb210-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLRLm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = overall ~ materials + size + projects + year, data = SBA_Chapter_11_Costs)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -63.657 -17.959  -4.588  23.835  80.481 
+##      Min       1Q   Median       3Q      Max 
+## -101.198  -30.443   -2.157   26.032  108.496 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -2964.6192  3053.4575  -0.971 0.335770    
-## materials       0.7744     0.2191   3.535 0.000826 ***
-## size            0.8970     0.4920   1.823 0.073610 .  
-## projects       -5.3096     2.6731  -1.986 0.051905 .  
-## year            1.5865     1.5221   1.042 0.301766    
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  614.3227  4337.3590   0.142  0.88788   
+## materials      0.8706     0.3112   2.798  0.00704 **
+## size           1.3471     0.6989   1.928  0.05898 . 
+## projects      -1.5921     3.7971  -0.419  0.67660   
+## year          -0.1602     2.1621  -0.074  0.94121   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 30.56 on 56 degrees of freedom
-## Multiple R-squared:  0.8017, Adjusted R-squared:  0.7875 
-## F-statistic: 56.59 on 4 and 56 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 43.42 on 56 degrees of freedom
+## Multiple R-squared:  0.749,  Adjusted R-squared:  0.7311 
+## F-statistic: 41.77 on 4 and 56 DF,  p-value: 3.415e-16</code></pre>
+<p>The summary for the <code>alm()</code> does not provide this information because it has a different philosophy behind it (likelihood, which we will discuss in Chapter <a href="likelihoodApproach.html#likelihoodApproach">16</a>).</p>
 
 </div>
 </div>
