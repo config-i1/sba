@@ -368,7 +368,7 @@ In general, we think that both R$^2$ close to one and close to zero are alarming
 - As discussed in this section, R$^2$ will increase with the increase of the number of parameters, so this statement is in general wrong. It only works if you have two models with exactly the same number of parameters. But usually, we see such statements in the context of variable selection, when models have different number of parameters. If you want to use basic statistics for model selection then at least use RMSE or the adjusted R$^2$. But there is a better way, which we will discuss in Section \@ref(informationCriteria).
 
 
-## Interpretation of parameters
+## Interpretation of parameters {#linearRegressionInterpretation}
 Finally, we come to the discussion of parameters of a model. As mentioned earlier, each one of them represents the slope of the model. But there is more to the meaning of parameters of the model. Consider the coefficients of the previously estimated model:
 ```{r}
 coef(costsModel02)
@@ -381,3 +381,47 @@ For example, the parameter for `size` shows that with the increase of size of th
 We have made the word "average" boldface three times in this section for a reason. This is a very important point to keep in mind - the parameters will not tell you how variable will change for any specific observation. Any regression model captures mean tendencies and thus the word "average" is very important in the interpretation. In each specific case, the increase of size by 1 squared meter will lead to different increases (and even decreases in some cases) of the overall costs. But if we take the arithmetic mean of those individual effects, it should be close to the value of the parameter in the model. This however is only possible if all the assumptions of regression hold (see Section \@ref(assumptions)).
 
 Finally, it is worth discussing what the interpretation of the intercept in the model is. If we set all the explanatory variables to zero, the overall costs will be equal to the value of the intercept. In our example, where we fitted the basic linear model, the interpretation is meaningless: there is no such thing as a house with no costs, size of zero, and it definitely cannot have negative overall costs. In this case, intercept plays purely technical role, showing where the regression line intersects the y-axis. However, if we were to build a different model, the value might have a meaning. Still, we personally prefer avoiding interpreting the intercept.
+
+
+## Prediction with regression {#linearRegressionPrediction}
+One of the things we can do with regression is get an understanding of what to expect from the response variable given a set of explanatory variables. Consider a model that we estimated in Section \@ref(OLSMLR):
+```{r eval=FALSE}
+costsModel01 <- lm(overall~size+materials+projects+year, SBA_Chapter_11_Costs)
+```
+
+```{r}
+summary(costsModel01)
+```
+
+This model can be written mathematically as:
+
+\begin{equation}
+    overall_j = 614.3227 + 1.3471 size_j + 0.8706 materials_j - 1.5921 projects_j - 0.1602 year_j + \epsilon_j .
+    (\#eq:regressionOverall01)
+\end{equation}
+
+While there might be some issues with this model (e.g. not all important variables are included), we can use it to answer the following question:
+
+*What is the average overall cost of a project that has a detached property of the size 90 squared meters, overall cost of materials of 190 thousands pounds, developed in 2008 by a team that did 3 projects before it?*
+
+This question gives us all the necessary values of the variables, which we can now insert in the equation \@ref(eq:regressionOverall01) to get the answer. What we need to do is just drop $\epsilon_j$ (to switch to the regression line) and to substitute:
+
+- $size_j$ with 90,
+- $materials_j$ with 190,
+- $projects_j$ with 3,
+- and $year_j$ with 2008.
+
+Note that because we do not have type in the model above, we cannot use this variable. We will discuss how to introduce it in the model in Chapter \@ref(dummyVariables). Inserting all the above, we get:
+\begin{equation*}
+    \widehat{overall}_j = 614.3227 + 1.3471 \times 90 + 0.8706 \times 190 - 1.5921 \times 3 - 0.1602 \times 2008 = 574.5178.
+\end{equation*}
+So, we can conclude that the **expected** (or **average**) overall costs for such project should be 574.5178. Note the boldface words "expected" and "average". The number does not tell you what you will definitely have, but instead only indicates the general tendency in this setting. You can think of it as a value that you would get as an arithmetic mean of many similar projects with exactly the same set of variables (defined in the question).
+
+In R, this can be done with the function `predict()` the following way:
+
+```{r}
+costsNewdata <- data.frame(size=90, materials=190, projects=3, year=2008)
+predict(costsModel01, newdata=costsNewdata)
+```
+
+We get a slightly different number due to rounding the values in our manual calculations. But the number is pretty close to the one we obtained before.
