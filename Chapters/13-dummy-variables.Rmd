@@ -22,10 +22,6 @@ The answer to this, is "yes". This can be done by transforming variables from th
 In this chapter we will learn how this information can be incorporated in a regression model and can be used for analysis and for forecasting.
 
 
-
-<!-- But the categorical scale contains two types of variables: (i) nominal, (ii) ordinal (Section \@ref(scales)). While the former only contains "description", the latter also has an order, which in some cases can be used by models. -->
-
-
 ## Dummy variables for the intercept
 As we remember from Section \@ref(scales), the variables in categorical scale do not have distance or natural zero. This means that if we encode the values in numbers (e.g. "detached" - "1", "semi-detached" - "2", "other" - "3"), then these numbers will not have any proper mathematical meaning - they will only represent specific values (and order in case of ordinal scale), but we would be limited in what we can do with these values. As a reminder, the mean value in this case does not make any sense, and the median only makes sense for the ordinal scale.
 
@@ -132,6 +128,11 @@ Now if we add all the three dummy variables in the model, for each specific obse
 To avoid the dummy variables trap, we can either drop one of levels (which is done by R automatically, as described above), or remove the intercept. The latter, however, has some consequences, because the intercept plays an important technical role, characterising where the line intersects the y-axis. If it is dropped, the model will imply that the intersection is happening at the origin (where all variables are equal to zero), and this might cause issues in the quality of a fit (see Section \@ref(linearRegressionMultipleQualityOfFit)).
 
 Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include `detached` and only have the model with `semi-detached`, then the meaning of the dummy variables will change - we will not be able to distinguish the detached from other properties. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might improve the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one to avoid the trap) of categorical variable or not to include any of them.
+
+
+### What about the variables in the ordinal scale?
+In comparison with the nominal scale, the ordinal one has the "order" property. This means that we can say which of the levels can be placed higher than the others. If we evaluate all the property projects on the scale of "big", "medium" and "small", trying to capture the effort needed to construct specific buildings, that would be the ordinal scale. The logic temptation in this case is to assign some numbers to each of the elements of this scale, e.g. 1 for "big", 2 for "medium" and 3 for "small. The next step which is taken by some analysts is to include this new variable in regression as is. But there is an important aspect in such decision which needs to be taken into account: the ordinal scale does not have distance. This means that we could also assign 5, 8 and 13 to the specific levels, and we would not loose any original information. So, if you decide to include the variable in the regression model, you need to have very good motivation why the change from "big" to "medium" should have exactly the same effect as the change from "medium" to "small". Typically, this is not the case, and shifting the assigned numbers to capture such switch is too hard and fruitless. So, in general, **you should not include the ordinal variables in the regression model as is**, and you need to transform them into a set of dummy variables, similar to how it is done for the nominal scale.
+
 
 
 ## Categorical variables for the slope
