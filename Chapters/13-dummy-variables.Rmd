@@ -97,7 +97,7 @@ The summary of the produced model shows the values of the parameters for each of
 summary(costsModelWithType)
 ```
 
-Each of the parameters for the variables `typesemi-detached` and `typeother` show how the intercept will change in comparison with the baseline (which is `detached`) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.
+Each of the parameters for the variables `typesemi-detached` and `typeother` show **how the intercept will change in comparison with the baseline** category (`detached` in our case) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.
 
 To understand this clearer, consider the example where we have a `type="detached"` property. In that case, the dummy variables `typesemi-detached` and `typeother` both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be `r round(coef(costsModelWithType)[1], digits)`. On the other hand, if we have the `semi-detached` property, the intercept will be `r round(coef(costsModelWithType)[1], digits)`  `r round(coef(costsModelWithType)["typesemi-detached"], digits)`= `r round(coef(costsModelWithType)[1], digits) +  round(coef(costsModelWithType)["typesemi-detached"], digits)`.
 
@@ -112,7 +112,8 @@ So, having all levels is simply unnecessary. But there is a mathematical explana
 ### Dummy variables trap
 Consider a regression model without the dummy variables that we previously estimated in Section \@ref(OLSMLR):
 ```{r}
-costsModel01 <- lm(overall~size+materials+projects+year, SBA_Chapter_11_Costs)
+costsModel01 <- alm(overall~size+materials+projects+year,
+                    SBA_Chapter_11_Costs, loss="MSE")
 summary(costsModel01)
 ```
 
@@ -123,7 +124,60 @@ As discussed in Section \@ref(linearRegressionPrediction), this model can be wri
 \end{equation}
 We can notice in the formula above, that we have a variable right after each of the parameters. In fact, the intercept can also be represented in the same form, the main difference is that it is multiplied by 1 instead of anything else: $614.3227 = 614.3227 \times 1$.
 
-Now if we add all the three dummy variables in the model, for each specific observation, we will have an issue called "perfect multicollinearity" (we will discuss it in more detail in Section \@ref(assumptionsXregMulti)), where the included variables are linearly related and lead to estimation issues in the model. In our case, we can say that the sum of the three dummy variables for any specific observation equals to one (which is also that latent variable for the intercept that we mentioned above). So, by including all of them in the model together with the intercept, we will not be able to distinguish the specific effect of one variable on the response variable from the other one. Having the linear combination detached + semi-detached + other = 1, the estimates of the intercept and the three parameters for the `type` levels are not uniquely defined and can be anything as long as their combination leads to the line going through the specific segments of points.
+Now if we add all the three dummy variables in the model, for each specific observation, we will have an issue called "perfect multicollinearity" (we will discuss it in more detail in Section \@ref(assumptionsXregMulti)), where the included variables are linearly related and lead to estimation issues in the model. In our case, we can say that the sum of the three dummy variables for any specific observation equals to one (which is that latent variable for the intercept that we mentioned above). So, by including all of them in the model together with the intercept, we will not be able to distinguish the specific effect of one variable on the response variable from the other one. Having the linear combination detached + semi-detached + other = 1, the estimates of the intercept and the three parameters for the `type` levels are not uniquely defined and can be anything as long as their combination leads to the line going through the specific segments of points.
+
+To better demonstrate this idea, consider an artificial example of $sales$ of a product and three dummy variables $colourRed$, $colourGreen$ and $colourBlue$, which are just three categories of a $colour$ of the product. The three dummy variables form the relation shown in the scatterplot in Figure \@ref(fig:dummyLevelsExample01).
+
+```{r dummyLevelsExample01, fig.cap="Artificial example with sales and colours", echo=FALSE}
+set.seed(41)
+colourData <- data.frame(sales=c(rnorm(100,100,10), rnorm(100,150,10), rnorm(100,200,10)),
+                         colour=rep(c("red","green","blue"), each=100),
+                         x=rep(1:100, 3))
+plot(sales~x, data=colourData, col="white", xlim=c(0,150))
+points(sales~x, data=colourData[colourData$colour=="red",], col=2)
+points(sales~x, data=colourData[colourData$colour=="green",], col=3)
+points(sales~x, data=colourData[colourData$colour=="blue",], col=4)
+abline(h=100, col=2, lwd=2)
+abline(h=150, col=3, lwd=2)
+abline(h=200, col=4, lwd=2)
+text(102,110,"Red = 100",col=2,pos=4)
+text(102,160,"Green = 150",col=3,pos=4)
+text(102,210,"Blue = 200",col=4,pos=4)
+```
+
+The horizontal lines in Figure \@ref(fig:dummyLevelsExample01) show the average sales of products of each colour. We have designed this example in a way that the sales of the red product are on average 100, the sales of the green one are 150, and for the blue one, they are 200. In reality, we never know these values, and having only the knowledge that there are three colours of product, we need to estimate these parameters.
+
+From the regression perspective, if we include the intercept and the three parameters, we would have four lines to draw instead of three, because the intercept would correspond to a separate one. In that situation, we have infinite combinations of how to draw the lines in this case. For example, the intercept can go through the point zero, and the others would go through 100, 150 and 200 respectively. This corresponds to the situation where we do not include intercept in the model and is shown in Figure \@ref(fig:dummyLevelsExample01). In that case, the model becomes estimable (we got rid off of one of lines). Alternatively, we could tell the regression to draw the intercept from the same point as in case of the red colour. This situation would then correspond to the one shown in Figure \@ref(fig:dummyLevelsExample02), and the values of parameters for the red, green and blue would be equal to 0, 50 and 100 respectively because their values are defined relative to the intercept value.
+
+```{r dummyLevelsExample02, fig.cap="Artificial example with sales and colours and one of colours excluded.", echo=FALSE}
+plot(sales~x, data=colourData, col="white", xlim=c(0,150))
+points(sales~x, data=colourData[colourData$colour=="red",], col=1)
+points(sales~x, data=colourData[colourData$colour=="green",], col=3)
+points(sales~x, data=colourData[colourData$colour=="blue",], col=4)
+abline(h=100, col=1, lwd=2)
+abline(h=150, col=3, lwd=2)
+abline(h=200, col=4, lwd=2)
+text(102,110,"Intercept = 100",col=1,pos=4)
+text(102,160,"Green = Intercept + 50",col=3,pos=4)
+text(102,210,"Blue = Intercept + 100",col=4,pos=4)
+```
+
+In both of these cases, regression would be able to estimate the parameters, because we impose some restrictions that help it. But if we do not do it, the intercept can go anywhere and the parameter for each of colours would not be uniquely defined. An example of this situation is shown in Figure \@ref(fig:dummyLevelsExample03), where intercept was set to 125, and the rest are defined based on this: -25, 25, and 75 respectively for the red, green and blue colours. But it could also be 124, and the other parameters would be -24, 26 and 76. The number of combinations is infinite and if we do not impose any restrictions and do not help the regression, we will not get any specific answer.
+
+```{r dummyLevelsExample03, fig.cap="Artificial example with sales and colours, dummy variables trap.", echo=FALSE}
+plot(sales~x, data=colourData, col="white", xlim=c(0,150))
+points(sales~x, data=colourData[colourData$colour=="red",], col=2)
+points(sales~x, data=colourData[colourData$colour=="green",], col=3)
+points(sales~x, data=colourData[colourData$colour=="blue",], col=4)
+abline(h=125, col=1, lwd=2)
+abline(h=100, col=2, lwd=2)
+abline(h=150, col=3, lwd=2)
+abline(h=200, col=4, lwd=2)
+text(102,135,"Intercept = 125",col=1,pos=4)
+text(102,110,"Red = Intercept - 25",col=2,pos=4)
+text(102,160,"Green = Intercept + 25",col=3,pos=4)
+text(102,210,"Blue = Intercept + 75",col=4,pos=4)
+```
 
 To avoid the dummy variables trap, we can either drop one of levels (which is done by R automatically, as described above), or remove the intercept. The latter, however, has some consequences, because the intercept plays an important technical role, characterising where the line intersects the y-axis. If it is dropped, the model will imply that the intersection is happening at the origin (where all variables are equal to zero), and this might cause issues in the quality of a fit (see Section \@ref(linearRegressionMultipleQualityOfFit)).
 
@@ -134,40 +188,58 @@ Finally, it is recommended in general not to drop dummy variables one by one, if
 In comparison with the nominal scale, the ordinal one has the "order" property. This means that we can say which of the levels can be placed higher than the others. If we evaluate all the property projects on the scale of "big", "medium" and "small", trying to capture the effort needed to construct specific buildings, that would be the ordinal scale. The logic temptation in this case is to assign some numbers to each of the elements of this scale, e.g. 1 for "big", 2 for "medium" and 3 for "small. The next step which is taken by some analysts is to include this new variable in regression as is. But there is an important aspect in such decision which needs to be taken into account: the ordinal scale does not have distance. This means that we could also assign 5, 8 and 13 to the specific levels, and we would not loose any original information. So, if you decide to include the variable in the regression model, you need to have very good motivation why the change from "big" to "medium" should have exactly the same effect as the change from "medium" to "small". Typically, this is not the case, and shifting the assigned numbers to capture such switch is too hard and fruitless. So, in general, **you should not include the ordinal variables in the regression model as is**, and you need to transform them into a set of dummy variables, similar to how it is done for the nominal scale.
 
 
-
 ## Categorical variables for the slope
-In reality, we can have more complicated situations, when the change of price would lead to different changes in sales for different types of t-shirts. In this case, we are talking about an **interaction effect** between price and colour. The following artificial example demonstrates the situation:
+In reality, we can have more complicated situations when the change in costs of different types of properties would lead to the different overall costs. Visually, this would imply different slopes for the regression lines for the scatterplots for different properties types. Figure \@ref(fig:costsPropertiesTypesLinear) demonstrates this idea with the three lines going through the cloud of points for the three property types.
+
+```{r costsPropertiesTypesLinear, fig.cap="Scatterplot of material vs overall costs for the three property types."}
+# The general plot
+plot(SBA_Chapter_11_Costs[,c("materials","overall")])
+# Plot for the detached houses
+points(SBA_Chapter_11_Costs[house_types[,1]==1,c("materials","overall")],
+       pch=16, col=2)
+# We added LOWESS lines to see whether the relations change
+lm(overall~materials,
+   SBA_Chapter_11_Costs[house_types[,1]==1,]) |>
+  abline(col=2)
+# Semi-detached
+points(SBA_Chapter_11_Costs[house_types[,2]==1,c("materials","overall")],
+       pch=16, col=3)
+lm(overall~materials,
+   SBA_Chapter_11_Costs[house_types[,2]==1,]) |>
+  abline(col=3)
+# Other
+points(SBA_Chapter_11_Costs[house_types[,3]==1,c("materials","overall")],
+       pch=16, col=4)
+lm(overall~materials,
+   SBA_Chapter_11_Costs[house_types[,3]==1,]) |>
+  abline(col=4)
+# Create the legend for convenience
+legend("topleft", legend=levels(SBA_Chapter_11_Costs$type),
+       col=c(2,3,4), lwd=1, pch=16)
+```
+
+It becomes apparent from the Figure that the lines have different slopes, and thus in our model we should take this into account. In this case, we are talking about an **interaction effect** between the type and material costs. While we could fit three models to address this, there is a more elegant solution involving the dummy variables. All we need to do is to multiply the materials variable with each of the dummy variables. And because the dummy variables take only values of zero and one, the newly created variables will have either the original value, or zero:
+
 ```{r}
-tShirtsInteraction <- cbind(rnorm(150,20,2),0,0,0)
-tShirtsInteraction[1:50,2] <- tShirtsInteraction[1:50,1]
-tShirtsInteraction[1:50+50,3] <- tShirtsInteraction[1:50+50,1]
-tShirtsInteraction[1:50+50*2,4] <- tShirtsInteraction[1:50+50*2,1]
-tShirtsInteraction <- cbind(1000 + tShirtsInteraction %*% c(-2.5, -1.5, -0.5, -4) +
-                              rnorm(150,0,5), tShirtsInteraction)
-colnames(tShirtsInteraction) <- c("sales","price","price:colourRed",
-                                  "price:colourGreen","price:colourBlue")
-```
-This artificial data can be plotted in the following way to show the effect:
-```{r tShirtsInteractionScatterPlot, fig.cap="Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect."}
-plot(tShirtsInteraction[,2:1])
-abline(a=1000, b=-2.5-1.5, col="red")
-abline(a=1000, b=-2.5-0.5, col="green")
-abline(a=1000, b=-2.5-4, col="blue")
+materialsTypes <- SBA_Chapter_11_Costs$materials * house_types
+colnames(materialsTypes) <- paste0("mat_", colnames(house_types))
+# Bind columns and show the first 7 rows
+cbind(materials=SBA_Chapter_11_Costs$materials,
+      house_types,
+      materialsTypes) |> head(7)
 ```
 
-The plot on Figure \@ref(fig:tShirtsInteractionScatterPlot) shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure \@ref(fig:tShirtsScatterPlot), where we had the difference only in intercepts. This implies a different model:
-\begin{equation}
-    sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j \times colourRed_j + \beta_3 price_j \times colourGreen_j + \epsilon_j .
-    (\#eq:regressionDummies03)
-\end{equation}
-Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model \@ref(eq:regressionDummies03) would look like for the three types of colours:
+The output above shows how the newly created variables look. For example, the `mat_typedetached` contains zero in the first row because the dummy variable `typedetached` equals to zero for that observation. But when it comes to the second one, it equals `r SBA_Chapter_11_Costs$materials[2]` because the respective dummy variable equals to one and `r SBA_Chapter_11_Costs$materials[2]`$\times$1=`r SBA_Chapter_11_Costs$materials[2]`. Now having introduced these interaction variables, we can include them in the regression model and the estimated parameters would capture the specific effects of materials costs on the overall costs for each of the property types.
 
-1. Red colour: $sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j + \epsilon_j$ or $sales_j = \beta_0 + (\beta_1 + \beta_2) price_j + \epsilon_j$;
-2. Green colour: $sales_j = \beta_0 + \beta_1 price_j + \beta_3 price_j + \epsilon_j$ or $sales_j = \beta_0 + (\beta_1 + \beta_3) price_j + \epsilon_j$;
-3. Blue colour: $sales_j = \beta_0 + \beta_1 price_j + \epsilon_j$.
-
-In R, the interaction effect can be introduced explicitly in the formula via `:` symbol if you have a proper factor variable:
+In R, if we deal with the categorical variable, we can introduce the effects via the formula by using the colon symbol (":"):
 ```{r}
+costsModelInteraction <- alm(overall~size+materials:type+projects+year,
+                             SBA_Chapter_11_Costs)
+summary(costsModelInteraction)
 ```
 
-Note that the interpretation of parameters in such model will be different, because now the `price` shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for `price` and `price:colourRed`. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by
+The output above now has rows `materials:typedetached` and others, which capture the specific effects.
+
+
+
+## A bit of maths
