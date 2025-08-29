@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-21" />
+<meta name="date" content="2025-08-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,6 +347,7 @@ div.csl-indent {
 <li class="chapter" data-level="13.1.2" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#what-about-the-variables-in-the-ordinal-scale"><i class="fa fa-check"></i><b>13.1.2</b> What about the variables in the ordinal scale?</a></li>
 </ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
+<li class="chapter" data-level="13.3" data-path="a-bit-of-maths.html"><a href="a-bit-of-maths.html"><i class="fa fa-check"></i><b>13.3</b> A bit of maths</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
 <ul>
@@ -511,7 +512,7 @@ Figure 13.2: Scatterplot of material vs overall costs for the three property typ
 ## Information criteria:
 ##      AIC     AICc      BIC     BICc 
 ## 602.1246 602.2378 619.0116 619.2443</code></pre>
-<p>Each of the parameters for the variables <code>typesemi-detached</code> and <code>typeother</code> show how the intercept will change in comparison with the baseline (which is <code>detached</code>) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.</p>
+<p>Each of the parameters for the variables <code>typesemi-detached</code> and <code>typeother</code> show <strong>how the intercept will change in comparison with the baseline</strong> category (<code>detached</code> in our case) if we have this type of property, i.e. whether the line will be above or below the line for the detached properties and by how much.</p>
 <p>To understand this clearer, consider the example where we have a <code>type="detached"</code> property. In that case, the dummy variables <code>typesemi-detached</code> and <code>typeother</code> both would be equal to zero, which means that the respective parameters in the output above will be ignored. As a result, the intercept for that line would be -3231.6672. On the other hand, if we have the <code>semi-detached</code> property, the intercept will be -3231.6672 -39.6631= -3271.3303.</p>
 <p>Now, why does R drop one of the levels? The simple explanation is that if we have those three dummy variables in the <code>house_types</code> variable, one of them can be considered redundant, because if we know that the property is neither detached, nor semi-detached, then it must be “other”. See example of the fifth project:</p>
 <div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="dummy-variables-for-the-intercept.html#cb226-1" tabindex="-1"></a>house_types[<span class="dv">5</span>,]</span></code></pre></div>
@@ -521,42 +522,62 @@ Figure 13.2: Scatterplot of material vs overall costs for the three property typ
 <div id="dummy-variables-trap" class="section level3 hasAnchor" number="13.1.1">
 <h3><span class="header-section-number">13.1.1</span> Dummy variables trap<a href="dummy-variables-for-the-intercept.html#dummy-variables-trap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consider a regression model without the dummy variables that we previously estimated in Section <a href="OLSMLR.html#OLSMLR">11.1</a>:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="dummy-variables-for-the-intercept.html#cb228-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span>
-<span id="cb228-2"><a href="dummy-variables-for-the-intercept.html#cb228-2" tabindex="-1"></a><span class="fu">summary</span>(costsModel01)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = overall ~ size + materials + projects + year, data = SBA_Chapter_11_Costs)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -101.198  -30.443   -2.157   26.032  108.496 
-## 
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="dummy-variables-for-the-intercept.html#cb228-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year,</span>
+<span id="cb228-2"><a href="dummy-variables-for-the-intercept.html#cb228-2" tabindex="-1"></a>                    SBA_Chapter_11_Costs, <span class="at">loss=</span><span class="st">&quot;MSE&quot;</span>)</span>
+<span id="cb228-3"><a href="dummy-variables-for-the-intercept.html#cb228-3" tabindex="-1"></a><span class="fu">summary</span>(costsModel01)</span></code></pre></div>
+<pre><code>## Response variable: overall
+## Distribution used in the estimation: Normal
+## Loss function used in estimation: MSE
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)  614.3227  4337.3590   0.142  0.88788   
-## size           1.3471     0.6989   1.928  0.05898 . 
-## materials      0.8706     0.3112   2.798  0.00704 **
-## projects      -1.5921     3.7971  -0.419  0.67660   
-## year          -0.1602     2.1621  -0.074  0.94121   
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##             Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept) 614.3227  4337.3590 -8074.4514   9303.0968  
+## size          1.3471     0.6989    -0.0529      2.7471  
+## materials     0.8706     0.3112     0.2473      1.4939 *
+## projects     -1.5921     3.7971    -9.1986      6.0144  
+## year         -0.1602     2.1621    -4.4915      4.1711  
 ## 
-## Residual standard error: 43.42 on 56 degrees of freedom
-## Multiple R-squared:  0.749,  Adjusted R-squared:  0.7311 
-## F-statistic: 41.77 on 4 and 56 DF,  p-value: 3.415e-16</code></pre>
+## Error standard deviation: 43.4158
+## Sample size: 61
+## Number of estimated parameters: 5
+## Number of degrees of freedom: 56
+## Information criteria:
+##      AIC     AICc      BIC     BICc 
+## 639.9341 639.0250 652.5993 650.7307</code></pre>
 <p>As discussed in Section <a href="linearRegressionPrediction.html#linearRegressionPrediction">11.4</a>, this model can be written as:
 <span class="math display" id="eq:regressionOverall02">\[\begin{equation}
     overall_j = 614.3227 + 1.3471 size_j + 0.8706 materials_j - 1.5921 projects_j - 0.1602 year_j + \epsilon_j .
     \tag{13.1}
 \end{equation}\]</span>
 We can notice in the formula above, that we have a variable right after each of the parameters. In fact, the intercept can also be represented in the same form, the main difference is that it is multiplied by 1 instead of anything else: <span class="math inline">\(614.3227 = 614.3227 \times 1\)</span>.</p>
-<p>Now if we add all the three dummy variables in the model, for each specific observation, we will have an issue called “perfect multicollinearity” (we will discuss it in more detail in Section <a href="assumptionsXreg.html#assumptionsXregMulti">15.3.1</a>), where the included variables are linearly related and lead to estimation issues in the model. In our case, we can say that the sum of the three dummy variables for any specific observation equals to one (which is also that latent variable for the intercept that we mentioned above). So, by including all of them in the model together with the intercept, we will not be able to distinguish the specific effect of one variable on the response variable from the other one. Having the linear combination detached + semi-detached + other = 1, the estimates of the intercept and the three parameters for the <code>type</code> levels are not uniquely defined and can be anything as long as their combination leads to the line going through the specific segments of points.</p>
+<p>Now if we add all the three dummy variables in the model, for each specific observation, we will have an issue called “perfect multicollinearity” (we will discuss it in more detail in Section <a href="assumptionsXreg.html#assumptionsXregMulti">15.3.1</a>), where the included variables are linearly related and lead to estimation issues in the model. In our case, we can say that the sum of the three dummy variables for any specific observation equals to one (which is that latent variable for the intercept that we mentioned above). So, by including all of them in the model together with the intercept, we will not be able to distinguish the specific effect of one variable on the response variable from the other one. Having the linear combination detached + semi-detached + other = 1, the estimates of the intercept and the three parameters for the <code>type</code> levels are not uniquely defined and can be anything as long as their combination leads to the line going through the specific segments of points.</p>
+<p>To better demonstrate this idea, consider an artificial example of <span class="math inline">\(sales\)</span> of a product and three dummy variables <span class="math inline">\(colourRed\)</span>, <span class="math inline">\(colourGreen\)</span> and <span class="math inline">\(colourBlue\)</span>, which are just three categories of a <span class="math inline">\(colour\)</span> of the product. The three dummy variables form the relation shown in the scatterplot in Figure <a href="dummy-variables-for-the-intercept.html#fig:dummyLevelsExample01">13.3</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:dummyLevelsExample01"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dummyLevelsExample01-1.png" alt="Artificial example with sales and colours" width="672" />
+<p class="caption">
+Figure 13.3: Artificial example with sales and colours
+</p>
+</div>
+<p>The horizontal lines in Figure <a href="dummy-variables-for-the-intercept.html#fig:dummyLevelsExample01">13.3</a> show the average sales of products of each colour. We have designed this example in a way that the sales of the red product are on average 100, the sales of the green one are 150, and for the blue one, they are 200. In reality, we never know these values, and having only the knowledge that there are three colours of product, we need to estimate these parameters.</p>
+<p>From the regression perspective, if we include the intercept and the three parameters, we would have four lines to draw instead of three, because the intercept would correspond to a separate one. In that situation, we have infinite combinations of how to draw the lines in this case. For example, the intercept can go through the point zero, and the others would go through 100, 150 and 200 respectively. This corresponds to the situation where we do not include intercept in the model and is shown in Figure <a href="dummy-variables-for-the-intercept.html#fig:dummyLevelsExample01">13.3</a>. In that case, the model becomes estimable (we got rid off of one of lines). Alternatively, we could tell the regression to draw the intercept from the same point as in case of the red colour. This situation would then correspond to the one shown in Figure <a href="dummy-variables-for-the-intercept.html#fig:dummyLevelsExample02">13.4</a>, and the values of parameters for the red, green and blue would be equal to 0, 50 and 100 respectively because their values are defined relative to the intercept value.</p>
+<div class="figure"><span style="display:block;" id="fig:dummyLevelsExample02"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dummyLevelsExample02-1.png" alt="Artificial example with sales and colours and one of colours excluded." width="672" />
+<p class="caption">
+Figure 13.4: Artificial example with sales and colours and one of colours excluded.
+</p>
+</div>
+<p>In both of these cases, regression would be able to estimate the parameters, because we impose some restrictions that help it. But if we do not do it, the intercept can go anywhere and the parameter for each of colours would not be uniquely defined. An example of this situation is shown in Figure <a href="dummy-variables-for-the-intercept.html#fig:dummyLevelsExample03">13.5</a>, where intercept was set to 125, and the rest are defined based on this: -25, 25, and 75 respectively for the red, green and blue colours. But it could also be 124, and the other parameters would be -24, 26 and 76. The number of combinations is infinite and if we do not impose any restrictions and do not help the regression, we will not get any specific answer.</p>
+<div class="figure"><span style="display:block;" id="fig:dummyLevelsExample03"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/dummyLevelsExample03-1.png" alt="Artificial example with sales and colours, dummy variables trap." width="672" />
+<p class="caption">
+Figure 13.5: Artificial example with sales and colours, dummy variables trap.
+</p>
+</div>
 <p>To avoid the dummy variables trap, we can either drop one of levels (which is done by R automatically, as described above), or remove the intercept. The latter, however, has some consequences, because the intercept plays an important technical role, characterising where the line intersects the y-axis. If it is dropped, the model will imply that the intersection is happening at the origin (where all variables are equal to zero), and this might cause issues in the quality of a fit (see Section <a href="linearRegressionMultipleQualityOfFit.html#linearRegressionMultipleQualityOfFit">11.2</a>).</p>
 <p>Finally, it is recommended in general not to drop dummy variables one by one, if for some reason you decide that some of them are not helping. If, for example, we decide not to include <code>detached</code> and only have the model with <code>semi-detached</code>, then the meaning of the dummy variables will change - we will not be able to distinguish the detached from other properties. Furthermore, while some dummy variables might not seem important (or significant) in regression, their combination might improve the model, and dropping some of them might be damaging for the model in terms of its predictive power. So, it is more common either to include all levels (but one to avoid the trap) of categorical variable or not to include any of them.</p>
 </div>
 <div id="what-about-the-variables-in-the-ordinal-scale" class="section level3 hasAnchor" number="13.1.2">
 <h3><span class="header-section-number">13.1.2</span> What about the variables in the ordinal scale?<a href="dummy-variables-for-the-intercept.html#what-about-the-variables-in-the-ordinal-scale" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In comparison with the nominal scale, the ordinal one has the “order” property. This means that we can say which of the levels can be placed higher than the others. If we evaluate all the property projects on the scale of “big”, “medium” and “small”, trying to capture the effort needed to construct specific buildings, that would be the ordinal scale. The logic temptation in this case is to assign some numbers to each of the elements of this scale, e.g. 1 for “big”, 2 for “medium” and 3 for “small. The next step which is taken by some analysts is to include this new variable in regression as is. But there is an important aspect in such decision which needs to be taken into account: the ordinal scale does not have distance. This means that we could also assign 5, 8 and 13 to the specific levels, and we would not loose any original information. So, if you decide to include the variable in the regression model, you need to have very good motivation why the change from”big” to “medium” should have exactly the same effect as the change from “medium” to “small”. Typically, this is not the case, and shifting the assigned numbers to capture such switch is too hard and fruitless. So, in general, <strong>you should not include the ordinal variables in the regression model as is</strong>, and you need to transform them into a set of dummy variables, similar to how it is done for the nominal scale.</p>
+<p>In comparison with the nominal scale, the ordinal one has the “order” property. This means that we can say which of the levels can be placed higher than the others. If we evaluate all the property projects on the scale of “big”, “medium” and “small”, trying to capture the effort needed to construct specific buildings, that would be the ordinal scale. The logic temptation in this case is to assign some numbers to each of the elements of this scale, e.g. 1 for “big”, 2 for “medium” and 3 for “small”. The next step which is taken by some analysts is to include this new variable in regression as is. But there is an important aspect in such decision which needs to be taken into account: the ordinal scale does not have distance. This means that we could also assign 5, 8 and 13 to the specific levels, and we would not loose any original information. So, if you decide to include the variable in the regression model, you need to have very good motivation why the change from “big” to “medium” should have exactly the same effect as the change from “medium” to “small”. Typically, this is not the case, and shifting the assigned numbers to capture such switch is too hard and fruitless. So, in general, <strong>you should not include the ordinal variables in the regression model as is</strong>, and you need to transform them into a set of dummy variables, similar to how it is done for the nominal scale.</p>
 </div>
 </div>
 

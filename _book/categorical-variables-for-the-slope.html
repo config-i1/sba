@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-06-21" />
+<meta name="date" content="2025-08-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="dummy-variables-for-the-intercept.html"/>
-<link rel="next" href="variablesTransformations.html"/>
+<link rel="next" href="a-bit-of-maths.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -347,6 +347,7 @@ div.csl-indent {
 <li class="chapter" data-level="13.1.2" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#what-about-the-variables-in-the-ordinal-scale"><i class="fa fa-check"></i><b>13.1.2</b> What about the variables in the ordinal scale?</a></li>
 </ul></li>
 <li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
+<li class="chapter" data-level="13.3" data-path="a-bit-of-maths.html"><a href="a-bit-of-maths.html"><i class="fa fa-check"></i><b>13.3</b> A bit of maths</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
 <ul>
@@ -433,42 +434,87 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </div>
 <div id="categorical-variables-for-the-slope" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Categorical variables for the slope<a href="categorical-variables-for-the-slope.html#categorical-variables-for-the-slope" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In reality, we can have more complicated situations, when the change of price would lead to different changes in sales for different types of t-shirts. In this case, we are talking about an <strong>interaction effect</strong> between price and colour. The following artificial example demonstrates the situation:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="categorical-variables-for-the-slope.html#cb230-1" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">20</span>,<span class="dv">2</span>),<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb230-2"><a href="categorical-variables-for-the-slope.html#cb230-2" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb230-3"><a href="categorical-variables-for-the-slope.html#cb230-3" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span>,<span class="dv">1</span>]</span>
-<span id="cb230-4"><a href="categorical-variables-for-the-slope.html#cb230-4" tabindex="-1"></a>tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> tShirtsInteraction[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">*</span><span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb230-5"><a href="categorical-variables-for-the-slope.html#cb230-5" tabindex="-1"></a>tShirtsInteraction <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1000</span> <span class="sc">+</span> tShirtsInteraction <span class="sc">%*%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb230-6"><a href="categorical-variables-for-the-slope.html#cb230-6" tabindex="-1"></a>                              <span class="fu">rnorm</span>(<span class="dv">150</span>,<span class="dv">0</span>,<span class="dv">5</span>), tShirtsInteraction)</span>
-<span id="cb230-7"><a href="categorical-variables-for-the-slope.html#cb230-7" tabindex="-1"></a><span class="fu">colnames</span>(tShirtsInteraction) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sales&quot;</span>,<span class="st">&quot;price&quot;</span>,<span class="st">&quot;price:colourRed&quot;</span>,</span>
-<span id="cb230-8"><a href="categorical-variables-for-the-slope.html#cb230-8" tabindex="-1"></a>                                  <span class="st">&quot;price:colourGreen&quot;</span>,<span class="st">&quot;price:colourBlue&quot;</span>)</span></code></pre></div>
-<p>This artificial data can be plotted in the following way to show the effect:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="categorical-variables-for-the-slope.html#cb231-1" tabindex="-1"></a><span class="fu">plot</span>(tShirtsInteraction[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb231-2"><a href="categorical-variables-for-the-slope.html#cb231-2" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-1.5</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb231-3"><a href="categorical-variables-for-the-slope.html#cb231-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5-0.5</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span>
-<span id="cb231-4"><a href="categorical-variables-for-the-slope.html#cb231-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="sc">-</span><span class="fl">2.5</span><span class="dv">-4</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:tShirtsInteractionScatterPlot"></span>
-<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/tShirtsInteractionScatterPlot-1.png" alt="Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect." width="672" />
+<p>In reality, we can have more complicated situations when the change in costs of different types of properties would lead to the different overall costs. Visually, this would imply different slopes for the regression lines for the scatterplots for different properties types. Figure <a href="categorical-variables-for-the-slope.html#fig:costsPropertiesTypesLinear">13.6</a> demonstrates this idea with the three lines going through the cloud of points for the three property types.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="categorical-variables-for-the-slope.html#cb230-1" tabindex="-1"></a><span class="co"># The general plot</span></span>
+<span id="cb230-2"><a href="categorical-variables-for-the-slope.html#cb230-2" tabindex="-1"></a><span class="fu">plot</span>(SBA_Chapter_11_Costs[,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)])</span>
+<span id="cb230-3"><a href="categorical-variables-for-the-slope.html#cb230-3" tabindex="-1"></a><span class="co"># Plot for the detached houses</span></span>
+<span id="cb230-4"><a href="categorical-variables-for-the-slope.html#cb230-4" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb230-5"><a href="categorical-variables-for-the-slope.html#cb230-5" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb230-6"><a href="categorical-variables-for-the-slope.html#cb230-6" tabindex="-1"></a><span class="co"># We added LOWESS lines to see whether the relations change</span></span>
+<span id="cb230-7"><a href="categorical-variables-for-the-slope.html#cb230-7" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials,</span>
+<span id="cb230-8"><a href="categorical-variables-for-the-slope.html#cb230-8" tabindex="-1"></a>   SBA_Chapter_11_Costs[house_types[,<span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>,]) <span class="sc">|&gt;</span></span>
+<span id="cb230-9"><a href="categorical-variables-for-the-slope.html#cb230-9" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb230-10"><a href="categorical-variables-for-the-slope.html#cb230-10" tabindex="-1"></a><span class="co"># Semi-detached</span></span>
+<span id="cb230-11"><a href="categorical-variables-for-the-slope.html#cb230-11" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">2</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb230-12"><a href="categorical-variables-for-the-slope.html#cb230-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb230-13"><a href="categorical-variables-for-the-slope.html#cb230-13" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials,</span>
+<span id="cb230-14"><a href="categorical-variables-for-the-slope.html#cb230-14" tabindex="-1"></a>   SBA_Chapter_11_Costs[house_types[,<span class="dv">2</span>]<span class="sc">==</span><span class="dv">1</span>,]) <span class="sc">|&gt;</span></span>
+<span id="cb230-15"><a href="categorical-variables-for-the-slope.html#cb230-15" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb230-16"><a href="categorical-variables-for-the-slope.html#cb230-16" tabindex="-1"></a><span class="co"># Other</span></span>
+<span id="cb230-17"><a href="categorical-variables-for-the-slope.html#cb230-17" tabindex="-1"></a><span class="fu">points</span>(SBA_Chapter_11_Costs[house_types[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">1</span>,<span class="fu">c</span>(<span class="st">&quot;materials&quot;</span>,<span class="st">&quot;overall&quot;</span>)],</span>
+<span id="cb230-18"><a href="categorical-variables-for-the-slope.html#cb230-18" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb230-19"><a href="categorical-variables-for-the-slope.html#cb230-19" tabindex="-1"></a><span class="fu">lm</span>(overall<span class="sc">~</span>materials,</span>
+<span id="cb230-20"><a href="categorical-variables-for-the-slope.html#cb230-20" tabindex="-1"></a>   SBA_Chapter_11_Costs[house_types[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">1</span>,]) <span class="sc">|&gt;</span></span>
+<span id="cb230-21"><a href="categorical-variables-for-the-slope.html#cb230-21" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb230-22"><a href="categorical-variables-for-the-slope.html#cb230-22" tabindex="-1"></a><span class="co"># Create the legend for convenience</span></span>
+<span id="cb230-23"><a href="categorical-variables-for-the-slope.html#cb230-23" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(SBA_Chapter_11_Costs<span class="sc">$</span>type),</span>
+<span id="cb230-24"><a href="categorical-variables-for-the-slope.html#cb230-24" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:costsPropertiesTypesLinear"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/costsPropertiesTypesLinear-1.png" alt="Scatterplot of material vs overall costs for the three property types." width="672" />
 <p class="caption">
-Figure 13.3: Scatterplot of Sales vs Price of t-shirts of different colour, interaction effect.
+Figure 13.6: Scatterplot of material vs overall costs for the three property types.
 </p>
 </div>
-<p>The plot on Figure <a href="categorical-variables-for-the-slope.html#fig:tShirtsInteractionScatterPlot">13.3</a> shows that there are three categories of data and that for each of it, the price effect will be different: the increase in price by one unit leads to the faster reduction of sales for the blue t-shirts than for the others. Compare this with Figure <a href="#fig:tShirtsScatterPlot"><strong>??</strong></a>, where we had the difference only in intercepts. This implies a different model:
-<span class="math display" id="eq:regressionDummies03">\[\begin{equation}
-    sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j \times colourRed_j + \beta_3 price_j \times colourGreen_j + \epsilon_j .
-    \tag{13.2}
-\end{equation}\]</span>
-Notice that we still include only two dummy variables out of three in order to avoid the dummy variables trap. What is new in this case is the multiplication of price by the dummy variables. This trick allows changing the slope of price, depending on the colour of t-shirt. For example, here what the model <a href="categorical-variables-for-the-slope.html#eq:regressionDummies03">(13.2)</a> would look like for the three types of colours:</p>
-<ol style="list-style-type: decimal">
-<li>Red colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_2 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_2) price_j + \epsilon_j\)</span>;</li>
-<li>Green colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \beta_3 price_j + \epsilon_j\)</span> or <span class="math inline">\(sales_j = \beta_0 + (\beta_1 + \beta_3) price_j + \epsilon_j\)</span>;</li>
-<li>Blue colour: <span class="math inline">\(sales_j = \beta_0 + \beta_1 price_j + \epsilon_j\)</span>.</li>
-</ol>
-<p>In R, the interaction effect can be introduced explicitly in the formula via <code>:</code> symbol if you have a proper factor variable:</p>
-<p>Note that the interpretation of parameters in such model will be different, because now the <code>price</code> shows the baseline effect for the blue t-shirts, while the interaction effects show how this effect will change for other colours. So, for example, in order to see what would be the effect of price change on sales of red t-shirts, we need to sum up the parameter for <code>price</code> and <code>price:colourRed</code>. We then can say that if price of red t-shirt increases by £1, the sales will decrease on average by</p>
-
+<p>It becomes apparent from the Figure that the lines have different slopes, and thus in our model we should take this into account. In this case, we are talking about an <strong>interaction effect</strong> between the type and material costs. While we could fit three models to address this, there is a more elegant solution involving the dummy variables. All we need to do is to multiply the materials variable with each of the dummy variables. And because the dummy variables take only values of zero and one, the newly created variables will have either the original value, or zero:</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="categorical-variables-for-the-slope.html#cb231-1" tabindex="-1"></a>materialsTypes <span class="ot">&lt;-</span> SBA_Chapter_11_Costs<span class="sc">$</span>materials <span class="sc">*</span> house_types</span>
+<span id="cb231-2"><a href="categorical-variables-for-the-slope.html#cb231-2" tabindex="-1"></a><span class="fu">colnames</span>(materialsTypes) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;mat_&quot;</span>, <span class="fu">colnames</span>(house_types))</span>
+<span id="cb231-3"><a href="categorical-variables-for-the-slope.html#cb231-3" tabindex="-1"></a><span class="co"># Bind columns and show the first 7 rows</span></span>
+<span id="cb231-4"><a href="categorical-variables-for-the-slope.html#cb231-4" tabindex="-1"></a><span class="fu">cbind</span>(<span class="at">materials=</span>SBA_Chapter_11_Costs<span class="sc">$</span>materials,</span>
+<span id="cb231-5"><a href="categorical-variables-for-the-slope.html#cb231-5" tabindex="-1"></a>      house_types,</span>
+<span id="cb231-6"><a href="categorical-variables-for-the-slope.html#cb231-6" tabindex="-1"></a>      materialsTypes) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">7</span>)</span></code></pre></div>
+<pre><code>##   materials typedetached typesemi-detached typeother mat_typedetached
+## 1    131.50            0                 0         1             0.00
+## 3    217.68            1                 0         0           217.68
+## 4    162.03            0                 0         1             0.00
+## 5    192.88            0                 1         0             0.00
+## 6    146.40            0                 0         1             0.00
+## 7    193.82            0                 1         0             0.00
+## 8    160.10            1                 0         0           160.10
+##   mat_typesemi-detached mat_typeother
+## 1                  0.00        131.50
+## 3                  0.00          0.00
+## 4                  0.00        162.03
+## 5                192.88          0.00
+## 6                  0.00        146.40
+## 7                193.82          0.00
+## 8                  0.00          0.00</code></pre>
+<p>The output above shows how the newly created variables look. For example, the <code>mat_typedetached</code> contains zero in the first row because the dummy variable <code>typedetached</code> equals to zero for that observation. But when it comes to the second one, it equals 217.68 because the respective dummy variable equals to one and 217.68$$1=217.68. Now having introduced these interaction variables, we can include them in the regression model and the estimated parameters would capture the specific effects of materials costs on the overall costs for each of the property types.</p>
+<p>In R, if we deal with the categorical variable, we can introduce the effects via the formula by using the colon symbol (“:”):</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="categorical-variables-for-the-slope.html#cb233-1" tabindex="-1"></a>costsModelInteraction <span class="ot">&lt;-</span> <span class="fu">alm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">:</span>type<span class="sc">+</span>projects<span class="sc">+</span>year,</span>
+<span id="cb233-2"><a href="categorical-variables-for-the-slope.html#cb233-2" tabindex="-1"></a>                             SBA_Chapter_11_Costs)</span>
+<span id="cb233-3"><a href="categorical-variables-for-the-slope.html#cb233-3" tabindex="-1"></a><span class="fu">summary</span>(costsModelInteraction)</span></code></pre></div>
+<pre><code>## Response variable: overall
+## Distribution used in the estimation: Normal
+## Loss function used in estimation: likelihood
+## Coefficients:
+##                               Estimate Std. Error Lower 2.5% Upper 97.5%  
+## (Intercept)                 -2765.8065  3154.3285 -9092.5884   3560.9753  
+## size                            0.9305     0.5928    -0.2586      2.1195  
+## projects                       -5.4693     2.7892   -11.0638      0.1252  
+## year                            1.5470     1.5719    -1.6058      4.6998  
+## materials:typedetached          1.0881     0.2258     0.6353      1.5410 *
+## materials:typesemi-detached     0.8763     0.2347     0.4055      1.3471 *
+## materials:typeother             0.6270     0.2254     0.1748      1.0792 *
+## 
+## Error standard deviation: 31.1051
+## Sample size: 61
+## Number of estimated parameters: 8
+## Number of degrees of freedom: 53
+## Information criteria:
+##      AIC     AICc      BIC     BICc 
+## 599.8943 602.6635 616.7813 622.4733</code></pre>
+<p>The output above now has rows <code>materials:typedetached</code> and others, which capture the specific effects.</p>
 </div>
-<!-- </div> -->
 
             </section>
 
@@ -476,7 +522,7 @@ Notice that we still include only two dummy variables out of three in order to a
         </div>
       </div>
 <a href="dummy-variables-for-the-intercept.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="variablesTransformations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="a-bit-of-maths.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
