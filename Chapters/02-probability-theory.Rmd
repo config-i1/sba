@@ -372,7 +372,7 @@ The Law of Total Probability is a law, explaining how the probability of an even
 
 The factory example provides an illustration of the general formal rule. The Law of Total Probability states that if events $A_1, A_2, \dots, A_n$ are *mutually exclusive and collectively exhaustive* (meaning they cover all possibilities), then the probability of another event B can be calculated by weighing and summing the conditional probabilities of B:
 \begin{equation}
-    P(B) = P(B|A_1) \times P(A_1) + P(B|A_2) \times P(A_2) + ... + P(B|A_n) \times P(A_n)
+    P(B) = P(B|A_1) \times P(A_1) + P(B|A_2) \times P(A_2) + \dots + P(B|A_n) \times P(A_n)
     (\#eq:ProbTotal)
 \end{equation}
 This can also be interpreted as the sum of intersections of probabilities.
@@ -380,11 +380,11 @@ This can also be interpreted as the sum of intersections of probabilities.
 This law provides a fundamental bridge to more advanced concepts, most notably Bayes' Theorem (discussed in Section \@ref(BayesTheorem)), by allowing for the calculation of an overall (or marginal) probability from a set of conditional probabilities.
 
 
-## Bayes' theorem {#BayesTheorem}
-If we come back to the multiplication law from Section \@ref(probabilityMultiplication), we will notice that in our example, we can work out the final probability equally in any sequence: if we first have event B and then event A, we will have the same outcome as if we had first A and then B. In our example with vampires, the order does not matter (the first student becomes first no matter what). But in general, this means that the probability of this joint outcome can be calculated in one of two ways:
-\begin{equation}
-    P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) .
-    (\#eq:ProbmultiplicationLawJoint)
-\end{equation}
+<!-- ## Bayes' theorem {#BayesTheorem} -->
+<!-- If we come back to the multiplication law from Section \@ref(probabilityMultiplication), we will notice that in our example, we can work out the final probability equally in any sequence: if we first have event B and then event A, we will have the same outcome as if we had first A and then B. In our example with vampires, the order does not matter (the first student becomes first no matter what). But in general, this means that the probability of this joint outcome can be calculated in one of two ways: -->
+<!-- \begin{equation} -->
+<!--     P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) . -->
+<!--     (\#eq:ProbmultiplicationLawJoint) -->
+<!-- \end{equation} -->
 
 
