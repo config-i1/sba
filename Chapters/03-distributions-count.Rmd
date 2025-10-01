@@ -116,23 +116,13 @@ This standard deviation of 1.118 cars provides a more direct measure of the typi
 
 Mathematically, the formula of variance is written as:
 \begin{equation}
-    \mu = P(x_1) (x_1 - \mu)^2 + P(x_2) (x_2 - \mu)^2 + \dots + P(x_n) (x_n - \mu)^2 =  \sum_{j=1}^n P(x_i) (x_n - \mu)^2 ,
+    \sigma^2 = P(x_1) (x_1 - \mu)^2 + P(x_2) (x_2 - \mu)^2 + \dots + P(x_n) (x_n - \mu)^2 =  \sum_{j=1}^n P(x_i) (x_n - \mu)^2 ,
     (\#eq:varianceDiscrete)
 \end{equation}
 
+The purpose of variance and standard deviation is to quantify the dispersion or variability of the possible outcomes around the expected value. A distribution with outcomes that are typically far from the mean will have a high variance, indicating a wide spread. Conversely, a distribution with outcomes clustered tightly around the mean will have a low variance. The problem is that these "high" and "low" do not have any specific definitions and that they do not say anything about the performance of a model when we fit it to the data, but rather only depicts the overall variability.
 
-
---------------------------------------------------------------------------------
-2. Formal Definitions and Core Concepts
-With the practical calculations from our car sales example as a foundation, we can now formalise the definitions of expected value and variance. These two measures are the cornerstones for summarising the key characteristics of any probability distribution, providing a snapshot of its central tendency and dispersion.
-2.1. The Expected Value (\mu)
-The Expected Value (or mean) of a discrete random variable X is formally defined as the weighted average of all its possible values. The weight assigned to each possible value, 𝑥ᵢ, is its corresponding probability of occurrence, P(𝑥ᵢ).
-This method differs fundamentally from calculating a simple population mean for raw data. A simple mean gives equal weight to every single observation, as shown in the formula \mu = (Σ𝑥) / N, where each value is effectively weighted by 1/N. In contrast, the expected value \mu = Σ 𝑥ᵢ * 𝑃(𝑥ᵢ) weights each distinct outcome according to its probability. This provides a more accurate and meaningful measure of the distribution's true centre, reflecting the likelihood of each outcome. In the DiCarlo Motors example, calculating a simple mean of the six possible outcomes (0, 1, 2, 3, 4, 5) would yield 2.5, a misleading figure that ignores the fact that selling one car (P=0.39) is far more likely than selling five (P=0.01). The expected value of 1.5 correctly accounts for these probabilities.
-2.2. The Variance (σ^2 ) and Standard Deviation (σ)
-The Variance of a discrete random variable X is formally defined as the weighted average of the squared deviations from the mean, (𝑥ᵢ − 𝜇)^2 . Its purpose is to quantify the dispersion or variability of the possible outcomes around the expected value. A distribution with outcomes that are typically far from the mean will have a high variance, indicating a wide spread. Conversely, a distribution with outcomes clustered tightly around the mean will have a low variance.
-The Standard Deviation (σ) is the positive square root of the variance. Its primary advantage is that it measures dispersion in the same units as the original random variable. While the variance of car sales was 1.25 "cars squared," the standard deviation of 1.118 "cars" is a much more intuitive and directly interpretable measure of spread.
-Ultimately, these two measures work in tandem: the expected value pinpoints the centre of gravity for the distribution, while the standard deviation quantifies the typical distance of an outcome from that centre.
-
+Ultimately, the expected value and standard deviation work in tandem: the former pinpoints the centre of gravity for the distribution, while the latter quantifies the typical distance of an outcome from that centre. We will use these both for the further discussions in this and following chapters.
 
 
 ## Bernoulli distribution (Tossing a coin) {#distributionBernoulli}
