@@ -67,17 +67,324 @@ The discrete variable can be considered as a continuous or approximated by the m
 Finally, if we want to measure the probability of random variable taking specific values, then for the discrete variable it can be done by considering the chance of that specific outcome over all possible ones. For example, for the fair dice, the chance of obtaining 3 is $\frac{1}{6}$: it can take values of 1, 2, 3, 4, 5 and 6. However, the probability that a continuous variable takes a specific value is zero, because the number of all possible cases for the continuous variable is infinite. For example, the time of a 100 meter runner can be anything between 9.2 seconds (which comes from the physics of human body) and infinity (if person never finishes). The probability that I will finish a race in 10 seconds is zero not because I am not fit enough, but rather because it is almost impossible to do that precisely on 10.000000 and not, let us say, on 10.000001.
 
 
-<!-- ## Addition of probabilities -->
+## The Addition Law: Calculating "OR" Probability {#probabilityAddition}
+Consider an example of a standard 52-card deck. Suppose we want to answer the question: "What is the probability of picking a card that is a face card (Jack, Queen, King) OR a spade (♠)?"
+
+We can solve this in four clear steps:
+
+1. Calculate $P(F)$: First, we calculate the probability of picking a face card. There are 3 face cards in each of the 4 suits, giving a total of 12 face cards. $P(F) = \frac{12}{52}$
+2. Calculate $P(S)$: Next, we calculate the probability of picking a spade. There are 13 spades in the deck. $P(S) = \frac{13}{52}$
+A common mistake is to simply add these two probabilities together. However, this would lead to an error because some cards satisfy both conditions and would be counted twice.
+3. Identify the intersection $P(F \text{ AND } S)$: We must identify the cards that are both a face card and a spade. These are the Jack of Spades (J♠), the Queen of Spades (Q♠), and the King of Spades (K♠). There are 3 such cards. The probability of this intersection is: $P(F \text{ AND } S) = \frac{3}{52}$
+4. Calculate the final probability $P(F \text{ OR } S)$: To find the correct probability, we add the individual probabilities and then subtract the intersection to correct for the double-counting. $P(F \text{ OR } S) = \frac{12}{52} + \frac{13}{52} - \frac{3}{52} = \frac{22}{52}$. Simplifying this fraction gives us our final answer: $\frac{11}{26}$.
+
+::: remark
+The "AND" and "OR" operators in mathematics, are typically denote by symbols of intersection and union respectively: $P(F \text{ AND } S) = P(F \cap S)$, $P(F \text{ OR } S) = P(F \cup S)$.
+:::
+
+### The General Addition Law
+The Addition Law is our primary tool for calculating the probability of at least one of two or more events occurring. We use it when we are interested in the likelihood of outcome A or outcome B happening. This principle is of immense strategic importance in business scenarios where multiple successful outcomes are possible. For example, in risk assessment, it helps calculate the probability of a project being delayed by any one of several potential factors. As an analyst, you will constantly be asked to evaluate scenarios with multiple paths to success; mastering the Addition Law is your first step towards providing a statistically sound answer.
+
+The process we followed in the card example leads us to the formal rule. The **General Addition Law for Probabilities** is stated as:
+\begin{equation}
+    P(A \cup B) = P(A) + P(B) - P(A \cap B) 
+    (\#eq:ProbAdditionLaw)
+\end{equation}
+
+This concept is easily visualised using a Venn diagram shown in Figure \@ref(fig:vennDiagramCard01).
+
+```{r vennDiagramCard01, echo=FALSE, fig.cap="Venn diagram for the cards example."}
+# Set up a blank plot
+plot(1, type="n", xlim=c(4,5), ylim=c(1,7), axes=FALSE, xlab="", ylab="", asp=1)
+
+# Draw the two circles
+symbols(3, 4, circles=3, inches=FALSE, add=TRUE, fg=2, bg=8)
+symbols(6, 4, circles=3, inches=FALSE, add=TRUE, fg=4, bg=10)
+
+# Add text
+# Add text to the left circle ("F=12")
+text(1.5, 4, "F=12", cex=1.2, col=2)
+
+# Add text to the right circle ("S=13")
+text(7.2, 4, "S=13", cex=1.2, col=4)
+
+# Add intersection
+text(4.5, 4, TeX("$P(F \\cap S)=3$"), cex=1.2, col=1)
+```
+
+::: remark
+The union ($F \cup S$) in Figure \@ref(fig:vennDiagramCard01) corresponds to the overall area of the two circles, while the intersection ($F \cap S$) corresponds to the common area between the two circles.
+:::
+
+Figure \@ref(fig:vennDiagramCard01) shows the number of Face cards (12) in the red area, Spades cards (13) in the blue area, and their intersection in the purple area between them. The overlapping area, $(F \cap S)$, represents those three specific cards that are both face and spades. The formula's subtraction term, - $P(A \cap B)$, is simply the mathematical step we take to remove that single layer of double-counting.
+
+### Special Case: Mutually Exclusive Events
+There is a simpler version of the Addition Law that applies to a special category of events. Mutually exclusive events are events that cannot both happen at the same time; their intersection is zero.
+
+Consider this question: "What is the probability of picking either a Jack or a Queen (of any suit)?"
+
+These two events are mutually exclusive because a single card cannot be both a Jack and a Queen at the same time. This situation can be shown in the Venn diagram in Figure \@ref(fig:vennDiagramCard02).
+
+```{r vennDiagramCard02, echo=FALSE, fig.cap="Venn diagram for the cards example with mutually exclusive events."}
+# Set up a blank plot
+plot(1, type="n", xlim=c(4,5), ylim=c(1,7), axes=FALSE, xlab="", ylab="", asp=1)
+
+# Draw the two circles
+symbols(1, 4, circles=3, inches=FALSE, add=TRUE, fg=2, bg=8)
+symbols(7.2, 4, circles=3, inches=FALSE, add=TRUE, fg=4, bg=10)
+
+# Add text
+text(1, 4, "J=4", cex=1.2, col=2)
+text(7.2, 4, "Q=4", cex=1.2, col=4)
+```
+
+Since there is no overlap, the intersection term $P(A \cap B)$ is zero. The calculation is therefore a simple sum:
+\begin{equation*}
+    P(J \cup Q) = P(J) + P(Q) = \frac{4}{52} + \frac{4}{52} = \frac{8}{52} = \frac{2}{13}.
+\end{equation*}
+
+This leads to the **Addition Law for Mutually Exclusive Events**:
+\begin{equation}
+    P(A \cup B) = P(A) + P(B).
+    (\#eq:ProbAdditionLawME)
+\end{equation}
 
 
-<!-- ## Multiplication of probabilities -->
+## Multiplication of probabilities: Calculating "AND" Probability {#probabilityMultiplication}
+Consider an example: Jane has a 0.7 probability of writing a page of coursework with no spelling mistakes. This means she has a 0.3 probability of making at least one mistake on a given page. She is writing a 3-page assignment, and what happens on the first page in no way affects what happens on the other pages. What is the probability that she will have no spelling mistakes on at least one of the three pages?
+
+To answer this question, we need to use the Multiplication Law. In this specific example, we can use the simplified version of it because the events (a mistake on a page) are independent (as stated in the setting above).
+
+::: definition
+**Independent events** are the events where the occurrence of one has no influence on the probability of the other.
+:::
 
 
-<!-- ## Conditional probabilities and independence -->
+### Independent Events
+Calculating the probability of "at least one" success implies that Jane made no mistakes in one of these situations:
+
+1. No mistakes on all three pages;
+1. Mistake on exactly one page: either the first, the second, or the third;
+2. Mistakes on exactly two pages: either first and second, or first and third, or second and third.
+
+Calculating all probabilities and summing them up is cumbersome. Luckily, there is a simpler way of getting the answer: to use the complement rule, which states that the probability of an event happening is 1 minus the probability of it not happening. In our case, the "not happening" means that Jane will have spelling mistakes on every page (this is the only other option left). Mathematically it can be written down as:
+
+\begin{equation*}
+    P(\text{No mistakes on at least one page}) = 1 - P(\text{Mistakes on all pages})
+\end{equation*}
+
+To calculate the probability of the complementary event (mistakes on all 3 pages), we can use the **Multiplication Law**. Given that the events are *independent*, all we need to do is multiply the probability of having a mistake on the first page by the probability of having a mistake on the second and then the probability of having a mistake on the third page:
+
+\begin{equation*}
+    P(\text{Mistakes on all pages}) = P(M_1 \cap M_2 \cap M_3) = P(M_1) × P(M_2) × P(M_3) = 0.3 × 0.3 × 0.3 = 0.3^3 = 0.027.
+\end{equation*}
+
+After that, we can the complement rule to answer the original question: 
+
+\begin{equation*}
+    P(\text{No mistakes on at least one page}) = 1 - P(\text{Mistakes on all pages}) = 1 -0.027 = 0.973
+\end{equation*}
+
+So, there is a 97.3% chance that at least one page will be free of spelling mistakes. This example illustrates the **Multiplication Law for Independent Events**, which can be written mathematically as:
+\begin{equation}
+    P(A \cap B) = P(A) \times P(B) .
+    (\#eq:ProbmultiplicationLawIndep)
+\end{equation}
+
+Visually, we could draw a Venn diagram to understand what specific area we are talking about when we use the multiplication law (Figure \@ref(fig:vennDiagramThree)).
 
 
-<!-- ## Bayes theorem -->
+```{r vennDiagramThree, echo=FALSE, fig.cap="Venn diagram for three events.", fig.height=6}
+# Set up a blank plot
+plot(1, type="n", xlim=c(4,5), ylim=c(1,10), axes=FALSE, xlab="", ylab="", asp=1)
+
+# Draw the two circles
+symbols(2, 4, circles=3, inches=FALSE, add=TRUE, fg=2, bg=8)
+symbols(4, 7, circles=3, inches=FALSE, add=TRUE, fg=3, bg=9)
+symbols(6, 4, circles=3, inches=FALSE, add=TRUE, fg=4, bg=10)
+
+# Add 
+text(9, 8, "All three events", cex=1.2, col=1, pos=3)
+segments(4, 5, 9, 8)
+
+text(2, 4, "Event A", cex=1.2, col=2, pos=2)
+text(4, 7, "Event B", cex=1.2, col=3, pos=3)
+text(6, 4, "Event C", cex=1.2, col=4, pos=4)
+```
+
+In that diagram, the multiplication corresponds to the area in the intersection of circles. If the events are independent, the outcome "every page contains a mistake" corresponds to the area for "all three events", i.e. $P(A \cap B \cap C) = P(A) \times P(B) \times P(C)$, as we saw in the example above.
 
 
-<!-- ## Mean and variance of r.v. -->
+### Dependent Events and Conditional Probability
+The situation changes when we deal with dependent events, where the outcome of the first event impacts the probability of the second.
+
+Consider another example: in a class of 6 students, 4 are secretly vampires. The teacher randomly chooses 2 students. What is the probability that neither of the two chosen students are vampires?
+
+These events are dependent because as soon as the teacher chooses one student, the sample size changes and the probabilities for the rest would change. This is called "**sampling without replacement**". The selection of the first student changes the composition of the group from which the second student is chosen. To handle this, we must use **Conditional Probability**.
+
+To better understand the situation, we can draw a tree diagram, which depicts the possible situations (Figure \@ref(fig:treeForVampire)).
+
+```{r treeForVampire, fig.height=6, echo=FALSE, fig.cap="Tree diagram for the vampire example."}
+# Set up blank plot
+plot(1, type="n", xlim=c(0,10), ylim=c(1,10), axes=FALSE, xlab="", ylab="")
+
+# Core node (left)
+points(1, 5, pch=21, bg=15, cex=2)
+
+text(0.5, 5.7, "6 students", cex=1.3)
+
+# First layer of branches: p1 and p2
+segments(1, 5, 3, 7, lwd=2)  # p1 - upper path
+segments(1, 5, 3, 3, lwd=2)  # p2 - lower path
+points(3, 7, pch=21, bg=3, cex=2)
+points(3, 3, pch=21, bg=4, cex=2)
+
+text(3.1, 10, "The first one is:", cex=1.3, col=1)
+text(3.1, 8, "Vampire", cex=1.1, col=3)
+text(3.1, 4, "Not Vampire", cex=1.1, col=4)
+
+text(1.9, 7, TeX("$P(V) = \\frac{4}{6}$"), cex=1.1, col=3)
+text(1.9, 3, TeX("$P(NV) = \\frac{2}{6}$"), cex=1.1, col=4)
+
+# Second layer of branches: p3 and p4 from each branch
+segments(3, 7, 6, 8, lwd=2)  # p3 from p1
+segments(3, 7, 6, 6, lwd=2)  # p4 from p1
+segments(3, 3, 6, 4, lwd=2)  # p3 from p2
+segments(3, 3, 6, 2, lwd=2)  # p4 from p2
+
+text(6, 10, "The second one is:", cex=1.3, col=1)
+
+points(6, 8, pch=21, bg=7, cex=2)
+text(6, 8, "Vampire", cex=1.1, col=7, pos=4)
+points(6, 6, pch=21, bg=6, cex=2)
+text(6, 6, "Not Vampire", cex=1.1, col=6, pos=4)
+points(6, 4, pch=21, bg=7, cex=2)
+text(6, 4, "Vampire", cex=1.1, col=7, pos=4)
+points(6, 2, pch=21, bg=6, cex=2)
+text(6, 2, "Not Vampire", cex=1.1, col=6, pos=4)
+
+# Probabilities
+text(4.5, 8.5, TeX("$P(V) = \\frac{3}{5}$"), cex=1.1, col=7)
+text(5, 5.5, TeX("$P(NV) = \\frac{2}{5}$"), cex=1.1, col=6)
+text(4.5, 4.4, TeX("$P(V) = \\frac{4}{5}$"), cex=1.1, col=7)
+text(5, 1.5, TeX("$P(NV) = \\frac{1}{5}$"), cex=1.1, col=6)
+```
+
+In this diagram, when we pick the first student, we reduce the pool of the students to choose from from 6 to 5. This also changes the probabilities for students being and not being vampires, depending on whom we picked in the first step. The probabilities on the second step now become **conditional** on the choice made in the first step and are denoted in general as $P(A|B)$, which can be read as "probability of the outcome A, given the outcome B". In our terms, we can denote, for example, the probability that the student is not a vampire, given that the first one was not a vampire, as $P(NV_2 | NV_1)$.
+
+Using the Multiplication law, we need to take the probability of a student being not a vampire in the first step and multiply it by the probability of the student not being a vampire in the second step, given that the first one was not a vampire. Mathematically, it can be written:
+
+\begin{equation*}
+    P(NV_1) \times P(NV_2 | NV_1) = \frac{2}{6} \times \frac{1}{5} = \frac{2}{30} = \frac{1}{15} \approx 0.067.
+\end{equation*}
+
+So the probability of picking two non-vampire students in our example is only 6.7%.
+
+
+### General Multiplication Law
+The Multiplication Law is used to determine the probability of two or more events occurring in sequence or simultaneously - an 'AND' scenario. In business, success often depends on a chain of events, where every link must hold. The Multiplication Law is the tool we can use to quantify the probability of that entire chain succeeding, whether in quality control, financial modelling, or project management. Mathematically, we use the notation $P(B|A)$ to represent "the probability of event B occurring, given that event A has already occurred".
+
+The dependent events example leads us to the formal statement of the general rule.
+
+The General Multiplication Law for Probabilities is written mathematically as:
+\begin{equation}
+    P(A \cap B) = P(B) \times P(A|B) .
+    (\#eq:ProbmultiplicationLaw)
+\end{equation}
+In case of the independence, the conditional probability becomes just an unconditional one: $P(A|B)=P(A)$.
+
+By algebraically rearranging formula \@ref(eq:ProbmultiplicationLaw), we arrive at the formal definition of **Conditional Probability**:
+\begin{equation}
+    P(A|B) = \frac{P(A \cap B)} P(B).
+    (\#eq:conditionalProb)
+\end{equation}
+
+This rearrangement is more than just algebra; it provides the fundamental definition of conditional probability. It defines the probability of "A given B" as the proportion of B outcomes that also include A. Visually, this can be shown in Figure \@ref(fig:vennDiagramConditional). There, there conditional probability of A given B would correspond to the proportion of the areas $A \cap B$ (intersection of events) to the overall area of B.
+
+```{r vennDiagramConditional, echo=FALSE, fig.cap="Venn diagram for the conditional probability explanation."}
+# Set up a blank plot
+plot(1, type="n", xlim=c(4,5), ylim=c(1,7), axes=FALSE, xlab="", ylab="", asp=1)
+
+# Draw the two circles
+symbols(3, 4, circles=3, inches=FALSE, add=TRUE, fg=2, bg=8)
+symbols(6, 4, circles=3, inches=FALSE, add=TRUE, fg=4, bg=10)
+
+# Add text
+# Add text to the left circle ("F=12")
+text(2.5, 4, "A", cex=1.2, col=2, pos=2)
+
+# Add text to the right circle ("S=13")
+text(6.5, 4, "B", cex=1.2, col=4, pos=4)
+
+# Add intersection
+text(4.5, 4, TeX("$A \\cap B$"), cex=1.2, col=1)
+```
+
+
+## The Law of Total Probability {#totalProbability}
+### Example: Faulty Goods in a Factory
+
+A chocolate factory has four production lines, each contributing a different percentage to the total output and having its own unique fault rate. These are summarised in the table below:
+
+| Line        |   A   |   B   |   C   |   D   |
+|:-----------:|:-----:|:-----:|:-----:|:-----:|
+| % Faulty    |  1    |  3    |  2.5  |  2    |
+| % Output    |  35   |  20   |  24   |  21   |
+
+The management wants to understand what is the probability that a box chosen at random from the factory's output is faulty?
+
+To solve this, we must recognise that a faulty box can come from one of the four lines:
+
+1. line A,
+2. or line B,
+3. or line C,
+4. or line D.
+
+These are mutually exclusive pathways. The total probability of a faulty box, P(F), is therefore the sum of the probabilities of a box being:
+1. faulty and from line A,
+2. faulty and from line B,
+3. faulty and from line C,
+4. faulty and from line D.
+
+We are interested in calculating the overall probability $P(F)$, which is just a simple sum of four intersections:
+\begin{equation*}
+    P(F) = P(F \cap A) + P(F \cap B) + P(F \cap C) + P(F \cap D),
+\end{equation*}
+because the events are *mutually exclusive* and a faulty chocolate box can come only from one of four lines. So, we need to calculate the joint probabilities for each line, which can be done using the General Multiplication Law. For example, for line A:
+\begin{equation*}
+    P(F \cap A) = P(F|A) \times P(A).
+\end{equation*}
+Similar formulae can be used for the lines B, C and D. Inserting the available probabilities, we get:
+
+- Probability of a faulty box from Line A: $P(F \cap A) = 0.01 \times 0.35 = 0.0035$
+- Probability of a faulty box from Line B: $P(F \cap B) = 0.03 \times 0.20 = 0.0060$
+- Probability of a faulty box from Line C: $P(F \cap C) = 0.025 \times 0.24 = 0.0060$
+- Probability of a faulty box from Line D: $P(F \cap D) = 0.02 \times 0.21 = 0.0042$
+
+And after that, we can sum these up to get the answer:
+\begin{equation*}
+    P(F) = 0.0035 + 0.0060 + 0.0060 + 0.0042 = 0.0197
+\end{equation*}
+So, the probability of a randomly chosen box being faulty is 1.97%.
+
+### Formalising the Law of Total Probability
+The Law of Total Probability is a law, explaining how the probability of an event can be found by considering all the different, mutually exclusive ways it can occur. This is a cornerstone of strategic thinking. When you need to find an overall probability but your data is broken down by different scenarios or categories, this law shows you how to piece it all together. Its importance lies in its ability to aggregate risk and information.
+
+The factory example provides an illustration of the general formal rule. The Law of Total Probability states that if events $A_1, A_2, \dots, A_n$ are *mutually exclusive and collectively exhaustive* (meaning they cover all possibilities), then the probability of another event B can be calculated by weighing and summing the conditional probabilities of B:
+\begin{equation}
+    P(B) = P(B|A_1) \times P(A_1) + P(B|A_2) \times P(A_2) + ... + P(B|A_n) \times P(A_n)
+    (\#eq:ProbTotal)
+\end{equation}
+This can also be interpreted as the sum of intersections of probabilities.
+
+This law provides a fundamental bridge to more advanced concepts, most notably Bayes' Theorem (discussed in Section \@ref(BayesTheorem)), by allowing for the calculation of an overall (or marginal) probability from a set of conditional probabilities.
+
+
+## Bayes' theorem {#BayesTheorem}
+If we come back to the multiplication law from Section \@ref(probabilityMultiplication), we will notice that in our example, we can work out the final probability equally in any sequence: if we first have event B and then event A, we will have the same outcome as if we had first A and then B. In our example with vampires, the order does not matter (the first student becomes first no matter what). But in general, this means that the probability of this joint outcome can be calculated in one of two ways:
+\begin{equation}
+    P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) .
+    (\#eq:ProbmultiplicationLawJoint)
+\end{equation}
+
 

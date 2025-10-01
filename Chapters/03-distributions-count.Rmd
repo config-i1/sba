@@ -37,6 +37,104 @@ Finally, MGF and CF are the functions that allow obtaining the moments of distri
 Because we considered the discrete random variable, the distribution shown in Figure \@ref(fig:distributionDice12) is discrete as well.
 
 
+## Expected value and variance of a random variable {#rvExpectationAndVariance}
+While a full probability distribution provides a complete picture of a random variable, we often need key summary measures to quickly understand its essential characteristics. These measures allow us to distil complex information into a few key parameters. The two most important summary measures for any probability distribution are:
+
+1. the expected value, which describes the distribution's centre, and
+2. the variance, which describes its spread.
+
+We begin with a practical example to build an intuitive understanding before moving to more formal definitions.
+
+
+### Daily Car Sales at DiCarlo Motors
+Consider the sales data for DiCarlo Motors over the past 300 days of operation. The number of cars sold each day is a discrete random variable, as it can only take on a countable number of values (0, 1, 2, etc.). The observed frequencies are as follows:
+
+
+| Number of Cars Sold ($x_i$) | Number of Days |
+|:------------------------:|:--------------:|
+|            0             |      54        |
+|            1             |     117        |
+|            2             |      72        |
+|            3             |      42        |
+|            4             |      12        |
+|            5             |       3        |
+
+To analyse this as a random variable, we must convert this frequency data into a probability distribution. This can be done by dividing the number of days for each outcome by the total number of days (300). The probability of selling $x$ cars on any given day $t$, $P(x_t)$, is calculated below. Note that the probabilities must sum to 1.
+
+| Number of Cars Sold ($x_i$) | Calculation   | Probability $P(x_i)$ |
+|:------------------------:|:-------------:|:------------------:|
+| 0                        | 54 / 300      | 0.18               |
+| 1                        | 117 / 300     | 0.39               |
+| 2                        | 72 / 300      | 0.24               |
+| 3                        | 42 / 300      | 0.14               |
+| 4                        | 12 / 300      | 0.04               |
+| 5                        | 3 / 300       | 0.01               |
+| **Total**                |               | **1.00**           |
+
+Now having these values, we can calculate the expected sales of cars (mean or average).
+
+
+### Calculating the Expected Value (The Mean)
+The expected value (or "expectation"), denoted by $\mu$ (pronounced as "mu"), represents the long-run average of the random variable. It is a weighted average of all possible values, where each value is weighted by its probability of occurrence. The reason why we use probabilities as weights is to take into account the frequency of occurrence of each specific outcome. If we took a simple average, we would ignore the shape of the distribution and would assume (in a way) that the distribution is uniform. In our example, to get the expected value, we need to multiply columns 1 and 3 and then sum up the resulting value:
+
+\begin{equation*}
+    \begin{aligned}
+        \mu = & (0 \times 0.18) + (1 \times 0.39) + (2 \times 0.24) + (3 \times 0.14) + (4 \times 0.04) + (5 \times 0.01) = \\
+              & 0 + 0.39 + 0.48 + 0.42 + 0.16 + 0.05 = 1.5 .
+    \end{aligned}
+\end{equation*}
+
+So, the expected value is 1.5 cars per day. While it is impossible to sell exactly 1.5 cars on any single day, this number tells us something else quite important: that over a long period of time, DiCarlo Motors can anticipate selling on average 1.5 cars per day. In each single day, the specific sales would vary according to the probabilities in the previous Subsection, but if we take all the sales and divide them by the number of days, we would get 1.5 cars per day. This measure is fundamental for forecasting; for example, the company could project average monthly sales of 45 cars (1.5 cars/day \times 30 days). This could be used for further decision making.
+
+The mathematical formula for the expected value of a discrete random variable is:
+\begin{equation}
+    \mu = P(x_1) x_1 + P(x_2) x_2 + \dots + P(x_n) x_n =  \sum_{j=1}^n P(x_i) x_i ,
+    (\#eq:expectationDiscrete)
+\end{equation}
+where $x_i$ is the value of interest (e.g. number of cars) and $P(x_i)$ is the probability of this specific outcome.
+
+The expected value shows the so called central tendency of a distribution, pointing where the distribution is "pulled" to. If it is symmetric, the expected value would be in the centre. In the asymmetric case, it would be pulled towards the longer tail of the distribution.
+
+
+### Calculating the Variance and Standard Deviation
+While the expected value gives us the central tendency of a distribution, it does not tell us anything about the variability of values in the data. The variance, denoted by $\sigma^2$ (pronounced "sigma squared"), is calculated as the weighted average of the squared deviations from the mean, and shows exactly that: the overall variability of values around the expected value.
+
+Using our calculated mean of $\mu = 1.5$, we can find the variance for the car sales data:
+\begin{equation*}
+    \begin{aligned}
+        \sigma^2 = & (0 − 1.5)^2 \times 0.18 + (1 − 1.5)^2 \times 0.39 + (2 − 1.5)^2 \times 0.24 + (3 − 1.5)^2 \times 0.14 + (4 − 1.5)^2 \times 0.04 + (5 − 1.5)^2 \times 0.01 = \\
+        & 0.405 + 0.0975 + 0.06 + 0.315 + 0.25 + 0.1225 = 1.25
+    \end{aligned}
+\end{equation*}
+
+So, the variance in our example is 1.25, but its units are "cars squared" (because we had squares in the formula above), which is not intuitive. To get a measure of spread in the original units (cars), we can calculate the standard deviation ($\sigma$), which is simply the positive square root of the variance ($\sigma = \sqrt{\sigma^2}$:
+\begin{equation*}
+    \sigma = \sqrt{1.25} \approx 1.118
+\end{equation*}
+
+This standard deviation of 1.118 cars provides a more direct measure of the typical deviation from the mean of 1.5 cars. It roughly shows that on average the deviation around the expectation is 1.118 cars.
+
+Mathematically, the formula of variance is written as:
+\begin{equation}
+    \mu = P(x_1) (x_1 - \mu)^2 + P(x_2) (x_2 - \mu)^2 + \dots + P(x_n) (x_n - \mu)^2 =  \sum_{j=1}^n P(x_i) (x_n - \mu)^2 ,
+    (\#eq:varianceDiscrete)
+\end{equation}
+
+
+
+--------------------------------------------------------------------------------
+2. Formal Definitions and Core Concepts
+With the practical calculations from our car sales example as a foundation, we can now formalise the definitions of expected value and variance. These two measures are the cornerstones for summarising the key characteristics of any probability distribution, providing a snapshot of its central tendency and dispersion.
+2.1. The Expected Value (\mu)
+The Expected Value (or mean) of a discrete random variable X is formally defined as the weighted average of all its possible values. The weight assigned to each possible value, 𝑥ᵢ, is its corresponding probability of occurrence, P(𝑥ᵢ).
+This method differs fundamentally from calculating a simple population mean for raw data. A simple mean gives equal weight to every single observation, as shown in the formula \mu = (Σ𝑥) / N, where each value is effectively weighted by 1/N. In contrast, the expected value \mu = Σ 𝑥ᵢ * 𝑃(𝑥ᵢ) weights each distinct outcome according to its probability. This provides a more accurate and meaningful measure of the distribution's true centre, reflecting the likelihood of each outcome. In the DiCarlo Motors example, calculating a simple mean of the six possible outcomes (0, 1, 2, 3, 4, 5) would yield 2.5, a misleading figure that ignores the fact that selling one car (P=0.39) is far more likely than selling five (P=0.01). The expected value of 1.5 correctly accounts for these probabilities.
+2.2. The Variance (σ^2 ) and Standard Deviation (σ)
+The Variance of a discrete random variable X is formally defined as the weighted average of the squared deviations from the mean, (𝑥ᵢ − 𝜇)^2 . Its purpose is to quantify the dispersion or variability of the possible outcomes around the expected value. A distribution with outcomes that are typically far from the mean will have a high variance, indicating a wide spread. Conversely, a distribution with outcomes clustered tightly around the mean will have a low variance.
+The Standard Deviation (σ) is the positive square root of the variance. Its primary advantage is that it measures dispersion in the same units as the original random variable. While the variance of car sales was 1.25 "cars squared," the standard deviation of 1.118 "cars" is a much more intuitive and directly interpretable measure of spread.
+Ultimately, these two measures work in tandem: the expected value pinpoints the centre of gravity for the distribution, while the standard deviation quantifies the typical distance of an outcome from that centre.
+
+
+
 ## Bernoulli distribution (Tossing a coin) {#distributionBernoulli}
 Consider a case when we track whether it rains at Lancaster or not and want to understand based on this information whether it will rain today or not. In this example, we have two values for a random variable (1 - it rains, 0 - it does not), and if we do not have any additional information, we assume that the probability that it rains is fixed. This situation can be modelled using the Bernoulli distribution.
 
