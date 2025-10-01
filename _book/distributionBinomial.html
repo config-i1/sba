@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.3 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics</title>
+  <title>3.4 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.3 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics" />
+  <meta property="og:title" content="3.4 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.3 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="3.4 Binomial distribution (Multiple coin tosses) | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-09-22" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -201,15 +201,37 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
 <li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
+<li class="chapter" data-level="2.3" data-path="probabilityAddition.html"><a href="probabilityAddition.html"><i class="fa fa-check"></i><b>2.3</b> The Addition Law: Calculating “OR” Probability</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="probabilityAddition.html"><a href="probabilityAddition.html#the-general-addition-law"><i class="fa fa-check"></i><b>2.3.1</b> The General Addition Law</a></li>
+<li class="chapter" data-level="2.3.2" data-path="probabilityAddition.html"><a href="probabilityAddition.html#special-case-mutually-exclusive-events"><i class="fa fa-check"></i><b>2.3.2</b> Special Case: Mutually Exclusive Events</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html"><i class="fa fa-check"></i><b>2.4</b> Multiplication of probabilities: Calculating “AND” Probability</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#independent-events"><i class="fa fa-check"></i><b>2.4.1</b> Independent Events</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#dependent-events-and-conditional-probability"><i class="fa fa-check"></i><b>2.4.2</b> Dependent Events and Conditional Probability</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#general-multiplication-law"><i class="fa fa-check"></i><b>2.4.3</b> General Multiplication Law</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="totalProbability.html"><a href="totalProbability.html"><i class="fa fa-check"></i><b>2.5</b> The Law of Total Probability</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="totalProbability.html"><a href="totalProbability.html#example-faulty-goods-in-a-factory"><i class="fa fa-check"></i><b>2.5.1</b> Example: Faulty Goods in a Factory</a></li>
+<li class="chapter" data-level="2.5.2" data-path="totalProbability.html"><a href="totalProbability.html#formalising-the-law-of-total-probability"><i class="fa fa-check"></i><b>2.5.2</b> Formalising the Law of Total Probability</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
-<li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Bernoulli distribution (Tossing a coin)</a></li>
-<li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Binomial distribution (Multiple coin tosses)</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Poisson distribution (Modelling arrivals)</a></li>
-<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Discrete Uniform distribution (Rolling a dice)</a></li>
-<li class="chapter" data-level="3.6" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.6</b> Negative Binomial distribution</a></li>
+<li class="chapter" data-level="3.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html"><i class="fa fa-check"></i><b>3.2</b> Expected value and variance of a random variable</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#daily-car-sales-at-dicarlo-motors"><i class="fa fa-check"></i><b>3.2.1</b> Daily Car Sales at DiCarlo Motors</a></li>
+<li class="chapter" data-level="3.2.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-expected-value-the-mean"><i class="fa fa-check"></i><b>3.2.2</b> Calculating the Expected Value (The Mean)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-variance-and-standard-deviation"><i class="fa fa-check"></i><b>3.2.3</b> Calculating the Variance and Standard Deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.3</b> Bernoulli distribution (Tossing a coin)</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.4</b> Binomial distribution (Multiple coin tosses)</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.5</b> Poisson distribution (Modelling arrivals)</a></li>
+<li class="chapter" data-level="3.6" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.6</b> Discrete Uniform distribution (Rolling a dice)</a></li>
+<li class="chapter" data-level="3.7" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.7</b> Negative Binomial distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -432,8 +454,8 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionBinomial" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Binomial distribution (Multiple coin tosses)<a href="distributionBinomial.html#distributionBinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="distributionBinomial" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Binomial distribution (Multiple coin tosses)<a href="distributionBinomial.html#distributionBinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the previous example with coin tossing we focused on the experiment that contained only one trial: toss a coin, see what score you got (zero or one). However, we could make the game more complicated and do it in, let us say, 10 trials. In this more complicated experiment we would sum up the scores to see what we get after those 10 trials. In theory, we can have any integer number from zero to ten, but the resulting score will be random and its chance of appearance will vary with the score. For example, we will get 0 only if in all 10 trials we get heads, while we can get 1 in a variety of ways:</p>
 <ol style="list-style-type: decimal">
 <li>first trial is one and then the rest are zero;</li>
@@ -451,7 +473,7 @@ Figure 3.5: Probability Mass Function for Binomial distribution with p=0.5 and n
 <p>From the Figure <a href="distributionBinomial.html#fig:binomialPMF05">3.5</a>, we can see that the most probable outcome is the score of 5. This is because there are more ways of getting 5 than getting 4 in our example. In fact the number of ways can be calculated using <strong>Binomial coefficient</strong>, which is defined as:
 <span class="math display" id="eq:BinomialCoefficient">\[\begin{equation}
     \begin{pmatrix} n \\ k \end{pmatrix} = \frac{n!}{k!(n-k)!},
-    \tag{3.3}
+    \tag{3.5}
 \end{equation}\]</span>
 where <span class="math inline">\(k\)</span> is the score of interest, <span class="math inline">\(n\)</span> is the number of trials and <span class="math inline">\(!\)</span> is the symbol for factorial. In our example, <span class="math inline">\(k=5\)</span> and <span class="math inline">\(n=10\)</span>, meaning that we have:
 <span class="math display">\[\begin{equation*}
@@ -474,7 +496,7 @@ which can be calculated in R as:</p>
 <p>These probabilities can be obtained via the PMF of Binomial distribution:
 <span class="math display" id="eq:BinomialPMF">\[\begin{equation}
     f(k, n, p) = \begin{pmatrix} n \\ k \end{pmatrix} p^k (1-p)^{n-k} .
-    \tag{3.4}
+    \tag{3.6}
 \end{equation}\]</span>
 We will denote this distribution as <span class="math inline">\(\mathcal{Bi}(n, p)\)</span>. In R, this is implemented in the <code>dbinom()</code> function from <code>stats</code> package. Note that so far we assumed that <span class="math inline">\(p=0.5\)</span>, however in real life this is not necessarily the case.</p>
 <p>Consider a problem of demand forecasting for expensive medical equipment in the UK. These are not typically bought in large quantities, and each hospital might need only one machine for their purposes, and that machine can last for many years. For demonstration purposes, assume that there is a fixed probability <span class="math inline">\(p=0.1\)</span> that any given hospital decides to bye such machine. It is safe to assume that the probability that machine is needed in a hospital is independent of the probability in the other one. In this case, the distribution of demand for machines in the UK per year will be Binomial. For completeness of our example, assume that there are 20 hospitals in the country that might need such machine, then this will be characterised as <span class="math inline">\(\mathcal{Bi}(20, 0.1)\)</span> and will be an asymmetric distribution, as shown in Figure <a href="distributionBinomial.html#fig:binomialPMF01">3.6</a>.</p>
@@ -488,7 +510,7 @@ Figure 3.6: Probability Mass Function for Binomial distribution with p=0.1 and n
 <p>So, while we already have a useful information about the distribution of demand in this situation, it is not helpful for decision making. What we could do is consider a case of satisfying, let us say, 99% of demand on machines. In our example, we should sum up the probabilities and find for which number of cases we get to 99%. Formally, this can be written as <span class="math inline">\(P(y&lt;k)=0.99\)</span> and we need to find <span class="math inline">\(k\)</span>. One way of doing this is by looking at cumulative distribution function of Binomial distribution, which is mathematically represented as:
 <span class="math display" id="eq:BinomialCDF">\[\begin{equation}
     F(k, n, p) = \sum_{i=0}^k \begin{pmatrix} n \\ i \end{pmatrix} p^i (1-p)^{n-i} .
-    \tag{3.5}
+    \tag{3.7}
 \end{equation}\]</span></p>
 <p>This CDF in our example will have the shape shown in Figure <a href="distributionBinomial.html#fig:binomialCDF01">3.7</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:binomialCDF01"></span>
@@ -506,12 +528,12 @@ Figure 3.7: Cumulative Distribution Function for Binomial distribution with p=0.
 <p>In some cases, we might need to know the mean and variance of the distribution. For the Binomial distribution, they can be calculated via the following formulae:
 <span class="math display" id="eq:BinomialMean">\[\begin{equation}
     \mathrm{E}(y) = p \times n ,
-    \tag{3.6}
+    \tag{3.8}
 \end{equation}\]</span>
 and
 <span class="math display" id="eq:BinomialVariance">\[\begin{equation}
     \mathrm{V}(y) = p \times (1-p) \times n .
-    \tag{3.7}
+    \tag{3.9}
 \end{equation}\]</span>
 So, in our situation the mean is <span class="math inline">\(20 \times 0.1 = 2\)</span>, while the variance is <span class="math inline">\(20 \times 0.1 \times 0.9 = 1.8\)</span>.</p>
 <p>From the example above, we can take away several important characteristics ofthe Binomial distribution:</p>
@@ -523,7 +545,7 @@ So, in our situation the mean is <span class="math inline">\(20 \times 0.1 = 2\)
 <li>The number of trials <span class="math inline">\(n\)</span> is fixed and known.</li>
 </ol>
 <p>Final thing to note about the Binomial distribution is that with the growth of the number of trials it converges to the Normal one, no matter what the probability of success is. We can use this property to get answers about the Binomial distribution in those cases. We will discuss this in Section <a href="distributionsNormal.html#distributionsNormal">4.3</a>.</p>
-<p>In R, the Binomial distribution is implemented via <code>dbinom()</code>, <code>pbinom()</code>, <code>qbinom()</code> and <code>rbinom()</code> from <code>stats</code> package. The functions have parameter <code>size</code> which is the number of trials <span class="math inline">\(n\)</span>, and parameter <code>prob</code>, which is a probability of success <span class="math inline">\(p\)</span>. If <code>size=1</code>, the distribution functions revert to the ones from Bernoulli distribution (Section <a href="distributionBernoulli.html#distributionBernoulli">3.2</a>).</p>
+<p>In R, the Binomial distribution is implemented via <code>dbinom()</code>, <code>pbinom()</code>, <code>qbinom()</code> and <code>rbinom()</code> from <code>stats</code> package. The functions have parameter <code>size</code> which is the number of trials <span class="math inline">\(n\)</span>, and parameter <code>prob</code>, which is a probability of success <span class="math inline">\(p\)</span>. If <code>size=1</code>, the distribution functions revert to the ones from Bernoulli distribution (Section <a href="distributionBernoulli.html#distributionBernoulli">3.3</a>).</p>
 </div>
 
             </section>

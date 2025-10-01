@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.4 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics</title>
+  <title>3.5 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.4 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics" />
+  <meta property="og:title" content="3.5 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.4 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="3.5 Poisson distribution (Modelling arrivals) | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-09-22" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -201,15 +201,37 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
 <li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
+<li class="chapter" data-level="2.3" data-path="probabilityAddition.html"><a href="probabilityAddition.html"><i class="fa fa-check"></i><b>2.3</b> The Addition Law: Calculating “OR” Probability</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="probabilityAddition.html"><a href="probabilityAddition.html#the-general-addition-law"><i class="fa fa-check"></i><b>2.3.1</b> The General Addition Law</a></li>
+<li class="chapter" data-level="2.3.2" data-path="probabilityAddition.html"><a href="probabilityAddition.html#special-case-mutually-exclusive-events"><i class="fa fa-check"></i><b>2.3.2</b> Special Case: Mutually Exclusive Events</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html"><i class="fa fa-check"></i><b>2.4</b> Multiplication of probabilities: Calculating “AND” Probability</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#independent-events"><i class="fa fa-check"></i><b>2.4.1</b> Independent Events</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#dependent-events-and-conditional-probability"><i class="fa fa-check"></i><b>2.4.2</b> Dependent Events and Conditional Probability</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#general-multiplication-law"><i class="fa fa-check"></i><b>2.4.3</b> General Multiplication Law</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="totalProbability.html"><a href="totalProbability.html"><i class="fa fa-check"></i><b>2.5</b> The Law of Total Probability</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="totalProbability.html"><a href="totalProbability.html#example-faulty-goods-in-a-factory"><i class="fa fa-check"></i><b>2.5.1</b> Example: Faulty Goods in a Factory</a></li>
+<li class="chapter" data-level="2.5.2" data-path="totalProbability.html"><a href="totalProbability.html#formalising-the-law-of-total-probability"><i class="fa fa-check"></i><b>2.5.2</b> Formalising the Law of Total Probability</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
-<li class="chapter" data-level="3.2" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.2</b> Bernoulli distribution (Tossing a coin)</a></li>
-<li class="chapter" data-level="3.3" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.3</b> Binomial distribution (Multiple coin tosses)</a></li>
-<li class="chapter" data-level="3.4" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.4</b> Poisson distribution (Modelling arrivals)</a></li>
-<li class="chapter" data-level="3.5" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.5</b> Discrete Uniform distribution (Rolling a dice)</a></li>
-<li class="chapter" data-level="3.6" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.6</b> Negative Binomial distribution</a></li>
+<li class="chapter" data-level="3.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html"><i class="fa fa-check"></i><b>3.2</b> Expected value and variance of a random variable</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#daily-car-sales-at-dicarlo-motors"><i class="fa fa-check"></i><b>3.2.1</b> Daily Car Sales at DiCarlo Motors</a></li>
+<li class="chapter" data-level="3.2.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-expected-value-the-mean"><i class="fa fa-check"></i><b>3.2.2</b> Calculating the Expected Value (The Mean)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-variance-and-standard-deviation"><i class="fa fa-check"></i><b>3.2.3</b> Calculating the Variance and Standard Deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.3</b> Bernoulli distribution (Tossing a coin)</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.4</b> Binomial distribution (Multiple coin tosses)</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.5</b> Poisson distribution (Modelling arrivals)</a></li>
+<li class="chapter" data-level="3.6" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.6</b> Discrete Uniform distribution (Rolling a dice)</a></li>
+<li class="chapter" data-level="3.7" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.7</b> Negative Binomial distribution</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
 <ul>
@@ -432,17 +454,17 @@ div.csl-indent {
 <div class = rmdreview>
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
-<div id="distributionPoisson" class="section level2 hasAnchor" number="3.4">
-<h2><span class="header-section-number">3.4</span> Poisson distribution (Modelling arrivals)<a href="distributionPoisson.html#distributionPoisson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="distributionPoisson" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Poisson distribution (Modelling arrivals)<a href="distributionPoisson.html#distributionPoisson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consider a situation, when we want to model an arrival of patients in a hospital for each hour of day. In that case, they arrive for different reasons: some have fractures, others have headaches, some come because they sneezed and the others are there because they are seriously ill. There is potentially a lot of people that could come to the hospital (the whole population living in the area), but typically only few of them will show up in each specific hour. Furthermore, all these people are typically not related (unless there was an event that caused a specific condition to a group of people, such as a big pub fight) and arrive at random. In this example, we could argue that the process of arrival is memoryless, because the arrivals of different patients are not related. For the probability theory, this implies that the probability that a patient arrives in a specific period of time should be independent of when the previous patient arrived. Mathematically, this is represented as:
 <span class="math display" id="eq:PoissonTimes">\[\begin{equation}
     \mathrm{P}(t &gt; \tau_1 + \tau_2) = \mathrm{P}(t &gt; \tau_1)\mathrm{P}(t &gt; \tau_2),
-    \tag{3.8}
+    \tag{3.10}
 \end{equation}\]</span>
-where <span class="math inline">\(t\)</span> is the waiting time until the next arrival, and <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> are waiting times. The formula <a href="distributionPoisson.html#eq:PoissonTimes">(3.8)</a> shows that the probability that we will wait more than <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> is just equal to the product of probabilities of waiting for more than <span class="math inline">\(\tau_1\)</span> and more than <span class="math inline">\(\tau_2\)</span>. The formula relies on the independence of probabilities (discussed in Chapter <a href="probabilityTheory.html#probabilityTheory">2</a>). From the mathematical point of view, there is a function that supports the property <a href="distributionPoisson.html#eq:PoissonTimes">(3.8)</a> - it is exponent:
+where <span class="math inline">\(t\)</span> is the waiting time until the next arrival, and <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> are waiting times. The formula <a href="distributionPoisson.html#eq:PoissonTimes">(3.10)</a> shows that the probability that we will wait more than <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span> is just equal to the product of probabilities of waiting for more than <span class="math inline">\(\tau_1\)</span> and more than <span class="math inline">\(\tau_2\)</span>. The formula relies on the independence of probabilities (discussed in Chapter <a href="probabilityTheory.html#probabilityTheory">2</a>). From the mathematical point of view, there is a function that supports the property <a href="distributionPoisson.html#eq:PoissonTimes">(3.10)</a> - it is exponent:
 <span class="math display" id="eq:PoissonTimesExp">\[\begin{equation}
     e^{\tau_1 + \tau_2} = e^{\tau_1} e^{\tau_2} .
-    \tag{3.9}
+    \tag{3.11}
 \end{equation}\]</span>
 Based on this principle of memorylessness (and based on the Exponential distribution, which we will discuss in Section <a href="distributionsExponential.html#distributionsExponential">4.5</a>), Poisson distribution is derived. It is a discrete distribution, which is used for modelling number of patients arriving at specific time intervals, based on the average number of arrivals <span class="math inline">\(\lambda\)</span>. Its PMF has the shape shown in Figure <a href="distributionPoisson.html#fig:poissonPMF">3.8</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:poissonPMF"></span>
@@ -460,12 +482,12 @@ Figure 3.8: Probability Mass Function of Poisson distribution with different val
 <p>Mathematically, the PMF of Poisson distribution is represented as:
 <span class="math display" id="eq:PoissonPMF">\[\begin{equation}
     f(y, \lambda) = \frac{\lambda^y e^{-\lambda}}{y!} ,
-    \tag{3.10}
+    \tag{3.12}
 \end{equation}\]</span>
 where <span class="math inline">\(e\)</span> is the Euler’s constant. The part <span class="math inline">\(e^{-\lambda}\)</span> represents the memoryless arrivals of patients. The Poisson distribution is characterised as <span class="math inline">\(\mathcal{Pois}(\lambda)\)</span> and has an additional property that its expectation is equal to variance:
 <span class="math display" id="eq:PoissonMean">\[\begin{equation}
     \mathrm{E}(y) = \mathrm{V}(y) = \lambda ,
-    \tag{3.11}
+    \tag{3.13}
 \end{equation}\]</span>
 which makes it convenient to work with and easy to estimate. If we have the parameters of the Poisson distribution, we can calculate probabilities for a variety of situations or generate quantiles - depending on what we need specifically. For example, for scheduling purposes we might need to understand what is the probability of having more than zero but up to four patients in any specific hour. Assume that based on the available data we estimated that <span class="math inline">\(\hat{\lambda}=2\)</span>. In this situation we need to either use PMF or the CDF to calculate the following probability:
 <span class="math display" id="eq:PoissonProbabilityExample">\[\begin{equation}
@@ -473,9 +495,9 @@ which makes it convenient to work with and easy to estimate. If we have the para
         \mathrm{P}(0 &lt; y \leq 4) = &amp; \mathrm{P}(y=1) + \mathrm{P}(y=2) + \mathrm{P}(y=3) + \mathrm{P}(y=4) = \\
                                    &amp; \mathrm{P}(y \leq 4) - \mathrm{P}(y=0)
     \end{aligned} .
-    \tag{3.12}
+    \tag{3.14}
 \end{equation}\]</span></p>
-<p>The first line in <a href="distributionPoisson.html#eq:PoissonProbabilityExample">(3.12)</a> shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:</p>
+<p>The first line in <a href="distributionPoisson.html#eq:PoissonProbabilityExample">(3.14)</a> shows how the probability can be calculated via the PMF, while the second one is for the CDF. They both can be calculated in R via:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="distributionPoisson.html#cb12-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dpois</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## [1] 0.8120117</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="distributionPoisson.html#cb14-1" tabindex="-1"></a><span class="fu">ppois</span>(<span class="dv">4</span>,<span class="dv">2</span>) <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span></code></pre></div>
@@ -483,13 +505,13 @@ which makes it convenient to work with and easy to estimate. If we have the para
 <p>where <code>dpois()</code> is the PMF and <code>ppois()</code> is the CDF of the Poisson distribution. Mathematically, the CDF of the Poisson distributions is written as:
 <span class="math display" id="eq:PoissonCDF">\[\begin{equation}
     F(y, \lambda) = e^{-\lambda} \sum_{j=0}^{y} \frac{\lambda^j }{j!} ,
-    \tag{3.13}
+    \tag{3.15}
 \end{equation}\]</span>
 for integer values of <span class="math inline">\(y\)</span>. Finally, we could get quantiles of the distribution for the specified probability. In R, this is done via the <code>qpois()</code> function. For example, here is the 0.95 quantile for the Poisson distribution with <span class="math inline">\(\hat{\lambda}=2\)</span>:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="distributionPoisson.html#cb16-1" tabindex="-1"></a><span class="fu">qpois</span>(<span class="fl">0.95</span>, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <div class="remark">
-<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span>When identifying a suitable distribution, Poisson has several distinct characteristics:</p>
+<p><span id="unlabeled-div-13" class="remark"><em>Remark</em>. </span>When identifying a suitable distribution, Poisson has several distinct characteristics:</p>
 <ol style="list-style-type: decimal">
 <li>There are many trials (in our example with the hospital, many people live in the area).</li>
 <li>There is a small chance that each specific patient will arrive in a specific hour (number of patients arriving at the hospital each hour is small in comparison with the population).</li>
