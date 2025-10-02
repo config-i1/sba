@@ -224,7 +224,7 @@ These events are dependent because as soon as the teacher chooses one student, t
 
 To better understand the situation, we can draw a tree diagram, which depicts the possible situations (Figure \@ref(fig:treeForVampire)).
 
-```{r treeForVampire, fig.height=6, echo=FALSE, fig.cap="Tree diagram for the vampire example."}
+```{r treeForVampire, fig.height=6, fig.width=10, echo=FALSE, fig.cap="Tree diagram for the vampire example."}
 # Set up blank plot
 plot(1, type="n", xlim=c(0,10), ylim=c(1,10), axes=FALSE, xlab="", ylab="")
 
@@ -341,6 +341,7 @@ To solve this, we must recognise that a faulty box can come from one of the four
 4. or line D.
 
 These are mutually exclusive pathways. The total probability of a faulty box, P(F), is therefore the sum of the probabilities of a box being:
+
 1. faulty and from line A,
 2. faulty and from line B,
 3. faulty and from line C,
@@ -534,7 +535,7 @@ Inserting them in the formula \@ref(eq:BayesInExample) gives us the answer:
 This resulting probability tells us that there is approximately an 82% chance that the email is spam if it contains the word "discount". Notice how observing this single word has allowed us to update our belief. We started with a prior probability of 40% and, after considering the evidence, have arrived at a revised ("posterior") probability of 82%. If we set the threshold for filtering the emails as spam, for example, to 80%, any email that would contain the word "discount" would be flagged as one. In reality, the detection systems would rely on sequences of words (tokens) instead of just one word, and the specific probabilities would differ from the ones we used above. But the main principles of the Bayes' theorem would hold.
 
 ### Mathematical derivation
-The theorem's origins trace back to the work of the Reverend Thomas Bayes, whose work "An Essay Toward Solving a Problem in the Doctrine of Chances" was published posthumously in 1764 [@Bayes]. The derivation begins with the multiplication law for two events, A and B, which states that the probability of both events occurring together can be expressed in two ways (as we saw in equation \@ref(ProbmultiplicationLawJoint)):
+The theorem's origins trace back to the work of the Reverend Thomas Bayes, whose work "An Essay Toward Solving a Problem in the Doctrine of Chances" was published posthumously in 1764 [@Bayes]. The derivation begins with the multiplication law for two events, A and B, which states that the probability of both events occurring together can be expressed in two ways (as we saw in equation \@ref(eq:ProbmultiplicationLawJoint)):
 \begin{equation*}
     P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) .
 \end{equation*}
