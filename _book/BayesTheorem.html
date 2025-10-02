@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-10-01" />
+<meta name="date" content="2025-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -473,12 +473,37 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 </ul>
 <p>Now, the main question of interest for us is to understand what is the probability that an email is spam if the word ‘discount’ appears in it. i.e. we need to find P(Spam | “discount”).</p>
 <p>But how can we do that?</p>
-<p>If we take a step back and come back to the multiplication law from Section <a href="probabilityMultiplication.html#probabilityMultiplication">2.4</a>, we will notice that in the example we had, we can work out the final probability equally in any sequence: if we first have event B and then event A, or if we we have first A and then B. In our example with vampires, the order did not matter (the first student becomes first no matter what). But in general, this means that the probability of this joint outcome can be calculated in one of two possible ways:
+<p>First, we plot the tree diagram to better understand what we have and what we are missing. Here are the notations we use in that figure:</p>
+<ul>
+<li>“Spam” event is denoted with “S”,</li>
+<li>“Not Spam” is “NS”,</li>
+<li>The word “discount” is in the text - “D”,</li>
+<li>The word “discount” is not in the text - “ND”.</li>
+</ul>
+<div class="figure"><span style="display:block;" id="fig:treeForSpam01"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/treeForSpam01-1.png" alt="Tree diagram for the spam detection example." width="672" />
+<p class="caption">
+Figure 2.6: Tree diagram for the spam detection example.
+</p>
+</div>
+<p>As we see in the Tree diagram in Figure <a href="BayesTheorem.html#fig:treeForSpam01">2.6</a>, we know all the probabilities for all the outcomes. So, what is the problem then? The problem is that we need to invert it to get the answer to our question, i.e. build a new tree where the word “discount” is the first vertex (Figure <a href="BayesTheorem.html#fig:treeForSpam02">2.7</a>).</p>
+<div class="figure"><span style="display:block;" id="fig:treeForSpam02"></span>
+&lt;img src=“Svetunkov—Statistics-for-Business-Analytics_files/figure-html/treeForSpam02-1.png” alt=“Tree diagram for the spam detection example, starting from the word”discount”.” width=“672” /&gt;
+<p class="caption">
+Figure 2.7: Tree diagram for the spam detection example, starting from the word “discount”.
+</p>
+</div>
+<p>In the tree diagram in Figure <a href="BayesTheorem.html#fig:treeForSpam02">2.7</a>, we can easily get the probabilities of having and not having the word “discount”. This can be done using the Law of Total Probability (Section <a href="totalProbability.html#totalProbability">2.5</a>):
+<span class="math display">\[\begin{equation*}
+    P(D) = P(D|S) P(S) + P(D|NS) P(NS) = 0.7 \times 0.4 + 0.1 \times 0.6 = 0.34 .
+\end{equation*}\]</span>
+Given that having and not having the word “discount” are two mutually exclusive events, <span class="math inline">\(P(ND) = 1 - P(D) = 0.66\)</span>. Although this helps, we still do not know how to get to the answer of our question.</p>
+<p>So, we should take a step back to the multiplication law from Section <a href="probabilityMultiplication.html#probabilityMultiplication">2.4</a>. We can notice that in the example we had, we can work out the final probability equally in any sequence: if we first have event B and then event A, or if we we have first A and then B. In our example with vampires, the order did not matter (the first student becomes first no matter what). But in general, this means that the probability of this joint outcome can be calculated in one of two possible ways:
 <span class="math display" id="eq:ProbmultiplicationLawJoint">\[\begin{equation}
     P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) .
     \tag{2.9}
 \end{equation}\]</span></p>
-<p>For the example at hand, this can be written with events <span class="math inline">\(S\)</span> for the message being spam and “D” denoting the presence of the word “discount” (for brevity):
+<p>For the example at hand, this can be written as:
 <span class="math display">\[\begin{equation*}
     P(S \cap D) = P(D) \times P(S|D) = P(S) \times P(D|S) ,
 \end{equation*}\]</span>
@@ -492,9 +517,9 @@ Equation <a href="BayesTheorem.html#eq:BayesInExample">(2.10)</a> is called the 
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(P(S) = 0.4\)</span>;</li>
 <li><span class="math inline">\(P(D|S) = 0.7\)</span>;</li>
-<li><span class="math inline">\(P(D) = P(D|S) P(S) + P(D|NS) P(NS) = 0.7 \times 0.4 + 0.1 \times 0.6 = 0.34\)</span> - due to the Law of Total Probability discussed in Section <a href="totalProbability.html#totalProbability">2.5</a>.</li>
+<li><span class="math inline">\(P(D) = 0.34\)</span> - calculated earlier.</li>
 </ol>
-<p>Inserting these values in the formula <a href="BayesTheorem.html#eq:BayesInExample">(2.10)</a> gives us the answer:
+<p>Inserting them in the formula <a href="BayesTheorem.html#eq:BayesInExample">(2.10)</a> gives us the answer:
 <span class="math display" id="eq:BayesInExample">\[\begin{equation*}
     P(S|D) = \frac{0.4 \times 0.7}{0.34} \approx 0.82 .
     \tag{2.10}
@@ -502,7 +527,7 @@ Equation <a href="BayesTheorem.html#eq:BayesInExample">(2.10)</a> is called the 
 <p>This resulting probability tells us that there is approximately an 82% chance that the email is spam if it contains the word “discount”. Notice how observing this single word has allowed us to update our belief. We started with a prior probability of 40% and, after considering the evidence, have arrived at a revised (“posterior”) probability of 82%. If we set the threshold for filtering the emails as spam, for example, to 80%, any email that would contain the word “discount” would be flagged as one. In reality, the detection systems would rely on sequences of words (tokens) instead of just one word, and the specific probabilities would differ from the ones we used above. But the main principles of the Bayes’ theorem would hold.</p>
 <div id="mathematical-derivation" class="section level3 hasAnchor" number="2.6.1">
 <h3><span class="header-section-number">2.6.1</span> Mathematical derivation<a href="BayesTheorem.html#mathematical-derivation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The theorem’s origins trace back to the work of the Reverend Thomas Bayes, whose work “An Essay Toward Solving a Problem in the Doctrine of Chances” was published posthumously in 1764. The derivation begins with the multiplication law for two events, A and B, which states that the probability of both events occurring together can be expressed in two ways (as we saw in equation <a href="#ProbmultiplicationLawJoint"><strong>??</strong></a>):
+<p>The theorem’s origins trace back to the work of the Reverend Thomas Bayes, whose work “An Essay Toward Solving a Problem in the Doctrine of Chances” was published posthumously in 1764 <span class="citation">(<a href="#ref-Bayes"><strong>Bayes?</strong></a>)</span>. The derivation begins with the multiplication law for two events, A and B, which states that the probability of both events occurring together can be expressed in two ways (as we saw in equation <a href="#ProbmultiplicationLawJoint"><strong>??</strong></a>):
 <span class="math display">\[\begin{equation*}
     P(A \cap B) = P(B) \times P(A|B) = P(A) \times P(B|A) .
 \end{equation*}\]</span>
