@@ -86,7 +86,7 @@ In the core of the calculation of the mean, there lies the sum of actual values 
 The CLT is the theorem about *what happens with the estimate* (usually mean), *not with individual observations*. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.
 :::
 
-Now, consider a simple case, where the random variable $y$ follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value $z=y_1 + y_2 + y_3 + \dots + y_n = \sum_{j=1}^n y_j $, i.e. the convolution of $n$ Uniform distributions. Figure \@ref(fig:uniformPMFCombinedN) shows how the convolved distributions look for $n=1$ (one die), $n=2$ (two dice), $n=4$ and $n=8$.
+Now, consider a simple case, where the random variable $y$ follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value $z = y_1 + y_2 + y_3 + \dots + y_n = \sum_{j=1}^n y_j$, i.e. the convolution of $n$ Uniform distributions. Figure \@ref(fig:uniformPMFCombinedN) shows how the convolved distributions look for $n=1$ (one die), $n=2$ (two dice), $n=4$ and $n=8$.
 
 ```{r uniformPMFCombinedN, fig.cap="Probability Mass Function of the sum of n Uniform distributions for 1d6.", fig.width=7, fig.height=8, echo=FALSE}
 
@@ -189,7 +189,7 @@ for(i in c(1:length(n))){
 But similarly to the example with the Log-Normal distribution, we see that the convolution of the Laplace distributions converges to the Normal one with the increase of the sample size. In fact, this happens much faster than in the case of the Log-Normal, and for the sample of 16 observations, the distributions already look very similar.
 
 ::: remark
-The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). The higher it is, the longer it would take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.
+The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). In general, the higher it is for a distribution, the longer it will take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.
 :::
 
 Next, we consider the situation where the distributions are **not identical**. Figure \@ref(fig:nonidentPDFCombinedN) shows the convolution of several continuous distributions (with randomly selected parameters):
