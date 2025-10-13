@@ -23,7 +23,7 @@
 <meta name="author" content="Ivan Svetunkov" />
 
 
-<meta name="date" content="2025-10-04" />
+<meta name="date" content="2025-10-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -495,7 +495,7 @@ In the core of the calculation of the mean, there lies the sum of actual values 
 <div class="remark">
 <p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>The CLT is the theorem about <em>what happens with the estimate</em> (usually mean), <em>not with individual observations</em>. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.</p>
 </div>
-<p>Now, consider a simple case, where the random variable <span class="math inline">\(y\)</span> follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value $z=y_1 + y_2 + y_3 + + y_n = _{j=1}^n y_j $, i.e. the convolution of <span class="math inline">\(n\)</span> Uniform distributions. Figure <a href="CLT.html#fig:uniformPMFCombinedN">6.4</a> shows how the convolved distributions look for <span class="math inline">\(n=1\)</span> (one die), <span class="math inline">\(n=2\)</span> (two dice), <span class="math inline">\(n=4\)</span> and <span class="math inline">\(n=8\)</span>.</p>
+<p>Now, consider a simple case, where the random variable <span class="math inline">\(y\)</span> follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value <span class="math inline">\(z = y_1 + y_2 + y_3 + \dots + y_n = \sum_{j=1}^n y_j\)</span>, i.e. the convolution of <span class="math inline">\(n\)</span> Uniform distributions. Figure <a href="CLT.html#fig:uniformPMFCombinedN">6.4</a> shows how the convolved distributions look for <span class="math inline">\(n=1\)</span> (one die), <span class="math inline">\(n=2\)</span> (two dice), <span class="math inline">\(n=4\)</span> and <span class="math inline">\(n=8\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFCombinedN"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/uniformPMFCombinedN-1.png" alt="Probability Mass Function of the sum of n Uniform distributions for 1d6." width="672" />
 <p class="caption">
@@ -532,7 +532,7 @@ Figure 6.6: Probability Density Function of the sum of n Laplace distributions, 
 </div>
 <p>But similarly to the example with the Log-Normal distribution, we see that the convolution of the Laplace distributions converges to the Normal one with the increase of the sample size. In fact, this happens much faster than in the case of the Log-Normal, and for the sample of 16 observations, the distributions already look very similar.</p>
 <div class="remark">
-<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). The higher it is, the longer it would take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.</p>
+<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). In general, the higher it is for a distribution, the longer it will take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.</p>
 </div>
 <p>Next, we consider the situation where the distributions are <strong>not identical</strong>. Figure <a href="CLT.html#fig:nonidentPDFCombinedN">6.7</a> shows the convolution of several continuous distributions (with randomly selected parameters):</p>
 <ul>
