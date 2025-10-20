@@ -1,5 +1,20 @@
-# Preliminary data analysis {#dataAnalysis}
-One of the basic thing that is worth doing before starting any modelling is the preliminary data analysis. This can be done either using numerical or graphical analysis. The former is useful when you want to have a summary information about the data without trying to find detailed information about it. The latter is useful when you can spend more time, investigating relations and issues in the data. In many cases, they compliment each other.
+# Data handling and analysis {#dataAnalysis}
+Take any of the examples discussed in Chapters \@ref(countDistributions) and \@ref(distributions). How do we know the true parameter of a distribution? For example, how can we get the arrival rate of patients for the Poisson distribution in the example from Section \@ref(distributionPoisson)? There usually is only one way to get the value - collect the data and estimate it.
+
+::: remark
+While one can also use judgment to set specific values, in general such estimates contain biases and should only be used if no data is available for the analysis.
+:::
+
+Furthermore, in some cases we need to get an idea about the distribution of values for further analysis and to have a feeling about the potential relation between the variables.
+
+How can we do all of that?
+
+In this chapter, we discuss what the potential issues with the data can be, how we can clean it, and what sort of basic preliminary analysis we can do based on data to get some estimates of parameters, which we can then use for a more advanced analysis. The latter can be done either using numerical or graphical methods. The numerical one is useful when you want to have a summary information about the data, while the graphical is useful when you can spend more time, investigating relations and issues in the data. In many cases, they complement each other.
+
+::: remark
+We do not recommend to end your work with just preliminary data analysis. Usually, this is just a first step to get a better understanding of the dataset, which can then be followed by model construction (discussed in Chapters \@ref(simpleLinearRegression) and \@ref(linearRegression)).
+:::
+
 
 ## Numerical analysis {#dataAnalysisNumerical}
 In this section we will use the classical `mtcars` dataset from `datasets` package for R. It contains 32 observations with 11 variables. While all the variables are numerical, some of them are in fact categorical variables encoded as binary ones. We can check the description of the dataset in R:
