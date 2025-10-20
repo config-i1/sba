@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6.1 An Introduction to Sampling | Statistics for Business Analytics</title>
+  <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6.1 An Introduction to Sampling | Statistics for Business Analytics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  <meta name="github-repo" content="config-i1/sba" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6.1 An Introduction to Sampling | Statistics for Business Analytics" />
+  
+  <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
+  
+
+<meta name="author" content="Ivan Svetunkov" />
+
+
+<meta name="date" content="2025-10-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="PopulationSampling.html"/>
+<link rel="next" href="LLN.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script async defer src="https://hypothes.is/embed.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-98538X2YLT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-98538X2YLT');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics for Business Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="what-is-model.html"><a href="what-is-model.html"><i class="fa fa-check"></i><b>1.1</b> What is model?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="what-is-model.html"><a href="what-is-model.html#modelsMethods"><i class="fa fa-check"></i><b>1.1.1</b> Models, methods et al. </a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>1.2</b> Scales of information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="scales.html"><a href="scales.html#nominal-scale"><i class="fa fa-check"></i><b>1.2.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="1.2.2" data-path="scales.html"><a href="scales.html#ordinal-scale"><i class="fa fa-check"></i><b>1.2.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="1.2.3" data-path="scales.html"><a href="scales.html#interval-scale"><i class="fa fa-check"></i><b>1.2.3</b> Interval scale</a></li>
+<li class="chapter" data-level="1.2.4" data-path="scales.html"><a href="scales.html#ratio-scale"><i class="fa fa-check"></i><b>1.2.4</b> Ratio scale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="typesOfData.html"><a href="typesOfData.html"><i class="fa fa-check"></i><b>1.3</b> Types of data</a></li>
+<li class="chapter" data-level="1.4" data-path="sourcesOfUncertainty.html"><a href="sourcesOfUncertainty.html"><i class="fa fa-check"></i><b>1.4</b> Sources of uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probabilityTheory.html"><a href="probabilityTheory.html"><i class="fa fa-check"></i><b>2</b> Probability theory</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="whatIsProbability.html"><a href="whatIsProbability.html"><i class="fa fa-check"></i><b>2.1</b> What is probability?</a></li>
+<li class="chapter" data-level="2.2" data-path="whatIsRandomVariable.html"><a href="whatIsRandomVariable.html"><i class="fa fa-check"></i><b>2.2</b> What is random variable?</a></li>
+<li class="chapter" data-level="2.3" data-path="probabilityAddition.html"><a href="probabilityAddition.html"><i class="fa fa-check"></i><b>2.3</b> The Addition Law: Calculating “OR” Probability</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="probabilityAddition.html"><a href="probabilityAddition.html#the-general-addition-law"><i class="fa fa-check"></i><b>2.3.1</b> The General Addition Law</a></li>
+<li class="chapter" data-level="2.3.2" data-path="probabilityAddition.html"><a href="probabilityAddition.html#special-case-mutually-exclusive-events"><i class="fa fa-check"></i><b>2.3.2</b> Special Case: Mutually Exclusive Events</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html"><i class="fa fa-check"></i><b>2.4</b> Multiplication of probabilities: Calculating “AND” Probability</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#independent-events"><i class="fa fa-check"></i><b>2.4.1</b> Independent Events</a></li>
+<li class="chapter" data-level="2.4.2" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#dependent-events-and-conditional-probability"><i class="fa fa-check"></i><b>2.4.2</b> Dependent Events and Conditional Probability</a></li>
+<li class="chapter" data-level="2.4.3" data-path="probabilityMultiplication.html"><a href="probabilityMultiplication.html#general-multiplication-law"><i class="fa fa-check"></i><b>2.4.3</b> General Multiplication Law</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="totalProbability.html"><a href="totalProbability.html"><i class="fa fa-check"></i><b>2.5</b> The Law of Total Probability</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="totalProbability.html"><a href="totalProbability.html#example-faulty-goods-in-a-factory"><i class="fa fa-check"></i><b>2.5.1</b> Example: Faulty Goods in a Factory</a></li>
+<li class="chapter" data-level="2.5.2" data-path="totalProbability.html"><a href="totalProbability.html#formalising-the-law-of-total-probability"><i class="fa fa-check"></i><b>2.5.2</b> Formalising the Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="BayesTheorem.html"><a href="BayesTheorem.html"><i class="fa fa-check"></i><b>2.6</b> Bayes’ theorem</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="BayesTheorem.html"><a href="BayesTheorem.html#mathematical-derivation"><i class="fa fa-check"></i><b>2.6.1</b> Mathematical derivation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="countDistributions.html"><a href="countDistributions.html"><i class="fa fa-check"></i><b>3</b> Discrete distributions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="what-is-discrete-distribution.html"><a href="what-is-discrete-distribution.html"><i class="fa fa-check"></i><b>3.1</b> What is discrete distribution?</a></li>
+<li class="chapter" data-level="3.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html"><i class="fa fa-check"></i><b>3.2</b> Expected value and variance of a random variable</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#daily-car-sales-at-dicarlo-motors"><i class="fa fa-check"></i><b>3.2.1</b> Daily Car Sales at DiCarlo Motors</a></li>
+<li class="chapter" data-level="3.2.2" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-expected-value-the-mean"><i class="fa fa-check"></i><b>3.2.2</b> Calculating the Expected Value (The Mean)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="rvExpectationAndVariance.html"><a href="rvExpectationAndVariance.html#calculating-the-variance-and-standard-deviation"><i class="fa fa-check"></i><b>3.2.3</b> Calculating the Variance and Standard Deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="distributionBernoulli.html"><a href="distributionBernoulli.html"><i class="fa fa-check"></i><b>3.3</b> Bernoulli distribution (Tossing a coin)</a></li>
+<li class="chapter" data-level="3.4" data-path="distributionBinomial.html"><a href="distributionBinomial.html"><i class="fa fa-check"></i><b>3.4</b> Binomial distribution (Multiple coin tosses)</a></li>
+<li class="chapter" data-level="3.5" data-path="distributionPoisson.html"><a href="distributionPoisson.html"><i class="fa fa-check"></i><b>3.5</b> Poisson distribution (Modelling arrivals)</a></li>
+<li class="chapter" data-level="3.6" data-path="distributionUniform.html"><a href="distributionUniform.html"><i class="fa fa-check"></i><b>3.6</b> Discrete Uniform distribution (Rolling a dice)</a></li>
+<li class="chapter" data-level="3.7" data-path="distributionNegBin.html"><a href="distributionNegBin.html"><i class="fa fa-check"></i><b>3.7</b> Negative Binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="distributions.html"><a href="distributions.html"><i class="fa fa-check"></i><b>4</b> Continuous distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="distributionsContinuousWhat.html"><a href="distributionsContinuousWhat.html"><i class="fa fa-check"></i><b>4.1</b> What is continuous distribution?</a></li>
+<li class="chapter" data-level="4.2" data-path="distributionsUniformContinuous.html"><a href="distributionsUniformContinuous.html"><i class="fa fa-check"></i><b>4.2</b> Continuous Uniform distribution</a></li>
+<li class="chapter" data-level="4.3" data-path="distributionsNormal.html"><a href="distributionsNormal.html"><i class="fa fa-check"></i><b>4.3</b> Normal distribution</a></li>
+<li class="chapter" data-level="4.4" data-path="distributionLogNormal.html"><a href="distributionLogNormal.html"><i class="fa fa-check"></i><b>4.4</b> Log-Normal distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="distributionsExponential.html"><a href="distributionsExponential.html"><i class="fa fa-check"></i><b>4.5</b> Exponential distribution</a></li>
+<li class="chapter" data-level="4.6" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html"><i class="fa fa-check"></i><b>4.6</b> Convolution of distributions</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionDiscrete"><i class="fa fa-check"></i><b>4.6.1</b> Convolution of two discrete distributions</a></li>
+<li class="chapter" data-level="4.6.2" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionContinuous"><i class="fa fa-check"></i><b>4.6.2</b> Convolution of two continuous distributions</a></li>
+<li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
+<li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-categoricaldiscrete-variable"><i class="fa fa-check"></i><b>5.2.1</b> One categorical/discrete variable</a></li>
+<li class="chapter" data-level="5.2.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-categoricaldiscrete-variables"><i class="fa fa-check"></i><b>5.2.2</b> Two categorical/discrete variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#one-numerical-continuous-variable"><i class="fa fa-check"></i><b>5.2.3</b> One numerical continuous variable</a></li>
+<li class="chapter" data-level="5.2.4" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#two-continuous-numerical-variables"><i class="fa fa-check"></i><b>5.2.4</b> Two continuous numerical variables</a></li>
+<li class="chapter" data-level="5.2.5" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#a-mixture-of-variables"><i class="fa fa-check"></i><b>5.2.5</b> A mixture of variables</a></li>
+<li class="chapter" data-level="5.2.6" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html#plot-for-several-variables"><i class="fa fa-check"></i><b>5.2.6</b> Plot for several variables</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="PopulationSampling.html"><a href="PopulationSampling.html"><i class="fa fa-check"></i><b>6</b> Population and sampling</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sampling.html"><a href="sampling.html"><i class="fa fa-check"></i><b>6.1</b> An Introduction to Sampling</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="sampling.html"><a href="sampling.html#the-wisdom-and-folly-of-crowds"><i class="fa fa-check"></i><b>6.1.1</b> The Wisdom and Folly of Crowds</a></li>
+<li class="chapter" data-level="6.1.2" data-path="sampling.html"><a href="sampling.html#populations-samples-parameters-and-statistics"><i class="fa fa-check"></i><b>6.1.2</b> Populations, Samples, Parameters, and Statistics</a></li>
+<li class="chapter" data-level="6.1.3" data-path="sampling.html"><a href="sampling.html#sampleSimpleRandom"><i class="fa fa-check"></i><b>6.1.3</b> Simple Random Sampling (SRS)</a></li>
+<li class="chapter" data-level="6.1.4" data-path="sampling.html"><a href="sampling.html#sampleSystematic"><i class="fa fa-check"></i><b>6.1.4</b> Systematic Sampling</a></li>
+<li class="chapter" data-level="6.1.5" data-path="sampling.html"><a href="sampling.html#stratified-sampling"><i class="fa fa-check"></i><b>6.1.5</b> Stratified Sampling</a></li>
+<li class="chapter" data-level="6.1.6" data-path="sampling.html"><a href="sampling.html#cluster-sampling"><i class="fa fa-check"></i><b>6.1.6</b> Cluster Sampling</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sampling.html"><a href="sampling.html#quota-sampling"><i class="fa fa-check"></i><b>6.1.7</b> Quota Sampling</a></li>
+<li class="chapter" data-level="6.1.8" data-path="sampling.html"><a href="sampling.html#convenience-sampling"><i class="fa fa-check"></i><b>6.1.8</b> Convenience Sampling</a></li>
+<li class="chapter" data-level="6.1.9" data-path="sampling.html"><a href="sampling.html#voluntary-response-sampling"><i class="fa fa-check"></i><b>6.1.9</b> Voluntary Response Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="LLN.html"><a href="LLN.html"><i class="fa fa-check"></i><b>6.2</b> Law of Large Numbers</a></li>
+<li class="chapter" data-level="6.3" data-path="CLT.html"><a href="CLT.html"><i class="fa fa-check"></i><b>6.3</b> Central Limit Theorem</a></li>
+<li class="chapter" data-level="6.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html"><i class="fa fa-check"></i><b>6.4</b> Properties of estimators</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesBias"><i class="fa fa-check"></i><b>6.4.1</b> Bias</a></li>
+<li class="chapter" data-level="6.4.2" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesEfficiency"><i class="fa fa-check"></i><b>6.4.2</b> Efficiency</a></li>
+<li class="chapter" data-level="6.4.3" data-path="estimatesProperties.html"><a href="estimatesProperties.html#estimatesPropertiesConsistency"><i class="fa fa-check"></i><b>6.4.3</b> Consistency</a></li>
+<li class="chapter" data-level="6.4.4" data-path="estimatesProperties.html"><a href="estimatesProperties.html#asymptoticNormality"><i class="fa fa-check"></i><b>6.4.4</b> Asymptotic normality</a></li>
+<li class="chapter" data-level="6.4.5" data-path="estimatesProperties.html"><a href="estimatesProperties.html#efficiencyVSBias"><i class="fa fa-check"></i><b>6.4.5</b> Why having biased estimate can be better than having the inefficient one?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="confidenceInterval.html"><a href="confidenceInterval.html"><i class="fa fa-check"></i><b>6.5</b> Confidence interval</a></li>
+<li class="chapter" data-level="6.6" data-path="predictionInterval.html"><a href="predictionInterval.html"><i class="fa fa-check"></i><b>6.6</b> Prediction interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="hypothesisTesting.html"><a href="hypothesisTesting.html"><i class="fa fa-check"></i><b>7</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html"><i class="fa fa-check"></i><b>7.1</b> Basic idea</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="hypothesisTestingBasics.html"><a href="hypothesisTestingBasics.html#hypothesisTestingMistakes"><i class="fa fa-check"></i><b>7.1.1</b> Common mistakes related to hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="typeErrors.html"><a href="typeErrors.html"><i class="fa fa-check"></i><b>7.2</b> Errors of types 0, I and II</a></li>
+<li class="chapter" data-level="7.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html"><i class="fa fa-check"></i><b>7.3</b> Power of a test</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#visual-explanation"><i class="fa fa-check"></i><b>7.3.1</b> Visual explanation</a></li>
+<li class="chapter" data-level="7.3.2" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#PowerMathematical"><i class="fa fa-check"></i><b>7.3.2</b> Mathematical explantion</a></li>
+<li class="chapter" data-level="7.3.3" data-path="powerOfTheTest.html"><a href="powerOfTheTest.html#expected-power-of-a-test"><i class="fa fa-check"></i><b>7.3.3</b> Expected power of a test</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="significance.html"><a href="significance.html"><i class="fa fa-check"></i><b>7.4</b> Statistical and practical significance</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="statisticalTests.html"><a href="statisticalTests.html"><i class="fa fa-check"></i><b>8</b> Statistical tests</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html"><i class="fa fa-check"></i><b>8.1</b> One-sample tests about mean</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanZ"><i class="fa fa-check"></i><b>8.1.1</b> z-test</a></li>
+<li class="chapter" data-level="8.1.2" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#statisticalTestsOneSampleMeanT"><i class="fa fa-check"></i><b>8.1.2</b> t-test</a></li>
+<li class="chapter" data-level="8.1.3" data-path="statisticalTestsOneSampleMean.html"><a href="statisticalTestsOneSampleMean.html#non-parametric-one-sample-wilcoxon-test"><i class="fa fa-check"></i><b>8.1.3</b> Non-parametric, one-sample Wilcoxon test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="statisticalTestsOneSampleVariance.html"><a href="statisticalTestsOneSampleVariance.html"><i class="fa fa-check"></i><b>8.2</b> One-sample test about variance</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>9</b> Measuring relations between variables</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="correlationsNominal.html"><a href="correlationsNominal.html"><i class="fa fa-check"></i><b>9.1</b> Nominal scale</a></li>
+<li class="chapter" data-level="9.2" data-path="ordinal-scale-1.html"><a href="ordinal-scale-1.html"><i class="fa fa-check"></i><b>9.2</b> Ordinal scale</a></li>
+<li class="chapter" data-level="9.3" data-path="correlationCoefficient.html"><a href="correlationCoefficient.html"><i class="fa fa-check"></i><b>9.3</b> Numerical scale</a></li>
+<li class="chapter" data-level="9.4" data-path="correlationsMixed.html"><a href="correlationsMixed.html"><i class="fa fa-check"></i><b>9.4</b> Mixed scales</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="simpleLinearRegression.html"><a href="simpleLinearRegression.html"><i class="fa fa-check"></i><b>10</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="OLS.html"><a href="OLS.html"><i class="fa fa-check"></i><b>10.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="10.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html"><i class="fa fa-check"></i><b>10.2</b> Covariance, correlation and SLR</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="SLRCovariance.html"><a href="SLRCovariance.html#covariance"><i class="fa fa-check"></i><b>10.2.1</b> Covariance</a></li>
+<li class="chapter" data-level="10.2.2" data-path="SLRCovariance.html"><a href="SLRCovariance.html#SLRCovarianceCor"><i class="fa fa-check"></i><b>10.2.2</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="OLSResiduals.html"><a href="OLSResiduals.html"><i class="fa fa-check"></i><b>10.3</b> Residuals of model estimated via OLS</a></li>
+<li class="chapter" data-level="10.4" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html"><i class="fa fa-check"></i><b>10.4</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#linearRegressionSimpleQualityOfFitSSE"><i class="fa fa-check"></i><b>10.4.1</b> Sums of squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="linearRegressionSimpleQualityOfFit.html"><a href="linearRegressionSimpleQualityOfFit.html#coefficient-of-determination-r2"><i class="fa fa-check"></i><b>10.4.2</b> Coefficient of determination, R<span class="math inline">\(^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="what-about-the-timber-lend-company.html"><a href="what-about-the-timber-lend-company.html"><i class="fa fa-check"></i><b>10.5</b> What about the “Timber Lend” company?</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="linearRegression.html"><a href="linearRegression.html"><i class="fa fa-check"></i><b>11</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.0.1" data-path="linearRegression.html"><a href="linearRegression.html#TrueModel"><i class="fa fa-check"></i><b>11.0.1</b> A couple of notes about the “true” model</a></li>
+<li class="chapter" data-level="11.1" data-path="OLSMLR.html"><a href="OLSMLR.html"><i class="fa fa-check"></i><b>11.1</b> OLS estimation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="OLSMLR.html"><a href="OLSMLR.html#application"><i class="fa fa-check"></i><b>11.1.1</b> Application</a></li>
+<li class="chapter" data-level="11.1.2" data-path="OLSMLR.html"><a href="OLSMLR.html#OLSMLRMaths"><i class="fa fa-check"></i><b>11.1.2</b> A bit of maths</a></li>
+<li class="chapter" data-level="11.1.3" data-path="OLSMLR.html"><a href="OLSMLR.html#properties-of-the-ols-estimators"><i class="fa fa-check"></i><b>11.1.3</b> Properties of the OLS Estimators</a></li>
+<li class="chapter" data-level="11.1.4" data-path="OLSMLR.html"><a href="OLSMLR.html#GaussMarkov"><i class="fa fa-check"></i><b>11.1.4</b> Gauss-Markov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html"><i class="fa fa-check"></i><b>11.2</b> Quality of a fit</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="linearRegressionMultipleQualityOfFit.html"><a href="linearRegressionMultipleQualityOfFit.html#common-mistakes-related-to-quality-of-a-fit"><i class="fa fa-check"></i><b>11.2.1</b> Common mistakes related to quality of a fit</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="linearRegressionInterpretation.html"><a href="linearRegressionInterpretation.html"><i class="fa fa-check"></i><b>11.3</b> Interpretation of parameters</a></li>
+<li class="chapter" data-level="11.4" data-path="linearRegressionPrediction.html"><a href="linearRegressionPrediction.html"><i class="fa fa-check"></i><b>11.4</b> Prediction with regression</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="uncertaintyRegression.html"><a href="uncertaintyRegression.html"><i class="fa fa-check"></i><b>12</b> Uncertainty in regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html"><i class="fa fa-check"></i><b>12.1</b> Covariance matrix of parameters</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#bootstrap-based-matrix"><i class="fa fa-check"></i><b>12.1.1</b> Bootstrap-based matrix</a></li>
+<li class="chapter" data-level="12.1.2" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#analytical-solution"><i class="fa fa-check"></i><b>12.1.2</b> Analytical solution</a></li>
+<li class="chapter" data-level="12.1.3" data-path="uncertaintyRegressionCov.html"><a href="uncertaintyRegressionCov.html#uncertaintyRegressionCovMaths"><i class="fa fa-check"></i><b>12.1.3</b> Mathematical derivation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="uncertaintyRegressionCI.html"><a href="uncertaintyRegressionCI.html"><i class="fa fa-check"></i><b>12.2</b> Confidence intervals of parameters</a></li>
+<li class="chapter" data-level="12.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html"><i class="fa fa-check"></i><b>12.3</b> Regression line related uncertainty</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineConfidence"><i class="fa fa-check"></i><b>12.3.1</b> Confidence interval</a></li>
+<li class="chapter" data-level="12.3.2" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLinePrediction"><i class="fa fa-check"></i><b>12.3.2</b> Prediction interval</a></li>
+<li class="chapter" data-level="12.3.3" data-path="uncertaintyRegressionLine.html"><a href="uncertaintyRegressionLine.html#uncertaintyRegressionLineMaths"><i class="fa fa-check"></i><b>12.3.3</b> Derivations of the variance in regression</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html"><i class="fa fa-check"></i><b>12.4</b> Hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-parameters"><i class="fa fa-check"></i><b>12.4.1</b> Regression parameters</a></li>
+<li class="chapter" data-level="12.4.2" data-path="uncertaintyRegressionHypothesis.html"><a href="uncertaintyRegressionHypothesis.html#regression-line"><i class="fa fa-check"></i><b>12.4.2</b> Regression line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="dummyVariables.html"><a href="dummyVariables.html"><i class="fa fa-check"></i><b>13</b> Regression with categorical variables</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html"><i class="fa fa-check"></i><b>13.1</b> Dummy variables for the intercept</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#dummy-variables-trap"><i class="fa fa-check"></i><b>13.1.1</b> Dummy variables trap</a></li>
+<li class="chapter" data-level="13.1.2" data-path="dummy-variables-for-the-intercept.html"><a href="dummy-variables-for-the-intercept.html#what-about-the-variables-in-the-ordinal-scale"><i class="fa fa-check"></i><b>13.1.2</b> What about the variables in the ordinal scale?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="categorical-variables-for-the-slope.html"><a href="categorical-variables-for-the-slope.html"><i class="fa fa-check"></i><b>13.2</b> Categorical variables for the slope</a></li>
+<li class="chapter" data-level="13.3" data-path="a-bit-of-maths.html"><a href="a-bit-of-maths.html"><i class="fa fa-check"></i><b>13.3</b> A bit of maths</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="variablesTransformations.html"><a href="variablesTransformations.html"><i class="fa fa-check"></i><b>14</b> Variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="example-of-application.html"><a href="example-of-application.html"><i class="fa fa-check"></i><b>14.1</b> Example of application</a></li>
+<li class="chapter" data-level="14.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html"><i class="fa fa-check"></i><b>14.2</b> Types of variables transformations</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-model"><i class="fa fa-check"></i><b>14.2.1</b> Linear model</a></li>
+<li class="chapter" data-level="14.2.2" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-log-model"><i class="fa fa-check"></i><b>14.2.2</b> Log-Log model</a></li>
+<li class="chapter" data-level="14.2.3" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#log-linear-model"><i class="fa fa-check"></i><b>14.2.3</b> Log-linear model</a></li>
+<li class="chapter" data-level="14.2.4" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#linear-log-model"><i class="fa fa-check"></i><b>14.2.4</b> Linear-Log model</a></li>
+<li class="chapter" data-level="14.2.5" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#square-root-model"><i class="fa fa-check"></i><b>14.2.5</b> Square root model</a></li>
+<li class="chapter" data-level="14.2.6" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#quadratic-model"><i class="fa fa-check"></i><b>14.2.6</b> Quadratic model</a></li>
+<li class="chapter" data-level="14.2.7" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#polynomial-model"><i class="fa fa-check"></i><b>14.2.7</b> Polynomial model</a></li>
+<li class="chapter" data-level="14.2.8" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#box-cox-transform"><i class="fa fa-check"></i><b>14.2.8</b> Box-Cox transform</a></li>
+<li class="chapter" data-level="14.2.9" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#logistic-transform"><i class="fa fa-check"></i><b>14.2.9</b> Logistic transform</a></li>
+<li class="chapter" data-level="14.2.10" data-path="types-of-variables-transformations.html"><a href="types-of-variables-transformations.html#summary"><i class="fa fa-check"></i><b>14.2.10</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="assumptions.html"><a href="assumptions.html"><i class="fa fa-check"></i><b>15</b> Statistical models assumptions</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html"><i class="fa fa-check"></i><b>15.1</b> Model is correctly specified</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOmitted"><i class="fa fa-check"></i><b>15.1.1</b> Omitted variables</a></li>
+<li class="chapter" data-level="15.1.2" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelRedundant"><i class="fa fa-check"></i><b>15.1.2</b> Redundant variables</a></li>
+<li class="chapter" data-level="15.1.3" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelTransformations"><i class="fa fa-check"></i><b>15.1.3</b> Transformations</a></li>
+<li class="chapter" data-level="15.1.4" data-path="assumptionsCorrectModel.html"><a href="assumptionsCorrectModel.html#assumptionsCorrectModelOutliers"><i class="fa fa-check"></i><b>15.1.4</b> Outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html"><i class="fa fa-check"></i><b>15.2</b> Residuals are i.i.d.</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDAutocorrelations"><i class="fa fa-check"></i><b>15.2.1</b> No autocorrelations</a></li>
+<li class="chapter" data-level="15.2.2" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDHomoscedasticity"><i class="fa fa-check"></i><b>15.2.2</b> Homoscedastic residuals</a></li>
+<li class="chapter" data-level="15.2.3" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsResidualsAreIIDMean"><i class="fa fa-check"></i><b>15.2.3</b> Mean of residuals</a></li>
+<li class="chapter" data-level="15.2.4" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistribution"><i class="fa fa-check"></i><b>15.2.4</b> Distributional assumptions</a></li>
+<li class="chapter" data-level="15.2.5" data-path="assumptionsResidualsAreIID.html"><a href="assumptionsResidualsAreIID.html#assumptionsDistributionFixed"><i class="fa fa-check"></i><b>15.2.5</b> Distribution does not change</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html"><i class="fa fa-check"></i><b>15.3</b> The explanatory variables are not correlated with anything but the response variable</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregMulti"><i class="fa fa-check"></i><b>15.3.1</b> Multicollinearity</a></li>
+<li class="chapter" data-level="15.3.2" data-path="assumptionsXreg.html"><a href="assumptionsXreg.html#assumptionsXregEndogeneity"><i class="fa fa-check"></i><b>15.3.2</b> Endogeneity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="likelihoodApproach.html"><a href="likelihoodApproach.html"><i class="fa fa-check"></i><b>16</b> Likelihood Approach</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="likelihoodInR.html"><a href="likelihoodInR.html"><i class="fa fa-check"></i><b>16.1</b> An example in R</a></li>
+<li class="chapter" data-level="16.2" data-path="likelihoodApproachMaths.html"><a href="likelihoodApproachMaths.html"><i class="fa fa-check"></i><b>16.2</b> Mathematical explanation</a></li>
+<li class="chapter" data-level="16.3" data-path="statisticsNumberOfParameters.html"><a href="statisticsNumberOfParameters.html"><i class="fa fa-check"></i><b>16.3</b> Calculating number of parameters in models</a></li>
+<li class="chapter" data-level="16.4" data-path="informationCriteria.html"><a href="informationCriteria.html"><i class="fa fa-check"></i><b>16.4</b> Information criteria</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaIdea"><i class="fa fa-check"></i><b>16.4.1</b> The idea</a></li>
+<li class="chapter" data-level="16.4.2" data-path="informationCriteria.html"><a href="informationCriteria.html#informationCriteriaMistakes"><i class="fa fa-check"></i><b>16.4.2</b> Common confusions related to information criteria</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="uncertaintyModel.html"><a href="uncertaintyModel.html"><i class="fa fa-check"></i><b>17</b> Uncertainty about the model form</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>17.1</b> Bias-variance tradeoff</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#graphical-explanation"><i class="fa fa-check"></i><b>17.1.1</b> Graphical explanation</a></li>
+<li class="chapter" data-level="17.1.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#mathematical-explanation"><i class="fa fa-check"></i><b>17.1.2</b> Mathematical explanation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics for Business Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
+</div>
+<div id="sampling" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> An Introduction to Sampling<a href="sampling.html#sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider an example of a tyre manufacturer wanting to know the average lifetime of a new product line. How can they make sure that their tyres meet the expectations? Testing every single tyre to failure would be practically impossible and would leave nothing to sell. They have to rely on a sample of data, i.e. some small proportion of the whole, which is <em>representative</em> enough to capture the desired statistics correctly.</p>
+<p>Another example, is a government health agency needing weekly updates on infection rates; surveying every single citizen is simply impossible from a time and cost perspective. In this case, the only way forward is also to collect a sample from the overall population of citizens. And by examining a carefully selected fraction of a population, we can make remarkably accurate and reliable inferences about the whole.</p>
+<div id="the-wisdom-and-folly-of-crowds" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> The Wisdom and Folly of Crowds<a href="sampling.html#the-wisdom-and-folly-of-crowds" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before diving into formal definitions and mathematical principles, consider an example of how sampling works in a real-world context. Back in 2021, we conducted a simple survey among a sample of students at the university, asking them to estimate the price of a typical AAA computer game. Not everyone knew what this was, but they were asked nonetheless to guess. This way we collected a sample of responses hoping to demonstrate sampling principles.</p>
+<p>Based on the responses we calculated the following summary statistics:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="sampling.html#cb68-1" tabindex="-1"></a><span class="fu">summary</span>(sampling_survey<span class="sc">$</span>AAAPrice)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2.00   30.00   50.00   86.74   73.00 1000.00</code></pre>
+<p>At first glance, the sample mean of £86.42 seems unusually high. If we consider the prices of popular titles like Witcher 3 (£50) and Grand Theft Auto V (£40) at the time we would say that the average price for the AAA game was somewhere between £40-£50. But why is there such a large discrepancy between the students’ estimate and the reality?</p>
+<p>The answer lies in the distribution of the data. The sample mean is a poor indicator in this example because the distribution of price estimates is highly skewed. The presence of extreme outliers, most notably the maximum value of £1000.00, has pulled the mean significantly higher than the central tendency of the data. Furthermore, the sample itself was not very large, it was just 50 observations, and because of that the impact of one large outlier would distort the estimate substantially. The median, at £50.00, however, provides a much more reasonable and representative estimate of the “typical” price because it is not influenced by outliers as much as the mean.</p>
+<p>This example also shows that the quality of a sample can depend greatly on the knowledge of the participants. In this survey, students who regularly played computer games provided more precise estimates. Their responses were characterized by a lower mean and, crucially, lower variance. In contrast, the price estimates from those who did not play computer games had a much more skewed distribution, contributing to the outliers that distorted the overall sample mean. Figure <a href="sampling.html#fig:boxplotsAAAPrice">6.1</a> shows the distribution of estimated prices between the two groups.</p>
+<div class="figure"><span style="display:block;" id="fig:boxplotsAAAPrice"></span>
+<img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/boxplotsAAAPrice-1.png" alt="Distribution of responses about the AAA computer games prices." width="672" />
+<p class="caption">
+Figure 6.1: Distribution of responses about the AAA computer games prices.
+</p>
+</div>
+<p>What this example shows is that the sampling of data plays an essential role in estimating specific parameters. To get a better estimate of the average AAA game price in our case, we either need to have a sample of people that know what it is (i.e. play computer games), or have a much larger sample, for which the outliers would not be as influential as in our example.</p>
+<div class="remark">
+<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>This example also demonstrates an interesting effect, observed real life: the estimates given by group of people tend to converge to the true value, as long as the group is either well informed or large enough. This effect is called in the literature “Wisdom of a crowd”.</p>
+</div>
+</div>
+<div id="populations-samples-parameters-and-statistics" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Populations, Samples, Parameters, and Statistics<a href="sampling.html#populations-samples-parameters-and-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Moving from the specific case, to more general concept, we can define several important terms. A <strong>population</strong> is the entire group of individuals or objects about which we want to draw conclusions. In the example with AAA games, our population would be all the students at the university. Given that there are around 10,000 of those, asking opinion of everyone would be infeasible, so we only asked 55 of those, forming a sample. A <strong>sample</strong> is a subset or a small fraction of the population that is selected for examination. Samples can be collected differently, and there are many techniques of doing that, guaranteeing good statistical properties. But whatever you do, we should note that the values we calculate (oe <em>estimate</em>, e.g. arithmetic mean), would always have randomness in them due to sample being just a small portion of the population. If we change the sample or increase it by collecting more observations, the calculated values would change as well. This is a fundamental law of statistics, which needs to be considered whenever we make sample-based inference.</p>
+<p>If we use sound sampling techniques, the estimates of parameters will have good statistical properties (discussed in the following sections of this chapter). The sample in this case would be called “<strong>representative</strong>”, i.e. it is a subset of a population that accurately reflects the characteristics, proportions, and diversity of the entire population from which it is drawn. Critically, sample size alone never compensates for lack of representativeness. A large but biased sample remains unrepresentative, while a smaller, properly selected sample can yield accurate inferences. The key distinction is that while no single sample is guaranteed to be perfectly representative, proper probability sampling methods guarantee representative samples “over the long run” across many samples.</p>
+<p>There are several sampling techniques, the most common and foundational of which is the <strong>simple random sample</strong>. Below, we briefly discuss some of them, outlining their advantages and disadvantages.</p>
+</div>
+<div id="sampleSimpleRandom" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Simple Random Sampling (SRS)<a href="sampling.html#sampleSimpleRandom" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Simple Random Sample (SRS) is the method useful when we deal with cross-sectional data, designed specifically to produce representative and unbiased samples. It relies on the following three principles:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Equal Probability</strong>: Every individual member of the population must have the same chance of being selected for the sample. This principle ensures that no part of the population is systematically over- or under-represented.</li>
+<li><strong>Independence</strong>: The selection of one member must be independent of the selection of any other member. This means that the choice of one individual has no influence on the choice of any other individual. This prevents biases that can arise from clustering, such as selecting a group of friends who may share similar characteristics.</li>
+<li><strong>Equal Sample Likelihood</strong>: Every member of a sample of a given size <span class="math inline">\(n\)</span> must have the same probability of being selected. This is the most comprehensive condition and ensures that the sampling process is truly and completely random.</li>
+</ol>
+<p>The exact procedure for drawing a simple random sample depends on the nature of the population:</p>
+<ul>
+<li>For an infinite population (or one so large that it can be treated as such), the process is straightforward: one simply draws n values independently.</li>
+<li>For a finite population, the theoretical ideal is sampling with replacement. After an individual is selected, they are returned to the population pool, ensuring that the probability of selection remains constant for every draw and that the selections remain independent.</li>
+</ul>
+<p>In the real world, however, sampling without replacement is far more common: a person is typically not surveyed twice for the same study. When this method is used, the statistical formulae for things like variance may need to be updated with adjustments, such as the “finite population correction factor”, especially if the sample size constitutes a large fraction of the total population size.</p>
+<p><strong>Advantages</strong>: This method represents the purest form of probability sampling with no inherent bias. It provides a solid foundation for statistical inference (see Section <a href="estimatesProperties.html#estimatesProperties">6.4</a>). This is why most textbooks favour simple random sampling in theoretical discussions.</p>
+<p><strong>Disadvantages</strong>: The primary limitation is the requirement to enumerate the entire population, which is often impractical, time-consuming, or impossible. Additionally, simple random sampling is subject to sampling variation: by chance alone, a relatively small sample might be atypical of the population. For instance, when randomly selecting staff members from a company for interviews, you might accidentally select only junior employees, missing the perspectives of senior management entirely, even though the selection mechanism itself was unbiased.</p>
+</div>
+<div id="sampleSystematic" class="section level3 hasAnchor" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Systematic Sampling<a href="sampling.html#sampleSystematic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Systematic sampling involves selecting every <span class="math inline">\(k\)</span>-th element from the population after choosing a random starting point between 1 and <span class="math inline">\(k\)</span>. For example, with <span class="math inline">\(k=100\)</span> and <span class="math inline">\(r=57\)</span>, the sample would include the 57th, 157th, 257th, and so forth.</p>
+<p><strong>Advantages</strong>: This method can be implemented “as you go”, without requiring the complete population list upfront. It is conceptually simple and easy to explain. For example, a museum surveying every 50th visitor or a quality control inspector examining every 100th car produced. Systematic sampling often ensures greater variety than simple random sampling because selections are spread throughout the population. Museum visitors, for example, would be sampled throughout the day rather than potentially clustered at one time.</p>
+<p><strong>Disadvantages</strong>: While every individual has an equal chance of selection, not every combination of individuals does. If one person is chosen, their immediate neighbours cannot be. More critically, systematic sampling can introduce bias if there are periodic patterns in the population. For example, checking newspaper typesetting every 28 days would always sample the same day of the week, potentially missing day-specific patterns.</p>
+</div>
+<div id="stratified-sampling" class="section level3 hasAnchor" number="6.1.5">
+<h3><span class="header-section-number">6.1.5</span> Stratified Sampling<a href="sampling.html#stratified-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In stratified sampling, the population is divided into homogeneous subgroups (strata) based on characteristics such as age, gender, income, or geographic region. Samples are then drawn independently from each stratum, either proportionately (equal sample sizes per stratum) or disproportionately (larger samples from more variable strata).</p>
+<p><strong>Example</strong>: A pie company conducting quality control might stratify by pie type, production factory, and day of the week, creating strata to have specific characteristics. e.g., one of them would be for pork pie, Lancaster factory, Tuesday. This ensures that pies from all combinations of characteristics are represented in the quality assessment.</p>
+<p><strong>Advantages</strong>: Stratified sampling significantly reduces sampling variation and produces more representative samples. It avoids the risk of unusual samples that can occur by chance in simple random sampling and ensures coverage of population variety. The between-stratum variation is captured systematically rather than left to chance, leading to estimators with lower variance and greater confidence in inference.</p>
+<p><strong>Disadvantages</strong>: Stratified sampling requires identifying relevant strata in advance and having information about which stratum each population member belongs to. The effectiveness depends on choosing strata where within-stratum variation is small relative to between-stratum variation. And, for example, stratifying by first letter of surname would be meaningless for most research questions.</p>
+</div>
+<div id="cluster-sampling" class="section level3 hasAnchor" number="6.1.6">
+<h3><span class="header-section-number">6.1.6</span> Cluster Sampling<a href="sampling.html#cluster-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Cluster sampling divides the population into clusters (e.g., geographic regions, schools, product batches), randomly selects some clusters, and then either samples from or includes all members of the selected clusters. There is also multi-stage cluster sampling, which involves selecting clusters within clusters (e.g., counties within provinces, then streets within counties).</p>
+<p><strong>Example</strong>: Surveying households might involve randomly selecting counties, then randomly selecting streets within those counties, and finally randomly selecting households on those streets.</p>
+<p><strong>Advantages</strong>: Cluster sampling is often substantially cheaper and quicker than other methods, particularly when the population is geographically dispersed. It reduces the logistical burden of accessing population members spread across a wide area.</p>
+<p><strong>Disadvantages</strong>: The method assumes that clusters are “mini populations” representative of the whole. If clusters differ systematically, for example, if selected neighbourhoods are predominantly wealthy, the sample will be biased. The quality of inference depends critically on the homogeneity of clusters relative to the overall population.</p>
+</div>
+<div id="quota-sampling" class="section level3 hasAnchor" number="6.1.7">
+<h3><span class="header-section-number">6.1.7</span> Quota Sampling<a href="sampling.html#quota-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Quota sampling combines stratification with convenience sampling. Strata are defined (e.g., age-gender groups), and interviewers fill quotas for each stratum by conveniently selecting individuals until the target number is reached.</p>
+<p><strong>Example</strong>: A high street survey might aim for 100 respondents in each of six age-gender groups: {females &lt; 25}, {25 &lt; females &lt; 50}, {females &gt; 50}, {males &lt; 25}, {25 &lt; males &lt; 50}, {males &gt; 50}. Interviewers approach people until each quota is met.</p>
+<p><strong>Advantages</strong>: Quota sampling is more practical than fully stratified random sampling, particularly in field settings where random selection within strata is difficult. It provides better coverage than pure convenience sampling by ensuring representation across key demographic groups.</p>
+<p><strong>Disadvantages</strong>: Within each stratum, convenience sampling is used, making it very difficult to avoid serious bias. Interviewers might unconsciously select approachable, friendly-looking individuals, or avoid certain neighbourhoods, introducing systematic bias even though quotas are met.</p>
+</div>
+<div id="convenience-sampling" class="section level3 hasAnchor" number="6.1.8">
+<h3><span class="header-section-number">6.1.8</span> Convenience Sampling<a href="sampling.html#convenience-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Convenience sampling involves selecting whoever or whatever is easily accessible, e.g. choosing friendly-looking people in market research, items on top of a pile in quality control, or current customers when seeking feedback about new products.</p>
+<p><strong>Advantages</strong>: It is extremely quick and cheap.</p>
+<p><strong>Disadvantages</strong>: Convenience sampling is highly prone to bias. One of the classical examples involves a student studying M6 motorway traffic who, for convenience, counted only vehicles in the fast lane and concluded there were no lorries on the M6. The sample fundamentally failed to represent the population of interest.</p>
+</div>
+<div id="voluntary-response-sampling" class="section level3 hasAnchor" number="6.1.9">
+<h3><span class="header-section-number">6.1.9</span> Voluntary Response Sampling<a href="sampling.html#voluntary-response-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Voluntary response sampling involves inviting a group to respond, for example, through internet surveys, customer satisfaction questionnaires, or radio phone-in polls.</p>
+<p><strong>Advantages</strong>: This method is cheap and quick to administer.</p>
+<p><strong>Disadvantages</strong>: Response rates can be extremely low (often around 5%), and those who respond are not representative of the population. Individuals with strong opinions (particularly negative ones) are more likely to respond, introducing severe bias. TripAdvisor reviews is an example of this, because dissatisfied customers are disproportionately motivated to leave feedback.</p>
+</div>
+</div>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="PopulationSampling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="LLN.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/config-i1/sba/tree/master/Chapters//06-population-sampling.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Svetunkov---Statistics-for-Business-Analytics.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
