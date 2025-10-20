@@ -662,7 +662,7 @@ legend("topright",legend=c(TeX("$\\mu$"),"bounds",TeX("$1-\\alpha$"),TeX("$\\alp
 
 Figure \@ref(fig:normalCurveIntervals) shows the classical normal distribution curve around the population mean $\mu$, confidence interval of the level $1-\alpha$ and the cut off tails, the overall surface of which corresponds to $\alpha$. The value $1-\alpha$ is called **confidence level**, while $\alpha$ is the **significance level**. By constructing the interval this way, we expect that in the $(1-\alpha)\times 100$% of cases the value will be inside the bounds, and in $\alpha\times 100$% it will not.
 
-In reality we do not know the true mean $\mu$, so we do a slightly different thing: we construct a confidence interval based on the sample mean $\bar{y}$ and sample variance $s^2$, hoping that due to [LLN](#LLNandCLT) they will converge to the true values. We use Normal distribution, because we expect [CLT](#LLNandCLT) to work. This process looks something like in Figure \@ref(fig:normalCurveIntervalsShades), with the bell curve in the background representing the true distribution for the sample mean and the curve on the foreground representing the assumed distribution based on our sample:
+In reality we do not know the true mean $\mu$, so we do a slightly different thing: we construct a confidence interval based on the sample mean $\bar{y}$ and sample variance $s^2$, hoping that due to LLN (Section \@ref(LLN)) they will converge to the true values. We use Normal distribution, because we expect CLT (Section \@ref(CLT)) to work. This process looks something like in Figure \@ref(fig:normalCurveIntervalsShades), with the bell curve in the background representing the true distribution for the sample mean and the curve on the foreground representing the assumed distribution based on our sample:
 
 ```{r normalCurveIntervalsShades, echo=FALSE, fig.cap="Distribution of the sample mean and the confidence interval based on a sample."}
 plot(seq(-5,5,0.1), dnorm(seq(-5,5,0.1),-1), xlab=TeX("$\\bar{y}$"), ylab="Density", type="l", xlim=c(-5,5),
@@ -684,6 +684,9 @@ legend("topright",legend=c(TeX("$\\mu$"),"Sample mean","Bounds","True PDF","Assu
 ```
 
 So, what the confidence interval does in reality is tries to cover the unknown population mean, based on the sample values of $\bar{y}$ and $s^2$. If we construct the confidence interval of the width $1-\alpha$ (e.g. 0.95) for thousands of random samples (thousands of trials), then in $(1-\alpha)\times 100$% of cases (e.g. 95%) the true mean will be covered by the interval, while in $\alpha \times 100$% cases it will not be. The interval itself is random, and we rely on LLN and CLT, when constructing it, expecting for it to work asymptotically, with the increase of the number of trials.
+
+Another way to think about the confidence interval is that it shows the variability of the estimate of the parameter from one sample to another. In the ideal situation of the estimate being consistent and unbiased (Section \@ref(estimatesProperties)), the true value of parameter will be covered by the interval in $(1-\alpha)\times 100$% of cases. If the estimator produces unreliable results, the interval will only show how the estimate changes on average if we change the sample.
+
 
 Mathematically the red bounds in Figure \@ref(fig:normalCurveIntervalsShades) are represented using the following well-known formula for the confidence interval:
 \begin{equation}
