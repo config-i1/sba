@@ -1,5 +1,18 @@
 # Continuous distributions {#distributions}
-After discussing the discrete probability distributions, we can now move to the continuous ones. The idea behind them is similar to the one discussed in Chapter \@ref(countDistributions). In this chapter, we will discuss the main properties of continuous distributions, focusing on several of them, including: Uniform, Normal, Exponential, Laplace, S, Generalised Normal, Asymmetric Laplace, Log Normal, Inverse Gaussian and Gamma.
+Consider a real life inspired situation with a company called "Pep Zone", selling auto parts and supplies, including motor oil. They implemented a simple inventory management system: when their stock of oil drops below 80 litres, they place an order for replenishment. They got in touch with us because they are not sure whether their approach is sensible and they feel that they might be loosing sales because of it.
+
+While this case might sound very distant from statistics, it can be solved directly using the topics discussed in this chapter. This is because the number of litres is a continuous variable, the demand on which can be fractional. If we were to work for a company, we would probably need to look at the distribution of demand on the motor oil and then based on that we could come up with some recommendations.
+
+So, in this chapter we will discuss what is continuous distribution and consider several vital distributions, which are often used in practice:
+
+1. Uniform in Section \@ref(distributionsUniformContinuous);
+2. Normal in Section \@ref(distributionsNormal);
+3. Log-Normal, which is directly connected to (2) in Section \@ref(distributionLogNormal);
+4. Exponential, in Section \@ref(distributionsExponential).
+
+While there exist many more distributions, we cannot discuss all of them and focus only on the most important ones.
+
+Another important topic that we will discuss in this chapter is the convolution of distributions (when several random variables are added up). Understanding the idea behind this is essential in understanding the material from Chapter \@ref(PopulationSampling).
 
 
 ## What is continuous distribution? {#distributionsContinuousWhat}
@@ -14,7 +27,7 @@ axis(side=2)
 axis(side=1, at=yHist$breaks)
 ```
 
-Based on Figure \@ref(fig:distributionContinuousExample), we can say that the probability of obtaining the value between 100 and 105 is higher than for the variable to get any other interval. It also looks like the variable is continuous on the interval between 75 and 125, and we do not observe any values outside of this interval.
+One thing that stands out in the figure in comparison with the ones we saw in Chapter \@ref(countDistributions) is that there are no gaps between the bars. In case of the discrete distributions, the bars demonstrated that the variable can only take specific distinct values. In this case, each bar now represents the interval. For example, based on Figure \@ref(fig:distributionContinuousExample), we can say that the probability of obtaining the value between 100 and 105 is higher than for the variable to get any other interval. It also looks like the variable is continuous on the interval between 75 and 125, and we do not observe any values outside of this interval.
 
 Almost any continuous distribution can be characterised by several functions:
 
