@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -488,7 +488,7 @@ Figure 12.3: Parameter uncertainty in the estimated model
 \end{equation}\]</span>
 where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the parameter <span class="math inline">\(b_i\)</span>. An important note to make is that, as usual with confidence interval construction, we can use the Normal distribution only in the case when the variance of parameters is known. In reality, it is not, so, as discussed in Section <a href="confidenceInterval.html#confidenceInterval">6.5</a>, we need to use the Student’s t distribution. This is why we have <span class="math inline">\(t_{\alpha/2}(n-k)\)</span> in the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a> above.</p>
 <div class="remark">
-<p><span id="unlabeled-div-51" class="remark"><em>Remark</em>. </span>The important note is that in order to be able to use the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student’s t-statistics would not be appropriate to calculate the interval.</p>
+<p><span id="unlabeled-div-53" class="remark"><em>Remark</em>. </span>The important note is that in order to be able to use the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need the Central Limit Theorem to hold. If it does not, then the estimates of parameters would not follow the Normal distribution, and the Student’s t-statistics would not be appropriate to calculate the interval.</p>
 </div>
 <p>To calculate the confidence interval, using the equation <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we need to know several things:</p>
 <ol style="list-style-type: decimal">
@@ -499,22 +499,22 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 <li>Student’s t statistics. We get it from statistical tables or the software, given the significance level <span class="math inline">\(\alpha\)</span> and the number of degrees of freedom <span class="math inline">\(n-k\)</span> above.</li>
 </ol>
 <div class="example">
-<p><span id="exm:unlabeled-div-52" class="example"><strong>Example 12.1  </strong></span>Consider construction of the interval for the slope parameter for the variable <code>materials</code> from the regression we discussed earlier. In our case, we know the following:</p>
+<p><span id="exm:unlabeled-div-54" class="example"><strong>Example 12.1  </strong></span>Consider construction of the interval for the slope parameter for the variable <code>materials</code> from the regression we discussed earlier. In our case, we know the following:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\alpha=0.05\)</span> because we decided to produce the 95% confidence interval. We could choose the other value, which would result in the interval of a different width;</li>
 <li>The value of the parameter <span class="math inline">\(b_1\)</span> is 0.8706;</li>
 <li>To get the variance of the parameter, we can use the formula discussed in Section <a href="uncertaintyRegressionCov.html#uncertaintyRegressionCov">12.1</a>. In R, we can get the variance of the parameter for the <code>materials</code> (second parameter in the model) via the <code>vcov()</code> function, like this:</li>
 </ol>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="uncertaintyRegressionCI.html#cb185-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="uncertaintyRegressionCI.html#cb184-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR)[<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 0.09681792</code></pre>
 <p>Based on that, we can say that the standard error of the parameter (square root of the variance) is approximately 0.3112.
 4. We estimated five parameters (four for variables and an intercept), so <span class="math inline">\(k=5\)</span>, and the sample size <span class="math inline">\(n\)</span> was 61, which means that in our model has <span class="math inline">\(n-k=61-5=56\)</span> degrees of freedom.
 5. To get the Student’s t statistics correctly, we need to split the significance level <span class="math inline">\(\alpha\)</span> into two equal part, meaning that we expect to have 2.5% of values below the lower bound and another 2.5% of values above the upper one. So, we will calculate it for <span class="math inline">\(\alpha/2=0.025\)</span> and <span class="math inline">\(1-\alpha/2=0.975\)</span> with <span class="math inline">\(n-k=56\)</span>. In R, we can use the <code>qt()</code> function in the following way:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="uncertaintyRegressionCI.html#cb187-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="uncertaintyRegressionCI.html#cb186-1" tabindex="-1"></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>), <span class="dv">56</span>)</span></code></pre></div>
 <pre><code>## [1] -2.003241  2.003241</code></pre>
 <p>Taking all these values and inserting them in the formula <a href="uncertaintyRegressionCI.html#eq:MLRParameterInterval">(12.13)</a>, we should get the two numbers, representing the lower and the upper bounds of the 95% confidence interval respectively: (0.2472,1.494)</p>
 <p>In R, the confidence interval can be obtained directly via the <code>confint()</code> function, and it should be close to what we obtained above, but not exactly the same due to rounding:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="uncertaintyRegressionCI.html#cb189-1" tabindex="-1"></a><span class="fu">confint</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="uncertaintyRegressionCI.html#cb188-1" tabindex="-1"></a><span class="fu">confint</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##                  S.E.       2.5%     97.5%
 ## (Intercept) 4337.3590 -8074.4514 9303.0968
 ## materials      0.3112     0.2473    1.4939
@@ -524,7 +524,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 <p>The confidence interval for <code>materials</code> above shows, for example, that if we repeat the construction of interval many times on different samples of data, the true value of parameter will lie in 95% of cases between 0.2473 and 1.4939. This gives us an idea about the real effect in the population and how certain we are about it.</p>
 </div>
 <p>We can also present all of this in the following summary (this is based on the <code>alm()</code> model, the other functions will produce different outputs):</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="uncertaintyRegressionCI.html#cb191-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="uncertaintyRegressionCI.html#cb190-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR)</span></code></pre></div>
 <pre><code>## Response variable: overall
 ## Distribution used in the estimation: Normal
 ## Loss function used in estimation: MSE
@@ -551,7 +551,7 @@ where <span class="math inline">\(s_{b_i}\)</span> is the standard error of the 
 <li>and, finally, a star drawn next to the interval if it does not contain zero.</li>
 </ul>
 <p>If we have that star, then this indicates that we are certain on the selected confidence level (95% in our example) about the sign of the parameter and that the effect indeed exists. We can regulate the confidence level by defining the <code>level</code> parameter. For example, if we want the 99% one, we should add <code>level=0.99</code> in the summary:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="uncertaintyRegressionCI.html#cb193-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR, <span class="at">level=</span><span class="fl">0.99</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="uncertaintyRegressionCI.html#cb192-1" tabindex="-1"></a><span class="fu">summary</span>(costsModelMLR, <span class="at">level=</span><span class="fl">0.99</span>)</span></code></pre></div>
 </div>
 
             </section>

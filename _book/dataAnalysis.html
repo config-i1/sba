@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Preliminary data analysis | Statistics for Business Analytics</title>
+  <title>Chapter 5 Data handling and analysis | Statistics for Business Analytics</title>
   <meta name="description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Preliminary data analysis | Statistics for Business Analytics" />
+  <meta property="og:title" content="Chapter 5 Data handling and analysis | Statistics for Business Analytics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   <meta name="github-repo" content="config-i1/sba" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Preliminary data analysis | Statistics for Business Analytics" />
+  <meta name="twitter:title" content="Chapter 5 Data handling and analysis | Statistics for Business Analytics" />
   
   <meta name="twitter:description" content="This book covers the main principles of statistics for Business Analytics, focusing on the application side and how analytics and forecasting can be done with conventional statistical models." />
   
@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -471,8 +471,17 @@ div.csl-indent {
 This book is in <b><a href="open.html#open">Open Review</a></b>. I want your feedback to make the book better for you and other readers. To add your annotation, <span style="background-color: #3297FD; color: white">select some text</span> and then click the <i class="h-icon-annotate"></i> on the pop-up menu. To see the annotations of others, click the button in the upper right hand corner of the page <i class="fa fa-arrow-circle-right  fa-rotate-315" aria-hidden="true"></i>
 </div>
 <div id="dataAnalysis" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Preliminary data analysis<a href="dataAnalysis.html#dataAnalysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>One of the basic thing that is worth doing before starting any modelling is the preliminary data analysis. This can be done either using numerical or graphical analysis. The former is useful when you want to have a summary information about the data without trying to find detailed information about it. The latter is useful when you can spend more time, investigating relations and issues in the data. In many cases, they compliment each other.</p>
+<h1><span class="header-section-number">Chapter 5</span> Data handling and analysis<a href="dataAnalysis.html#dataAnalysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Take any of the examples discussed in Chapters <a href="countDistributions.html#countDistributions">3</a> and <a href="distributions.html#distributions">4</a>. How do we know the true parameter of a distribution? For example, how can we get the arrival rate of patients for the Poisson distribution in the example from Section <a href="distributionPoisson.html#distributionPoisson">3.5</a>? There usually is only one way to get the value - collect the data and estimate it.</p>
+<div class="remark">
+<p><span id="unlabeled-div-17" class="remark"><em>Remark</em>. </span>While one can also use judgment to set specific values, in general such estimates contain biases and should only be used if no data is available for the analysis.</p>
+</div>
+<p>Furthermore, in some cases we need to get an idea about the distribution of values for further analysis and to have a feeling about the potential relation between the variables.</p>
+<p>How can we do all of that?</p>
+<p>In this chapter, we discuss what the potential issues with the data can be, how we can clean it, and what sort of basic preliminary analysis we can do based on data to get some estimates of parameters, which we can then use for a more advanced analysis. The latter can be done either using numerical or graphical methods. The numerical one is useful when you want to have a summary information about the data, while the graphical is useful when you can spend more time, investigating relations and issues in the data. In many cases, they complement each other.</p>
+<div class="remark">
+<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>We do not recommend to end your work with just preliminary data analysis. Usually, this is just a first step to get a better understanding of the dataset, which can then be followed by model construction (discussed in Chapters <a href="simpleLinearRegression.html#simpleLinearRegression">10</a> and <a href="linearRegression.html#linearRegression">11</a>).</p>
+</div>
 </div>
 
             </section>

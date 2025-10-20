@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -503,7 +503,7 @@ Given the assumption of normality of the random variable <span class="math inlin
     \chi^2 = (30-1) \times \frac{100}{121} \approx 23.97
 \end{equation*}\]</span>
 Given that the alternative hypothesis in our example is “lower than”, we should compare the obtained value with the critical one from the left tail of the distribution, which on 1% significance level is:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="statisticalTestsOneSampleVariance.html#cb91-1" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.01</span>,<span class="dv">29</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="statisticalTestsOneSampleVariance.html#cb90-1" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.01</span>,<span class="dv">29</span>)</span></code></pre></div>
 <pre><code>## [1] 14.25645</code></pre>
 <p>Comparing the critical and calculated values (<span class="math inline">\(23.97&gt;14.26\)</span>), we conclude that we fail to reject the null hypothesis. This means that the sample variance is not statistically different from the population one. The test of this hypothesis is shown visually in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared">8.2</a>, which shows that the calculated value is not in the tail of the distribution (thus “fail to reject”).</p>
 <div class="figure"><span style="display:block;" id="fig:hypothesisTestingChiSquared"></span>
@@ -522,7 +522,7 @@ Figure 8.3: The process of hypothesis testing in Chi-squared distribution (two-t
 <p>The surfaces in the tails in Figure <a href="statisticalTestsOneSampleVariance.html#fig:hypothesisTestingChiSquared2">8.3</a> are equal, but because of the asymmetry of distribution they look different.
 <!-- Furthermore, Chi-squared distribution supports positive values only, which is why its left tail starts from zero, while the right one converges to zero asymptotically. --></p>
 <div class="remark">
-<p><span id="unlabeled-div-32" class="remark"><em>Remark</em>. </span>If an analyst needs to conduct the test about the variance of the mean, then only CLT is required to hold, no additional assumptions about the distribution of the random variable <span class="math inline">\(y_j\)</span> are required.</p>
+<p><span id="unlabeled-div-34" class="remark"><em>Remark</em>. </span>If an analyst needs to conduct the test about the variance of the mean, then only CLT is required to hold, no additional assumptions about the distribution of the random variable <span class="math inline">\(y_j\)</span> are required.</p>
 </div>
 <p>Chi-squared test is also used in many other situations, for example to test the relation between categorical variables (see Section <a href="correlationsNominal.html#correlationsNominal">9.1</a>) or to test the “goodness of fit”. We do not discuss them in this Chapter.</p>
 <p>Finally, there are non-parametric analogues of the Chi-squared test, but their discussion lies outside of the scope of this textbook.</p>

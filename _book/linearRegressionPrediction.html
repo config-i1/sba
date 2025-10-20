@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -473,8 +473,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="linearRegressionPrediction" class="section level2 hasAnchor" number="11.4">
 <h2><span class="header-section-number">11.4</span> Prediction with regression<a href="linearRegressionPrediction.html#linearRegressionPrediction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One of the things we can do with regression is get an understanding of what to expect from the response variable given a set of explanatory variables. Consider a model that we estimated in Section <a href="OLSMLR.html#OLSMLR">11.1</a>:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="linearRegressionPrediction.html#cb172-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span></code></pre></div>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="linearRegressionPrediction.html#cb173-1" tabindex="-1"></a><span class="fu">summary</span>(costsModel01)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="linearRegressionPrediction.html#cb171-1" tabindex="-1"></a>costsModel01 <span class="ot">&lt;-</span> <span class="fu">lm</span>(overall<span class="sc">~</span>size<span class="sc">+</span>materials<span class="sc">+</span>projects<span class="sc">+</span>year, SBA_Chapter_11_Costs)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="linearRegressionPrediction.html#cb172-1" tabindex="-1"></a><span class="fu">summary</span>(costsModel01)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = overall ~ size + materials + projects + year, data = SBA_Chapter_11_Costs)
@@ -516,8 +516,8 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 \end{equation*}\]</span>
 So, we can conclude that the <strong>expected</strong> (or <strong>average</strong>) overall costs for such project should be 574.5178. Note the boldface words “expected” and “average”. The number does not tell you what you will definitely have, but instead only indicates the general tendency in this setting. You can think of it as a value that you would get as an arithmetic mean of many similar projects with exactly the same set of variables (defined in the question).</p>
 <p>In R, this can be done with the function <code>predict()</code> the following way:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="linearRegressionPrediction.html#cb175-1" tabindex="-1"></a>costsNewdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">size=</span><span class="dv">90</span>, <span class="at">materials=</span><span class="dv">190</span>, <span class="at">projects=</span><span class="dv">3</span>, <span class="at">year=</span><span class="dv">2008</span>)</span>
-<span id="cb175-2"><a href="linearRegressionPrediction.html#cb175-2" tabindex="-1"></a><span class="fu">predict</span>(costsModel01, <span class="at">newdata=</span>costsNewdata)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="linearRegressionPrediction.html#cb174-1" tabindex="-1"></a>costsNewdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">size=</span><span class="dv">90</span>, <span class="at">materials=</span><span class="dv">190</span>, <span class="at">projects=</span><span class="dv">3</span>, <span class="at">year=</span><span class="dv">2008</span>)</span>
+<span id="cb174-2"><a href="linearRegressionPrediction.html#cb174-2" tabindex="-1"></a><span class="fu">predict</span>(costsModel01, <span class="at">newdata=</span>costsNewdata)</span></code></pre></div>
 <pre><code>##        1 
 ## 574.5546</code></pre>
 <p>We get a slightly different number due to rounding the values in our manual calculations. But the number is pretty close to the one we obtained before.</p>

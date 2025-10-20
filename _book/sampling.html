@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -478,7 +478,7 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <h3><span class="header-section-number">6.1.1</span> The Wisdom and Folly of Crowds<a href="sampling.html#the-wisdom-and-folly-of-crowds" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Before diving into formal definitions and mathematical principles, consider an example of how sampling works in a real-world context. Back in 2021, we conducted a simple survey among a sample of students at the university, asking them to estimate the price of a typical AAA computer game. Not everyone knew what this was, but they were asked nonetheless to guess. This way we collected a sample of responses hoping to demonstrate sampling principles.</p>
 <p>Based on the responses we calculated the following summary statistics:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="sampling.html#cb68-1" tabindex="-1"></a><span class="fu">summary</span>(sampling_survey<span class="sc">$</span>AAAPrice)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="sampling.html#cb67-1" tabindex="-1"></a><span class="fu">summary</span>(sampling_survey<span class="sc">$</span>AAAPrice)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    2.00   30.00   50.00   86.74   73.00 1000.00</code></pre>
 <p>At first glance, the sample mean of £86.42 seems unusually high. If we consider the prices of popular titles like Witcher 3 (£50) and Grand Theft Auto V (£40) at the time we would say that the average price for the AAA game was somewhere between £40-£50. But why is there such a large discrepancy between the students’ estimate and the reality?</p>
@@ -492,7 +492,7 @@ Figure 6.1: Distribution of responses about the AAA computer games prices.
 </div>
 <p>What this example shows is that the sampling of data plays an essential role in estimating specific parameters. To get a better estimate of the average AAA game price in our case, we either need to have a sample of people that know what it is (i.e. play computer games), or have a much larger sample, for which the outliers would not be as influential as in our example.</p>
 <div class="remark">
-<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>This example also demonstrates an interesting effect, observed real life: the estimates given by group of people tend to converge to the true value, as long as the group is either well informed or large enough. This effect is called in the literature “Wisdom of a crowd”.</p>
+<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>This example also demonstrates an interesting effect, observed real life: the estimates given by group of people tend to converge to the true value, as long as the group is either well informed or large enough. This effect is called in the literature “Wisdom of a crowd”.</p>
 </div>
 </div>
 <div id="populations-samples-parameters-and-statistics" class="section level3 hasAnchor" number="6.1.2">

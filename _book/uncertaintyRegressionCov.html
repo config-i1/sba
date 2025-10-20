@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -487,7 +487,7 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 <div id="bootstrap-based-matrix" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Bootstrap-based matrix<a href="uncertaintyRegressionCov.html#bootstrap-based-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are different ways how we could calculate this matrix. We could use the bootstrap as we did in the introduction to this section, producing many estimates of the parameters and then calculating the matrix. R has all the necessary functions for that:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="uncertaintyRegressionCov.html#cb179-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="uncertaintyRegressionCov.html#cb178-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##              (Intercept) materials      size  projects       year
 ## (Intercept) 8823780.1900  111.7570 -214.6135 -550.2357 -4392.6498
 ## materials       111.7570    0.0717   -0.1528    0.1137    -0.0557
@@ -495,8 +495,8 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 ## projects       -550.2357    0.1137   -0.3026    6.2181     0.2678
 ## year          -4392.6498   -0.0557    0.1062    0.2678     2.1868</code></pre>
 <p>The values themselves do not tell us much about the model and parameters, so to better understand them, we can calculate the correlation matrix to see what is the linear relation between the estimates of parameters:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="uncertaintyRegressionCov.html#cb181-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
-<span id="cb181-2"><a href="uncertaintyRegressionCov.html#cb181-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="uncertaintyRegressionCov.html#cb180-1" tabindex="-1"></a><span class="fu">var</span>(costsModelMLRBootstrap<span class="sc">$</span>coefficients) <span class="sc">|&gt;</span></span>
+<span id="cb180-2"><a href="uncertaintyRegressionCov.html#cb180-2" tabindex="-1"></a>    <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##             (Intercept) materials    size projects    year
 ## (Intercept)      1.0000    0.1405 -0.1232  -0.0743 -1.0000
 ## materials        0.1405    1.0000 -0.9730   0.1703 -0.1406
@@ -513,7 +513,7 @@ where <span class="math inline">\({\boldsymbol{b}}\)</span> is the vector of all
 \tag{12.2}
 \end{equation}\]</span>
 where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanatory variables from equation <a href="OLSMLR.html#eq:MLRMatrices">(11.7)</a> and <span class="math inline">\(e_j\)</span> is the residual of the model on the observation <span class="math inline">\(j\)</span>. One way to understand what this formula does, is to keep in mind that <span class="math inline">\(\mathbf{X}&#39; \mathbf{X}\)</span> will produce a matrix, similar to the covariance matrix of explanatory variables, so roughly the sample variance of the error term is then distributed across the variances and covariances of the explanatory variables, producing the corresponding variances and covariances of the parameters. The function <code>vcov()</code> in R, uses exactly this formula in case of the OLS/Likelihood estimation, returning the following:</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="uncertaintyRegressionCov.html#cb183-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="uncertaintyRegressionCov.html#cb182-1" tabindex="-1"></a><span class="fu">vcov</span>(costsModelMLR) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##               (Intercept) materials     size  projects       year
 ## (Intercept) 18812682.8074   86.6304 -26.2332 1352.1495 -9377.7569
 ## materials         86.6304    0.0968  -0.2025    0.1951    -0.0435
@@ -529,7 +529,7 @@ where <span class="math inline">\(\mathbf{X}\)</span> is the matrix of explanato
 <p>Linear algebra! Tread lightly!</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-49" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
+<p><span id="unlabeled-div-51" class="proof"><em>Proof</em>. </span>We start by expanding the formula for the OLS <a href="OLSMLR.html#eq:MLROLS">(11.9)</a> by inserting the “true” model in it (<span class="math inline">\({\mathbf{y} = \mathbf{X}} {\boldsymbol{\beta}} + {\boldsymbol{\epsilon}}\)</span>:
 <span class="math display" id="eq:MLROLSExpansion">\[\begin{equation}
 \begin{aligned}
 {\boldsymbol{b}} =
@@ -607,7 +607,7 @@ which after being inserted in <a href="uncertaintyRegressionCov.html#eq:MLROLSVa
 \end{equation}\]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-50" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
+<p><span id="unlabeled-div-52" class="remark"><em>Remark</em>. </span>Mathematically speaking, <span class="math inline">\(\mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right)\)</span> is a matrix, but because we are dealing with the true model and the true error term, the matrix should be diagonal with only variances in the main diagonal. This is because the error term cannot be correlated with itself (thus all the off-diagonal elements are zero). Furthermore, because we assume that the variance of the error term is the same for all observations, the following should hold:
 <span class="math display">\[\begin{equation*}
 \mathrm{cov} \left( {\boldsymbol{\epsilon}}, {\boldsymbol{\epsilon}} \right) = \mathbf{I}_{k-1} \sigma^2,
 \end{equation*}\]</span>

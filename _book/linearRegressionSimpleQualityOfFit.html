@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -500,7 +500,7 @@ which shows the variability of the regression line. It is possible to show that 
     \tag{10.24}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-42" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
+<p><span id="unlabeled-div-44" class="proof"><em>Proof</em>. </span>This involves manipulations, some of which are not straightforward. First, we assume that SST equals to SSE + SSR, and see whether we reach the original formula of SST:
 <span class="math display" id="eq:SSTProof01">\[\begin{equation}
     \begin{aligned}
         \mathrm{SST} &amp;= \mathrm{SSR} + \mathrm{SSE} = \sum_{j=1}^n (\hat{y}_j - \bar{y})^2 + \sum_{j=1}^n (y_j - \hat{y}_j)^2 \\
@@ -565,7 +565,7 @@ Given the fundamental property <a href="linearRegressionSimpleQualityOfFit.html#
 </ol>
 <p>So, the zero value of the coefficient of determination means that the model does not explain the data at all and one means that it overfits the data. The value itself is usually interpreted as a percentage of variability in data explained by the model.</p>
 <div class="remark">
-<p><span id="unlabeled-div-43" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
+<p><span id="unlabeled-div-45" class="remark"><em>Remark</em>. </span>The properties above provide us an important point about the coefficient of determination: <em>it should not be equal to one, and it is alarming if it is very close to one</em>. This is because in this situation we are implying that there is no randomness in the data, which contradicts our definition of the statistical model (see Section <a href="what-is-model.html#modelsMethods">1.1.1</a>). The adequate statistical model should always have some randomness in it. The situation of <span class="math inline">\(\mathrm{R}^2=1\)</span> implies mathematically:
 <span class="math display">\[\begin{equation*}
     y_j = b_0 + b_1 x_j ,
 \end{equation*}\]</span>
@@ -576,9 +576,9 @@ which means that all <span class="math inline">\(e_j=0\)</span>, being unrealist
 meaning that it is not different from the simple mean of the data, because in that case <span class="math inline">\(b_0=\bar{y}\)</span>. So, coefficient of determination in general is not a very good measure for assessing performance of a model. It can be used for further inferences, and for a basic indication of whether the model overfits (R<span class="math inline">\(^2\)</span> close to 1) or underfits (R<span class="math inline">\(^2\)</span> close to 0) the data. But no serious conclusions should be solely based on it.</p>
 </div>
 <p>Here how this measure can be calculated in R based on the model that we estimated in Section <a href="OLS.html#OLS">10.1</a>:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="linearRegressionSimpleQualityOfFit.html#cb143-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTrees)</span>
-<span id="cb143-2"><a href="linearRegressionSimpleQualityOfFit.html#cb143-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTrees)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTrees))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
-<span id="cb143-3"><a href="linearRegressionSimpleQualityOfFit.html#cb143-3" tabindex="-1"></a>R2</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="linearRegressionSimpleQualityOfFit.html#cb142-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(slmTrees)</span>
+<span id="cb142-2"><a href="linearRegressionSimpleQualityOfFit.html#cb142-2" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">resid</span>(slmTrees)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">var</span>(<span class="fu">actuals</span>(slmTrees))<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb142-3"><a href="linearRegressionSimpleQualityOfFit.html#cb142-3" tabindex="-1"></a>R2</span></code></pre></div>
 <pre><code>## [1] 0.357975</code></pre>
 <p>Note that in this formula we used the relation between SST and V<span class="math inline">\((y)\)</span>, multiplying the value by <span class="math inline">\(n-1\)</span> to get rid of the denominator. The resulting value tells us that the model has explained 35.8% deviations in the data.</p>
 <p>Finally, based on coefficient of determination, we can also calculate the coefficient of multiple correlation, which we have already discussed in Section <a href="correlationsMixed.html#correlationsMixed">9.4</a>:
@@ -592,10 +592,10 @@ It shows the closeness of relation between the response variable <span class="ma
     \tag{10.32}
 \end{equation}\]</span></p>
 <p>Here is a demonstration of the formula above in R:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="linearRegressionSimpleQualityOfFit.html#cb145-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmTrees)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="linearRegressionSimpleQualityOfFit.html#cb144-1" tabindex="-1"></a><span class="fu">sign</span>(<span class="fu">coef</span>(slmTrees)[<span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">sqrt</span>(R2)</span></code></pre></div>
 <pre><code>##    height 
 ## 0.5983101</code></pre>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="linearRegressionSimpleQualityOfFit.html#cb147-1" tabindex="-1"></a><span class="fu">cor</span>(SBA_Chapter_10_Trees<span class="sc">$</span>height,SBA_Chapter_10_Trees<span class="sc">$</span>volume)</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="linearRegressionSimpleQualityOfFit.html#cb146-1" tabindex="-1"></a><span class="fu">cor</span>(SBA_Chapter_10_Trees<span class="sc">$</span>height,SBA_Chapter_10_Trees<span class="sc">$</span>volume)</span></code></pre></div>
 <pre><code>## [1] 0.5983101</code></pre>
 </div>
 </div>

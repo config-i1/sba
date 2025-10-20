@@ -251,7 +251,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.3" data-path="distributionsConvolution.html"><a href="distributionsConvolution.html#distributionsConvolutionMaths"><i class="fa fa-check"></i><b>4.6.3</b> Mathematics behind convolutions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Preliminary data analysis</a>
+<li class="chapter" data-level="5" data-path="dataAnalysis.html"><a href="dataAnalysis.html"><i class="fa fa-check"></i><b>5</b> Data handling and analysis</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="dataAnalysisNumerical.html"><a href="dataAnalysisNumerical.html"><i class="fa fa-check"></i><b>5.1</b> Numerical analysis</a></li>
 <li class="chapter" data-level="5.2" data-path="dataAnalysisGraphical.html"><a href="dataAnalysisGraphical.html"><i class="fa fa-check"></i><b>5.2</b> Graphical analysis</a>
@@ -473,24 +473,24 @@ This book is in <b><a href="open.html#open">Open Review</a></b>. I want your fee
 <div id="CLT" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Central Limit Theorem<a href="CLT.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we have already seen on Figure <a href="LLN.html#fig:statsSampleMean">6.3</a>, the sample mean is not exactly equal to the population mean even when the sample size is very large (thousands of observations). There is always some sort of variability around the population mean. In order to understand how this variability looks like, we could conduct a simple experiment. We could take a random sample of, for instance, 1000 observations several times and record each of the obtained means. We then can see how the variable will be distributed to see if there are any patterns in the behaviour of the estimator (Figure <a href="CLT.html#fig:histyMean">6.4</a>):</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="CLT.html#cb72-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb72-2"><a href="CLT.html#cb72-2" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
-<span id="cb72-3"><a href="CLT.html#cb72-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
-<span id="cb72-4"><a href="CLT.html#cb72-4" tabindex="-1"></a><span class="co"># Define number of iterations</span></span>
-<span id="cb72-5"><a href="CLT.html#cb72-5" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb72-6"><a href="CLT.html#cb72-6" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb72-7"><a href="CLT.html#cb72-7" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
-<span id="cb72-8"><a href="CLT.html#cb72-8" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
-<span id="cb72-9"><a href="CLT.html#cb72-9" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
-<span id="cb72-10"><a href="CLT.html#cb72-10" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
-<span id="cb72-11"><a href="CLT.html#cb72-11" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y, sampleSize))</span>
-<span id="cb72-12"><a href="CLT.html#cb72-12" tabindex="-1"></a>}</span>
-<span id="cb72-13"><a href="CLT.html#cb72-13" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
-<span id="cb72-14"><a href="CLT.html#cb72-14" tabindex="-1"></a>     <span class="at">col=</span><span class="dv">17</span>)</span>
-<span id="cb72-15"><a href="CLT.html#cb72-15" tabindex="-1"></a><span class="co"># Add the density curve for the normal distribution</span></span>
-<span id="cb72-16"><a href="CLT.html#cb72-16" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>),</span>
-<span id="cb72-17"><a href="CLT.html#cb72-17" tabindex="-1"></a>      <span class="fu">dnorm</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>), <span class="dv">100</span>, <span class="dv">100</span><span class="sc">/</span><span class="fu">sqrt</span>(sampleSize)), </span>
-<span id="cb72-18"><a href="CLT.html#cb72-18" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="CLT.html#cb71-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb71-2"><a href="CLT.html#cb71-2" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb71-3"><a href="CLT.html#cb71-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">41</span>)</span>
+<span id="cb71-4"><a href="CLT.html#cb71-4" tabindex="-1"></a><span class="co"># Define number of iterations</span></span>
+<span id="cb71-5"><a href="CLT.html#cb71-5" tabindex="-1"></a>nIterations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb71-6"><a href="CLT.html#cb71-6" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb71-7"><a href="CLT.html#cb71-7" tabindex="-1"></a><span class="co"># Generate data from normal distribution</span></span>
+<span id="cb71-8"><a href="CLT.html#cb71-8" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(obs,<span class="dv">100</span>,<span class="dv">100</span>)</span>
+<span id="cb71-9"><a href="CLT.html#cb71-9" tabindex="-1"></a>yMean <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>,nIterations)</span>
+<span id="cb71-10"><a href="CLT.html#cb71-10" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nIterations){</span>
+<span id="cb71-11"><a href="CLT.html#cb71-11" tabindex="-1"></a>    yMean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(y, sampleSize))</span>
+<span id="cb71-12"><a href="CLT.html#cb71-12" tabindex="-1"></a>}</span>
+<span id="cb71-13"><a href="CLT.html#cb71-13" tabindex="-1"></a><span class="fu">hist</span>(yMean, <span class="at">xlab=</span><span class="st">&quot;Sample mean&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb71-14"><a href="CLT.html#cb71-14" tabindex="-1"></a>     <span class="at">col=</span><span class="dv">17</span>)</span>
+<span id="cb71-15"><a href="CLT.html#cb71-15" tabindex="-1"></a><span class="co"># Add the density curve for the normal distribution</span></span>
+<span id="cb71-16"><a href="CLT.html#cb71-16" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>),</span>
+<span id="cb71-17"><a href="CLT.html#cb71-17" tabindex="-1"></a>      <span class="fu">dnorm</span>(<span class="fu">seq</span>(<span class="dv">90</span>,<span class="dv">110</span>,<span class="fl">0.1</span>), <span class="dv">100</span>, <span class="dv">100</span><span class="sc">/</span><span class="fu">sqrt</span>(sampleSize)), </span>
+<span id="cb71-18"><a href="CLT.html#cb71-18" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:histyMean"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/histyMean-1.png" alt="Histogram of the estimates of mean of the variable y." width="672" />
 <p class="caption">
@@ -498,8 +498,8 @@ Figure 6.4: Histogram of the estimates of mean of the variable y.
 </p>
 </div>
 <p>Figure <a href="CLT.html#fig:histyMean">6.4</a> shows the distribution of the estimates of mean and also has a density curve of the normal distribution with some known parameters above it. We can see that the empirical distribution on the histogram is pretty close to the normal one. In fact, to see this even clearer, we can produce a QQ-plot (discussed in Section <a href="dataAnalysisGraphical.html#dataAnalysisGraphical">5.2</a>) in Figure <a href="CLT.html#fig:qqyMean">6.5</a>:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="CLT.html#cb73-1" tabindex="-1"></a><span class="fu">qqnorm</span>(yMean)</span>
-<span id="cb73-2"><a href="CLT.html#cb73-2" tabindex="-1"></a><span class="fu">qqline</span>(yMean, <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="CLT.html#cb72-1" tabindex="-1"></a><span class="fu">qqnorm</span>(yMean)</span>
+<span id="cb72-2"><a href="CLT.html#cb72-2" tabindex="-1"></a><span class="fu">qqline</span>(yMean, <span class="at">col=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:qqyMean"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/qqyMean-1.png" alt="QQ-plot of the estimates of mean of the variable y." width="672" />
 <p class="caption">
@@ -515,7 +515,7 @@ Figure 6.5: QQ-plot of the estimates of mean of the variable y.
 \end{equation*}\]</span>
 In the core of the calculation of the mean, there lies the sum of actual values <span class="math inline">\(y_j\)</span>. If each one of them has some distribution (e.g. Normal) then their mean would be the normalised (using <span class="math inline">\(n\)</span>) sum of random variables <span class="math inline">\(y_j\)</span>.</p>
 <div class="remark">
-<p><span id="unlabeled-div-19" class="remark"><em>Remark</em>. </span>The CLT is the theorem about <em>what happens with the estimate</em> (usually mean), <em>not with individual observations</em>. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.</p>
+<p><span id="unlabeled-div-21" class="remark"><em>Remark</em>. </span>The CLT is the theorem about <em>what happens with the estimate</em> (usually mean), <em>not with individual observations</em>. This means that the error term might follow, for example, Gamma distribution, but the estimate of its mean (under some conditions) will follow the Normal distribution.</p>
 </div>
 <p>Now, consider a simple case, where the random variable <span class="math inline">\(y\)</span> follows the discrete Uniform distribution assuming values in the region [1, 6]. This corresponds to rolling a 6-sided die. If we now want to calculate the score of throwing several similar dice, we would be talking about the value <span class="math inline">\(z = y_1 + y_2 + y_3 + \dots + y_n = \sum_{j=1}^n y_j\)</span>, i.e. the convolution of <span class="math inline">\(n\)</span> Uniform distributions. Figure <a href="CLT.html#fig:uniformPMFCombinedN">6.6</a> shows how the convolved distributions look for <span class="math inline">\(n=1\)</span> (one die), <span class="math inline">\(n=2\)</span> (two dice), <span class="math inline">\(n=4\)</span> and <span class="math inline">\(n=8\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:uniformPMFCombinedN"></span>
@@ -543,7 +543,7 @@ Figure 6.7: Probability Density Function of the convolution of n Log-Normal dist
 </div>
 <p>The empirical density functions are shown in solid green line, while the normal distribution is shown in the dark red dashed lines. We can see that with the increase of the number of observations <span class="math inline">\(n\)</span>, the empirical density converges to the theoretical normal one. Given that the Log-Normal distribution is asymmetric, this convergence happens slowly, but even with the 64 samples, it looks already close to the Normal one.</p>
 <div class="remark">
-<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span>The skewness of the Log-Normal distribution we considered in the example above is 1.7502. If the asymmetry of the distribution was higher, it would take more observations for the convolved distribution to converge to the Normal one.</p>
+<p><span id="unlabeled-div-22" class="remark"><em>Remark</em>. </span>The skewness of the Log-Normal distribution we considered in the example above is 1.7502. If the asymmetry of the distribution was higher, it would take more observations for the convolved distribution to converge to the Normal one.</p>
 </div>
 <p>Next, we see the effect of the fatness of tails. Figure <a href="CLT.html#fig:LaplacePDFCombinedN">6.8</a> shows the convolution of the Laplace distributions. This distribution is known to have <strong>fatter tails and higher peak than the Normal one</strong>, which becomes apparent for the <span class="math inline">\(n=1\)</span> in the figure.</p>
 <div class="figure"><span style="display:block;" id="fig:LaplacePDFCombinedN"></span>
@@ -554,7 +554,7 @@ Figure 6.8: Probability Density Function of the sum of n Laplace distributions, 
 </div>
 <p>But similarly to the example with the Log-Normal distribution, we see that the convolution of the Laplace distributions converges to the Normal one with the increase of the sample size. In fact, this happens much faster than in the case of the Log-Normal, and for the sample of 16 observations, the distributions already look very similar.</p>
 <div class="remark">
-<p><span id="unlabeled-div-21" class="remark"><em>Remark</em>. </span>The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). In general, the higher it is for a distribution, the longer it will take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.</p>
+<p><span id="unlabeled-div-23" class="remark"><em>Remark</em>. </span>The excess kurtosis of the Laplace distribution is 3 (the Normal one has 0). In general, the higher it is for a distribution, the longer it will take (i.e. larger sample size) for the convolved distribution to converge to the Normal one.</p>
 </div>
 <p>Next, we consider the situation where the distributions are <strong>not identical</strong>. Figure <a href="CLT.html#fig:nonidentPDFCombinedN">6.9</a> shows the convolution of several continuous distributions (with randomly selected parameters):</p>
 <ul>
@@ -566,7 +566,7 @@ Figure 6.8: Probability Density Function of the sum of n Laplace distributions, 
 </ul>
 <p>These are then normalised to have the same minimum and maximum values and are selected at random, after which their convolutions are plotted against the Normal density function.</p>
 <div class="remark">
-<p><span id="unlabeled-div-22" class="remark"><em>Remark</em>. </span>While CLT works well for i.i.d. variables, for it to work in case of the violation of i.i.d., we need to normalise the random variables. Otherwise, some of them would dominate the pool and it would take many more samples for the convolved distribution to converge to the Normal one.</p>
+<p><span id="unlabeled-div-24" class="remark"><em>Remark</em>. </span>While CLT works well for i.i.d. variables, for it to work in case of the violation of i.i.d., we need to normalise the random variables. Otherwise, some of them would dominate the pool and it would take many more samples for the convolved distribution to converge to the Normal one.</p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:nonidentPDFCombinedN"></span>
 <img src="Svetunkov---Statistics-for-Business-Analytics_files/figure-html/nonidentPDFCombinedN-1.png" alt="Probability Density Function of the sum of n non-identically distributed random variables." width="768" />
